@@ -1,0 +1,12 @@
+.bannerBox {
+    background-color: revert;
+}
+
+.tabBoxGrid {
+    padding: revert;
+}
+
+.tabBox {
+    height: 300px;
+}
+
