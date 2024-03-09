@@ -1,0 +1,9 @@
+.searchPanel {
+    padding: 20px 150px;
+}
+
+.searchPanel .MuiGrid-root.MuiGrid-container.css-11lq3yg-MuiGrid-root {
+    background-color: #f2f2f2;
+    border-radius: 23px;
+    border: 1px solid #ccc;
+}

@@ -1,0 +1,63 @@
+.navBarTitle {
+    flex-grow: 1;
+    /* color: white; */
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.button {
+    background-color: gray;
+    /* color: white; */
+    margin: 0px 20px;
+}
+
+.heroSection .searchBoxTitleIcon {
+    display: flex;
+    align-items: center;
+    padding: 10px 25px;
+    cursor: pointer;
+}
+
+.heroSection .searchBox.selected {
+    background-color: white;
+    border-radius: 23px;
+    cursor: pointer;
+}
+
+.heroSection .searchBox.addtlButton {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.searchBoxTitle {
+    display: grid;
+    text-align: left;
+    margin-left: 15px;
+}
+
+.addtlSearchIcon {
+    width: 25%;
+    height: 90%;
+    color: white;
+    background-color: #404040;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3px;
+    cursor: pointer;
+}
+
+.searchBoxTitle .nameTop {
+    font-size: 0.875rem;
+    color: #8c8c8c;
+}
+
+.searchBoxTitle .nameBottom {
+    font-size: 1rem;
+    color: #333333;
+    font-weight: bold;
+}
+

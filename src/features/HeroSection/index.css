@@ -1,0 +1,29 @@
+.heroSection {
+    /* background-color: #5F4F65; */
+    background-color: lightgray;
+}
+
+.heroContent {
+    /* width: 100%; */
+    align-items: center;
+    color: black;
+    height: 300px;
+    text-align: center;
+}
+
+.heroSection .heroContent h1 {
+    font-size: 2rem; /* Adjust font size as needed */
+    margin-bottom: 5px; /* Optional: Adjust spacing between heading and paragraph */
+}
+
+/* .heroSection .heroContent p {
+    font-size: 1.2rem;
+    margin-top: 5px;
+} */
+
+.heroSection .navBar {
+    /* color: white; */
+    color: black;
+    background-color: revert;
+    box-shadow: revert;
+}
