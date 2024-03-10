@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { AddCircle, ArrowForward } from "@mui/icons-material";
 import { ListItem, ListItemIcon, ListItemText, ListItemButton } from "@mui/material";
+import { saveOpenDrawer } from "../../../store/slices/adminPageSlice";
 
 import './index.css';
 
 const AdminDrawerSubItem = ({ items }) => {
-    
-
+    const dispatch = useDispatch();
     const [open, setOpen] = useState({});
 
     const handleClick = (name) => {
-        // put in reducer which drawer item is clicked,
+        const openTemp = {...open};
+        openTemp[name] = true;
+        setOpen(openTemp);
 
+        if (name) {
+            dispatch(saveOpenDrawer({openDrawer: name}));
+        }
     };
 
     useEffect(() => {
@@ -22,7 +28,11 @@ const AdminDrawerSubItem = ({ items }) => {
             return acc;
           }, {});
         setOpen(result);
-    }, [])
+    }, [items]);
+
+    // useEffect(() => {
+
+    // }, [openDrawer]);
 
     return (
         items?.map((item, ind) => {

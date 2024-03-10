@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import React from 'react';
 
-export const Establishments = () => {
+export const Places = () => {
   return (
     <Typography>
         {"Testing"}
@@ -9,4 +9,4 @@ export const Establishments = () => {
   );
 }
 
-export default Establishments;
+export default Places;

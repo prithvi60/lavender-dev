@@ -1,3 +1,5 @@
+import Establishment from "../features/Admin/Establishment";
+
 export const WEBSITE_TITLE ='Lavender UI';
 
 export const BACKGROUND_COLOR = "#5F4F65";
@@ -7,17 +9,21 @@ export const LANDING_PAGE = {
     SUBTITLE: "Lorem ipsum dolor sit amet"
 }
 
+export const DRAWER_SUBITEMS = {
+    ESTABLISHMENT: {
+        ADD_ESTABLISHMENT: { NAME: "Add Establishment", COMPONENT: <Establishment />},
+        ADD_IMAGES: { NAME: "Add Image", COMPONENT: <Establishment />},
+        ADD_SERVICES: { NAME: "Add Service", COMPONENT: <Establishment />},
+        ADD_OPENING_HOURS: { NAME: "Add Opening Hours", COMPONENT: <Establishment />},
+        ADD_EMPLOYEES: { NAME: "Add Employee", COMPONENT: <Establishment />},
+    }
+}
+
 export const DASHBOARD = {
     DRAWER_WIDTH: 260,
     DRAWER_ITEMS: [
         {title: "Dashboard"},
-        {title: "Establishments", subTitle: [
-            "Add Establishments",
-            "Add Images",
-            "Add Services",
-            "Add Opening Hours",
-            "Add Employees",
-        ]},
+        {title: "Establishments", subTitle: Object.values(DRAWER_SUBITEMS?.ESTABLISHMENT).map(obj => obj['NAME'])},
         {title: "Bookings"},
         {title: "Users"},
         {title: "Settings"}]

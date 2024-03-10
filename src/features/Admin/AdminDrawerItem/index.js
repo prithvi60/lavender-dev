@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 import {
   ListItemButton,
   ListItemIcon,
@@ -23,9 +24,12 @@ import {
 import { DASHBOARD } from '../../../constants/constants';
 import './index.css';
 import AdminDrawerSubItem from '../AdminDrawerSubItem';
+import { saveOpenDrawer } from '../../../store/slices/adminPageSlice';
 
 
 export const AdminDrawerItem = ({ collapse }) => {
+  const dispatch = useDispatch();
+
   const initialState = {
     Dashboard: false,
     Establishments: false,
@@ -37,26 +41,17 @@ export const AdminDrawerItem = ({ collapse }) => {
 
   const handleCollapseClick = (name) => {
     if (collapse) {
-      console.log('handleCollapseClick: ', name);
       const openTemp = {...open}
       openTemp[name] = !openTemp[name];
       setOpen(openTemp);
+
+      if (name) {
+        dispatch(saveOpenDrawer({openDrawer: name}));
+      }
     }
   };
 
   const getIcons = (name) => {
-    const icons = {
-      "Dashboard": <Dashboard />,
-      "Establishments": <Inventory />,
-      "Bookings": <ShoppingCart />,
-      "Users": <People />,
-      "Settings": <Settings />
-    }
-
-    return (name in icons) ? icons[name] : null;
-  }
-
-  const getRoutes = (name) => {
     const icons = {
       "Dashboard": <Dashboard />,
       "Establishments": <Inventory />,
@@ -103,7 +98,7 @@ export const AdminDrawerItem = ({ collapse }) => {
             </Collapse>
           </div> :
           <div key={index}>
-            <ListItemButton key={index}>
+            <ListItemButton key={index} onClick={() => handleCollapseClick(item?.title)}>
               <ListItemIcon className='b-drawer-icon'>
                 {getIcons(item?.title)}
               </ListItemIcon>

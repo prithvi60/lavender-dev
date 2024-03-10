@@ -8,9 +8,9 @@ import './App.css';
 import Loader from './components/Loader';
 
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
-const Establishments = React.lazy(() => import('./pages/Establishments'));
+const Places = React.lazy(() => import('./pages/Places'));
 const Bookings = React.lazy(() => import('./pages/Bookings'));
-const components = [Dashboard, Establishments, Bookings];
+const components = [Dashboard, Places, Bookings];
 
 const App = () => {
   return (

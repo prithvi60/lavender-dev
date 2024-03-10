@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { 
@@ -12,12 +13,23 @@ import Bookings from './Bookings';
 import Copyright from '../components/Copyright';
 import AdminAppBar from '../features/Admin/AdminAppBar';
 import AdminDrawer from '../features/Admin/AdminDrawer';
+import { DRAWER_SUBITEMS } from '../constants/constants';
 
 const Dashboard = () => {
+  const { openDrawer } = useSelector((state) => state.adminPage);
+
   const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const getViews = (name) => {
+    // 
+    const views = DRAWER_SUBITEMS?.ESTABLISHMENT;
+    const title = name?.toUpperCase()?.replace(/ /g, '_');
+
+    return (title in views) ? views[title]?.COMPONENT : null;
+  }
 
   return (
     <ThemeProvider theme={createTheme()}>
@@ -39,38 +51,10 @@ const Dashboard = () => {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                </Paper>
-              </Grid>
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: 240,
-                  }}
-                >
-                  
-                </Paper>
-              </Grid>
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                  <Bookings />
-                </Paper>
-              </Grid>
-            </Grid>
-            <Copyright sx={{ pt: 4 }} />
+            {getViews(openDrawer)}
+            
           </Container>
+          <Copyright sx={{ pt: 4 }} />
         </Box>
       </Box>
     </ThemeProvider>

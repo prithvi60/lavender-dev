@@ -5,13 +5,13 @@ export const routes = [
     exact: true
   },
   {
-    name: "Establishments",
-    path: '/admin/establishments',
+    name: "Bookings",
+    path: '/admin/bookings',
     exact: true
   },
   {
-    name: "Bookings",
-    path: '/admin/bookings',
+    name: "Places",
+    path: '/places',
     exact: true
   },
 ];

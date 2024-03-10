@@ -5,7 +5,7 @@ const initialState = {
 };
 
 export const adminPageSlice = createSlice({
-  name: 'searchPage',
+  name: 'adminPage',
   initialState,
   reducers: {
     saveOpenDrawer: (state, action) => {

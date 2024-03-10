@@ -5,10 +5,15 @@
     font-size: 1.2rem;
 }
 
-.b-button {
+.MuiButton-root.b-button {
+    background-color: #47294c;
+    color: #faf4fc;
+    /* margin: 20px; */
+}
+
+.MuiButton-root.b-button:hover {
     background-color: gray;
-    /* color: white; */
-    margin: 0px 20px;
+    color:  #47294c;
 }
 
 .b-hero-section .b-search-box-title-icon {
@@ -81,4 +86,25 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+/* Text Area */
+.b-text-area {
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 12px;
+    /* border-radius: 12px 12px 0 12px; */
+    color: #1C2025;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.471);
+}
+
+.b-text-area:focus {
+    border-color: black;
+    outline: none;
+}
+
+ 
 
