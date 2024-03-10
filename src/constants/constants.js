@@ -12,7 +12,6 @@ export const LANDING_PAGE = {
 export const DRAWER_SUBITEMS = {
     ESTABLISHMENT: {
         ADD_ESTABLISHMENT: { NAME: "Add Establishment", COMPONENT: <Establishment />},
-        ADD_IMAGES: { NAME: "Add Image", COMPONENT: <Establishment />},
         ADD_SERVICES: { NAME: "Add Service", COMPONENT: <Establishment />},
         ADD_OPENING_HOURS: { NAME: "Add Opening Hours", COMPONENT: <Establishment />},
         ADD_EMPLOYEES: { NAME: "Add Employee", COMPONENT: <Establishment />},

@@ -52,7 +52,6 @@ const Dashboard = () => {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             {getViews(openDrawer)}
-            
           </Container>
           <Copyright sx={{ pt: 4 }} />
         </Box>

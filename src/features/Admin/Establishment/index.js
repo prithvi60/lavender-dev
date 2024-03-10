@@ -5,38 +5,44 @@ import {
   Box,
   Container,
   Paper,
-  Typography
+  Typography,
+  Grid
 } from '@mui/material';
 import { Button } from '../../../components/Button';
 import AddressForm from './components/AddressForm';
+import EstablishmentForm from './components/EstablishmentForm';
+import ImageUploader from '../../../components/ImageUploader';
 
 const Establishment = () => {
-
-  const handleSubmit = () => {
-    alert('submit!')
-  };
-
   return (
     <Fragment>
       <CssBaseline />
-      <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-          <Typography component="h1" variant="h4" align="center">
-            Add Establishment
-          </Typography>
-        <Fragment>
-            <AddressForm />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button
-              onClick={handleSubmit}
-              name={"Submit"}
-              sx={{ mt: 3, ml: 1 }}
-            />
-            </Box>
-        </Fragment>
-          
-        </Paper>
-      </Container>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={7} lg={9}>
+          <Paper
+            sx={{
+              p: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+            }}
+          >
+            <EstablishmentForm />
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={5} lg={3}>
+          <Paper
+            sx={{
+              p: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+            }}
+          >
+            <ImageUploader />
+          </Paper>
+        </Grid>
+      </Grid>
     </Fragment>
   );
 }
