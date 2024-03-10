@@ -1,0 +1,33 @@
+.b-page-not-found {
+    background-color: #816f7d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.b-not-found-content {
+    text-align: center;
+}
+
+.css-ahj2mt-MuiTypography-root.b-not-found-title  {
+    color: #faf4fc;
+    font-weight: bold;
+    font-size: 2rem;
+    padding: 0px 0px 30px;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root.b-button {
+    background-color: #47294c;
+    color: #faf4fc;
+    margin: 0px 20px;
+}
+
+.css-sghohy-MuiButtonBase-root-MuiButton-root.b-button:hover {
+    background-color: #faf4fc;
+    color:  #47294c;
+}
+
+.b-not-found-icon {
+    color:  #faf4fc;
+}

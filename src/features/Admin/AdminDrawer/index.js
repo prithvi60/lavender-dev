@@ -56,7 +56,7 @@ export const AdminDrawer = ({ open, toggleDrawer }) => {
           </Toolbar>
           <Divider />
           <List component="nav">
-            <AdminDrawerItem />
+            <AdminDrawerItem collapse={open} />
           </List>
         </Drawer>
      );

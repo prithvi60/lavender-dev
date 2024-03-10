@@ -1,9 +1,8 @@
 import React from 'react';
-import './index.css';
 import { Box, Typography } from '@mui/material';
+import { AccessTime, ContentCut, DateRange, LocationOn, Search } from '@mui/icons-material';
 
 import './index.css';
-import { AccessTime, ContentCut, DateRange, LocationOn, Search } from '@mui/icons-material';
 
 const SearchBox = ({ name, clickHandler, isClicked }) => {
 
@@ -20,20 +19,20 @@ const SearchBox = ({ name, clickHandler, isClicked }) => {
 
   return (
     <Box 
-      className={`searchBox ${isClicked ? 'selected' : ''} ${name.toLowerCase() === "time" ? 'addtlButton': ''}`}
+      className={`b-search-box ${isClicked ? 'selected' : ''} ${name.toLowerCase() === "time" ? 'b-addtl-button': ''}`}
       onClick={() => clickHandler(name)}
     >
-      <div className='searchBoxTitleIcon'>
+      <div className='b-search-box-title-icon'>
         {getIcons()}
-          <div className='searchBoxTitle'>
-              <Typography className='nameTop'>{"Search"}</Typography>
-              <Typography className='nameBottom'>{name}</Typography>
+          <div className='b-search-box-title'>
+              <Typography className='b-name-top'>{"Search"}</Typography>
+              <Typography className='b-name-bottom'>{name}</Typography>
           </div>
       </div>
       {
         name.toLowerCase() === "time" && 
-        <div className='addtlSearchIcon'>
-            <Search className='searchButton' fontSize='medium'/>
+        <div className='b-addtl-search-icon'>
+            <Search className='b-search-button' fontSize='medium'/>
         </div>
       }
         

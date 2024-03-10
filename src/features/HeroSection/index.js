@@ -7,17 +7,17 @@ import SearchPanel from '../SearchPanel';
 
 const HeroSection = () => {
     return ( 
-        <section className="heroSection">
+        <section className="b-hero-section">
             <section>
                 <Navbar />
             </section>
-            <section className="heroContent">
+            <section className="b-hero-content">
                 <h1>{LANDING_PAGE?.TITLE}</h1>
                 <p>{LANDING_PAGE?.SUBTITLE}</p>
                 <SearchPanel />
             </section>
         </section>
-     );
+    );
 }
 
 export default HeroSection;

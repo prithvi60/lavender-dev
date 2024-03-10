@@ -1,0 +1,31 @@
+import React, {Fragment} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Typography } from '@mui/material';
+import { Button } from '../components/Button';
+import { Error } from '@mui/icons-material';
+
+import './pages.css';
+
+const PageNotFound = () => {
+  const navigate = useNavigate();
+
+  const goBackToPreviousPage = () => {
+    navigate(-1);
+  };
+
+  return (
+    <Fragment>
+      <div className='b-page-not-found'>
+        <div className='b-not-found-content'>
+          <Error className='b-not-found-icon' fontSize='large'/>
+          <Typography className='b-not-found-title'>404 - Page Not Found</Typography>
+          <Button onClick={goBackToPreviousPage} name={"Go Back"} />
+        </div>
+        
+      </div>
+
+    </Fragment>
+  );
+}
+
+export default PageNotFound;

@@ -43,11 +43,11 @@ export const TabsWithIcon = props => {
 export const Banner = () => {
     return (
         <Paper elevation={0}>
-            <Typography variant="h5" component="h2" className="homeTitle">
+            <Typography variant="h5" component="h2" className="b-home-title">
                 Welcome to the Lavender UI!
             </Typography>
             <Divider/>
-            <Typography className="homeHeader">
+            <Typography className="b-home-header">
                 Lorem ipsum.
             </Typography>
         </Paper>
@@ -70,7 +70,7 @@ export const TabBoxGrid = props => {
 export const SearchBar = props => {
     return (
         <TextField
-            className="searchBar"
+            className="b-search-bar"
             value={props?.value}
             placeholder={props?.placeholder}
             variant="outlined"
@@ -100,7 +100,7 @@ export const SearchBar = props => {
 export const SearchButton = props => {
     return (
         <Button
-            className="searchButton"
+            className="b-search-button"
             type="submit"
             variant="contained"
             color="primary"

@@ -1,9 +1,9 @@
-.heroSection {
+.b-hero-section {
     /* background-color: #5F4F65; */
     background-color: lightgray;
 }
 
-.heroContent {
+.b-hero-content {
     /* width: 100%; */
     align-items: center;
     color: black;
@@ -11,17 +11,17 @@
     text-align: center;
 }
 
-.heroSection .heroContent h1 {
+.b-hero-section .b-hero-content h1 {
     font-size: 2rem; /* Adjust font size as needed */
     margin-bottom: 5px; /* Optional: Adjust spacing between heading and paragraph */
 }
 
-/* .heroSection .heroContent p {
+/* .b-hero-section .b-hero-content p {
     font-size: 1.2rem;
     margin-top: 5px;
 } */
 
-.heroSection .navBar {
+.b-hero-section .b-nav-bar {
     /* color: white; */
     color: black;
     background-color: revert;

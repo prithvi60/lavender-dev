@@ -8,13 +8,13 @@ import './index.css';
 
 const Navbar = () => {
   return (
-    <AppBar position="static" className="navBar">
+    <AppBar position="static" className="b-nav-bar">
       <Toolbar>
-        <Typography className="navBarTitle" variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography className="b-nav-bar-title" variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Lavender
         </Typography>
         <Typography>Business</Typography>
-        <Button className="button">Login</Button>
+        <Button className="b-button">Login</Button>
       </Toolbar>
     </AppBar>
   );

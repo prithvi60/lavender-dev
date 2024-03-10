@@ -52,7 +52,7 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-export const Bookings = () => {
+const Bookings = () => {
   return (
     <React.Fragment>
       <Title>Recent Bookings</Title>

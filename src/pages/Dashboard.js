@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { 
@@ -13,8 +13,8 @@ import Copyright from '../components/Copyright';
 import AdminAppBar from '../features/Admin/AdminAppBar';
 import AdminDrawer from '../features/Admin/AdminDrawer';
 
-export const Dashboard = () => {
-  const [open, setOpen] = React.useState(true);
+const Dashboard = () => {
+  const [open, setOpen] = useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };

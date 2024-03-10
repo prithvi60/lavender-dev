@@ -29,8 +29,7 @@ const AppBar = styled(MuiAppBar, {
     }),
   }));
 
-export const AdminAppBar = ({ open, toggleDrawer }) => {
-
+const AdminAppBar = ({ open, toggleDrawer }) => {
     return ( 
         <AppBar position="absolute" open={open}>
           <Toolbar sx={{ pr: '24px' }} >
@@ -53,7 +52,7 @@ export const AdminAppBar = ({ open, toggleDrawer }) => {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              Admin
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">

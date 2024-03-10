@@ -5,7 +5,7 @@ import HeroSection from '../features/HeroSection';
 
 const LandingPage = () => {
     return (
-        <div className='landingPageDiv'>
+        <div className='b-landing-page-div'>
             <HeroSection />
         </div>
         
