@@ -1,3 +1,4 @@
+import Employee from "../features/Admin/Employee";
 import Establishment from "../features/Admin/Establishment";
 
 export const WEBSITE_TITLE ='Lavender UI';
@@ -12,9 +13,9 @@ export const LANDING_PAGE = {
 export const DRAWER_SUBITEMS = {
     ESTABLISHMENT: {
         ADD_ESTABLISHMENT: { NAME: "Add Establishment", COMPONENT: <Establishment />},
-        ADD_SERVICES: { NAME: "Add Service", COMPONENT: <Establishment />},
+        ADD_SERVICE: { NAME: "Add Service", COMPONENT: <Establishment />},
         ADD_OPENING_HOURS: { NAME: "Add Opening Hours", COMPONENT: <Establishment />},
-        ADD_EMPLOYEES: { NAME: "Add Employee", COMPONENT: <Establishment />},
+        ADD_EMPLOYEE: { NAME: "Add Employee", COMPONENT: <Employee />},
     }
 }
 

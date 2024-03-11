@@ -14,7 +14,7 @@ const EstablishmentForm = () => {
       };
 
     return ( <>
-        <Typography component="h1" variant="h5" align="center">
+        <Typography component="h1" variant="h5" align="center" style={{ wordWrap: "break-word" }}>
             Add Establishment
           </Typography>
         <Fragment>

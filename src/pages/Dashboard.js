@@ -52,8 +52,12 @@ const Dashboard = () => {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             {getViews(openDrawer)}
+            <div className='b-footer'>
+              <Copyright sx={{ pt: 4 }} />
+            </div>
+            
           </Container>
-          <Copyright sx={{ pt: 4 }} />
+          
         </Box>
       </Box>
     </ThemeProvider>

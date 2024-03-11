@@ -9,16 +9,15 @@ import {
   Grid
 } from '@mui/material';
 import { Button } from '../../../components/Button';
-import AddressForm from './components/AddressForm';
-import EstablishmentForm from './components/EstablishmentForm';
-import ImageUploader from '../../../components/ImageUploader';
+import EmployeeManagement from './components/EmployeeManagement';
+import EmployeeForm from './components/EmployeeForm';
 
-const Establishment = () => {
+const Employee = () => {
   return (
     <Fragment>
       <CssBaseline />
       <Grid container spacing={3}>
-        <Grid item xs={12} md={7} lg={9}>
+        <Grid item xs={12} md={7} lg={8}>
           <Paper
             sx={{
               p: 2,
@@ -29,10 +28,10 @@ const Establishment = () => {
               overflow: 'hidden'
             }}
           >
-            <EstablishmentForm />
+            <EmployeeManagement />
           </Paper>
         </Grid>
-        <Grid item xs={12} md={5} lg={3}>
+        <Grid item xs={12} md={5} lg={4}>
           <Paper
             sx={{
               p: 2,
@@ -40,15 +39,16 @@ const Establishment = () => {
               flexDirection: 'column',
               height: '100%',
               maxHeight: '75vh',
-              overflow: 'auto'
+              overflow: 'hidden'
             }}
           >
-            <ImageUploader />
+            <EmployeeForm />
           </Paper>
         </Grid>
+        
       </Grid>
     </Fragment>
   );
 }
 
-export default Establishment;
+export default Employee;
