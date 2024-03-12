@@ -1,4 +1,4 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import { TextareaAutosize } from '@mui/base';
 import {
   Grid,
@@ -11,7 +11,7 @@ import {
 import '../index.css';
 import { Dropdown } from '../../../../components/Dropdown';
 import { useDispatch, useSelector } from 'react-redux';
-import { addEmployee } from '../../../../store/slices/adminPageSlice';
+import { addEmployee, editEmployee, updateEmployee } from '../../../../store/slices/adminPageSlice';
 import { Button } from '../../../../components/Button';
 import ImageUploader from '../../../../components/ImageUploader';
 
@@ -22,17 +22,19 @@ const FORM_VALUES = [
 ]
 
 const EmployeeForm = () => {
-    const { employees } = useSelector((state) => state.adminPage);
+    const { employees, editEmployeeId } = useSelector((state) => state.adminPage);
 
     const dispatch = useDispatch();
 
-    const [employee, setEmployee] = useState({
+    const initialState = {
         id: employees.length + 1,
         name: "",
         designation: "",
         status: "",
         image: ""
-    });
+    };
+
+    const [employee, setEmployee] = useState({...initialState});
 
     const handleOnChange = (key, value) => {
         const employeeTemp = {...employee};
@@ -43,14 +45,31 @@ const EmployeeForm = () => {
     const handleAddEmployee = () => {
         // You can implement your logic to add a new employee here
         // For demonstration purposes, let's just add a new employee with dummy data
-        dispatch(addEmployee({ employee }));
-      };
+        if (editEmployeeId) {
+            dispatch(updateEmployee({ employee }));
+        } else {
+            dispatch(addEmployee({ employee }));
+        }
+        
+        setEmployee({...initialState});
+        dispatch(editEmployee({editEmployeeId: null}));
+    };
+
+    useEffect(() => {
+        if (editEmployeeId) {
+            const employeeTemp = employees?.filter(item => item?.id === editEmployeeId)?.[0];
+            if (employeeTemp) {
+                setEmployee({...employeeTemp})
+            }
+            
+        }
+    }, [editEmployeeId])
 
     return (
         <Fragment>
         <Grid container spacing={3}>
             <Grid item xs={12}>
-                <Typography>{"Add New Employee"}</Typography>
+                <Typography>{`${editEmployee ? "Edit" : "Add"} New Employee`}</Typography>
             </Grid>
             {FORM_VALUES?.map((item, index) => {
                 switch (item?.type) {

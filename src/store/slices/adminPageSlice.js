@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   openDrawer: "",
   employees: [],
+  editEmployeeId: {},
 };
 
 export const adminPageSlice = createSlice({
@@ -10,10 +11,18 @@ export const adminPageSlice = createSlice({
   initialState,
   reducers: {
     saveOpenDrawer: (state, action) => {
-        state.openDrawer = action.payload.openDrawer
+      state.openDrawer = action.payload.openDrawer
     },
     addEmployee: (state, action) => {
       state.employees.push(action.payload.employee)
+    },
+    updateEmployee: (state, action) => {
+      state.employees.map(item => {
+        return item?.id === action.payload.id ? {...item, ...action.payload} : item;
+      })
+    },
+    editEmployee: (state, action) => {
+      state.editEmployeeId = action.payload.editEmployeeId;
     },
     reset: (state) => {
       state = {...initialState}
@@ -21,5 +30,5 @@ export const adminPageSlice = createSlice({
   },
 });
 
-export const { saveOpenDrawer, reset, addEmployee } = adminPageSlice.actions;
+export const { saveOpenDrawer, reset, addEmployee, updateEmployee, editEmployee } = adminPageSlice.actions;
 export default adminPageSlice.reducer;

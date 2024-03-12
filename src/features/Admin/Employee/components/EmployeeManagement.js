@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
-import { Grid, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Chip, Grid, IconButton, Typography } from '@mui/material';
 import MUIDataTable from "mui-datatables";
 import { Button } from '../../../../components/Button';
+import { Delete, Edit } from '@mui/icons-material';
+import { editEmployee } from '../../../../store/slices/adminPageSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const EmployeeManagement = () => {
-  const [employees, setEmployees] = useState([
-    { id: 1, name: "John Doe", designation: "Software Engineer", image: "https://via.placeholder.com/50" },
-    { id: 2, name: "Jane Smith", designation: "UI/UX Designer", image: "https://via.placeholder.com/50" },
-    // Add more employees as needed
-  ]);
+  const dispatch = useDispatch();
+  const { employees: employeesTemp } = useSelector((state) => state.adminPage);
+
+  const [employees, setEmployees] = useState([...employeesTemp]);
 
   const columns = [
     {
@@ -16,10 +18,15 @@ const EmployeeManagement = () => {
       label: "Actions",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
+          console.log('tableMeta', tableMeta);
           return (
             <>
-              <Button variant="contained" color="primary" onClick={() => handleUpdateEmployee(tableMeta.rowData[0])}>Update</Button>
-              <Button variant="contained" color="secondary" onClick={() => handleDeleteEmployee(tableMeta.rowData[0])}>Delete</Button>
+              <IconButton onClick={() => handleUpdateEmployee(tableMeta.rowData[1])}>
+                <Edit />
+              </IconButton>
+              <IconButton onClick={() => handleDeleteEmployee(tableMeta.rowData[1])}>
+                <Delete />
+              </IconButton>
             </>
           );
         },
@@ -38,6 +45,18 @@ const EmployeeManagement = () => {
       label: "Designation",
     },
     {
+      name: "status",
+      label: "Status",
+      options: {
+        customBodyRender: (value, tableMeta, updateValue) => {
+          console.log('tableMeta', tableMeta);
+          return (
+              <Chip label={tableMeta?.rowData[4]} style={{ color: "white", backgroundColor: tableMeta?.rowData[4] == "Active" ? "green" : "red"}} />
+          );
+        },
+      },
+    },
+    {
       name: "image",
       label: "Image",
       options: {
@@ -48,31 +67,25 @@ const EmployeeManagement = () => {
 
   const options = {
     selectableRows: "none",
-    responsive: "standard",
+    responsive: "vertical",
   };
 
-  const handleAddEmployee = () => {
-    // You can implement your logic to add a new employee here
-    // For demonstration purposes, let's just add a new employee with dummy data
-
-    
-    const newEmployee = {
-      id: employees.length + 1,
-      name: "New Employee",
-      designation: "New Designation",
-      image: "https://via.placeholder.com/50",
-    };
-    setEmployees([...employees, newEmployee]);
-  };
 
   const handleUpdateEmployee = (employeeId) => {
     // Update employee logic
+    dispatch(editEmployee({editEmployeeId: employeeId}));
   };
 
   const handleDeleteEmployee = (employeeId) => {
     // Delete employee logic
+    console.log('handleDeleteEmployee: ', employeeId);
     setEmployees(employees.filter(employee => employee.id !== employeeId));
+    
   };
+
+  useEffect(() => {
+    setEmployees(employeesTemp);
+}, [employeesTemp])
 
   return (
     <Grid container spacing={2}>
