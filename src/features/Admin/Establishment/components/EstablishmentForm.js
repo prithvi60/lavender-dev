@@ -1,8 +1,6 @@
-import React, { useState, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import {
   Box,
-  Container,
-  Paper,
   Typography
 } from '@mui/material';
 import { Button } from '../../../../components/Button';

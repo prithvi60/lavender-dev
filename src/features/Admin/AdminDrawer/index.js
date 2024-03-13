@@ -1,47 +1,27 @@
-
-import { styled } from '@mui/material/styles';
-import MuiDrawer from '@mui/material/Drawer';
 import { 
     Toolbar,
     IconButton,
     Divider,
-    List
+    List,
+    SwipeableDrawer
 } from '@mui/material';
 import { ChevronLeft } from '@mui/icons-material';
 import AdminDrawerItem from '../AdminDrawerItem';
-import { DASHBOARD } from '../../../constants/constants';
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-      '& .MuiDrawer-paper': {
-        position: 'relative',
-        whiteSpace: 'nowrap',
-        backgroundColor: "#5F4F65",
-        color: "#FAF4FC",
-        width: DASHBOARD?.DRAWER_WIDTH,
-        transition: theme.transitions.create('width', {
-          easing: theme.transitions.easing.sharp,
-          duration: theme.transitions.duration.enteringScreen,
-        }),
-        boxSizing: 'border-box',
-        ...(!open && {
-          overflowX: 'hidden',
-          transition: theme.transitions.create('width', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-          }),
-          width: theme.spacing(7),
-          [theme.breakpoints.up('sm')]: {
-            width: theme.spacing(9),
-          },
-        }),
-      },
-    }),
-);
+import './index.css'
 
 export const AdminDrawer = ({ open, toggleDrawer }) => {
     return ( 
-        <Drawer variant="permanent" open={open}>
+        <SwipeableDrawer
+          anchor="left"
+          open={open}
+          onClose={toggleDrawer}
+          onOpen={() => console.log("Drawer opened")}
+          // disableBackdropTransition={true}
+          classes={{
+            paper: 'b-admin-drawer',
+          }}
+        >
           <Toolbar
             sx={{
               display: 'flex',
@@ -58,7 +38,7 @@ export const AdminDrawer = ({ open, toggleDrawer }) => {
           <List component="nav">
             <AdminDrawerItem collapse={open} />
           </List>
-        </Drawer>
+        </SwipeableDrawer>
      );
 }
 

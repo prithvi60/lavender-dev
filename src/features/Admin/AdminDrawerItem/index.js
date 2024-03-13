@@ -5,9 +5,6 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   List,
   ListItem,
   Collapse
@@ -65,7 +62,13 @@ export const AdminDrawerItem = ({ collapse }) => {
 
   useEffect(() => {
     if (!collapse) {
-      setOpen({...initialState});
+      setOpen({
+        Dashboard: false,
+        Establishments: false,
+        Bookings: false,
+        Users: false,
+        Settings: false,
+      });
     }
   }, [collapse])
 

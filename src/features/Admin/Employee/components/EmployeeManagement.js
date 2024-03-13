@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Chip, Grid, IconButton, Typography } from '@mui/material';
+import { Chip, Grid, IconButton } from '@mui/material';
 import MUIDataTable from "mui-datatables";
-import { Button } from '../../../../components/Button';
 import { Delete, Edit } from '@mui/icons-material';
 import { editEmployee } from '../../../../store/slices/adminPageSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,7 +50,7 @@ const EmployeeManagement = () => {
         customBodyRender: (value, tableMeta, updateValue) => {
           console.log('tableMeta', tableMeta);
           return (
-              <Chip label={tableMeta?.rowData[4]} style={{ color: "white", backgroundColor: tableMeta?.rowData[4] == "Active" ? "green" : "red"}} />
+              <Chip label={tableMeta?.rowData[4]} style={{ color: "white", backgroundColor: tableMeta?.rowData[4] === "Active" ? "green" : "red"}} />
           );
         },
       },

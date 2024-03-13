@@ -1,0 +1,9 @@
+.b-admin-drawer {
+    width: 260px;
+}
+
+.b-admin-drawer.MuiPaper-root.css-4t3x6l-MuiPaper-root-MuiDrawer-paper{
+    background-color: #5F4F65;
+    color: #FAF4FC;
+    width: 500;
+}

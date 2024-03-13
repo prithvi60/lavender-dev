@@ -1,11 +1,8 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import { TextareaAutosize } from '@mui/base';
 import {
   Grid,
   Typography,
   TextField,
-  FormControlLabel,
-  Checkbox
 } from '@mui/material';
 
 import '../index.css';
@@ -63,7 +60,7 @@ const EmployeeForm = () => {
             }
             
         }
-    }, [editEmployeeId])
+    }, [editEmployeeId, employees])
 
     return (
         <Fragment>

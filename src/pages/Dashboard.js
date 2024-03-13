@@ -6,10 +6,7 @@ import {
   Box,
   Toolbar,
   Container,
-  Grid,
-  Paper
 } from '@mui/material';
-import Bookings from './Bookings';
 import Copyright from '../components/Copyright';
 import AdminAppBar from '../features/Admin/AdminAppBar';
 import AdminDrawer from '../features/Admin/AdminDrawer';

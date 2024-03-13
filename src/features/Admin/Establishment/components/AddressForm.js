@@ -1,11 +1,7 @@
 import React, {Fragment} from 'react';
-import { TextareaAutosize } from '@mui/base';
 import {
   Grid,
-  Typography,
   TextField,
-  FormControlLabel,
-  Checkbox
 } from '@mui/material';
 import CountrySelect from '../../../../components/CountrySelect';
 import TextArea from '../../../../components/TextArea';
@@ -29,7 +25,6 @@ const AddressForm = () => {
     <Fragment>
       <Grid container spacing={3}>
         {FORM_VALUES?.map((item, index) => {
-          
           switch (item?.type) {
             case "textField":
               return (
@@ -62,6 +57,8 @@ const AddressForm = () => {
                   <CountrySelect />
                 </Grid>
               )
+            default:
+              return null;
 
           }
 
