@@ -24,7 +24,7 @@ const EmployeeForm = () => {
     const dispatch = useDispatch();
 
     const initialState = {
-        id: employees.length + 1,
+        id: Math.floor(Math.random() * 1000) + 1,
         name: "",
         designation: "",
         status: "",
@@ -40,8 +40,6 @@ const EmployeeForm = () => {
     }
 
     const handleAddEmployee = () => {
-        // You can implement your logic to add a new employee here
-        // For demonstration purposes, let's just add a new employee with dummy data
         if (editEmployeeId) {
             dispatch(updateEmployee({ employee }));
         } else {
