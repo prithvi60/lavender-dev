@@ -1,0 +1,25 @@
+.b-business-hours-card {
+    display: inline-flex;
+}
+
+.b-business-hours-card .b-business-hours-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 10px 0px;
+}
+
+.b-business-hours-card .b-weekday-grid {
+    display: inline-flex;
+    align-items: center;
+    height: 50px;
+    margin: 5px 0px;
+
+}
+
+.b-business-hours-card .b-weekday-control-label {
+    width: 150px;
+}
+
+.b-business-hours-card .MuiInputBase-input {
+    padding: 10px;
+}
