@@ -6,7 +6,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { WEEKDAYS } from '../../../../constants/constants';
+import { Button } from '../../../../components/Button';
+import { BACKGROUND_COLOR, WEEKDAYS } from '../../../../constants/constants';
 
 import '../index.css';
 
@@ -14,7 +15,7 @@ const BusinessHours = () => {
   const [businessHours, setBusinessHours] = useState(
     WEEKDAYS.reduce((acc, day) => {
       acc[day] = {
-        isOpen: false,
+        isOpen: true,
         openTime: '',
         closeTime: '',
       };
@@ -41,6 +42,10 @@ const BusinessHours = () => {
       },
     });
   };
+
+  const handleSubmit = () => {
+    alert('submission');
+  }
 
   return (
     <Grid container spacing={2}>
@@ -88,9 +93,16 @@ const BusinessHours = () => {
                 <Typography variant="body1">Closed</Typography>
             )}
           </div>
-          
         </Grid>
       ))}
+      <Grid item xs={12} className='b-weekday-button'>
+        <Button
+            onClick={handleSubmit}
+            name={"Submit"}
+            sx={{ mt: 3, ml: 1 }}
+        />
+      </Grid>
+      
     </Grid>
   );
 };

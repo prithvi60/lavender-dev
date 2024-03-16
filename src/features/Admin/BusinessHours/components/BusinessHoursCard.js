@@ -14,9 +14,6 @@ const BusinessHoursCard = () => {
             <BusinessHoursForm />
         </Grid>
     </Grid>
-    
-
-
   );
 };
 
