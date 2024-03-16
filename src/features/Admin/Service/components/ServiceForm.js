@@ -18,7 +18,7 @@ const FORM_VALUES = [
     {xs: 12, sm: 12, type: "select", id: "status", label: "Status", autoComplete: "status", variant: "standard", required: true, options: ["Active", "InActive"], placeholder: "Select status"},
 ]
 
-const EmployeeForm = () => {
+const ServiceForm = () => {
     const { employees, editEmployeeId } = useSelector((state) => state.employeeAdmin);
 
     const dispatch = useDispatch();
@@ -26,9 +26,12 @@ const EmployeeForm = () => {
     const initialState = {
         id: Math.floor(Math.random() * 1000) + 1,
         name: "",
-        designation: "",
-        status: "",
-        image: ""
+        category: "",
+        salePrice: "",
+        maxPrice: "",
+        discountPrice: "",
+        discountPercent: "",
+        duration: "",
     };
 
     const [employee, setEmployee] = useState({...initialState});
@@ -62,10 +65,41 @@ const EmployeeForm = () => {
 
     return (
         <Fragment>
-        <Grid container spacing={3}>
+        <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography>{`${editEmployeeId ? "Edit" : "Add"} New Employee`}</Typography>
+                <Typography>{`${editEmployeeId ? "Edit" : "Add"} New Service`}</Typography>
             </Grid>
+          <Grid item xs={12}>
+            <TextField label="Service Name" fullWidth />
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel>Category</InputLabel>
+              <Select>
+                {categories.map((category, index) => (
+                  <MenuItem key={index} value={category}>{category}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField label="Sale Price" fullWidth />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField label="Max Price" fullWidth />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField label="Discount Price" fullWidth />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField label="Discount Percent" fullWidth />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField label="Duration" fullWidth />
+          </Grid>
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary">Add Service</Button>
+          </Grid>
             {FORM_VALUES?.map((item, index) => {
                 switch (item?.type) {
                     case "textField":
@@ -115,4 +149,4 @@ const EmployeeForm = () => {
     );
 }
 
-export default EmployeeForm;
+export default ServiceForm;

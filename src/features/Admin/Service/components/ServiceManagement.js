@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Chip, Grid, IconButton } from '@mui/material';
+import { Grid, IconButton } from '@mui/material';
 import MUIDataTable from "mui-datatables";
 import { Delete, Edit } from '@mui/icons-material';
 import { editEmployee, removeEmployee } from '../../../../store/slices/admin/employeeAdminSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
-const EmployeeManagement = () => {
+const ServiceManagement = () => {
   const dispatch = useDispatch();
   const { employees: employeesTemp } = useSelector((state) => state.employeeAdmin);
 
@@ -37,30 +37,31 @@ const EmployeeManagement = () => {
     },
     {
       name: "name",
-      label: "Employee Name",
+      label: "Name",
     },
     {
-      name: "designation",
-      label: "Designation",
+      name: "category",
+      label: "Category",
     },
     {
-      name: "status",
-      label: "Status",
-      options: {
-        customBodyRender: (value, tableMeta, updateValue) => {
-          console.log('tableMeta', tableMeta);
-          return (
-              <Chip label={tableMeta?.rowData[4]} style={{ color: "white", backgroundColor: tableMeta?.rowData[4] === "Active" ? "green" : "red"}} />
-          );
-        },
-      },
+      name: "salePrice",
+      label: "Sale Price",
     },
     {
-      name: "image",
-      label: "Image",
-      options: {
-        customBodyRender: (value) => <img src={value} alt="Employee" style={{ width: 50, height: 50, borderRadius: '50%' }} />,
-      },
+      name: "maxPrice",
+      label: "Max Price",
+    },
+    {
+      name: "discountPrice",
+      label: "Discount Price",
+    },
+    {
+      name: "discountPercent",
+      label: "Discount Percent",
+    },
+    {
+      name: "duration",
+      label: "Duration",
     },
   ];
 
@@ -91,7 +92,7 @@ const EmployeeManagement = () => {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <MUIDataTable
-          title={"Employee List"}
+          title={"Services"}
           data={employees}
           columns={columns}
           options={options}
@@ -101,4 +102,4 @@ const EmployeeManagement = () => {
   );
 };
 
-export default EmployeeManagement;
+export default ServiceManagement;

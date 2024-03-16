@@ -1,6 +1,7 @@
 import BusinessHours from "../features/Admin/BusinessHours";
 import Employee from "../features/Admin/Employee";
 import Establishment from "../features/Admin/Establishment";
+import Service from "../features/Admin/Service";
 
 export const WEBSITE_TITLE ='Lavender UI';
 
@@ -14,7 +15,7 @@ export const LANDING_PAGE = {
 export const DRAWER_SUBITEMS = {
     ESTABLISHMENT: {
         ADD_ESTABLISHMENT: { NAME: "Add Establishment", COMPONENT: <Establishment />},
-        ADD_SERVICE: { NAME: "Add Service", COMPONENT: <Establishment />},
+        ADD_SERVICE: { NAME: "Add Service", COMPONENT: <Service />},
         ADD_OPENING_HOURS: { NAME: "Add Opening Hours", COMPONENT: <BusinessHours />},
         ADD_EMPLOYEE: { NAME: "Add Employee", COMPONENT: <Employee />},
     }

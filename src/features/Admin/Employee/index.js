@@ -13,8 +13,8 @@ const Employee = () => {
     <Fragment>
       <CssBaseline />
       <Grid container spacing={3}>
-        <Grid item xs={12} md={7} lg={8}>
-          <Paper
+        <Grid item xs={12}>
+          {/* <Paper
             sx={{
               p: 2,
               display: 'flex',
@@ -23,11 +23,11 @@ const Employee = () => {
               maxHeight: '75vh',
               overflow: 'hidden'
             }}
-          >
+          > */}
             <EmployeeManagement />
-          </Paper>
+          {/* </Paper> */}
         </Grid>
-        <Grid item xs={12} md={5} lg={4}>
+        <Grid item xs={12}>
           <Paper
             sx={{
               p: 2,
