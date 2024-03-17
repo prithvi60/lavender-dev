@@ -1,8 +1,7 @@
 import React from 'react';
-import { Grid, Typography, TextField, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
 import ServiceManagement from './components/ServiceManagement';
-
-const categories = ['Haircut', 'Manicure', 'Pedicure', 'Massage', 'Facial'];
+import ServiceForm from './components/ServiceForm';
 
 const Service = () => {
   return (
@@ -13,40 +12,18 @@ const Service = () => {
         <ServiceManagement />
       </Grid>
       <Grid item xs={12}>
-        <Typography variant="h6">Add New Service</Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField label="Service Name" fullWidth />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel>Category</InputLabel>
-              <Select>
-                {categories.map((category, index) => (
-                  <MenuItem key={index} value={category}>{category}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField label="Sale Price" fullWidth />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField label="Max Price" fullWidth />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField label="Discount Price" fullWidth />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField label="Discount Percent" fullWidth />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField label="Duration" fullWidth />
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary">Add Service</Button>
-          </Grid>
-        </Grid>
+        <Paper
+          sx={{
+            p: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            maxHeight: '75vh',
+            overflow: 'hidden'
+          }}
+        >
+          <ServiceForm />
+        </Paper>
       </Grid>
     </Grid>
   );

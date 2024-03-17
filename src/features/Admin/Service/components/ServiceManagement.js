@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { Grid, IconButton } from '@mui/material';
 import MUIDataTable from "mui-datatables";
 import { Delete, Edit } from '@mui/icons-material';
-import { editEmployee, removeEmployee } from '../../../../store/slices/admin/employeeAdminSlice';
+import { editService, removeService } from '../../../../store/slices/admin/serviceAdminSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ServiceManagement = () => {
   const dispatch = useDispatch();
-  const { employees: employeesTemp } = useSelector((state) => state.employeeAdmin);
+  const { services: servicesTemp } = useSelector((state) => state.serviceAdmin);
 
-  const [employees, setEmployees] = useState([...employeesTemp]);
+  const [services, setServices] = useState([...servicesTemp]);
 
   const columns = [
     {
@@ -20,10 +20,10 @@ const ServiceManagement = () => {
           console.log('tableMeta', tableMeta);
           return (
             <>
-              <IconButton onClick={() => handleUpdateEmployee(tableMeta.rowData[1])}>
+              <IconButton onClick={() => handleUpdateService(tableMeta.rowData[1])}>
                 <Edit />
               </IconButton>
-              <IconButton onClick={() => handleDeleteEmployee(tableMeta.rowData[1])}>
+              <IconButton onClick={() => handleDeleteService(tableMeta.rowData[1])}>
                 <Delete />
               </IconButton>
             </>
@@ -71,29 +71,28 @@ const ServiceManagement = () => {
   };
 
 
-  const handleUpdateEmployee = (employeeId) => {
-    // Update employee logic
-    dispatch(editEmployee({editEmployeeId: employeeId}));
+  const handleUpdateService = (serviceId) => {
+    // Update Service logic
+    dispatch(editService({editServiceId: serviceId}));
   };
 
-  const handleDeleteEmployee = (employeeId) => {
-    // Delete employee logic
-    console.log('handleDeleteEmployee: ', employeeId, employees);
-    // setEmployees(employees.filter(employee => employee.id !== employeeId));
-    dispatch(removeEmployee({id: employeeId}));
+  const handleDeleteService = (serviceId) => {
+    // Delete Service logic
+    console.log('handleDeleteService: ', serviceId, services);
+    dispatch(removeService({id: serviceId}));
     
   };
 
   useEffect(() => {
-    setEmployees(employeesTemp);
-  }, [employeesTemp]);
+    setServices(servicesTemp);
+  }, [servicesTemp]);
 
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <MUIDataTable
           title={"Services"}
-          data={employees}
+          data={services}
           columns={columns}
           options={options}
         />

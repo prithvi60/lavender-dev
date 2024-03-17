@@ -34,3 +34,10 @@ export const DASHBOARD = {
 export const SEARCH_PANEL_BOXES = ["Treatment", "Location", "Date", "Time"];
 
 export const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+export const SERVICE_CATEGORIES = {
+    OPTIONS: [
+        'Haircut', 'Manicure', 'Pedicure', 'Massage', 'Facial'
+    ],
+    PLACEHOLDER: "Select category"
+};

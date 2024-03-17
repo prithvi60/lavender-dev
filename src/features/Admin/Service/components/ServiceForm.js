@@ -5,21 +5,24 @@ import {
   TextField,
 } from '@mui/material';
 
-import '../index.css';
 import { Dropdown } from '../../../../components/Dropdown';
 import { useDispatch, useSelector } from 'react-redux';
-import { addEmployee, editEmployee, updateEmployee } from '../../../../store/slices/admin/employeeAdminSlice';
+import { addService, editService, updateService } from '../../../../store/slices/admin/serviceAdminSlice';
 import { Button } from '../../../../components/Button';
-import ImageUploader from '../../../../components/ImageUploader';
-
-const FORM_VALUES = [
-    {xs: 12, sm: 12, type: "textField", id: "name", label: "Name", autoComplete: "name", variant: "standard", required: true},
-    {xs: 12, sm: 12, type: "select", id: "designation", label: "Designation", autoComplete: "designation", variant: "standard", required: true, options: ["Manager", "Supervisor", "Assistant", "Hairstylist"], placeholder: "Select designation"},
-    {xs: 12, sm: 12, type: "select", id: "status", label: "Status", autoComplete: "status", variant: "standard", required: true, options: ["Active", "InActive"], placeholder: "Select status"},
-]
+import { SERVICE_CATEGORIES } from '../../../../constants/constants';
 
 const ServiceForm = () => {
-    const { employees, editEmployeeId } = useSelector((state) => state.employeeAdmin);
+    const { services, editServiceId } = useSelector((state) => state.serviceAdmin);
+
+    const FORM_VALUES = [
+        {xs: 12, md: 12, type: "textField", id: "name", label: "Service Name", },
+        {xs: 12, md: 12, type: "select", id: "category", label: "Category", options: [...SERVICE_CATEGORIES?.OPTIONS], placeholder: SERVICE_CATEGORIES?.PLACEHOLDER},
+        {xs: 6, md: 6, type: "textField", id: "salePrice", label: "Sale Price"},
+        {xs: 6, md: 6, type: "textField", id: "maxPrice", label: "Max Price"},
+        {xs: 6, md: 6, type: "textField", id: "discountPrice", label: "Discount Price"},
+        {xs: 6, md: 6, type: "textField", id: "discountPercent", label: "Discount Percent"},
+        {xs: 6, md: 6, type: "textField", id: "duration", label: "Duration"},
+    ]
 
     const dispatch = useDispatch();
 
@@ -34,111 +37,81 @@ const ServiceForm = () => {
         duration: "",
     };
 
-    const [employee, setEmployee] = useState({...initialState});
+    const [service, setService] = useState({...initialState});
 
     const handleOnChange = (key, value) => {
-        const employeeTemp = {...employee};
-        employeeTemp[key] = value;
-        setEmployee(employeeTemp);
+        const serviceTemp = {...service};
+        serviceTemp[key] = value;
+        setService(serviceTemp);
     }
 
-    const handleAddEmployee = () => {
-        if (editEmployeeId) {
-            dispatch(updateEmployee({ employee }));
+    const handleAddService = () => {
+        if (editServiceId) {
+            dispatch(updateService({ service }));
         } else {
-            dispatch(addEmployee({ employee }));
+            dispatch(addService({ service }));
         }
         
-        setEmployee({...initialState});
-        dispatch(editEmployee({editEmployeeId: null}));
+        setService({...initialState});
+        dispatch(editService({editServiceId: null}));
     };
 
     useEffect(() => {
-        if (editEmployeeId) {
-            const employeeTemp = employees?.filter(item => item?.id === editEmployeeId)?.[0];
-            if (employeeTemp) {
-                setEmployee({...employeeTemp})
+        if (editServiceId) {
+            const serviceTemp = services?.filter(item => item?.id === editServiceId)?.[0];
+            if (serviceTemp) {
+                setService({...serviceTemp});
             }
             
         }
-    }, [editEmployeeId, employees])
+    }, [editServiceId, services])
 
     return (
         <Fragment>
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography>{`${editEmployeeId ? "Edit" : "Add"} New Service`}</Typography>
+                <Typography>{`${editServiceId ? "Edit" : "Add"} New Service`}</Typography>
             </Grid>
-          <Grid item xs={12}>
-            <TextField label="Service Name" fullWidth />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <InputLabel>Category</InputLabel>
-              <Select>
-                {categories.map((category, index) => (
-                  <MenuItem key={index} value={category}>{category}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField label="Sale Price" fullWidth />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField label="Max Price" fullWidth />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField label="Discount Price" fullWidth />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField label="Discount Percent" fullWidth />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField label="Duration" fullWidth />
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary">Add Service</Button>
-          </Grid>
-            {FORM_VALUES?.map((item, index) => {
-                switch (item?.type) {
-                    case "textField":
-                        return (
-                            <Grid key={index} item xs={item?.xs} sm={item?.sm} className="b-grid">
-                                <TextField
-                                    required={item?.required}
-                                    id={item?.id}
-                                    name={item?.id}
-                                    label={item?.label}
-                                    fullWidth
-                                    autoComplete={item?.autoComplete}
-                                    variant={item?.variant}
-                                    onChange={(e) => handleOnChange(item?.id, e.target.value)}
-                                    value={employee?.[item?.id]}
-                                />
-                            </Grid>
-                        )
-                    case "select":
-                        return (
-                            <Grid key={index} item xs={item?.xs} sm={item?.sm} className="b-grid">
-                                <Dropdown
-                                    value={employee?.[item?.id]}
-                                    onChange={(e) => handleOnChange(item?.id, e.target.value)}
-                                    options={item?.options}
-                                    placeholder={item?.placeholder}
-                                />
-                            </Grid>
-                        )
-                    default:
-                        return null;
+            
+            <Grid container item spacing={2}>
+                {FORM_VALUES?.map((item, index) => {
+                    switch (item?.type) {
+                        case "textField":
+                            return (
+                                <Grid key={index} item xs={item?.xs} md={item?.md} className="b-grid">
+                                    <TextField
+                                        required={true}
+                                        id={item?.id}
+                                        name={item?.id}
+                                        label={item?.label}
+                                        fullWidth
+                                        variant='outlined'
+                                        onChange={(e) => handleOnChange(item?.id, e.target.value)}
+                                        value={service?.[item?.id]}
+                                    />
+                                </Grid>
+                            )
+                        case "select":
+                            return (
+                                <Grid key={index} item xs={item?.xs} md={item?.md} className="b-grid">
+                                    <Dropdown
+                                        value={service?.[item?.id]}
+                                        onChange={(e) => handleOnChange(item?.id, e.target.value)}
+                                        options={item?.options}
+                                        placeholder={item?.placeholder}
+                                    />
+                                </Grid>
+                            )
+                        default:
+                            return null;
 
-                }
+                    }
 
-            })}
+                })}
+            </Grid>
             <Grid item xs={12}>
-                <ImageUploader />
                 <Button
-                    onClick={handleAddEmployee}
+                    onClick={handleAddService}
                     name={"Submit"}
                     sx={{ mt: 3, ml: 1 }}
                 />
