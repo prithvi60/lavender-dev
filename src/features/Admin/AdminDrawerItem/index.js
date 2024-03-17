@@ -29,7 +29,7 @@ export const AdminDrawerItem = ({ collapse }) => {
 
   const initialState = {
     Dashboard: false,
-    Establishments: false,
+    Management: false,
     Bookings: false,
     Users: false,
     Settings: false,
@@ -51,7 +51,7 @@ export const AdminDrawerItem = ({ collapse }) => {
   const getIcons = (name) => {
     const icons = {
       "Dashboard": <Dashboard />,
-      "Establishments": <Inventory />,
+      "Management": <Inventory />,
       "Bookings": <ShoppingCart />,
       "Users": <People />,
       "Settings": <Settings />
@@ -87,15 +87,6 @@ export const AdminDrawerItem = ({ collapse }) => {
             </ListItem>
             <Collapse in={open?.[item?.title]} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                {/* {
-                  item?.subTitle?.map((sub, ind) => {
-                    return (
-                      <ListItem key={ind} button>
-                        <ListItemText inset primary={sub} />
-                      </ListItem>
-                    )  
-                  })
-                } */}
                 <AdminDrawerSubItem items={item?.subTitle}/>
               </List>
             </Collapse>

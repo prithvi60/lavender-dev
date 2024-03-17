@@ -13,9 +13,9 @@ import { Button } from '../../../../components/Button';
 import ImageUploader from '../../../../components/ImageUploader';
 
 const FORM_VALUES = [
-    {xs: 12, sm: 12, type: "textField", id: "name", label: "Name", autoComplete: "name", variant: "standard", required: true},
-    {xs: 12, sm: 12, type: "select", id: "designation", label: "Designation", autoComplete: "designation", variant: "standard", required: true, options: ["Manager", "Supervisor", "Assistant", "Hairstylist"], placeholder: "Select designation"},
-    {xs: 12, sm: 12, type: "select", id: "status", label: "Status", autoComplete: "status", variant: "standard", required: true, options: ["Active", "InActive"], placeholder: "Select status"},
+    {xs: 12, sm: 12, type: "textField", id: "name", label: "Name", autoComplete: "name", variant: "outlined", required: true},
+    {xs: 12, sm: 12, type: "select", id: "designation", label: "Designation", autoComplete: "designation", variant: "outlined", required: true, options: ["Manager", "Supervisor", "Assistant", "Hairstylist"], placeholder: "Select designation"},
+    {xs: 12, sm: 12, type: "select", id: "status", label: "Status", autoComplete: "status", variant: "outlined", required: true, options: ["Active", "InActive"], placeholder: "Select status"},
 ]
 
 const EmployeeForm = () => {
@@ -62,54 +62,55 @@ const EmployeeForm = () => {
 
     return (
         <Fragment>
-        <Grid container spacing={3}>
-            <Grid item xs={12}>
-                <Typography>{`${editEmployeeId ? "Edit" : "Add"} New Employee`}</Typography>
-            </Grid>
-            {FORM_VALUES?.map((item, index) => {
-                switch (item?.type) {
-                    case "textField":
-                        return (
-                            <Grid key={index} item xs={item?.xs} sm={item?.sm} className="b-grid">
-                                <TextField
-                                    required={item?.required}
-                                    id={item?.id}
-                                    name={item?.id}
-                                    label={item?.label}
-                                    fullWidth
-                                    autoComplete={item?.autoComplete}
-                                    variant={item?.variant}
-                                    onChange={(e) => handleOnChange(item?.id, e.target.value)}
-                                    value={employee?.[item?.id]}
-                                />
-                            </Grid>
-                        )
-                    case "select":
-                        return (
-                            <Grid key={index} item xs={item?.xs} sm={item?.sm} className="b-grid">
-                                <Dropdown
-                                    value={employee?.[item?.id]}
-                                    onChange={(e) => handleOnChange(item?.id, e.target.value)}
-                                    options={item?.options}
-                                    placeholder={item?.placeholder}
-                                />
-                            </Grid>
-                        )
-                    default:
-                        return null;
+            <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Typography>{`${editEmployeeId ? "Edit" : "Add"} New Employee`}</Typography>
+                </Grid>
+                {FORM_VALUES?.map((item, index) => {
+                    switch (item?.type) {
+                        case "textField":
+                            return (
+                                <Grid key={index} item xs={item?.xs} sm={item?.sm} className="b-grid">
+                                    <TextField
+                                        required={item?.required}
+                                        id={item?.id}
+                                        name={item?.id}
+                                        label={item?.label}
+                                        fullWidth
+                                        autoComplete={item?.autoComplete}
+                                        variant={item?.variant}
+                                        onChange={(e) => handleOnChange(item?.id, e.target.value)}
+                                        value={employee?.[item?.id]}
+                                    />
+                                </Grid>
+                            )
+                        case "select":
+                            return (
+                                <Grid key={index} item xs={item?.xs} sm={item?.sm} className="b-grid">
+                                    <Dropdown
+                                        value={employee?.[item?.id]}
+                                        onChange={(e) => handleOnChange(item?.id, e.target.value)}
+                                        options={item?.options}
+                                        placeholder={item?.placeholder}
+                                        required={item?.required}
+                                    />
+                                </Grid>
+                            )
+                        default:
+                            return null;
 
-                }
+                    }
 
-            })}
-            <Grid item xs={12}>
-                <ImageUploader />
-                <Button
-                    onClick={handleAddEmployee}
-                    name={"Submit"}
-                    sx={{ mt: 3, ml: 1 }}
-                />
+                })}
+                <Grid item xs={12}>
+                    <ImageUploader />
+                    <Button
+                        onClick={handleAddEmployee}
+                        name={"Submit"}
+                        sx={{ mt: 3, ml: 1 }}
+                    />
+                </Grid>
             </Grid>
-        </Grid>
         
         </Fragment>
     );

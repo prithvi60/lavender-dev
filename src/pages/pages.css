@@ -32,6 +32,10 @@
     color:  #faf4fc;
 }
 
+.b-drawer-item-title {
+    word-wrap: break-word;
+}
+
 /* .b-footer {
     position: fixed;
     left: 0;

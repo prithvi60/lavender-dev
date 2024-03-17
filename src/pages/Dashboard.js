@@ -21,8 +21,7 @@ const Dashboard = () => {
   };
 
   const getViews = (name) => {
-    // 
-    const views = DRAWER_SUBITEMS?.ESTABLISHMENT;
+    const views = DRAWER_SUBITEMS?.MANAGEMENT;
     const title = name?.toUpperCase()?.replace(/ /g, '_');
 
     return (title in views) ? views[title]?.COMPONENT : null;

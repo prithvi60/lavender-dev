@@ -11,14 +11,14 @@ import '../index.css';
 const AddressForm = () => {
 
   const FORM_VALUES = [
-    {xs: 12, sm: 12, type: "textField", id: "name", label: "Name", autoComplete: "name", variant: "standard", required: true},
-    {xs: 12, sm: 12, type: "textArea", id: "about", label: "About", autoComplete: "about", variant: "standard", required: false, placeholder: "Input establishment description..."},
-    {xs: 12, sm: 12, type: "textField", id: "addrLine1", label: "Address Line 1", autoComplete: "address-line1", variant: "standard", required: true},
-    {xs: 12, sm: 12, type: "textField", id: "addrLine2", label: "Address Line 2", autoComplete: "address-line2", variant: "standard", required: true},
-    {xs: 12, sm: 6, type: "textField", id: "area", label: "Area", autoComplete: "address-line2", variant: "standard", required: true},
-    {xs: 12, sm: 6, type: "textField", id: "state", label: "State/Provice/Region", autoComplete: "given-name", variant: "standard", required: true},
-    {xs: 12, sm: 6, type: "textField", id: "postalCode", label: "Postal Code", autoComplete: "postal-code", variant: "standard", required: true},
-    {xs: 12, sm: 6, type: "countrySelect", id: "country", label: "Country", autoComplete: "country", variant: "standard", required: true},
+    {xs: 12, md: 12, type: "textField", id: "name", label: "Name", autoComplete: "name", variant: "outlined", required: true},
+    {xs: 12, md: 12, type: "textArea", id: "about", label: "About", autoComplete: "about", variant: "outlined", required: false, placeholder: "Input establishment description..."},
+    {xs: 12, md: 12, type: "textField", id: "addrLine1", label: "Address Line 1", autoComplete: "address-line1", variant: "outlined", required: true},
+    {xs: 12, md: 12, type: "textField", id: "addrLine2", label: "Address Line 2", autoComplete: "address-line2", variant: "outlined", required: true},
+    {xs: 12, md: 6, type: "textField", id: "area", label: "Area", autoComplete: "address-line2", variant: "outlined", required: true},
+    {xs: 12, md: 6, type: "textField", id: "state", label: "State/Provice/Region", autoComplete: "given-name", variant: "outlined", required: true},
+    {xs: 12, md: 6, type: "textField", id: "postalCode", label: "Postal Code", autoComplete: "postal-code", variant: "outlined", required: true},
+    {xs: 12, md: 6, type: "countrySelect", id: "country", label: "Country", autoComplete: "country", variant: "outlined", required: true},
   ]
 
   return (
@@ -28,7 +28,7 @@ const AddressForm = () => {
           switch (item?.type) {
             case "textField":
               return (
-                <Grid key={index} item xs={item?.xs} sm={item?.sm} className="b-grid">
+                <Grid key={index} item xs={item?.xs} md={item?.md} className="b-grid">
                   <TextField
                     required={item?.required}
                     id={item?.id}
@@ -42,7 +42,7 @@ const AddressForm = () => {
               )
             case "textArea":
               return (
-                <Grid key={index} item xs={item?.xs} sm={item?.sm} className="b-grid">
+                <Grid key={index} item xs={item?.xs} md={item?.md} className="b-grid">
                   <TextArea 
                     label={item?.label}
                     placeholder={item?.placeholder}
@@ -53,7 +53,7 @@ const AddressForm = () => {
               )
             case "countrySelect":
               return (
-                <Grid key={index} item xs={item?.xs} sm={item?.sm} className="b-grid">
+                <Grid key={index} item xs={item?.xs} md={item?.md} className="b-grid">
                   <CountrySelect />
                 </Grid>
               )

@@ -13,11 +13,11 @@ export const LANDING_PAGE = {
 }
 
 export const DRAWER_SUBITEMS = {
-    ESTABLISHMENT: {
-        ADD_ESTABLISHMENT: { NAME: "Add Establishment", COMPONENT: <Establishment />},
-        ADD_SERVICE: { NAME: "Add Service", COMPONENT: <Service />},
-        ADD_OPENING_HOURS: { NAME: "Add Opening Hours", COMPONENT: <BusinessHours />},
-        ADD_EMPLOYEE: { NAME: "Add Employee", COMPONENT: <Employee />},
+    MANAGEMENT: {
+        ESTABLISHMENTS: { NAME: "Establishments", COMPONENT: <Establishment />},
+        SERVICES: { NAME: "Services", COMPONENT: <Service />},
+        OPENING_HOURS: { NAME: "Opening Hours", COMPONENT: <BusinessHours />},
+        EMPLOYEES: { NAME: "Employees", COMPONENT: <Employee />},
     }
 }
 
@@ -25,7 +25,7 @@ export const DASHBOARD = {
     DRAWER_WIDTH: 260,
     DRAWER_ITEMS: [
         {title: "Dashboard"},
-        {title: "Establishments", subTitle: Object.values(DRAWER_SUBITEMS?.ESTABLISHMENT).map(obj => obj['NAME'])},
+        {title: "Management", subTitle: Object.values(DRAWER_SUBITEMS?.MANAGEMENT).map(obj => obj['NAME'])},
         {title: "Bookings"},
         {title: "Users"},
         {title: "Settings"}]

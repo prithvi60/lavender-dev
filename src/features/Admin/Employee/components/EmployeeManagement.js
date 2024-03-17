@@ -91,7 +91,7 @@ const EmployeeManagement = () => {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <MUIDataTable
-          title={"Employee List"}
+          title={"Employees"}
           data={employees}
           columns={columns}
           options={options}
