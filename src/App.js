@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import PageNotFound from './pages/PageNotFound';
 import { routes } from "./routes"; 
-
-import './App.css';
 import Loader from './components/Loader';
+import './styles/global.css';
+import './styles/admin.css';
 
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 const Places = React.lazy(() => import('./pages/Places'));

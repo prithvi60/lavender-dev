@@ -18,10 +18,9 @@ import {
   ExpandMore,
   ExpandLess
 } from '@mui/icons-material';
-import { DASHBOARD } from '../../../constants/constants';
-import './index.css';
-import AdminDrawerSubItem from '../AdminDrawerSubItem';
-import { saveOpenDrawer } from '../../../store/slices/adminPageSlice';
+import { DASHBOARD } from '../../constants/constants'; 
+import AdminDrawerSubItem from './AdminDrawerSubItem';
+import { saveOpenDrawer } from '../../store/slices/adminPageSlice';
 
 
 export const AdminDrawerItem = ({ collapse }) => {
@@ -106,4 +105,3 @@ export const AdminDrawerItem = ({ collapse }) => {
 };
 
 export default AdminDrawerItem;
-

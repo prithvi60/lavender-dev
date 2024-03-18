@@ -8,7 +8,7 @@ import {
     Badge
 } from '@mui/material';
 import { Notifications, Menu } from '@mui/icons-material';
-import { DASHBOARD } from '../../../constants/constants';
+import { DASHBOARD } from '../../constants/constants';
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',

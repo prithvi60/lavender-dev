@@ -5,7 +5,6 @@ import {
   TextField,
 } from '@mui/material';
 
-import '../index.css';
 import { Dropdown } from '../../../../components/Dropdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee, editEmployee, updateEmployee } from '../../../../store/slices/admin/employeeAdminSlice';

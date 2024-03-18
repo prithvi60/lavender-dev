@@ -1,8 +1,6 @@
 import React from 'react';
-import './index.css';
 import { Box, Paper, Typography } from '@mui/material';
 
-import './index.css';
 import { AccessTime, ContentCut, DateRange, LocationOn, Search } from '@mui/icons-material';
 
 const SearchTreatment = ({  }) => {

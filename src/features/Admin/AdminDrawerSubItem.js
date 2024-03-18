@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AddCircle } from "@mui/icons-material";
 import { ListItemIcon, ListItemText, ListItemButton } from "@mui/material";
-import { saveOpenDrawer } from "../../../store/slices/adminPageSlice";
-
-import './index.css';
+import { saveOpenDrawer } from "../../store/slices/adminPageSlice";
 
 const AdminDrawerSubItem = ({ items }) => {
     const dispatch = useDispatch();
@@ -29,10 +27,6 @@ const AdminDrawerSubItem = ({ items }) => {
           }, {});
         setOpen(result);
     }, [items]);
-
-    // useEffect(() => {
-
-    // }, [openDrawer]);
 
     return (
         items?.map((item, ind) => {

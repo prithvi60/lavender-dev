@@ -1,7 +1,6 @@
 import React from 'react';
 import { LANDING_PAGE } from '../../constants/constants';
 
-import './index.css';
 import Navbar from '../../components/NavBar';
 import SearchPanel from '../SearchPanel';
 

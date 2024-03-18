@@ -1,6 +1,4 @@
 import React from 'react';
-
-import './LandingPage.css';
 import HeroSection from '../features/HeroSection';
 
 const LandingPage = () => {

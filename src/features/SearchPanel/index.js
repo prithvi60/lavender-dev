@@ -3,9 +3,6 @@ import { Grid, Box, Divider } from '@mui/material';
 import SearchBox from '../../components/SearchBox';
 import { SEARCH_PANEL_BOXES } from '../../constants/constants';
 
-import './index.css';
-
-
 const SearchPanel = () => {
     const [boxControl, setBoxControl] = useState({
         selectedBox: "",

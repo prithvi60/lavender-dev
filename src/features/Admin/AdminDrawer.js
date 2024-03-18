@@ -6,9 +6,7 @@ import {
     SwipeableDrawer
 } from '@mui/material';
 import { ChevronLeft } from '@mui/icons-material';
-import AdminDrawerItem from '../AdminDrawerItem';
-
-import './index.css'
+import AdminDrawerItem from './AdminDrawerItem';
 
 export const AdminDrawer = ({ open, toggleDrawer }) => {
     return ( 

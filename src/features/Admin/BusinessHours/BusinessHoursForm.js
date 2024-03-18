@@ -6,10 +6,8 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Button } from '../../../../components/Button';
-import { BACKGROUND_COLOR, WEEKDAYS } from '../../../../constants/constants';
-
-import '../index.css';
+import { Button } from "../../../components/Button";
+import { WEEKDAYS } from "../../../constants/constants";
 
 const BusinessHours = () => {
   const [businessHours, setBusinessHours] = useState(

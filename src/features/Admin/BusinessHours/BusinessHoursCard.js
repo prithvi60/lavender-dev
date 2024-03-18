@@ -1,7 +1,6 @@
 import React from 'react';
 import { Typography, Grid } from '@mui/material';
 import BusinessHoursForm from './BusinessHoursForm';
-import '../index.css'
 
 const BusinessHoursCard = () => {
   return (

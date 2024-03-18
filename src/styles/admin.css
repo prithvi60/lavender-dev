@@ -1,0 +1,52 @@
+.b-admin-drawer {
+    width: 260px;
+}
+
+.b-admin-drawer.MuiPaper-root.css-4t3x6l-MuiPaper-root-MuiDrawer-paper{
+    background-color: #5F4F65;
+    color: #FAF4FC;
+    width: 500;
+}
+
+.b-business-hours-div {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-height: 75vh;
+    overflow: hidden
+}
+
+.b-business-hours-card {
+    display: inline-flex;
+
+    .b-business-hours-title {
+        font-weight: bold;
+        font-size: 1.5rem;
+        padding: 0px 0px 10px;
+    }
+    
+    .b-weekday-grid {
+        display: inline-flex;
+        align-items: center;
+        height: 50px;
+        margin: 5px 0px;
+    }
+    
+    .b-weekday-button {
+        text-align: right;
+    }
+    
+    .b-weekday-control-label {
+        width: 150px;
+    }
+    
+    .MuiInputBase-input {
+        padding: 10px;
+    }
+    
+    .MuiCheckbox-root.Mui-checked {
+        color: #5F4F65;
+    }
+}
+

@@ -2,8 +2,6 @@ import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { AccessTime, ContentCut, DateRange, LocationOn, Search } from '@mui/icons-material';
 
-import './index.css';
-
 const SearchBox = ({ name, clickHandler, isClicked }) => {
 
   const getIcons = () => {
