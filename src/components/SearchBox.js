@@ -17,20 +17,20 @@ const SearchBox = ({ name, clickHandler, isClicked }) => {
 
   return (
     <Box 
-      className={`b-search-box ${isClicked ? 'selected' : ''} ${name.toLowerCase() === "time" ? 'b-addtl-button': ''}`}
+      className={`search-box ${isClicked ? 'selected' : ''} ${name.toLowerCase() === "time" ? 'addtl-button': ''}`}
       onClick={() => clickHandler(name)}
     >
-      <div className='b-search-box-title-icon'>
+      <div className='search-box-title-icon'>
         {getIcons()}
-          <div className='b-search-box-title'>
-              <Typography className='b-name-top'>{"Search"}</Typography>
-              <Typography className='b-name-bottom'>{name}</Typography>
+          <div className='search-box-title'>
+              <Typography className='name-top'>{"Search"}</Typography>
+              <Typography className='name-bottom'>{name}</Typography>
           </div>
       </div>
       {
         name.toLowerCase() === "time" && 
-        <div className='b-addtl-search-icon'>
-            <Search className='b-search-button' fontSize='medium'/>
+        <div className='addtl-search-icon'>
+            <Search className='search-button' fontSize='medium'/>
         </div>
       }
         

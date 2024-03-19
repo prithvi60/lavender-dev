@@ -17,7 +17,7 @@ export const AdminDrawer = ({ open, toggleDrawer }) => {
           onOpen={() => console.log("Drawer opened")}
           // disableBackdropTransition={true}
           classes={{
-            paper: 'b-admin-drawer',
+            paper: 'admin-drawer',
           }}
         >
           <Toolbar

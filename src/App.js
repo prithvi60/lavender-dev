@@ -15,7 +15,7 @@ const components = [Dashboard, Places, Bookings];
 const App = () => {
   return (
     <BrowserRouter>
-        <div className="b-app">
+        <div className="app">
           <Routes>
             <Route path="/" exact element={<LandingPage />}/>
             {routes?.map((route, index) => {

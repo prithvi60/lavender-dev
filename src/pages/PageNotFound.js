@@ -13,10 +13,10 @@ const PageNotFound = () => {
 
   return (
     <Fragment>
-      <div className='b-page-not-found'>
-        <div className='b-not-found-content'>
-          <Error className='b-icon-light' fontSize='large'/>
-          <Typography className='b-not-found-title'>404 - Page Not Found</Typography>
+      <div className='page-not-found'>
+        <div className='not-found-content'>
+          <Error className='icon-light' fontSize='large'/>
+          <Typography className='not-found-title'>404 - Page Not Found</Typography>
           <Button onClick={goBackToPreviousPage} name={"Go Back"} />
         </div>
         

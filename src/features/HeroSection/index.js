@@ -6,11 +6,11 @@ import SearchPanel from '../SearchPanel';
 
 const HeroSection = () => {
     return ( 
-        <section className="b-hero-section">
+        <section className="hero-section">
             <section>
                 <Navbar />
             </section>
-            <section className="b-hero-content">
+            <section className="hero-content">
                 <h1>{LANDING_PAGE?.TITLE}</h1>
                 <p>{LANDING_PAGE?.SUBTITLE}</p>
                 <SearchPanel />

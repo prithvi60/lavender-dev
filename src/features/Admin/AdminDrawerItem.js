@@ -78,7 +78,7 @@ export const AdminDrawerItem = ({ collapse }) => {
         item?.subTitle ? 
           <div key={index}>
             <ListItem button onClick={() => handleCollapseClick(item?.title)}>
-              <ListItemIcon className='b-drawer-icon'>
+              <ListItemIcon className='drawer-icon'>
                   {getIcons(item?.title)}
               </ListItemIcon>
               <ListItemText primary={item?.title} />
@@ -92,7 +92,7 @@ export const AdminDrawerItem = ({ collapse }) => {
           </div> :
           <div key={index}>
             <ListItemButton key={index} onClick={() => handleCollapseClick(item?.title)}>
-              <ListItemIcon className='b-drawer-icon'>
+              <ListItemIcon className='drawer-icon'>
                 {getIcons(item?.title)}
               </ListItemIcon>
               <ListItemText primary={item?.title}/>

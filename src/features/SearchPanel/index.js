@@ -23,7 +23,7 @@ const SearchPanel = () => {
 
  
     return (
-        <div className="b-search-panel">
+        <div className="search-panel">
             <Grid container spacing={0}>
                 {SEARCH_PANEL_BOXES?.map((box, index) => {
                     return (

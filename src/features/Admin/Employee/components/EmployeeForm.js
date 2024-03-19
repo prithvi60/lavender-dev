@@ -69,7 +69,7 @@ const EmployeeForm = () => {
                     switch (item?.type) {
                         case "textField":
                             return (
-                                <Grid key={index} item xs={item?.xs} sm={item?.sm} className="b-grid">
+                                <Grid key={index} item xs={item?.xs} sm={item?.sm} className="grid">
                                     <TextField
                                         required={item?.required}
                                         id={item?.id}
@@ -85,7 +85,7 @@ const EmployeeForm = () => {
                             )
                         case "select":
                             return (
-                                <Grid key={index} item xs={item?.xs} sm={item?.sm} className="b-grid">
+                                <Grid key={index} item xs={item?.xs} sm={item?.sm} className="grid">
                                     <Dropdown
                                         value={employee?.[item?.id]}
                                         onChange={(e) => handleOnChange(item?.id, e.target.value)}

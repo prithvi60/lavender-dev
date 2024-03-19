@@ -1,14 +1,36 @@
-.b-admin-drawer {
+
+/* Admin App Bar */
+.admin-appbar {
+    z-index: 1201; 
+    transition: width 0.3s ease, margin 0.3s ease;
+  }
+  
+.admin-appbar.open {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+}
+
+.admin-appbar > .title {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.admin-toolbar {
+    color: white;
+    background-color: #816F7D;
+}
+
+.admin-drawer {
     width: 260px;
 }
 
-.b-admin-drawer.MuiPaper-root.css-4t3x6l-MuiPaper-root-MuiDrawer-paper{
+.admin-drawer.MuiPaper-root.css-4t3x6l-MuiPaper-root-MuiDrawer-paper{
     background-color: #5F4F65;
     color: #FAF4FC;
     width: 500;
 }
 
-.b-business-hours-div {
+.business-hours-div {
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -17,27 +39,27 @@
     overflow: hidden
 }
 
-.b-business-hours-card {
+.business-hours-card {
     display: inline-flex;
 
-    .b-business-hours-title {
+    .business-hours-title {
         font-weight: bold;
         font-size: 1.5rem;
         padding: 0px 0px 10px;
     }
     
-    .b-weekday-grid {
+    .weekday-grid {
         display: inline-flex;
         align-items: center;
         height: 50px;
         margin: 5px 0px;
     }
     
-    .b-weekday-button {
+    .weekday-button {
         text-align: right;
     }
     
-    .b-weekday-control-label {
+    .weekday-control-label {
         width: 150px;
     }
     

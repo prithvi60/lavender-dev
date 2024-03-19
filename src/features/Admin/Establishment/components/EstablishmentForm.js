@@ -76,7 +76,7 @@ const EstablishmentForm = () => {
           switch (item?.type) {
             case "textField":
               return (
-                <Grid key={index} item xs={item?.xs} md={item?.md} className="b-grid">
+                <Grid key={index} item xs={item?.xs} md={item?.md} className="grid">
                   <TextField
                     required={item?.required}
                     id={item?.id}
@@ -92,7 +92,7 @@ const EstablishmentForm = () => {
               )
             case "textArea":
               return (
-                <Grid key={index} item xs={item?.xs} md={item?.md} className="b-grid">
+                <Grid key={index} item xs={item?.xs} md={item?.md} className="grid">
                   <TextArea 
                     label={item?.label}
                     placeholder={item?.placeholder}
@@ -105,7 +105,7 @@ const EstablishmentForm = () => {
               )
             case "countrySelect":
               return (
-                <Grid key={index} item xs={item?.xs} md={item?.md} className="b-grid">
+                <Grid key={index} item xs={item?.xs} md={item?.md} className="grid">
                   <CountrySelect onChange={handleOnChange} value={establishment?.[item?.id]}/>
                 </Grid>
               )

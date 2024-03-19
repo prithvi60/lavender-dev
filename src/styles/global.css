@@ -1,20 +1,20 @@
-.b-app {
-    .b-button {
+.app {
+    .button {
         background-color: #47294c;
         color: #faf4fc;
     }
     
-    .b-button:hover {
+    .button:hover {
         background-color: gray;
         color:  #47294c;
     }
     
-    .b-icon-light {
+    .icon-light {
         color: white;
     }
     
     /* Page Not Found */
-    .b-page-not-found {
+    .page-not-found {
         background-color: #816f7d;
         display: flex;
         justify-content: center;
@@ -22,51 +22,51 @@
         height: 100vh;
     }
     
-    .b-not-found-content {
+    .not-found-content {
         text-align: center;
     }
     
-    .b-not-found-title  {
+    .not-found-title  {
         color: #faf4fc;
         font-weight: bold;
         font-size: 2rem;
         padding: 0px 0px 30px;
     }
 
-    .b-nav-bar-title {
+    .nav-bar-title {
         flex-grow: 1;
         /* color: white; */
         font-weight: bold;
         font-size: 1.2rem;
     }
     
-    .b-hero-section .b-search-box-title-icon {
+    .hero-section .search-box-title-icon {
         display: flex;
         align-items: center;
         padding: 10px 25px;
         cursor: pointer;
     }
     
-    .b-hero-section .b-search-box.selected {
+    .hero-section .search-box.selected {
         background-color: white;
         border-radius: 23px;
         cursor: pointer;
     }
     
-    .b-hero-section .b-search-box.b-addtl-button {
+    .hero-section .search-box.addtl-button {
         display: flex;
         align-items: center;
         justify-content: space-between;
         height: 100%;
     }
     
-    .b-search-box-title {
+    .search-box-title {
         display: grid;
         text-align: left;
         margin-left: 15px;
     }
     
-    .b-addtl-search-icon {
+    .addtl-search-icon {
         width: 25%;
         height: 90%;
         color: white;
@@ -79,19 +79,19 @@
         cursor: pointer;
     }
     
-    .b-search-box-title .b-name-top {
+    .search-box-title .name-top {
         font-size: 0.875rem;
         color: #8c8c8c;
     }
     
-    .b-search-box-title .b-name-bottom {
+    .search-box-title .name-bottom {
         font-size: 1rem;
         color: #333333;
         font-weight: bold;
     }
     
     /* Text Area */
-    .b-text-area {
+    .text-area {
         box-sizing: border-box;
         width: 100%;
         font-size: 0.875rem;
@@ -104,20 +104,21 @@
         border: 1px solid rgba(0, 0, 0, 0.471);
     }
     
-    .b-text-area:focus {
+    .text-area:focus {
         border-color: black;
         outline: none;
     }    
 }
 
-.b-loader-container {
+/* Loader */
+.loader-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
   }
   
-.b-loader {
+.loader {
     border: 6px solid #f3f3f3;
     border-top: 6px solid #47294c;
     border-radius: 50%;
@@ -130,3 +131,56 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+
+/* Image Uploader */
+.image-uploader-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.image-uploader-div > label {
+    cursor: pointer;
+    width: 90px;
+    height: 90px;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    margin: 5px;
+}
+
+.image-uploader-div > label > .MuiTypography-root {
+    text-align: center ;
+    justify-content: center ;
+} 
+
+.image-uploader-div input#image-upload {
+    display: none;
+}
+
+.image-thumbnail {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    margin: 5px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.image-thumbnail > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-thumbnail > button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+}
+

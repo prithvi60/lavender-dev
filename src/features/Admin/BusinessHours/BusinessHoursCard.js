@@ -4,9 +4,9 @@ import BusinessHoursForm from './BusinessHoursForm';
 
 const BusinessHoursCard = () => {
   return (
-    <Grid className='b-business-hours-card'>
+    <Grid className='business-hours-card'>
         <Grid item xs={12} md={6} lg={6}>
-            <Typography className='b-business-hours-title'>{"Opening Hours"}</Typography>
+            <Typography className='business-hours-title'>{"Opening Hours"}</Typography>
             <Typography>{'These are the hours during which your business is open'}</Typography>
         </Grid>
         <Grid item xs={12} md={6} lg={6}>

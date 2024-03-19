@@ -78,7 +78,7 @@ const ServiceForm = () => {
                     switch (item?.type) {
                         case "textField":
                             return (
-                                <Grid key={index} item xs={item?.xs} md={item?.md} className="b-grid">
+                                <Grid key={index} item xs={item?.xs} md={item?.md} className="grid">
                                     <TextField
                                         required={true}
                                         id={item?.id}
@@ -93,7 +93,7 @@ const ServiceForm = () => {
                             )
                         case "select":
                             return (
-                                <Grid key={index} item xs={item?.xs} md={item?.md} className="b-grid">
+                                <Grid key={index} item xs={item?.xs} md={item?.md} className="grid">
                                     <Dropdown
                                         value={service?.[item?.id]}
                                         onChange={(e) => handleOnChange(item?.id, e.target.value)}

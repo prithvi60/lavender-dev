@@ -7,13 +7,13 @@ import Button from '@mui/material/Button';
 
 const Navbar = () => {
   return (
-    <AppBar position="static" className="b-nav-bar">
+    <AppBar position="static" className="nav-bar">
       <Toolbar>
-        <Typography className="b-nav-bar-title" variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography className="nav-bar-title" variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Lavender
         </Typography>
         <Typography>Business</Typography>
-        <Button className="b-button">Login</Button>
+        <Button className="button">Login</Button>
       </Toolbar>
     </AppBar>
   );

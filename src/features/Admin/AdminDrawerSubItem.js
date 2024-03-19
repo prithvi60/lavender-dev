@@ -32,7 +32,7 @@ const AdminDrawerSubItem = ({ items }) => {
         items?.map((item, ind) => {
             return (
                 <ListItemButton key={ind} sx={{ pl: 5 }} onClick={() => handleClick(item)}>
-                    <ListItemIcon className='b-drawer-icon'>
+                    <ListItemIcon className='drawer-icon'>
                         <AddCircle fontSize="small"/>
                     </ListItemIcon>
                     <ListItemText primary={item}/>

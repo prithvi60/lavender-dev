@@ -3,7 +3,7 @@ import HeroSection from '../features/HeroSection';
 
 const LandingPage = () => {
     return (
-        <div className='b-landing-page-div'>
+        <div className='landing-page-div'>
             <HeroSection />
         </div>
         

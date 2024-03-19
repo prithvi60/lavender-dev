@@ -12,7 +12,7 @@ const BusinessHours = () => {
     <Grid container spacing={3}>
         <Grid item xs={12} md={12} lg={12}>
           <Paper
-            className={"b-business-hours-div"}
+            className={"business-hours-div"}
             elevation={0}
           >
             <BusinessHoursCard />

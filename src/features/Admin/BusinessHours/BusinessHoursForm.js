@@ -48,9 +48,9 @@ const BusinessHours = () => {
   return (
     <Grid container spacing={2}>
       {WEEKDAYS.map((day) => (
-        <Grid key={day} item xs={12} className='b-weekday-grid'>
+        <Grid key={day} item xs={12} className='weekday-grid'>
           <FormControlLabel
-            className='b-weekday-control-label'
+            className='weekday-control-label'
             control={
               <Checkbox
                 checked={businessHours[day].isOpen}
@@ -93,7 +93,7 @@ const BusinessHours = () => {
           </div>
         </Grid>
       ))}
-      <Grid item xs={12} className='b-weekday-button'>
+      <Grid item xs={12} className='weekday-button'>
         <Button
             onClick={handleSubmit}
             name={"Submit"}

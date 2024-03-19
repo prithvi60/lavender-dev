@@ -10,7 +10,7 @@ const TextArea = props => {
                 {label}
             </Typography>
             <TextareaAutosize
-                className="b-text-area"
+                className="text-area"
                 aria-label="empty textarea"
                 placeholder={placeholder}
                 {...rest}

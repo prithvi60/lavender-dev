@@ -31,21 +31,21 @@ const ImageUploader = () => {
     };
   
     return (
-      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap' }}>
+      <div className='image-uploader-div'>
         {images.map((image, index) => (
-          <div key={index} style={{ position: 'relative', width: '90px', height: '90px', margin: '5px', borderRadius: '5px', overflow: 'hidden' }}>
-            <img src={image} alt={`Image ${index + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            <button onClick={() => removeImage(index)} style={{ position: 'absolute', top: '5px', right: '5px', background: 'none', border: 'none', cursor: 'pointer', color: '#fff' }}>
+          <div className='image-thumbnail' key={index}>
+            <img src={image} alt={`Image ${index + 1}`}/>
+            <button onClick={() => removeImage(index)}>
               <ClearIcon />
             </button>
           </div>
         ))}
-        <label htmlFor="image-upload" style={{ cursor: 'pointer', width: '90px', height: '90px', border: '2px dashed #ccc', padding: '10px', margin: '5px' }}>
-            <Typography style={{ textAlign:"center", justifyContent:"center" }}>
+        <label htmlFor="image-upload">
+            <Typography>
                 {"Add Image"}
             </Typography>
         </label>
-        <input type="file" accept="image/*" multiple onChange={handleImageChange} style={{ display: 'none' }} id="image-upload" />
+        <input type="file" accept="image/*" multiple onChange={handleImageChange} id="image-upload" />
       </div>
     );
 }
