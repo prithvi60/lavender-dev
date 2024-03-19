@@ -12,6 +12,7 @@ export const LANDING_PAGE = {
     SUBTITLE: "Lorem ipsum dolor sit amet"
 }
 
+/** Obsolete for deprecation */
 export const DRAWER_SUBITEMS = {
     MANAGEMENT: {
         ESTABLISHMENTS: { NAME: "Establishments", COMPONENT: <Establishment />},
@@ -21,14 +22,19 @@ export const DRAWER_SUBITEMS = {
     }
 }
 
+
+
 export const DASHBOARD = {
     DRAWER_WIDTH: 260,
     DRAWER_ITEMS: [
         {title: "Dashboard"},
-        {title: "Management", subTitle: Object.values(DRAWER_SUBITEMS?.MANAGEMENT).map(obj => obj['NAME'])},
+        {title: "Management"},
         {title: "Bookings"},
         {title: "Users"},
-        {title: "Settings"}]
+        {title: "Settings"}],
+    DRAWER_COMPONENTS: {
+        MANAGEMENT: {COMPONENT:  <Establishment />}
+    }
 }
 
 export const SEARCH_PANEL_BOXES = ["Treatment", "Location", "Date", "Time"];

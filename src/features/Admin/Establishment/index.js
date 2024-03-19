@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';import {
+import React, { Fragment, useState } from 'react';import {
   Paper,
   Grid
 } from '@mui/material';
@@ -6,6 +6,11 @@ import EstablishmentForm from './components/EstablishmentForm';
 import EstablishmentManagement from './components/EstablishmentManagement';
 
 const Establishment = () => {
+  const [data, setData] = useState({
+    addEst: false,
+    editEst: false
+  });
+
   return (
     <Fragment>
       
@@ -13,20 +18,23 @@ const Establishment = () => {
         <Grid item xs={12}>
           <EstablishmentManagement />
         </Grid>
-        <Grid item xs={12}>
-          <Paper
-            sx={{
-              p: 2,
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              // maxHeight: '75vh',
-              overflow: 'hidden'
-            }}
-          >
-            <EstablishmentForm />
+        {
+          data?.addEst &&
+          <Grid item xs={12}>
+            <Paper
+              sx={{
+                p: 2,
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                // maxHeight: '75vh',
+                overflow: 'hidden'
+              }}
+            >
+              <EstablishmentForm />
           </Paper>
         </Grid>
+        }
       </Grid>
     </Fragment>
   );

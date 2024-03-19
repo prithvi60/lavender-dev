@@ -4,12 +4,13 @@ import MUIDataTable from "mui-datatables";
 import { Delete, Edit } from '@mui/icons-material';
 import { editEstablishment, removeEstablishment } from '../../../../store/slices/admin/establishmentAdminSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { sampleEstablishments } from '../../../../data/data';
 
 const EstablishmentManagement = () => {
   const dispatch = useDispatch();
   const { establishments: establishmentsTemp } = useSelector((state) => state.establishmentAdmin);
 
-  const [establishments, setEstablishments] = useState([...establishmentsTemp]);
+  const [establishments, setEstablishments] = useState([...establishmentsTemp, ...sampleEstablishments]);
 
   const columns = [
     {
@@ -57,7 +58,7 @@ const EstablishmentManagement = () => {
     },
     {
         name: "state",
-        label: "State/Province/Region",
+        label: "State/ Province/ Region",
     },
     {
         name: "postalCode",
@@ -88,7 +89,7 @@ const EstablishmentManagement = () => {
   };
 
   useEffect(() => {
-    setEstablishments(establishmentsTemp);
+    setEstablishments([...establishmentsTemp, ...sampleEstablishments]);
   }, [establishmentsTemp]);
 
   return (

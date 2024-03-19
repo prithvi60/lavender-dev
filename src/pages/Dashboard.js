@@ -10,7 +10,7 @@ import {
 import Copyright from '../components/Copyright';
 import AdminAppBar from '../features/Admin/AdminAppBar';
 import AdminDrawer from '../features/Admin/AdminDrawer';
-import { DRAWER_SUBITEMS } from '../constants/constants';
+import { DASHBOARD } from '../constants/constants';
 
 const Dashboard = () => {
   const { openDrawer } = useSelector((state) => state.adminPage);
@@ -21,7 +21,7 @@ const Dashboard = () => {
   };
 
   const getViews = (name) => {
-    const views = DRAWER_SUBITEMS?.MANAGEMENT;
+    const views = DASHBOARD?.DRAWER_COMPONENTS;
     const title = name?.toUpperCase()?.replace(/ /g, '_');
 
     return (title in views) ? views[title]?.COMPONENT : null;
