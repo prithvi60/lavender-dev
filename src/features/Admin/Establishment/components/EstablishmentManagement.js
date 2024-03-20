@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Chip, Grid, IconButton } from '@mui/material';
+import { Button, Chip, Grid, IconButton } from '@mui/material';
 import MUIDataTable from "mui-datatables";
-import { Delete, Edit } from '@mui/icons-material';
-import { editEstablishment, removeEstablishment } from '../../../../store/slices/admin/establishmentAdminSlice';
+import { Add, AddCircle, Delete, Edit } from '@mui/icons-material';
+import { editEstablishment, removeEstablishment, setAddEstablishment } from '../../../../store/slices/admin/establishmentAdminSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { sampleEstablishments } from '../../../../data/data';
 
@@ -58,7 +58,7 @@ const EstablishmentManagement = () => {
     },
     {
         name: "state",
-        label: "State/ Province/ Region",
+        label: "State",
     },
     {
         name: "postalCode",
@@ -73,8 +73,25 @@ const EstablishmentManagement = () => {
   const options = {
     selectableRows: "none",
     responsive: "standard",
+    rowsPerPageOptions: [5, 10, 15],
+    toolbar: true,
+    customToolbar: () => {
+      return (
+        <IconButton onClick={handleAddButtonClick}>
+          <AddCircle />
+        </IconButton>
+      );
+    },
+    headCells: {
+      style: {
+          textAlign: 'left',
+      },
+    },
   };
 
+  const handleAddButtonClick = () => {
+    dispatch(setAddEstablishment({addEst: true}))
+  };
 
   const handleUpdateEstablishment = (establishmentId) => {
     // Update Establishment logic
@@ -83,7 +100,6 @@ const EstablishmentManagement = () => {
 
   const handleDeleteEstablishment = (establishmentId) => {
     // Delete Establishment logic
-    console.log('handleDeleteEstablishment: ', establishmentId, establishments);
     dispatch(removeEstablishment({id: establishmentId}));
     
   };

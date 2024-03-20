@@ -22,8 +22,6 @@ export const DRAWER_SUBITEMS = {
     }
 }
 
-
-
 export const DASHBOARD = {
     DRAWER_WIDTH: 260,
     DRAWER_ITEMS: [

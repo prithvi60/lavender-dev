@@ -3,12 +3,16 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   establishments: [],
   editEstablishmentId: null,
+  addEst: false
 };
 
 export const establishmentAdminSlice = createSlice({
   name: 'establishmentAdmin',
   initialState,
   reducers: {
+    setAddEstablishment: (state, action) => {
+      state.addEst = action.payload.addEst
+    },
     addEstablishment: (state, action) => {
       state.establishments.push(action.payload.establishment)
     },
@@ -31,6 +35,7 @@ export const establishmentAdminSlice = createSlice({
 
 export const {
   reset,
+  setAddEstablishment,
   addEstablishment,
   updateEstablishment,
   editEstablishment,

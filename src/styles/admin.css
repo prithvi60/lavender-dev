@@ -20,6 +20,15 @@
     background-color: #816F7D;
 }
 
+/* Establishment Management */
+.est-paper {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
 .admin-drawer {
     width: 260px;
 }
