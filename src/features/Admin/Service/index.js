@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, Paper } from '@mui/material';
-import ServiceManagement from './components/ServiceManagement';
-import ServiceForm from './components/ServiceForm';
+import ServiceManagement from './ServiceManagement';
+import ServiceForm from './ServiceForm';
 
 const Service = () => {
   return (

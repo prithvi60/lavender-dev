@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Grid, IconButton } from '@mui/material';
 import MUIDataTable from "mui-datatables";
 import { Delete, Edit } from '@mui/icons-material';
-import { editService, removeService } from '../../../../store/slices/admin/serviceAdminSlice';
+import { editService, removeService } from '../../../store/slices/admin/serviceAdminSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ServiceManagement = () => {
@@ -91,10 +91,11 @@ const ServiceManagement = () => {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <MUIDataTable
-          title={"Services"}
+          title={""}
           data={services}
           columns={columns}
           options={options}
+          className="admin-table"
         />
       </Grid>
     </Grid>

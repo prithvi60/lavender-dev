@@ -110,13 +110,22 @@
     }    
 }
 
+/* Text Field */
+.textfield:hover .MuiOutlinedInput-notchedOutline {
+    border-color: red; /* Change color on hover */
+}
+
+.textfield .Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: blue; /* Change color when active */
+}
+
 /* Loader */
 .loader-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-  }
+}
   
 .loader {
     border: 6px solid #f3f3f3;

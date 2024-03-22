@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import MUIDataTable from 'mui-datatables';
 import { AppBar, Toolbar, Typography, Tab, Tabs, Box, Grid, MenuItem } from '@mui/material';
 import Service from '../Service'; 
-import BusinessHours from '../BusinessHours';
 import Employee from '../Employee';
 
 const EstablishmentMenu = () => {
@@ -10,7 +8,6 @@ const EstablishmentMenu = () => {
 
     const sections = [
         { title: 'Services', url: '#' },
-        { title: 'Opening Hours', url: '#' },
         { title: 'Employees', url: '#' },
     ];
 
@@ -25,8 +22,6 @@ const EstablishmentMenu = () => {
             case 0:
                 return <Service />;
             case 1:
-                return <BusinessHours />;
-            case 2:
                 return <Employee />;
             default:
                 return null;

@@ -3,26 +3,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Typography,
   Grid,
-  TextField,
 } from '@mui/material';
-import { Button } from '../../../../components/Button';
-import ImageUploader from '../../../../components/ImageUploader';
-import CountrySelect from '../../../../components/CountrySelect';
-import TextArea from '../../../../components/TextArea';
-import { addEstablishment, editEstablishment, updateEstablishment } from '../../../../store/slices/admin/establishmentAdminSlice';
+import ImageUploader from '../../../components/ImageUploader';
+import CountrySelect from '../../../components/CountrySelect';
+import TextArea from '../../../components/TextArea';
+import { TextField } from '../../../components/TextField';
+import { addEstablishment, editEstablishment, updateEstablishment } from '../../../store/slices/admin/establishmentAdminSlice';
 
 const FORM_VALUES = [
-  {xs: 12, md: 12, type: "textField", id: "name", label: "Name", autoComplete: "name", variant: "outlined", required: true},
-  {xs: 12, md: 12, type: "textArea", id: "about", label: "About", autoComplete: "about", variant: "outlined", required: false, placeholder: "Input establishment description..."},
-  {xs: 12, md: 12, type: "textField", id: "addressLine1", label: "Address Line 1", autoComplete: "address-line1", variant: "outlined", required: true},
-  {xs: 12, md: 12, type: "textField", id: "addressLine2", label: "Address Line 2", autoComplete: "address-line2", variant: "outlined", required: true},
-  {xs: 12, md: 6, type: "textField", id: "area", label: "Area", autoComplete: "area", variant: "outlined", required: true},
-  {xs: 12, md: 6, type: "textField", id: "state", label: "State/Provice/Region", autoComplete: "state", variant: "outlined", required: true},
-  {xs: 12, md: 6, type: "textField", id: "postalCode", label: "Postal Code", autoComplete: "postal-code", variant: "outlined", required: true},
-  {xs: 12, md: 6, type: "countrySelect", id: "country", label: "Country", autoComplete: "country", variant: "outlined", required: true},
+  {xs: 12, md: 12, type: "textField", id: "name", label: "Name", autoComplete: "name", required: true},
+  {xs: 12, md: 12, type: "textArea", id: "about", label: "About", autoComplete: "about", required: false, placeholder: "Input establishment description..."},
+  {xs: 12, md: 12, type: "textField", id: "addressLine1", label: "Address Line 1", autoComplete: "address-line1", required: true},
+  {xs: 12, md: 12, type: "textField", id: "addressLine2", label: "Address Line 2", autoComplete: "address-line2", required: true},
+  {xs: 12, md: 6, type: "textField", id: "area", label: "Area", autoComplete: "area", required: true},
+  {xs: 12, md: 6, type: "textField", id: "state", label: "State/Provice/Region", autoComplete: "state", required: true},
+  {xs: 12, md: 6, type: "textField", id: "postalCode", label: "Postal Code", autoComplete: "postal-code", required: true},
+  {xs: 12, md: 6, type: "countrySelect", id: "country", label: "Country", autoComplete: "country", required: true},
 ]
 
-const EstablishmentForm = () => {
+const EstablishmentForm = ({ onSubmit }) => {
   const { establishments, editEstablishmentId } = useSelector((state) => state.establishmentAdmin);
   const dispatch = useDispatch();
   const initialState = {
@@ -64,38 +63,28 @@ const EstablishmentForm = () => {
           }
           
       }
-  }, [editEstablishmentId, establishments])
+  }, [editEstablishmentId, establishments]);
+
+  useEffect(() => {
+    handleAddEstablishment();
+  }, [onSubmit]);
 
   return ( <>
     <Fragment>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-            <Typography>{`${editEstablishmentId ? "Edit" : "Add"} New Establishment`}</Typography>
-        </Grid>
+      <Grid container spacing={2}>
         {FORM_VALUES?.map((item, index) => {
           switch (item?.type) {
             case "textField":
               return (
                 <Grid key={index} item xs={item?.xs} md={item?.md} className="grid">
-                  <TextField
-                    required={item?.required}
-                    id={item?.id}
-                    name={item?.id}
-                    label={item?.label}
-                    fullWidth
-                    autoComplete={item?.autoComplete}
-                    variant={item?.variant}
-                    onChange={(e) => handleOnChange(item?.id, e.target.value)}
-                    value={establishment?.[item?.id]}
-                  />
+                  <TextField {...item} value={establishment?.[item?.id]} handleOnChange={handleOnChange} />
                 </Grid>
               )
             case "textArea":
               return (
                 <Grid key={index} item xs={item?.xs} md={item?.md} className="grid">
-                  <TextArea 
-                    label={item?.label}
-                    placeholder={item?.placeholder}
+                  <TextArea
+                    {...item}
                     minRows={3}
                     maxRows={3}
                     onChange={(e) => handleOnChange(item?.id, e.target.value)}
@@ -117,13 +106,6 @@ const EstablishmentForm = () => {
         })}
         <Grid item xs={12}>
           <ImageUploader />
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-              onClick={handleAddEstablishment}
-              name={"Submit"}
-              sx={{ mt: 3, ml: 1 }}
-          />
         </Grid>
       </Grid>
     </Fragment>

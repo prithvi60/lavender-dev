@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { 
   Box,
   Toolbar,
@@ -28,35 +26,24 @@ const Dashboard = () => {
   }
 
   return (
-    <ThemeProvider theme={createTheme()}>
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
-        <AdminAppBar open={open} toggleDrawer={toggleDrawer}/>
-        <AdminDrawer open={open} toggleDrawer={toggleDrawer}/>
-        <Box
-          component="main"
-          sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-            flexGrow: 1,
-            height: '100vh',
-            overflow: 'auto',
-          }}
-        >
-          <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+    <Box className="dashboard">
+      <AdminAppBar open={open} toggleDrawer={toggleDrawer}/>
+      <AdminDrawer open={open} toggleDrawer={toggleDrawer}/>
+      <Box
+        component="main"
+        className="dashboard-box"
+      >
+        <Toolbar />
+        <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+          <div>
             {getViews(openDrawer)}
-            <div className='footer'>
-              <Copyright sx={{ pt: 4 }} />
-            </div>
-            
-          </Container>
-          
-        </Box>
+          </div>
+          <div className='footer'>
+            <Copyright sx={{ pt: 4 }} />
+          </div>
+        </Container>
       </Box>
-    </ThemeProvider>
+    </Box>
   );
 }
 

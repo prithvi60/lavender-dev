@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Chip, Grid, IconButton } from '@mui/material';
 import MUIDataTable from "mui-datatables";
 import { Delete, Edit } from '@mui/icons-material';
-import { editEmployee, removeEmployee } from '../../../../store/slices/admin/employeeAdminSlice';
+import { editEmployee, removeEmployee } from '../../../store/slices/admin/employeeAdminSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const EmployeeManagement = () => {
@@ -91,10 +91,11 @@ const EmployeeManagement = () => {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <MUIDataTable
-          title={"Employees"}
+          title={""}
           data={employees}
           columns={columns}
           options={options}
+          className="admin-table"
         />
       </Grid>
     </Grid>

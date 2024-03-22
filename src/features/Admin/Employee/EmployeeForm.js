@@ -5,11 +5,11 @@ import {
   TextField,
 } from '@mui/material';
 
-import { Dropdown } from '../../../../components/Dropdown';
+import { Dropdown } from '../../../components/Dropdown';
 import { useDispatch, useSelector } from 'react-redux';
-import { addEmployee, editEmployee, updateEmployee } from '../../../../store/slices/admin/employeeAdminSlice';
-import { Button } from '../../../../components/Button';
-import ImageUploader from '../../../../components/ImageUploader';
+import { addEmployee, editEmployee, updateEmployee } from '../../../store/slices/admin/employeeAdminSlice';
+import { Button } from '../../../components/Button';
+import ImageUploader from '../../../components/ImageUploader';
 
 const FORM_VALUES = [
     {xs: 12, sm: 12, type: "textField", id: "name", label: "Name", autoComplete: "name", variant: "outlined", required: true},
@@ -61,7 +61,7 @@ const EmployeeForm = () => {
 
     return (
         <Fragment>
-            <Grid container spacing={3}>
+            <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <Typography>{`${editEmployeeId ? "Edit" : "Add"} New Employee`}</Typography>
                 </Grid>
@@ -103,11 +103,6 @@ const EmployeeForm = () => {
                 })}
                 <Grid item xs={12}>
                     <ImageUploader />
-                    <Button
-                        onClick={handleAddEmployee}
-                        name={"Submit"}
-                        sx={{ mt: 3, ml: 1 }}
-                    />
                 </Grid>
             </Grid>
         

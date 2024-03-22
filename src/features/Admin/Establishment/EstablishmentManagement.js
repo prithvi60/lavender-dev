@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Button, Chip, Grid, IconButton } from '@mui/material';
 import MUIDataTable from "mui-datatables";
 import { Add, AddCircle, Delete, Edit } from '@mui/icons-material';
-import { editEstablishment, removeEstablishment, setAddEstablishment } from '../../../../store/slices/admin/establishmentAdminSlice';
+import { editEstablishment, removeEstablishment, setAddEstablishment } from '../../../store/slices/admin/establishmentAdminSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { sampleEstablishments } from '../../../../data/data';
+import { sampleEstablishments } from '../../../data/data';
 
 const EstablishmentManagement = () => {
   const dispatch = useDispatch();
@@ -112,10 +112,11 @@ const EstablishmentManagement = () => {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <MUIDataTable
-          title={"Establishments"}
+          title={""}
           data={establishments}
           columns={columns}
           options={options}
+          className={"admin-table"}
         />
       </Grid>
     </Grid>

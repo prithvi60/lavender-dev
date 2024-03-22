@@ -5,11 +5,11 @@ import {
   TextField,
 } from '@mui/material';
 
-import { Dropdown } from '../../../../components/Dropdown';
+import { Dropdown } from '../../../components/Dropdown';
 import { useDispatch, useSelector } from 'react-redux';
-import { addService, editService, updateService } from '../../../../store/slices/admin/serviceAdminSlice';
-import { Button } from '../../../../components/Button';
-import { SERVICE_CATEGORIES } from '../../../../constants/constants';
+import { addService, editService, updateService } from '../../../store/slices/admin/serviceAdminSlice';
+import { Button } from '../../../components/Button';
+import { SERVICE_CATEGORIES } from '../../../constants/constants';
 
 const ServiceForm = () => {
     const { services, editServiceId } = useSelector((state) => state.serviceAdmin);
@@ -108,13 +108,6 @@ const ServiceForm = () => {
                     }
 
                 })}
-            </Grid>
-            <Grid item xs={12}>
-                <Button
-                    onClick={handleAddService}
-                    name={"Submit"}
-                    sx={{ mt: 3, ml: 1 }}
-                />
             </Grid>
         </Grid>
         

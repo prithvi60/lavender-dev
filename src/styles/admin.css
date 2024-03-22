@@ -1,9 +1,21 @@
 
+/* Dashboard */
+.dashboard {
+    display: 'flex'
+}
+
+.dashboard-box {
+    background-color: #f5f5f5;
+    flex-grow: 1;
+    height: 100vh;
+    overflow: auto;
+}
+
 /* Admin App Bar */
 .admin-appbar {
     z-index: 1201; 
     transition: width 0.3s ease, margin 0.3s ease;
-  }
+}
   
 .admin-appbar.open {
     margin-left: 260px;
@@ -25,8 +37,14 @@
     padding: 20px;
     display: flex;
     flex-direction: column;
-    height: 100%;
     overflow: hidden;
+}
+
+.est-paper .title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: #5F4F65;
 }
 
 .admin-drawer {
@@ -39,45 +57,34 @@
     width: 500;
 }
 
-.business-hours-div {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    max-height: 75vh;
-    overflow: hidden
+/* Business Hours */
+.business-hours-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 0px 0px 10px;
 }
 
-.business-hours-card {
+.weekday-grid {
     display: inline-flex;
-
-    .business-hours-title {
-        font-weight: bold;
-        font-size: 1.5rem;
-        padding: 0px 0px 10px;
-    }
-    
-    .weekday-grid {
-        display: inline-flex;
-        align-items: center;
-        height: 50px;
-        margin: 5px 0px;
-    }
-    
-    .weekday-button {
-        text-align: right;
-    }
-    
-    .weekday-control-label {
-        width: 150px;
-    }
-    
-    .MuiInputBase-input {
-        padding: 10px;
-    }
-    
-    .MuiCheckbox-root.Mui-checked {
-        color: #5F4F65;
-    }
+    align-items: center;
 }
 
+.weekday-button {
+    text-align: right;
+}
+
+.MuiInputBase-input {
+    padding: 10px;
+}
+
+.weekday-grid .MuiCheckbox-root.Mui-checked {
+    color: #5F4F65;
+}
+
+/* Admin Tables */
+.admin-table.MuiPaper-root {
+    /* border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);  */
+    border: none;
+    box-shadow: none;
+}
