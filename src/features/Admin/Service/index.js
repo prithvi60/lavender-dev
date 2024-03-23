@@ -7,17 +7,24 @@ const Service = () => {
   return (
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <ServiceManagement />
-      </Grid>
-      <Grid item xs={12}>
         <Paper
+          elevation={1}
           sx={{
             p: 2,
             display: 'flex',
             flexDirection: 'column',
-            height: '100%',
-            maxHeight: '75vh',
-            overflow: 'hidden'
+          }}
+        >
+          <ServiceManagement />
+        </Paper>
+      </Grid>
+      <Grid item xs={12}>
+        <Paper
+          elevation={1}
+          sx={{
+            p: 2,
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <ServiceForm />

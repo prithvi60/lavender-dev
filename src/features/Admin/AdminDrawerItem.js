@@ -71,6 +71,10 @@ export const AdminDrawerItem = ({ collapse }) => {
     }
   }, [collapse])
 
+  useEffect(() => {
+    dispatch(saveOpenDrawer({openDrawer: 'Management'}));
+  }, [dispatch])
+
   return (
     <Fragment>
     {DASHBOARD?.DRAWER_ITEMS?.map((item, index) => {

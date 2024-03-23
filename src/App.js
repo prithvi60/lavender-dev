@@ -8,11 +8,11 @@ import './styles/global.css';
 import './styles/admin.css';
 import './styles/login.css';
 
-const Dashboard = React.lazy(() => import('./pages/Dashboard'));
+const Admin = React.lazy(() => import('./pages/AdminPage'));
 const Places = React.lazy(() => import('./pages/Places'));
 const Bookings = React.lazy(() => import('./pages/Bookings'));
 const Login = React.lazy(() => import('./pages/LoginPage'));
-const components = [Dashboard, Places, Bookings, Login];
+const components = [Admin, Places, Bookings, Login];
 
 const App = () => {
   return (

@@ -10,7 +10,7 @@ import AdminAppBar from '../features/Admin/AdminAppBar';
 import AdminDrawer from '../features/Admin/AdminDrawer';
 import { DASHBOARD } from '../constants/constants';
 
-const Dashboard = () => {
+const AdminPage = () => {
   const { openDrawer } = useSelector((state) => state.adminPage);
 
   const [open, setOpen] = useState(true);
@@ -47,4 +47,4 @@ const Dashboard = () => {
   );
 }
 
-export default Dashboard;
+export default AdminPage;
