@@ -28,7 +28,29 @@ export const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
 
 export const SERVICE_CATEGORIES = {
     OPTIONS: [
-        'Haircut', 'Manicure', 'Pedicure', 'Massage', 'Facial'
+        {label: 'Haircut', value: 'haircut'},
+        {label: 'Manicure', value: 'manicure'},
+        {label: 'Pedicure', value: 'pedicure'},
+        {label: 'Massage', value: 'massage'},
+        {label: 'Facial', value: 'facial'},
     ],
     PLACEHOLDER: "Select category"
 };
+
+export const DESIGNATION = {
+    OPTIONS: [
+        {label: 'Manager', value: 'manager'},
+        {label: 'Supervisor', value: 'supervisor'},
+        {label: 'Assistant', value: 'assistant'},
+        {label: 'Hairstylist', value: 'hairstylist'},
+    ],
+    PLACEHOLDER: "Select designation"
+}
+
+export const STATUS = {
+    OPTIONS: [
+        {label: 'Active', value: 'active'},
+        {label: 'InActive', value: 'inActive'},
+    ],
+    PLACEHOLDER: "Select status"
+}

@@ -2,14 +2,14 @@ import React, {Fragment, useEffect, useState} from 'react';
 import {
   Grid,
   Typography,
-  TextField,
 } from '@mui/material';
 
-import { Dropdown } from '../../../components/Dropdown';
+import Dropdown from '../../../components/Dropdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { addService, editService, updateService } from '../../../store/slices/admin/serviceAdminSlice';
 import { Button } from '../../../components/Button';
 import { SERVICE_CATEGORIES } from '../../../constants/constants';
+import TextField from '../../../components/TextField';
 
 const ServiceForm = () => {
     const { services, editServiceId } = useSelector((state) => state.serviceAdmin);
@@ -80,14 +80,12 @@ const ServiceForm = () => {
                             return (
                                 <Grid key={index} item xs={item?.xs} md={item?.md} className="grid">
                                     <TextField
-                                        required={true}
                                         id={item?.id}
                                         name={item?.id}
                                         label={item?.label}
-                                        fullWidth
-                                        variant='outlined'
                                         onChange={(e) => handleOnChange(item?.id, e.target.value)}
                                         value={service?.[item?.id]}
+                                        fullWidth
                                     />
                                 </Grid>
                             )
@@ -98,7 +96,7 @@ const ServiceForm = () => {
                                         value={service?.[item?.id]}
                                         onChange={(e) => handleOnChange(item?.id, e.target.value)}
                                         options={item?.options}
-                                        placeholder={item?.placeholder}
+                                        label={item?.placeholder}
                                     />
                                 </Grid>
                             )

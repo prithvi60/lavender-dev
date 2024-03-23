@@ -1,26 +1,27 @@
-import { Select, MenuItem } from "@mui/material";
+import { Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 
-export const Dropdown = props => {
-    const { onChange, value, placeholder, options, ...rest} = props;
+const Dropdown = props => {
+    const { label, variant, required, value, onChange, options, ...rest} = props;
+
+    const getOptions = () => {
+        return options?.map((option, index) => {
+            return <MenuItem value={option?.value}>{option?.label}</MenuItem>
+        })
+    }
 
     return (
-        <Select
-            name="designation"
-            value={value}
-            onChange={onChange}
-            fullWidth
-            variant="outlined"
-            displayEmpty
-            margin="dense"
-            placeholder={placeholder}
-            {...rest}
-        >
-            <MenuItem value="">{placeholder}</MenuItem>
-            {options?.map(item => {
-                return (
-                    <MenuItem key={item} value={item}>{item}</MenuItem>
-                )
-            })}
-        </Select>
+        <FormControl variant={variant ?? "standard"} fullWidth required={required ?? true}>
+            <InputLabel>{label}</InputLabel>
+            <Select
+                value={value}
+                onChange={onChange}
+                label={label}
+                {...rest}
+            >
+                {getOptions()}
+            </Select>
+        </FormControl>
     )
 }
+
+export default Dropdown;

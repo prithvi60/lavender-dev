@@ -12,6 +12,7 @@ import TextField from '../../components/TextField';
 import CheckBox from '../../components/Checkbox';
 
 import profile from '../../assets/profile.png';
+import Password from './Password';
 
 const SingInSide = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -36,25 +37,7 @@ const SingInSide = () => {
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
-                        <FormControl variant="standard" fullWidth required>
-                            <InputLabel>Password</InputLabel>
-                            <Input
-                                type={showPassword ? 'text' : 'password'}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                        >
-                                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                label="Password"
-                            />
-                        </FormControl>
+                        <Password />
                     </Grid>
                     <Grid item xs={12} align="left">
                         <Link href="#" variant="body2">

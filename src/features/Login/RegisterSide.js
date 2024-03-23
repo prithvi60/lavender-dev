@@ -11,19 +11,17 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Button from '../../components/Button';
 import TextField from '../../components/TextField';
 import CheckBox from '../../components/Checkbox';
+import Dropdown from '../../components/Dropdown';
 import { accountCreated, isNewAccount } from '../../store/slices/login/loginPageSlice';
+import Password from './Password';
 
 const RegisterSide = () => {
     // TO DO: Birthdate, month and year dropdown, state management, api integration
-    const [showPassword, setShowPassword] = useState(false);
     const [gender, setGender] = useState('');
     const [areaCode, setAreaCode] = useState('');
     const [data, setData] = useState({});
 
     const dispatch = useDispatch();
-
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
     const handleGenderChange = (event) => {
         setGender(event.target.value);
@@ -57,18 +55,15 @@ const RegisterSide = () => {
                         />
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <FormControl variant="standard" fullWidth>
-                            <InputLabel>Gender</InputLabel>
-                            <Select
-                                value={gender}
-                                onChange={handleGenderChange}
-                                label="Gender"
-                            >
-                                <MenuItem value="male">Male</MenuItem>
-                                <MenuItem value="female">Female</MenuItem>
-                                <MenuItem value="other">Other</MenuItem>
-                            </Select>
-                        </FormControl>
+                        <Dropdown
+                            value={gender}
+                            onChange={handleGenderChange}
+                            options={[{value: 'male', label: 'Male'},
+                                {value: 'female', label: 'Female'},
+                                {value: 'other', label: 'Other'},
+                            ]}
+                            label={"Gender"}
+                        />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
@@ -83,45 +78,23 @@ const RegisterSide = () => {
                     <Grid item xs={12}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={3}>
-                            <FormControl variant="standard" fullWidth required>
-                                <InputLabel>Area Code</InputLabel>
-                                <Select
-                                    value={areaCode}
-                                    onChange={handleAreaCodeChange}
-                                    label="Area Code"
-                                >
-                                    <MenuItem value="1">+1</MenuItem>
-                                    <MenuItem value="44">+44</MenuItem>
-                                    <MenuItem value="61">+61</MenuItem>
-                                    {/* Add more area codes as needed */}
-                                </Select>
-                            </FormControl>
+                            <Dropdown
+                                value={areaCode}
+                                onChange={handleAreaCodeChange}
+                                options={[{value: '1', label: '+1'},
+                                    {value: '44', label: '+44'},
+                                    {value: '65', label: '+65'},
+                                ]}
+                                label={"Area Code"}
+                            />
                         </Grid>
                         <Grid item xs={12} sm={9}>
                             <TextField required label="Mobile Number" variant="standard" fullWidth />
                         </Grid>
                     </Grid>
-                </Grid>
+                    </Grid>
                     <Grid item xs={12}>
-                        <FormControl variant="standard" fullWidth required>
-                            <InputLabel>Password</InputLabel>
-                            <Input
-                                type={showPassword ? 'text' : 'password'}
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                            edge="end"
-                                        >
-                                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                label="Password"
-                            />
-                        </FormControl>
+                        <Password />
                     </Grid>
                     <Grid item xs={12} align="left">
                         <CheckBox 
@@ -130,16 +103,17 @@ const RegisterSide = () => {
                             onChange={() => {}}
                         />
                     </Grid>
+                    <Grid item xs={12}>
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            className='contained'
+                            name={"Create an account"}
+                            onClick={handleClickCreate}
+                        />
+                    </Grid>
                 </Grid>
-                <Grid item xs={12}>
-                    <Button
-                        variant="contained"
-                        fullWidth
-                        className='contained'
-                        name={"Create an account"}
-                        onClick={handleClickCreate}
-                    />
-                </Grid>
+                
                 
             </Box>
 

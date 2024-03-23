@@ -2,25 +2,23 @@ import React, {Fragment, useEffect, useState} from 'react';
 import {
   Grid,
   Typography,
-  TextField,
 } from '@mui/material';
-
-import { Dropdown } from '../../../components/Dropdown';
+import TextField from '../../../components/TextField';
+import Dropdown from '../../../components/Dropdown';
 import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee, editEmployee, updateEmployee } from '../../../store/slices/admin/employeeAdminSlice';
-import { Button } from '../../../components/Button';
 import ImageUploader from '../../../components/ImageUploader';
-
-const FORM_VALUES = [
-    {xs: 12, sm: 12, type: "textField", id: "name", label: "Name", autoComplete: "name", variant: "outlined", required: true},
-    {xs: 12, sm: 12, type: "select", id: "designation", label: "Designation", autoComplete: "designation", variant: "outlined", required: true, options: ["Manager", "Supervisor", "Assistant", "Hairstylist"], placeholder: "Select designation"},
-    {xs: 12, sm: 12, type: "select", id: "status", label: "Status", autoComplete: "status", variant: "outlined", required: true, options: ["Active", "InActive"], placeholder: "Select status"},
-]
+import { DESIGNATION, STATUS } from '../../../constants/constants';
 
 const EmployeeForm = () => {
     const { employees, editEmployeeId } = useSelector((state) => state.employeeAdmin);
-
     const dispatch = useDispatch();
+
+    const FORM_VALUES = [
+        {xs: 12, sm: 12, type: "textField", id: "name", label: "Name", autoComplete: "name", required: true},
+        {xs: 6, sm: 6, type: "select", id: "designation", label: "Designation", autoComplete: "designation", required: true, options: [...DESIGNATION?.OPTIONS], placeholder: DESIGNATION?.PLACEHOLDER},
+        {xs: 6, sm: 6, type: "select", id: "status", label: "Status", autoComplete: "status", required: true, options: [...STATUS?.OPTIONS], placeholder: STATUS?.PLACEHOLDER},
+    ]
 
     const initialState = {
         id: Math.floor(Math.random() * 1000) + 1,
@@ -77,7 +75,6 @@ const EmployeeForm = () => {
                                         label={item?.label}
                                         fullWidth
                                         autoComplete={item?.autoComplete}
-                                        variant={item?.variant}
                                         onChange={(e) => handleOnChange(item?.id, e.target.value)}
                                         value={employee?.[item?.id]}
                                     />
@@ -90,7 +87,7 @@ const EmployeeForm = () => {
                                         value={employee?.[item?.id]}
                                         onChange={(e) => handleOnChange(item?.id, e.target.value)}
                                         options={item?.options}
-                                        placeholder={item?.placeholder}
+                                        label={item?.placeholder}
                                         required={item?.required}
                                     />
                                 </Grid>
