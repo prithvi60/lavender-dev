@@ -2,6 +2,7 @@
     .button {
         background-color: #47294c;
         color: #faf4fc;
+        text-transform: none;
     }
     
     .button:hover {
@@ -34,10 +35,14 @@
     }
 
     .nav-bar-title {
-        flex-grow: 1;
-        /* color: white; */
-        font-weight: bold;
+        font-size: 1rem;
+        padding: 0px 40px;
+    }
+
+    .nav-bar-title.flex {
         font-size: 1.2rem;
+        flex-grow: 1;
+        font-weight: bold;
     }
     
     .hero-section .search-box-title-icon {

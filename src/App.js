@@ -7,6 +7,7 @@ import Loader from './components/Loader';
 import './styles/global.css';
 import './styles/admin.css';
 import './styles/login.css';
+import './styles/landing.css';
 
 const Admin = React.lazy(() => import('./pages/AdminPage'));
 const Places = React.lazy(() => import('./pages/Places'));

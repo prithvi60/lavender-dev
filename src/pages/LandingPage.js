@@ -1,9 +1,9 @@
 import React from 'react';
-import HeroSection from '../features/HeroSection';
+import HeroSection from '../features/Landing/HeroSection';
 
 const LandingPage = () => {
     return (
-        <div className='landing-page-div'>
+        <div className='landing-page'>
             <HeroSection />
         </div>
         

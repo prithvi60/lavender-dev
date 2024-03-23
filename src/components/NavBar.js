@@ -5,14 +5,15 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 
+
 const Navbar = () => {
   return (
     <AppBar position="static" className="nav-bar">
       <Toolbar>
-        <Typography className="nav-bar-title" variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography className="nav-bar-title flex" variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Lavender
         </Typography>
-        <Typography>Business</Typography>
+        <Typography className='nav-bar-title'>Business</Typography>
         <Button className="button">Login</Button>
       </Toolbar>
     </AppBar>
