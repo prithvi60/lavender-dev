@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from '@mui/material';
-import { Button } from '../components/Button';
+import Button from '../components/Button';
 import { Error } from '@mui/icons-material';
 
 const PageNotFound = () => {

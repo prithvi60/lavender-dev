@@ -5,12 +5,12 @@ import {
   Grid,
   Typography
 } from '@mui/material';
-import { Button } from '../../../components/Button';
+import Button from '../../../components/Button';
 import EstablishmentForm from './EstablishmentForm';
 import EstablishmentManagement from './EstablishmentManagement';
 import EstablishmentMenu from './EstablishmentMenu';
 import BusinessHoursForm from './BusinessHoursForm';
-import { GridPaper } from '../../../components/GridPaper';
+import GridPaper from '../../../components/GridPaper';
 
 const Establishment = () => {
   const { addEst, editEstablishmentId } = useSelector((state) => state.establishmentAdmin);

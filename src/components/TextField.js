@@ -1,6 +1,6 @@
 import { TextField as MuiTextField } from '@mui/material';
 
-export const TextField = props => {
+const TextField = props => {
     return (
         <MuiTextField
             required={props?.required}
@@ -9,10 +9,12 @@ export const TextField = props => {
             label={props?.label}
             fullWidth
             autoComplete={props?.autoComplete}
-            variant="outlined"
+            variant={props?.variant ?? "standard"}
             onChange={(e) => props?.handleOnChange(props?.id, e.target.value)}
             value={props?.value}
             className='textfield'
         />
     )
 }
+
+export default TextField;

@@ -1,0 +1,93 @@
+.login-page {
+    position: relative;
+    height: 100vh;
+}
+
+.background-grids {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.background-grid {
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-color: white;
+}
+
+.background-grid.cover {
+    background-color: #908694;
+}
+
+.login-container {
+    position: absolute;
+    z-index: 1;
+}
+
+.login-container .MuiGrid-item {
+    padding: 10px;
+}
+
+.login-banner {
+    padding: 20px 30px;
+    text-align: right;
+}
+
+.login-banner .title {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.login-banner .subtitle {
+    font-size: 1rem;
+}
+
+.login-page .login-subcontainer {
+    padding: 70px;
+    border-radius: 20px;
+    margin: 20px;
+    text-align: center;
+}
+
+.login-side-buttons {
+    text-align: center;
+    display: flex;
+    flex-wrap: no-wrap;
+    gap: 10px;
+}
+
+.login-container .button.login {
+    padding: 10px;
+    color:  #908694;
+    border: 1px solid #908694;
+    background-color: white;
+    flex: 1 1 50%;
+}
+
+.login-container .button.contained {
+    padding: 10px;
+}
+
+@media (max-width: 750px) {
+    .login-page .login-subcontainer {
+        padding: 20px;
+    }
+
+    .login-side-buttons {
+        flex-wrap: wrap;
+    } 
+}
+
+@media (max-width: 300px) {
+    .login-page .login-subcontainer {
+        padding: 5px;
+        width: 90%;
+    }
+
+    .login-side-buttons {
+        flex-wrap: wrap;
+    } 
+}

@@ -14,4 +14,9 @@ export const routes = [
     path: '/places',
     exact: true
   },
+  {
+    name: "Login",
+    path: '/login',
+    exact: true
+  }
 ];

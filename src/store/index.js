@@ -4,6 +4,7 @@ import adminPageReducer from './slices/adminPageSlice';
 import employeeAdminReducer from './slices/admin/employeeAdminSlice';
 import serviceAdminReducer from './slices/admin/serviceAdminSlice';
 import establishmentAdminReducer from './slices/admin/establishmentAdminSlice';
+import loginPageReducer from './slices/login/loginPageSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     employeeAdmin: employeeAdminReducer,
     serviceAdmin: serviceAdminReducer,
     establishmentAdmin: establishmentAdminReducer,
+    loginPage: loginPageReducer
   },
 });
 

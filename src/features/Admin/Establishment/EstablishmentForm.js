@@ -7,7 +7,7 @@ import {
 import ImageUploader from '../../../components/ImageUploader';
 import CountrySelect from '../../../components/CountrySelect';
 import TextArea from '../../../components/TextArea';
-import { TextField } from '../../../components/TextField';
+import TextField from '../../../components/TextField';
 import { addEstablishment, editEstablishment, updateEstablishment } from '../../../store/slices/admin/establishmentAdminSlice';
 
 const FORM_VALUES = [

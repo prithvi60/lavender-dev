@@ -107,16 +107,18 @@
     .text-area:focus {
         border-color: black;
         outline: none;
-    }    
+    }   
 }
 
-/* Text Field */
-.textfield:hover .MuiOutlinedInput-notchedOutline {
-    border-color: red; /* Change color on hover */
+
+/* Page */
+.page {
+   height: 100vh;
 }
 
-.textfield .Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-color: blue; /* Change color when active */
+/* Checkbox */
+.checkbox.MuiCheckbox-root.Mui-checked {
+    color: #47294c; /* Change to your desired color */
 }
 
 /* Loader */
