@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { Grid, Box, Divider } from '@mui/material';
+import { Grid, Box, Divider, Paper } from '@mui/material';
 import SearchBox from '../../components/SearchBox';
 import { SEARCH_PANEL_BOXES } from '../../constants/constants';
 
@@ -25,21 +25,24 @@ const SearchPanel = () => {
     return (
         <div className="search-panel">
             <Grid container spacing={0}>
-                {SEARCH_PANEL_BOXES?.map((box, index) => {
-                    return (
-                        <Fragment key={index}>
-                            <Grid key={`grid${index}`} item xs={2.99}>
-                                <SearchBox
-                                    name={box}
-                                    isClicked={boxControl?.selectedBox === box}
-                                    clickHandler={handleBoxClick}
-                                />
-                            </Grid>
-                            {index < 3 && <Divider key={index} orientation="vertical" flexItem />}
-                        </Fragment>
-                        
-                    )
-                })}
+                
+                    {SEARCH_PANEL_BOXES?.map((box, index) => {
+                        return (
+                            <Fragment key={index}>
+                                <Grid key={`grid${index}`} item xs={2.99}>
+                                    <SearchBox
+                                        name={box}
+                                        isClicked={boxControl?.selectedBox === box}
+                                        clickHandler={handleBoxClick}
+                                    />
+                                </Grid>
+                                {index < 3 && <Divider key={index} orientation="vertical" flexItem />}
+                            </Fragment>
+                            
+                        )
+                    })}
+                
+                
             </Grid>
 
             {boxControl?.selectedBox === "Treatment" && boxControl?.showOptionContainer && <Box>

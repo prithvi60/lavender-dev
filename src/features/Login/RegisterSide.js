@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import {
-    Input,
-    InputAdornment,
-    IconButton,
-    Typography,
-    Grid,
-    Box, InputLabel, Select, MenuItem, FormControl } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {Grid, Box, } from '@mui/material';
 import Button from '../../components/Button';
 import TextField from '../../components/TextField';
 import CheckBox from '../../components/Checkbox';
 import Dropdown from '../../components/Dropdown';
+import Text from '../../components/Text';
 import { accountCreated, isNewAccount } from '../../store/slices/login/loginPageSlice';
 import Password from './Password';
 
@@ -39,7 +33,7 @@ const RegisterSide = () => {
     return (
         <>
             <Grid item xs={12}>
-                <Typography variant="h4" align="center">Register or Login</Typography>
+                <Text variant="h4" align="center" name="Register or Login" />
             </Grid>
             <Box component="form" noValidate sx={{ mt: 3 }}>
                 <Grid container spacing={2}>

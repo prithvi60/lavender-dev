@@ -121,10 +121,23 @@
    height: 100vh;
 }
 
-/* Checkbox */
+/* Checkbox, Text */
+.text,
+.chip.MuiChip-root,
 .checkbox.MuiCheckbox-root.Mui-checked {
     color: #47294c; /* Change to your desired color */
 }
+
+.chip.MuiChip-root {
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+
+.chip.MuiChip-root.small {
+    font-size: 0.65rem;
+    padding: 0px 5px;
+}
+
 
 /* Loader */
 .loader-container {

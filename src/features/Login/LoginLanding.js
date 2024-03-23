@@ -4,6 +4,7 @@ import { Typography, Grid, Box } from '@mui/material';
 import { Google, Facebook } from '@mui/icons-material';
 import Button from '../../components/Button';
 import TextField from '../../components/TextField';
+import Text from '../../components/Text';
 import { isNewAccount } from '../../store/slices/login/loginPageSlice';
 
 import emptyLogo from '../../assets/emptyImage.png';
@@ -23,10 +24,10 @@ const LoginLanding = () => {
                 </Box>
             </Grid>
             <Grid item xs={12}>
-                <Typography variant="h4" align="center">Register or Login</Typography>
+                <Text variant="h4" align="center" name="Register or Login" />
             </Grid>
             <Grid item xs={12}>
-                <Typography variant="body1" align="left">Create an account or login to book your next salon experience with Lavender</Typography>
+                <Text variant="body1" align="left" name="Create an account or login to book your next salon experience with Lavender" />
             </Grid>
             <Grid item xs={12} className='login-side-buttons'>
                 <Button
@@ -47,7 +48,7 @@ const LoginLanding = () => {
                 />
             </Grid>
             <Grid item xs={12}>
-                <Typography variant="body1" align="center">-OR-</Typography>
+                <Text variant="body1" align="center" name="-OR-"/>
             </Grid>
             <Grid item xs={12}>
                 <TextField label="Email Address" variant="standard" fullWidth />

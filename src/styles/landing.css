@@ -1,16 +1,10 @@
-.landing-page {
-
-}
-
 .hero-section {
-    /* background-color: #5F4F65; */
     background-color: lightgray;
     position: relative;
     height: 100vh;
 }
 
 .hero-content {
-    /* width: 100%; */
     align-items: center;
     color: black;
     height: 300px;
@@ -22,13 +16,7 @@
     margin-bottom: 5px;
 }
 
-/* .hero-section .hero-content p {
-    font-size: 1.2rem;
-    margin-top: 5px;
-} */
-
 .hero-section .nav-bar {
-    /* color: white; */
     color: black;
     background-color: revert;
     box-shadow: revert;
@@ -43,4 +31,104 @@
     background-color: #f2f2f2;
     border-radius: 23px;
     border: 1px solid #ccc;
+    box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
 }
+
+/* Category Section */
+.landing-section {
+    padding: 20px;
+}
+
+.category-link {
+    display: inline-block;
+}
+
+.category-title {
+    padding: 40px 20px;
+}
+
+.category-title .text {
+    font-weight: bold;
+}
+
+.category-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    transition: transform 0.3s ease-in-out;
+}
+
+.category-image:hover {
+    transform: scale(1.1);
+}
+
+
+/**/
+.recommend-section{
+    margin: 20px;
+    padding: 40px;
+}
+
+.recommend-section .carousel-slider {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+  
+.card {
+    width: 230px;
+    padding: 20px;
+}
+
+.card-image {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 16px;
+}
+
+.recommend-section .card-content:last-child {
+    padding: 10px 0px;
+}
+
+.card-title {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.card-title.text {
+    font-weight: bold;
+}
+
+.card-location {
+    margin-bottom: 10px;
+}
+
+.card-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+  
+.card-rating .MuiRating-root {
+    margin-right: 5px;
+}
+
+.card-tags {
+    display: flex;
+}
+
+.recommend-section .arrow {
+    background-color: #fff;
+    color: #000;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 5px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+  
+  

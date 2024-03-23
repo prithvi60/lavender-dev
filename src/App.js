@@ -4,10 +4,13 @@ import LandingPage from './pages/LandingPage';
 import PageNotFound from './pages/PageNotFound';
 import { routes } from "./routes"; 
 import Loader from './components/Loader';
+
 import './styles/global.css';
 import './styles/admin.css';
 import './styles/login.css';
 import './styles/landing.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const Admin = React.lazy(() => import('./pages/AdminPage'));
 const Places = React.lazy(() => import('./pages/Places'));
