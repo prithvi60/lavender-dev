@@ -1,15 +1,16 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { AccessTime, ContentCut, DateRange, LocationOn, Search } from '@mui/icons-material';
+import Text from './Text';
 
 const SearchBox = ({ name, clickHandler, isClicked }) => {
 
   const getIcons = () => {
     const icons = {
-      treatment: <ContentCut />,
-      location: <LocationOn />,
-      date: <DateRange />,
-      time: <AccessTime />
+      treatment: <ContentCut className='icon'/>,
+      location: <LocationOn className='icon'/>,
+      date: <DateRange className='icon'/>,
+      time: <AccessTime className='icon'/>
     }
 
     return (name.toLowerCase() in icons) ? icons[name.toLowerCase()] : null;
@@ -18,13 +19,12 @@ const SearchBox = ({ name, clickHandler, isClicked }) => {
   return (
     <Box 
       className={`search-box ${isClicked ? 'selected' : ''} ${name.toLowerCase() === "time" ? 'addtl-button': ''}`}
-      onClick={() => clickHandler(name)}
     >
       <div className='search-box-title-icon'>
         {getIcons()}
           <div className='search-box-title'>
-              <Typography className='name-top'>{"Search"}</Typography>
-              <Typography className='name-bottom'>{name}</Typography>
+              <Text align="left" className='name-top' name="Select" />
+              <Text align="left" className='name-bottom' name={name} onClick={() => clickHandler(name)}/>
           </div>
       </div>
       {

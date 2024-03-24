@@ -7,8 +7,8 @@ const HeroSection = () => {
     return ( 
         <section className="hero-section">
             <section className="hero-content">
-                <Text variant="h3" name={LANDING_PAGE?.TITLE}/>
-                <Text variant="body1" name={LANDING_PAGE?.SUBTITLE}/>
+                <Text className="hero-title" variant="h3" name={LANDING_PAGE?.TITLE}/>
+                <Text className="hero-title" variant="body1" name={LANDING_PAGE?.SUBTITLE}/>
                 <SearchPanel />
             </section>
         </section>

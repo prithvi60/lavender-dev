@@ -49,7 +49,6 @@
         display: flex;
         align-items: center;
         padding: 10px 25px;
-        cursor: pointer;
     }
     
     .search-box.selected {
@@ -75,7 +74,6 @@
         width: 25%;
         height: 90%;
         color: white;
-        background-color: #404040;
         border-radius: 20px;
         display: flex;
         align-items: center;
@@ -91,8 +89,8 @@
     
     .search-box-title .name-bottom {
         font-size: 1rem;
-        color: #333333;
         font-weight: bold;
+        cursor: pointer;
     }
     
     /* Text Area */
@@ -115,17 +113,25 @@
     }   
 }
 
-
 /* Page */
 .page {
    height: 100vh;
 }
 
 /* Checkbox, Text */
+.icon,
 .text,
 .chip.MuiChip-root,
 .checkbox.MuiCheckbox-root.Mui-checked {
-    color: #47294c; /* Change to your desired color */
+    color: #47294c;
+}
+
+.text.bold {
+    font-weight: bold;
+}
+
+.addtl-search-icon {
+    background-color: #47294c;
 }
 
 .chip.MuiChip-root {
@@ -136,6 +142,11 @@
 .chip.MuiChip-root.small {
     font-size: 0.65rem;
     padding: 0px 5px;
+}
+
+.chip.delete {
+    color: white;
+    background-color: #816f7d;
 }
 
 
