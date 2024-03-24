@@ -1,6 +1,6 @@
 export const routes = [
   {
-    name: "Dashboard",
+    name: "Admin",
     path: '/admin',
     exact: true
   },
