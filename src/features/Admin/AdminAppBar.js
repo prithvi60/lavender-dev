@@ -1,8 +1,6 @@
-// AdminAppBar.js
 import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography, Badge } from '@mui/material';
 import { Notifications, Menu } from '@mui/icons-material';
-import { DASHBOARD } from '../../constants/constants';
 
 const AdminAppBar = ({ open, toggleDrawer }) => {
     return ( 

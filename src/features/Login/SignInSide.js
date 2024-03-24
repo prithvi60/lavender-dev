@@ -1,26 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-    Input,
-    InputAdornment,
-    IconButton,
     Typography,
     Grid,
-    Box, InputLabel, Select, MenuItem, FormControl, Link } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+    Box,
+    Link } from '@mui/material';
+import Password from './Password';
 import Button from '../../components/Button';
-import TextField from '../../components/TextField';
-import CheckBox from '../../components/Checkbox';
 
 import profile from '../../assets/profile.png';
-import Password from './Password';
 
 const SingInSide = () => {
-    const [showPassword, setShowPassword] = useState(false);
-    const [data, setData] = useState({});
-
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
-    const handleMouseDownPassword = () => setShowPassword(!showPassword);
-
     const handleSubmit = () => { }
 
     return (

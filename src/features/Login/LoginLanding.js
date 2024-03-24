@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Typography, Grid, Box } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 import { Google, Facebook } from '@mui/icons-material';
 import Button from '../../components/Button';
 import TextField from '../../components/TextField';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 
 import emptyLogo from '../../assets/emptyImage.png';
 import Text from '../../components/Text';
@@ -24,7 +24,7 @@ const CategorySection = () => {
             <Grid container spacing={2} justifyContent="space-evenly" alignItems="center">
                 {categories.map((category) => (
                 <Grid item key={category.id}>
-                    <a href="#" className="category-link">
+                    <a className="category-link">
                         <img src={category.image} alt={category.name} className="category-image" />
                     </a>
                     <Text variant="body2" align="center" name={category?.name} />

@@ -45,20 +45,20 @@
         font-weight: bold;
     }
     
-    .hero-section .search-box-title-icon {
+    .search-box-title-icon {
         display: flex;
         align-items: center;
         padding: 10px 25px;
         cursor: pointer;
     }
     
-    .hero-section .search-box.selected {
+    .search-box.selected {
         background-color: white;
         border-radius: 23px;
         cursor: pointer;
     }
     
-    .hero-section .search-box.addtl-button {
+    .search-box.addtl-button {
         display: flex;
         align-items: center;
         justify-content: space-between;

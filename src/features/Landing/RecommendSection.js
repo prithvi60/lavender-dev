@@ -34,35 +34,42 @@ const RecommendSection = () => {
     dots: false,
     infinite: true,
     centerMode: true,
+    centerPadding: "10px",
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 2,
+    slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     className: 'carousel-slider',
     responsive: [
         {
-          breakpoint: 1024,
+          breakpoint: 1260, // Breakpoint for tablets
           settings: {
             slidesToShow: 3,
-            slidesToScroll: 1,
-            infinite: true,
-            dots: false
+            centerMode: true,
           }
         },
         {
-          breakpoint: 600,
+          breakpoint: 1000, // Breakpoint for mobile devices
           settings: {
             slidesToShow: 2,
-            slidesToScroll: 1,
-            initialSlide: 2
+            centerMode: true,
           }
         },
         {
-          breakpoint: 480,
+          breakpoint: 720, // Breakpoint for smaller mobile devices
           settings: {
             slidesToShow: 1,
-            slidesToScroll: 1
+            centerMode: true,
+            centerPadding: "90px"
+          }
+        },
+        {
+          breakpoint: 600, // Breakpoint for smaller mobile devices
+          settings: {
+            slidesToShow: 1,
+            centerMode: true,
+            centerPadding: "30px"
           }
         }
       ]
@@ -82,9 +89,11 @@ const RecommendSection = () => {
                             <Text variant="h6" align="left" className="card-title" name="Card Title"/>
                             <Text variant="body2" align="left" className="card-location" name={card.location} />
                             <div className="card-rating">
-                                <span>{card.rating}</span>
+                                <Text variant="body2" align="left" name={card.rating}/>
+                                {/* <span>{card.rating}</span> */}
                                 <Rating value={card.rating} precision={0.5} readOnly />
-                                <span>({card.reviewCount})</span>
+                                <Text variant="body2" align="left" name={card.reviewCount}/>
+                                {/* <span>({card.reviewCount})</span> */}
                             </div>
                             <div className="card-tags">
                                 {card.tags.map((tag, index) => (

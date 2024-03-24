@@ -1,4 +1,10 @@
+.landing-page .nav-bar {
+    background-color: revert;
+    box-shadow: revert;
+}
+
 .hero-section {
+    padding: 80px 20px 20px;
     background-color: lightgray;
     position: relative;
     height: 100vh;
@@ -14,12 +20,6 @@
 .hero-section .hero-content h1 {
     font-size: 2rem;
     margin-bottom: 5px;
-}
-
-.hero-section .nav-bar {
-    color: black;
-    background-color: revert;
-    box-shadow: revert;
 }
 
 /* Search Panel */
@@ -79,6 +79,7 @@
 .card {
     width: 230px;
     padding: 20px;
+    cursor: pointer;
 }
 
 .card-image {

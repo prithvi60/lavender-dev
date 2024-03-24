@@ -5,7 +5,7 @@ const Text = props => {
     const {variant, align, name, className, ...rest} = props;
 
     return (
-        <Typography className={`text ${className ?? ""}`} variant={variant} align={align ?? "center"}>{name}</Typography>
+        <Typography className={`text ${className ?? ""}`} variant={variant} align={align ?? "center"} {...rest}>{name}</Typography>
     )
     
 }

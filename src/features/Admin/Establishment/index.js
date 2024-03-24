@@ -24,7 +24,7 @@ const Establishment = () => {
     const dataTemp = {...data};
     dataTemp.addEst = addEst;
     setData(dataTemp);
-  }, [addEst])
+  }, [addEst, data])
 
   return (
     <Fragment>

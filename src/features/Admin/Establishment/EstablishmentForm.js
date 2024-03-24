@@ -1,9 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Typography,
-  Grid,
-} from '@mui/material';
+import { Grid } from '@mui/material';
 import ImageUploader from '../../../components/ImageUploader';
 import CountrySelect from '../../../components/CountrySelect';
 import TextArea from '../../../components/TextArea';

@@ -6,7 +6,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { Button } from "../../../components/Button";
 import { WEEKDAYS } from "../../../constants/constants";
 
 const BusinessHours = () => {

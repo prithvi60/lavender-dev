@@ -13,7 +13,6 @@ const RegisterSide = () => {
     // TO DO: Birthdate, month and year dropdown, state management, api integration
     const [gender, setGender] = useState('');
     const [areaCode, setAreaCode] = useState('');
-    const [data, setData] = useState({});
 
     const dispatch = useDispatch();
 

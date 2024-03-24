@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Tab, Tabs, Box, Grid, MenuItem } from '@mui/material';
+import { Toolbar, Box, MenuItem } from '@mui/material';
 import Service from '../Service'; 
 import Employee from '../Employee';
 
@@ -11,9 +11,7 @@ const EstablishmentMenu = () => {
         { title: 'Employees', url: '#' },
     ];
 
-    // Function to handle tab change
     const handleTabChange = (newValue) => {
-        console.log('newVlaue: ', newValue);
         setSelectedTab(newValue);
     };
 
