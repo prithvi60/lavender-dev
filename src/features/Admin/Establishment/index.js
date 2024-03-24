@@ -2,8 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Paper,
-  Grid,
-  Typography
+  Grid
 } from '@mui/material';
 import Button from '../../../components/Button';
 import EstablishmentForm from './EstablishmentForm';
@@ -11,6 +10,7 @@ import EstablishmentManagement from './EstablishmentManagement';
 import EstablishmentMenu from './EstablishmentMenu';
 import BusinessHoursForm from './BusinessHoursForm';
 import GridPaper from '../../../components/GridPaper';
+import Text from '../../../components/Text';
 
 const Establishment = () => {
   const { addEst, editEstablishmentId } = useSelector((state) => state.establishmentAdmin);
@@ -33,7 +33,7 @@ const Establishment = () => {
           !data?.addEst &&
           <>
           <GridPaper
-            component={<Typography className='title'>{'Establishments'}</Typography>}
+            component={<Text className='title' name={'Establishments'}/>}
           />
           <Grid item xs={12}>
             <EstablishmentManagement />
@@ -45,7 +45,7 @@ const Establishment = () => {
           data?.addEst &&
           <>
             <GridPaper
-              component={<Typography className='title'>{`${editEstablishmentId ? "Edit" : "Add"} New Establishment`}</Typography>}
+              component={<Text className='title' name={`${editEstablishmentId ? "Edit" : "Add"} New Establishment`}/>}
             />
             <Grid item xs={12} md={7} lg={8}>
               <Paper className='est-paper' elevation={0}>

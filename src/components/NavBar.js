@@ -11,7 +11,6 @@ const Navbar = () => {
   }
 
   const getAdminRoute = () => {
-    console.log('--------route: ', getRoute("Admin"));
     return getRoute("Admin");
   }
 

@@ -1,13 +1,14 @@
 import React from 'react';
 import { LANDING_PAGE } from '../../constants/constants';
 import SearchPanel from '../SearchPanel';
+import Text from '../../components/Text';
 
 const HeroSection = () => {
     return ( 
         <section className="hero-section">
             <section className="hero-content">
-                <h1>{LANDING_PAGE?.TITLE}</h1>
-                <p>{LANDING_PAGE?.SUBTITLE}</p>
+                <Text variant="h3" name={LANDING_PAGE?.TITLE}/>
+                <Text variant="body1" name={LANDING_PAGE?.SUBTITLE}/>
                 <SearchPanel />
             </section>
         </section>

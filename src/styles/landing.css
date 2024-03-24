@@ -15,16 +15,18 @@
     color: black;
     height: 300px;
     text-align: center;
+    padding: 30px;
+    margin: 50px;
 }
 
-.hero-section .hero-content h1 {
-    font-size: 2rem;
+.hero-section .hero-content .text {
+    font-weight: bold;
     margin-bottom: 5px;
 }
 
 /* Search Panel */
 .search-panel {
-    padding: 20px 150px;
+    padding: 50px 60px;
 }
 
 .search-panel .MuiGrid-root.MuiGrid-container.css-11lq3yg-MuiGrid-root {
