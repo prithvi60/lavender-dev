@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid } from '@mui/material';
+import Text from '../../components/Text';
 
 import emptyLogo from '../../assets/emptyImage.png';
-import Text from '../../components/Text';
 
 const CategorySection = () => {
 
