@@ -6,6 +6,9 @@ import Button from '../../components/Button';
 import TextField from '../../components/TextField';
 import Text from '../../components/Text';
 import { isNewAccount } from '../../store/slices/login/loginPageSlice';
+import wrappedLayout from './wrappedLayout';
+import { getRoute } from '../../utils'; 
+import ButtonRouter from '../../components/ButtonRouter';
 
 import emptyLogo from '../../assets/emptyImage.png';
 
@@ -14,10 +17,11 @@ const LoginLanding = () => {
 
     const handleClickContinue = () => {
         dispatch(isNewAccount({ newAccount: true }));
+        return getRoute("Register");
     }
 
     return ( 
-        <>
+        <div className="login-landing">
             <Grid item xs={12}>
                 <Box>
                     <img src={emptyLogo} alt="Logo" style={{ width: '15%' }} />
@@ -54,16 +58,16 @@ const LoginLanding = () => {
                 <TextField label="Email Address" variant="standard" fullWidth />
             </Grid>
             <Grid item xs={12}>
-                <Button
+                <ButtonRouter
                     variant="contained"
                     fullWidth
                     className='continue'
                     name={"Continue"}
-                    onClick={handleClickContinue}
+                    to={() => handleClickContinue()}
                 />
             </Grid>
-        </>
+        </div>
      );
 }
 
-export default LoginLanding;
+export default wrappedLayout(LoginLanding);

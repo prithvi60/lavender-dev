@@ -3,8 +3,8 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { Typography } from '@mui/material';
 
 
-const ImageUploader = () => {
-    const [images, setImages] = useState([]);
+const ImageUploader = ({ images, setImages }) => {
+    // const [images, setImages] = useState([]);
 
     const handleImageChange = (e) => {
       const files = e.target.files;
@@ -19,20 +19,20 @@ const ImageUploader = () => {
         reader.onload = () => {
           newImages.push(reader.result);
           if (newImages.length === files.length) {
-            setImages([...images, ...newImages]);
+            setImages('images', [...images, ...newImages]);
           }
         };
       }
     };
   
     const removeImage = (indexToRemove) => {
-      const newImages = images.filter((image, index) => index !== indexToRemove);
-      setImages(newImages);
+      const newImages = images?.filter((image, index) => index !== indexToRemove);
+      setImages('images', newImages);
     };
   
     return (
       <div className='image-uploader-div'>
-        {images.map((image, index) => (
+        {images?.map((image, index) => (
           <div className='image-thumbnail' key={index}>
             <img src={image} alt={`Image ${index + 1}`}/>
             <button onClick={() => removeImage(index)}>

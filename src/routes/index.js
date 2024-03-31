@@ -18,5 +18,10 @@ export const routes = [
     name: "Login",
     path: '/login',
     exact: true
-  }
+  },
+  {
+    name: "Register",
+    path: '/register',
+    exact: true
+  },
 ];

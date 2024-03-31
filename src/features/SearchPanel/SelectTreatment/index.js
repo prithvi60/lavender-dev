@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
-import { Grid, Box } from '@mui/material';
-import Text from '../../components/Text';
+import { Grid } from '@mui/material';
+import Text from '../../../components/Text';
 import CategoryPanel from './CategoryPanel';
 import TreatmentPanel from './TreatmentPanel';
 
@@ -12,10 +12,8 @@ const SelectTreatment = () => {
           <TreatmentPanel />
         </Grid>
         <Grid item xs={5} md={5} lg={5} className="grid">
-            <Box>
-              <Text variant="body1" className="bold" align="left" name="Categories"/>
-              <CategoryPanel />
-            </Box>
+            <Text variant="body1" className="bold" align="left" name="Categories"/>
+            <CategoryPanel />
         </Grid>
       </Grid>
     </Fragment>

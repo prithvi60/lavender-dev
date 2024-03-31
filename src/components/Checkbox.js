@@ -6,8 +6,9 @@ const CheckBox = props => {
     return (
         <FormControlLabel
             control={<MuiCheckbox
+                id={props?.id}
                 variant={variant ?? "standard"}
-                onChange={(e) => onChange(e.target.value)}
+                onChange={(e) => onChange(props?.id, e.target.value)}
                 value={value}
                 className={`checkbox ${className ?? ""}`}
             />}

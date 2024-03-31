@@ -1,4 +1,5 @@
 import Establishment from "../features/Admin/Establishment";
+import Users from "../features/Admin/Users";
 
 export const WEBSITE_TITLE ='Lavender UI';
 
@@ -18,7 +19,8 @@ export const DASHBOARD = {
         {title: "Users"},
         {title: "Settings"}],
     DRAWER_COMPONENTS: {
-        MANAGEMENT: {COMPONENT:  <Establishment />}
+        MANAGEMENT: {COMPONENT:  <Establishment />},
+        USERS: {COMPONENT: <Users />}
     }
 }
 

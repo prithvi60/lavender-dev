@@ -31,6 +31,7 @@ const EstablishmentForm = ({ onSubmit }) => {
       state: "",
       postalCode: "",
       country: "",
+      images: []
   };
 
   const [establishment, setEstablishment] = useState({...initialState});
@@ -74,7 +75,7 @@ const EstablishmentForm = ({ onSubmit }) => {
             case "textField":
               return (
                 <Grid key={index} item xs={item?.xs} md={item?.md} className="grid">
-                  <TextField {...item} value={establishment?.[item?.id]} handleOnChange={handleOnChange} />
+                  <TextField {...item} value={establishment?.[item?.id]} onChange={handleOnChange} />
                 </Grid>
               )
             case "textArea":
@@ -87,7 +88,7 @@ const EstablishmentForm = ({ onSubmit }) => {
                     onChange={(e) => handleOnChange(item?.id, e.target.value)}
                     value={establishment?.[item?.id]}
                   />
-                </Grid> 
+                </Grid>
               )
             case "countrySelect":
               return (
@@ -102,7 +103,7 @@ const EstablishmentForm = ({ onSubmit }) => {
 
         })}
         <Grid item xs={12}>
-          <ImageUploader />
+          <ImageUploader images={establishment?.images} setImages={handleOnChange}/>
         </Grid>
       </Grid>
     </Fragment>

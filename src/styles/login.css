@@ -28,6 +28,10 @@
 }
 
 .login-container .MuiGrid-item {
+    padding: 10px 10px 0px;
+}
+
+.login-container .login-landing .MuiGrid-item {
     padding: 10px;
 }
 

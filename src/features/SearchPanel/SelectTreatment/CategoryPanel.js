@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import emptyLogo from '../../assets/emptyImageSquare.png';
+import emptyLogo from '../../../assets/emptyImageSquare.png';
 
 const CategoryPanel = () => {
   const [clickedImages, setClickedImages] = useState([]);

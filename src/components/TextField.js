@@ -1,18 +1,21 @@
 import { TextField as MuiTextField } from '@mui/material';
 
 const TextField = props => {
+    const { id, required, label, autoComplete, variant, onChange, value, ...rest} = props;
+
     return (
         <MuiTextField
-            required={props?.required ?? true}
-            id={props?.id}
-            name={props?.id}
-            label={props?.label}
+            required={required ?? true}
+            id={id}
+            name={id}
+            label={label}
             fullWidth
-            autoComplete={props?.autoComplete}
-            variant={props?.variant ?? "standard"}
-            onChange={(e) => props?.onChange(props?.id, e.target.value)}
-            value={props?.value}
+            autoComplete={autoComplete}
+            variant={variant ?? "standard"}
+            onChange={(e) => onChange(id, e.target.value)}
+            value={value}
             className='textfield'
+            {...rest}
         />
     )
 }

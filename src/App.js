@@ -16,7 +16,8 @@ const Admin = React.lazy(() => import('./pages/AdminPage'));
 const Places = React.lazy(() => import('./pages/Places'));
 const Bookings = React.lazy(() => import('./pages/Bookings'));
 const Login = React.lazy(() => import('./pages/LoginPage'));
-const components = [Admin, Places, Bookings, Login];
+const Register = React.lazy(() => import('./pages/RegisterPage'));
+const components = [Admin, Places, Bookings, Login, Register];
 
 const App = () => {
   return (

@@ -2,13 +2,14 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import Login from '../features/Login';
 import LoginLanding from '../features/Login/LoginLanding';
+import Register from '../features/Login/Register';
 
-const LoginPage = () => {
+const RegisterPage = () => {
   return (
       <div className="login-page">
-          <LoginLanding />
+          <Register />
       </div>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;

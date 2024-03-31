@@ -18,7 +18,7 @@ export const establishmentAdminSlice = createSlice({
     },
     updateEstablishment: (state, action) => {
       state.establishments = state.establishments.map(item => {
-        return item?.id === action.payload.Establishment.id ? {...item, ...action.payload.establishment} : item;
+        return item?.id === action.payload.establishment.id ? {...item, ...action.payload.establishment} : item;
       })
     },
     removeEstablishment: (state, action) => {

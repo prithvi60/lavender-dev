@@ -2,7 +2,6 @@ import React, { Fragment, useState } from 'react';
 import { Grid, Box, Divider, Paper } from '@mui/material';
 import SearchBox from '../../components/SearchBox';
 import { SEARCH_PANEL_BOXES } from '../../constants/constants';
-import Text from '../../components/Text';
 import SelectTreatment from './SelectTreatment';
 
 const SearchPanel = () => {
@@ -23,16 +22,6 @@ const SearchPanel = () => {
         setBoxControl(boxControlTemp);
     };
 
-    const getDividerSections = () => {
-        // ["Treatment", "Location", "Date", "Time"]
-        const indexes = [[0,1], []]
-        const sections = SEARCH_PANEL_BOXES?.reduce((acc, item) => {
-            acc[item] = [0, 1]
-            return acc;
-        }, {});
-    }
-
- 
     return (
         <div className="search-panel">
             <Grid container spacing={0}>
@@ -55,11 +44,22 @@ const SearchPanel = () => {
                     })}
             </Grid>
 
-            {boxControl?.selectedBox === "Treatment" && boxControl?.showOptionContainer && <Box>
-                <Paper elevation={2} className='treatment-panel'>
+            {boxControl?.selectedBox === "Treatment" && boxControl?.showOptionContainer && <Grid>
+                <Paper elevation={2} className='container'>
                     <SelectTreatment />
                 </Paper>
-            </Box>}
+            </Grid>}
+
+            {boxControl?.selectedBox === "Location" && boxControl?.showOptionContainer && 
+                <Grid container spacing={2}>
+                <Grid item xs={false} sm={false} md={3} lg={3} />
+                <Grid item xs={12} sm={12} md={9} lg={9} sx={{ display: 'flex', justifyContent: 'center' }}>
+                    <Paper elevation={2} className='container'>
+                        <SelectTreatment />
+                    </Paper>
+                </Grid>
+              </Grid>
+            }
         </div>
      );
 }

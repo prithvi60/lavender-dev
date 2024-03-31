@@ -25,12 +25,13 @@ const EmployeeForm = () => {
         name: "",
         designation: "",
         status: "",
-        image: ""
+        images: []
     };
 
     const [employee, setEmployee] = useState({...initialState});
 
     const handleOnChange = (key, value) => {
+        console.log('handleOnChange: ', key, value);
         const employeeTemp = {...employee};
         employeeTemp[key] = value;
         setEmployee(employeeTemp);
@@ -75,7 +76,7 @@ const EmployeeForm = () => {
                                         label={item?.label}
                                         fullWidth
                                         autoComplete={item?.autoComplete}
-                                        onChange={(e) => handleOnChange(item?.id, e.target.value)}
+                                        onChange={handleOnChange}
                                         value={employee?.[item?.id]}
                                     />
                                 </Grid>
@@ -99,7 +100,7 @@ const EmployeeForm = () => {
 
                 })}
                 <Grid item xs={12}>
-                    <ImageUploader />
+                    <ImageUploader images={employee?.images} setImages={handleOnChange}/>
                 </Grid>
             </Grid>
         

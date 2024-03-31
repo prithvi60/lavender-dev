@@ -5,7 +5,7 @@ const Dropdown = props => {
 
     const getOptions = () => {
         return options?.map((option, index) => {
-            return <MenuItem value={option?.value}>{option?.label}</MenuItem>
+            return <MenuItem key={index} value={option?.value} style={{textAlign: 'left'}}>{option?.label}</MenuItem>
         })
     }
 
@@ -16,6 +16,7 @@ const Dropdown = props => {
                 value={value}
                 onChange={onChange}
                 label={label}
+                style={{textAlign: 'left'}}
                 {...rest}
             >
                 {getOptions()}

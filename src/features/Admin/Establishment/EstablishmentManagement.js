@@ -10,7 +10,7 @@ const EstablishmentManagement = () => {
   const dispatch = useDispatch();
   const { establishments: establishmentsTemp } = useSelector((state) => state.establishmentAdmin);
 
-  const [establishments, setEstablishments] = useState([...establishmentsTemp, ...sampleEstablishments]);
+  const [establishments, setEstablishments] = useState([...establishmentsTemp]);
 
   const columns = [
     {

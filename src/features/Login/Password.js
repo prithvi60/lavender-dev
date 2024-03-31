@@ -3,7 +3,8 @@ import { FormControl, InputLabel, Input, InputAdornment, IconButton } from "@mui
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const Password = props => {
-    const [showPassword, setShowPassword] = useState(false);
+    const { showPassword, setShowPassword, password, onChange, ...rest} = props;
+    // const [showPassword, setShowPassword] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
@@ -26,6 +27,7 @@ const Password = props => {
                     </InputAdornment>
                 }
                 label="Password"
+                onChange={onChange}
             />
         </FormControl>
     )

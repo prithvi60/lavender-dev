@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { Divider, Grid, Box, Button } from '@mui/material';
-import Text from '../../components/Text';
-import Chip from '../../components/Chip';
+import Text from '../../../components/Text';
+import Chip from '../../../components/Chip';
 
 const TreatmentPanel = () => {
   const sampleData = {

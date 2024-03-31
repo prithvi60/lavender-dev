@@ -25,6 +25,7 @@ const CountrySelect = ({ value, onChange}) => {
       renderInput={(params) => (
         <TextField
           {...params}
+          variant="standard"
           value={value}
           onChange={onChange}
           label="Select a country"
