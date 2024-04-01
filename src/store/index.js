@@ -6,6 +6,7 @@ import serviceAdminReducer from './slices/admin/serviceAdminSlice';
 import establishmentAdminReducer from './slices/admin/establishmentAdminSlice';
 import loginPageReducer from './slices/login/loginPageSlice';
 import userAdminReducer from './slices/admin/userAdminSlice';
+import filterModalSlice from './slices/filterModal';
 
 const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ const store = configureStore({
     serviceAdmin: serviceAdminReducer,
     establishmentAdmin: establishmentAdminReducer,
     userAdmin: userAdminReducer,
-    loginPage: loginPageReducer
+    loginPage: loginPageReducer,
+    filterModal : filterModalSlice
   },
 });
 

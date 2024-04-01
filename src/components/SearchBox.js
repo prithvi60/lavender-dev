@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import { AccessTime, ContentCut, DateRange, LocationOn, Search } from '@mui/icons-material';
 import Text from './Text';
+import ButtonRouter from './ButtonRouter';
+import { getRoute } from '../utils';
+
 
 const SearchBox = ({ name, clickHandler, isClicked }) => {
 
@@ -14,6 +17,10 @@ const SearchBox = ({ name, clickHandler, isClicked }) => {
     }
 
     return (name.toLowerCase() in icons) ? icons[name.toLowerCase()] : null;
+  }
+  
+  function handleSearchButtonClick(){
+
   }
 
   return (
@@ -30,11 +37,9 @@ const SearchBox = ({ name, clickHandler, isClicked }) => {
       {
         name.toLowerCase() === "time" && 
         <div className='addtl-search-icon'>
-            <Search className='search-button' fontSize='medium'/>
+            <Search className='search-button' fontSize='medium' onClick={handleSearchButtonClick}/>
         </div>
       }
-        
-        
     </Box>
     
   );

@@ -4,6 +4,7 @@ import Text from './Text';
 import ButtonRouter from './ButtonRouter';
 import { getRoute } from '../utils';
 import TextRouter from './TextRouter';
+import SearchPanel from '../features/SearchPanel';
 
 const Navbar = () => {
   const getLoginRoute = () => {
