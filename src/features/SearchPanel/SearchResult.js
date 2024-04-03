@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import Text from '../../components/Text'
 import Chip from '../../components/Chip'
 import emptyLogo from '../../assets/emptyImage.png';
@@ -11,7 +11,7 @@ import Slider from 'react-slick';
 
 export default function SearchResult() {
 
-    const sampleData = [{
+    let sData = [{
         id:1,
         tags: ['Hair cut', 'Hair styling', 'Massage', 'Hair cut', 'Hair styling', 'Massage'],
         image: emptyLogo,
@@ -51,26 +51,53 @@ export default function SearchResult() {
                    ]
       }]
 
-    const [expanded, setExpanded] = useState(false);
+      const [originalData, setOriginalData] = useState([]);
+      const [filteredData, setFilteredData] = useState([]);
     const [modal, setModal] = useState(true);
+    let filterData = originalData.slice(); // Copy original data
+
+    useEffect(() => {
+      setOriginalData(sData);
+    },[])
+
+    const defaultFilters = {
+      SortBy: "Recommended",
+      price: {min : 0 , max:100},
+      selectedTags: [],
+    };
 
     function handleClick(){
     }
 
     const FILTERR = useSelector((state) => {
+      console.log("state.filterModal : ",state.filterModal)
+      if(state.filterModal === defaultFilters){
+        setFilteredData(originalData);
+      }
         return state.filterModal;
       });
-    
-      const onclickbutton = () => {
-        console.log('filterr:', JSON.stringify(FILTERR))
-        filterSortData(JSON.stringify(FILTERR));
-      };
+
 
     function filterSortData(Data) {
-        
+      debugger
+
+      let fData = JSON.parse(Data);
+      filterData = filterData.map((item) => {
+
+      item.treatments = item.treatments.filter((i) => {
+        return i.price >= fData.price.min && i.price <= fData.price.max
+      })
+      return item;
+      })
+      setFilteredData(filterData);
     }
 
-    var settings = {
+    useEffect(() => {
+      filterSortData(JSON.stringify(FILTERR));
+    },[FILTERR, originalData])
+
+
+      var settings = {
         dots: true,
         infinite: false,
         speed: 500,
@@ -104,19 +131,19 @@ export default function SearchResult() {
           }
         ]
       };
-    
+
     return (
         <Card className='' >
-            <CardHeader  title={sampleData.length + ' Venues matching your search'} action={
+            <CardHeader  title={filterData.length + ' Venues matching your search'} action={
                     <div className='flex items-center'>
-                        <FilterModal/>
-                        <div>Show map</div>
+                        <FilterModal />
+                        <div >Show map</div>
                     </div>
                 }>
             </CardHeader>
             <hr /> 
             {
-                sampleData.map((card) => (
+                filterData.map((card) => (
                     <CardContent key={card.id} className='flex justify-center items-center'>
                         <Card sx={{width: 1184 }} className='my-8'>
                             <CardContent className=''>

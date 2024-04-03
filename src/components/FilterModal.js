@@ -22,6 +22,8 @@ import {
   UpdateFilter,
 } from '../store/slices/filterModal.js';
 import Buttons from '@mui/material/Button';
+import { Grid } from '@mui/material';
+
 
 export default function FilterModal() {
   const { SortBy, price, selectedTags } = useSelector(
@@ -109,107 +111,105 @@ export default function FilterModal() {
     <div>
       <Buttons onClick={handleOpen} ><TuneRoundedIcon className='text-black'/></Buttons>
       <Modal
-        open={open}
-        onClose={handleOpen}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} className="rounded-3xl">
-          <div id="title" className="font-bold text-xl mb-3">
-            Filters
-          </div>
-<div className='md:max-h-screen overflow-y-auto'>
-          <div className="font-bold mb-2">Sort by</div>
-          <form>
-            <Controller
-              name="SortBy"
-              control={control}
-              render={({ field }) => (
-                <div className="space-y-3">
-                  {sortByListItem?.map((item, index) => {
-                    return (
-                      <SortByItem
-                        {...field}
-                        key={index}
-                        labelName={item}
-                      ></SortByItem>
-                    );
-                  })}
-                </div>
-              )}
-            />
-            <br></br>
-            <Divider></Divider>
-            <div className="font-bold mb-2 mt-3">Price</div>
-            <Controller
-              name="price"
-              className='ml-4 mr-4'
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <div className="mb-4 ml-6 mr-6">
-                  <Slider
+  open={open}
+  onClose={handleOpen}
+  aria-labelledby="modal-modal-title"
+  aria-describedby="modal-modal-description"
+>
+  <Box sx={style} className="rounded-3xl">
+    <div id="title" className="font-bold text-xl mb-3">
+      Filters
+    </div>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <div className="font-bold mb-2">Sort by</div>
+        <form>
+          <Controller
+            name="SortBy"
+            control={control}
+            render={({ field }) => (
+              <div className="space-y-3">
+                {sortByListItem?.map((item, index) => {
+                  return (
+                    <SortByItem
+                      {...field}
+                      key={index}
+                      labelName={item}
+                    ></SortByItem>
+                  );
+                })}
+              </div>
+            )}
+          />
+          <br></br>
+          <Divider></Divider>
+          <div className="font-bold mb-2 mt-3">Price</div>
+          <Controller
+            name="price"
+            className='ml-4 mr-4'
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <div className="mb-4 ml-6 mr-6">
+                <Slider
                   className=''
-                    value={value}
-                    onChange={(_, newValue) => onChange(newValue)}
-                    valueLabelDisplay="auto"
-                    getAriaLabel={() => "price range"}
-                    disableSwap
-                    // getAriaValueText={valuetext}
-                  />
-                  <div className="flex justify-between items-center">
-                    <span>${value[0]}</span>
-                    <span>${value[1]}</span>
-                  </div>
+                  value={value}
+                  onChange={(_, newValue) => onChange(newValue)}
+                  valueLabelDisplay="auto"
+                  getAriaLabel={() => "price range"}
+                  disableSwap
+                />
+                <div className="flex justify-between items-center">
+                  <span>${value[0]}</span>
+                  <span>${value[1]}</span>
+                </div>
+              </div>
+            )}
+          />
+
+          <Divider />
+          <div className="mt-2 mb-2">
+            <Controller
+              name="selectedTags"
+              control={control}
+              defaultValue={["kids"]}
+              render={({ field: { onChange, value } }) => (
+                <div>
+                  {predefinedTags.map((tag) => (
+                    <button
+                      key={tag}
+                      type="button"
+                      className={`border border-black ${
+                        value.includes(tag)
+                          ? "bg-gray-500 text-white"
+                          : "bg-white text-black"
+                      } rounded-md px-4 py-2 m-2 cursor-pointer`}
+                      onClick={() => onclickTag(tag, value, onChange)}
+                    >
+                      {tag}
+                    </button>
+                  ))}
                 </div>
               )}
             />
+          </div>
 
-            <Divider />
-            <div className="mt-2 mb-2">
-              <Controller
-                name="selectedTags"
-                control={control}
-                defaultValue={["kids"]}
-                render={({ field: { onChange, value } }) => (
-                  <div>
-                    {predefinedTags.map((tag) => (
-                      <button
-                        key={tag}
-                        type="button"
-                        className={`border border-black ${
-                          value.includes(tag)
-                            ? "bg-gray-500 text-white"
-                            : "bg-white text-black"
-                        } rounded-md px-4 py-2 m-2 cursor-pointer`}
-                        onClick={() => onclickTag(tag, value, onChange)}
-                      >
-                        {tag}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              />
-            </div>
+          <Divider />
 
-            <Divider />
+          <div className="space-x-4 mt-3">
+            <Button variant="outlined" onClick={onClickClearFilter} name="Clear All" />
+            <Button
+              name="Apply Filters"
+              onClick={() => {
+                onClickApplyFilter(getValues());
+              }}
+            ></Button>
+          </div>
 
-            <div className="space-x-4 mt-3">
-              <Button variant="outlined" onClick={onClickClearFilter} name="Clear All" />
-              <Button
-                name="Apply Filters"
-                onClick={() => {
-                  //for debug purpose
-                  // const values = getValues(); // { test: "test-input", test1: "test1-input" }
-                  // const singleValue = getValues("test"); // "test-input"
-                  // const multipleValues = getValues(["test", "test1"]);
-                  onClickApplyFilter(getValues());
-                }}
-              ></Button>
-            </div>
-
-          </form></div>
-        </Box>
-      </Modal>
+        </form>
+      </Grid>
+    </Grid>
+  </Box>
+</Modal>
     </div>
   );
 }
