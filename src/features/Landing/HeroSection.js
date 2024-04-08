@@ -1,7 +1,7 @@
 import React from 'react';
 import { LANDING_PAGE } from '../../constants/constants';
 import SearchPanel from '../SearchPanel';
-import NewSearchPanel from '../SearchPanel/NewSearchPanel.tsx';
+import NewSearchPanel from '../SearchPanel/NewSearchPanel';
 
 import Text from '../../components/Text';
 

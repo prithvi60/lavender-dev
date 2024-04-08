@@ -5,8 +5,9 @@ import Chip from "../../../components/Chip";
 import { DigitalClock, LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useDispatch, useSelector } from "react-redux";
-import { updateSearchTimeFrom, updateSearchTimeTo } from "../../../store/slices/searchPageSlice";
+import { updateSearchSelectedBox, updateSearchTimeFrom, updateSearchTimeTo } from "../../../store/slices/searchPageSlice";
 import dayjs from "dayjs";
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function SelectTimePicker() {
   const { selectedBox, showOptionContainer, treatmentList, locationList, selectedDate, SelectedTime } = useSelector(
@@ -26,29 +27,35 @@ export default function SelectTimePicker() {
   ];
 
   const onChangeFromTime = (value) => {
-    debugger
+    
     dispatch(updateSearchTimeFrom({ SelectedTimeFrom: value.format('hh a') }))
 
   }
 
   const onChangeToTime = (value) => {
-    debugger
+    
     dispatch(updateSearchTimeTo({ SelectedTimeTo: value.format('hh a') }))
   }
 
   function handleTagSelect(value) {
-    debugger
+    
 
+  }
+  const closeFilterPannel = () => {
+    dispatch(updateSearchSelectedBox({ selectedBox: '' }))
   }
   return (
     <React.Fragment>
-      <div className="ml-4">
-        <Text
-          variant="body1"
-          align="left"
-          className="bold"
-          name="Chose your convenient Time slot"
-        ></Text>
+      <div className="home-time-filter">
+        <div className="flex-start-container">
+          <Text
+            variant="body1"
+            align="left"
+            className="bold"
+            name="Chose your convenient Time slot"
+          ></Text>
+          <CloseIcon onClick={() => closeFilterPannel()} />
+        </div>
         <Grid container xs={7} md={7} lg={12} className="grid">
           {timeSelectorChip?.map((tag, index) => (
             <Grid item key={index}>
@@ -60,8 +67,9 @@ export default function SelectTimePicker() {
             </Grid>
           ))}
 
-          <div className="flex row-auto gap-3 mt-4">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
+        </Grid>
+        <div className="flex row-auto gap-3 mt-4">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
 
               <TimePicker sx={{
                 minWidth: 100,
@@ -83,9 +91,7 @@ export default function SelectTimePicker() {
               />
             </LocalizationProvider>
           </div>
-        </Grid>
       </div>
-
       {/* </Grid> */}
     </React.Fragment>
   );

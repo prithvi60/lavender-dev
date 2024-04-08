@@ -7,7 +7,9 @@ import { ExpandMore } from '@mui/icons-material';
 import FilterModal from '../../components/FilterModal';
 import { useSelector } from 'react-redux';
 import Slider from 'react-slick';
-
+import StoreMallDirectoryOutlinedIcon from '@mui/icons-material/StoreMallDirectoryOutlined';
+import { getRoute } from '../../utils';
+import TextRouter from '../../components/TextRouter';
 
 export default function SearchResult() {
 
@@ -79,7 +81,7 @@ export default function SearchResult() {
 
 
     function filterSortData(Data) {
-      debugger
+      
 
       let fData = JSON.parse(Data);
       filterData = filterData.map((item) => {
@@ -96,7 +98,9 @@ export default function SearchResult() {
       filterSortData(JSON.stringify(FILTERR));
     },[FILTERR, originalData])
 
-
+    const getSearchDetailsRoute = () => {
+      return getRoute("SearchDetails")
+    }
       var settings = {
         dots: true,
         infinite: false,
@@ -133,8 +137,8 @@ export default function SearchResult() {
       };
 
     return (
-        <Card className='' >
-            <CardHeader  title={filterData.length + ' Venues matching your search'} action={
+        <Card className='mt-16' >
+            <CardHeader  sx={{}} title={filterData.length + ' Venues matching your search'} action={
                     <div className='flex items-center'>
                         <FilterModal />
                         <div >Show map</div>
@@ -188,6 +192,10 @@ export default function SearchResult() {
                                     ))}
                                 </Grid>
                             </CardContent>
+                            <CardActions className='flex justify-center bg-gray-100'>
+                              <StoreMallDirectoryOutlinedIcon/>
+                              <TextRouter name={"Saloon Details"} to={getSearchDetailsRoute()}/>
+                            </CardActions>
                         </Card>
                     </CardContent>
                 ))

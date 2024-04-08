@@ -17,7 +17,10 @@ const Places = React.lazy(() => import('./pages/Places'));
 const Bookings = React.lazy(() => import('./pages/Bookings'));
 const Login = React.lazy(() => import('./pages/LoginPage'));
 const Register = React.lazy(() => import('./pages/RegisterPage'));
-const components = [Admin, Places, Bookings, Login, Register];
+const Search = React.lazy(() => import('./pages/SearchPage'));
+const SearchDetails = React.lazy(() => import('./pages/SearchDetailsPage'));
+
+const components = [Admin, Places, Bookings, Login, Register, Search, SearchDetails];
 
 const App = () => {
   return (

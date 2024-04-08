@@ -44,10 +44,16 @@
         flex-grow: 1;
         font-weight: bold;
     }
+
+    .search-box{
+        height: 100%;
+    }
     
     .search-box-title-icon {
         display: flex;
         align-items: center;
+        height: 100%;
+        width: 100%;
         padding: 10px 25px;
     }
     
@@ -68,11 +74,14 @@
         display: grid;
         text-align: left;
         margin-left: 15px;
+
+        & p{
+            text-align: left;
+        }
     }
     
     .addtl-search-icon {
-        width: 25%;
-        height: 90%;
+        padding: 18px;
         color: white;
         border-radius: 20px;
         display: flex;
@@ -80,6 +89,10 @@
         justify-content: center;
         margin: 2px;
         cursor: pointer;
+        & svg{
+            width: 26px;
+            height: 26px;
+        }
     }
     
     .search-box-title .name-top {

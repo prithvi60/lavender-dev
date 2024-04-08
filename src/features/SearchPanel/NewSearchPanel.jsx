@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Grid, Box, Paper, Divider } from "@mui/material";
-import Text from "../../components/Text";
-import SelectTreatment from "./SelectTreatment";
+import Text from "../../components/Text.js";
+import SelectTreatment from "./SelectTreatment.js";
 import SelectTimePicker from "./SelectTime/SelectTimePicker.tsx";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -10,13 +10,16 @@ import { AccessTime, ContentCut, DateRange, LocationOn, Search } from "@mui/icon
 import dayjs from "dayjs";
 import { pickersLayoutClasses } from "@mui/x-date-pickers";
 import { useDispatch, useSelector } from "react-redux";
-import { closeSearchModal, updateSearchDate, updateSearchSelectedBox } from "../../store/slices/searchPageSlice";
+import { closeSearchModal, updateSearchDate, updateSearchSelectedBox } from "../../store/slices/searchPageSlice.js";
 import SelectLocation from "./SelectLocation.tsx";
+import ButtonRouter from "../../components/ButtonRouter.js";
+import { getRoute } from "../../utils/index.js";
+import { Link } from "react-router-dom";
 const NewSearchPanel = () => {
 
 
   const { selectedBox, showOptionContainer, treatmentList, locationList, selectedDate, SelectedTime } = useSelector(
-    (state: any) => state.searchPage
+    (state) => state.searchPage
   );
 
   const dispatch = useDispatch();
@@ -66,7 +69,7 @@ const NewSearchPanel = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (gridRef.current && !gridRef.current.contains(event.target as Node)) {
+      if (gridRef.current && !gridRef.current.contains(event.target)) {
         // Clicked outside of the grid box
         dispatch(closeSearchModal());
       }
@@ -78,10 +81,9 @@ const NewSearchPanel = () => {
     };
   }, [dispatch]);
   
-  const onChangeDate = (data: any, context) => {
-    debugger
+  const onChangeDate = (data) => {
+    
     console.log('data', data)
-    console.log('context', context)
     const fromDate = data[0]?.format('MMM DD') === undefined ? '' : data[0]?.format('MMM DD')
     const toDate = data[1]?.format('MMM DD') === undefined ? '' : data[1]?.format('MMM DD')
 
@@ -89,19 +91,24 @@ const NewSearchPanel = () => {
   }
 
   const handleBoxClick = (name) => {
-    debugger
+    
     // Update form values on box click
     dispatch(updateSearchSelectedBox({ selectedBox: name, showOptionContainer: true }))
   };
+
+  const handleSearchIconClick = () => {
+    console.log("in search icon clcil");
+    return getRoute("Search")
+  }
 
   return (
     <div>
     <div className="search-panel">
       {/* <Form> */}
 
-      <Grid container spacing={0}>
+      <div className="grid-container">
         <>
-          <Grid key={`grid${1}`} item xs={2.98}>
+          <div className={`grid-items ${selectedBox == 'Treatment' && 'active'}`}>
             <Box
               className={`search-box ${false ? 'selected' : ''} ${selectedBox?.toLowerCase() === "time" ? 'addtl-button' : ''}`}
             >
@@ -109,7 +116,7 @@ const NewSearchPanel = () => {
                 {<ContentCut className='icon' />}
                 <div className='search-box-title'>
                   {treatmentList && treatmentList.length > 0 ? (
-                    <Text name={treatmentList.toString()}></Text>) :
+                    <Text name={treatmentList.toString().replaceAll(',', ', ')}></Text>) :
                     (<><Text align="left" className='name-top' name="Select" />
                       <label htmlFor="name-bottom">
                         <Text id='name-bottom' align="left" className='name-bottom' name={'Treatment'} onClick={() => handleBoxClick('Treatment')} />
@@ -120,10 +127,9 @@ const NewSearchPanel = () => {
               </div>
 
             </Box>
-          </Grid>
-          <Divider key={1} orientation="vertical" flexItem />
+          </div>
 
-          <Grid key={`grid${2}`} item xs={2.98}>
+          <div className={`grid-items ${selectedBox == 'Location' && 'active'}`}>
             <Box
               className={`search-box ${false ? 'selected' : ''} ${selectedBox?.toLowerCase() === "time" ? 'addtl-button' : ''}`}
             >
@@ -131,7 +137,7 @@ const NewSearchPanel = () => {
                 {<LocationOn className='icon' />}
                 <div className='search-box-title'>
                   {locationList && locationList.length > 0
-                    ? <Text onClick={() => handleBoxClick('Location')} name={locationList.toString()}></Text>
+                    ? <Text onClick={() => handleBoxClick('Location')} name={locationList.toString().replaceAll(',', ', ')}></Text>
                     :
                     <>
                       <Text align="left" className='name-top' name="Select" />
@@ -143,11 +149,9 @@ const NewSearchPanel = () => {
               </div>
 
             </Box>
-          </Grid>
-          <Divider key={1} orientation="vertical" flexItem />
+          </div>
 
-
-          <Grid key={`grid${3}`} item xs={2.98}>
+          <div className={`grid-items ${selectedBox == 'Date' && 'active'}`}>
             <Box
               className={`search-box ${false ? 'selected' : ''} ${selectedBox?.toLowerCase() === "time" ? 'addtl-button' : ''}`}
             >
@@ -166,10 +170,9 @@ const NewSearchPanel = () => {
                 </div>
               </div>
             </Box>
-          </Grid>
-          <Divider key={1} orientation="vertical" flexItem />
+          </div>
 
-          <Grid key={`grid${4}`} item xs={2.98}>
+          <div className={`grid-items ${selectedBox == 'Time' && 'active'}`}>
             <Box
               className='search-box addtl-button MuiBox-root css-0'
             >
@@ -188,38 +191,43 @@ const NewSearchPanel = () => {
                 </div>
               </div>
                 <div className='addtl-search-icon'>
-                  <Search className='search-button text-right mr-2' fontSize='medium' />
+                    <Link to={handleSearchIconClick()}>
+                      <Search className='search-button text-right mr-2' fontSize='medium' />
+
+                    </Link>
                 </div>
             </Box>
-          </Grid>
+          </div>
 
 
         </>
-      </Grid>
+      </div>
 
       {selectedBox === "Treatment" &&
         showOptionContainer && (
-          <Box>
+          <div className="home-filter-panel">
             <Paper elevation={2} className="treatment-panel">
               <SelectTreatment />
             </Paper>
-          </Box>
+          </div>
         )}
 
 
 
       {selectedBox === "Location" &&
         showOptionContainer && (
-          <Box>
+          <div className="home-filter-panel three-column">
+            <div></div>
             <Paper elevation={2} className="treatment-panel">
               <SelectLocation />
             </Paper>
-          </Box>
+          </div>
         )}
 
       {selectedBox === "Date" &&
         showOptionContainer && (
-          <Box>
+          <div className="home-filter-panel two-column">
+            <div></div>
             <Paper
               elevation={2}
               className="date-panel"
@@ -233,7 +241,7 @@ const NewSearchPanel = () => {
                     },
                     actionBar: { actions: [] },
                   }}
-                  calendars={2}
+                  // calendars={2}
                   onChange={onChangeDate}
                   sx={{
                     [`.${pickersLayoutClasses.contentWrapper}`]: {
@@ -243,12 +251,13 @@ const NewSearchPanel = () => {
                 />
               </LocalizationProvider>
             </Paper>
-          </Box>
+          </div>
         )}
 
       {selectedBox === "Time" &&
         showOptionContainer && (
-          <Box>
+          <div className="home-filter-panel one-column">
+            <div></div>
             <Paper
               elevation={2}
               className="time-panel"
@@ -256,7 +265,7 @@ const NewSearchPanel = () => {
             >
               <SelectTimePicker /> {/* Pass form controller to SelectTimePicker */}
             </Paper>
-          </Box>
+          </div>
         )}
       {/* </Form> */}
     </div>

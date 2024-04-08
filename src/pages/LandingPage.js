@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import HeroSection from '../features/Landing/HeroSection';
 import CategorySection from '../features/Landing/CategorySection';
 import RecommendSection from '../features/Landing/RecommendSection';
@@ -7,11 +7,12 @@ import { Box } from '@mui/material';
 import SearchResult from '../features/SearchPanel/SearchResult';
 
 const LandingPage = () => {
+    const [isSearchPage, setIsSearchPage] = useState(false);
     return (
         <Box className='landing-page'>
-            <Navbar />
+            <Navbar isSearchPage={isSearchPage}/>
             <HeroSection />
-            <SearchResult />
+            {/* <SearchResult /> */}
             <CategorySection />
             <RecommendSection />
         </Box>

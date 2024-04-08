@@ -27,14 +27,14 @@ const TreatmentPanel = () => {
  
 
   const handleOnChange = (key, value) => {
-    debugger
+    
     const dataTemp = [ ...treatmentList,value];
     // dataTemp[key] = value;
     dispatch(updateSearchTreatment({treatment:dataTemp}))
   }
 
   const handleTagSelect = (tag) => {
-    debugger
+    
 
     // Check if the tag already exists in the newTags list
     const tagAlreadyExists = treatmentList.some(existingTag => existingTag === tag);
@@ -45,22 +45,20 @@ const TreatmentPanel = () => {
   };
 
   const handleTagRemove = (tag) => {
-    debugger
+    
     const updatedTags = treatmentList?.filter((item) => item !== tag);
     // handleOnChange('treatments', updatedTags);
     dispatch(updateSearchTreatment({treatment:updatedTags}))
   };
 
   return (
-    <Fragment>
-      <Grid item xs={12}>
-        <Text variant="body1" align="left" className="bold" name="Choose your Treatments" />
-      </Grid>
-      <Grid container spacing={2} className='treatment-grid'>
+    <div className='home-treatments-filter'>
+      <Text variant="body1" align="left" className="bold" name="Choose your Treatments" />
+      <div className='treatment-grid'>
         <Grid item xs={12}>
           <Grid container spacing={1}>
             {treatmentList?.map((tag, index) => {
-              debugger
+              
              return (
               <Grid item key={index}>
                 <Chip type={"deletable"} className="delete" label={tag} onDelete={() => handleTagRemove(tag)} />
@@ -77,8 +75,8 @@ const TreatmentPanel = () => {
             ))}
           </Grid>
         </Grid>
-      </Grid>
-    </Fragment>
+      </div>
+    </div>
   );
 };
 

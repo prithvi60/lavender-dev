@@ -24,4 +24,14 @@ export const routes = [
     path: '/register',
     exact: true
   },
+  {
+    name: "Search",
+    path: '/search',
+    exact: true
+  },
+  {
+    name: "SearchDetails",
+    path: '/searchdetails',
+    exact: true
+  }
 ];

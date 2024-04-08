@@ -2,8 +2,9 @@ import React, { Fragment } from 'react';
 import { Grid } from '@mui/material';
 import Text from '../../components/Text';
 import Chip from '../../components/Chip';
-import { updateSearchLocationList } from '../../store/slices/searchPageSlice';
+import { updateSearchLocationList, updateSearchSelectedBox } from '../../store/slices/searchPageSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import CloseIcon from '@mui/icons-material/Close';
 
 const SelectLocation = () => {
 
@@ -17,13 +18,13 @@ const SelectLocation = () => {
     ]
 
     const handleOnChange = (value) => {
-        debugger
+        
         const dataTemp = [...locationList, value];
         dispatch(updateSearchLocationList({ locationList: dataTemp }))
     }
 
     const handleTagSelect = (tag) => {
-        debugger
+        
 
         // Check if the tag already exists in the newTags list
         const tagAlreadyExists = locationList?.some(existingTag => existingTag === tag);
@@ -34,29 +35,32 @@ const SelectLocation = () => {
     };
 
     const handleTagRemove = (tag) => {
-        debugger
+        
         const updatedTags = locationList?.filter((item) => item !== tag);
         // handleOnChange('treatments', updatedTags);
         dispatch(updateSearchLocationList({ locationList: updatedTags }))
     };
+    
+    const closeFilterPannel = () => {
+        dispatch(updateSearchSelectedBox({ selectedBox: '' }))
+    }
 
     return (
-        <Fragment>
-            <Grid item xs={12}>
+        <div className='home-date-filter'>
+            <div className='flex-between-container'>
                 <Text variant="body1" align="left" className="bold" name="Choose your Treatments" />
-            </Grid>
-            <Grid container spacing={2} className='treatment-grid'>
-                <Grid item xs={12}>
-                    <Grid container spacing={1}>
-                        {locationList?.map((tag, index) => {
-                            debugger
-                            return (
-                                <Grid item key={index}>
-                                    <Chip type={"deletable"} className="delete" label={tag} onDelete={() => handleTagRemove(tag)} />
-                                </Grid>
-                            )
-                        })}
-                    </Grid>
+                <CloseIcon onClick={() => closeFilterPannel()} />
+            </div>
+            <div className='treatment-grid'>
+                <Grid container spacing={1}>
+                    {locationList?.map((tag, index) => {
+                        // 
+                        return (
+                            <Grid item key={index}>
+                                <Chip type={"deletable"} className="delete" label={tag} onDelete={() => handleTagRemove(tag)} />
+                            </Grid>
+                        )
+                    })}
                 </Grid>
                 <Grid item xs={12}>
                     <Grid container spacing={1}>
@@ -67,8 +71,8 @@ const SelectLocation = () => {
                         ))}
                     </Grid>
                 </Grid>
-            </Grid>
-        </Fragment>
+            </div>
+        </div>
     );
 };
 

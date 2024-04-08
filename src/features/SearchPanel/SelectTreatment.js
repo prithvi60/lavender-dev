@@ -3,24 +3,30 @@ import { Grid, Box } from '@mui/material';
 import Text from '../../components/Text';
 import CategoryPanel from '../SearchPanel/SelectTreatment/CategoryPanel'
 import TreatmentPanel from './TreatmentPanel.tsx'
+import CloseIcon from '@mui/icons-material/Close';
+import { useDispatch } from "react-redux";
+import { updateSearchSelectedBox } from '../../store/slices/searchPageSlice.js';
 
 
 const SelectTreatment = () => {
-  return ( <>
-    <Fragment>
-      <Grid container spacing={2} className='select-treatment'>
-        <Grid item xs={7} md={7} lg={7} className="grid">
-          <TreatmentPanel />
-        </Grid>
-        <Grid item xs={5} md={5} lg={5} className="grid">
-            <Box>
-              <Text variant="body1" className="bold" align="left" name="Categories"/>
-              <CategoryPanel />
-            </Box>
-        </Grid>
-      </Grid>
-    </Fragment>
-  </>);
+  
+  const dispatch = useDispatch();
+  const closeFilterPannel = () => {
+    dispatch(updateSearchSelectedBox({ selectedBox: '' }))
+  }
+
+  return (
+    <div className='treatment-container'>
+      <TreatmentPanel />
+      <Box className='home-treatments-filter'>
+        <div className='flex-between-container'>
+          <Text variant="body1" className="bold" align="left" name="Categories"/>
+          <CloseIcon onClick={() => closeFilterPannel()} />
+        </div>
+        <CategoryPanel />
+      </Box>
+    </div>
+  );
 }
 
 export default SelectTreatment;
