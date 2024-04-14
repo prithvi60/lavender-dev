@@ -4,7 +4,6 @@ import MUIDataTable from "mui-datatables";
 import { AddCircle, Delete, Edit } from '@mui/icons-material';
 import { editEstablishment, removeEstablishment, setAddEstablishment } from '../../../store/slices/admin/establishmentAdminSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { sampleEstablishments } from '../../../data/data';
 
 const EstablishmentManagement = () => {
   const dispatch = useDispatch();
@@ -18,7 +17,6 @@ const EstablishmentManagement = () => {
       label: "Actions",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
-          console.log('tableMeta', tableMeta);
           return (
             <>
               <IconButton onClick={() => handleUpdateEstablishment(tableMeta.rowData[1])}>
@@ -90,7 +88,7 @@ const EstablishmentManagement = () => {
   };
 
   const handleAddButtonClick = () => {
-    dispatch(setAddEstablishment({addEst: true}))
+    dispatch(setAddEstablishment({addEst: true}));
   };
 
   const handleUpdateEstablishment = (establishmentId) => {
@@ -105,7 +103,7 @@ const EstablishmentManagement = () => {
   };
 
   useEffect(() => {
-    setEstablishments([...establishmentsTemp, ...sampleEstablishments]);
+    setEstablishments([...establishmentsTemp]);
   }, [establishmentsTemp]);
 
   return (

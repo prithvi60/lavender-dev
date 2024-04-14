@@ -5,7 +5,7 @@ import ImageUploader from '../../../components/ImageUploader';
 import CountrySelect from '../../../components/CountrySelect';
 import TextArea from '../../../components/TextArea';
 import TextField from '../../../components/TextField';
-import { addEstablishment, editEstablishment, updateEstablishment } from '../../../store/slices/admin/establishmentAdminSlice';
+import { addEstablishment, editEstablishment, updateEstablishment, setAddEstablishment } from '../../../store/slices/admin/establishmentAdminSlice';
 
 const FORM_VALUES = [
   {xs: 12, md: 12, type: "textField", id: "name", label: "Name", autoComplete: "name", required: true},
@@ -51,6 +51,7 @@ const EstablishmentForm = ({ onSubmit }) => {
       
       setEstablishment({...initialState});
       dispatch(editEstablishment({editEstablishmentId: null}));
+      dispatch(setAddEstablishment({ addEst: false }));
   };
 
   useEffect(() => {
@@ -59,12 +60,13 @@ const EstablishmentForm = ({ onSubmit }) => {
           if (establishmentTemp) {
               setEstablishment({...establishmentTemp});
           }
-          
       }
   }, [editEstablishmentId, establishments]);
 
   useEffect(() => {
-    handleAddEstablishment();
+    if (onSubmit) {
+      handleAddEstablishment();
+    }
   }, [onSubmit]);
 
   return ( <>

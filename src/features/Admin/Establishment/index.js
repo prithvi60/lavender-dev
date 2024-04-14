@@ -14,23 +14,57 @@ import Text from '../../../components/Text';
 
 const Establishment = () => {
   const { addEst, editEstablishmentId } = useSelector((state) => state.establishmentAdmin);
+  
+  const initialState = {
+    id: Math.floor(Math.random() * 1000) + 1,
+    name: "",
+    about: "",
+    addressLine1: "",
+    addressLine2: "",
+    area: "",
+    state: "",
+    postalCode: "",
+    country: "",
+    images: []
+  };
 
   const [data, setData] = useState({
-    addEst: addEst,
-    editEst: false
+    editEst: false,
+    establishment: initialState,
+    onSubmit: false
   });
 
-  useEffect(() => {
+  console.log('Data: ', data, addEst, editEstablishmentId);
+
+  const handleOnChange = (key, value) => {
     const dataTemp = {...data};
-    dataTemp.addEst = addEst;
+    dataTemp[key] = value;
     setData(dataTemp);
-  }, [addEst, data])
+  }
+
+  const handleOnMultipleChange = (keys, values) => {
+    const dataTemp = {...data};
+    keys?.forEach((key, index) => {
+      dataTemp[key] = values[index];
+    });
+    setData(dataTemp);
+  }
+
+  const handleOnSubmit = () => {
+    handleOnChange('onSubmit', true);
+  }
+
+  useEffect(() => {
+    if (!addEst) {
+      handleOnChange('onSubmit', false);
+    }
+  }, [addEst])
 
   return (
     <Fragment>
       <Grid container spacing={2}>
         {
-          !data?.addEst &&
+          (!addEst && editEstablishmentId == null) &&
           <>
           <GridPaper
             component={<Text className='title' name={'Establishments'}/>}
@@ -39,17 +73,16 @@ const Establishment = () => {
             <EstablishmentManagement />
           </Grid>
           </>
-          
         }
         {
-          data?.addEst &&
+          (addEst || editEstablishmentId)  &&
           <>
             <GridPaper
               component={<Text className='title' name={`${editEstablishmentId ? "Edit" : "Add"} New Establishment`}/>}
             />
             <Grid item xs={12} md={7} lg={8}>
               <Paper className='est-paper' elevation={0}>
-                <EstablishmentForm />
+                <EstablishmentForm onSubmit={data?.onSubmit}/>
               </Paper>
             </Grid>
             <Grid item xs={12} md={5} lg={4}>
@@ -65,14 +98,13 @@ const Establishment = () => {
             <Grid item xs={12}>
               <Paper className='est-paper' elevation={0}>
                 <Button
-                  onClick={() => {}}
+                  onClick={handleOnSubmit}
                   name={"Submit"}
                   sx={{ mt: 3, ml: 1 }}
                 />
               </Paper>
             </Grid>
           </>
-          
         }
       </Grid>
     </Fragment>
