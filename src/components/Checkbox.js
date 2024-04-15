@@ -1,23 +1,35 @@
-import { Checkbox as MuiCheckbox, FormControlLabel } from '@mui/material';
+import { Checkbox as MuiCheckbox, FormControlLabel } from "@mui/material";
+import React from "react";
 
-const CheckBox = props => {
-    const {label, required, disabled, variant, onChange, value, className, ...rest} = props;
+const CheckBox = (props) => {
+  const {
+    label,
+    required,
+    disabled,
+    variant,
+    onChange,
+    value,
+    className,
+    ...rest
+  } = props;
 
-    return (
-        <FormControlLabel
-            control={<MuiCheckbox
-                id={props?.id}
-                variant={variant ?? "standard"}
-                onChange={(e) => onChange(props?.id, e.target.value)}
-                value={value}
-                className={`checkbox ${className ?? ""}`}
-            />}
-            label={label}
-            required={required ?? true}
-            disabled={disabled ?? false}
-            {...rest}
+  return (
+    <FormControlLabel
+      control={
+        <MuiCheckbox
+          id={props?.id}
+          variant={variant ?? "standard"}
+          onChange={(e) => onChange(props?.id, e.target.value)}
+          value={value}
+          className={`checkbox ${className ?? ""}`}
         />
-    )
-}
+      }
+      label={label}
+      required={required ?? true}
+      disabled={disabled ?? false}
+      {...rest}
+    />
+  );
+};
 
 export default CheckBox;

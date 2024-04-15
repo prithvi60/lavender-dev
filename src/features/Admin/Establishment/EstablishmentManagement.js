@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { Grid, IconButton } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import { Grid, IconButton } from "@mui/material";
 import MUIDataTable from "mui-datatables";
-import { AddCircle, Delete, Edit } from '@mui/icons-material';
-import { editEstablishment, removeEstablishment, setAddEstablishment } from '../../../store/slices/admin/establishmentAdminSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { sampleEstablishments } from '../../../data/data';
+import { AddCircle, Delete, Edit } from "@mui/icons-material";
+import {
+  editEstablishment,
+  removeEstablishment,
+  setAddEstablishment,
+} from "../../../store/slices/admin/establishmentAdminSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { sampleEstablishments } from "../../../data/data";
 
 const EstablishmentManagement = () => {
   const dispatch = useDispatch();
-  const { establishments: establishmentsTemp } = useSelector((state) => state.establishmentAdmin);
+  const { establishments: establishmentsTemp } = useSelector(
+    (state) => state.establishmentAdmin,
+  );
 
   const [establishments, setEstablishments] = useState([...establishmentsTemp]);
 
@@ -18,13 +24,16 @@ const EstablishmentManagement = () => {
       label: "Actions",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
-          console.log('tableMeta', tableMeta);
           return (
             <>
-              <IconButton onClick={() => handleUpdateEstablishment(tableMeta.rowData[1])}>
+              <IconButton
+                onClick={() => handleUpdateEstablishment(tableMeta.rowData[1])}
+              >
                 <Edit />
               </IconButton>
-              <IconButton onClick={() => handleDeleteEstablishment(tableMeta.rowData[1])}>
+              <IconButton
+                onClick={() => handleDeleteEstablishment(tableMeta.rowData[1])}
+              >
                 <Delete />
               </IconButton>
             </>
@@ -53,20 +62,20 @@ const EstablishmentManagement = () => {
       label: "Address Line 2",
     },
     {
-        name: "area",
-        label: "Area",
+      name: "area",
+      label: "Area",
     },
     {
-        name: "state",
-        label: "State",
+      name: "state",
+      label: "State",
     },
     {
-        name: "postalCode",
-        label: "Postal Code",
+      name: "postalCode",
+      label: "Postal Code",
     },
     {
-        name: "country",
-        label: "Country",
+      name: "country",
+      label: "Country",
     },
   ];
 
@@ -84,24 +93,23 @@ const EstablishmentManagement = () => {
     },
     headCells: {
       style: {
-          textAlign: 'left',
+        textAlign: "left",
       },
     },
   };
 
   const handleAddButtonClick = () => {
-    dispatch(setAddEstablishment({addEst: true}))
+    dispatch(setAddEstablishment({ addEst: true }));
   };
 
   const handleUpdateEstablishment = (establishmentId) => {
     // Update Establishment logic
-    dispatch(editEstablishment({editEstablishmentId: establishmentId}));
+    dispatch(editEstablishment({ editEstablishmentId: establishmentId }));
   };
 
   const handleDeleteEstablishment = (establishmentId) => {
     // Delete Establishment logic
-    dispatch(removeEstablishment({id: establishmentId}));
-    
+    dispatch(removeEstablishment({ id: establishmentId }));
   };
 
   useEffect(() => {
