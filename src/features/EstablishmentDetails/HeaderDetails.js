@@ -5,7 +5,8 @@ import Text from '../../components/Text';
 import ButtonRouter from '../../components/ButtonRouter';
 import {Rating} from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import Button from '../../components/Button';
+import Buttons from '@mui/material/Button';
+import ServiceDialog from '../ServiceDialog/ServiceDialog';
 
 function HeaderDetails(props) {
     const {data} = props;
@@ -17,10 +18,15 @@ function HeaderDetails(props) {
                 <div className='text-3xl font-bold'>{SampleData[0].establishmentName}</div>
             </Grid>
             <Grid item xs={6} md={4} className='flex justify-evenly'>
-                <ButtonRouter name={"Pictures"} variant='' to=""/>
-                <ButtonRouter name={"Services"} to=""/>
+                {/* <ButtonRouter name={"Pictures"} variant='outlined' to=""/>
+                <ButtonRouter name={"Services"} to=""/> 
                 <ButtonRouter name={"Review"} to=""/>
-                <ButtonRouter name={"About"} to=""/>
+                <ButtonRouter name={"About"} to=""/> */}
+
+                <Buttons variant='outlined'>Pictures</Buttons>
+                <ServiceDialog />
+                <Buttons variant='outlined'>Review</Buttons>
+                <Buttons variant='outlined'>About</Buttons>
             </Grid>
         </Grid>
         <br/>

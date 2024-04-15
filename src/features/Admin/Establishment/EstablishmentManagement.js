@@ -8,7 +8,6 @@ import {
   setAddEstablishment,
 } from "../../../store/slices/admin/establishmentAdminSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { sampleEstablishments } from "../../../data/data";
 
 const EstablishmentManagement = () => {
   const dispatch = useDispatch();
@@ -113,7 +112,7 @@ const EstablishmentManagement = () => {
   };
 
   useEffect(() => {
-    setEstablishments([...establishmentsTemp, ...sampleEstablishments]);
+    setEstablishments([...establishmentsTemp]);
   }, [establishmentsTemp]);
 
   return (

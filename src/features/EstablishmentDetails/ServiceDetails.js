@@ -1,19 +1,12 @@
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { TabList} from '@mui/lab'
 import React from 'react'
-import { SampleData } from './SampleData'
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import ImageIcon from '@mui/icons-material/Image';
-import WorkIcon from '@mui/icons-material/Work';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
 import Button from '../../components/Button';
+import { SampleData } from './SampleData'
+
 function ServiceDetails() {
     const [value, setValue] = React.useState(0);
 
@@ -48,15 +41,6 @@ function ServiceDetails() {
 
       
     </Box>
-    {/* <List  sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      {SampleData[0].services.map((item)=>(
-        <ListItem >
-            <ListItemText primary={item.serviceName} secondary={item.serviceDuration}></ListItemText>
-        </ListItem>
-      ))}
-
-        
-      </List> */}
       <List sx={{ width: '100%', maxWidth: 760, bgcolor: 'background.paper' }}>
       {SampleData[0].services.map((item)=>(
         <ListItemButton sx={{display: 'flex', justifyContent: 'space-between', }} onClick={handleClick} >

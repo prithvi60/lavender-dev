@@ -1,6 +1,5 @@
-import { Grid, Paper } from "@mui/material";
-
 import React from "react";
+import { Grid, Paper } from "@mui/material";
 
 const GridPaper = (props) => {
   return (

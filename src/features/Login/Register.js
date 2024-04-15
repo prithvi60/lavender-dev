@@ -49,6 +49,7 @@ const Register = () => {
     const handleGenderChange = (event) => {
         handleOnChange('gender', event?.target?.value);
     };
+    
 
     const handleAreaCodeChange = (event) => {
         handleOnChange('areaCode', event?.target?.value);
