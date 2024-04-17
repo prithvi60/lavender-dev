@@ -7,6 +7,7 @@ import establishmentAdminReducer from './slices/admin/establishmentAdminSlice';
 import loginPageReducer from './slices/login/loginPageSlice';
 import userAdminReducer from './slices/admin/userAdminSlice';
 import filterModalSlice from './slices/filterModal';
+import checkOutPageSlice from './slices/checkOutPageSlice';
 
 const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ const store = configureStore({
     establishmentAdmin: establishmentAdminReducer,
     userAdmin: userAdminReducer,
     loginPage: loginPageReducer,
-    filterModal : filterModalSlice
+    filterModal : filterModalSlice,
+    checkOutPage: checkOutPageSlice
   },
 });
 

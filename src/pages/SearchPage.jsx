@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import SearchResult from '../features/SearchPanel/SearchResult'
+import SearchResult from '../features/SearchPanel/SearchResult.tsx'
+
 import Navbar from '../components/NavBar'
 import { Box } from '@mui/material';
 

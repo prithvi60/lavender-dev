@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import dayjs from "dayjs";
 
 const initialState = {
   selectedBox: "", // Add form field for selected box
@@ -6,7 +7,7 @@ const initialState = {
   treatmentList: [],
   locationList: [],
   selectedDate: "",
-  SelectedTime: { from: "", to: "" },
+  SelectedTime: { from: new Date(), to: dayjs().endOf("day") },
 };
 
 export const searchPageSlice = createSlice({
@@ -21,32 +22,25 @@ export const searchPageSlice = createSlice({
       state.SelectedTime = action.payload?.SelectedTime;
     },
     updateSearchTreatment: (state, action) => {
-      ;
       state.treatmentList = action.payload.treatment;
     },
     updateSearchDate: (state, action) => {
-      ;
       state.selectedDate = action.payload.selectedDate;
     },
     updateSearchTimeFrom: (state, action) => {
-      ;
       state.SelectedTime.from = action.payload.SelectedTimeFrom;
     },
     updateSearchTimeTo: (state, action) => {
-      ;
       state.SelectedTime.to = action.payload.SelectedTimeTo;
     },
     updateSearchSelectedBox: (state, action) => {
-      ;
       state.selectedBox = action.payload.selectedBox;
       state.showOptionContainer = action.payload.showOptionContainer;
     },
     updateSearchLocationList: (state, action) => {
-      ;
       state.locationList = action.payload.locationList;
     },
     closeSearchModal: (state) => {
-      ;
       state.showOptionContainer = false;
     },
     reset: (state) => {

@@ -31,12 +31,12 @@ export const SampleData = [
                 "finalPrice": null,
                 "options": [
                     {
-                        "serviceName": "Solid Tone Refresh",
+                        "serviceName": "Currly",
                         "duration": "30 mins",
                         "finalPrice": 50
                     },
                     {
-                        "serviceName": "Root Touch-Up",
+                        "serviceName": "Hair staright",
                         "duration": "20 mins",
                         "finalPrice": 60
                     }
@@ -49,6 +49,15 @@ export const SampleData = [
                 "serviceDescription": "Indulge in the ultimate pampering with our Classic Pedicure.",
                 "startingPrice": null,
                 "finalPrice": 50,
+                "options": []
+            },
+            {
+                "serviceId": 4,
+                "serviceName": "pedicure",
+                "serviceDuration": "120 mins",
+                "serviceDescription": "Ultimate pampering with our Classic Pedicure. Indulge in the ultimate pampering with our Classic Pedicure.",
+                "startingPrice": null,
+                "finalPrice": 70,
                 "options": []
             }
         ]

@@ -4,7 +4,7 @@ import CategorySection from '../features/Landing/CategorySection';
 import RecommendSection from '../features/Landing/RecommendSection';
 import Navbar from '../components/NavBar';
 import { Box } from '@mui/material';
-import SearchResult from '../features/SearchPanel/SearchResult';
+import SearchResult from '../features/SearchPanel/SearchResult.tsx';
 
 const LandingPage = () => {
     const [isSearchPage, setIsSearchPage] = useState(false);
