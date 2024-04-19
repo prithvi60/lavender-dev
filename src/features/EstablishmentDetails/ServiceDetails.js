@@ -7,7 +7,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Button from '../../components/Button';
 import { SampleData } from './SampleData'
 
-function ServiceDetails() {
+function ServiceDetails(props) {
+  const {isLoading, establishmentData} = props
     const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -17,7 +18,10 @@ function ServiceDetails() {
 
   }
   return (
-    <div className='mx-16 my-10'>
+    <>
+    {
+      !isLoading && 
+      <div className='mx-16 my-10'>
         <div className='text-xl font-bold'>Services</div>
         <Box sx={{ maxWidth: { xs: 320, sm: 780 }, bgcolor: 'background.paper' }}>
       <Tabs
@@ -42,15 +46,19 @@ function ServiceDetails() {
       
     </Box>
       <List sx={{ width: '100%', maxWidth: 760, bgcolor: 'background.paper' }}>
-      {SampleData[0].services.map((item)=>(
+      {establishmentData.data.serviceCategories.map((service)=>(
         <ListItemButton sx={{display: 'flex', justifyContent: 'space-between', }} onClick={handleClick} >
-            
-            <div className='p-2'>
+            {service.services.map((item)=>(
+              <>
+              <div className='p-2'>
                 <div className='text-lg font-bold'>{item.serviceName}</div>
-                <div className='text-sm font-normal'>{item.serviceDuration}</div>
-                <div className='text-base font-medium'>{'$'+item.startingPrice}</div>
+                <div className='text-sm font-normal'>{item.startingPrice}</div>
+                {/* <div className='text-base font-medium'>{'$'+item.startingPrice}</div> */}
             </div>
             <div>Book</div>
+              </>
+            ))}
+            
         </ListItemButton>
         
         
@@ -64,6 +72,9 @@ function ServiceDetails() {
     <div className='mb-2'></div>
     <hr/>
     </div>
+    }
+    </>
+    
   )
 }
 

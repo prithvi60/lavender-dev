@@ -7,7 +7,7 @@ const initialState = {
   treatmentList: [],
   locationList: [],
   selectedDate: "",
-  SelectedTime: { from: new Date(), to: dayjs().endOf("day") },
+  SelectedTime: "",
 };
 
 export const searchPageSlice = createSlice({

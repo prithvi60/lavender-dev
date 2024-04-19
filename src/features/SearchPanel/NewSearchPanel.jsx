@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Paper } from "@mui/material";
 import Text from "../../components/Text.js";
 import SelectTreatment from "./SelectTreatment.js";
@@ -16,6 +16,9 @@ import ButtonRouter from "../../components/ButtonRouter.js";
 import { getRoute } from "../../utils/index.js";
 import { Link } from "react-router-dom";
 import {convertTo_HH_AM} from '../../utils/TimeFormat.ts'
+import { useMutation, useQuery } from "@tanstack/react-query";
+import endpoint from "../../api/endpoints.ts";
+
 const NewSearchPanel = () => {
 
 
@@ -95,10 +98,32 @@ const NewSearchPanel = () => {
     // Update form values on box click
     dispatch(updateSearchSelectedBox({ selectedBox: name, showOptionContainer: true }))
   };
+//  const mutation = useMutation({
+//     mutationFn : (payLoad) => {
+//       return useQuery([], ()=>{endpoint.getSearchCustomers(payLoad)})
+//     },
+//   })
+const [queryResult, setQueryResult] = useState(null);
+const payLoad = {
+  
+}
+useEffect(()=>{
+  
+}, [])
+
+//const {isLoading, isRefetching, data: customersData} = useQuery({queryKey: ['customer-data'], queryFn: () =>{ return endpoint.getSearchCustomers(payLoad)}})
+//const {data} = useQuery({queryKey: ['customer-da'], queryFn: () =>{ return endpoint.getEstablishemntDetails()}})
+
+
+
 
   const handleSearchIconClick = () => {
+    
+    // mutation.mutate(payLoad)
     return getRoute("Search")
   }
+
+ 
 
   return (
     <div>
@@ -192,7 +217,6 @@ const NewSearchPanel = () => {
                 <div className='addtl-search-icon'>
                     <Link to={handleSearchIconClick()}>
                       <Search className='search-button text-right mr-2' fontSize='medium' />
-
                     </Link>
                 </div>
             </Box>

@@ -8,3 +8,13 @@ export interface ISaloonData {
   location: string;
   reviewCount: number;
 }
+
+
+export interface ISearchEstablishmentData{
+  establishmentId: number,
+  establishmentName: string,
+  establishmentLocation: string,
+  estImages: string[],
+  rating: number,
+  services: [],
+}

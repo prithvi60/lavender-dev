@@ -8,71 +8,43 @@ import Slider from 'react-slick';
 import StoreMallDirectoryOutlinedIcon from '@mui/icons-material/StoreMallDirectoryOutlined';
 import { getRoute } from '../../utils';
 import TextRouter from '../../components/TextRouter';
-import { ISaloonData } from '../../interface/interface';
+import { useQuery } from '@tanstack/react-query';
+import endpoint from '../../api/endpoints.ts';
 
 export default function SearchResult() {
+  
+  const timeTags = ['9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm']
+  const payLoad={}
+  const {isLoading, data: establishmentSearchResult} = useQuery({queryKey: ['custom-da'], queryFn: () =>{ return endpoint.getEstablishmentSearch(payLoad)}})
+  console.log("establishmentSearchResult : ;: ", establishmentSearchResult)
 
-  let sData: ISaloonData[] = useMemo(() => {
-    return [{
-      id: 1,
-      tags: ['Hair cut', 'Hair styling', 'Massage', 'Hair cut', 'Hair styling', 'Massage'],
-      image: emptyLogo,
-      parlorName: 'Yong Chow’s Paradise - Women’s Parlour & Spa',
-      rating: 4,
-      reviewCount: 20,
-      location: 'Location 1',
-      treatments: [{ tid: 1, treatmentName: 'Ladies trim', price: 145, timeTags: ['9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm'] },
-      { tid: 2, treatmentName: 'Classic Pedicure', price: 90, timeTags: ['9.00 am', '10.00 am', '11.00 am', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm'] },
-      { tid: 3, treatmentName: 'Single process Color', price: 160, timeTags: ['9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm', '3.00 pm', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm'] }
-      ]
-    },
-    {
-      id: 2,
-      tags: ['Hair cut', 'Hair styling', 'Massage', 'Hair cut', 'Hair styling', 'Massage'],
-      image: emptyLogo,
-      parlorName: 'parlor 2 - Yong Chow’s Paradise - Women’s Parlour & Spa',
-      rating: 4.5,
-      reviewCount: 20,
-      location: 'Location 1',
-      treatments: [{ tid: 1, treatmentName: 'Ladies trim', price: 245, timeTags: ['9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm'] },
-      { tid: 2, treatmentName: 'Classic Pedicure', price: 487, timeTags: ['9.00 am', '10.00 am', '11.00 am', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm'] },
-      { tid: 3, treatmentName: 'Single process Color', price: 360, timeTags: ['9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm', '3.00 pm', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm'] }
-      ]
-    },
-    {
-      id: 3,
-      tags: ['Hair cut', 'Kids'],
-      image: emptyLogo,
-      parlorName: 'parlor 3 -- Yong Chow’s Paradise - Women’s Parlour & Spa',
-      rating: 3,
-      reviewCount: 20,
-      location: 'Location 1',
-      treatments: [{ tid: 1, treatmentName: 'Ladies trim', price: 100, timeTags: ['9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm'] },
-      { tid: 2, treatmentName: 'Classic Pedicure', price: 111, timeTags: ['9.00 am', '10.00 am', '11.00 am', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm'] },
-      { tid: 3, treatmentName: 'Single process Color', price: 160, timeTags: ['9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm', '3.00 pm', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm'] }
-      ]
-    }]
-  }, [])
+  let establishmentList = useMemo(() => {
+    if(!isLoading){
+      return establishmentSearchResult
+    }
+    return null
+  }, [isLoading])
 
-  const [filteredData, setFilteredData] = useState<ISaloonData[]>([]);
+  let establishmentResult: any = establishmentList != null ? establishmentList.data : null
 
-  const handleClick = () => {
+  const [filteredData, setFilteredData] = useState<any[]>([]);
 
-  }
+  console.log('filteredDate : ', filteredData);
+
 
   const FILTERR = useSelector((state: any) => {
     return state.filterModal;
   });
 
-  const sortBy = useCallback((list: ISaloonData[]) => {
+  const sortBy = useCallback((list: any[]) => {
 
     if (FILTERR.SortBy === 'Price') {
 
-      // Sort function to sort treatments by price ascending
-      const sortByPrice = (a: ISaloonData, b: ISaloonData) => {
-        // Get the lowest price from each treatment array and compare them
-        const lowestPriceA = Math.min(...a.treatments.map(treatment => treatment.price));
-        const lowestPriceB = Math.min(...b.treatments.map(treatment => treatment.price));
+      // Sort function to sort services by price ascending
+      const sortByPrice = (a: any, b: any) => {
+        // Get the lowest price from each service array and compare them
+        const lowestPriceA = Math.min(...a.services.map(service => service.price));
+        const lowestPriceB = Math.min(...b.services.map(service => service.price));
         return lowestPriceA - lowestPriceB;
       };
 
@@ -83,7 +55,7 @@ export default function SearchResult() {
     if (FILTERR.SortBy === 'Ratings') {
 
       // Sort function to sort by rating descending
-      const sortByRating = (a: ISaloonData, b: ISaloonData) => {
+      const sortByRating = (a: any, b: any) => {
         return b.rating - a.rating;
       }
 
@@ -93,43 +65,39 @@ export default function SearchResult() {
     return list
   }, [FILTERR.SortBy])
 
-  useEffect(() => {
-
-    let tempData: ISaloonData[] = [...sData];
-    if (FILTERR.selectedTags && FILTERR.selectedTags.length > 0) {
-      tempData = sData.filter((item: ISaloonData) =>
-        item.tags.some((tag) =>
-          FILTERR.selectedTags.some((selectedTag) =>
-            tag.toLowerCase() === selectedTag.toLowerCase()
+    useEffect(() => {
+      if(!isLoading){
+      let tempData: any = [...establishmentResult];
+      if (FILTERR.selectedTags && FILTERR.selectedTags.length > 0) {
+        tempData = establishmentResult.filter((item: any) =>
+          item.serviceTags.some((tag) =>
+            FILTERR.selectedTags.some((selectedTag) =>
+              tag.toLowerCase() === selectedTag.toLowerCase()
+            )
           )
-        )
-      );
-    }
+        );
+      }
+  
+      if (FILTERR.price.min !== 0 || FILTERR.price.max !== 100) {
+        tempData = tempData.map((item: any) => ({
+          ...item,
+          services: item.services.filter((service: any) =>
+            service.startingPrice >= FILTERR.price.min && service.startingPrice <= FILTERR.price.max
+          )
+        })).filter((item: any) => item.services.length > 0); // Filter out items with empty service arrays
+      }
+      // Sorting logic based on FILTERR.sortBy (assuming sortBy contains a property called 'sortByField')
+       tempData = sortBy(tempData)
+      setFilteredData(tempData);}
+    }, [FILTERR, establishmentResult,establishmentList, sortBy]);
+ 
 
-    if (FILTERR.price.min !== 0 || FILTERR.price.max !== 100) {
-      tempData = tempData.map((item: ISaloonData) => ({
-        ...item,
-        treatments: item.treatments.filter((treatment: any) =>
-          treatment.price >= FILTERR.price.min && treatment.price <= FILTERR.price.max
-        )
-      })).filter((item: ISaloonData) => item.treatments.length > 0); // Filter out items with empty treatment arrays
-    }
-
-
-    // Sorting logic based on FILTERR.sortBy (assuming sortBy contains a property called 'sortByField')
-
-     tempData = sortBy(tempData)
-
-    setFilteredData(tempData);
-
-  }, [FILTERR, sData, sortBy]);
-
-
-
+function handleClick(){}
 
   const getSearchDetailsRoute = () => {
     return getRoute("SearchDetails")
   }
+
   var settings1 = {
     dots: true,
     infinite: false,
@@ -178,38 +146,39 @@ export default function SearchResult() {
       {
         filteredData && filteredData.length > 0 ? (
           filteredData?.map((card, index) => (
-            <CardContent key={card.id} className='flex justify-center items-center'>
+            <CardContent key={card.establishmentId} className='flex justify-center items-center'>
               <Card sx={{ width: 1184 }} className='my-8'>
                 <CardContent className=''>
                   <div key={index} className='flex flex-col md:flex-row md:items-center md:mb-8'>
-                    <img alt='' src={card.image} className='w-full md:w-1/3 h-44 mb-4 md:mb-0 rounded-2xl' />
+                    <img alt='' src={emptyLogo} className='w-full md:w-1/3 h-44 mb-4 md:mb-0 rounded-2xl' />
                     <div key={index} className='md:ml-4'>
                       <div className='flex flex-wrap mb-2'>
-                        {card.tags.map((tag, index) => (
+                        {card.serviceTags.map((tag, index) => (
                           <Chip key={index} label={tag} className='mr-2 mb-2' />
                         ))}
                       </div>
-                      <div className='font-bold text-lg'>{card.parlorName}</div>
+                      <div className='font-bold text-lg'>{card.establishmentName}</div>
                       <div className="card-rating">
                         <div className='text-sm'>{card.rating}</div>
-                        <Rating value={card.rating} precision={0.5} readOnly />
-                        <div className='text-sm'>({card.reviewCount})</div>
+                        <Rating value={3} precision={0.5} readOnly />
+                        {/* <div className='text-sm'>({card.reviewCount})</div> */}
+                        <div className='text-sm'>85</div>
                       </div>
-                      <div className='text-base'>{card.location}</div>
+                      <div className='text-base'>{card.establishmentLocation}</div>
                     </div>
                   </div>
                   <Grid>
-                    {card.treatments.map((treatment, index) => (
+                    {card.services.map((service, index) => (
                       <Grid container spacing={2} key={index} className='my-4'>
                         <Grid item xs={12} sm={6} md={4}>
-                          <div className='font-semibold'>{treatment.treatmentName}</div>
-                          <div>{treatment.price}</div>
+                          <div className='font-semibold'>{service.serviceName}</div>
+                          <div>from ${service.startingPrice}</div>
                         </Grid>
                         <Grid item xs={12} sm={6} md={8}>
                           <div className="">
                             <Slider {...settings1}>
 
-                              {treatment.timeTags.map((tag, index) => (
+                              {timeTags.map((tag, index) => (
 
                                 <Chip key={index} label={tag} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
 
@@ -233,3 +202,4 @@ export default function SearchResult() {
     </Card>
   )
 }
+

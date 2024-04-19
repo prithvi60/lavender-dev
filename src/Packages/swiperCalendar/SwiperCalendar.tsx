@@ -3,7 +3,7 @@ import './App.css';
 import DatePicker from './DatePicker.tsx';
 
 function SwiperCalendar() {
-  debugger
+  
   const selectedDay = (val) => {
     console.log(val)
   };

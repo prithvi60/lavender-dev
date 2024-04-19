@@ -17,7 +17,7 @@ const checkOutPageSlice = createSlice({
             state.checkOut.push(serviceDetails)
         },
         resetCheckOut: (state, action) => {
-            debugger
+            
             state.checkOut = state.checkOut.filter((item)=> item.serviceName != action.payload.serviceName)
         }
     }

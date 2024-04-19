@@ -17,7 +17,7 @@ import {
   import Checkbox from '@mui/material/Checkbox';
 
 function OptionsModal({props}) {
-    debugger
+    
     const checkOutList = useSelector(
         (state) => state.checkOutPage
       );

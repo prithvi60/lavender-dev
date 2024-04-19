@@ -9,20 +9,20 @@ import Buttons from '@mui/material/Button';
 import ServiceDialog from '../ServiceDialog/ServiceDialog';
 
 function HeaderDetails(props) {
-    const {data} = props;
-    console.log("data : ", SampleData)
+    const {isLoading, establishmentData} = props
+    if(!isLoading){
+    //console.log("establishmentData:  : ", establishmentData.data)
+
+    }
   return (
-    <div className='mx-16'>
+    <>
+{!isLoading && 
+        <div className='mx-16'>
         <Grid container spacing={2}>
             <Grid item xs={6} md={8}>
-                <div className='text-3xl font-bold'>{SampleData[0].establishmentName}</div>
+                <div className='text-3xl font-bold'>{establishmentData.data.establishmentName}</div>
             </Grid>
             <Grid item xs={6} md={4} className='flex justify-evenly'>
-                {/* <ButtonRouter name={"Pictures"} variant='outlined' to=""/>
-                <ButtonRouter name={"Services"} to=""/> 
-                <ButtonRouter name={"Review"} to=""/>
-                <ButtonRouter name={"About"} to=""/> */}
-
                 <Buttons variant='outlined'>Pictures</Buttons>
                 <ServiceDialog />
                 <Buttons variant='outlined'>Review</Buttons>
@@ -32,20 +32,24 @@ function HeaderDetails(props) {
         <br/>
         <Grid container spacing={1}>
             <Grid xs={10} className='flex items-center py-2'>
-                <div className='text-lg font-bold px-2'>{SampleData[0].averageRating}</div>
-                <Rating className='' value={SampleData[0].averageRating} precision={0.5} readOnly />
-                <div className='text-base px-2'>{'('+SampleData[0].ratingCount+')'}</div>
+                <div className='text-lg font-bold px-2'>{establishmentData.data.rating}</div>
+                <Rating className='' value={establishmentData.data.rating} precision={0.5} readOnly />
+                <div className='text-base px-2'>{'('+establishmentData.data.rating+')'}</div>
                 <span className='px-4'><FavoriteIcon/></span>
-                <Chip label={'Opens at '+SampleData[0].establishmentOpeningTime} className='mx-2'/>
-                <Chip label={SampleData[0].establishmentGeoLocation} className='mx-2'/>
+                <Chip label={'Opens at '+establishmentData.data.geoX} className='mx-2'/>
+                <Chip label={establishmentData.data.establishmentLocation} className='mx-2'/>
 
                 <Grid>
-                    {SampleData[0].instantBooking && <Chip className='mx-2' label={"Instant Booking"}/>}
-                    {SampleData[0].freeCancellation && <Chip className='mx-2' label={"Free Cancellation"}/>}
+                    {establishmentData.data.facilities.instantBooking && <Chip className='mx-2' label={"Instant Booking"}/>}
+                    {establishmentData.data.facilities.freeCancellation && <Chip className='mx-2' label={"Free Cancellation"}/>}
                 </Grid>
             </Grid>
         </Grid>
-    </div>
+        </div>
+    }
+    </>
+    
+    
   )
 }
 

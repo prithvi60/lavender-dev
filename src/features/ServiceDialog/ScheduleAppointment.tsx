@@ -10,7 +10,7 @@ import DatePicker from '../../Packages/swiperCalendar/DatePicker.tsx'
 import { blueGrey } from '@mui/material/colors';
 
 export default function ScheduleAppointment(props) {
-  debugger
+  
   const {onSetActiveStep} =props
   const selectedDay = (val) => {
     console.log(val)
@@ -51,7 +51,7 @@ export default function ScheduleAppointment(props) {
       <Grid className='mt-4' classes='' container rowSpacing={3}>
 
         {Object.entries(Timings).map((item,index) => {
-          debugger
+          
           console.log('item :', item)
           return <>
             <Grid key={index} container item spacing={2}>
