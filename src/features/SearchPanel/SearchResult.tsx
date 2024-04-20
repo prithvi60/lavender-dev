@@ -177,11 +177,10 @@ function handleClick(){}
                         <Grid item xs={12} sm={6} md={8}>
                           <div className="">
                             <Slider {...settings1}>
-
-                              {timeTags.map((tag, index) => (
-
-                                <Chip key={index} label={tag} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
-
+                              {service.availabilities.map((tagee, index) => (
+                                  tagee.timeSlots.map((timeSlot, index) => (
+                                    <Chip key={index} label={timeSlot} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
+                                  ))
                               ))}
                             </Slider>
 
