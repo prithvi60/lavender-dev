@@ -11,20 +11,18 @@ import { useQuery } from '@tanstack/react-query';
 function EstablishmentDetails() {
   const id=789
   const { data: establishmentData, isLoading: isLoading, error: userDataError, refetch: refetchUserData } = 
-  useQuery({queryKey: ['custom'], queryFn: () =>{ return endpoint.getEstablishmentDetailsById(id)}})
-  if(!isLoading){
-    //console.log("establishmentData : ", establishmentData)
-  }
+  useQuery({queryKey: ['query-establishment-details'], queryFn: () =>{ return endpoint.getEstablishmentDetailsById(id)}})
+  
 
   return (
     <div className='mt-16'>
         <HeaderDetails isLoading={isLoading} establishmentData={establishmentData}/>
         <ImageSlides />
-        <div className='flex'>
+        <div className='flex justify-around'>
           <ServiceDetails isLoading={isLoading} establishmentData={establishmentData}/>
-          <Availability/>
+          <Availability />
         </div>
-        <About/>
+        <About establishmentData={establishmentData}/>
     </div>
   )
 }

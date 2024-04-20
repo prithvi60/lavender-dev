@@ -10,12 +10,18 @@ import { SampleData } from './SampleData'
 function ServiceDetails(props) {
   const {isLoading, establishmentData} = props
     const [value, setValue] = React.useState(0);
+    const [tabValue, setTabValue] = React.useState('Nails');
 
+console.log('value : ', value)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   function handleClick(){
 
+  }
+  function handleTabChange(tag){
+    debugger
+setTabValue(tag)
   }
   return (
     <>
@@ -37,8 +43,10 @@ function ServiceDetails(props) {
           }}
       >
         {
-            SampleData[0].serviceTags.map((tag)=> (
-                <Tab label={tag} />
+            establishmentData.data.serviceCategories.map((service)=> (
+              service.serviceTags.map((tag)=>(
+                <Tab label={tag} onClick={()=>handleTabChange(tag)}/>
+              ))
             ))
         }
       </Tabs>
@@ -46,27 +54,21 @@ function ServiceDetails(props) {
       
     </Box>
       <List sx={{ width: '100%', maxWidth: 760, bgcolor: 'background.paper' }}>
-      {establishmentData.data.serviceCategories.map((service)=>(
-        <ListItemButton sx={{display: 'flex', justifyContent: 'space-between', }} onClick={handleClick} >
+      {establishmentData.data.serviceCategories?.filter(x => x.serviceTags.includes(tabValue)).map((service)=>(
+        
+        <ListItemButton sx={{display: 'flex', flexDirection: 'column', justifyContent: 'left', alignItems: 'flex-start' }} onClick={handleClick} >
             {service.services.map((item)=>(
-              <>
+              <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
               <div className='p-2'>
                 <div className='text-lg font-bold'>{item.serviceName}</div>
                 <div className='text-sm font-normal'>{item.startingPrice}</div>
                 {/* <div className='text-base font-medium'>{'$'+item.startingPrice}</div> */}
             </div>
-            <div>Book</div>
-              </>
+            <div style={{alignContent: 'center'}}>Book</div>
+              </div>
             ))}
-            
         </ListItemButton>
-        
-        
       ))}
-        
-  
-
-
     </List>
     <Button variant="outlined" name={'View all'}></Button>
     <div className='mb-2'></div>

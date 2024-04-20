@@ -5,10 +5,13 @@ import { Grid, Card, CardContent, Rating, CardActions, Collapse, Button, CardHea
 import Avatar from '@mui/material/Avatar';
 import PersonIcon from '@mui/icons-material/Person';
 
-function About() {
+function About(props) {
+const {establishmentData} = props
+console.log('establishmentData:::',establishmentData)
+
   const additionalInfos = ["Payment methods", "Languages", "Accessibility"]
   return (
-    <div className='mx-16 my-10'>
+    <div className='mx-16 my-10' id='about'>
         <Box sx={{ maxWidth: { xs: 320, sm: 780 }, bgcolor: 'background.paper' }}>
           <div className='text-xl font-bold pb-2'>About</div>
           <div className='text-lg font-normal'>{SampleData[0].establishmentAbout}</div>

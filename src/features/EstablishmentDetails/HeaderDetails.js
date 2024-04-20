@@ -26,17 +26,17 @@ function HeaderDetails(props) {
                 <Buttons variant='outlined'>Pictures</Buttons>
                 <ServiceDialog />
                 <Buttons variant='outlined'>Review</Buttons>
-                <Buttons variant='outlined'>About</Buttons>
+                <Buttons variant='outlined' href="#about">About</Buttons>
             </Grid>
         </Grid>
         <br/>
         <Grid container spacing={1}>
             <Grid xs={10} className='flex items-center py-2'>
                 <div className='text-lg font-bold px-2'>{establishmentData.data.rating}</div>
-                <Rating className='' value={establishmentData.data.rating} precision={0.5} readOnly />
-                <div className='text-base px-2'>{'('+establishmentData.data.rating+')'}</div>
+                <Rating className='' value={4} precision={0.5} readOnly />
+                <div className='text-base px-2'>{'('+87+')'}</div>
                 <span className='px-4'><FavoriteIcon/></span>
-                <Chip label={'Opens at '+establishmentData.data.geoX} className='mx-2'/>
+                <Chip label={'Opens at '+'11.00 am'} className='mx-2'/>
                 <Chip label={establishmentData.data.establishmentLocation} className='mx-2'/>
 
                 <Grid>

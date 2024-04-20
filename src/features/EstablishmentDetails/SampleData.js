@@ -492,12 +492,12 @@ export const SampleData = [
             "Debit card"
         ],
         "languages": [
-            "Tamil",
             "English",
-            "French"
+            "Spanish"
         ],
         "accessibility": [
-            "Wheelchair available"
+            "Complimentary Wi-Fi",
+        "Refreshments Available"
         ]
     }
 ]
