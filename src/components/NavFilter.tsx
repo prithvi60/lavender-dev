@@ -21,7 +21,7 @@ const NavFilter = () => {
         <p>{selectedDate}</p>
         </div>
         <div className='filtered-items'>
-        <p>{convertTo_HH_AM(SelectedTime?.from) + ' - ' + convertTo_HH_AM(SelectedTime?.to)}</p> <div className='icon-wrapper'><Search /></div>
+        <p>{}</p> <div className='icon-wrapper'><Search /></div>
         </div>
     </div>
   );

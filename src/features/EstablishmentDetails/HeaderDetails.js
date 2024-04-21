@@ -43,8 +43,8 @@ function HeaderDetails(props) {
                 </div>
                 <div className='search-header-details'>
                     {establishmentData.data.rating && <div className='text-lg font-bold px-2'>{establishmentData.data.rating}</div>}
-                    <Rating className='' value={establishmentData.data.rating} precision={0.5} readOnly />
-                    <div className='text-base'>{'('+establishmentData.data.rating+')'}</div>
+                    <Rating className='' value={4} precision={0.5} readOnly />
+                    <div className='text-base'>{'(87)'}</div>
                     <FavoriteIcon/>
                     <Chip label={'Opens at '+establishmentData.data.geoX} className='header-chip'/>
                     <Chip label={establishmentData.data.establishmentLocation} className='header-chip'/>
