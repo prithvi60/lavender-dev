@@ -10,6 +10,7 @@ import { getRoute } from '../../utils';
 import TextRouter from '../../components/TextRouter';
 import { useQuery } from '@tanstack/react-query';
 import endpoint from '../../api/endpoints.ts';
+import './style.css'
 
 export default function SearchResult() {
   
@@ -99,7 +100,7 @@ function handleClick(){}
   }
 
   var settings1 = {
-    dots: true,
+    dots: false,
     infinite: false,
     speed: 500,
     slidesToShow: 8,
@@ -135,7 +136,7 @@ function handleClick(){}
 
   return (
     <Card className='mt-16' >
-      <CardHeader sx={{}} title={filteredData.length + ' Venues matching your search'} action={
+      <CardHeader style={{marginTop: '60px'}} id = 'card-header-id' title={filteredData.length + ' Venues matching your search'} action={
         <div className='flex items-center'>
           <FilterModal />
           <div >Show map</div>
@@ -147,12 +148,12 @@ function handleClick(){}
         filteredData && filteredData.length > 0 ? (
           filteredData?.map((card, index) => (
             <CardContent key={card.establishmentId} className='flex justify-center items-center'>
-              <Card sx={{ width: 1184 }} className='my-8'>
-                <CardContent className=''>
-                  <div key={index} className='flex flex-col md:flex-row md:items-center md:mb-8'>
-                    <img alt='' src={emptyLogo} className='w-full md:w-1/3 h-44 mb-4 md:mb-0 rounded-2xl' />
-                    <div key={index} className='md:ml-4'>
-                      <div className='flex flex-wrap mb-2'>
+              <Card sx={{ width: 1184 }} className='my-8 card-wrap-container'>
+                <CardContent className='card-container'>
+                  <div key={index} className='card-header'>
+                    <img alt='' src={emptyLogo} className='w-full' />
+                    <div key={index} className='card-header-details'>
+                      <div className='chip-wrap'>
                         {card.serviceTags.map((tag, index) => (
                           <Chip key={index} label={tag} className='mr-2 mb-2' />
                         ))}
@@ -169,28 +170,23 @@ function handleClick(){}
                   </div>
                   <Grid>
                     {card.services.map((service, index) => (
-                      <Grid container spacing={2} key={index} className='my-4'>
-                        <Grid item xs={12} sm={6} md={4}>
+                      <div className='card-body-details'>
+                        <div className='card-body-title'>
                           <div className='font-semibold'>{service.serviceName}</div>
                           <div>from ${service.startingPrice}</div>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={8}>
-                          <div className="">
-                            <Slider {...settings1}>
-                              {service.availabilities.map((tagee, index) => (
-                                  tagee.timeSlots.map((timeSlot, index) => (
-                                    <Chip key={index} label={timeSlot} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
-                                  ))
-                              ))}
-                            </Slider>
-
-                          </div>
-                        </Grid>
-                      </Grid>
+                        </div>
+                        <div className="card-slick-container">
+                          <Slider {...settings1}>
+                            {timeTags.map((tag, index) => (
+                              <Chip key={index} label={tag} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
+                            ))}
+                          </Slider>
+                        </div>
+                      </div>
                     ))}
                   </Grid>
                 </CardContent>
-                <CardActions className='flex justify-center bg-gray-100'>
+                <CardActions className='card-footer-action'>
                   <StoreMallDirectoryOutlinedIcon />
                   <TextRouter name={"Saloon Details"} to={getSearchDetailsRoute()} />
                 </CardActions>

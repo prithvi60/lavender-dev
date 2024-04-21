@@ -15,14 +15,14 @@ function EstablishmentDetails() {
   
 
   return (
-    <div className='mt-16'>
+    <div className='searchDetailsContainer'>
         <HeaderDetails isLoading={isLoading} establishmentData={establishmentData}/>
         <ImageSlides />
-        <div className='flex justify-around'>
+        <div className='mx-16 service-search-container'>
           <ServiceDetails isLoading={isLoading} establishmentData={establishmentData}/>
           <Availability />
         </div>
-        <About establishmentData={establishmentData}/>
+        <About establishmentData={establishmentData} id='SearchDetailAbout'/>
     </div>
   )
 }

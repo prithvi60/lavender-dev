@@ -7,6 +7,8 @@ import {Rating} from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Buttons from '@mui/material/Button';
 import ServiceDialog from '../ServiceDialog/ServiceDialog';
+import './style.css'
+import { NavLink } from 'react-router-dom';
 
 function HeaderDetails(props) {
     const {isLoading, establishmentData} = props
@@ -16,37 +18,45 @@ function HeaderDetails(props) {
     }
   return (
     <>
-{!isLoading && 
-        <div className='mx-16'>
-        <Grid container spacing={2}>
-            <Grid item xs={6} md={8}>
-                <div className='text-3xl font-bold'>{establishmentData.data.establishmentName}</div>
-            </Grid>
-            <Grid item xs={6} md={4} className='flex justify-evenly'>
-                <Buttons variant='outlined'>Pictures</Buttons>
-                <ServiceDialog />
-                <Buttons variant='outlined'>Review</Buttons>
-                <Buttons variant='outlined' href="#about">About</Buttons>
-            </Grid>
-        </Grid>
-        <br/>
-        <Grid container spacing={1}>
-            <Grid xs={10} className='flex items-center py-2'>
-                <div className='text-lg font-bold px-2'>{establishmentData.data.rating}</div>
-                <Rating className='' value={4} precision={0.5} readOnly />
-                <div className='text-base px-2'>{'('+87+')'}</div>
-                <span className='px-4'><FavoriteIcon/></span>
-                <Chip label={'Opens at '+'11.00 am'} className='mx-2'/>
-                <Chip label={establishmentData.data.establishmentLocation} className='mx-2'/>
-
-                <Grid>
-                    {establishmentData.data.facilities.instantBooking && <Chip className='mx-2' label={"Instant Booking"}/>}
-                    {establishmentData.data.facilities.freeCancellation && <Chip className='mx-2' label={"Free Cancellation"}/>}
-                </Grid>
-            </Grid>
-        </Grid>
-        </div>
-    }
+        {!isLoading && 
+            <div className='mx-16'>
+                <div className='search-header-container'>
+                    <div className='text-3xl font-bold' id='SearchDetailPicture'>{establishmentData.data.establishmentName}</div>
+                    <div className='search-detail-chips'>
+                        <NavLink
+                            to="#SearchDetailPicture" className={({ isActive }) => isActive ? "active" : ""}>
+                            <Buttons variant='outlined'>Pictures</Buttons>
+                        </NavLink>
+                        <NavLink
+                            to="#SearchDetailService" className={({ isActive }) => isActive ? "active" : ""}>
+                            <ServiceDialog />
+                        </NavLink>
+                        <NavLink
+                            to="#SearchDetailReview" className={({ isActive }) => isActive ? "active" : ""}>
+                            <Buttons variant='outlined'>Review</Buttons>
+                        </NavLink>
+                        <NavLink
+                            to="#SearchDetailAbout" className={({ isActive }) => isActive ? "active" : ""}>
+                            <Buttons variant='outlined'>About</Buttons>
+                        </NavLink>
+                    </div>
+                </div>
+                <div className='search-header-details'>
+                    {establishmentData.data.rating && <div className='text-lg font-bold px-2'>{establishmentData.data.rating}</div>}
+                    <Rating className='' value={establishmentData.data.rating} precision={0.5} readOnly />
+                    <div className='text-base'>{'('+establishmentData.data.rating+')'}</div>
+                    <FavoriteIcon/>
+                    <Chip label={'Opens at '+establishmentData.data.geoX} className='header-chip'/>
+                    <Chip label={establishmentData.data.establishmentLocation} className='header-chip'/>
+                    <div className='search-chips-container'>
+                        <Grid>
+                            {establishmentData.data.facilities.instantBooking && <Chip className='mx-2' label={"Instant Booking"}/>}
+                            {establishmentData.data.facilities.freeCancellation && <Chip className='mx-2' label={"Free Cancellation"}/>}
+                        </Grid>
+                    </div>
+                </div>
+            </div>
+        }
     </>
     
     

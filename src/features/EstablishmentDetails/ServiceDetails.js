@@ -27,10 +27,11 @@ setTabValue(tag)
     <>
     {
       !isLoading && 
-      <div className='mx-16 my-10'>
+      <div className=''>
         <div className='text-xl font-bold'>Services</div>
         <Box sx={{ maxWidth: { xs: 320, sm: 780 }, bgcolor: 'background.paper' }}>
       <Tabs
+          className='serviceTabs'
         value={value}
         onChange={handleChange}
         variant="scrollable"
@@ -70,9 +71,8 @@ setTabValue(tag)
         </ListItemButton>
       ))}
     </List>
-    <Button variant="outlined" name={'View all'}></Button>
+        <Button className='outline-button' variant="outlined" name={'View all'}></Button>
     <div className='mb-2'></div>
-    <hr/>
     </div>
     }
     </>
