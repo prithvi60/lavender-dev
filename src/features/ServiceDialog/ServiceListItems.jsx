@@ -25,7 +25,7 @@ function ServiceListItems() {
   }
 
   return (
-        <div className='mx-4 md:mx-16 md:w-3/5 w-full'> {/* Adjusted margin for different screen sizes */}
+        <div className='w-full mx-4 md:mx-16 md:w-11/12 '> {/* Adjusted margin for different screen sizes */}
           <div className='text-xl font-bold'>Services</div>
             <Tabs
         value={value}
