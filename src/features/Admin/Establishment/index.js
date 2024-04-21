@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   Paper,
   Grid
@@ -11,10 +11,13 @@ import EstablishmentMenu from './EstablishmentMenu';
 import BusinessHoursForm from './BusinessHoursForm';
 import GridPaper from '../../../components/GridPaper';
 import Text from '../../../components/Text';
+import { setEstablishmentError } from '../../../store/slices/admin/establishmentAdminSlice';
 
 const Establishment = () => {
-  const { addEst, editEstablishmentId } = useSelector((state) => state.establishmentAdmin);
+  const { addEst, editEstablishmentId, establishmentError } = useSelector((state) => state.establishmentAdmin);
   
+  const dispatch = useDispatch();
+
   const initialState = {
     id: Math.floor(Math.random() * 1000) + 1,
     name: "",
@@ -55,10 +58,11 @@ const Establishment = () => {
   }
 
   useEffect(() => {
-    if (!addEst) {
+    if (!addEst || establishmentError) {
       handleOnChange('onSubmit', false);
+      dispatch(setEstablishmentError({ establishmentError: false }));
     }
-  }, [addEst])
+  }, [addEst, establishmentError])
 
   return (
     <Fragment>
@@ -87,12 +91,12 @@ const Establishment = () => {
             </Grid>
             <Grid item xs={12} md={5} lg={4}>
               <Paper className='est-paper' elevation={0}>
-                <BusinessHoursForm />
+                <BusinessHoursForm onSubmit={data?.onSubmit}/>
               </Paper>
             </Grid>
             <Grid item xs={12}>
               <Paper className='est-paper' elevation={0}>
-                <EstablishmentMenu />
+                <EstablishmentMenu onSubmit={data?.onSubmit}/>
               </Paper>
             </Grid>
             <Grid item xs={12}>

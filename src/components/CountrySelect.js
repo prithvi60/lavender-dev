@@ -31,7 +31,7 @@ const CountrySelect = ({ value, onChange}) => {
           label="Select a country"
           inputProps={{
             ...params.inputProps,
-            autoComplete: 'new-password', // disable autocomplete and autofill
+            autoComplete: 'new-password',
           }}
         />
       )}

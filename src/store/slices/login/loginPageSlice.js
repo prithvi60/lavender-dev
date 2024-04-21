@@ -12,7 +12,7 @@ export const loginPageSlice = createSlice({
     isNewAccount: (state, action) => {
       state.newAccount = action.payload.newAccount
     },
-    accountCreated: (state, action) => {
+    setAccountCreated: (state, action) => {
       state.accountCreated = action.payload.accountCreated
     },
     reset: (state) => {
@@ -23,7 +23,7 @@ export const loginPageSlice = createSlice({
 
 export const {
   isNewAccount,
-  accountCreated,
+  setAccountCreated,
   reset,
 } = loginPageSlice.actions;
 export default loginPageSlice.reducer;

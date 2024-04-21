@@ -5,7 +5,7 @@ import ImageUploader from '../../../components/ImageUploader';
 import CountrySelect from '../../../components/CountrySelect';
 import TextArea from '../../../components/TextArea';
 import TextField from '../../../components/TextField';
-import { addEstablishment, editEstablishment, updateEstablishment, setAddEstablishment } from '../../../store/slices/admin/establishmentAdminSlice';
+import { addEstablishment, editEstablishment, updateEstablishment, setAddEstablishment, setEstablishmentError } from '../../../store/slices/admin/establishmentAdminSlice';
 
 const FORM_VALUES = [
   {xs: 12, md: 12, type: "textField", id: "name", label: "Name", autoComplete: "name", required: true},
@@ -19,7 +19,7 @@ const FORM_VALUES = [
 ]
 
 const EstablishmentForm = ({ onSubmit }) => {
-  const { establishments, editEstablishmentId } = useSelector((state) => state.establishmentAdmin);
+  const { establishments, editEstablishmentId, businessHours } = useSelector((state) => state.establishmentAdmin);
   const dispatch = useDispatch();
   const initialState = {
       id: Math.floor(Math.random() * 1000) + 1,
@@ -31,7 +31,7 @@ const EstablishmentForm = ({ onSubmit }) => {
       state: "",
       postalCode: "",
       country: "",
-      images: []
+      images: [],
   };
 
   const [establishment, setEstablishment] = useState({...initialState});
@@ -42,16 +42,34 @@ const EstablishmentForm = ({ onSubmit }) => {
     setEstablishment(establishmentTemp);
   }
 
+  const validateData = (data) => {
+    for (let key in data) {
+      console.log('data: ', key, data[key])
+      if (!data[key]) {
+          return false;
+      }
+    }
+    return true;
+  }
+
   const handleAddEstablishment = () => {
+    const valid = validateData(establishment);
+    if (!valid) {
+      alert('Please provide all required fields');
+      dispatch(setEstablishmentError({ establishmentError: true }));
+    } else {
       if (editEstablishmentId) {
-          dispatch(updateEstablishment({ establishment }));
+        dispatch(updateEstablishment({ establishment, businessHours }));
       } else {
-          dispatch(addEstablishment({ establishment }));
+        dispatch(addEstablishment({ establishment, businessHours }));
       }
       
       setEstablishment({...initialState});
       dispatch(editEstablishment({editEstablishmentId: null}));
       dispatch(setAddEstablishment({ addEst: false }));
+      dispatch(setEstablishmentError({ establishmentError: false }));
+    }
+    
   };
 
   useEffect(() => {
@@ -95,7 +113,7 @@ const EstablishmentForm = ({ onSubmit }) => {
             case "countrySelect":
               return (
                 <Grid key={index} item xs={item?.xs} md={item?.md} className="grid">
-                  <CountrySelect onChange={handleOnChange} value={establishment?.[item?.id]}/>
+                  <CountrySelect onChange={(e) => handleOnChange(item?.id, e.target.value)} value={establishment?.[item?.id]}/>
                 </Grid>
               )
             default:

@@ -1,9 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Paper, Typography, Grid, useMediaQuery, useTheme } from '@mui/material';
-import RegisterSide from './Register';
-import LoginLanding from './LoginLanding';
-import SingInSide from './SignInSide';
 
 const Login = ({children}) => {
     const { newAccount, accountCreated } = useSelector((state) => state.loginPage);

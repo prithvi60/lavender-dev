@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Checkbox,
   FormControlLabel,
@@ -7,21 +8,14 @@ import {
   Typography,
 } from '@mui/material';
 import { WEEKDAYS } from "../../../constants/constants";
+import { updateBusinessHours } from '../../../store/slices/admin/establishmentAdminSlice';
 
-const BusinessHours = () => {
-  const [businessHours, setBusinessHours] = useState(
-    WEEKDAYS.reduce((acc, day) => {
-      acc[day] = {
-        isOpen: true,
-        openTime: '',
-        closeTime: '',
-      };
-      return acc;
-    }, {})
-  );
+const BusinessHours = ({ onSubmit }) => {
+  const { establishments, editEstablishmentId, businessHours } = useSelector((state) => state.establishmentAdmin);
+  
 
   const handleCheckboxChange = (day) => (event) => {
-    setBusinessHours({
+    updateBusinessHours({
       ...businessHours,
       [day]: {
         ...businessHours[day],
@@ -31,7 +25,7 @@ const BusinessHours = () => {
   };
 
   const handleTimeChange = (day, field) => (event) => {
-    setBusinessHours({
+    updateBusinessHours({
       ...businessHours,
       [day]: {
         ...businessHours[day],
@@ -41,8 +35,17 @@ const BusinessHours = () => {
   };
 
   const handleSubmit = () => {
-    alert('submission');
-  }
+    console.log('============handleSubmit: ', businessHours);
+
+
+    
+  };
+
+  useEffect(() => {
+    if (onSubmit) {
+      handleSubmit();
+    }
+  }, [onSubmit]);
 
   return (
     <>

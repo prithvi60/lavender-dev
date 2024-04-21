@@ -63,7 +63,7 @@ const LoginLanding = () => {
                     fullWidth
                     className='continue'
                     name={"Continue"}
-                    to={() => handleClickContinue()}
+                    to={handleClickContinue()}
                 />
             </Grid>
         </div>

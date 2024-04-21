@@ -7,7 +7,7 @@ import TextField from '../../components/TextField';
 import CheckBox from '../../components/Checkbox';
 import Dropdown from '../../components/Dropdown';
 import Text from '../../components/Text';
-import { accountCreated, isNewAccount } from '../../store/slices/login/loginPageSlice';
+import { setAccountCreated, isNewAccount } from '../../store/slices/login/loginPageSlice';
 import Password from './Password';
 import wrappedLayout from './wrappedLayout';
 import { setAddUser } from '../../store/slices/admin/userAdminSlice';
@@ -65,7 +65,7 @@ const Register = () => {
             goBackToPreviousPage();
         } else {
             dispatch(isNewAccount({ newAccount: false }));
-            dispatch(accountCreated({ accountCreated: true }));
+            dispatch(setAccountCreated({ accountCreated: true }));
         }
     }
 
