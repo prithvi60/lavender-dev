@@ -4,7 +4,7 @@ import React from "react";
 import hexToRgb from "./hexToRgb";
 import { DateView } from "./DateView";
 import { MonthView } from './MonthView';
-import "./DatePickerModule.css"
+import styles from "./DatePicker.module.css";
 
 interface DatepickerProps {
     endDate: number,
@@ -51,13 +51,13 @@ function DatePicker(props: DatepickerProps) {
     }
 
     return (
-        <div className={'container'}>
-            <div className={'buttonWrapper'} style={buttonzIndex}>
-                <button className={'button'} style={buttonStyle} onClick={prev}>&lt;</button>
+        <div className={styles.container}>
+            <div className={styles.buttonWrapper} style={buttonzIndex}>
+                <button className={styles.button} style={buttonStyle} onClick={prev}>&lt;</button>
             </div>
             <Component  primaryColor={primaryColor} startDate={startDate} lastDate={lastDate} selectDate={selectDate} getSelectedDay={getSelectedDay} labelFormat={labelFormat} marked={marked} />
-            <div className={'buttonWrapper'} style={buttonzIndex}>
-                <button className={'button'} style={buttonStyle} onClick={next}>&gt;</button>
+            <div className={styles.buttonWrapper} style={buttonzIndex}>
+                <button className={styles.button} style={buttonStyle} onClick={next}>&gt;</button>
             </div>
         </div>
     )

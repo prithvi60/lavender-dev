@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from "react";
-import "./DatePickerModule.css"
+import styles from "./DatePicker.module.css"
 import {
     addDays,
     addMonths,
@@ -36,7 +36,7 @@ const DateView = ({startDate, lastDate, selectDate, getSelectedDay, primaryColor
                 return;
             }
 
-            return <div style={{ ...markedRes?.style ?? markedStyle }} className={'markedLabel'}>
+            return <div style={{ ...markedRes?.style ?? markedStyle }} className={styles.markedLabel}>
                 {markedRes.text}
             </div>;
         }
@@ -64,25 +64,25 @@ const DateView = ({startDate, lastDate, selectDate, getSelectedDay, primaryColor
                 let currentDay = addDays(month, j);
                 days.push(
                     <div id={`${getId(currentDay)}`}
-                         className={marked ? 'dateDayItemMarked' : 'dateDayItem'}
+                         className={marked ? styles.dateDayItemMarked : styles.dateDayItem}
                          style={getStyles(currentDay)}
                          key={currentDay}
                          onClick={() => onDateClick(currentDay)}
                     >
-                        <div className={'dayLabel'}>{format(currentDay, dayFormat)}</div>
-                        <div className={'dateLabel'}>{format(currentDay, dateFormat)}</div>
+                        <div className={styles.dayLabel}>{format(currentDay, dayFormat)}</div>
+                        <div className={styles.dateLabel}>{format(currentDay, dateFormat)}</div>
                         {/* {getMarked(currentDay)} */}
                     </div>
                 );
             }
             months.push(
-                <div className={'monthContainer'}
+                <div className={styles.monthContainer}
                      key={month}
                 >
-                    <span className={'monthYearLabel'} style={labelColor}>
+                    <span className={styles.monthYearLabel} style={labelColor}>
                         {format(month, labelFormat || "MMMM yyyy")}
                     </span>
-                    <div className={'daysContainer'} style={i===0?firstSection:null}>
+                    <div className={styles.daysContainer} style={i===0?firstSection:null}>
                         {days}
                     </div>
                 </div>
@@ -91,7 +91,7 @@ const DateView = ({startDate, lastDate, selectDate, getSelectedDay, primaryColor
 
         }
 
-        return <div id={"container"} className={'dateListScrollable'}>{months}</div>;
+        return <div id={"container"} className={styles.dateListScrollable}>{months}</div>;
     }
 
     const onDateClick = day => {

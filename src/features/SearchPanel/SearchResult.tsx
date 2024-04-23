@@ -136,7 +136,7 @@ function handleClick(){}
 
   return (
     <Card className='mt-16' >
-      <CardHeader style={{marginTop: '60px'}} id = 'card-header-id' title={filteredData.length + ' Venues matching your search'} action={
+      <CardHeader  id = 'card-header-id' title={filteredData.length + ' Venues matching your search'} action={
         <div className='flex items-center'>
           <FilterModal />
           <div >Show map</div>
@@ -160,7 +160,7 @@ function handleClick(){}
                       </div>
                       <div className='font-bold text-lg'>{card.establishmentName}</div>
                       <div className="card-rating">
-                        <div className='text-sm'>{card.rating}</div>
+                        <div className='text-sm'>{4}</div>
                         <Rating value={3} precision={0.5} readOnly />
                         {/* <div className='text-sm'>({card.reviewCount})</div> */}
                         <div className='text-sm'>85</div>
@@ -177,9 +177,11 @@ function handleClick(){}
                         </div>
                         <div className="card-slick-container">
                           <Slider {...settings1}>
-                            {timeTags.map((tag, index) => (
-                              <Chip key={index} label={tag} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
-                            ))}
+                          {service.availabilities.map((tagee, index) => (
+                                  tagee.timeSlots.map((timeSlot, index) => (
+                                    <Chip key={index} label={timeSlot} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
+                                  ))
+                              ))}
                           </Slider>
                         </div>
                       </div>
