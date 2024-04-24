@@ -1,20 +1,14 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import Text from '../../components/Text';
-
 import emptyLogo from '../../assets/emptyImage.png';
+import GetImage from '../../assets/GetImage.tsx'
+
+import {categories} from '../../constants/constants.js'
 
 const CategorySection = () => {
 
-    const categories = [
-        { id: 1, name: 'Hair', image: emptyLogo },
-        { id: 2, name: 'Nail', image: emptyLogo },
-        { id: 3, name: 'Spa', image: emptyLogo },
-        { id: 4, name: 'Hair', image: emptyLogo },
-        { id: 5, name: 'Nail', image: emptyLogo },
-        { id: 6, name: 'Spa', image: emptyLogo },
-        { id: 7, name: 'Hair', image: emptyLogo },
-      ];
+  
 
     return ( 
         <section className="landing-section">
@@ -24,8 +18,9 @@ const CategorySection = () => {
             <Grid container spacing={2} justifyContent="space-evenly" alignItems="center">
                 {categories.map((category) => (
                 <Grid item key={category.id}>
-                    <a className="category-link">
-                        <img src={category.image} alt={category.name} className="category-image" />
+                    <a href='' className="category-link">
+                        {/* <img src={category.image} alt={category.name} className="category-image" /> */}
+                   <GetImage imageName={category.image}/>
                     </a>
                     <Text variant="body2" align="center" name={category?.name} />
                 </Grid>

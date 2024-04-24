@@ -48,7 +48,7 @@ const SelectLocation = () => {
     return (
         <div className='home-date-filter'>
             <div className='flex-between-container'>
-                <Text variant="body1" align="left" className="bold" name="Choose your Treatments" />
+                <Text variant="body1" align="left" className="bold" name="Choose your Location" />
                 <CloseIcon onClick={() => closeFilterPannel()} />
             </div>
             <div className='treatment-grid'>

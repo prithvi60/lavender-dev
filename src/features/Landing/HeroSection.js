@@ -1,6 +1,5 @@
 import React from 'react';
 import { LANDING_PAGE } from '../../constants/constants';
-import SearchPanel from '../SearchPanel';
 import NewSearchPanel from '../SearchPanel/NewSearchPanel';
 
 import Text from '../../components/Text';
@@ -13,6 +12,10 @@ const HeroSection = () => {
                 <Text className="hero-title" variant="body1" name={LANDING_PAGE?.SUBTITLE}/>
                 {/* <SearchPanel /> */}
                 <NewSearchPanel/>
+
+                <div className='mt-4 leading-10	 font-bold text-5xl'>Book your next salon experience </div>
+                <div className='mb-8 mt-2 leading-10 font-bold text-5xl'>with Lavender.</div>
+
             </section>
         </section>
     );

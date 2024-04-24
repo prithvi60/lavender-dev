@@ -11,7 +11,7 @@ import './styles/landing.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-
+import SearchDetailsPage from './pages/SearchDetailsPage'
 
 const Admin = React.lazy(() => import('./pages/AdminPage'));
 const Places = React.lazy(() => import('./pages/Places'));
@@ -19,9 +19,9 @@ const Bookings = React.lazy(() => import('./pages/Bookings'));
 const Login = React.lazy(() => import('./pages/LoginPage'));
 const Register = React.lazy(() => import('./pages/RegisterPage'));
 const Search = React.lazy(() => import('./pages/SearchPage'));
-const SearchDetails = React.lazy(() => import('./pages/SearchDetailsPage'));
+// const SearchDetails = React.lazy(() => import('./pages/SearchDetailsPage'));
 
-const components = [Admin, Places, Bookings, Login, Register, Search, SearchDetails];
+const components = [Admin, Places, Bookings, Login, Register, Search];
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -44,6 +44,7 @@ const App = () => {
                 }
               />)
             })}
+            <Route path='/salon/:estId' element={<SearchDetailsPage />}></Route>
             <Route path="*" element={<PageNotFound />} />
           </Routes>
         </div>

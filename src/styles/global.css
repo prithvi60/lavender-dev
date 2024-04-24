@@ -1,6 +1,6 @@
 .app {
     .button {
-        background-color: #47294c;
+        background-color:var(--primary-clr) !important;
         color: #faf4fc;
         text-transform: none;
     }
@@ -36,7 +36,7 @@
 
     .nav-bar-title {
         font-size: 1rem;
-        padding: 0px 40px;
+        padding: 0px 10px;
     }
 
     .nav-bar-title.flex {
@@ -144,7 +144,7 @@
 }
 
 .addtl-search-icon {
-    background-color: #47294c;
+    background-color: var(--primary-clr) !important;
 }
 
 .chip.MuiChip-root {

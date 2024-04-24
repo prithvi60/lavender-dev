@@ -42,7 +42,7 @@
 }
 
 .card-footer-action{
-    background-color: #F2F2F2;
+    background-color: var(--primary-light);
     display: flex;
     align-items: center;
     justify-content: center;

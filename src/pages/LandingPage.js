@@ -4,6 +4,7 @@ import CategorySection from '../features/Landing/CategorySection';
 import RecommendSection from '../features/Landing/RecommendSection';
 import Navbar from '../components/NavBar';
 import { Box } from '@mui/material';
+import LearnMore from './LearnMore.tsx'
 import SearchResult from '../features/SearchPanel/SearchResult.tsx';
 
 const LandingPage = () => {
@@ -15,6 +16,7 @@ const LandingPage = () => {
             {/* <SearchResult /> */}
             <CategorySection />
             <RecommendSection />
+            <LearnMore/>
         </Box>
         
      );

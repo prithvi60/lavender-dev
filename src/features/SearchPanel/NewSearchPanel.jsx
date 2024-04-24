@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import {convertTo_HH_AM} from '../../utils/TimeFormat.ts'
 import { useMutation, useQuery } from "@tanstack/react-query";
 import endpoint from "../../api/endpoints.ts";
-
+import GetIcon from "../../assets/Icon/icon.tsx";
 const NewSearchPanel = () => {
 
 
@@ -137,7 +137,8 @@ useEffect(()=>{
               className={`search-box ${false ? 'selected' : ''} ${selectedBox?.toLowerCase() === "time" ? 'addtl-button' : ''}`}
             >
               <div className='search-box-title-icon'>
-                {<ContentCut className='icon' />}
+
+                <GetIcon iconName='TreatmentHeartIcon'/>
                 <div className='search-box-title'>
                   {treatmentList && treatmentList.length > 0 ? (
                     <Text className='cursor-pointer' onClick={() => handleBoxClick('Treatment')} name={treatmentList.toString().replaceAll(',', ', ')}></Text>) :
@@ -158,7 +159,7 @@ useEffect(()=>{
               className={`search-box ${false ? 'selected' : ''} ${selectedBox?.toLowerCase() === "time" ? 'addtl-button' : ''}`}
             >
               <div className='search-box-title-icon'>
-                {<LocationOn className='icon' />}
+              <GetIcon iconName='LocationIcon'/>
                 <div className='search-box-title'>
                   {locationList && locationList.length > 0
                     ? <Text className='cursor-pointer' onClick={() => handleBoxClick('Location')} name={locationList.toString().replaceAll(',', ', ')}></Text>
@@ -180,7 +181,7 @@ useEffect(()=>{
               className={`search-box ${false ? 'selected' : ''} ${selectedBox?.toLowerCase() === "time" ? 'addtl-button' : ''}`}
             >
               <div className='search-box-title-icon'>
-                <DateRange className='icon' />
+              <GetIcon iconName='CalendarIcon'/>
                 <div className='search-box-title'>
                   {selectedDate
                     ? <Text  className='cursor-pointer' onClick={() => handleBoxClick('Date')} name={selectedDate}></Text>
@@ -201,7 +202,7 @@ useEffect(()=>{
               className='search-box addtl-button MuiBox-root css-0'
             >
               <div className='search-box-title-icon'>
-                {<AccessTime className='icon' />}
+              <GetIcon iconName='AccessTimeFilledIcon'/>
                 <div className='search-box-title'>
                   {SelectedTime && (SelectedTime.from || SelectedTime.to)
                     ? <Text  className='cursor-pointer' onClick={() => handleBoxClick('Time')} name={`${convertTo_HH_AM(SelectedTime?.from)} - ${convertTo_HH_AM(SelectedTime?.to)}`}></Text>

@@ -18,5 +18,8 @@ code {
 
 
 :root{
-  --primary-clr: #616161;
+  --primary-clr: #825FFF;
+  --primary-dark: #D34D72;
+  --primary-light: #EEEEFF;
+
 }

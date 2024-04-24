@@ -7,7 +7,7 @@ const initialState = {
   treatmentList: [],
   locationList: [],
   selectedDate: "",
-  SelectedTime: "",
+  SelectedTime: { from: dayjs().startOf("day"), to: dayjs().endOf("day") },
 };
 
 export const searchPageSlice = createSlice({
@@ -31,6 +31,10 @@ export const searchPageSlice = createSlice({
       state.SelectedTime.from = action.payload.SelectedTimeFrom;
     },
     updateSearchTimeTo: (state, action) => {
+      state.SelectedTime.to = action.payload.SelectedTimeTo;
+    },
+    updateSearchTime: (state, action) => {
+      state.SelectedTime.from = action.payload.SelectedTimeFrom;
       state.SelectedTime.to = action.payload.SelectedTimeTo;
     },
     updateSearchSelectedBox: (state, action) => {
@@ -59,5 +63,6 @@ export const {
   updateSearchSelectedBox,
   updateSearchTreatment,
   updateSearchDate,
+  updateSearchTime
 } = searchPageSlice.actions;
 export default searchPageSlice.reducer;

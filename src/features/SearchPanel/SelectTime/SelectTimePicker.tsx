@@ -1,13 +1,14 @@
 import React, { Fragment, useState } from "react";
-import { Grid, Box } from "@mui/material";
+import { Grid, Box, Avatar } from "@mui/material";
 import Text from "../../../components/Text";
-import Chip from "../../../components/Chip";
 import { DigitalClock, LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useDispatch, useSelector } from "react-redux";
-import { updateSearchSelectedBox, updateSearchTimeFrom, updateSearchTimeTo } from "../../../store/slices/searchPageSlice";
+import { updateSearchSelectedBox, updateSearchTime, updateSearchTimeFrom, updateSearchTimeTo } from "../../../store/slices/searchPageSlice";
 import dayjs from "dayjs";
 import CloseIcon from '@mui/icons-material/Close';
+import Chip from '@mui/material/Chip';
+import GetIcon from "../../../assets/Icon/icon.tsx";
 
 export default function SelectTimePicker() {
   const { selectedBox, showOptionContainer, treatmentList, locationList, selectedDate, SelectedTime } = useSelector(
@@ -17,13 +18,12 @@ export default function SelectTimePicker() {
 
 
   const timeSelectorChip = [
-    { item: "Anytime", value: 2 },
-    { item: "onehour", value: 1 },
-    { item: "twohour", value: 2 },
-    { item: "threehour", value: 3 },
-    { item: "Morning", value: "Morning" },
-    { item: "Afternoon", value: "Afternoon" },
-    { item: "Evening", value: "Evening" },
+    { item: "Anytime", iconName: 'AccessTimeFilledIcon', from: 1, to: 23 },
+    { item: "Now", iconName: 'AccessTimeFilledIcon', from: new Date().getHours(), to: new Date().getHours() + 1 },
+    { item: "Twohour", iconName: 'MoreTimeIcon', from: new Date().getHours(), to: new Date().getHours() + 1 },
+    { item: "Morning", iconName: 'MorningIcon', from: 5, to: 12 },
+    { item: "Afternoon", iconName: 'LightModeIcon', from: 12, to: 16 },
+    { item: "Evening", iconName: 'NightIcon', from: 16, to: 23 },
   ];
 
   const onChangeFromTime = (value) => {
@@ -32,12 +32,13 @@ export default function SelectTimePicker() {
   }
 
   const onChangeToTime = (value) => {
-    
-    dispatch(updateSearchTimeTo({ SelectedTimeTo: value.format('hh a') }))
+    dispatch(updateSearchTimeTo({ SelectedTimeTo: value.toDate() }))
   }
 
-  function handleTagSelect(value) {
-    
+  function handleTagSelect(from, to) {
+    const currentDate = new Date()
+
+    dispatch(updateSearchTime({ SelectedTimeFrom: currentDate.setHours(from), SelectedTimeTo: currentDate.setHours(to) }))
 
   }
   const closeFilterPannel = () => {
@@ -55,13 +56,14 @@ export default function SelectTimePicker() {
           ></Text>
           <CloseIcon onClick={() => closeFilterPannel()} />
         </div>
-        <Grid container xs={7} md={7} lg={12} className="grid">
+        <Grid container xs={7} md={7} lg={12} className="grid" spacing={2}>
           {timeSelectorChip?.map((tag, index) => (
             <Grid item key={index}>
               <Chip
-                type={"clickable"}
                 label={tag.item}
-                onClick={() => handleTagSelect(tag.value)}
+                onClick={() => handleTagSelect(tag.from, tag.to)}
+                // avatar={<Avatar src="/static/images/avatar/1.jpg" />}
+                icon={<GetIcon iconName={tag.iconName} />}
               />
             </Grid>
           ))}

@@ -7,8 +7,8 @@ export const WEBSITE_TITLE = "Lavender UI";
 export const BACKGROUND_COLOR = "#5F4F65";
 
 export const LANDING_PAGE = {
-  TITLE: "Welcome to Lavender",
-  SUBTITLE: "Lorem ipsum dolor sit amet",
+  TITLE: "Discover me time.",
+  SUBTITLE: "",
 };
 
 export const DASHBOARD = {
@@ -66,3 +66,12 @@ export const STATUS = {
   ],
   PLACEHOLDER: "Select status",
 };
+
+export   const categories = [
+  { id: 1, name: 'Nail', image: 'NailImage' },
+  { id: 2, name: 'Hair', image: 'WomenHairImage' },
+  { id: 3, name: 'HairRemoval', image: 'HairRemovalImage' },
+  { id: 4, name: 'Face', image: 'FaceImage' },
+  { id: 5, name: 'Massage', image: 'MassageImage' },
+  { id: 6, name: 'Men', image: 'MenImage' },
+];

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Chip from '../../components/Chip'
 import emptyLogo from '../../assets/emptyImage.png';
-import { Grid, Card, CardContent, Rating, CardActions, CardHeader } from '@mui/material';
+import { Grid, Card, CardContent, Rating, CardActions, CardHeader, styled } from '@mui/material';
 import FilterModal from '../../components/FilterModal';
 import { useSelector } from 'react-redux';
 import Slider from 'react-slick';
@@ -11,13 +11,14 @@ import TextRouter from '../../components/TextRouter';
 import { useQuery } from '@tanstack/react-query';
 import endpoint from '../../api/endpoints.ts';
 import './style.css'
+import GetImage from '../../assets/GetImage.tsx';
+import GetIcon from '../../assets/Icon/icon.tsx';
 
 export default function SearchResult() {
   
   const timeTags = ['9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm']
   const payLoad={}
   const {isLoading, data: establishmentSearchResult} = useQuery({queryKey: ['custom-da'], queryFn: () =>{ return endpoint.getEstablishmentSearch(payLoad)}})
-  console.log("establishmentSearchResult : ;: ", establishmentSearchResult)
 
   let establishmentList = useMemo(() => {
     if(!isLoading){
@@ -30,7 +31,6 @@ export default function SearchResult() {
 
   const [filteredData, setFilteredData] = useState<any[]>([]);
 
-  console.log('filteredDate : ', filteredData);
 
 
   const FILTERR = useSelector((state: any) => {
@@ -93,6 +93,15 @@ export default function SearchResult() {
     }, [FILTERR, establishmentResult,establishmentList, sortBy]);
  
 
+    const StyledRating = styled(Rating)({
+      '& .MuiRating-iconFilled': {
+        color: '#ff6d75',
+      },
+      '& .MuiRating-iconHover': {
+        color: '#ff3d47',
+      },
+    });
+
 function handleClick(){}
 
   const getSearchDetailsRoute = () => {
@@ -136,7 +145,7 @@ function handleClick(){}
 
   return (
     <Card className='mt-16' >
-      <CardHeader  id = 'card-header-id' title={filteredData.length + ' Venues matching your search'} action={
+      <CardHeader style={{marginTop: '60px'}} id = 'card-header-id' title={filteredData.length + ' Venues matching your search'} action={
         <div className='flex items-center'>
           <FilterModal />
           <div >Show map</div>
@@ -151,7 +160,8 @@ function handleClick(){}
               <Card sx={{ width: 1184 }} className='my-8 card-wrap-container'>
                 <CardContent className='card-container'>
                   <div key={index} className='card-header'>
-                    <img alt='' src={emptyLogo} className='w-full' />
+                    {/* <img alt='' src={emptyLogo} className='w-full' /> */}
+                    <GetImage imageName='SaloonImage' className='w-full rounded-lg'/>
                     <div key={index} className='card-header-details'>
                       <div className='chip-wrap'>
                         {card.serviceTags.map((tag, index) => (
@@ -160,10 +170,16 @@ function handleClick(){}
                       </div>
                       <div className='font-bold text-lg'>{card.establishmentName}</div>
                       <div className="card-rating">
-                        <div className='text-sm'>{4}</div>
-                        <Rating value={3} precision={0.5} readOnly />
+                        <div className='text-lg'>{3}</div>
+                        {/* <Rating value={3} precision={0.5} readOnly /> */}
+                        <StyledRating
+        name="customized-color"
+        value={3}
+        precision={0.5}
+        readOnly
+      />
                         {/* <div className='text-sm'>({card.reviewCount})</div> */}
-                        <div className='text-sm'>85</div>
+                        <div className='text-sm font-bold'>(85)</div>
                       </div>
                       <div className='text-base'>{card.establishmentLocation}</div>
                     </div>
@@ -187,10 +203,11 @@ function handleClick(){}
                       </div>
                     ))}
                   </Grid>
+                  <div className='flex gap-1'>view more  <GetIcon className='' iconName='RightArrowIcon'/></div>
                 </CardContent>
                 <CardActions className='card-footer-action'>
                   <StoreMallDirectoryOutlinedIcon />
-                  <TextRouter name={"Saloon Details"} to={getSearchDetailsRoute()} />
+                  <TextRouter name={"Saloon Details"} to={`/salon/${card.establishmentId}`} />
                 </CardActions>
               </Card>
             </CardContent>

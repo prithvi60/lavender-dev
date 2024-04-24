@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Grid, Card, CardContent, Rating, CardActions, Collapse, Button, CardHeader } from '@mui/material';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import emptyLogo from "../../assets/emptyImage.png"
@@ -15,6 +15,12 @@ function CheckoutCard({next}) {
   const checkOutList = useSelector(
     (state) => state.checkOutPage
   );
+
+  const [disabled, setDisabled] = useState(true);
+
+  if(checkOutList.checkOut.length > 0){
+    setDisabled(false);
+  }
 
   let totalPrice = 0;
   function calculateTotalPrice(){
@@ -57,7 +63,7 @@ function CheckoutCard({next}) {
           </div>
           <Divider />
           {
-            checkOutList.checkOut.length > 0 && 
+            // checkOutList.checkOut.length > 0 && 
               <div>
                 <div className='flex justify-between'>
                   <div className='text-lg font-bold'>Total</div>
@@ -66,7 +72,7 @@ function CheckoutCard({next}) {
                 <div className='text-sm font-normal pb-2'>excluding Tax</div>
 
                 <div className='flex justify-center'>
-                  <Button  onClick={sendDataToParent} sx={{width: 350, display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button>
+                  <Button  disabled={disabled} onClick={sendDataToParent} sx={{width: 350, display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button>
                 </div>
             </div>
           }

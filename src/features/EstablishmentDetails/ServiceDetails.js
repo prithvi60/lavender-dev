@@ -12,7 +12,6 @@ function ServiceDetails(props) {
     const [value, setValue] = React.useState(0);
     const [tabValue, setTabValue] = React.useState('Nails');
 
-console.log('value : ', value)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

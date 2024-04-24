@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-
-import emptyLogo from '../../../assets/emptyImageSquare.png';
+import {categories} from '../../../constants/constants.js'
+import GetImage from '../../../assets/GetImage.tsx';
 
 const CategoryPanel = () => {
   const [clickedImages, setClickedImages] = useState([]);
@@ -17,13 +17,13 @@ const CategoryPanel = () => {
 
   return (
     <div className="category-grid">
-      {[1, 2, 3, 4, 5, 6].map((index) => (
+      {categories.map((item,index) => (
         <div
           key={index}
           className={`category-container ${isClicked(index) ? 'clicked' : ''}`}
           onClick={() => handleClick(index)}
         >
-          <img src={emptyLogo} alt={`Image ${index}`} />
+        <GetImage className='cursor-pointer' imageName={item.image} />
           {isClicked(index) && (
             <div className="close-button" onClick={() => handleClick(index)}>X</div>
           )}

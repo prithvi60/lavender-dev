@@ -7,7 +7,6 @@ import PersonIcon from '@mui/icons-material/Person';
 
 function About(props) {
 const {establishmentData} = props
-console.log('establishmentData:::',establishmentData)
 
   const additionalInfos = ["Payment methods", "Languages", "Accessibility"]
   return (

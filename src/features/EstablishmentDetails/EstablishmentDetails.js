@@ -19,54 +19,18 @@ import './style.css';
 
 // import required modules
 import { Keyboard, Pagination, Navigation } from 'swiper/modules';
-function EstablishmentDetails() {
+function EstablishmentDetails({estId}) {
   const id=789
   const { data: establishmentData, isLoading: isLoading, error: userDataError, refetch: refetchUserData } = 
-  useQuery({queryKey: ['query-establishment-details'], queryFn: () =>{ return endpoint.getEstablishmentDetailsById(id)}})
-  
-
-  
-  var settings1 = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 8,
-    slidesToScroll: 8,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-    ]
-  };
+  useQuery({queryKey: ['query-establishment-details'], queryFn: () =>{ return endpoint.getEstablishmentDetailsById(estId)}})
 
   return (
     <div className='searchDetailsContainer'>
         <HeaderDetails isLoading={isLoading} establishmentData={establishmentData}/>
         {/* <ImageSlides /> */}
         <Swiper
-        slidesPerView={1}
+        className='w-4'
+        slidesPerView={3}
         spaceBetween={30}
         keyboard={{
           enabled: true,
@@ -76,7 +40,6 @@ function EstablishmentDetails() {
         }}
         navigation={true}
         modules={[Keyboard, Pagination, Navigation]}
-        className="mySwiper"
       >
                           {SampleData[0].image.map((image, index) => (
                                     
