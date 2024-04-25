@@ -6,7 +6,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import { SampleData } from './SampleData';
 import OptionsModal from './OptionsModal';
 
-function ServiceListItems() {
+function ServiceListItems({serviceCategories}) {
+  console.log("serviceCategories :: ", serviceCategories)
   const serviceTags = ['Features', 'Hair colouring', 'Highlights', 'Hair treatments', 'Haircuts', 'Manicures', 'Pedicures', 'Nail art', 'Nail extensions']
 
     const [isOptions, setIsOptions] = useState(false);
@@ -28,40 +29,47 @@ function ServiceListItems() {
         <div className='w-full mx-4 md:mx-16 md:w-11/12 '> {/* Adjusted margin for different screen sizes */}
           <div className='text-xl font-bold'>Services</div>
             <Tabs
-        value={value}
-        onChange={handleChange}
-        variant="scrollable"
-        scrollButtons>
-          {serviceTags.map((tag, index) => (
-            <Tab key={tag} label={tag}  />
-          ))}
-        </Tabs>
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons>
+              {/* {serviceTags.map((tag, index) => (
+                <Tab key={tag} label={tag}  />
+              ))} */}
+            {
+              serviceCategories.map((service)=> (
+                service.serviceTags.map((tag, index)=>(
+                  <Tab key={index} label={tag} />
+                ))
+              ))
+            }
+            </Tabs>
 
-          <List sx={{ width: '100%', maxWidth: '100%', maxHeight: 500, bgcolor: 'background.paper', overflowY: 'scroll' }}>
-            {SampleData.map((item, index) => (
-              <div key={index}> 
-                <div className='text-2xl font-bold'>{item.categoryName}</div>
-                
-                {item.services.map((service, serviceIndex) => (
-                  <ListItemButton sx={{ display: 'flex', justifyContent: 'space-between' }} key={serviceIndex}> {/* Added key prop for each service */}
-                    <div className='p-2'>
-                      <div className='text-lg font-bold'>{service.serviceName}</div>
-                      <div className='text-sm font-normal'>{service.serviceDuration}</div>
-                      <div className='text-sm font-normal'>{service.serviceDescription}</div>
-                      <div className='text-base font-medium'>
-                      {
-                        service.options.length > 0 
-                        ? 'from $'+ service.startingPrice
-                        : '$'+service.finalPrice
-                      }
+            <List sx={{ width: '100%', maxWidth: '100%', maxHeight: 500, bgcolor: 'background.paper', overflowY: 'scroll' }}>
+              {serviceCategories.map((item, index) => (
+                <div key={index}> 
+                  <div className='text-2xl font-bold'>{item.categoryName}</div>
+                  
+                  {item.services.map((service, serviceIndex) => (
+                    <ListItemButton sx={{ display: 'flex', justifyContent: 'space-between' }} key={serviceIndex}> {/* Added key prop for each service */}
+                      <div className='p-2'>
+                        <div className='text-lg font-bold'>{service.serviceName}</div>
+                        <div className='text-sm font-normal'>{service.serviceDuration}</div>
+                        <div className='text-sm font-normal'>{service.serviceDescription}</div>
+                        <div className='text-base font-medium'>
+                        {
+                          service.options.length > 0 
+                          ? 'from $'+ service.startingPrice
+                          : '$'+service.finalPrice
+                        }
+                        </div>
                       </div>
-                    </div>
-                    <div><OptionsModal props={service} /></div>
-                  </ListItemButton>
-                ))}
-              </div>
-            ))}
-          </List>
+                      <div><OptionsModal props={service} /></div>
+                    </ListItemButton>
+                  ))}
+                </div>
+              ))}
+            </List>
         </div>
   )
 }

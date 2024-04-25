@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Grid, Card, CardContent, Rating, CardActions, Collapse, Button, CardHeader } from '@mui/material';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import emptyLogo from "../../assets/emptyImage.png"
@@ -18,9 +18,12 @@ function CheckoutCard({next}) {
 
   const [disabled, setDisabled] = useState(true);
 
-  if(checkOutList.checkOut.length > 0){
-    setDisabled(false);
-  }
+  useEffect(()=>{
+    if(checkOutList.checkOut.length > 0){
+      setDisabled(false);
+    }
+  },[checkOutList])
+  
 
   let totalPrice = 0;
   function calculateTotalPrice(){
@@ -57,7 +60,7 @@ function CheckoutCard({next}) {
                   <div className='text-lg font-bold'>{item.serviceName}</div>
                   <div className='text-lg font-bold'>${item.finalPrice}</div>
                 </div>
-                <div className='text-sm font-normal'>{item.duration}</div>
+                <div className='text-sm font-normal'>{item.duration} mins</div>
               </div>
             ))}
           </div>

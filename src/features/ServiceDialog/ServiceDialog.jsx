@@ -14,10 +14,10 @@ import ScheduleAppointment from "./ScheduleAppointment.tsx";
 import ConfirmScreen from "./ConfirmScreeen.tsx";
 import { Grid } from "@mui/material";
 
-function ServiceDialog() {
+function ServiceDialog({establishmentData}) {
     const [isOpen, setIsOpen] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
-
+console.log("establishmentData.data.serviceCategories : ", establishmentData.data.serviceCategories)
     function handleBtnClick(){
         setIsOpen(true);
     }
@@ -56,11 +56,11 @@ function ServiceDialog() {
                         >
                         <CloseIcon />
                     </IconButton>
-                </Toolbar>
+        </Toolbar>
         <Grid container spacing={2}>
           <Grid item xs={7} md={7} lg={7}>
 
-            {activeStep === 0 && <ServiceListItems onSetActiveStep={onSetActiveStep}/>}
+            {activeStep === 0 && <ServiceListItems serviceCategories={establishmentData.data.serviceCategories}/>}
 
             {activeStep === 1 && <ScheduleAppointment onSetActiveStep={onSetActiveStep} />}
 

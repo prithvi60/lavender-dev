@@ -15,13 +15,16 @@ function ServiceDetails(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  
   function handleClick(){
 
   }
+
   function handleTabChange(tag){
     debugger
-setTabValue(tag)
+    setTabValue(tag)
   }
+
   return (
     <>
     {

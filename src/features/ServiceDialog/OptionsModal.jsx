@@ -13,19 +13,21 @@ import {
     useSelector,
   } from 'react-redux';
   import FormGroup from '@mui/material/FormGroup';
-  import FormControlLabel from '@mui/material/FormControlLabel';
-  import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import CheckBox from '../../components/Checkbox';
 
 function OptionsModal({props}) {
     
     const checkOutList = useSelector(
         (state) => state.checkOutPage
       );
+console.log('checkOutList.checkOut.', checkOutList.checkOut)
      //const {props} = props
     const [isOpen, setIsOpen] = useState();
     const [btnValue, setBtnValue] = useState("Select");
     const [btnVariant, setBtnVariant] = useState("outlined");
-    const [checkBoxValue, setCheckBoxValue] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
+    
     
     const disPatch = useDispatch()
 
@@ -34,11 +36,14 @@ function OptionsModal({props}) {
       };
     
     function handleSelectBtnClick(serviceName, finalPrice, serviceDuration){
+        debugger
+        setIsChecked((prev) => !prev)
         let checkOutObj = {
             'serviceName': serviceName,
             'finalPrice': finalPrice,
             'serviceDuration': serviceDuration
         }
+        console.log("checkOutObj : ", checkOutObj)
         if(btnValue == 'Select'){
             // addItemsToCheckOut(checkOutObj)
             disPatch(updateCheckOut(checkOutObj))
@@ -48,7 +53,6 @@ function OptionsModal({props}) {
         else{
             // removeItemsToCheckOut(checkOutObj)
             disPatch(resetCheckOut(checkOutObj))
-            console.log("chcheckOutList in options: ", checkOutList)
 
             setBtnValue("Select")
             setBtnVariant("outlined")
@@ -69,13 +73,14 @@ function OptionsModal({props}) {
 
   return (
     <div>
-    <Add onClick={handleOpen}/>
+        {/* {checkOutList.checkOut.length > 0 ? <CheckBox sx={{borderRadius: '50px'}}/> : <Add onClick={handleOpen}/>} */}
+        <Add onClick={handleOpen}/>
         <Modal
-            open={isOpen}
-            onClose={handleOpen}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-            >
+        open={isOpen}
+        onClose={handleOpen}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        >
             <Box sx={style} className='rounded-3xl'>
                 <IconButton
                 aria-label="close"
@@ -92,12 +97,12 @@ function OptionsModal({props}) {
                 <Grid container spacing={2} sx={{margin: "5px", padding: "15px"}}>
                     <Grid item xs={12} md={8}>
                         <div className='text-3xl font-bold'>{props.serviceName}</div>
-                        <div className='text-2xl font-normal'>{props.serviceDuration}</div>
+                        <div className='text-2xl font-normal'>{props.serviceDuration} mins</div>
                         <div className='text-2xl font-bold'>
                         {
-                         props.options.length > 0 
-                         ? 'from $'+props.startingPrice
-                         : '$'+props.finalPrice
+                            props.options.length > 0 
+                            ? 'from $'+props.startingPrice
+                            : '$'+props.finalPrice
                         }
                         </div>
                     </Grid>
@@ -112,7 +117,7 @@ function OptionsModal({props}) {
 
                 <Divider/>
                 {
-                    props.options.length > 0 && <Grid container spacing={2} sx={{margin: "5px", padding: "15px"}}>
+                    props.options.length > 1 && <Grid container spacing={2} sx={{margin: "5px", padding: "15px"}}>
                         <Grid item xs={12} >
                             <div className='text-2xl font-bold text-gray-500'>Choose options</div>
                         </Grid>
@@ -121,14 +126,13 @@ function OptionsModal({props}) {
                                 props.options.map((option) => (
                                     <Grid container spacing={1} className='py-4 flex justify-between'>
                                         <div item xs={12} md={8}>
-                                            <div className='text-lg font-bold'>{option.serviceName}</div>
-                                            <div className='text-sm font-normal'>{option.duration}</div>
-                                            <div className='text-base font-bold'>${option.finalPrice}</div>
+                                            <div className='text-lg font-bold'>{option.optionName}</div>
+                                            <div className='text-sm font-normal'>{option.duration} mins</div>
+                                            <div className='text-base font-bold'>${option.salePrice}</div>
                                         </div>
                                         <div item xs={12} md={4} className='px-16 py-4'>
-                                        <Checkbox
-                                        inputProps={{ 'aria-label': 'controlled' }}
-                                        onChange={() => handleSelectBtnClick(option.serviceName, option.finalPrice, option.duration)}
+                                        <CheckBox
+                                        onClick={() => handleSelectBtnClick(option.optionName, option.salePrice, option.duration)}
                                         />
                                         </div>
                                     </Grid>

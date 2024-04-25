@@ -14,7 +14,7 @@ class Endpoint{
     }
 
     async getEstablishmentDetailsById(id: any){
-        const response = await axios.get(`${BaseURL}/admin/getEstablishment/${id}`)
+        const response = await axios.get(`${BaseURL}/customer/getEstablishmentDetails/${id}`)
         return response
     }
 }

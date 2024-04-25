@@ -61,6 +61,7 @@
         }
     }
     .slick-list{
+        width: 100%;
         .slick-slide{
             width: auto !important;
             .MuiChip-root{
