@@ -4,6 +4,7 @@ import StoreIcon from '@mui/icons-material/Store';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import TextField from "@mui/material/TextField";
 import { Checkbox, FormControlLabel, Typography } from "@mui/material";
+import LoginModal from "./LoginModal/LoginModal.tsx";
 
 export default function ConfirmScreen(props) {
 
@@ -20,7 +21,7 @@ export default function ConfirmScreen(props) {
         <div className="ml-6">
 
             <p className="font-semibold mb-4">Fill your details</p>
-            <p className="text-sm">We recommend you to register in Lavender. By registering, you gain access to exclusive features tailored just for you. Register or Login</p>
+            <p className="text-sm">We recommend you to register in Lavender. By registering, you gain access to exclusive features tailored just for you. <LoginModal/></p>
 
             <TextField fullWidth className="mt-6" id="standard-basic" label="Full Name" variant="standard" />
             <TextField fullWidth className="my-4" id="EmailAddress" label="Email Address" variant="standard" />
