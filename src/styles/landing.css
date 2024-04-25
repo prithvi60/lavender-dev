@@ -21,7 +21,7 @@
 .hero-section {
     padding: 80px 20px 20px;
     /* background-color: rgb(235, 39, 39); */
-    background-image: url('../../public/HomeScreenBg.png');
+    background-image: url('../assets/BackgroundImage/HomeScreenBg.png');
     position: relative;
     height: 100vh;
     background-size: cover; /* Ensure the image covers the entire element */
