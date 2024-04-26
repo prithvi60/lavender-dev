@@ -22,7 +22,7 @@ const CategorySection = () => {
                         {/* <img src={category.image} alt={category.name} className="category-image" /> */}
                    <GetImage imageName={category.image}/>
                     </a>
-                    <Text variant="body2" align="center" name={category?.name} />
+                    <Text className='urbanist-font ' variant="body2" align="center" name={category?.name} />
                 </Grid>
                 ))}
             </Grid>

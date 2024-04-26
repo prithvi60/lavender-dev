@@ -1,6 +1,6 @@
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import React from 'react'
+import React, { useEffect } from 'react'
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -10,8 +10,12 @@ import { SampleData } from './SampleData'
 function ServiceDetails(props) {
   const {isLoading, establishmentData} = props
     const [value, setValue] = React.useState(0);
-    const [tabValue, setTabValue] = React.useState('Nails');
-
+    const [tabValue, setTabValue] = React.useState('');
+    
+  useEffect(()=>{
+    setTabValue(establishmentData?.data?.serviceCategories[0]?.serviceTags[0] || '')
+  },[establishmentData])
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -73,7 +77,7 @@ function ServiceDetails(props) {
         </ListItemButton>
       ))}
     </List>
-        <Button className='outline-button' variant="outlined" name={'View all'}></Button>
+        <Button variant="outlined" name={'View all'}></Button>
     <div className='mb-2'></div>
     </div>
     }

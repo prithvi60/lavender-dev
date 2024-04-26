@@ -7,7 +7,7 @@ function GetImage(props) {
 
   switch (imageName) {
     case 'NailImage':
-      imageElement = <img src={require('./Categories/Nail.png')} alt=''/>
+      imageElement = <img src={require('./Categories/Nail.png')} alt='' />
       break;
 
     case 'WomenHairImage':
@@ -25,13 +25,25 @@ function GetImage(props) {
       imageElement = <img src={require('./Categories/Men.png')} alt=''></img>
       break;
 
-      case 'HairRemovalImage':
-        imageElement = <img src={require('./Categories/HairRemoval.png')} alt=''></img>
-        break;
+    case 'HairRemovalImage':
+      imageElement = <img src={require('./Categories/HairRemoval.png')} alt=''></img>
+      break;
 
-        case 'SaloonImage':
-        imageElement = <img src={require('./SaloonImage/Saloon.png')} alt=''></img>
-        break;
+    case 'SaloonImage':
+      imageElement = <img src={require('./SaloonImage/Saloon.png')} alt=''></img>
+      break;
+
+    case 'FaceService':
+      imageElement = <img src={require('./Benifits/FaceService.png')} alt=''></img>
+      break;
+
+    case 'CancellationImage':
+      imageElement = <img src={require('./Benifits/Cancellation.png')} alt=''></img>
+      break;
+
+    case 'BookingImage':
+      imageElement = <img src={require('./Benifits/Booking.png')} alt=''></img>
+      break;
   }
 
   return (

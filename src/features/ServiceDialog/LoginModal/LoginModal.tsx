@@ -1,8 +1,9 @@
 import { Box, Link, Modal } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import RegisterLoginScreen from '../../../components/LoginScreens/RegisterLoginScreen.tsx';
 
 function LoginModal() {
+    const [isInLoginModal, setIsInLoginModal] = useState(true);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
         setOpen((prev) => !prev);
@@ -19,6 +20,7 @@ function LoginModal() {
     boxShadow: 24,
     p: 4,
     borderradius: "2px",
+    height: 550
     };
     
   return (
@@ -31,7 +33,7 @@ function LoginModal() {
         aria-describedby="modal-modal-description"
         >
             <Box sx={style} className="rounded-3xl">
-                <RegisterLoginScreen />
+                <RegisterLoginScreen isInLoginModal={isInLoginModal}/>
             </Box>
         </Modal>
     </div>

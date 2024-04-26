@@ -1,4 +1,6 @@
-import { Grid, Box, TextField, Button } from '@mui/material';
+import { Grid, Box } from '@mui/material';
+import Button from '../Button';
+import TextField from '../TextField';
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -11,7 +13,7 @@ import CheckBox from '../Checkbox';
 
 function RegisterScreen() {
     // TO DO: Birthdate, month and year dropdown, state management, api integration
-    const { addUser } = useSelector((state) => state.userAdmin);
+    const { addUser } = useSelector((state: any) => state.userAdmin);
 
     const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1);
     const YEARS = Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i);
@@ -182,16 +184,18 @@ function RegisterScreen() {
                             id="password"
                         />
                     </Grid>
-                    <Grid item xs={12} align="left">
+                    <Grid item xs={12} >
                         <CheckBox 
                             value=""
                             label="I Agree to terms and conditions, privacy policy and terms of use"
                             onChange={handleOnChange}
                             id="areaCode"
-                        />
+                            />
                     </Grid>
+                   
                     <Grid item xs={12}>
                         <Button
+                            
                             variant="contained"
                             fullWidth
                             className='contained'

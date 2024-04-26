@@ -78,13 +78,13 @@ const RecommendSection = () => {
   return (
     <div className="recommend-section">
         <Grid item xs={12} className="category-title">
-            <Text variant="h4" align="center" name="Our Recommended Picks" />
+            <Text  variant="h4" align="center" name="Our Recommended Picks" />
         </Grid>
         <Slider {...settings}>
             {cards.map((card) => (
                 <div key={card.id}>
                     <Card className="card">
-                        <img src={card.image} alt="Card Image" className="card-image" />
+                        <img src={card.image} alt="CardImage" className="card-image" />
                         <CardContent className='card-content'>
                             <Text variant="h6" align="left" className="card-title" name="Card Title"/>
                             <Text variant="body2" align="left" className="card-location" name={card.location} />

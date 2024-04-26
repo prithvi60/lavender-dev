@@ -16,6 +16,9 @@ code {
     monospace;
 }
 
+.urbanist-font{
+  font-family: 'Urbanist';
+}
 
 :root{
   --primary-clr: #825FFF;

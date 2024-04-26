@@ -15,10 +15,11 @@ import RegisterLoginScreen from '../../components/LoginScreens/RegisterLoginScre
 
 const LoginLanding = () => {
     
+    const [isInLoginModal, setIsInLoginModal] = React.useState(false);
 
     return ( 
         <div className="login-landing">
-            <RegisterLoginScreen />
+            <RegisterLoginScreen isInLoginModal={isInLoginModal}/>
         </div>
      );
 }

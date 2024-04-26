@@ -19,20 +19,19 @@ import CheckBox from '../../components/Checkbox';
 function OptionsModal({props}) {
     
     const checkOutList = useSelector(
-        (state) => state.checkOutPage
+        (state: any) => state.checkOutPage
       );
 console.log('checkOutList.checkOut.', checkOutList.checkOut)
      //const {props} = props
     const [isOpen, setIsOpen] = useState();
     const [btnValue, setBtnValue] = useState("Select");
-    const [btnVariant, setBtnVariant] = useState("outlined");
+    const [btnVariant, setBtnVariant] = useState<'contained' | 'outlined' | 'text' | string>("outlined");
     const [isChecked, setIsChecked] = useState(false);
-    
     
     const disPatch = useDispatch()
 
     const handleOpen = () => {
-        setIsOpen((prev) => !prev);
+        setIsOpen((prev):any => !prev);
       };
     
     function handleSelectBtnClick(serviceName, finalPrice, serviceDuration){
@@ -73,13 +72,13 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
 
   return (
     <div>
-        {/* {checkOutList.checkOut.length > 0 ? <CheckBox sx={{borderRadius: '50px'}}/> : <Add onClick={handleOpen}/>} */}
         <Add onClick={handleOpen}/>
         <Modal
         open={isOpen}
         onClose={handleOpen}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        sx={{maxWidth: 'lg', maxHeight: 'sm'}}
         >
             <Box sx={style} className='rounded-3xl'>
                 <IconButton
@@ -125,15 +124,14 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
                             {
                                 props.options.map((option) => (
                                     <Grid container spacing={1} className='py-4 flex justify-between'>
-                                        <div item xs={12} md={8}>
+                                        <div >
                                             <div className='text-lg font-bold'>{option.optionName}</div>
                                             <div className='text-sm font-normal'>{option.duration} mins</div>
                                             <div className='text-base font-bold'>${option.salePrice}</div>
                                         </div>
-                                        <div item xs={12} md={4} className='px-16 py-4'>
-                                        <CheckBox
-                                        onClick={() => handleSelectBtnClick(option.optionName, option.salePrice, option.duration)}
-                                        />
+                                        <div className='px-16 py-4'>
+                                        
+                                        <input type='radio' onClick={() => handleSelectBtnClick(option.optionName, option.salePrice, option.duration)}></input>
                                         </div>
                                     </Grid>
                                 ))

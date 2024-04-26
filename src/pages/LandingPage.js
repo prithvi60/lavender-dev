@@ -5,7 +5,8 @@ import RecommendSection from '../features/Landing/RecommendSection';
 import Navbar from '../components/NavBar';
 import { Box } from '@mui/material';
 import LearnMore from './LearnMore.tsx'
-import SearchResult from '../features/SearchPanel/SearchResult.tsx';
+import Benifits from './Benifits.tsx';
+import LandingFooter from './landingFooter';
 
 const LandingPage = () => {
     const [isSearchPage, setIsSearchPage] = useState(false);
@@ -14,9 +15,15 @@ const LandingPage = () => {
             <Navbar isSearchPage={isSearchPage}/>
             <HeroSection />
             {/* <SearchResult /> */}
+            <div className='mx-4'>
+
             <CategorySection />
             <RecommendSection />
             <LearnMore/>
+            <Benifits/>
+            </div>
+            <LandingFooter/>
+
         </Box>
         
      );
