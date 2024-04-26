@@ -11,7 +11,8 @@ import { Divider } from "@mui/material";
 
 const checkoutData = [{'name': 'Yong Chow’s Paradise - Women’s Parlour & Spa', 'services': [{'serviceName': 'haircut', 'duration': '30mins', 'finalPrice': 50},{'serviceName': 'Layered Long Haircut', 'duration': '60mins', 'finalPrice': 60}, {'serviceName': 'Layered Long Haircut', 'duration': '60mins', 'finalPrice': 60}, {'serviceName': 'Layered Long Haircut', 'duration': '60mins', 'finalPrice': 60}]}]
 
-function CheckoutCard({next}) {
+function CheckoutCard(props) {
+  const {next, establishmentName} = props
   const checkOutList = useSelector(
     (state) => state.checkOutPage
   );
@@ -49,8 +50,8 @@ function CheckoutCard({next}) {
       <Card sx={{ width: '100%', maxWidth: 400, borderRadius: 6, }}> {/* Adjusted width to be responsive */}
         <CardContent >
           <div className='flex justify-between my-2 py-2'>
-            <img src={emptyLogo} className='w-full md:w-80 h-24 mb-4 md:mb-0 rounded-2xl' alt='Logo'/>
-            <div className='text-xl font-bold px-2'>{checkoutData[0].name}</div>
+            <img src={emptyLogo} className='w-full md:w-60 h-24 mb-4 md:mb-0 rounded-2xl' alt='Logo'/>
+            <div className='text-xl font-bold px-2'>{establishmentName}</div>
           </div>
 
           <div className='py-2' style={{overflowY: 'scroll'}}>

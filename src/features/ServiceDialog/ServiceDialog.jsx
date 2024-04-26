@@ -69,7 +69,7 @@ function ServiceDialog({establishmentData}) {
           </Grid>
 
           <Grid item xs={5} md={5} lg={5}>
-            <CheckoutCard next={onSetActiveStep}/>
+            <CheckoutCard next={onSetActiveStep} establishmentName = {establishmentData.data.establishmentName}/>
           </Grid>
         </Grid>
       </Dialog>
