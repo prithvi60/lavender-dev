@@ -41,13 +41,7 @@ function EstablishmentDetails({estId}) {
         navigation={true}
         modules={[Keyboard, Pagination, Navigation]}
       >
-                          {SampleData[0].image.map((image, index) => (
-                                    
-                                    <SwiperSlide>
-                                      <img src={image} alt='no'className='w-full md:w-1/3 h-44 mb-4 md:mb-0 rounded-2xl'/>
-                                    </SwiperSlide>
-
-                              ))}
+                          <ImageSlides />
                           </Swiper>
                           
         <div className='mx-16 service-search-container'>

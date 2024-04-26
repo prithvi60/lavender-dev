@@ -144,8 +144,8 @@ function handleClick(){}
   };
 
   return (
-    <Card className='mt-16' >
-      <CardHeader style={{marginTop: '60px'}} id = 'card-header-id' title={filteredData.length + ' Venues matching your search'} action={
+    <Card className='' >
+      <CardHeader style={{marginTop: '60px', color: '#4D4D4D', backgroundColor: '#FFFBF3'}} id = 'card-header-id' title={filteredData.length + ' Venues matching your search'} action={
         <div className='flex items-center'>
           <FilterModal />
           <div >Show map</div>
@@ -167,7 +167,7 @@ function handleClick(){}
                           <Chip key={index} label={tag} className='mr-2 mb-2' />
                         ))}
                       </div>
-                      <div className='font-bold text-lg'>{card.establishmentName}</div>
+                      <div className='font-bold text-lg py-2' style={{color: '#4D4D4D'}}>{card.establishmentName}</div>
                       <div className="card-rating">
                         <div className='text-lg'>{card.rating.ratingStar}</div>
                         <StyledRating
@@ -191,10 +191,16 @@ function handleClick(){}
                         </div>
                         <div className="card-slick-container">
                           <Slider {...settings1}>
-                          {service.availabilities.map((tagee, index) => (
-                                  tagee.timeSlots.map((timeSlot, index) => (
-                                    <Chip key={index} label={timeSlot} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
-                                  ))
+                          {service.availabilities.map((tag, index) => (
+                                  // <>{
+                                  // tag.timeSlots.map((timeSlot, index) => (
+                                  //   <Chip key={index} label={timeSlot} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
+                                  // ))}
+                                  // <div>{tag.date}</div>
+                                  // </>
+                                  tag.timeSlots.map((timeSlot, index) => (
+                                      <Chip key={index} label={timeSlot} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
+                                     ))
                               ))}
                           </Slider>
                         </div>
