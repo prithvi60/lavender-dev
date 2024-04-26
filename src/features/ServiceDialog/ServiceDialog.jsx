@@ -15,12 +15,13 @@ import ConfirmScreen from "./ConfirmScreeen.tsx";
 import { Grid } from "@mui/material";
 
 function ServiceDialog({establishmentData}) {
-    const [isOpen, setIsOpen] = useState(false);
-    const [activeStep, setActiveStep] = useState(0);
-console.log("establishmentData.data.serviceCategories : ", establishmentData.data.serviceCategories)
-    function handleBtnClick(){
-        setIsOpen(true);
-    }
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+
+  function handleBtnClick(){
+      setIsOpen(true);
+  }
   function onSetActiveStep(value) {
     setActiveStep(value);
   }
@@ -35,27 +36,27 @@ console.log("establishmentData.data.serviceCategories : ", establishmentData.dat
         <Buttons variant= 'outlined' onClick={handleBtnClick}>Services</Buttons>
         <Dialog fullScreen open={isOpen} close={handleClose}>
         <Toolbar className="mb-4">
-                    <Box sx={{ width: '100%' }}>
-                        <Stepper activeStep={activeStep} alternativeLabel>
-                            {steps.map((label) => (
-                            <Step key={label}>
-                                <StepLabel>{label}</StepLabel>
-                            </Step>
-                            ))}
-                        </Stepper>
-                    </Box>
-                        
-                    <Buttons >
-                            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                    </Buttons>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClose}
-                        aria-label="close"
-                        >
-                        <CloseIcon />
-                    </IconButton>
+            <Box sx={{ width: '100%' }}>
+                <Stepper activeStep={activeStep} alternativeLabel>
+                    {steps.map((label) => (
+                    <Step key={label}>
+                        <StepLabel>{label}</StepLabel>
+                    </Step>
+                    ))}
+                </Stepper>
+            </Box>
+                
+            {/* <Buttons >
+                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+            </Buttons> */}
+            <IconButton
+            edge="start"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+            >
+            <CloseIcon />
+            </IconButton>
         </Toolbar>
         <Grid container spacing={2}>
           <Grid item xs={7} md={7} lg={7}>

@@ -1,13 +1,24 @@
 import React from 'react';
 import Slider from 'react-slick';
-import { Grid, Card, CardContent, Rating } from '@mui/material';
+import { Grid, Card, CardContent, Rating, styled } from '@mui/material';
 import { KeyboardArrowRightOutlined, KeyboardArrowLeftOutlined } from '@mui/icons-material';
 import Text from '../../components/Text';
 import Chip from '../../components/Chip';
-
+import { useQuery } from '@tanstack/react-query';
+import endpoint from '../../api/endpoints';
 import emptyLogo from '../../assets/emptyImage.png';
+import establishmentImg from '../../assets/establishmentImg.png'
+
 
 const RecommendSection = () => {
+  const StyledRating = styled(Rating)({
+    '& .MuiRating-iconFilled': {
+      color: '#ff6d75',
+    },
+    '& .MuiRating-iconHover': {
+      color: '#ff3d47',
+    },
+  });
   const cards = [
     { id: 1, image: emptyLogo, rating: 4.2, reviewCount: 20, location: 'Location 1', tags: ['Hair cut', 'Hair styling', 'Massage'] },
     { id: 2, image: emptyLogo, rating: 3.7, reviewCount: 30, location: 'Location 2', tags: ['Tag 3', 'Tag 4'] },
@@ -15,6 +26,8 @@ const RecommendSection = () => {
     { id: 4, image: emptyLogo, rating: 4.1, reviewCount: 50, location: 'Location 4', tags: ['Tag 7', 'Tag 8'] },
     { id: 5, image: emptyLogo, rating: 3.9, reviewCount: 10, location: 'Location 5', tags: ['Tag 9', 'Tag 10'] },
   ];
+  const payLoad = {}
+  const {isLoading, data: establishmentSearchResult} = useQuery({queryKey: ['custom-data'], queryFn: () =>{ return endpoint.getEstablishmentSearch(payLoad)}})
 
   const NextArrow = (props) => {
     const { className, onClick } = props;
@@ -80,23 +93,28 @@ const RecommendSection = () => {
         <Grid item xs={12} className="category-title">
             <Text  variant="h4" align="center" name="Our Recommended Picks" />
         </Grid>
+        {!isLoading && 
+        
         <Slider {...settings}>
-            {cards.map((card) => (
+            {establishmentSearchResult?.data?.map((card) => (
                 <div key={card.id}>
                     <Card className="card">
-                        <img src={card.image} alt="CardImage" className="card-image" />
+                        <img src={establishmentImg} alt="CardImage" className="card-image" />
                         <CardContent className='card-content'>
-                            <Text variant="h6" align="left" className="card-title" name="Card Title"/>
-                            <Text variant="body2" align="left" className="card-location" name={card.location} />
+                            <Text variant="h5" align="left" className="card-title" sx={{color: '#4D4D4D'}} name={card.establishmentName}/>
                             <div className="card-rating">
-                                <Text variant="body2" align="left" name={card.rating}/>
-                                {/* <span>{card.rating}</span> */}
-                                <Rating value={card.rating} precision={0.5} readOnly />
-                                <Text variant="body2" align="left" name={card.reviewCount}/>
-                                {/* <span>({card.reviewCount})</span> */}
+                                <Text sx={{color: '#4D4D4D'}} variant="body2" align="left" name={card.rating.ratingStar}/>
+                                <StyledRating
+                                name="customized-color"
+                                value={card.rating.ratingStar}
+                                precision={0.5}
+                                readOnly
+                                />
+                                <Text sx={{color: '#4D4D4D'}} variant="body2" align="left" name={card.rating.ratingCount}/>
                             </div>
-                            <div className="card-tags">
-                                {card.tags.map((tag, index) => (
+                            <Text sx={{color: '#808080'}} variant="body2" align="left" className="card-location" name={card.establishmentLocation} />
+                            <div className="card-tags" sx={{display: 'flex', justifyContent: 'center'}}>
+                                {card.serviceTags.map((tag, index) => (
                                     <Chip key={index} label={tag} className="small" />
                                 ))}
                             </div>
@@ -105,6 +123,8 @@ const RecommendSection = () => {
                 </div>
             ))}
         </Slider>
+        }
+        
     </div>
   );
 };

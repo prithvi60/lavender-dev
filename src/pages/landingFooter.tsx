@@ -1,7 +1,7 @@
 import React from 'react';
 import GetIcon from '../assets/Icon/icon';
 import Text from "../components/Text";
-import Button from '@mui/material/Button/Button';
+import Button from '../components/Button';
 import { Divider, Grid } from '@mui/material';
 
 function LandingFooter() {
@@ -23,18 +23,20 @@ function LandingFooter() {
         </div>
         <div className='urbanist-font cursor-pointer text-lg text-white'>About</div>
         <div className='urbanist-font cursor-pointer text-lg text-white'>Contact Us</div>
-        <Button className='urbanist-font cursor-pointer' variant='contained'>Download the App</Button>
+        <Button className='urbanist-font cursor-pointer' variant='contained' name={'Download the App'}></Button>
       </div>
 
       <Divider style={{backgroundColor:'#A7A7A7'}}/>
 
-      <div>
+      <div style={{padding: '30px'}}>
         <Grid container spacing={3}>
-          <Grid item  sm={12} md={4} lg={4}><div className='text-white urbanist-font text-3xl'> Lavender helps salons and end users...etc. -sentence TBD</div></Grid>
-          <Grid item sm={12} md={4} lg={4} ><Button className='urbanist-font text-xl'> Discover and Book</Button></Grid>
-          <Grid item sm={12} md={4} lg={4}><Button className='urbanist-font text-xl'> For Salons</Button></Grid>
+          <Grid item  sm={12} md={4} lg={4} ><div className='text-white urbanist-font text-lg'> Lavender helps salons and end users...etc. -sentence TBD</div></Grid>
+          <Grid item sm={12} md={4} lg={4} ><Text className='urbanist-font text-xl' name={'Discover and Book'}> </Text></Grid>
+          <Grid item sm={12} md={4} lg={4}><Text className='urbanist-font text-xl' name={'For Salons'}> </Text></Grid>
         </Grid>
       </div>
+
+
     </div>
   );
 }

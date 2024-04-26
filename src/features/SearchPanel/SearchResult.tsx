@@ -18,7 +18,7 @@ export default function SearchResult() {
   
   const timeTags = ['9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm']
   const payLoad={}
-  const {isLoading, data: establishmentSearchResult} = useQuery({queryKey: ['custom-da'], queryFn: () =>{ return endpoint.getEstablishmentSearch(payLoad)}})
+  const {isLoading, data: establishmentSearchResult} = useQuery({queryKey: ['custom-data'], queryFn: () =>{ return endpoint.getEstablishmentSearch(payLoad)}})
 
   let establishmentList = useMemo(() => {
     if(!isLoading){
@@ -160,7 +160,6 @@ function handleClick(){}
               <Card sx={{ width: 1184 }} className='my-8 card-wrap-container'>
                 <CardContent className='card-container'>
                   <div key={index} className='card-header'>
-                    {/* <img alt='' src={emptyLogo} className='w-full' /> */}
                     <GetImage imageName='SaloonImage' className='w-full rounded-lg'/>
                     <div key={index} className='card-header-details'>
                       <div className='chip-wrap'>
@@ -170,16 +169,15 @@ function handleClick(){}
                       </div>
                       <div className='font-bold text-lg'>{card.establishmentName}</div>
                       <div className="card-rating">
-                        <div className='text-lg'>{3}</div>
-                        {/* <Rating value={3} precision={0.5} readOnly /> */}
+                        <div className='text-lg'>{card.rating.ratingStar}</div>
                         <StyledRating
-        name="customized-color"
-        value={3}
-        precision={0.5}
-        readOnly
-      />
+                          name="customized-color"
+                          value={card.rating.ratingStar}
+                          precision={0.5}
+                          readOnly
+                        />
                         {/* <div className='text-sm'>({card.reviewCount})</div> */}
-                        <div className='text-sm font-bold'>(85)</div>
+                        <div className='text-sm font-bold'>{'('+card.rating.ratingCount+')'}</div>
                       </div>
                       <div className='text-base'>{card.establishmentLocation}</div>
                     </div>

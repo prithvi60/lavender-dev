@@ -52,7 +52,7 @@ function EstablishmentDetails({estId}) {
                           
         <div className='mx-16 service-search-container'>
           <ServiceDetails isLoading={isLoading} establishmentData={establishmentData}/>
-          <Availability />
+          <Availability isLoading={isLoading} establishmentData={establishmentData}/>
         </div>
         <About establishmentData={establishmentData} id='SearchDetailAbout'/>
     </div>

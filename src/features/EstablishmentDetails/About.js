@@ -13,7 +13,7 @@ const {establishmentData} = props
     <div className='mx-16 my-10'>
         <Box sx={{ maxWidth: { xs: 320, sm: 780 }, bgcolor: 'background.paper' }}>
           <div className='text-xl font-bold pb-2'>About</div>
-          <div className='text-lg font-normal'>{SampleData[0].establishmentAbout}</div>
+          <div className='text-lg font-normal'>{establishmentData?.data?.establishmentAbout}</div>
 
           <Card className='flex mt-4'>
                 
@@ -42,7 +42,7 @@ const {establishmentData} = props
                   <div className='flex justify-between py-2'>
                       <div className='text-lg font-semibold'>Accessibility</div>
                       <div>{
-                        SampleData[0].accessibility.map((item)=>(
+                        establishmentData?.data?.otherInfos?.map((item)=>(
                           <div className='font-normal text-sm py-1'>{item}</div>
                         ))
                       }</div>
