@@ -17,7 +17,7 @@ import { Grid } from "@mui/material";
 function ServiceDialog({establishmentData}) {
 
   const [isOpen, setIsOpen] = useState(false);
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(0);
 
   function handleBtnClick(){
       setIsOpen(true);

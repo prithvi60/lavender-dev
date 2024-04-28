@@ -14,6 +14,8 @@ import GetIcon from "../assets/Icon/icon.tsx";
 const Navbar = (props) => {
   const { isSearchPage } = props;
 
+  const [showSearchBar, setshowSearchBar] = useState(false);
+
   const getLoginRoute = () => {
     return getRoute("Login");
   };
@@ -45,18 +47,25 @@ const Navbar = (props) => {
             sx={{ flexGrow: 1 }}
             name="Lavender"
           />
-          {isSearchPage && <NavFilter />}
+          {isSearchPage && <NavFilter setshowSearchBar={setshowSearchBar} />}
           <Stack spacing={2} direction="row">
-            {/* <TextRouter className='nav-bar-title' variant="body2" name="Business" to={getAdminRoute()}/> */}
-            <Button href={getAdminRoute()} className="button-outline" variant="outlined">
+             <Button
+              href={getAdminRoute()}
+              className="button-outline"
+              variant="outlined"
+            >
               Business
             </Button>
             <ButtonRouter name={"Login"} to={getLoginRoute()} />
           </Stack>
-          {isSearchPage && <div className="searched-search-panel"><NewSearchPanel /></div>}
+          {isSearchPage && showSearchBar && (
+            <div className="searched-search-panel">
+              <NewSearchPanel />
+            </div>
+          )}
         </Toolbar>
       </AppBar>
-      {isSearchPage && <div className="search-overlay"></div>}
+      {isSearchPage && showSearchBar && <div className="search-overlay"></div>}
     </>
   );
 };
