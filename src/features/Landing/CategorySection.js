@@ -12,17 +12,17 @@ const CategorySection = () => {
 
     return ( 
         <section className="landing-section">
-            <Grid item xs={12} className="category-title">
-                <Text variant="h4" align="center" name="Explore our Categories" />
+            <Grid item xs={12} className="pt-16 pb-8 md:pb-16">
+                <h4 className='text-2xl md:text-4xl font-semibold text-center text'>Explore our Categories</h4>
             </Grid>
             <Grid container spacing={2} justifyContent="space-evenly" alignItems="center">
                 {categories.map((category) => (
                 <Grid item key={category.id}>
-                    <a href='' className="category-link">
+                    <a href='' className="flex justify-center">
                         {/* <img src={category.image} alt={category.name} className="category-image" /> */}
-                   <GetImage imageName={category.image}/>
+                   <GetImage className='w-20 md:w-36' imageName={category.image}/>
                     </a>
-                    <Text className='urbanist-font ' variant="body2" align="center" name={category?.name} />
+                    <p className='urbanist-font text-center font-semibold mt-2 text-lg'>{category?.name}</p>
                 </Grid>
                 ))}
             </Grid>

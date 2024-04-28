@@ -90,15 +90,15 @@ const RecommendSection = () => {
 
   return (
     <div className="recommend-section">
-        <Grid item xs={12} className="category-title">
-            <Text  variant="h4" align="center" name="Our Recommended Picks" />
+        <Grid item xs={12} className="pt-16 pb-8 md:pb-16">
+            <h4 className='text-2xl md:text-4xl font-semibold text-center text'>Our Recommended Picks</h4>
         </Grid>
         {!isLoading && 
         
-        <Slider {...settings}>
+        <Slider {...settings} className='home-slider'>
             {establishmentSearchResult?.data?.map((card) => (
                 <div key={card.id}>
-                    <Card className="card">
+                    <div className="mx-2 md:mx-5 p-6 shadow-lg rounded-xl">
                         <img src={establishmentImg} alt="CardImage" className="card-image" />
                         <CardContent className='card-content'>
                             <Text variant="h5" align="left" className="card-title" sx={{color: '#4D4D4D'}} name={card.establishmentName}/>
@@ -119,7 +119,7 @@ const RecommendSection = () => {
                                 ))}
                             </div>
                         </CardContent>
-                    </Card>
+                    </div>
                 </div>
             ))}
         </Slider>

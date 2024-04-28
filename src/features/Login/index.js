@@ -10,16 +10,12 @@ const Login = ({children}) => {
 
     return (
         <>
-            <Grid container spacing={0} className="background-grids">
-                <Grid item xs={7} className="background-grid cover" />
-                <Grid item xs={5} className="background-grid" />
-            </Grid>
             <Grid container spacing={5} justifyContent="center" alignItems="center" className="login-container">
                 <Grid item xs={12}>
                     <Grid container justifyContent="center" alignItems="center">
                         {
                             !isSmallScreen &&
-                            <Grid item xs={4} className='login-banner'>
+                            <Grid item xs={4} className='login-banner text-white'>
                                 <Typography className='title'>Discover me time</Typography>
                                 <Typography className='subtitle'>Book your next salon experience with Lavender</Typography>
                             </Grid>

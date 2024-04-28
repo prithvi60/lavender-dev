@@ -1,5 +1,5 @@
 import { Grid, Chip, styled } from '@mui/material';
-import React from 'react'
+import React, { useState } from 'react'
 import { SampleData } from './SampleData';
 import Text from '../../components/Text';
 import ButtonRouter from '../../components/ButtonRouter';
@@ -11,6 +11,7 @@ import './style.css'
 import { NavLink } from 'react-router-dom';
 
 function HeaderDetails(props) {
+    const [selectedHref, setSelectedHref] = useState('pictures')
     const {isLoading, establishmentData} = props
     if(!isLoading){
     //console.log("establishmentData:  : ", establishmentData.data)
@@ -32,22 +33,29 @@ function HeaderDetails(props) {
                 <div className='search-header-container'>
                     <div className='text-3xl font-bold' id='SearchDetailPicture'>{establishmentData?.data?.establishmentName}</div>
                     <div className='search-detail-chips'>
-                        <NavLink
-                            to="#SearchDetailPicture" className={({ isActive }) => isActive ? "active" : ""}>
+                        <a
+                            onClick={() => setSelectedHref('pictures')}
+                            href="#" className={selectedHref === 'pictures' ? "active" : ""}>
                             <Buttons variant='outlined'>Pictures</Buttons>
-                        </NavLink>
-                        <NavLink
-                            to="#SearchDetailService" className={({ isActive }) => isActive ? "active" : ""}>
+                        </a>
+                        <a
+                        
+                            onClick={() => setSelectedHref('service')}
+                            href="#SearchDetailService" className={selectedHref === 'service' ? "active" : ""}>
                             <ServiceDialog establishmentData={establishmentData}/>
-                        </NavLink>
-                        <NavLink
-                            to="#SearchDetailReview" className={({ isActive }) => isActive ? "active" : ""}>
+                        </a>
+                        <a
+                        
+                            onClick={() => setSelectedHref('review')}
+                            href="#SearchDetailReview" className={selectedHref === 'review' ? "active" : ""}>
                             <Buttons variant='outlined'>Review</Buttons>
-                        </NavLink>
-                        <NavLink
-                            to="#SearchDetailAbout" className={({ isActive }) => isActive ? "active" : ""}>
+                        </a>
+                        <a
+                            onClick={() => setSelectedHref('about')}
+                            className={selectedHref === 'about' ? "active" : ""}
+                            href="#SearchDetailAbout">
                             <Buttons variant='outlined'>About</Buttons>
-                        </NavLink>
+                        </a>
                     </div>
                 </div>
                 <div className='search-header-details'>

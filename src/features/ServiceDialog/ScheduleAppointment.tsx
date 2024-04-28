@@ -1,13 +1,11 @@
 import * as React from 'react';
-import { Dropdown } from '@mui/base/Dropdown';
-import { Menu } from '@mui/base/Menu';
 import { MenuButton as BaseMenuButton } from '@mui/base/MenuButton';
 import { MenuItem as BaseMenuItem, menuItemClasses } from '@mui/base/MenuItem';
 import { styled } from '@mui/system';
-import { Button, Chip, Divider, Grid } from '@mui/material';
+import { Button, Chip, Divider, Grid, Select } from '@mui/material';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DatePicker from '../../Packages/swiperCalendar/DatePicker.tsx'
-import { blueGrey } from '@mui/material/colors';
+import GetIcon from '../../assets/Icon/icon';
 
 export default function ScheduleAppointment(props) {
   
@@ -31,10 +29,10 @@ export default function ScheduleAppointment(props) {
 
   return (
 
-    <div className='mt-2 mx-16 my-10'>
-      <div className='flex gap-1 mb-2'>
-      <p onClick={()=>onSetActiveStep(0)}><KeyboardBackspaceIcon/></p>
-      <div className='font-bold'>Schedule</div>
+    <div className='mt-2 md:mx-16 my-10'>
+      <div className='flex gap-3 mb-2 items-center'>
+      <GetIcon iconName='BackIcon' onClick={()=>onSetActiveStep(0)}/>
+      <div className='font-bold text-3xl'>Schedule</div>
       </div>
 
       <div className='mb-4'>
@@ -48,30 +46,26 @@ export default function ScheduleAppointment(props) {
         
       </div>
 
-      <Grid className='mt-4' classes='' container rowSpacing={3}>
+      <div className='mt-4'>
 
         {Object.entries(Timings).map((item,index) => {
           
           console.log('item :', item)
           return <>
-            <Grid key={index} container item spacing={2}>
-
-              <Grid item xs={3}>
-                <p className='font-semibold capitalize'>{item[0]}</p>
-              </Grid>
-
-              <Grid container columnSpacing={2} item xs={8}>
+            <div className='schedule-chips'>
+              <p className='font-semibold capitalize'>{item[0]}</p>
+              <div className='flex items-center flex-wrap gap-2'>
                 {item[1].map((item,index) => {
                   return <>
-                    <Grid className='cursor-pointer' key={index}  item>
+                    <div className='cursor-pointer' key={index}>
                       <Chip label={item} variant="outlined" />
-                    </Grid>
+                    </div>
                   </>
                 })}
-              </Grid>
+              </div>
               {/* TODO */}
             <Divider />
-            </Grid>
+            </div>
           </>
         })
         }
@@ -84,21 +78,21 @@ export default function ScheduleAppointment(props) {
 
           <Grid container columnSpacing={2} item xs={8}>
             <Grid item>
-              <Dropdown>
-                <MenuButton>My account</MenuButton>
-                <Menu slots={{ listbox: Listbox }}>
-                  <MenuItem key={1} onClick={createHandleMenuClick('Profile')}>Profile</MenuItem>
-                  <MenuItem  key={1}  onClick={createHandleMenuClick('Language settings')}>
-                    Language settings
-                  </MenuItem>
-                  <MenuItem  key={1}  onClick={createHandleMenuClick('Log out')}>Log out</MenuItem>
-                </Menu>
-              </Dropdown>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={'age'}
+              label="Age"
+            >
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
             </Grid>
           </Grid>
         </Grid>
 
-        <Button onClick={()=>onSetActiveStep(2)} variant="outlined">Next</Button>      </Grid>
+        <Button onClick={()=>onSetActiveStep(2)} variant="outlined">Next</Button>      </div>
     </div>
 
   );

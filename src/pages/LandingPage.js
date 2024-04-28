@@ -15,7 +15,7 @@ const LandingPage = () => {
             <Navbar isSearchPage={isSearchPage}/>
             <HeroSection />
             {/* <SearchResult /> */}
-            <div className='mx-4'>
+            <div className='mx-4 max-w-7xl mx-auto'>
 
             <CategorySection />
             <RecommendSection />

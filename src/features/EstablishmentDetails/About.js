@@ -1,73 +1,102 @@
-import React from 'react'
-import { SampleData } from './SampleData'
-import Box from '@mui/material/Box';
-import { Grid, Card, CardContent, Rating, CardActions, Collapse, Button, CardHeader } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import PersonIcon from '@mui/icons-material/Person';
+import React from "react";
+import { SampleData } from "./SampleData";
+import Box from "@mui/material/Box";
+import {
+  Grid,
+  Card,
+  CardContent,
+  Rating,
+  CardActions,
+  Collapse,
+  Button,
+  CardHeader,
+} from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import PersonIcon from "@mui/icons-material/Person";
+import GetIcon from "../../assets/Icon/icon";
 
 function About(props) {
-const {establishmentData} = props
+  const { establishmentData } = props;
 
-  const additionalInfos = ["Payment methods", "Languages", "Accessibility"]
+  const additionalInfos = ["Payment methods", "Languages", "Accessibility"];
   return (
-    <div className='mx-16 my-10'>
-        <Box sx={{ maxWidth: { xs: 320, sm: 780 }, bgcolor: 'background.paper' }}>
-          <div className='text-xl font-bold pb-2'>About</div>
-          <div className='text-lg font-normal'>{establishmentData?.data?.establishmentAbout}</div>
+    <div className="mx-16 my-10" id="SearchDetailAbout">
+      <div className="max-w-2xl">
+        <div className="urbanist-font text-xl font-bold pb-2">About</div>
+        <div className="urbanist-font text-lg font-normal">
+          {establishmentData?.data?.establishmentAbout}
+        </div>
 
-          <Card className='flex mt-4'>
+        <div className="flex flex-wrap mt-4 rounded-3xl shadow-lg border overflow-hidden">
+          <div className="p-8 w-full md:w-8/12">
+            <div className="text-lg font-medium urbanist-font">
+              Additional information
+            </div>
+            <div className="flex flex-wrap justify-between py-4">
+              <div className="urbanist-font text-lg font-semibold w-full md:w-8/12">
+                <GetIcon
+                  className="flex items-center h-fit gap-3"
+                  iconName="PaymentCardIcon"
+                  text="Payment methods"
+                />
+              </div>
+              <div className="w-full md:w-4/12 pl-8 md:pl-0">
+                {SampleData[0].paymentMethod.map((item) => (
+                  <div className="urbanist-font font-normal text-sm py-1">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <hr />
+
+            <div className="flex flex-wrap justify-between py-4">
+              <GetIcon
+                  className="flex items-center gap-3 h-fit urbanist-font text-lg font-semibold w-full md:w-8/12"
+                  iconName="PaymentCardIcon"
+                  text="Payment methods"
+                />
+              <div className="w-full md:w-4/12 pl-8 md:pl-0">
+                {SampleData[0].languages.map((item) => (
+                  <div className="urbanist-font font-normal text-sm py-1">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <hr />
+
+            <div className="flex flex-wrap justify-between py-4">
+              <GetIcon iconName='ManIcon' className="flex h-fit items-center gap-3 urbanist-font text-lg font-semibold w-full md:w-8/12" text='Accessibility'>
                 
-                <CardContent sx={{width : 500}}>
-                  <div className='text-lg font-bold'>Additional information</div>
-                  <div className='flex justify-between py-2'>
-                      <div className='text-lg font-semibold'>Payment methods</div>
-                      <div>{
-                        SampleData[0].paymentMethod.map((item)=>(
-                          <div className='font-normal text-sm py-1'>{item}</div>
-                        ))
-                      }</div>
+              </GetIcon>
+              <div className="w-full md:w-4/12 pl-8 md:pl-0">
+                {establishmentData?.data?.otherInfos?.map((item) => (
+                  <div className="urbanist-font font-normal text-sm py-1">
+                    {item}
                   </div>
-                  <hr/>
+                ))}
+              </div>
+            </div>
+          </div>
 
-                  <div className='flex justify-between py-2'>
-                      <div className='text-lg font-semibold'>Languages</div>
-                      <div>{
-                        SampleData[0].languages.map((item)=>(
-                          <div className='font-normal text-sm py-1'>{item}</div>
-                        ))
-                      }</div>
-                  </div>
-                  <hr/>
-
-                  <div className='flex justify-between py-2'>
-                      <div className='text-lg font-semibold'>Accessibility</div>
-                      <div>{
-                        establishmentData?.data?.otherInfos?.map((item)=>(
-                          <div className='font-normal text-sm py-1'>{item}</div>
-                        ))
-                      }</div>
-                  </div>
-                </CardContent>
-
-                <CardContent className='bg-gray-200 w-72'>
-                  <div className='text-lg font-bold text-center pb-4'>Our team</div>
-                  {
-                    SampleData[0].establishmentTeam.map((item)=>(
-                      <div className='flex justify-evenly p-2'>
-                        <Avatar>
-                          <PersonIcon />
-                        </Avatar>
-                        <div>{item.employeeTitle}</div>
-                      </div>
-                    ))
-                  }
-                </CardContent>
-          </Card>
-
-        </Box>
-
+          <div className="bg-purple-100	 w-full md:w-4/12 p-8">
+            <div className="text-lg font-bold pb-4">Our team</div>
+            {SampleData[0].establishmentTeam.map((item) => (
+              <div className="flex py-2 gap-3 items-center">
+                <Avatar>
+                  <PersonIcon />
+                </Avatar>
+                <div className="urbanist-font text-lg">
+                  {item.employeeTitle}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default About
+export default About;

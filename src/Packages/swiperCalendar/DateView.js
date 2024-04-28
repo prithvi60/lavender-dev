@@ -91,7 +91,7 @@ const DateView = ({startDate, lastDate, selectDate, getSelectedDay, primaryColor
 
         }
 
-        return <div id={"container"} className={styles.dateListScrollable}>{months}</div>;
+        return <div id={"container"} className={`${styles.dateListScrollable} urbanist-font`}>{months}</div>;
     }
 
     const onDateClick = day => {

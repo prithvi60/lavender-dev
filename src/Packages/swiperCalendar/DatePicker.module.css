@@ -1,6 +1,6 @@
 .container {
     display: flex;
-    width: 400px;
+    width: min(400px, 80vw);
     background: white;
 }
 
@@ -8,24 +8,24 @@
     display: flex;
     align-items: flex-end;
     background: white;
+    min-width: 40px;
+    justify-content: center;
 }
 
 .button {
     border: none;
-    text-decoration: none;
     cursor: pointer;
+    width: 25px;
+    height: 25px;
+    color: #fff;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    color: #616161;
-    font-size: 20px;
-    font-weight: bold;
-    flex-shrink: 0;
+    aspect-ratio: 1;
+    font-size: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0;
-    margin-bottom: 13px;
+    margin-bottom: 12px;
 }
 .dateListScrollable {
     display: flex;
@@ -33,6 +33,7 @@
     scrollbar-width: none;
     margin: 2px 0 2px -40px;
     -webkit-overflow-scrolling: touch;
+    padding-bottom: 15px;
 }
 
 .dateListScrollable::-webkit-scrollbar {
@@ -66,9 +67,12 @@
     align-items: center;
     cursor: pointer;
     margin: 0 0 0 5px;
-    width: 45px;
-    height: 49px;
+    width: 45px !important;
+    height: 49px !important;
     flex-shrink: 0;
+    &[id="selected"]{
+        background-color: transparent !important;
+    }
 }
 
 .dateDayItemMarked {
@@ -95,6 +99,19 @@
 
 .dateLabel {
     font-size: 18px;
+    aspect-ratio: 1;
+    height: auto;
+    text-align: center;
+    /* background: #E6E6E6; */
+    outline: 1px solid #B3B3B3;
+    border-radius: 30px;
+    padding: 6px;
+    margin-top: 5px;
+}
+
+[id="selected"] .dateLabel{
+    outline: none;
+    background-color: #E6E1FF;
 }
 
 .markedLabel {

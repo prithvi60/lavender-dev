@@ -6,8 +6,8 @@ import { Divider, Grid } from '@mui/material';
 
 function LandingFooter() {
   return (
-    <div className='mt-4 border h-96 landingFooter'>
-      <div className='flex flex-col sm:flex-row justify-around my-6'>
+    <div className='mt-4 border landingFooter'>
+      <div className='footer-header'>
         <div className='flex gap-1'>
           <GetIcon
             className="cursor-pointer"
@@ -23,17 +23,39 @@ function LandingFooter() {
         </div>
         <div className='urbanist-font cursor-pointer text-lg text-white'>About</div>
         <div className='urbanist-font cursor-pointer text-lg text-white'>Contact Us</div>
-        <Button className='urbanist-font cursor-pointer' variant='contained' name={'Download the App'}></Button>
+        <Button className='urbanist-font cursor-pointer footer-dwnld-btn' variant='contained' name={'Download the App'}></Button>
       </div>
 
-      <Divider style={{backgroundColor:'#A7A7A7'}}/>
+      <Divider style={{backgroundColor:'#A7A7A766'}}/>
 
-      <div style={{padding: '30px'}}>
-        <Grid container spacing={3}>
-          <Grid item  sm={12} md={4} lg={4} ><div className='text-white urbanist-font text-lg'> Lavender helps salons and end users...etc. -sentence TBD</div></Grid>
-          <Grid item sm={12} md={4} lg={4} ><Text className='urbanist-font text-xl' name={'Discover and Book'}> </Text></Grid>
-          <Grid item sm={12} md={4} lg={4}><Text className='urbanist-font text-xl' name={'For Salons'}> </Text></Grid>
-        </Grid>
+      <div className='footer-body'>
+        <div className='footer-details'>
+          <div className='text-white urbanist-font text-lg'> Lavender helps salons and end users...etc. -sentence TBD</div>
+          <p>twitter</p>
+        </div>
+        <div className='footer-links'>
+          <div className='urbanist-font link-title text-lg'>Discover and Book</div>
+          <p className='text-white'>twitter</p>
+          <p className='text-white'>twitter</p>
+          <p className='text-white'>twitter</p>
+          <p className='text-white'>twitter</p>
+          <p className='text-white'>twitter</p>
+        </div>
+        <div className='footer-links'>
+          <div className='urbanist-font link-title text-lg'>Discover and Book</div>
+          <p className='text-white'>twitter</p>
+          <p className='text-white'>twitter</p>
+          <p className='text-white'>twitter</p>
+          <p className='text-white'>twitter</p>
+          <p className='text-white'>twitter</p>
+        </div>
+      </div>
+
+      <Divider style={{backgroundColor:'#A7A7A766'}}/>
+
+      <div className="footer-foot">
+        <div className='urbanist-font cursor-pointer text-lg text-white'>About</div>
+        <div className='urbanist-font cursor-pointer text-lg text-white'>Contact Us</div>
       </div>
 
 

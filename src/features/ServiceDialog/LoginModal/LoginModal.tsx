@@ -24,7 +24,7 @@ function LoginModal() {
     };
     
   return (
-    <div>
+    <span>
         <Link onClick={handleOpen}>Register or Login</Link>
         <Modal
         open={open}
@@ -36,7 +36,7 @@ function LoginModal() {
                 <RegisterLoginScreen isInLoginModal={isInLoginModal}/>
             </Box>
         </Modal>
-    </div>
+    </span>
   )
 }
 

@@ -4,11 +4,18 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+*{
+  font-family: 'Urbanist', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif !important;
+}
+
+html{
+  scroll-behavior: smooth;
 }
 
 code {
@@ -25,4 +32,59 @@ code {
   --primary-dark: #D34D72;
   --primary-light: #EEEEFF;
 
+}
+
+/* Outline button */
+.button-outline{
+    border-color: var(--primary-clr) !important;
+    color: var(--primary-clr) !important;
+}
+.MuiButtonBase-root{
+  &.MuiButton-containedPrimary{
+    &.MuiButton-colorPrimary{
+      background-color: var(--primary-clr) !important;
+      color: #FFFFFF !important;
+    }
+  }
+  &.MuiButton-outlined{
+    &.MuiButton-colorPrimary{
+      color: var(--primary-clr) !important;
+      background-color: transparent !important;
+      border-color: var(--primary-clr) !important;
+    }
+  }
+}
+
+/* Selection */
+::selection{
+  background-color: var(--primary-clr);
+  color: #FFFFFF;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{
+  width: 12px;
+}
+::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background-color: #B3B3B3;
+}
+::-webkit-scrollbar-track{
+  border-radius: 10px;
+  background-color: #E6E6E6;
+}
+
+
+/* Checkbox */
+.checkBoxCommon{
+  padding: 0;
+
+  &.Mui-checked{
+    color: var(--primary-clr) !important;
+  }
+
+  .MuiSvgIcon-root{
+    width: 1.4em;
+    height: auto;
+  }
 }

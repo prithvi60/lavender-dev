@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Grid, Card, CardContent, Rating, CardActions, Collapse, Button, CardHeader } from '@mui/material';
+import GetImage from '../../assets/GetImage';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import emptyLogo from "../../assets/emptyImage.png"
 import {
@@ -47,14 +48,15 @@ function CheckoutCard(props) {
     next((prevActiveStep) => prevActiveStep + 1); // Invoke the callback function with data
   };
   return (
-      <Card sx={{ width: '100%', maxWidth: 400, borderRadius: 6, }}> {/* Adjusted width to be responsive */}
+      <div className='urbanist-font mb-6 rounded-2xl chackout-card-container'> {/* Adjusted width to be responsive */}
         <CardContent >
-          <div className='flex justify-between my-2 py-2'>
-            <img src={emptyLogo} className='w-full md:w-60 h-24 mb-4 md:mb-0 rounded-2xl' alt='Logo'/>
-            <div className='text-xl font-bold px-2'>{establishmentName}</div>
+          <div className='flex justify-between gap-2 my-2 py-2 serviceCardDetail'>
+            {/* <img src={} className='w-full md:w-60 h-24 mb-4 md:mb-0 rounded-2xl' alt='Logo'/> */}
+            <GetImage className='w-2/4' imageName='SaloonImage'/>
+            <div className='text-xl w-2/4 font-bold px-2'>{establishmentName}</div>
           </div>
 
-          <div className='py-2' style={{overflowY: 'scroll'}}>
+          <div className='py-2 overflow-auto checkout-card'>
             {checkOutList.checkOut.map((item, index) => (
               <div className='py-2'>
                 <div className='flex justify-between py-1' key={index}>
@@ -68,7 +70,7 @@ function CheckoutCard(props) {
           <Divider />
           {
             // checkOutList.checkOut.length > 0 && 
-              <div>
+              <div className='pt-3'>
                 <div className='flex justify-between'>
                   <div className='text-lg font-bold'>Total</div>
                   <div className='text-lg font-bold'>${calculateTotalPrice()}</div>
@@ -76,13 +78,13 @@ function CheckoutCard(props) {
                 <div className='text-sm font-normal pb-2'>excluding Tax</div>
 
                 <div className='flex justify-center'>
-                  <Button  disabled={disabled} onClick={sendDataToParent} sx={{width: 350, display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button>
+                  <Button  disabled={disabled} className='w-full' onClick={sendDataToParent} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button>
                 </div>
             </div>
           }
         </CardContent>
         
-      </Card>
+      </div>
 
   )
 }

@@ -126,7 +126,7 @@ useEffect(()=>{
  
 
   return (
-    <div>
+    <div className="w-full">
     <div className="search-panel">
       {/* <Form> */}
 

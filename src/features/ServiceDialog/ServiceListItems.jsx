@@ -5,6 +5,7 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import { SampleData } from './SampleData';
 import OptionsModal from './OptionsModal';
+import { Divider } from '@mui/material';
 
 function ServiceListItems({ serviceCategories }) {
   const listRef = useRef(null);
@@ -21,9 +22,10 @@ function ServiceListItems({ serviceCategories }) {
   };
 
   return (
-    <div className='w-full mx-4 md:mx-16 md:w-11/12 '>
-      <div className='text-xl font-bold'>Services</div>
+    <div className='w-full gridServiceLayout  urbanist-font'>
+      <div className='text-4xl font-semibold pl-6 pb-5'>Services</div>
       <Tabs
+      className='serviceTabs'
         value={value}
         onChange={handleTabChange}
         variant="scrollable"
@@ -34,26 +36,29 @@ function ServiceListItems({ serviceCategories }) {
         ))}
       </Tabs>
 
-      <List ref={listRef} sx={{ width: '100%', maxWidth: '100%', maxHeight: 500, bgcolor: 'background.paper', overflowY: 'scroll' }}>
+      <List ref={listRef} className='serviceGridList' sx={{ width: '100%', maxWidth: '100%', maxHeight: 500, bgcolor: 'background.paper', overflowY: 'auto' }}>
         {serviceCategories.map((item, index) => (
           <div key={index} id={`category-${index}`}>
-            <div className='text-2xl font-bold'>{item.categoryName}</div>
+            <div className='text-2xl font-bold px-6 pt-4 pb-2'>{item.categoryName}</div>
 
             {item.services.map((service, serviceIndex) => (
-              <ListItemButton sx={{ display: 'flex', justifyContent: 'space-between' }} key={serviceIndex}>
-                <div className='p-2'>
-                  <div className='text-lg font-bold'>{service.serviceName}</div>
+              <ListItemButton className='serviceList' sx={{ display: 'flex', justifyContent: 'space-between' }} key={serviceIndex}>
+                <div className='p-2 w-4/5'>
+                  <div className='text-lg font-semibold'>{service.serviceName}</div>
                   <div className='text-sm font-normal'>{service.serviceDuration}</div>
-                  <div className='text-sm font-normal'>{service.serviceDescription}</div>
-                  <div className='text-base font-medium'>
+                  <div className='text-sm font-normal text-ellipsis text-nowrap overflow-hidden'>{service.serviceDescription}</div>
+                  <div className='text-base'>
                     {service.options.length > 0
-                      ? 'from $' + service.startingPrice
-                      : '$' + service.finalPrice}
+                      ? <span>from: <span className='font-bold'>${service.startingPrice}</span></span>
+                      : '$' + <span className='font-bold'>$service.finalPrice</span>}
                   </div>
                 </div>
-                <div><OptionsModal props={service} /></div>
+                <div>
+                  <OptionsModal props={service} />
+                </div>
               </ListItemButton>
             ))}
+            <Divider />
           </div>
         ))}
       </List>

@@ -62,19 +62,18 @@ function ServiceDetails(props) {
     </Box>
       <List sx={{ width: '100%', maxWidth: 760, bgcolor: 'background.paper' }}>
       {establishmentData.data.serviceCategories?.filter(x => x.serviceTags.includes(tabValue)).map((service)=>(
-        
-        <ListItemButton sx={{display: 'flex', flexDirection: 'column', justifyContent: 'left', alignItems: 'flex-start' }} onClick={handleClick} >
-            {service.services.map((item)=>(
+        service.services.map((item)=>(
+            <ListItemButton className='serviceList' onClick={handleClick} >
               <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-              <div className='p-2'>
-                <div className='text-lg font-bold'>{item.serviceName}</div>
-                <div className='text-sm font-normal'>{item.startingPrice}</div>
-                {/* <div className='text-base font-medium'>{'$'+item.startingPrice}</div> */}
-            </div>
-            <div style={{alignContent: 'center'}}>Book</div>
+                <div className='p-2'>
+                  <div className='text-lg font-bold'>{item.serviceName}</div>
+                  <div className='text-sm font-normal text-gray-500'>{item.startingPrice}</div>
+                  {/* <div className='text-base font-medium'>{'$'+item.startingPrice}</div> */}
+                </div>
+                <div className='badge-primary'>Book</div>
               </div>
-            ))}
-        </ListItemButton>
+          </ListItemButton>
+        ))
       ))}
     </List>
         <Button variant="outlined" name={'View all'}></Button>

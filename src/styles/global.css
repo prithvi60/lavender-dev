@@ -45,6 +45,29 @@
         font-weight: bold;
     }
 
+    .search-overlay{
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+    }
+
+    .nav-bar{
+        .MuiToolbar-root{
+            flex-wrap: wrap;
+        }
+    }
+
+    .searched-search-panel{
+        width: 100%;
+        .search-panel{
+            display: grid;
+            padding: 20px 0;
+            grid-template-rows: min-content 0px;
+        }
+    }
+
     .search-box{
         height: 100%;
     }

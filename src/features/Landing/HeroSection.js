@@ -13,8 +13,8 @@ const HeroSection = () => {
                 {/* <SearchPanel /> */}
                 <NewSearchPanel/>
 
-                <div className='urbanist-font mt-4 leading-10	 font-bold text-5xl'>Book your next salon experience </div>
-                <div className='urbanist-font mb-8 mt-2 leading-10 font-bold text-5xl'>with Lavender.</div>
+                <div className='urbanist-font mt-4 leading-10 mt-12 font-bold text-3xl md:text-5xl'>Book your next salon experience </div>
+                <div className='urbanist-font mb-8 mt-2 leading-10 font-bold text-3xl md:text-5xl'>with Lavender.</div>
 
             </section>
         </section>

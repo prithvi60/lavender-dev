@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import Box from '@mui/material/Box';
-import { Grid } from '@mui/material';
+import {  Grid } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Add } from '@mui/icons-material';
 import Buttons from '@mui/material/Button';
@@ -12,10 +12,7 @@ import {
     useDispatch,
     useSelector,
   } from 'react-redux';
-  import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import CheckBox from '../../components/Checkbox';
-
+import CheckBox from './CheckBox.tsx';
 function OptionsModal({props}) {
     
     const checkOutList = useSelector(
@@ -25,8 +22,7 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
      //const {props} = props
     const [isOpen, setIsOpen] = useState();
     const [btnValue, setBtnValue] = useState("Select");
-    const [btnVariant, setBtnVariant] = useState<'contained' | 'outlined' | 'text' | string>("outlined");
-    const [isChecked, setIsChecked] = useState(false);
+    const [btnVariant, setBtnVariant] = useState<"contained" | "outlined" | "text">("outlined");
     
     const disPatch = useDispatch()
 
@@ -36,14 +32,14 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
     
     function handleSelectBtnClick(serviceName, finalPrice, serviceDuration){
         debugger
-        setIsChecked((prev) => !prev)
+        // setIsChecked((prev) => !prev)
         let checkOutObj = {
             'serviceName': serviceName,
             'finalPrice': finalPrice,
             'serviceDuration': serviceDuration
         }
         console.log("checkOutObj : ", checkOutObj)
-        if(btnValue == 'Select'){
+        if(btnValue === 'Select'){
             // addItemsToCheckOut(checkOutObj)
             disPatch(updateCheckOut(checkOutObj))
             setBtnValue("Deselect")
@@ -78,9 +74,8 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
         onClose={handleOpen}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        sx={{maxWidth: 'lg', maxHeight: 'sm'}}
         >
-            <Box sx={style} className='rounded-3xl'>
+            <Box sx={style} className='rounded-3xl max-w-7xl urbanist-font'>
                 <IconButton
                 aria-label="close"
                 onClick={handleOpen}
@@ -93,37 +88,41 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
                 >
                     <CloseIcon />
                 </IconButton>
-                <Grid container spacing={2} sx={{margin: "5px", padding: "15px"}}>
-                    <Grid item xs={12} md={8}>
-                        <div className='text-3xl font-bold'>{props.serviceName}</div>
-                        <div className='text-2xl font-normal'>{props.serviceDuration} mins</div>
-                        <div className='text-2xl font-bold'>
-                        {
-                            props.options.length > 0 
-                            ? 'from $'+props.startingPrice
-                            : '$'+props.finalPrice
-                        }
+                <div className='flex flex-wrap p-6'>
+                    <Grid className='w-full'>
+                        <div className='text-2xl md:text-3xl font-bold'>{props.serviceName}</div>
+                        <div className='flex justify-between items-end'>
+                            <div>
+                                <div className='text-xl md:text-2xl font-normal'>{props.serviceDuration} mins</div>
+                                <div className='text-xl md:text-2xl font-bold'>
+                                {
+                                    props.options.length > 0 
+                                    ? 'from $'+props.startingPrice
+                                    : '$'+props.finalPrice
+                                }
+                                </div>
+                            </div>
+                            <Buttons variant={btnVariant} endIcon={<Add />} className='w-40 h-fit' onClick={() => handleSelectBtnClick(props.serviceName, props.finalPrice, props.serviceDuration)}>{btnValue}</Buttons>
                         </div>
                     </Grid>
-                    <Grid item xs={12} md={4} className='flex justify-center items-end'>
-                        <Buttons variant={btnVariant} endIcon={<Add />} sx={{ width: '70%' }} onClick={() => handleSelectBtnClick(props.serviceName, props.finalPrice, props.serviceDuration)}>{btnValue}</Buttons>
-                    </Grid>
                     
-                    <Grid item xs={12} className='py-8'>
-                        <div className='text-2xl font-normal'>{props.serviceDescription}</div>
+                    <Grid className='w-full my-4'>
+                        <div className='text-xl md:text-2xl font-normal'>{props.serviceDescription}</div>
                     </Grid>
-                </Grid>
+                </div>
 
-                <Divider/>
+                <div className="mx-6">
+                    <Divider/>
+                </div>
                 {
                     props.options.length > 1 && <Grid container spacing={2} sx={{margin: "5px", padding: "15px"}}>
-                        <Grid item xs={12} >
+                        <Grid xs={12} >
                             <div className='text-2xl font-bold text-gray-500'>Choose options</div>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid xs={12} className='service-options'>
                             {
                                 props.options.map((option) => (
-                                    <Grid container spacing={1} className='py-4 flex justify-between'>
+                                    <Grid className='py-4 flex justify-between'>
                                         <div >
                                             <div className='text-lg font-bold'>{option.optionName}</div>
                                             <div className='text-sm font-normal'>{option.duration} mins</div>
@@ -131,7 +130,8 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
                                         </div>
                                         <div className='px-16 py-4'>
                                         
-                                        <input type='radio' onClick={() => handleSelectBtnClick(option.optionName, option.salePrice, option.duration)}></input>
+                                        <CheckBox  optionName ={option.optionName} salePrice ={option.salePrice} duration ={ option.duration} setBtnValue  = {setBtnValue} btnValue= {btnValue} setBtnVariant ={setBtnVariant}/>
+
                                         </div>
                                     </Grid>
                                 ))

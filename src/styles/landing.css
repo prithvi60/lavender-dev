@@ -23,7 +23,11 @@
     /* background-color: rgb(235, 39, 39); */
     background-image: url('../assets/BackgroundImage/HomeScreenBg.png');
     position: relative;
-    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    height: auto;
     background-size: cover; /* Ensure the image covers the entire element */
     background-position: center; /* Center the image */
 
@@ -39,13 +43,15 @@
     padding: 30px;
 }
 
-.hero-section .hero-content .text .hero-title {
+.hero-section .hero-content .text.hero-title {
     font-weight: bold;
     margin-bottom: 5px;
+    font-size: clamp(20px, 5vw, 48px);
 }
 
 /* Search Panel */
 .search-panel {
+    width: 100%;
     padding: 50px 0px 0;
 
     .grid-container{
@@ -109,6 +115,7 @@
         display: grid;
         z-index: 1;
         position: relative;
+        width: 100%;
 
         &.one-column{
             grid-template-columns: 3fr 1fr;
@@ -256,6 +263,11 @@
 
 .category-link {
     display: inline-block;
+
+    & img{
+        width: 100%;
+        aspect-ratio: 1;
+    }
 }
 
 .category-title {
@@ -281,8 +293,8 @@
 
 /* Our Recommended Picks Section */
 .recommend-section{
-    margin: 20px;
-    padding: 40px;
+    margin: 0px;
+    padding: 0px;
 }
 
 .recommend-section .carousel-slider {
@@ -333,6 +345,7 @@
 
 .card-tags {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .recommend-section .arrow {
@@ -447,9 +460,13 @@
     background-image: url(../assets/BackgroundImage/LearnMore.png);
     position: relative;
     height: 100vh;
-    background-size: cover; /* Ensure the image covers the entire element */
-    background-position: center; /* Center the image */
-    padding: 60px 20px 20px;
+    background-size: contain;
+    background-position: bottom;
+    padding: 60px 20px 120px;
+    background-color: #f3f3f1;
+    background-repeat: no-repeat;
+    border-radius: 25px;
+    max-height: min(700px, 70vh);
 }
 
 
@@ -461,10 +478,180 @@
 
 
 /* Benifits section in landing page */
-.benifit-card {
-    border: rgb(199, 189, 189);
-    border-style: solid;
-    /* padding: 19px 19px; */
-    /* margin: 0px 10px; */
-    border-radius: 20px;
+.home-benifits-cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px 20px;
+
+    & img{
+        max-width: 350px;
+        width: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+        border-radius: 20px;
+        margin-bottom: 15px;
+    }
+}
+.home-slider{
+    display: flex !important;
+    align-items: center;
+    .slick-arrow{
+        position: unset;
+    }
+}
+
+.footer-header{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1280px;
+    margin: auto;
+    padding: 20px ;
+    gap: 10px;
+    .footer-dwnld-btn{
+        max-width: 200px;
+        margin-left: auto;
+    }
+}
+
+.footer-body{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1280px;
+    margin: auto;
+    padding: 60px 20px;
+    gap: 30px;
+
+    .footer-details{
+        display: grid;
+        gap: 30px;
+        height: fit-content;
+    }
+
+    .footer-links{
+        display: grid;
+        gap: 20px;
+        height: fit-content;
+        .link-title{
+            color: var(--primary-clr);
+        }
+    }
+}
+
+.footer-foot{
+    display: flex;
+    max-width: 1280px;
+    margin: auto;
+    padding: 20px;
+    gap: 60px;
+}
+
+@media (max-width: 760px) {
+    .footer-header{
+        grid-template-columns: 1fr;
+        .footer-dwnld-btn{
+            margin-left: 0;
+        }
+    }
+}
+
+/* Service section */
+.serviceList{
+    border-radius: 15px !important;
+}
+.gridServiceLayout{
+    display: grid;
+    grid-template-rows: min-content min-content 1fr;
+    height: 100%;
+    max-height: calc(100vh - 100px - 32px);
+    .serviceGridList{
+        max-height: 100%;
+    }
+}
+.serviceCardDetail{
+    img{
+        border-radius: 20px;
+    }
+}
+
+
+.chackout-card-container{
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+.checkout-card{
+    max-height: max(calc(100vh - 450px), 300px);
+}
+.stepper-header{
+    margin: 0;
+    padding: 24px;
+    align-items: flex-start !important;
+    min-height: 100px !important;
+    .MuiStepper-root{
+        max-width: 480px;
+        margin: 0 auto;
+        .MuiStepLabel-root{
+            .MuiStepLabel-iconContainer{
+                &.Mui-completed,
+                &.Mui-active{
+                    svg{
+                        fill: var(--primary-clr);
+                        text{
+                            fill: #FFF;
+                        }
+                    }
+                }
+                &.Mui-disabled{
+                    svg{
+                        fill: #E6E1FF;
+                        text{
+                            fill: #4D4D4D;
+                        }
+                    }
+                }
+            }
+        }
+        .MuiStepConnector-root{
+            .MuiStepConnector-line{
+                background-color: var(--primary-clr);
+                border: none;
+                padding: 2px;
+                border-radius: 5px;
+            }
+            &.Mui-disabled{
+                .MuiStepConnector-line{
+                    background-color: #E6E1FF;
+                    border: none;
+                    padding: 2px;
+                    border-radius: 5px;
+                }
+            }
+        }
+    }
+}
+
+
+.badge-primary{
+    padding: 5px 15px;
+    display: flex;
+    height: fit-content;
+    border-radius: 30px;
+    border: 1px solid var(--primary-clr);
+    color: var(--primary-clr);
+    cursor: pointer;
+}
+
+.service-options{
+    max-height: max(50vh, 300px);
+    overflow: auto;
+}
+
+.schedule-chips{
+    width: 100%;
+    display: grid;
+    padding: 0px 0 10px;
+    gap: 10px;
+    grid-template-columns: 100px 1fr;
+
+    & hr{
+        grid-column: 1/-1;
+    }
 }
