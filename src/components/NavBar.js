@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AppBar, Toolbar } from "@mui/material";
+import { AppBar, Avatar, Toolbar } from "@mui/material";
 import Text from "./Text";
 import ButtonRouter from "./ButtonRouter";
 import { getRoute } from "../utils";
@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import GetIcon from "../assets/Icon/icon.tsx";
+import PersonIcon from "@mui/icons-material/Person";
+
 
 const Navbar = (props) => {
   const { isSearchPage } = props;
@@ -19,6 +21,10 @@ const Navbar = (props) => {
   const getLoginRoute = () => {
     return getRoute("Login");
   };
+
+  const getUserRoute = () => {
+    return getRoute("UserProfile");
+  }
 
   const getAdminRoute = () => {
     return getRoute("Admin");
@@ -57,6 +63,7 @@ const Navbar = (props) => {
               Business
             </Button>
             <ButtonRouter name={"Login"} to={getLoginRoute()} />
+            <ButtonRouter startIcon={<PersonIcon />} name={"Olivia"} to={'/userprofile'} />
           </Stack>
           {isSearchPage && showSearchBar && (
             <div className="searched-search-panel">
