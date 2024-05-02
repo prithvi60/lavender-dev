@@ -6,6 +6,7 @@ import Button from '../../components/Button'
 import PersonIcon from "@mui/icons-material/Person";
 import UpComingBookings from './UpComingBookings'
 import PastBookings from './PastBookings'
+import Notifications from './Notifications'
 
 function Index() {
   const {isLoading, data: userInfo} = useQuery({queryKey: ["query-user-info"], queryFn: () => { return endpoint.getCustomerProfile()}})
@@ -45,6 +46,7 @@ function Index() {
         </div>
         <UpComingBookings userInfo={userInfo?.data}/>
         <PastBookings userInfo={userInfo?.data}/>
+        <Notifications userInfo={userInfo?.data}/>
     </div>
     
   )
