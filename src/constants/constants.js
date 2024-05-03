@@ -75,3 +75,15 @@ export   const categories = [
   { id: 5, name: 'Massage', image: 'MassageImage' },
   { id: 6, name: 'Men', image: 'MenImage' },
 ];
+
+export const BUSINESS_NAV = [
+  { label: "Home", iconName: "SalonHome" },
+  { label: "Schedule", iconName: "Schedule" },
+  { label: "Appointments", iconName: "Appointments" },
+  { label: "Clients", iconName: "Clients" },
+  { label: "Services", iconName: "Services" },
+  { label: "Team", iconName: "Team" },
+  { label: "Analytics", iconName: "Analytics" },
+  { label: "Salon profile", iconName: "SalonProfile" },
+  { label: "Account", iconName: "Account" },
+]
