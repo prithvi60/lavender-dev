@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Chip from '../../components/Chip'
-import emptyLogo from '../../assets/emptyImage.png';
 import { Grid, Card, CardContent, Rating, CardActions, CardHeader, styled } from '@mui/material';
 import FilterModal from '../../components/FilterModal';
 import { useSelector } from 'react-redux';

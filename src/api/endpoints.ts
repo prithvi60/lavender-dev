@@ -1,20 +1,20 @@
 import axios, { Axios } from 'axios';
+import { BaseURL, establishmentSearch, establishmentDetails, customerProfile } from './constants';
 
-export const BaseURL = 'http://[2a01:4f9:c012:5961::1]'
 class Endpoint{
 
     async getEstablishmentSearch(payload){
-        const response = await axios.post(`${BaseURL}/customer/estsearch`, payload)
-        return response
-    }
-
-    async getEstablishemntDetails(){
-        const response = await axios.get('http://[2a01:4f9:c012:5961::1]/admin/getEstablishmentList')
+        const response = await axios.post(`${BaseURL}${establishmentSearch}`, payload)
         return response
     }
 
     async getEstablishmentDetailsById(id: any){
-        const response = await axios.get(`${BaseURL}/customer/getEstablishmentDetails/${id}`)
+        const response = await axios.get(`${BaseURL}${establishmentDetails}${id}`)
+        return response
+    }
+
+    async getCustomerProfile(){
+        const response = await axios.get(`${BaseURL}${customerProfile}`)
         return response
     }
 }
