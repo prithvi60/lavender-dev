@@ -158,3 +158,6 @@ button.outline-button{
     object-fit: cover;
   }
   
+.bg-primary {
+    background-color: var(--primary-clr);
+}

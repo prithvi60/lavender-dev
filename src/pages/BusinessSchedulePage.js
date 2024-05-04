@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Navbar from '../components/NavBar';
 import { Box } from '@mui/material';
 import SideBar from '../components/SideBar';
-import CalenderTimeline from '../features/Business/Schedule/CalenderTimeline';
+// import CalenderTimeline from '../features/Business/Schedule/CalenderTimeline';
 
 const BusinessSchedulePage = () => {
   const [isSearchPage, setIsSearchPage] = useState(true);
@@ -18,7 +18,7 @@ const BusinessSchedulePage = () => {
             <SideBar/>
           </div>
           <div className='w-full h-screen'>
-            <CalenderTimeline/>
+            {/* <CalenderTimeline/> */}
           </div>
         </div>
         
