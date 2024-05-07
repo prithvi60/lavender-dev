@@ -71,7 +71,7 @@ function RegisterScreen() {
     <div>
         <Grid item xs={12}>
                 <Text variant="h4" align="center" name="Register or Login" />
-            </Grid>
+        </Grid>
             <Box component="form" noValidate sx={{ mt: 3 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={8}>

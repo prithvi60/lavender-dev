@@ -7,6 +7,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import UpComingBookings from './UpComingBookings'
 import PastBookings from './PastBookings'
 import Notifications from './Notifications'
+import EditProfile from './EditProfile'
 
 function Index() {
   const {isLoading, data: userInfo} = useQuery({queryKey: ["query-user-info"], queryFn: () => { return endpoint.getCustomerProfile()}})
@@ -28,7 +29,7 @@ function Index() {
                     <div className='text-xl'><span>{userInfo?.data?.appUser?.mobileCountryCode} </span>{userInfo?.data?.appUser?.mobileNumber}</div>
                   </div>
                   <div className='pt-4'>
-                    <Button variant={"outlined"} name={"Edit Profile"}></Button>
+                  <EditProfile />
                   </div>
                 </div>
                 

@@ -1,4 +1,4 @@
-export const BaseURL = 'http://[2a01:4f9:c012:5961::1]/'
+export const BaseURL = 'http://lavender-api-app:9090/lavender-api/'
 
 export const establishmentSearch = 'customer/estsearch'
 
