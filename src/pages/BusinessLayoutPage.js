@@ -28,7 +28,7 @@ const BusinessLayoutPage = () => {
         </div> */}
         <div className='flex flex-row'>
           <div className='shadow-2xl rounded-lg h-max'>
-            <SideBar activeField onChange={setActiveField}/>
+            <SideBar activeField={activeField} onChange={setActiveField}/>
           </div>
           <div className='w-full h-screen'>
             {renderMainContent()}
