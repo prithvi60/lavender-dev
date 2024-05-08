@@ -1,10 +1,11 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ContextPath = "lavender/";
 
 module.exports = {
   output: {
     path: path.join(__dirname, "/public"), // the bundle output path
-    filename: "lavender/bundle.js", // the name of the bundle
+    filename: `${ContextPath}bundle.js`, // the name of the bundle
   },
   plugins: [
     new HtmlWebpackPlugin({

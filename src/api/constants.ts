@@ -1,7 +1,7 @@
-export const BaseURL = 'http://lavender-api-app:9090/lavender-api/'
+export const BaseURL = 'http://dev.agilemadhi.in/lavender-api/'
 
-export const establishmentSearch = 'customer/estsearch'
+export const establishmentSearch = 'p/estsearch'
 
-export const establishmentDetails = 'customer/getEstablishmentDetails/'
+export const establishmentDetails = 'p/getEstablishmentDetails/'
 
-export const customerProfile = 'customer/getCustomerProfile'
+export const customerProfile = 'c/getCustomerProfile'
