@@ -11,6 +11,10 @@ import EditProfile from './EditProfile'
 
 function Index() {
   const {isLoading, data: userInfo} = useQuery({queryKey: ["query-user-info"], queryFn: () => { return endpoint.getCustomerProfile()}})
+  const {Loading, data: something} = useQuery({queryKey: ["something"], queryFn: () => { return endpoint.getSomething()}})
+console.log("something", something)
+console.log("Loading", Loading)
+
   
   return (
     <div>
