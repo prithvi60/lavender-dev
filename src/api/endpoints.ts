@@ -5,18 +5,18 @@ const axiosInstance = axios.create({
     baseURL: BaseURL,
   });
   
-  axiosInstance.interceptors.request.use(
-    (config) => {
-      const token = getBrowserCache("Token");
-      if (token) {
-        config.headers.authtoken = `${token}`;
-      }
-      return config;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
+  // axiosInstance.interceptors.request.use(
+  //   (config) => {
+  //     const token = getBrowserCache("Token");
+  //     if (token) {
+  //       config.headers.authtoken = token;
+  //     }
+  //     return config;
+  //   },
+  //   (error) => {
+  //     return Promise.reject(error);
+  //   }
+  //);
 
 class Endpoint{
 
@@ -42,9 +42,25 @@ class Endpoint{
 
     async getCustomerProfile(){
         debugger
-
-        const response = await axiosInstance.get(customerProfile)
-        return response
+        fetch(`${BaseURL}${customerProfile}`, {
+          method: 'GET',
+          headers: {
+            test: 'testinggg'
+          }
+        })
+        .then(response => {
+          if (!response.ok) {
+            return 'suscces'
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
+       
     }
 
     async setTenantToken(data: any) {
