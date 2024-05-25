@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import BusinessDrawer from '../features/Business/BusinessDrawer';
+import BusinessDrawer from './BusinessDrawer';
 
 const DrawerContext = createContext(null);
 

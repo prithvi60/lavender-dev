@@ -4,7 +4,7 @@ import { SelectSeparator } from "../../components/ui/select";
 import StatusFilter from "../../components/FilterButtons";
 import Divider from "@mui/material/Divider";
 import { Button } from "../../components/ui/button";
-import { useDrawer } from "../../pages/BusinessDrawerContext";
+import { useDrawer } from "./BusinessDrawerContext";
 
 export default function FilterDrawer() {
   const [selectedTeamMember, setSelectedTeamMember] = useState("");

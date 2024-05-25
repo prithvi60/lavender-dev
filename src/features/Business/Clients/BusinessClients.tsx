@@ -32,7 +32,7 @@ import { clients } from "../../../constants/clients"
 import { Client, columns } from "./clients-columns"
 import { AppointmentDateSelector, SearchInput, Selector } from "../Appointments/AppointmentControllers"
 import { fixedRangeDateOptions } from "../../../constants/appointments"
-import { useDrawer } from "../../../pages/BusinessDrawerContext"
+import { useDrawer } from "../BusinessDrawerContext"
 import { useState } from "react"
 import { Cancel } from "@mui/icons-material"
 

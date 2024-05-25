@@ -24,7 +24,7 @@ import { fixedRangeDateOptions } from "../../../constants/appointments"
 import { DataTablePagination } from "../../../components/DataTablePagination"
 import { Button } from "../../../components/ui/button"
 import GetIcon from "../../../assets/Icon/icon"
-import { useDrawer } from '../../../pages/BusinessDrawerContext';
+import { useDrawer } from '../BusinessDrawerContext';
 import { useState } from "react"
 import React from "react"
 

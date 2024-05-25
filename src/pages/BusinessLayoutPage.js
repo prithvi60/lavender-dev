@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Box } from '@mui/material';
 import SideBar from '../components/SideBar';
 import AppointmentsPage from '../features/Business/Appointments/AppointmentsTable';
-import { DrawerProvider } from './BusinessDrawerContext';
+import { DrawerProvider } from '../features/Business/BusinessDrawerContext';
 import BusinessHeader from '../features/Business/BusinessHeader';
 import { BusinessClients } from '../features/Business/Clients/BusinessClients';
 import {Services} from '../features/Business/services/Services'
