@@ -1,5 +1,5 @@
 import axios, { Axios } from 'axios';
-import { BaseURL, establishmentSearch, establishmentDetails, customerProfile } from './constants';
+import { BaseURL, establishmentSearch, establishmentDetails, customerProfile, businessAppointment } from './constants';
 
 class Endpoint{
 
@@ -15,6 +15,11 @@ class Endpoint{
 
     async getCustomerProfile(){
         const response = await axios.get(`${BaseURL}${customerProfile}`)
+        return response
+    }
+
+    async getBusinessAppointments(){
+        const response = await axios.get(`${BaseURL}${businessAppointment}`)
         return response
     }
 }

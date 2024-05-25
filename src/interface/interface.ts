@@ -18,3 +18,16 @@ export interface ISearchEstablishmentData{
   rating: number,
   services: [],
 }
+
+export interface Appointments{
+  id: string,
+  client: string,
+  ScheduledDate: string,
+  duration: string,
+  service: string,
+  bookingDate: string,
+  bookedBy: string,
+  TeamMember: string,
+  price: string,
+  Status: string
+}

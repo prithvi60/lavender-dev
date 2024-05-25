@@ -5,3 +5,5 @@ export const establishmentSearch = 'p/estsearch'
 export const establishmentDetails = 'p/getEstablishmentDetails/'
 
 export const customerProfile = 'c/getCustomerProfile'
+
+export const businessAppointment = 'b/getAppointmentList'

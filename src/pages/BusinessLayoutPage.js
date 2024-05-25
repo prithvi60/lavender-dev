@@ -2,11 +2,16 @@ import React, { useState } from 'react'
 //import Navbar from '../components/NavBar';
 import { Box } from '@mui/material';
 import SideBar from '../components/SideBar';
+import AppointmentsPage from '../features/Business/Appointments/AppointmentsTable';
+import { DrawerProvider } from './BusinessDrawerContext';
+import BusinessHeader from '../features/Business/BusinessHeader';
+import { BusinessClients } from '../features/Business/Clients/BusinessClients';
+import {Services} from '../features/Business/services/Services'
 //import CalenderTimeline from '../features/Business/Schedule/CalenderTimeline';
 
 const BusinessLayoutPage = () => {
   //const [isSearchPage, setIsSearchPage] = useState(true);
-  const [activeField, setActiveField] = useState("Home")
+  const [activeField, setActiveField] = useState("Services")
 
   const renderMainContent = () => {
     console.log("test", activeField, Date.now())
@@ -15,17 +20,25 @@ const BusinessLayoutPage = () => {
         return <div>Home</div>;
       case 'Schedule':
         return <div>Schedule</div>;
+      case 'Appointments':
+        return <AppointmentsPage/>
+      case 'Clients':
+        return <BusinessClients/>
+      case 'Services':
+        return <Services />
       default:
         return <div>Default</div>;
     }
   }
   //TODO: try Route,Switch to handle rendering main content
   return (
-    <Box className='landing-page'>
-      <div className='flex flex-col h-screen'>
+    <DrawerProvider>
+      <Box className='landing-page'>
+      <div className='flex flex-col h-screen select-none'>
         {/* <div className='drop-shadow-md'>
           <Navbar isSearchPage={isSearchPage}/>
         </div> */}
+        <BusinessHeader pageName={activeField}/>
         <div className='flex flex-row'>
           <div className='shadow-2xl rounded-lg h-max'>
             <SideBar activeField={activeField} onChange={setActiveField}/>
@@ -33,11 +46,12 @@ const BusinessLayoutPage = () => {
           <div className='w-full h-screen'>
             {renderMainContent()}
           </div>
-        </div>
-        
-        
+        </div> 
       </div>
-    </Box>
+      </Box>
+
+    </DrawerProvider>
+    
   );
 };
 

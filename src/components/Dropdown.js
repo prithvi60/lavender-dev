@@ -24,7 +24,7 @@ const Dropdown = (props) => {
       fullWidth
       required={required ?? true}
     >
-      <InputLabel>{label}</InputLabel>
+      {label ? <InputLabel>{label}</InputLabel> : <></>}
       <Select
         value={value}
         onChange={onChange}

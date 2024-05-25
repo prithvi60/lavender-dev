@@ -31,7 +31,7 @@ export const routes = [
   },
   {
     name: "BusinessSchedule",
-    path: '/schedule',
+    path: '/business',
     exact: true
   },
   {
