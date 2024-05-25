@@ -87,3 +87,5 @@ export const BUSINESS_NAV = [
   { label: "Salon profile", iconName: "SalonProfile" },
   { label: "Account", iconName: "Account" },
 ]
+
+export const bookingStatusFilters = ["Confirmed", "Booked", "Cancelled", "Finished"]

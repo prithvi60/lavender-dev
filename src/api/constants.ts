@@ -6,6 +6,8 @@ export const establishmentDetails = 'p/getEstablishmentDetails/'
 
 export const customerProfile = 'c/getCustomerProfile'
 
+export const businessAppointment = 'b/getAppointmentList'
+
 export const userLogin = 'au/login'
 
 export function setBrowserCache(key: string, value: any) {
