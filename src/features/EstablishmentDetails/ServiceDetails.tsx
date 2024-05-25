@@ -11,7 +11,6 @@ function ServiceDetails(props) {
   const {isLoading, establishmentData} = props
     const [value, setValue] = React.useState(0);
     const [tabValue, setTabValue] = React.useState('');
-    console.log('ServiceDetails ::', establishmentData)
   useEffect(()=>{
     if(establishmentData){
       setTabValue(establishmentData?.data?.serviceCategories[0]?.services[0]?.serviceTags[0] || '')
