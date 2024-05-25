@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Selector } from './Appointments/AppointmentControllers';
 
 const DrawerForm = ({ formElements }) => {
   const initialState = formElements.reduce((acc, element) => {
@@ -45,18 +46,20 @@ const DrawerForm = ({ formElements }) => {
             return (
               <div key={index}>
                 <label className="block text-gray-700">{element.label}</label>
-                <select
-                  name={element.name}
-                  value={formState[element.name]}
-                  onChange={(e) => handleChange(element.name, e.target.value)}
+                <Selector
+                  label={element.name}
+                  placeholder={"test"}
+                  options={element.options}
+                  // value={formState[element.name]}
+                  onSelect={(e) => handleChange(element.name, e.target.value)}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded"
                 >
-                  {element.options.map((option, idx) => (
+                  {/* {element.options.map((option, idx) => (
                     <option key={idx} value={option}>
                       {option}
                     </option>
-                  ))}
-                </select>
+                  ))} */}
+                </Selector>
               </div>
             );
           case 'checkbox':

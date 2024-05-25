@@ -40,10 +40,11 @@ class Endpoint{
         return response
     }
 
-    async getBusinessAppointments(){
-        const response = await axios.get(`${BaseURL}${businessAppointment}`)
+    async getBusinessAppointments(payload){
+        const response = await axiosInstance.get(`${BaseURL}${businessAppointment}`, payload)
         return response
     }
+
     async setTenantToken(data: any) {
     // add to cache
     setBrowserCache("Token", data.token)

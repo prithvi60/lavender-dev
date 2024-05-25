@@ -71,7 +71,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="rounded-md border">
         <div className="w-full flex flex-row justify-between items-center">
-            <div className="flex m-4 justify-between w-10/12">
+            <div className="flex m-4 justify-between items-center w-10/12">
                 <SearchInput
                 placeholder={'Search by ID/Client name'}
                 value={(table.getColumn("client")?.getFilterValue() as string) ?? ""}

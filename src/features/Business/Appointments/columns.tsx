@@ -35,12 +35,16 @@ export const columns: ColumnDef<Appointments>[] = [
       },
       {
         accessorKey: "duration",
-        header: () => (<button className="flex items-center cursor-pointer">
+        
+        header: ({column}) => (<button className="flex items-center cursor-pointer">
             <div className="mr-1">Duration</div>
             <GetIcon
             iconName="IconSortDefault"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           />
         </button>),
+        cell: ({row}) => (<div>{row.getValue('duration')} min</div>),
+        enableSorting: true,
       },
       {
         accessorKey: "service",

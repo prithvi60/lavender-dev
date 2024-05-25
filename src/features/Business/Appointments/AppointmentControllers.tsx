@@ -12,25 +12,11 @@ import {
     SelectGroup
   } from "../../../components/ui/select"
 
-import {
-Pagination,
-PaginationContent,
-PaginationEllipsis,
-PaginationItem,
-PaginationLink,
-PaginationNext,
-PaginationPrevious,
-} from "../../../components/ui/pagination"
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { ChevronLeft } from '@mui/icons-material';
-import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { Label } from '@radix-ui/react-select';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker/DatePicker';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -203,7 +189,8 @@ export function CalendarHeaderComponent({date, onChange}) {
         <DateCalendar onChange={(v) => {
           const dateV = new Date(v)
           onChange(dateV)
-          }} slots={{ calendarHeader: CustomCalendarHeader }}/>
+          }}
+          slots={{ calendarHeader: CustomCalendarHeader }}/>
       </DemoContainer>
     </LocalizationProvider>
   );

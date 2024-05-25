@@ -11,7 +11,20 @@ function getData(): Appointments[] {
 }
 
 export default function AppointmentsPage() {
-  const {isLoading, data: userInfo} = useQuery({queryKey: ["query-user-info"], queryFn: () => { return endpoint.getCustomerProfile()}})
+  const payload = {
+    "pageNumber": 0,
+    "pageSize": 0,
+    "sortBy": "",
+    "sortDirection": "",
+    "establishmentId": "",
+    "customerId": "",
+    "customerName": "",
+    "fromDate": "2024-05-10T10:56:01.819Z",
+    "toDate": "2024-05-25T10:56:01.822Z",
+    "fromCost": 0,
+    "toCost": 0
+  }
+  const {isLoading, data: userInfo} = useQuery({queryKey: ["query-user-info"], queryFn: () => { return endpoint.getBusinessAppointments(payload)}})
 
   console.log("Appointments >>", userInfo, isLoading)
   const data = getData()

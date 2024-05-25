@@ -4,7 +4,7 @@ export const appointments = [
       "id": "000001",
       "client": "Olivia Thompson",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "35",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -16,7 +16,7 @@ export const appointments = [
       "id": "000001",
       "client": "Walk In",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "35",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -29,7 +29,7 @@ export const appointments = [
       "id": "000001",
       "client": "Olivia Thompson",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "45",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -41,7 +41,7 @@ export const appointments = [
       "id": "000001",
       "client": "Walk In",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "45",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -53,7 +53,7 @@ export const appointments = [
       "id": "000001",
       "client": "Olivia Thompson",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "45",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -65,7 +65,7 @@ export const appointments = [
       "id": "000001",
       "client": "Walk In",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "45",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -77,7 +77,7 @@ export const appointments = [
       "id": "000001",
       "client": "Olivia Thompson",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "45",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -89,7 +89,7 @@ export const appointments = [
       "id": "000001",
       "client": "Walk In",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "45",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -101,7 +101,7 @@ export const appointments = [
       "id": "000001",
       "client": "Olivia Thompson",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "45",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -113,7 +113,7 @@ export const appointments = [
       "id": "000001",
       "client": "Walk In",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "45",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -125,7 +125,7 @@ export const appointments = [
       "id": "000001",
       "client": "Olivia Thompson",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "45",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -137,7 +137,7 @@ export const appointments = [
       "id": "000001",
       "client": "Walk In",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "35",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -149,7 +149,7 @@ export const appointments = [
       "id": "000001",
       "client": "Olivia Thompson",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "35",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -161,7 +161,7 @@ export const appointments = [
       "id": "000001",
       "client": "Walk In",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "35",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -173,7 +173,7 @@ export const appointments = [
       "id": "000001",
       "client": "Olivia Thompson",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "35",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -185,7 +185,7 @@ export const appointments = [
       "id": "000001",
       "client": "Walk In",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "35",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -197,7 +197,7 @@ export const appointments = [
       "id": "000001",
       "client": "Olivia Thompson",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "35",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -209,7 +209,7 @@ export const appointments = [
       "id": "000001",
       "client": "Walk In",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "35",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -221,7 +221,7 @@ export const appointments = [
       "id": "000001",
       "client": "Olivia Thompson",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "35",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
@@ -233,7 +233,7 @@ export const appointments = [
       "id": "000001",
       "client": "Walk In",
       "scheduledDate": "13 Apr 2024, 10:18",//Scheduled date along with specific hours
-      "duration": "45min",
+      "duration": "35",
       "service": "Manicure",
       "bookingDate": "10 Apr 2024, 10:18",
       "bookedBy": "Abel Lewis",
