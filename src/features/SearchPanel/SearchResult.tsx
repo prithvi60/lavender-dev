@@ -16,7 +16,28 @@ import GetIcon from '../../assets/Icon/icon.tsx';
 export default function SearchResult() {
   
   const timeTags = ['9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm']
-  const payLoad={}
+  const payLoad = {
+    "pageNumber": 1,
+    "pageSize": 10,
+    "sortBy": "",
+    "sortDirection": "",
+    "serviceTypes": [
+      "Hair","Massage"
+    ],
+    "minSalePrice": 0,
+    "maxSalePrice": 1000,
+    "searchCoordinates": [
+      ""
+    ],
+    "mapStartCoordinates": [
+      ""
+    ],
+    "mapEndCoordinates": [
+      ""
+    ],
+    "availableStartTime": "2024-05-21T09:08:43.496Z",
+    "availableEndTime": "2024-05-21T09:08:43.496Z"
+  }
   const {isLoading, data: establishmentSearchResult} = useQuery({queryKey: ['custom-data'], queryFn: () =>{ return endpoint.getEstablishmentSearch(payLoad)}})
 
   let establishmentList = useMemo(() => {
@@ -26,7 +47,7 @@ export default function SearchResult() {
     return null
   }, [isLoading])
 
-  let establishmentResult: any = establishmentList != null ? establishmentList.data : null
+  let establishmentResult: any = establishmentList != null ? establishmentList?.data?.content : null
 
   const [filteredData, setFilteredData] = useState<any[]>([]);
 

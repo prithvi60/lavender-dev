@@ -34,7 +34,7 @@ function PastBookings({userInfo}) {
     <div className='mx-24 mt-10'>
         <div className='text-3xl font-bold py-4'>Past Bookings</div>
         {
-            userInfo?.pastBookings > 0 ? (
+            userInfo?.pastBookings.length > 0 ? (
             
             userInfo?.pastBookings?.map((bookings)=>(
             <Card sx={{width: 500, height: 150, borderRadius: 4}}>

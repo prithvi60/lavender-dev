@@ -5,18 +5,18 @@ const axiosInstance = axios.create({
     baseURL: BaseURL,
   });
   
-  // axiosInstance.interceptors.request.use(
-  //   (config) => {
-  //     const token = getBrowserCache("Token");
-  //     if (token) {
-  //       config.headers.authtoken = token;
-  //     }
-  //     return config;
-  //   },
-  //   (error) => {
-  //     return Promise.reject(error);
-  //   }
-  //);
+  axiosInstance.interceptors.request.use(
+    (config) => {
+      const token = getBrowserCache("Token");
+      if (token) {
+        config.headers.authtoken = token;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
 class Endpoint{
 
@@ -35,32 +35,9 @@ class Endpoint{
         return response
     }
 
-    async getSomething(){
-        const response = await axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+    async getCustomerProfile(){       
+      const response = await axiosInstance.get(`${BaseURL}${customerProfile}`)
         return response
-    }
-
-    async getCustomerProfile(){
-        debugger
-        fetch(`${BaseURL}${customerProfile}`, {
-          method: 'GET',
-          headers: {
-            test: 'testinggg'
-          }
-        })
-        .then(response => {
-          if (!response.ok) {
-            return 'suscces'
-          }
-          return response.json();
-        })
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error('There was a problem with the fetch operation:', error);
-        });
-       
     }
 
     async setTenantToken(data: any) {

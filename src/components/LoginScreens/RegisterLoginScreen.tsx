@@ -34,7 +34,6 @@ function RegisterLoginScreen({isInLoginModal}) {
             "password": password
         }
         // eslint-disable-next-line react-hooks/rules-of-hooks
-        //const {isLoading, data: tokenDetails} = useQuery({queryKey: ['user-login'], queryFn: () =>{ return endpoint.getEstablishmentSearch(payLoad)}})
         let tokenDetails;
         tokenDetails =  endpoint.getUserLoginToken(payLoad);
         setTimeout(()=>{

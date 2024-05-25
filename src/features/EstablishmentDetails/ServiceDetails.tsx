@@ -11,10 +11,13 @@ function ServiceDetails(props) {
   const {isLoading, establishmentData} = props
     const [value, setValue] = React.useState(0);
     const [tabValue, setTabValue] = React.useState('');
-    
+    console.log('ServiceDetails ::', establishmentData)
   useEffect(()=>{
-    setTabValue(establishmentData?.data?.serviceCategories[0]?.serviceTags[0] || '')
-  },[establishmentData])
+    if(establishmentData){
+      setTabValue(establishmentData?.data?.serviceCategories[0]?.services[0]?.serviceTags[0] || '')
+
+    }
+  },[establishmentData, isLoading])
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -50,8 +53,8 @@ function ServiceDetails(props) {
           }}
       >
         {
-            establishmentData.data.serviceCategories.map((service)=> (
-              service.serviceTags.map((tag)=>(
+            establishmentData?.data?.serviceCategories?.map((service)=> (
+              service?.services[0]?.serviceTags?.map((tag)=>(
                 <Tab label={tag} onClick={()=>handleTabChange(tag)}/>
               ))
             ))
@@ -61,8 +64,8 @@ function ServiceDetails(props) {
       
     </Box>
       <List sx={{ width: '100%', maxWidth: 760, bgcolor: 'background.paper' }}>
-      {establishmentData.data.serviceCategories?.filter(x => x.serviceTags.includes(tabValue)).map((service)=>(
-        service.services.map((item)=>(
+      {establishmentData?.data?.serviceCategories?.filter(x => x?.services[0]?.serviceTags?.includes(tabValue))?.map((service)=>(
+        service?.services?.map((item)=>(
             <ListItemButton className='serviceList' onClick={handleClick} >
               <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
                 <div className='p-2'>

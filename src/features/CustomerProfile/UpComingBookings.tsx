@@ -5,7 +5,6 @@ import EmptyBookings from './EmptyBookings';
 import { NoUpComingBookings } from './Constant';
 
 function upComingBookings({userInfo}) {
-
     function convertToDateOnly(date){
         const dateObj = moment(date);
         return dateObj.date();
@@ -34,7 +33,7 @@ function upComingBookings({userInfo}) {
   return (
     <div className='mx-24 mt-10'>
         <div className='text-3xl font-bold py-4'>Upcoming Bookings</div>
-        {userInfo?.upcomingBookings > 0 ? (
+        {userInfo?.upcomingBookings.length > 0 ? (
             userInfo?.upcomingBookings?.map((bookings)=>(
             <Card sx={{width: 500, height: 150, borderRadius: 4}}>
                 <Grid container spacing={1}>
