@@ -1,5 +1,5 @@
 import axios, { Axios } from 'axios';
-import { BaseURL, establishmentSearch, establishmentDetails, customerProfile, userLogin, setBrowserCache, getBrowserCache, businessAppointment } from './constants';
+import { BaseURL, establishmentSearch, establishmentDetails, customerProfile, userLogin, setBrowserCache, getBrowserCache, businessAppointment, userRegister } from './constants';
 
 const axiosInstance = axios.create({
     baseURL: BaseURL,
@@ -25,6 +25,11 @@ class Endpoint{
         this.setTenantToken(response.data)
     }
 
+    async userRegister(payload){
+      const response = await axiosInstance.post(`${BaseURL}${userRegister}`, payload)
+      return response
+  }
+  
     async getEstablishmentSearch(payload){
         const response = await axiosInstance.post(`${BaseURL}${establishmentSearch}`, payload)
         return response
