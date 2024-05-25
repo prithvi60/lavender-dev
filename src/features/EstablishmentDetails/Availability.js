@@ -1,5 +1,4 @@
 import React from 'react'
-import { SampleData } from './SampleData'
 import Text from '../../components/Text'
 import { Grid, Card, CardContent, Rating, CardActions, Collapse, Button, CardHeader, Divider } from '@mui/material';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
@@ -8,7 +7,6 @@ import GetIcon from '../../assets/Icon/icon';
 
 function Availability(props) {
   const {isLoading, establishmentData} = props
-console.log('establishmentData : ', establishmentData)
   return (
     <Card className='availability-card'>
       {!isLoading && 

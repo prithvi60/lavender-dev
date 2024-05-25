@@ -15,7 +15,6 @@ import ConfirmScreen from "./ConfirmScreeen.tsx";
 import { Grid } from "@mui/material";
 
 function ServiceDialog({establishmentData}) {
-
   const [isOpen, setIsOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 
@@ -45,10 +44,6 @@ function ServiceDialog({establishmentData}) {
                     ))}
                 </Stepper>
             </Box>
-                
-            {/* <Buttons >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Buttons> */}
             <IconButton
             edge="start"
             color="inherit"
@@ -61,7 +56,7 @@ function ServiceDialog({establishmentData}) {
         <div className="flex flex-wrap md:flex-nowrap h-full gap-6 mg:gap-0 max-w-7xl mx-auto py-4 px-6">
           <div className="w-full md:pr-8">
 
-            {activeStep === 0 && <ServiceListItems serviceCategories={establishmentData.data.serviceCategories}/>}
+            {activeStep === 0 && <ServiceListItems serviceCategories={establishmentData?.data?.serviceCategories}/>}
 
             {activeStep === 1 && <ScheduleAppointment onSetActiveStep={onSetActiveStep} />}
 

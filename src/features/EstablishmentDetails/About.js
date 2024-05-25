@@ -17,7 +17,6 @@ import GetIcon from "../../assets/Icon/icon";
 
 function About(props) {
   const { establishmentData } = props;
-
   const additionalInfos = ["Payment methods", "Languages", "Accessibility"];
   return (
     <div className="mx-16 my-10" id="SearchDetailAbout">
@@ -82,13 +81,13 @@ function About(props) {
 
           <div className="bg-purple-100	 w-full md:w-4/12 p-8">
             <div className="text-lg font-bold pb-4">Our team</div>
-            {SampleData[0].establishmentTeam.map((item) => (
+            {establishmentData?.data?.employees?.map((item) => (
               <div className="flex py-2 gap-3 items-center">
                 <Avatar>
-                  <PersonIcon />
+                  <img src={item.imageId} />
                 </Avatar>
                 <div className="urbanist-font text-lg">
-                  {item.employeeTitle}
+                  {item.employeeName}
                 </div>
               </div>
             ))}

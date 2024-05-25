@@ -10,7 +10,6 @@ import { Divider } from '@mui/material';
 function ServiceListItems({ serviceCategories }) {
   const listRef = useRef(null);
   const [value, setValue] = useState(0);
-
   const handleTabChange = (event, newValue) => {
     // Update the selected tab
     setValue(newValue);
@@ -31,15 +30,15 @@ function ServiceListItems({ serviceCategories }) {
         variant="scrollable"
         scrollButtons
       >
-        {serviceCategories.map((service, index) => (
-          <Tab key={index} label={service.serviceTags[0]} value={index} />
+        {serviceCategories?.map((service, index) => (
+          <Tab key={index} label={service?.services[0]?.serviceTags} value={index} />
         ))}
       </Tabs>
 
       <List ref={listRef} className='serviceGridList' sx={{ width: '100%', maxWidth: '100%', maxHeight: 500, bgcolor: 'background.paper', overflowY: 'auto' }}>
-        {serviceCategories.map((item, index) => (
+        {serviceCategories?.map((item, index) => (
           <div key={index} id={`category-${index}`}>
-            <div className='text-2xl font-bold px-6 pt-4 pb-2'>{item.categoryName}</div>
+            <div className='text-2xl font-bold px-6 pt-4 pb-2'>{item?.categoryName}</div>
 
             {item.services.map((service, serviceIndex) => (
               <ListItemButton className='serviceList' sx={{ display: 'flex', justifyContent: 'space-between' }} key={serviceIndex}>

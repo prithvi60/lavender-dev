@@ -1,6 +1,6 @@
 import { Avatar, Card, Grid } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import endpoint from '../../api/endpoints'
 import Button from '../../components/Button'
 import PersonIcon from "@mui/icons-material/Person";
@@ -10,7 +10,16 @@ import Notifications from './Notifications'
 import EditProfile from './EditProfile'
 
 function Index() {
-  const {isLoading, data: userInfo} = useQuery({queryKey: ["query-user-info"], queryFn: () => { return endpoint.getCustomerProfile()}})
+   const {isLoading, data: userInfo} = useQuery({queryKey: ["query-user-info"], queryFn: () => { return endpoint.getCustomerProfile()}})
+
+//   fetch(`${BaseURL}${customerProfile}`, {
+//     method: 'GET',
+//     headers: {
+//       "Content-Type": "application/json",
+//       'authtoken': getBrowserCache("Token"),
+//     }
+//   })
+// const [userInfo, setUserInfo] = useState({});
   
   return (
     <div>

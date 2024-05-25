@@ -26,9 +26,30 @@ const RecommendSection = () => {
     { id: 4, image: emptyLogo, rating: 4.1, reviewCount: 50, location: 'Location 4', tags: ['Tag 7', 'Tag 8'] },
     { id: 5, image: emptyLogo, rating: 3.9, reviewCount: 10, location: 'Location 5', tags: ['Tag 9', 'Tag 10'] },
   ];
-  const payLoad = {}
+  const payLoad = {
+    "pageNumber": 1,
+    "pageSize": 10,
+    "sortBy": "",
+    "sortDirection": "",
+    "serviceTypes": [
+      "Hair","Massage"
+    ],
+    "minSalePrice": 0,
+    "maxSalePrice": 1000,
+    "searchCoordinates": [
+      ""
+    ],
+    "mapStartCoordinates": [
+      ""
+    ],
+    "mapEndCoordinates": [
+      ""
+    ],
+    "availableStartTime": "2024-05-21T09:08:43.496Z",
+    "availableEndTime": "2024-05-21T09:08:43.496Z"
+  }
   const {isLoading, data: establishmentSearchResult} = useQuery({queryKey: ['custom-data'], queryFn: () =>{ return endpoint.getEstablishmentSearch(payLoad)}})
-
+console.log("content", establishmentSearchResult)
   const NextArrow = (props) => {
     const { className, onClick } = props;
     return (
@@ -96,7 +117,7 @@ const RecommendSection = () => {
         {!isLoading && 
         
         <Slider {...settings} className='home-slider'>
-            {establishmentSearchResult?.data?.map((card) => (
+            {establishmentSearchResult?.data?.content?.map((card) => (
                 <div key={card.id}>
                     <div className="mx-2 md:mx-5 p-6 shadow-lg rounded-xl">
                         <img src={establishmentImg} alt="CardImage" className="card-image" />
