@@ -1,20 +1,28 @@
 import React from 'react'
 import FilterDrawer from './FilterDrawer';
+import AppointmentEdit from './AppointmentEdit';
 
-const getDrawerComponent = (type) => {
+interface BusinessDrawerProps {
+  type: string;
+  payload?: any
+}
+
+const getDrawerComponent = (type, payload) => {
     switch (type) {
         case 'FilterDrawer':
           return <FilterDrawer/>;
+        case 'AppointmentEdit':
+          return <AppointmentEdit />;
         default:
           return <div>Default</div>;
       }
 }
-function BusinessDrawer({type}) {
+function BusinessDrawer({type, payload}: BusinessDrawerProps) {
   return (
     <div className='w-80'>
-        {getDrawerComponent(type)}
+        {getDrawerComponent(type, payload)}
     </div>
   )
 }
 
-export default BusinessDrawer
+export default React.memo(BusinessDrawer)

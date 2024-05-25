@@ -9,11 +9,14 @@ export const useDrawer = () => useContext(DrawerContext);
 export const DrawerProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState(null);
+  const [payload, setPayload] = useState(null);
+
   console.log("inside drawer context")
 
-  const openDrawer = (content) => {
+  const openDrawer = (content, payloadProp = null) => {
     console.log("inside opendrawer",content)
     setContent(content);
+    setPayload(payloadProp)
     setIsOpen(true);
   };
 
@@ -30,7 +33,7 @@ export const DrawerProvider = ({ children }) => {
             onClose={() => setIsOpen(false)}
             onOpen={() => setIsOpen(true)}
         >
-            <BusinessDrawer type={content}/>
+            <BusinessDrawer type={content} payload={payload}/>
         </SwipeableDrawer>
       {children}
     </DrawerContext.Provider>
