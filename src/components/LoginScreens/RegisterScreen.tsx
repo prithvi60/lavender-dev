@@ -10,6 +10,7 @@ import Dropdown from '../Dropdown';
 import Text from '../Text';
 import Password from '../../features/Login/Password';
 import CheckBox from '../Checkbox';
+import endpoint from '../../api/endpoints';
 
 function RegisterScreen() {
     // TO DO: Birthdate, month and year dropdown, state management, api integration
@@ -58,9 +59,17 @@ function RegisterScreen() {
         handleOnChange('showPassword', value);
     }
 
+    const payLoad = {
+        "userType": "CUST",
+        "fullName": "Peter Test1",
+        "emailAddress": "petertest11@gmail.com",
+        "password": "123456"
+      }
     const handleClickCreate = () => {
         if (addUser) {
             dispatch(setAddUser({addUser: false}));
+            const response = endpoint.getUserLoginToken(payLoad)
+            console.log('Responsee : ', response);
             goBackToPreviousPage();
         } else {
             dispatch(isNewAccount({ newAccount: false }));

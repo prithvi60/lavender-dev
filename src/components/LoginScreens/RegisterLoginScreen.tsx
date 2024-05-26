@@ -1,5 +1,5 @@
 import { Google, Facebook, Padding, BorderColor } from '@mui/icons-material'
-import { Grid, Box } from '@mui/material'
+import { Grid,Link, Box } from '@mui/material'
 import Button from '../Button'
 import TextField from '../TextField'
 import React, { useState } from 'react'
@@ -49,7 +49,7 @@ function RegisterLoginScreen({isInLoginModal}) {
 
         if(!disableBtn){
             dispatch(isNewAccount({ newAccount: true }));
-            navigate("/register");
+            navigate("/");
         }
 
         getUserLoginTokenApi();
@@ -94,7 +94,9 @@ function RegisterLoginScreen({isInLoginModal}) {
     //   setDisableBtn(false);
     // }
   };
-  
+  function handleRegisterClick(){
+    navigate("/register");
+  }
 
   return (
     <>
@@ -123,7 +125,8 @@ function RegisterLoginScreen({isInLoginModal}) {
             </Grid>
 
             <Grid item xs={12} sx={{padding: '10px'}}>
-                <Text variant="body1" align="left" sx={{color: '#545454'}} name="Create an account or login to book your next salon experience with Lavender" />
+                <p style={{color: '#545454'}}>{<Link onClick={()=>handleRegisterClick()}>Register</Link>}To Create an account or login to book your next salon experience with Lavender. </p>
+
             </Grid>
 
             <Grid item xs={12} spacing={1} className='login-side-buttons' sx={{padding: '10px'}}>
