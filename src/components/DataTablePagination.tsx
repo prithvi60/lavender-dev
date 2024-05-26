@@ -14,11 +14,13 @@ import Pagination from "@mui/material/Pagination"
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
   pageSizeOptions?: number[]
+  pageData: any;
 }
 
 export function DataTablePagination<TData>({
   table,
   pageSizeOptions = [5, 10, 15],
+  pageData
 }: DataTablePaginationProps<TData>) {
 
 
@@ -32,7 +34,7 @@ export function DataTablePagination<TData>({
   return (
     <div className="flex items-center justify-between p-3">
     <div className="flex-1 text-sm text-muted-foreground">
-      Showing {"_"} to {"_"} of {"-"} entries
+      Showing {"_"} to {"_"} of {pageData.totalElements} entries
     </div>
     <div className="flex items-center space-x-6 lg:space-x-8">
       <div className="flex items-center space-x-2">

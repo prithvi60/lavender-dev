@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import GetIcon from '../../assets/Icon/icon'
 import Text from '../../components/Text'
-import { CircleUser } from 'lucide-react'
+import { getRoute } from '../../utils'
 const BusinessHeader = ({pageName}) => {
 
     const [state, setState] = useState(false)
-
+    const getLoginRoute = () => {
+        return getRoute("Login");
+      };
 
     return (
         <nav className={`bg-white md:text-sm shadow-md w-full`}>
@@ -13,7 +15,7 @@ const BusinessHeader = ({pageName}) => {
                 <div className="flex flex-row items-center justify-between p-2">
                     <GetIcon
                             className="cursor-pointer  mr-8"
-                            onClick={() => {}}
+                            href={() => getLoginRoute()}
                             iconName="LavenderLogo"
                     />
                     <Text

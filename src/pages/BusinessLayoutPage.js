@@ -7,11 +7,12 @@ import { DrawerProvider } from '../features/Business/BusinessDrawerContext';
 import BusinessHeader from '../features/Business/BusinessHeader';
 import { BusinessClients } from '../features/Business/Clients/BusinessClients';
 import {Services} from '../features/Business/services/Services'
+import SchedulePage from '../features/Business/Schedule/SchedulePage';
 //import CalenderTimeline from '../features/Business/Schedule/CalenderTimeline';
 
 const BusinessLayoutPage = () => {
   //const [isSearchPage, setIsSearchPage] = useState(true);
-  const [activeField, setActiveField] = useState("Appointments")
+  const [activeField, setActiveField] = useState("Schedule")
 
   const renderMainContent = () => {
     console.log("test", activeField, Date.now())
@@ -19,7 +20,7 @@ const BusinessLayoutPage = () => {
       case 'Home':
         return <div>Home</div>;
       case 'Schedule':
-        return <div>Schedule</div>;
+        return <SchedulePage />;
       case 'Appointments':
         return <AppointmentsPage/>
       case 'Clients':

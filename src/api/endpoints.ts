@@ -41,7 +41,7 @@ class Endpoint{
     }
 
     async getBusinessAppointments(payload){
-        const response = await axiosInstance.get(`${BaseURL}${businessAppointment}`, payload)
+        const response = await axiosInstance.post(`${BaseURL}${businessAppointment}`, payload)
         return response
     }
 

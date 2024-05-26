@@ -31,11 +31,15 @@ import React from "react"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  pageData: any,
+  controllers: any
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  pageData,
+  controllers
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -45,6 +49,7 @@ export function DataTable<TData, TValue>({
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
+  console.log("data from data-table >",data)
   const table = useReactTable({
     data,
     columns,
@@ -74,9 +79,10 @@ export function DataTable<TData, TValue>({
             <div className="flex m-4 justify-between items-center w-10/12">
                 <SearchInput
                 placeholder={'Search by ID/Client name'}
-                value={(table.getColumn("client")?.getFilterValue() as string) ?? ""}
+                //value={(table.getColumn("client")?.getFilterValue() as string) ?? ""}
                 onChange={(event) =>
-                  table.getColumn("client")?.setFilterValue(event.target.value)
+                  //table.getColumn("client")?.setFilterValue(event.target.value)
+                  controllers.customerName(event.target.value)
                 }
                 />
                 <Selector onSelect={() => { } } className={"w-[180px] justify-evenly"} options={fixedRangeDateOptions} placeholder={"All time"} label={undefined}/>
@@ -146,7 +152,7 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      <DataTablePagination table={table} />
+      <DataTablePagination table={table} pageData={pageData}/>
 
     </div>
   )

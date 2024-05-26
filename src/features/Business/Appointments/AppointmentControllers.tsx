@@ -32,7 +32,7 @@ import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import dayjs, { Dayjs } from 'dayjs';
 
-export function SearchInput({onChange, value, placeholder}) {
+export function SearchInput({onChange, placeholder}) {
     return (
         <Paper
         component="form"
@@ -43,7 +43,7 @@ export function SearchInput({onChange, value, placeholder}) {
         </IconButton>
         <InputBase
             size='medium'
-            value={value}
+            //value={value}
             sx={{ ml: 1, flex: 1 }}
             placeholder={placeholder}
             inputProps={{ 'aria-label': placeholder }}

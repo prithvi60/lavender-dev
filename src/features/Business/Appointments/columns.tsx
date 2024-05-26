@@ -2,17 +2,18 @@ import { ColumnDef } from "@tanstack/react-table"
 import GetIcon from "../../../assets/Icon/icon"
 import { Selector } from "./AppointmentControllers"
 import { bookingStatus } from '../../../constants/appointments'
+import { formatDateString } from "../../../utils/TimeFormat"
 // This type is used to define the shape of our data.
 export type Appointments = {
     id: string,
     client: string,
     scheduledDate: string,
-    duration: string,
+    duration: string | number,
     service: string,
     bookingDate: string,
     bookedBy: string,
     teamMember: string,
-    price: string,
+    price: string | number,
     status: string
   }
 export const columns: ColumnDef<Appointments>[] = [
@@ -32,6 +33,16 @@ export const columns: ColumnDef<Appointments>[] = [
             iconName="IconSortDefault"
           />
         </button>),
+        cell: ({row}) => {
+          const {date, time } = formatDateString(row.getValue('scheduledDate'))
+          return (
+            <div>
+              {date}
+              <br/>
+              {time}
+            </div>
+          )
+        }
       },
       {
         accessorKey: "duration",
@@ -58,6 +69,16 @@ export const columns: ColumnDef<Appointments>[] = [
             iconName="IconSortDefault"
           />
         </button>),
+        cell: ({row}) => {
+          const {date, time } = formatDateString(row.getValue('bookingDate'))
+          return (
+            <div>
+              {date}
+              <br/>
+              {time}
+            </div>
+          )
+        }
       },
       {
         accessorKey: "bookedBy",
