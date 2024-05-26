@@ -30,6 +30,9 @@ const Navbar = (props) => {
     return getRoute("Admin");
   };
 
+  const getBusinessRoute = () => {
+    return getRoute("Business");
+  };
   const gotoLandingPage = () => {
     return navigate("/");
   };

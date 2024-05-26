@@ -56,9 +56,9 @@ export default function AppointmentsPage() {
   const controllerObj = {customerName: (value) => setCustomerName(value)}
   const {isLoading, data: userInfo} = useQuery({queryKey: ["query-user-info"], queryFn: () => { return endpoint.getBusinessAppointments(payload)}})
 
-  let appointmentData = getData();
+  let appointmentData = [];
   let pageData;
-  if(!isLoading){
+  if(!isLoading && userInfo){
     const { data: { content, ...pageD } } = userInfo
     pageData = pageD
     appointmentData = parseAppointmentResponse(userInfo.data)
