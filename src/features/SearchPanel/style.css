@@ -63,7 +63,7 @@
     .slick-list{
         width: 100%;
         .slick-slide{
-            width: auto !important;
+            /* width: auto !important; */
             .MuiChip-root{
                 margin: 0;
                 min-width: max-content;
@@ -74,7 +74,17 @@
         }
         .slick-track{
             .slick-slide {
+                height: 100%;
                 margin-right: 5px;
+                > div{
+                    height: 100%;
+                    > div{
+                        height: 100%;
+                        > div{
+                            height: 100%;
+                        }
+                    }
+                }
             }
         }
     }
@@ -95,7 +105,28 @@
         }
     }
 }
-
+.search-page-container{
+    display: grid;
+    grid-template-rows: min-content min-content 1fr;
+    height: 100vh;
+}
+.search-result-container{
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    width: fit-content;
+    margin: auto;
+    height: 100%;
+    overflow: auto;
+}
+.iframe-container{
+    position: sticky;
+    top: 16px;
+    border-radius: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15) !important;
+    height: fit-content;
+    margin: 16px;
+    overflow: auto;
+}
 @media (max-width: 960px) {
     .card-header{
         grid-template-columns: 1fr;

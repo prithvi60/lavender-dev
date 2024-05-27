@@ -22,12 +22,12 @@ function Index() {
 // const [userInfo, setUserInfo] = useState({});
   
   return (
-    <div>
-        <div className='mt-24 mx-24'>
+    <div className='mx-auto max-w-7xl px-5 pb-8'>
+        <div className='mt-24'>
           <div className='text-3xl font-bold pb-4'>User Account</div>
-          <Card sx={{backgroundColor: '#FAF5FF', borderRadius: 6}}>
-            <Grid container spacing={1} sx={{padding: 2}}>
-              <Grid item xs={8} sx={{display: 'flex', justifyContent: 'space-around'}}>
+          <Card sx={{backgroundColor: '#FAF5FF', borderRadius: 6, border: '1px solid #CCCCCC', boxShadow: 'none'}}>
+            <Grid container spacing={1} className='p-6 md:p-10 lg:p-16'>
+              <Grid item lg={8} sx={{display: 'flex', gap: '30px', flexWrap: 'wrap'}}>
                 <div >
                   <Avatar sx={{ width: 239, height: 239 }} ><PersonIcon sx={{width: 110, height: 122}}/></Avatar>
                 </div>
@@ -43,13 +43,9 @@ function Index() {
                 </div>
                 
               </Grid>
-              <Grid item xs={4} sx={{alignContent: 'center', textAlign: 'center'}}>
-                <div className="p-2">
-                  <Button  name={"My Favourites"}></Button>
-                </div>
-                <div className="p-2">
-                  <Button variant={"outlined"} name={"Browse Treatments"}></Button>
-                </div>
+              <Grid item className='grid gap-3' lg={4} sx={{placeSelf: 'center'}}>
+                <Button className='w-fit' name={"My Favourites"}></Button>
+                <Button className='w-fit' variant={"outlined"} name={"Browse Treatments"}></Button>
               </Grid>
             </Grid>
           </Card>

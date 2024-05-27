@@ -114,11 +114,11 @@ export default function FilterModal() {
   aria-labelledby="modal-modal-title"
   aria-describedby="modal-modal-description"
 >
-  <Box sx={style} className="rounded-3xl">
+  <Box sx={style} className="rounded-3xl filter-box">
     <div id="title" className="font-bold text-xl mb-3">
       Filters
     </div>
-    <Grid container spacing={2}>
+    <Grid container spacing={2} className='filters-container'>
       <Grid item xs={12}>
         <div className="font-bold mb-2">Sort by</div>
         <form>

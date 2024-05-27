@@ -21,10 +21,12 @@ const Login = React.lazy(() => import('./pages/LoginPage'));
 const Register = React.lazy(() => import('./pages/RegisterPage'));
 const Search = React.lazy(() => import('./pages/SearchPage'));
 const BusinessSchedule = React.lazy(() => import('./pages/BusinessLayoutPage.js'));
+const MyFavorites = React.lazy(() => import('./features/MyFavorites/MyFavorites.tsx'));
+
 // const UserDetails = React.lazy(() => import('./pages/UserPage'));
 // const SearchDetails = React.lazy(() => import('./pages/SearchDetailsPage'));
 
-const components = [Admin, Places, Bookings, Login, Register, Search, BusinessSchedule];
+const components = [Admin, Places, Bookings, Login, Register, Search, BusinessSchedule,MyFavorites];
 const queryClient = new QueryClient();
 
 const App = () => {

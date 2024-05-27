@@ -125,7 +125,7 @@ export default function SearchResult() {
 function handleClick(){}
 
 function handleMapClick() {
-  setIsShowMap(true)
+  setIsShowMap((prev)=>!prev)
 }
 
   const getSearchDetailsRoute = () => {
@@ -168,7 +168,7 @@ function handleMapClick() {
   };
 
   return (
-    <Card className='' >
+    <Card className='search-page-container' >
       <CardHeader style={{marginTop: '60px', color: '#4D4D4D', backgroundColor: '#FFFBF3'}} id = 'card-header-id' title={filteredData.length + ' Venues matching your search'} action={
         <div className='flex items-center'>
           <FilterModal />
@@ -177,72 +177,79 @@ function handleMapClick() {
       }>
       </CardHeader>
       <hr />
-      {
-        filteredData && filteredData.length > 0 ? (
-          filteredData?.map((card, index) => (
-            <CardContent key={card.establishmentId} className='flex justify-center items-center'>
-              <Card sx={{ width: 1184 }} className='my-8 card-wrap-container'>
-                <CardContent className='card-container'>
-                  <div key={index} className='card-header'>
-                    <GetImage imageName='SaloonImage' className='w-full rounded-lg'/>
-                    <div key={index} className='card-header-details'>
-                      <div className='chip-wrap'>
-                        {card.serviceTags.map((tag, index) => (
-                          <Chip key={index} label={tag} className='mr-2 mb-2' />
+      <div className='search-result-container'>
+        <div>
+          {
+            filteredData && filteredData.length > 0 ? (
+              filteredData?.map((card, index) => (
+                <CardContent key={card.establishmentId} className='flex justify-center items-center'>
+                  <Card sx={{ width: 1184 }} className='card-wrap-container'>
+                    <CardContent className='card-container'>
+                      <div key={index} className='card-header'>
+                        <GetImage imageName='SaloonImage' className='w-full rounded-lg'/>
+                        <div key={index} className='card-header-details'>
+                          <div className='chip-wrap'>
+                            {card.serviceTags.map((tag, index) => (
+                              <Chip key={index} label={tag} className='mr-2 mb-2' />
+                            ))}
+                          </div>
+                          <div className='font-bold text-lg py-2' style={{color: '#4D4D4D'}}>{card.establishmentName}</div>
+                          <div className="card-rating">
+                            <div className='text-lg'>{card.rating.ratingStar}</div>
+                            <StyledRating
+                              name="customized-color"
+                              value={card.rating.ratingStar}
+                              precision={0.5}
+                              readOnly
+                            />
+                            {/* <div className='text-sm'>({card.reviewCount})</div> */}
+                            <div className='text-sm font-bold'>{'('+card.rating.ratingCount+')'}</div>
+                          </div>
+                          <div className='text-base'>{card.establishmentLocation}</div>
+                        </div>
+                      </div>
+                      <Grid>
+                        {card.services.map((service, index) => (
+                          <div className='card-body-details'>
+                            <div className='card-body-title'>
+                              <div className='font-semibold'>{service.serviceName}</div>
+                              <div>from ${service.startingPrice}</div>
+                            </div>
+                            <div className="card-slick-container">
+                              <Slider {...settings1}>
+                              {service.availabilities.map((tag, index) => (
+                                      // <>{
+                                      // tag.timeSlots.map((timeSlot, index) => (
+                                      //   <Chip key={index} label={timeSlot} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
+                                      // ))}
+                                      // <div>{tag.date}</div>
+                                      // </>
+                                      tag.timeSlots.map((timeSlot, index) => (
+                                          <Chip key={index} label={timeSlot} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
+                                        ))
+                                  ))}
+                              </Slider>
+                            </div>
+                          </div>
                         ))}
-                      </div>
-                      <div className='font-bold text-lg py-2' style={{color: '#4D4D4D'}}>{card.establishmentName}</div>
-                      <div className="card-rating">
-                        <div className='text-lg'>{card.rating.ratingStar}</div>
-                        <StyledRating
-                          name="customized-color"
-                          value={card.rating.ratingStar}
-                          precision={0.5}
-                          readOnly
-                        />
-                        {/* <div className='text-sm'>({card.reviewCount})</div> */}
-                        <div className='text-sm font-bold'>{'('+card.rating.ratingCount+')'}</div>
-                      </div>
-                      <div className='text-base'>{card.establishmentLocation}</div>
-                    </div>
-                  </div>
-                  <Grid>
-                    {card.services.map((service, index) => (
-                      <div className='card-body-details'>
-                        <div className='card-body-title'>
-                          <div className='font-semibold'>{service.serviceName}</div>
-                          <div>from ${service.startingPrice}</div>
-                        </div>
-                        <div className="card-slick-container">
-                          <Slider {...settings1}>
-                          {service.availabilities.map((tag, index) => (
-                                  // <>{
-                                  // tag.timeSlots.map((timeSlot, index) => (
-                                  //   <Chip key={index} label={timeSlot} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
-                                  // ))}
-                                  // <div>{tag.date}</div>
-                                  // </>
-                                  tag.timeSlots.map((timeSlot, index) => (
-                                      <Chip key={index} label={timeSlot} variant="outlined" type='clickable' onClick={handleClick} className='text-center content-center' />
-                                     ))
-                              ))}
-                          </Slider>
-                        </div>
-                      </div>
-                    ))}
-                  </Grid>
-                  <div className='flex gap-1'>view more  <GetIcon className='' iconName='RightArrowIcon'/></div>
+                      </Grid>
+                      <div className='flex gap-1'>view more  <GetIcon className='' iconName='RightArrowIcon'/></div>
+                    </CardContent>
+                    <CardActions className='card-footer-action'>
+                      <StoreMallDirectoryOutlinedIcon />
+                      <TextRouter name={"Saloon Details"} to={`/salon/${card.establishmentId}`} />
+                    </CardActions>
+                  </Card>
                 </CardContent>
-                <CardActions className='card-footer-action'>
-                  <StoreMallDirectoryOutlinedIcon />
-                  <TextRouter name={"Saloon Details"} to={`/salon/${card.establishmentId}`} />
-                </CardActions>
-              </Card>
-              
-            </CardContent>
-          ))) : (<div><h1 className='text-center align-middle'>No result found</h1> <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31081.53269316962!2d80.20855351621644!3d13.15031202030962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5264db59c3d4b5%3A0x9be03109019f05f!2sMadhavaram%2C%20Chennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1716260701299!5m2!1sen!2sin" width="600" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-          </div>)
-      }
+                
+              ))) : (<h1 className='text-center align-middle'>No result found</h1>
+              ) 
+          }
+        </div>
+        <div className='iframe-container'>
+        {isShowMap && <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31081.53269316962!2d80.20855351621644!3d13.15031202030962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5264db59c3d4b5%3A0x9be03109019f05f!2sMadhavaram%2C%20Chennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1716260701299!5m2!1sen!2sin" width="600" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>}
+        </div>
+      </div>
       
     </Card>
   )

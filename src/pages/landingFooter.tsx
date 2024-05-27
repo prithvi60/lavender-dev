@@ -8,7 +8,7 @@ function LandingFooter() {
   return (
     <div className='mt-4 border landingFooter'>
       <div className='footer-header'>
-        <div className='flex gap-1'>
+        <div className='flex gap-1 w-full'>
           <GetIcon
             className="cursor-pointer"
             // onClick={gotoLandingPage}

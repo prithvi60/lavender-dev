@@ -31,7 +31,7 @@ function upComingBookings({userInfo}) {
     }
     
   return (
-    <div className='mx-24 mt-10'>
+    <div className='mt-10'>
         <div className='text-3xl font-bold py-4'>Upcoming Bookings</div>
         {userInfo?.upcomingBookings.length > 0 ? (
             userInfo?.upcomingBookings?.map((bookings)=>(
@@ -51,6 +51,18 @@ function upComingBookings({userInfo}) {
                     </Grid>
                 </Grid>
             </Card> 
+            // <div className="upcoming-details flex flex-wrap border border-[#CCCCCC] rounded-[20px]">
+            //     <div className="text-[#1B1464] bg-[#EEEEFF] text-center gap-2 p-8 aspect-square grid rounded-[20px]">
+            //     <span className='font-medium'>{convertToMonthOnly(bookings?.startTime)} {convertToYearOnly(bookings?.startTime)}</span>
+            //     <h2 className='text-6xl font-semibold'>{convertToDateOnly(bookings?.startTime)}</h2>
+            //     <span className='font-medium'>{convertToDayOnly(bookings?.startTime)}</span>
+            //     </div>
+            //     <div className="text-[#4D4D4D] gap-2 p-8 grid">
+            //     <span className='font-medium'>{bookings?.establishmentName}</span>
+            //     <h2 className='text-6xl font-semibold'>{convertToTimeOnly(bookings?.startTime)}</h2>
+            //     <span className='font-medium'>{bookings.services.length} services</span>
+            //     </div>
+            // </div>
             ))
         ) : <EmptyBookings noAppointmentsMessage={NoUpComingBookings}/>}
         
