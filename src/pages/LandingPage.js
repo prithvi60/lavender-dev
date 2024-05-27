@@ -9,10 +9,11 @@ import Benifits from './Benifits.tsx';
 import LandingFooter from './landingFooter';
 
 const LandingPage = () => {
-    const [isSearchPage, setIsSearchPage] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
     return (
         <Box className='landing-page'>
-            <Navbar isSearchPage={isSearchPage}/>
+            <Navbar isSearchPage={false} isLoggedIn={isLoggedIn} />
             <HeroSection />
             {/* <SearchResult /> */}
             <div className='mx-4 max-w-7xl mx-auto'>
