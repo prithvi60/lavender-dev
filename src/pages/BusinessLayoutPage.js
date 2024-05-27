@@ -7,7 +7,7 @@ import { DrawerProvider } from '../features/Business/BusinessDrawerContext';
 import BusinessHeader from '../features/Business/BusinessHeader';
 import { BusinessClients } from '../features/Business/Clients/BusinessClients';
 import {Services} from '../features/Business/services/Services'
-import SchedulePage from '../features/Business/Schedule/SchedulePage';
+import BusinessTeam from '../features/Business/team/BusinessTeam';
 //import CalenderTimeline from '../features/Business/Schedule/CalenderTimeline';
 
 const BusinessLayoutPage = () => {
@@ -19,14 +19,16 @@ const BusinessLayoutPage = () => {
     switch (activeField) {
       case 'Home':
         return <div>Home</div>;
-      case 'Schedule':
-        return <SchedulePage />;
+      // case 'Schedule':
+      //   return <SchedulePage />;
       case 'Appointments':
         return <AppointmentsPage/>
       case 'Clients':
         return <BusinessClients/>
       case 'Services':
         return <Services />
+      case 'Team':
+        return <BusinessTeam/>
       default:
         return <div>Default</div>;
     }

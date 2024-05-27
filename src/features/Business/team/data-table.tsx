@@ -23,7 +23,7 @@ import {
 import { SearchInput, Selector, AppointmentDateSelector } from './AppointmentControllers'
 import { fixedRangeDateOptions } from "../../../constants/appointments"
 import { DataTablePagination } from "../../../components/DataTablePagination"
-import { useDrawer } from '../../../pages/BusinessDrawerContext'
+import { useDrawer } from '../BusinessDrawerContext'
 import { useNavigate } from "react-router-dom"
 import AddMemberForm from "./AddMemberForm"
 
@@ -131,7 +131,7 @@ export function DataTable<TData, TValue>({
         </TableBody>
       </Table>
       
-      <DataTablePagination table={table} />
+      <DataTablePagination table={table} pageData={undefined} />
       
     </div>
   )
