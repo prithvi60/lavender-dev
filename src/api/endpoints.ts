@@ -1,5 +1,5 @@
 import axios, { Axios } from 'axios';
-import { BaseURL, establishmentSearch, establishmentDetails, customerProfile, userLogin, setBrowserCache, getBrowserCache, businessAppointment, userRegister } from './constants';
+import { BaseURL, establishmentSearch, establishmentDetails, customerProfile, userLogin, setBrowserCache, appointmentBooking, getBrowserCache, businessAppointment, userRegister } from './constants';
 
 const axiosInstance = axios.create({
     baseURL: BaseURL,
@@ -48,6 +48,11 @@ class Endpoint{
     async getBusinessAppointments(payload){
         const response = await axiosInstance.post(`${BaseURL}${businessAppointment}`, payload)
         return response
+    }
+
+    async saveAppointmentBookings(payload){
+      const response = await axiosInstance.post(`${BaseURL}${appointmentBooking}`, payload)
+      return response
     }
 
     async setTenantToken(data: any) {

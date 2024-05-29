@@ -8,12 +8,17 @@ import {
   useSelector,
 } from 'react-redux';
 import { Divider } from "@mui/material";
-
+import { useQuery } from '@tanstack/react-query';
+import endpoint from '../../api/endpoints';
+import AppointmentConfimed from './AppointmentConfimed';
 
 const checkoutData = [{'name': 'Yong Chow’s Paradise - Women’s Parlour & Spa', 'services': [{'serviceName': 'haircut', 'duration': '30mins', 'finalPrice': 50},{'serviceName': 'Layered Long Haircut', 'duration': '60mins', 'finalPrice': 60}, {'serviceName': 'Layered Long Haircut', 'duration': '60mins', 'finalPrice': 60}, {'serviceName': 'Layered Long Haircut', 'duration': '60mins', 'finalPrice': 60}]}]
 
 function CheckoutCard(props) {
-  const {next, establishmentName} = props
+  const {activeStep, next, establishmentName} = props
+  console.log('next : ', next);
+  const [testId, setTestId] = useState(false);
+
   const checkOutList = useSelector(
     (state) => state.checkOutPage
   );
@@ -25,7 +30,6 @@ function CheckoutCard(props) {
       setDisabled(false);
     }
   },[checkOutList])
-  
 
   let totalPrice = 0;
   function calculateTotalPrice(){
@@ -44,9 +48,42 @@ function CheckoutCard(props) {
     transform: "translate(-50%, -50%)"
   }
 
-  const sendDataToParent = () => {
+  function sendDataToParent() {
+    
+    console.log("in methoddd sendDataToParent ...")
     next((prevActiveStep) => prevActiveStep + 1); // Invoke the callback function with data
   };
+
+  // useEffect(()=>{
+  //   const payLoad = {
+  //     "customerId": "2507",
+  //     "establishmentId": "2001",
+  //     "employeeId": "201",
+  //     "startTime": "2024-05-25T10:00:00+08:00",
+  //     "endTime": "2024-05-25T11:30:00+08:00",
+  //     "totalDuration": 90,
+  //     "totalCost": 75,
+  //     "appointmentNotes": "Prefer organic products",
+  //     "serviceTags": [
+  //       "Hair","Facial"
+  //     ],
+  //     "appointmentServices": [
+  //       {
+  //         "serviceId": "101",
+  //         "optionId": "1011"
+  //       },
+  //       {
+  //         "serviceId": "102",
+  //         "optionId": "1021"
+  //       }
+  //     ],
+  //     "payAtVenue": false,
+  //     "cardStoreId": "2500"
+  //   }
+  //   const appointmentBooking = endpoint.saveAppointmentBookings(payLoad);
+  //   console.log('appointmentBooking : ', appointmentBooking);
+  // },[testId])
+
   return (
       <div className='urbanist-font mb-6 rounded-2xl chackout-card-container'> {/* Adjusted width to be responsive */}
         <CardContent >
@@ -78,12 +115,11 @@ function CheckoutCard(props) {
                 <div className='text-sm font-normal pb-2'>excluding Tax</div>
 
                 <div className='flex justify-center'>
-                  <Button  disabled={disabled} className='w-full' onClick={sendDataToParent} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button>
+                  {activeStep < 2 ? <Button  disabled={disabled} className='w-full' onClick={()=>sendDataToParent()} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button> : <AppointmentConfimed activeStep={activeStep}/>}
                 </div>
             </div>
           }
         </CardContent>
-        
       </div>
 
   )

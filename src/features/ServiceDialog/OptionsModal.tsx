@@ -31,7 +31,7 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
       };
     
     function handleSelectBtnClick(serviceName, finalPrice, serviceDuration){
-        debugger
+        
         // setIsChecked((prev) => !prev)
         let checkOutObj = {
             'serviceName': serviceName,

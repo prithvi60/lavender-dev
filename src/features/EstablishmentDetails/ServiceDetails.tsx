@@ -27,7 +27,7 @@ function ServiceDetails(props) {
   }
 
   function handleTabChange(tag){
-    debugger
+    
     setTabValue(tag)
   }
 

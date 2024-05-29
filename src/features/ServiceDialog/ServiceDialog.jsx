@@ -22,6 +22,7 @@ function ServiceDialog({establishmentData}) {
       setIsOpen(true);
   }
   function onSetActiveStep(value) {
+    console.log('activeStep : ', activeStep)
     setActiveStep(value);
   }
 
@@ -64,7 +65,7 @@ function ServiceDialog({establishmentData}) {
           </div>
 
           <div>
-            <CheckoutCard next={onSetActiveStep} establishmentName = {establishmentData.data.establishmentName}/>
+            <CheckoutCard activeStep={activeStep} next={onSetActiveStep} establishmentName = {establishmentData.data.establishmentName}/>
           </div>
         </div>
       </Dialog>

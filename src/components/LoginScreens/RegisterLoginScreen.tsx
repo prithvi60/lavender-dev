@@ -43,7 +43,7 @@ function RegisterLoginScreen({isInLoginModal}) {
          
     }
     const handleClickContinue = () => {
-        debugger
+        
         console.log('email : ',email)
         console.log('password : ',password)
 

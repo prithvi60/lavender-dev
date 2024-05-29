@@ -10,7 +10,7 @@ function CheckBox({ optionName, salePrice, duration, setBtnValue, btnValue, setB
   const disPatch = useDispatch()
 
   function handleSelectBtnClick(serviceName, finalPrice, serviceDuration) {
-    debugger
+    
     setIsChecked((prev) => !prev)
     let checkOutObj = {
       'serviceName': serviceName,
@@ -27,7 +27,7 @@ function CheckBox({ optionName, salePrice, duration, setBtnValue, btnValue, setB
     else {
       // removeItemsToCheckOut(checkOutObj)
       disPatch(resetCheckOut(checkOutObj))
-      debugger
+      
       setBtnValue("Select")
       setBtnVariant("outlined")
     }
