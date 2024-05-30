@@ -5,20 +5,21 @@ import {
 } from 'react-redux';
 import GetIcon from '../../assets/Icon/icon';
 
-function CheckBox({ optionId, optionName, salePrice, duration, setBtnValue, btnValue, setBtnVariant }) {
+function CheckBox({ serviceId, optionId, optionName, salePrice, duration, setBtnValue, btnValue, setBtnVariant }) {
   const [isChecked, setIsChecked] = useState(false);
   const disPatch = useDispatch()
 
-  function handleSelectBtnClick(serviceId, serviceName, finalPrice, serviceDuration) {
+  function handleSelectBtnClick(optionId, serviceName, finalPrice, serviceDuration) {
     
     setIsChecked((prev) => !prev)
     let checkOutObj = {
       'serviceId': serviceId,
+      'optionId': optionId,
       'serviceName': serviceName,
       'finalPrice': finalPrice,
       'serviceDuration': serviceDuration
     }
-    console.log("checkOutObj : ", checkOutObj)
+    console.log("checkOutObj of all: ", checkOutObj)
     if (btnValue === 'Select') {
       // addItemsToCheckOut(checkOutObj)
       disPatch(updateCheckOut(checkOutObj))

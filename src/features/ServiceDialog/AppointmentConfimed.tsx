@@ -29,6 +29,7 @@ const AppointmentConfimed = ({activeStep}) => {
     (state) => state.checkOutPage
   );
   console.log('checkOutList in appoint : ', checkOutList);
+  debugger;
   const handleOpen = () => {
     setOpen((prev) => !prev);
     navigate("/");
@@ -41,28 +42,27 @@ const AppointmentConfimed = ({activeStep}) => {
         console.log("in methoddd activeStep ...")
         const payLoad = {
           "customerId": "2500",
-          "establishmentId": "2500",
-          "employeeId": "201",
-          "startTime": "2024-05-29T10:00:00+08:00",
-          "endTime": "2024-05-29T11:30:00+08:00",
-          "totalDuration": 90,
-          "totalCost": 75,
+          "establishmentId": "2502",
+          "employeeId": "E101",
+          "startTime": "2024-05-30T10:00:00+08:00",
+          "endTime": "2024-05-30T12:30:00+08:00",
+          "totalDuration": checkOutList.checkOut[0].duration,
+          "totalCost": checkOutList.checkOut[0].finalPrice,
           "appointmentNotes": "Prefer organic products",
           "serviceTags": [
             "Hair","Facial"
           ],
           "appointmentServices": [
             {
-              "serviceId": "101",
-              "optionId": "1011"
+              "serviceId": checkOutList.checkOut[0].serviceId,
+              "optionId": checkOutList.checkOut[0].optionId
             },
-            {
-              "serviceId": "102",
-              "optionId": "1021"
-            }
           ],
-          "payAtVenue": false,
-          "cardStoreId": "2500"
+          "paymentInfo": {
+            "payAtVenue": false,
+            "cardStoreId": "2500"
+          },
+          "walkIn": false
         }
         const appointmentBooking = endpoint.saveAppointmentBookings(payLoad);
         console.log('appointmentBooking : ', appointmentBooking);

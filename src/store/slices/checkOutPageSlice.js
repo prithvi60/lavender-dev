@@ -11,6 +11,7 @@ const checkOutPageSlice = createSlice({
         updateCheckOut: (state, action) => {
             let serviceDetails =  {
                 serviceId: action.payload.serviceId,
+                optionId: action.payload.optionId,
                 serviceName: action.payload.serviceName,
                 finalPrice: action.payload.finalPrice,
                 duration: action.payload.serviceDuration,
