@@ -38,5 +38,10 @@ export const routes = [
     name: "SearchDetails",
     path: '/searchdetails',
     exact: true
+  },
+  {
+    name: "MyFavorites",
+    path: '/MyFavorites',
+    exact: true
   }
 ];

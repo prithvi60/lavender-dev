@@ -5,14 +5,15 @@ import {
 } from 'react-redux';
 import GetIcon from '../../assets/Icon/icon';
 
-function CheckBox({ optionName, salePrice, duration, setBtnValue, btnValue, setBtnVariant }) {
+function CheckBox({ optionId, optionName, salePrice, duration, setBtnValue, btnValue, setBtnVariant }) {
   const [isChecked, setIsChecked] = useState(false);
   const disPatch = useDispatch()
 
-  function handleSelectBtnClick(serviceName, finalPrice, serviceDuration) {
+  function handleSelectBtnClick(serviceId, serviceName, finalPrice, serviceDuration) {
     
     setIsChecked((prev) => !prev)
     let checkOutObj = {
+      'serviceId': serviceId,
       'serviceName': serviceName,
       'finalPrice': finalPrice,
       'serviceDuration': serviceDuration
@@ -37,8 +38,8 @@ function CheckBox({ optionName, salePrice, duration, setBtnValue, btnValue, setB
     <>
     <div className='cursor-pointer'>
       {isChecked 
-      ? <GetIcon iconName='SelectedIcon'  onClick={() => handleSelectBtnClick(optionName, salePrice, duration)}/>
-      : <GetIcon iconName='PlusIcon'  onClick={() => handleSelectBtnClick(optionName, salePrice, duration)}/>}
+      ? <GetIcon iconName='SelectedIcon'  onClick={() => handleSelectBtnClick(optionId, optionName, salePrice, duration)}/>
+      : <GetIcon iconName='PlusIcon'  onClick={() => handleSelectBtnClick(optionId, optionName, salePrice, duration)}/>}
     </div>
     </>
   );

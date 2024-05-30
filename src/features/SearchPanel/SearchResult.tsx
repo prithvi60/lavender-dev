@@ -17,7 +17,7 @@ export default function SearchResult() {
   
   const timeTags = ['9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm', '9.00 am', '10.00 am', '11.00 am', '12.00 am', '1.00 pm', '2.00 pm']
   const payLoad = {
-    "pageNumber": 1,
+    "pageNumber": 0,
     "pageSize": 10,
     "sortBy": "",
     "sortDirection": "",

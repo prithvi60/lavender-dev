@@ -65,7 +65,7 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
     boxShadow: 24,
     p: 4,
     }
-
+    console.log("rops.options : ", props.options)
   return (
     <div>
         <Add onClick={handleOpen}/>
@@ -130,7 +130,7 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
                                         </div>
                                         <div className='px-16 py-4'>
                                         
-                                        <CheckBox  optionName ={option.optionName} salePrice ={option.salePrice} duration ={ option.duration} setBtnValue  = {setBtnValue} btnValue= {btnValue} setBtnVariant ={setBtnVariant}/>
+                                        <CheckBox  optionId = {option.optionId} optionName ={option.optionName} salePrice ={option.salePrice} duration ={ option.duration} setBtnValue  = {setBtnValue} btnValue= {btnValue} setBtnVariant ={setBtnVariant}/>
 
                                         </div>
                                     </Grid>

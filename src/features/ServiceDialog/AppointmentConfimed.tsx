@@ -7,6 +7,7 @@ import Button from "../../components/Button";
 import endpoint from '../../api/endpoints';
 import GetIcon from '../../assets/Icon/icon';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 const style = {
     position: "absolute",
     top: "50%",
@@ -24,7 +25,10 @@ const AppointmentConfimed = ({activeStep}) => {
   const [open, setOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
   const navigate = useNavigate();
-
+  const checkOutList = useSelector(
+    (state) => state.checkOutPage
+  );
+  console.log('checkOutList in appoint : ', checkOutList);
   const handleOpen = () => {
     setOpen((prev) => !prev);
     navigate("/");

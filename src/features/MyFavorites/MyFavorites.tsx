@@ -17,7 +17,7 @@ function MyFavorites() {
     },
   });
   const payLoad = {
-    "pageNumber": 1,
+    "pageNumber": 0,
     "pageSize": 10,
     "sortBy": "",
     "sortDirection": "",

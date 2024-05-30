@@ -27,7 +27,7 @@ const RecommendSection = () => {
     { id: 5, image: emptyLogo, rating: 3.9, reviewCount: 10, location: 'Location 5', tags: ['Tag 9', 'Tag 10'] },
   ];
   const payLoad = {
-    "pageNumber": 1,
+    "pageNumber": 0,
     "pageSize": 10,
     "sortBy": "",
     "sortDirection": "",
