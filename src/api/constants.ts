@@ -12,6 +12,8 @@ export const userLogin = 'au/login'
 
 export const userRegister = 'au/signUp'
 
+export const availableSlots = 'c/fetchAvailableSlots'
+
 export const appointmentBooking = 'c/saveAppointmentBooking'
 
 export function setBrowserCache(key: string, value: any) {

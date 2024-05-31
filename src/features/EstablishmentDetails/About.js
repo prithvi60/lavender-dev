@@ -19,35 +19,36 @@ function About(props) {
   const { establishmentData } = props;
   const additionalInfos = ["Payment methods", "Languages", "Accessibility"];
   return (
-    <div className="mx-16 my-10" id="SearchDetailAbout">
+    <div className="mx-16 my-10 md:w-8/12 sm:w-full" id="SearchDetailAbout">
       <div className="max-w-2xl">
         <div className="urbanist-font text-xl font-bold pb-2">About</div>
         <div className="urbanist-font text-lg font-normal">
           {establishmentData?.data?.establishmentAbout}
         </div>
 
-        <div className="flex flex-wrap mt-4 rounded-3xl shadow-lg border overflow-hidden">
-          <div className="p-8 w-full md:w-8/12">
-            <div className="text-lg font-medium urbanist-font">
-              Additional information
-            </div>
-            <div className="flex flex-wrap justify-between py-4">
-              <div className="urbanist-font text-lg font-semibold w-full md:w-8/12">
-                <GetIcon
-                  className="flex items-center h-fit gap-3"
-                  iconName="PaymentCardIcon"
-                  text="Payment methods"
-                />
+        <div className="md:flex mt-4 rounded-3xl shadow-lg border overflow-hidden">
+          <div className="inline lg:w-8/12 md:w-8/12 sm:w-full w-full">
+            <div className="p-8">
+              <div className="text-lg font-medium urbanist-font">
+                Additional information
               </div>
-              <div className="w-full md:w-4/12 pl-8 md:pl-0">
-                {SampleData[0].paymentMethod.map((item) => (
-                  <div className="urbanist-font font-normal text-sm py-1">
-                    {item}
-                  </div>
-                ))}
+              <div className="flex flex-wrap justify-between py-4">
+                <div className="urbanist-font text-lg font-semibold w-full md:w-8/12">
+                  <GetIcon
+                    className="flex items-center h-fit gap-3"
+                    iconName="PaymentCardIcon"
+                    text="Payment methods"
+                  />
+                </div>
+                <div className="w-full md:w-4/12 pl-8 md:pl-0">
+                  {SampleData[0].paymentMethod.map((item) => (
+                    <div className="urbanist-font font-normal text-sm py-1">
+                      {item}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-            <hr />
+              <hr />
 
             <div className="flex flex-wrap justify-between py-4">
               <GetIcon
@@ -65,32 +66,35 @@ function About(props) {
             </div>
             <hr />
 
-            <div className="flex flex-wrap justify-between py-4">
-              <GetIcon iconName='ManIcon' className="flex h-fit items-center gap-3 urbanist-font text-lg font-semibold w-full md:w-8/12" text='Accessibility'>
-                
-              </GetIcon>
-              <div className="w-full md:w-4/12 pl-8 md:pl-0">
-                {establishmentData?.data?.otherInfos?.map((item) => (
-                  <div className="urbanist-font font-normal text-sm py-1">
-                    {item}
-                  </div>
-                ))}
+              <div className="flex flex-wrap justify-between py-4">
+                <GetIcon iconName='ManIcon' className="flex h-fit items-center gap-3 urbanist-font text-lg font-semibold w-full md:w-8/12" text='Accessibility'>
+                  
+                </GetIcon>
+                <div className="w-full md:w-4/12 pl-8 md:pl-0">
+                  {establishmentData?.data?.otherInfos?.map((item) => (
+                    <div className="urbanist-font font-normal text-sm py-1">
+                      {item}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="bg-purple-100	 w-full md:w-4/12 p-8">
-            <div className="text-lg font-bold pb-4">Our team</div>
-            {establishmentData?.data?.employees?.map((item) => (
-              <div className="flex py-2 gap-3 items-center">
-                <Avatar>
-                  <img src={item.imageId} />
-                </Avatar>
-                <div className="urbanist-font text-lg">
-                  {item.employeeName}
+          <div className="custom-bg-light inline lg:w-4/12 md:w-4/12 sm:w-full w-full">
+            <div className="p-8">
+              <div className="text-lg font-bold pb-4">Our team</div>
+              {establishmentData?.data?.employees?.map((item) => (
+                <div className="flex py-2 gap-3 items-center">
+                  <Avatar>
+                    <img src={`/${item.imageId}`} />
+                  </Avatar>
+                  <div className="urbanist-font text-lg">
+                    {item.employeeName}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>

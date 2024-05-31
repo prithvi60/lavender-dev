@@ -6,6 +6,8 @@ import { Button, Chip, Divider, Grid, Select } from '@mui/material';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DatePicker from '../../Packages/swiperCalendar/DatePicker.tsx'
 import GetIcon from '../../assets/Icon/icon';
+import { useQuery } from '@tanstack/react-query';
+import endpoint from '../../api/endpoints.ts';
 
 export default function ScheduleAppointment(props) {
   
@@ -14,7 +16,22 @@ export default function ScheduleAppointment(props) {
     console.log(val)
     //TODO set date value in store redux
   };
+  const currentDate = new Date();
+  console.log('9999999999999999', currentDate);
 
+  const payLoad = {
+    "startDate": currentDate,
+    "establishmentId": "2500",
+    "employeeId": "string",
+    "totalDuration": 30,
+    "serviceTags": [
+      "hair"
+    ]
+  }
+
+  const {isLoading, data: appointmentTimings} = useQuery({queryKey: ["query-appointment-timing"], queryFn: () => { return endpoint.getAvailableSlots(payLoad)}})
+
+  console.log('appointmentTImings : ', appointmentTimings?.data);
   const Timings = {
     morning: ['8:00 am', '9:00 am', '10:00 am'],
     afternoon: ['8:00 am', '9:00 am', '10:00 am'],
