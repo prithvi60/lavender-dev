@@ -19,11 +19,12 @@ const Navbar = (props) => {
   const [showSearchBar, setshowSearchBar] = useState(false);
 
   const getLoginRoute = () => {
-    return getRoute("Login");
+    return navigate('/login')
   };
 
-  const getUserRoute = () => {
-    return getRoute("UserProfile");
+  function getUserRoute(){
+    debugger
+navigate('/userprofile')
   };
 
   const getAdminRoute = () => {
@@ -59,13 +60,9 @@ const Navbar = (props) => {
           {isSearchPage && <NavFilter setshowSearchBar={setshowSearchBar} />}
           <Stack spacing={2} direction="row">
             {isLoggedIn ? (
-              <>
-                <ButtonRouter name={"Olivia"} to={getUserRoute()} startIcon={<PersonIcon />} />
-              </>
+                <ButtonRouter name={"Olivia"} to={'/userprofile'} startIcon={<PersonIcon />} />
             ) : (
-              <>
-                <ButtonRouter name={"Login"} to={getLoginRoute()} />
-              </>
+                <ButtonRouter name={"Login"} to={'/login'} />
             )}
             <Button
               href={getAdminRoute()}
@@ -74,7 +71,6 @@ const Navbar = (props) => {
             >
               Business
             </Button>
-            <ButtonRouter name={"Login"} to={getLoginRoute()} />
             <ButtonRouter startIcon={<PersonIcon />} name={"Olivia"} to={'/userprofile'} />
           </Stack>
           {isSearchPage && showSearchBar && (

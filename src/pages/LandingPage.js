@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HeroSection from '../features/Landing/HeroSection';
 import CategorySection from '../features/Landing/CategorySection';
 import RecommendSection from '../features/Landing/RecommendSection';
@@ -7,9 +7,17 @@ import { Box } from '@mui/material';
 import LearnMore from './LearnMore.tsx'
 import Benifits from './Benifits.tsx';
 import LandingFooter from './landingFooter';
+import { getBrowserCache } from '../api/constants.ts';
 
 const LandingPage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const tokenValue = getBrowserCache('Token');
+
+    useEffect(()=>{
+        if(tokenValue){
+            setIsLoggedIn(true);
+        }
+    },[tokenValue])
 
     return (
         <Box className='landing-page'>
