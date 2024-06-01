@@ -11,15 +11,6 @@ import EditProfile from './EditProfile'
 
 function Index() {
    const {isLoading, data: userInfo} = useQuery({queryKey: ["query-user-info"], queryFn: () => { return endpoint.getCustomerProfile()}})
-
-//   fetch(`${BaseURL}${customerProfile}`, {
-//     method: 'GET',
-//     headers: {
-//       "Content-Type": "application/json",
-//       'authtoken': getBrowserCache("Token"),
-//     }
-//   })
-// const [userInfo, setUserInfo] = useState({});
   
   return (
     <div className='mx-auto max-w-7xl px-5 pb-8'>

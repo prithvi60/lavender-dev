@@ -14,7 +14,7 @@ import PersonIcon from "@mui/icons-material/Person";
 
 
 const Navbar = (props) => {
-  const { isSearchPage, isLoggedIn } = props;
+  const { isSearchPage, isLoggedIn, userName } = props;
 
   const [showSearchBar, setshowSearchBar] = useState(false);
 
@@ -59,11 +59,6 @@ navigate('/userprofile')
           />
           {isSearchPage && <NavFilter setshowSearchBar={setshowSearchBar} />}
           <Stack spacing={2} direction="row">
-            {isLoggedIn ? (
-                <ButtonRouter name={"Olivia"} to={'/userprofile'} startIcon={<PersonIcon />} />
-            ) : (
-                <ButtonRouter name={"Login"} to={'/login'} />
-            )}
             <Button
               href={getAdminRoute()}
               className="button-outline"
@@ -71,7 +66,11 @@ navigate('/userprofile')
             >
               Business
             </Button>
-            <ButtonRouter startIcon={<PersonIcon />} name={"Olivia"} to={'/userprofile'} />
+            {isLoggedIn ? (
+                <ButtonRouter name={userName} to={'/userprofile'} startIcon={<PersonIcon />} />
+            ) : (
+                <ButtonRouter name={"Login"} to={'/login'} />
+            )}
           </Stack>
           {isSearchPage && showSearchBar && (
             <div className="searched-search-panel">

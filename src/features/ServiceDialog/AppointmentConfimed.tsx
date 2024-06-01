@@ -35,7 +35,6 @@ const AppointmentConfimed = ({activeStep}) => {
   };
 
   function saveAppointmentClick(){
-
     
     if(activeStep===2){
         console.log("in methoddd activeStep ...")
@@ -68,7 +67,6 @@ const AppointmentConfimed = ({activeStep}) => {
         
     }
     setOpen((prev) => !prev);
-
   }
 
   return (
