@@ -116,7 +116,7 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
                     <Divider/>
                 </div>
                 {
-                    props.options.length > 1 && <Grid container spacing={2} sx={{margin: "5px", padding: "15px"}}>
+                    props.options.length > 0 && <Grid container spacing={2} sx={{margin: "5px", padding: "15px"}}>
                         <Grid xs={12} >
                             <div className='text-2xl font-bold text-gray-500'>Choose options</div>
                         </Grid>

@@ -8,6 +8,8 @@ import GetIcon from '../../assets/Icon/icon';
 function CheckBox({ serviceId, optionId, optionName, salePrice, duration, setBtnValue, btnValue, setBtnVariant }) {
   const [isChecked, setIsChecked] = useState(false);
   const disPatch = useDispatch()
+console.log('CheckBox duration : ', duration)
+console.log('CheckBox salePrice : ', salePrice)
 
   function handleSelectBtnClick(optionId, serviceName, finalPrice, serviceDuration) {
     

@@ -29,7 +29,6 @@ const AppointmentConfimed = ({activeStep}) => {
     (state) => state.checkOutPage
   );
   console.log('checkOutList in appoint : ', checkOutList);
-  debugger;
   const handleOpen = () => {
     setOpen((prev) => !prev);
     navigate("/");

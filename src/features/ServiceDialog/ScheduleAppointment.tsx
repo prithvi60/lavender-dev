@@ -10,40 +10,66 @@ import { useQuery } from '@tanstack/react-query';
 import endpoint from '../../api/endpoints.ts';
 
 export default function ScheduleAppointment(props) {
-  
-  const {onSetActiveStep} =props
+  const {estData, onSetActiveStep} = props
+  const [availableTimeSlots, setAvailableTimeSlots] = React.useState<any>([]);
+  const [clickedChipIndices, setClickedChipIndices] = React.useState({});
+  const {isLoading, data: appointmentTimings} = useQuery({queryKey: ["query-appointment-timing"], queryFn: () => { return endpoint.getAvailableSlots(payLoad)}})
+  console.log('appointmentTimings : ', appointmentTimings?.data);
+
   const selectedDay = (val) => {
-    console.log(val)
+    console.log("hiiiiii : ", val)
+    const date = new Date(val);
+    // Extract year, month, and day
+    const year = date.getFullYear().toString().slice(-2); // Last two digits of the year
+    const month = ("0" + (date.getMonth() + 1)).slice(-2); // Adding leading zero if month < 10
+    const day = ("0" + date.getDate()).slice(-2); // Adding leading zero if day < 10
+    
+    // Concatenate the formatted parts
+    const formattedDate = `${year}-${month}-${day}`;
+    const test = appointmentTimings?.data.filter(slot => slot.availableDate === formattedDate);
+    console.log('test : ',test);
+
+    setAvailableTimeSlots(test);
     //TODO set date value in store redux
   };
+  console.log('availableTimeSlots : ',availableTimeSlots);
+  const testaTS = availableTimeSlots?.length > 0 && availableTimeSlots[0]?.availableSlots;
+  console.log('testaTS', testaTS);
+
+  
+
   const currentDate = new Date();
   console.log('9999999999999999', currentDate);
 
   const payLoad = {
     "startDate": currentDate,
-    "establishmentId": "2500",
-    "employeeId": "string",
+    "establishmentId": estData.id,
+    "employeeId": "E002",
     "totalDuration": 30,
     "serviceTags": [
       "hair"
     ]
   }
 
-  const {isLoading, data: appointmentTimings} = useQuery({queryKey: ["query-appointment-timing"], queryFn: () => { return endpoint.getAvailableSlots(payLoad)}})
-
-  console.log('appointmentTImings : ', appointmentTimings?.data);
-  const Timings = {
-    morning: ['8:00 am', '9:00 am', '10:00 am'],
-    afternoon: ['8:00 am', '9:00 am', '10:00 am'],
-    evening: ['8:00 am', '9:00 am', '10:00 am']
-  }
+  // const Timings = {
+  //   morning: ['8:00 am', '9:00 am', '10:00 am'],
+  //   afternoon: ['8:00 am', '9:00 am', '10:00 am'],
+  //   evening: ['8:00 am', '9:00 am', '11:00 am']
+  // }
 
   const createHandleMenuClick = (menuItem: string) => {
     return () => {
       console.log(`Clicked on ${menuItem}`);
     };
   };
-
+  const handleClick = (timePeriod, slot, index) => {
+    console.log(`Clicked chip Start Time ${timePeriod},- ${slot.startTime}, End Time - ${slot.endTime}`);
+    setClickedChipIndices(prevState => ({
+      ...prevState,
+      [timePeriod]: index
+  }));
+};
+  React.useEffect(()=>{},[availableTimeSlots])
   return (
 
     <div className='mt-2 md:mx-16 my-10'>
@@ -56,35 +82,49 @@ export default function ScheduleAppointment(props) {
 
       <DatePicker getSelectedDay={selectedDay}
         endDate={30}
-        selectDate={new Date("2020-04-30")}
+        selectDate={new Date()}
         labelFormat={"MMMM"}
-        color={"#FFFFFFFF"}
+        color={"black"}
       />
         
       </div>
 
       <div className='mt-4'>
 
-        {Object.entries(Timings).map((item,index) => {
-          
-          console.log('item :', item)
-          return <>
-            <div className='schedule-chips'>
-              <p className='font-semibold capitalize'>{item[0]}</p>
-              <div className='flex items-center flex-wrap gap-2'>
-                {item[1].map((item,index) => {
-                  return <>
-                    <div className='cursor-pointer' key={index}>
-                      <Chip label={item} variant="outlined" />
-                    </div>
-                  </>
+        {availableTimeSlots?.length > 0 ? Object.entries(availableTimeSlots[0]?.availableSlots).map(([timePeriod, slotsArray]) => {
+    return (
+        <div className='schedule-chips' key={timePeriod}>
+            <p className='font-semibold capitalize'>{timePeriod}</p>
+            <div className='flex items-center flex-wrap gap-2'>
+                {slotsArray?.map((slot, index) => {
+                    return (
+                        <div className='cursor-pointer' key={index}>
+                            <Chip 
+                            label={`${slot.startTime} - ${slot.endTime}`} 
+                            variant="outlined" 
+                            onClick={() => handleClick(timePeriod, slot, index)} 
+                            style={{ backgroundColor: clickedChipIndices[timePeriod] === index ? '#E6E1FF' : 'inherit' }}/>
+                        </div>
+                    );
                 })}
-              </div>
-              {/* TODO */}
-            <Divider />
             </div>
-          </>
-        })
+            {/* TODO */}
+            <Divider />
+        </div>
+    );
+})
+ :
+            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                <GetIcon onClick={    
+                    () => {
+                    console.log("filter icon clicked")
+                    }}
+                    className='my-5 mx-16 p-1 cursor-pointer rounded-sm' 
+                    iconName="SlotBoxesFilled"/>
+                <div id="title" className="font-bold text-xl mb-3 " style={{color: '#4D4D4D'}}>We are fully booked</div>
+                <div style={{color: '#4D4D4D'}}>How about the next slot on 20th March ?</div>
+                <Button  onClick={()=>{}} sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px'}} variant="contained" >Go to 20th March</Button>
+            </div>
         }
 
         <Grid key={100} container item spacing={2}>
