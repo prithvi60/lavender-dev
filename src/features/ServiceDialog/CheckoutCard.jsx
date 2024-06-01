@@ -15,7 +15,7 @@ import AppointmentConfimed from './AppointmentConfimed';
 const checkoutData = [{'name': 'Yong Chow’s Paradise - Women’s Parlour & Spa', 'services': [{'serviceName': 'haircut', 'duration': '30mins', 'finalPrice': 50},{'serviceName': 'Layered Long Haircut', 'duration': '60mins', 'finalPrice': 60}, {'serviceName': 'Layered Long Haircut', 'duration': '60mins', 'finalPrice': 60}, {'serviceName': 'Layered Long Haircut', 'duration': '60mins', 'finalPrice': 60}]}]
 
 function CheckoutCard(props) {
-  const {activeStep, next, establishmentName} = props
+  const {activeStep, next, establishmentName, establishmentId} = props
   console.log('next : ', next);
   const [testId, setTestId] = useState(false);
 
@@ -115,7 +115,7 @@ function CheckoutCard(props) {
                 <div className='text-sm font-normal pb-2'>excluding Tax</div>
 
                 <div className='flex justify-center'>
-                  {activeStep < 2 ? <Button  disabled={disabled} className='w-full' onClick={()=>sendDataToParent()} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button> : <AppointmentConfimed activeStep={activeStep}/>}
+                  {activeStep < 2 ? <Button  disabled={disabled} className='w-full' onClick={()=>sendDataToParent()} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button> : <AppointmentConfimed establishmentId={establishmentId} activeStep={activeStep}/>}
                 </div>
             </div>
           }

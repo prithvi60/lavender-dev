@@ -35,6 +35,7 @@ function upComingBookings({userInfo}) {
         <div className='text-3xl font-bold py-4'>Upcoming Bookings</div>
         {userInfo?.upcomingBookings.length > 0 ? (
             userInfo?.upcomingBookings?.map((bookings)=>(
+                <div>
             <Card sx={{width: 500, height: 150, borderRadius: 4}}>
                 <Grid container spacing={1}>
                     <Grid item xs={4}>
@@ -51,6 +52,8 @@ function upComingBookings({userInfo}) {
                     </Grid>
                 </Grid>
             </Card> 
+            <br></br>
+            </div>
             // <div className="upcoming-details flex flex-wrap border border-[#CCCCCC] rounded-[20px]">
             //     <div className="text-[#1B1464] bg-[#EEEEFF] text-center gap-2 p-8 aspect-square grid rounded-[20px]">
             //     <span className='font-medium'>{convertToMonthOnly(bookings?.startTime)} {convertToYearOnly(bookings?.startTime)}</span>

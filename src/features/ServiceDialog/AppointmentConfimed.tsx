@@ -24,7 +24,7 @@ const style = {
     borderradius: "2px",
   };
 
-const AppointmentConfimed = ({activeStep}) => {
+const AppointmentConfimed = ({establishmentId, activeStep}) => {
   const [open, setOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
   const navigate = useNavigate();
@@ -49,7 +49,7 @@ const AppointmentConfimed = ({activeStep}) => {
         console.log("in methoddd activeStep ...")
         const payLoad:SaveAppoinment = {
           "customerId": "2500",
-          "establishmentId": "2502",
+          "establishmentId": establishmentId,
           "employeeId": "E101",
           "startTime": convertToDateTime(startTime,selectedDate),
           "endTime": convertToDateTime(endTime,selectedDate),

@@ -62,11 +62,11 @@ function ServiceDialog({establishmentData}) {
 
             {activeStep === 1 && <ScheduleAppointment estData={establishmentData?.data} onSetActiveStep={onSetActiveStep} />}
 
-            {activeStep === 2 && <ConfirmScreen onSetActiveStep={onSetActiveStep} />}
+            {activeStep === 2 && <ConfirmScreen estData={establishmentData?.data} onSetActiveStep={onSetActiveStep} />}
           </div>
 
           <div>
-            <CheckoutCard activeStep={activeStep} next={onSetActiveStep} establishmentName = {establishmentData.data.establishmentName}/>
+            <CheckoutCard activeStep={activeStep} next={onSetActiveStep} establishmentName = {establishmentData.data.establishmentName} establishmentId = {establishmentData.data.id}/>
           </div>
         </div>
       </Dialog>

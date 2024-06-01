@@ -37,6 +37,7 @@ function PastBookings({userInfo}) {
             userInfo?.pastBookings.length > 0 ? (
             
             userInfo?.pastBookings?.map((bookings)=>(
+                <div>
             <Card sx={{width: 500, height: 150, borderRadius: 4}}>
                 <Grid container spacing={1}>
                     <Grid item xs={4}>
@@ -53,6 +54,8 @@ function PastBookings({userInfo}) {
                     </Grid>
                 </Grid>
             </Card> 
+            <br></br>
+            </div>
             ))
         ) :
         (
