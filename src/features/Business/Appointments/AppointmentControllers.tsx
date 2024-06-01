@@ -195,7 +195,25 @@ export function CalendarHeaderComponent({date, onChange}) {
     </LocalizationProvider>
   );
 }
+export function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
 
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box >
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 export const AppointmentDateSelector = ({startDate, endDate, startDateControl, endDateControl}) => {
     const [tabValue, setTabValue] = useState(0)
 
@@ -208,25 +226,7 @@ export const AppointmentDateSelector = ({startDate, endDate, startDateControl, e
       }
     },[endDate])
 
-    function CustomTabPanel(props) {
-      const { children, value, index, ...other } = props;
     
-      return (
-        <div
-          role="tabpanel"
-          hidden={value !== index}
-          id={`simple-tabpanel-${index}`}
-          aria-labelledby={`simple-tab-${index}`}
-          {...other}
-        >
-          {value === index && (
-            <Box >
-              <Typography>{children}</Typography>
-            </Box>
-          )}
-        </div>
-      );
-    }
 
     return (
         <>

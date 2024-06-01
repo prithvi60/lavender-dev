@@ -73,7 +73,7 @@ export function BusinessClients() {
   
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center justify-around py-4">
         {/* <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -84,7 +84,7 @@ export function BusinessClients() {
         /> */}
         <SearchInput
           placeholder={'Search by ID/Client name'}
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          // value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("email")?.setFilterValue(event.target.value)
           }
