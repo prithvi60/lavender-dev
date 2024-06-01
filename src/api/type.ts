@@ -53,3 +53,10 @@ export type BookingResponse = {
     first: boolean;
     empty: boolean;
 };
+
+export enum TimeOfDay {
+    Morning = "morning",
+    Afternoon = "afternoon",
+    Evening = "evening",
+    Night = "night",
+  }

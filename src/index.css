@@ -169,3 +169,7 @@ code {
     border-color: var(--primary-clr);
   }
 }
+
+.custom-bg-light {
+  background-color: #EEEEFF;
+}

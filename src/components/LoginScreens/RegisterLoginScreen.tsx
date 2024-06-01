@@ -29,6 +29,7 @@ function RegisterLoginScreen({isInLoginModal}) {
     const navigate = useNavigate();
 
     function getUserLoginTokenApi(){
+        debugger;
         const payLoad = {
             "email": email,
             "password": password
@@ -36,6 +37,7 @@ function RegisterLoginScreen({isInLoginModal}) {
         // eslint-disable-next-line react-hooks/rules-of-hooks
         let tokenDetails;
         tokenDetails =  endpoint.getUserLoginToken(payLoad);
+
         setTimeout(()=>{
         console.log('tokenDetails', tokenDetails.response);
 
@@ -43,7 +45,7 @@ function RegisterLoginScreen({isInLoginModal}) {
          
     }
     const handleClickContinue = () => {
-        debugger
+        
         console.log('email : ',email)
         console.log('password : ',password)
 
@@ -156,6 +158,7 @@ function RegisterLoginScreen({isInLoginModal}) {
 
             <Grid item spacing={1} xs={12} sx={{padding: '10px'}}>
                 <TextField 
+                autoFocus
                 label="Email Address" 
                 variant="standard" 
                 value={email} 
@@ -176,6 +179,8 @@ function RegisterLoginScreen({isInLoginModal}) {
                 value={password} 
                 fullWidth 
                 onChange={handlePasswordFieldChange} 
+                type="password"
+                sx={{fontSize: '30px'}}
                 />
             </Grid>
 

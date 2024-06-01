@@ -9,7 +9,7 @@ import GetIcon from "../../assets/Icon/icon";
 
 export default function ConfirmScreen(props) {
 
-    const {onSetActiveStep}=props
+    const {estData, onSetActiveStep}=props
 
     return <div className='mt-2 md:mx-16 my-10 h-full urbanist-font'>
         <div className='flex gap-1 mb-2 items-center gap-3'>

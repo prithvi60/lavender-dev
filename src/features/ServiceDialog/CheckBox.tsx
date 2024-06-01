@@ -5,19 +5,23 @@ import {
 } from 'react-redux';
 import GetIcon from '../../assets/Icon/icon';
 
-function CheckBox({ optionName, salePrice, duration, setBtnValue, btnValue, setBtnVariant }) {
+function CheckBox({ serviceId, optionId, optionName, salePrice, duration, setBtnValue, btnValue, setBtnVariant }) {
   const [isChecked, setIsChecked] = useState(false);
   const disPatch = useDispatch()
+console.log('CheckBox duration : ', duration)
+console.log('CheckBox salePrice : ', salePrice)
 
-  function handleSelectBtnClick(serviceName, finalPrice, serviceDuration) {
-    debugger
+  function handleSelectBtnClick(optionId, serviceName, finalPrice, serviceDuration) {
+    
     setIsChecked((prev) => !prev)
     let checkOutObj = {
+      'serviceId': serviceId,
+      'optionId': optionId,
       'serviceName': serviceName,
       'finalPrice': finalPrice,
       'serviceDuration': serviceDuration
     }
-    console.log("checkOutObj : ", checkOutObj)
+    console.log("checkOutObj of all: ", checkOutObj)
     if (btnValue === 'Select') {
       // addItemsToCheckOut(checkOutObj)
       disPatch(updateCheckOut(checkOutObj))
@@ -27,7 +31,7 @@ function CheckBox({ optionName, salePrice, duration, setBtnValue, btnValue, setB
     else {
       // removeItemsToCheckOut(checkOutObj)
       disPatch(resetCheckOut(checkOutObj))
-      debugger
+      
       setBtnValue("Select")
       setBtnVariant("outlined")
     }
@@ -37,8 +41,8 @@ function CheckBox({ optionName, salePrice, duration, setBtnValue, btnValue, setB
     <>
     <div className='cursor-pointer'>
       {isChecked 
-      ? <GetIcon iconName='SelectedIcon'  onClick={() => handleSelectBtnClick(optionName, salePrice, duration)}/>
-      : <GetIcon iconName='PlusIcon'  onClick={() => handleSelectBtnClick(optionName, salePrice, duration)}/>}
+      ? <GetIcon iconName='SelectedIcon'  onClick={() => handleSelectBtnClick(optionId, optionName, salePrice, duration)}/>
+      : <GetIcon iconName='PlusIcon'  onClick={() => handleSelectBtnClick(optionId, optionName, salePrice, duration)}/>}
     </div>
     </>
   );

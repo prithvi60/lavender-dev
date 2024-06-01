@@ -31,12 +31,13 @@ function PastBookings({userInfo}) {
         return dateObj.format('h:mm A');
     }
   return (
-    <div className='mx-24 mt-10'>
+    <div className='mt-10'>
         <div className='text-3xl font-bold py-4'>Past Bookings</div>
         {
             userInfo?.pastBookings.length > 0 ? (
             
             userInfo?.pastBookings?.map((bookings)=>(
+                <div>
             <Card sx={{width: 500, height: 150, borderRadius: 4}}>
                 <Grid container spacing={1}>
                     <Grid item xs={4}>
@@ -53,6 +54,8 @@ function PastBookings({userInfo}) {
                     </Grid>
                 </Grid>
             </Card> 
+            <br></br>
+            </div>
             ))
         ) :
         (

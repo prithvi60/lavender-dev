@@ -11,11 +11,12 @@ import Text from '../Text';
 import Password from '../../features/Login/Password';
 import CheckBox from '../Checkbox';
 import endpoint from '../../api/endpoints';
+import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
 
 function RegisterScreen() {
     // TO DO: Birthdate, month and year dropdown, state management, api integration
     const { addUser } = useSelector((state: any) => state.userAdmin);
-
+    const [openSnackbar, setOpenSnackbar] = useState(false);
     const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1);
     const YEARS = Array.from({ length: 100 }, (_, i) => new Date().getFullYear() - i);
 
@@ -55,9 +56,9 @@ function RegisterScreen() {
         handleOnChange('areaCode', event?.target?.value);
     };
 
-    const handleClickShowPassword = (value) => {
-        handleOnChange('showPassword', value);
-    }
+    // const handleClickShowPassword = (value) => {
+    //     handleOnChange('password', value);
+    // }
 
     const payLoad = {
         "userType": "CUST",
@@ -66,14 +67,29 @@ function RegisterScreen() {
         "password": "123456"
       }
     const handleClickCreate = () => {
-        if (addUser) {
-            dispatch(setAddUser({addUser: false}));
-            const response = endpoint.getUserLoginToken(payLoad)
-            console.log('Responsee : ', response);
-            goBackToPreviousPage();
-        } else {
-            dispatch(isNewAccount({ newAccount: false }));
-            dispatch(setAccountCreated({ accountCreated: true }));
+        console.log('data : ', data)
+        // if (addUser) {
+        //     dispatch(setAddUser({addUser: false}));
+        //     const response = endpoint.getUserLoginToken(payLoad)
+        //     console.log('Responsee : ', response);
+        //     goBackToPreviousPage();
+        // } else {
+        //     dispatch(isNewAccount({ newAccount: false }));
+        //     dispatch(setAccountCreated({ accountCreated: true }));
+        // }
+
+        const payLoad = {
+            "userType": "CUST",
+            "fullName": data.fullName,
+            "emailAddress": data.email,
+            "password": data.password
+        }
+        const response = endpoint.userRegister(payLoad);
+        if(response){
+            setOpenSnackbar(true);
+            setTimeout(()=>{
+                navigate('/');
+            },1000)
         }
     }
   return (
@@ -185,12 +201,15 @@ function RegisterScreen() {
                         </Grid>
                     </Grid>
                     <Grid item xs={12}>
-                        <Password
-                            showPassword={data?.showPassword}
-                            setShowPassword={handleClickShowPassword}
-                            password={data?.password}
-                            onChange={handleOnChange}
+                    <TextField
+                            required
+                            fullWidth
                             id="password"
+                            label="password"
+                            type='password'
+                            name="password"
+                            onChange={handleOnChange}
+                            value={data?.password}
                         />
                     </Grid>
                     <Grid item xs={12} >
@@ -214,6 +233,14 @@ function RegisterScreen() {
                     </Grid>
                 </Grid>
             </Box>
+            {openSnackbar && <Box sx={{ width: 500 }}>
+      {Button}
+      <Snackbar
+        open={openSnackbar}
+        message="user created"
+        key={'top' + 'right'}
+      />
+    </Box>}
     </div>
   )
 }

@@ -27,7 +27,7 @@ const RecommendSection = () => {
     { id: 5, image: emptyLogo, rating: 3.9, reviewCount: 10, location: 'Location 5', tags: ['Tag 9', 'Tag 10'] },
   ];
   const payLoad = {
-    "pageNumber": 1,
+    "pageNumber": 0,
     "pageSize": 10,
     "sortBy": "",
     "sortDirection": "",
@@ -119,7 +119,7 @@ console.log("content", establishmentSearchResult)
         <Slider {...settings} className='home-slider'>
             {establishmentSearchResult?.data?.content?.map((card) => (
                 <div key={card.id}>
-                    <div className="mx-2 md:mx-5 p-6 shadow-lg rounded-xl">
+                    <div className="mx-2 md:mx-5 max-w-lg p-6 shadow-lg rounded-xl">
                         <img src={establishmentImg} alt="CardImage" className="card-image" />
                         <CardContent className='card-content'>
                             <Text variant="h5" align="left" className="card-title" sx={{color: '#4D4D4D'}} name={card.establishmentName}/>
@@ -134,7 +134,7 @@ console.log("content", establishmentSearchResult)
                                 <Text sx={{color: '#4D4D4D'}} variant="body2" align="left" name={card.rating.ratingCount}/>
                             </div>
                             <Text sx={{color: '#808080'}} variant="body2" align="left" className="card-location" name={card.establishmentLocation} />
-                            <div className="card-tags" sx={{display: 'flex', justifyContent: 'center'}}>
+                            <div className="card-tags gap-1" sx={{display: 'flex', justifyContent: 'center'}}>
                                 {card.serviceTags.map((tag, index) => (
                                     <Chip key={index} label={tag} className="small" />
                                 ))}

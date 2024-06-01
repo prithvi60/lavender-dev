@@ -14,7 +14,7 @@ import {
   } from 'react-redux';
 import CheckBox from './CheckBox.tsx';
 function OptionsModal({props}) {
-    
+    console.log('OptionsModal({props})',props)
     const checkOutList = useSelector(
         (state: any) => state.checkOutPage
       );
@@ -31,14 +31,15 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
       };
     
     function handleSelectBtnClick(serviceName, finalPrice, serviceDuration){
-        debugger
+        
         // setIsChecked((prev) => !prev)
         let checkOutObj = {
+            'serviceId': props.serviceId,
             'serviceName': serviceName,
             'finalPrice': finalPrice,
             'serviceDuration': serviceDuration
         }
-        console.log("checkOutObj : ", checkOutObj)
+        console.log("checkOutObj in option : ", checkOutObj)
         if(btnValue === 'Select'){
             // addItemsToCheckOut(checkOutObj)
             disPatch(updateCheckOut(checkOutObj))
@@ -65,7 +66,7 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
     boxShadow: 24,
     p: 4,
     }
-
+    console.log("props.options : ", props.options)
   return (
     <div>
         <Add onClick={handleOpen}/>
@@ -115,7 +116,7 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
                     <Divider/>
                 </div>
                 {
-                    props.options.length > 1 && <Grid container spacing={2} sx={{margin: "5px", padding: "15px"}}>
+                    props.options.length > 0 && <Grid container spacing={2} sx={{margin: "5px", padding: "15px"}}>
                         <Grid xs={12} >
                             <div className='text-2xl font-bold text-gray-500'>Choose options</div>
                         </Grid>
@@ -130,7 +131,7 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
                                         </div>
                                         <div className='px-16 py-4'>
                                         
-                                        <CheckBox  optionName ={option.optionName} salePrice ={option.salePrice} duration ={ option.duration} setBtnValue  = {setBtnValue} btnValue= {btnValue} setBtnVariant ={setBtnVariant}/>
+                                        <CheckBox  serviceId= {props.serviceId} optionId = {option.optionId} optionName ={option.optionName} salePrice ={option.salePrice} duration ={ option.duration} setBtnValue  = {setBtnValue} btnValue= {btnValue} setBtnVariant ={setBtnVariant}/>
 
                                         </div>
                                     </Grid>

@@ -498,6 +498,94 @@
     .slick-arrow{
         position: unset;
     }
+    .slick-list{
+        padding: 20px 10px !important;
+    }
+    .slick-track{
+        display: grid;
+        width: fit-content !important;
+        grid-auto-flow: column;
+        left: 590px;
+        @media (max-width: 590px) {
+            left: 0;
+        }
+        .slick-slide {
+            height: 100%;
+            margin-right: 5px;
+            > div{
+                height: 100%;
+                > div{
+                    height: 100%;
+                    > div{
+                        height: 100%;
+                    }
+                }
+            }
+        }
+        .prev-arrow,
+        .next-arrow{
+            color: unset;
+        }
+    }
+}
+.filter-box{
+    max-width: 500px !important;
+    width: calc(100% - 20px) !important;
+}
+.filters-container{
+    max-height: 75vh;
+    overflow: auto;
+    padding-right: 5px;
+}
+.toggle-ui{
+    padding: 7px !important;
+    .MuiSwitch-track{
+        border-radius: 12px;
+    }
+    .Mui-checked{
+        .MuiSwitch-thumb{
+            background-color: #FFFFFF !important;
+        }
+        & ~ .MuiSwitch-track{
+            background-color: #35AFAC !important;
+            opacity: 1 !important;
+        }
+    }
+}
+.favourite-page-container{
+    height: 100vh;
+    background-color: #F2F2F2;
+    > div{
+        display: grid;
+        grid-template-rows: min-content 1fr;
+        height: 100%;
+    }
+    .favourite-cards{
+        overflow: auto;
+        display: grid;
+        gap: 60px;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        .favourite-card{
+            position: relative;
+            background-color: #FFF;
+            border-radius: 20px;
+            box-shadow: 0 1px 20px rgba(112, 144, 176, 0.15);
+            .favourite-card-content{
+                padding-left: 0;
+                padding-right: 0;
+            }
+            .favorite-icon{
+                position: absolute;
+                top: 35px;
+                right: 35px;
+                cursor: pointer;
+                color: #D34D72;
+            }
+        }
+        @media (max-width: 560px) {
+            gap: 30px;
+        }
+    }
 }
 
 .footer-header{
@@ -548,6 +636,7 @@
 @media (max-width: 760px) {
     .footer-header{
         grid-template-columns: 1fr;
+        place-items: center;
         .footer-dwnld-btn{
             margin-left: 0;
         }
