@@ -8,6 +8,7 @@ import loginPageReducer from './slices/login/loginPageSlice';
 import userAdminReducer from './slices/admin/userAdminSlice';
 import filterModalSlice from './slices/filterModal';
 import checkOutPageSlice from './slices/checkOutPageSlice';
+import ScheduleAppoinmentSlice from './slices/Booking/ScheduleAppoinmentSlice';
 
 const store = configureStore({
   reducer: {
@@ -19,7 +20,8 @@ const store = configureStore({
     userAdmin: userAdminReducer,
     loginPage: loginPageReducer,
     filterModal : filterModalSlice,
-    checkOutPage: checkOutPageSlice
+    checkOutPage: checkOutPageSlice,
+    ScheduleAppoinment: ScheduleAppoinmentSlice
   },
 });
 

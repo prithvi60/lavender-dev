@@ -7,7 +7,10 @@ import Button from "../../components/Button";
 import endpoint from '../../api/endpoints';
 import GetIcon from '../../assets/Icon/icon';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { SaveAppoinment } from '../../interface/interface';
+import { convertToDateTime, convertToISO8601 } from '../../utils/TimeFormat';
+import { resetFilter } from '../../store/slices/Booking/ScheduleAppoinmentSlice';
 const style = {
     position: "absolute",
     top: "50%",
@@ -28,22 +31,28 @@ const AppointmentConfimed = ({activeStep}) => {
   const checkOutList = useSelector(
     (state) => state.checkOutPage
   );
+  const { selectedDate,timeOfDay,startTime,endTime ,id} = useSelector(
+    (state) => state.ScheduleAppoinment
+  );
+  const dispatch = useDispatch();
+
   console.log('checkOutList in appoint : ', checkOutList);
   const handleOpen = () => {
     setOpen((prev) => !prev);
     navigate("/");
   };
 
-  function saveAppointmentClick(){
+  async function saveAppointmentClick(){
+
     
     if(activeStep===2){
         console.log("in methoddd activeStep ...")
-        const payLoad = {
+        const payLoad:SaveAppoinment = {
           "customerId": "2500",
           "establishmentId": "2502",
           "employeeId": "E101",
-          "startTime": "2024-05-30T10:00:00+08:00",
-          "endTime": "2024-05-30T12:30:00+08:00",
+          "startTime": convertToDateTime(startTime,selectedDate),
+          "endTime": convertToDateTime(endTime,selectedDate),
           "totalDuration": checkOutList.checkOut[0].duration,
           "totalCost": checkOutList.checkOut[0].finalPrice,
           "appointmentNotes": "Prefer organic products",
@@ -62,11 +71,16 @@ const AppointmentConfimed = ({activeStep}) => {
           },
           "walkIn": false
         }
-        const appointmentBooking = endpoint.saveAppointmentBookings(payLoad);
+        const appointmentBooking =await endpoint.saveAppointmentBookings(payLoad);
         console.log('appointmentBooking : ', appointmentBooking);
         
-    }
-    setOpen((prev) => !prev);
+        setOpen((prev) => !prev);
+
+        if(appointmentBooking.status === 200){
+          dispatch(resetFilter())
+        }
+      }
+
   }
 
   return (

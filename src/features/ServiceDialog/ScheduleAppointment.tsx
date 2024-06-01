@@ -3,46 +3,36 @@ import { MenuButton as BaseMenuButton } from '@mui/base/MenuButton';
 import { MenuItem as BaseMenuItem, menuItemClasses } from '@mui/base/MenuItem';
 import { styled } from '@mui/system';
 import { Button, Chip, Divider, Grid, Select } from '@mui/material';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import DatePicker from '../../Packages/swiperCalendar/DatePicker.tsx'
 import GetIcon from '../../assets/Icon/icon';
 import { useQuery } from '@tanstack/react-query';
 import endpoint from '../../api/endpoints.ts';
+import { UpdateSelectedDate, UpdateTimeOfDayAndTime } from '../../store/slices/Booking/ScheduleAppoinmentSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { TimeOfDay } from '../../api/type';
 
 export default function ScheduleAppointment(props) {
-  const {estData, onSetActiveStep} = props
-  const [availableTimeSlots, setAvailableTimeSlots] = React.useState<any>([]);
+  const { estData, onSetActiveStep } = props
+  const [availableTimeSlots, setAvailableTimeSlots] = React.useState<IScheduleAppointmentList>([]);
   const [clickedChipIndices, setClickedChipIndices] = React.useState({});
-  const {isLoading, data: appointmentTimings} = useQuery({queryKey: ["query-appointment-timing"], queryFn: () => { return endpoint.getAvailableSlots(payLoad)}})
-  console.log('appointmentTimings : ', appointmentTimings?.data);
-
-  const selectedDay = (val) => {
-    console.log("hiiiiii : ", val)
-    const date = new Date(val);
-    // Extract year, month, and day
-    const year = date.getFullYear().toString().slice(-2); // Last two digits of the year
-    const month = ("0" + (date.getMonth() + 1)).slice(-2); // Adding leading zero if month < 10
-    const day = ("0" + date.getDate()).slice(-2); // Adding leading zero if day < 10
-    
-    // Concatenate the formatted parts
-    const formattedDate = `${year}-${month}-${day}`;
-    const test = appointmentTimings?.data.filter(slot => slot.availableDate === formattedDate);
-    console.log('test : ',test);
-
-    setAvailableTimeSlots(test);
-    //TODO set date value in store redux
-  };
-  console.log('availableTimeSlots : ',availableTimeSlots);
-  const testaTS = availableTimeSlots?.length > 0 && availableTimeSlots[0]?.availableSlots;
-  console.log('testaTS', testaTS);
-
+  const dispatch = useDispatch();
+  const { selectedDate,timeOfDay,startTime,endTime ,id} = useSelector(
+    (state) => state.ScheduleAppoinment
+  );
   
+  // useQuery with enabled option that depends on selectedDate
+  const { isLoading, data: appointmentTimings } = useQuery({ queryKey:
+    ['query-appointment-timing'],
+    queryFn: () => fetchAvailableSlots()}
+  );
 
-  const currentDate = new Date();
-  console.log('9999999999999999', currentDate);
+  // Function to fetch available slots
+  const fetchAvailableSlots = async () => {
+    // const payLoad = { date }; // Adjust payload as needed
+    // const currentDate = new Date();
 
   const payLoad = {
-    "startDate": currentDate,
+    "startDate": new Date(),
     "establishmentId": estData.id,
     "employeeId": "E002",
     "totalDuration": 30,
@@ -50,12 +40,32 @@ export default function ScheduleAppointment(props) {
       "hair"
     ]
   }
+    return await endpoint.getAvailableSlots(payLoad);
+  };
 
-  // const Timings = {
-  //   morning: ['8:00 am', '9:00 am', '10:00 am'],
-  //   afternoon: ['8:00 am', '9:00 am', '10:00 am'],
-  //   evening: ['8:00 am', '9:00 am', '11:00 am']
-  // }
+  
+
+
+  const selectedDay = (val) => {
+    const date = new Date(val);
+    // Extract year, month, and day
+    const year = date.getFullYear().toString().slice(-2); // Last two digits of the year
+    const month = ("0" + (date.getMonth() + 1)).slice(-2); // Adding leading zero if month < 10
+    const day = ("0" + date.getDate()).slice(-2); // Adding leading zero if day < 10
+
+    // Concatenate the formatted parts
+    const formattedDate = `${year}-${month}-${day}`;
+    const test = appointmentTimings?.filter(slot => slot.availableDate === formattedDate);
+    console.log('test : ', test);
+
+    setAvailableTimeSlots(test);
+    //TODO set date value in store redux
+    dispatch(UpdateSelectedDate({selectedDate: date}));
+
+  };
+  console.log('availableTimeSlots : ', availableTimeSlots);
+  const testaTS = availableTimeSlots?.length > 0 && availableTimeSlots[0]?.availableSlots;
+  
 
   const createHandleMenuClick = (menuItem: string) => {
     return () => {
@@ -63,68 +73,77 @@ export default function ScheduleAppointment(props) {
     };
   };
   const handleClick = (timePeriod, slot, index) => {
+    
     console.log(`Clicked chip Start Time ${timePeriod},- ${slot.startTime}, End Time - ${slot.endTime}`);
-    setClickedChipIndices(prevState => ({
-      ...prevState,
-      [timePeriod]: index
-  }));
-};
-  React.useEffect(()=>{},[availableTimeSlots])
+    // setClickedChipIndices(prevState => ({
+    //   ...prevState,
+    //   [timePeriod]: index
+    // }));
+
+
+
+    dispatch(UpdateTimeOfDayAndTime({TimeOfDay: TimeOfDay[timePeriod],
+      startTime : slot.startTime,
+      endTime: slot.endTime,
+      id:slot.id
+    }));
+  };
+  React.useEffect(() => { }, [availableTimeSlots])
   return (
 
     <div className='mt-2 md:mx-16 my-10'>
       <div className='flex gap-3 mb-2 items-center'>
-      <GetIcon iconName='BackIcon' onClick={()=>onSetActiveStep(0)}/>
-      <div className='font-bold text-3xl'>Schedule</div>
+        <GetIcon iconName='BackIcon' onClick={() => onSetActiveStep(0)} />
+        <div className='font-bold text-3xl'>Schedule</div>
       </div>
 
       <div className='mb-4'>
 
-      <DatePicker getSelectedDay={selectedDay}
-        endDate={30}
-        selectDate={new Date()}
-        labelFormat={"MMMM"}
-        color={"black"}
-      />
-        
+        <DatePicker getSelectedDay={selectedDay}
+          endDate={30}
+          selectDate={selectedDate}
+          labelFormat={"MMMM"}
+          color={"black"}
+        />
+
       </div>
 
       <div className='mt-4'>
 
-        {availableTimeSlots?.length > 0 ? Object.entries(availableTimeSlots[0]?.availableSlots).map(([timePeriod, slotsArray]) => {
-    return (
-        <div className='schedule-chips' key={timePeriod}>
-            <p className='font-semibold capitalize'>{timePeriod}</p>
-            <div className='flex items-center flex-wrap gap-2'>
+        {!isLoading && availableTimeSlots?.length > 0 ? Object.entries(availableTimeSlots[0]?.availableSlots).map(([timePeriod, slotsArray]) => {
+          return (
+            <div className='schedule-chips' key={timePeriod}>
+              <p className='font-semibold capitalize'>{timePeriod}</p>
+              <div className='flex items-center flex-wrap gap-2'>
                 {slotsArray?.map((slot, index) => {
-                    return (
-                        <div className='cursor-pointer' key={index}>
-                            <Chip 
-                            label={`${slot.startTime} - ${slot.endTime}`} 
-                            variant="outlined" 
-                            onClick={() => handleClick(timePeriod, slot, index)} 
-                            style={{ backgroundColor: clickedChipIndices[timePeriod] === index ? '#E6E1FF' : 'inherit' }}/>
-                        </div>
-                    );
+                  return (
+                    <div className='cursor-pointer' key={index}>
+                      <Chip
+                        label={`${slot.startTime} - ${slot.endTime}`}
+                        variant="outlined"
+                        onClick={() => handleClick(timePeriod, slot, index)}
+                        style={{ backgroundColor: slot.id === id  ? '#E6E1FF' : 'inherit' }} />
+                    </div>
+                  );
                 })}
+              </div>
+              {/* TODO */}
+              <Divider />
             </div>
-            {/* TODO */}
-            <Divider />
-        </div>
-    );
-})
- :
-            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                <GetIcon onClick={    
-                    () => {
-                    console.log("filter icon clicked")
-                    }}
-                    className='my-5 mx-16 p-1 cursor-pointer rounded-sm' 
-                    iconName="SlotBoxesFilled"/>
-                <div id="title" className="font-bold text-xl mb-3 " style={{color: '#4D4D4D'}}>We are fully booked</div>
-                <div style={{color: '#4D4D4D'}}>How about the next slot on 20th March ?</div>
-                <Button  onClick={()=>{}} sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px'}} variant="contained" >Go to 20th March</Button>
-            </div>
+          );
+        })
+          :
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <GetIcon onClick={
+              () => {
+                console.log("filter icon clicked")
+              }}
+              className='my-5 mx-16 p-1 cursor-pointer rounded-sm'
+              iconName="SlotBoxesFilled" />
+            <div id="title" className="font-bold text-xl mb-3 " style={{ color: '#4D4D4D' }}>We are fully booked</div>
+            <div style={{ color: '#4D4D4D' }}>How about the next slot on 20th March ?</div>
+            <Button onClick={() => { }} sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }} variant="contained" >Go to 20th March</Button>
+          </div>
         }
 
         <Grid key={100} container item spacing={2}>
@@ -135,21 +154,21 @@ export default function ScheduleAppointment(props) {
 
           <Grid container columnSpacing={2} item xs={8}>
             <Grid item>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={'age'}
-              label="Age"
-            >
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={'age'}
+                label="Age"
+              >
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
             </Grid>
           </Grid>
         </Grid>
 
-        <Button onClick={()=>onSetActiveStep(2)} variant="outlined">Next</Button>      </div>
+        <Button onClick={() => onSetActiveStep(2)} variant="outlined">Next</Button>      </div>
     </div>
 
   );
@@ -195,9 +214,8 @@ const Listbox = styled('ul')(
   background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
   border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
   color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  box-shadow: 0px 4px 6px ${
-    theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.50)' : 'rgba(0,0,0, 0.05)'
-  };
+  box-shadow: 0px 4px 6px ${theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.50)' : 'rgba(0,0,0, 0.05)'
+    };
   z-index: 1;
   `,
 );
