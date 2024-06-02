@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { range, addDateBy, areDatesSame, getMonday } from "./utils";
+import { range, addDateBy, areDatesSame, getMonday, getCurrentTime12HrFormat } from "./utils";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { DAYS, DayWrapper, FlexBox, HGrid, Hour, HourLine, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, Appointment, Wrapper, HourLineWithLabel } from './CalenderComponents'
 import GetIcon from "../../../assets/Icon/icon";
@@ -45,7 +45,11 @@ export const DayCalendar = ({data}) => {
         <HGrid first={"60px"} cols={1}>
           <VGrid rows={24}>
             {range(24).map((hour) => (
-              <Hour>{hour}</Hour>
+              <Hour>
+                {`${!hour ? '12' : ((hour % 12) || '12')}.00`}
+                <br/>
+                {`${hour >= 12 ? 'PM' : 'AM'}`}
+              </Hour>
             ))}
           </VGrid>
           <HGrid cols={7}>
@@ -85,7 +89,7 @@ export const DayCalendar = ({data}) => {
         }}
         ></div> */}
         <HourLineWithLabel
-          label={`${hourNow}:${minutesNow}`}
+          label={getCurrentTime12HrFormat(hourNow, minutesNow)}
           fromTop={
             hourNow * HOUR_HEIGHT +
             HOUR_MARGIN_TOP +

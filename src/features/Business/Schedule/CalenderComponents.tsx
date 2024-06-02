@@ -18,8 +18,8 @@ export const HOUR_HEIGHT = 120;
 export const HOUR_MARGIN_TOP = 128;
 export const Wrapper = styled('div')(({theme}) => `
   // width: calc(100% - 30px);
-  border: 1px solid red;
-  margin: 15px;
+  border: 1px solid #CCCCCC;
+  // margin: 15px;
   position: relative;
 `);
 
@@ -35,14 +35,14 @@ export const HGrid = styled('div')<EventProps>(({theme, first, cols}) => `
 export const VGrid = styled('div')<EventProps>(({theme, rows}) => `
   display: grid;
   grid-template-rows: repeat(${rows}, 1fr); 
-
+  background: #F2F2F2;
   &:first-child {
     margin-top: ${HOUR_MARGIN_TOP}px;
   }
 `);
 
 export const DayWrapper = styled('span')<EventProps>(({theme, isToday}) => `
-  border: 1px solid red;
+  border: 1px solid #CCCCCC;
   display: relative;
   background: ${(isToday ? "#F2CEE6" : "")};
   width: 317px;
@@ -53,7 +53,8 @@ export const Hour = styled('span')(({theme}) => `
   display: flex;
   align-items: flex-start;
   justify-content: right;
-  border: 1px solid black;
+  text-align: end;
+  // border: 1px solid black;
 `);
 
 export const HourLine = styled('div')<EventProps>(({theme, fromTop}) => `
@@ -97,7 +98,7 @@ export const HourLineWithLabel: React.FC<HourLineWithLabelProps> = ({ label, fro
   return (
     <Box display="flex" alignItems="center">
       <Typography variant="body2" 
-      style={{ zIndex: 20, position:'absolute', marginRight: '10px', 
+      style={{ width: '45px', zIndex: 20, position:'absolute', 
       top: (fromTop-12) + 'px', color: 'white', backgroundColor: '#825FFF', 
       left: '17px', borderRadius: '5px',   padding: '5px'}}>
         {label}

@@ -20,3 +20,15 @@ export const getMonday = () => {
   const first = today.getDate() - today.getDay() + 1;
   return new Date(today.setDate(first))
 }
+
+export const getCurrentTime12HrFormat = (hours, minutes) => {
+  
+  const minutesStr = String(minutes).padStart(2, '0');
+  // const ampm = hours >= 12 ? 'PM' : 'AM';
+
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  const hoursStr = String(hours).padStart(2, '0');
+
+  return `${hoursStr}:${minutesStr}`;
+}
