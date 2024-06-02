@@ -8,7 +8,7 @@ import BusinessHeader from '../features/Business/BusinessHeader';
 import { BusinessClients } from '../features/Business/Clients/BusinessClients';
 import {Services} from '../features/Business/services/Services'
 import BusinessTeam from '../features/Business/team/BusinessTeam';
-//import CalenderTimeline from '../features/Business/Schedule/CalenderTimeline';
+import SchedulePage from '../features/Business/Schedule/SchedulePage';
 
 const BusinessLayoutPage = () => {
   //const [isSearchPage, setIsSearchPage] = useState(true);
@@ -19,8 +19,8 @@ const BusinessLayoutPage = () => {
     switch (activeField) {
       case 'Home':
         return <div>Home</div>;
-      // case 'Schedule':
-      //   return <SchedulePage />;
+      case 'Schedule':
+        return <SchedulePage />;
       case 'Appointments':
         return <AppointmentsPage/>
       case 'Clients':

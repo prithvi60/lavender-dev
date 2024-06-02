@@ -5,12 +5,16 @@ import { DayCalendar } from './DayCalender'
 import GetIcon from '../../../assets/Icon/icon'
 
 const appointments = [
-  { date: new Date(2024, 4, 26, 10), text: "first hi", howLong: 3, employee: 'John test' },
-  { date: new Date(2024, 4, 26, 19), text: "second", howLong: 2, employee: 'John test' },
-  { date: new Date(2024, 5, 1, 11), text: "third", howLong: 2, employee: 'John two' },
-  { date: new Date(2024, 0, 2, 13), text: "forth", howLong: 2, employee: 'John test' },
-  { date: new Date(), text: "Current appointment", howLong: 2, employee: 'John four' },
+  { date: new Date(2024, 5, 2, 0), text: "first hi", howLong: 3, status: '#8280BA', employee: 'John test' },
+  { date: new Date(2024, 4, 26, 19), text: "second", howLong: 2, status: '#35AFAC', employee: 'John test' },
+  { date: new Date(2024, 5, 1, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John two' },
+  { date: new Date(2024, 0, 2, 13), text: "forth", howLong: 2, status: '#E6E1FF', employee: 'John test' },
+  { date: new Date(2024, 5, 1, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John three' },
+  // { date: new Date(), text: "Current appointment", howLong: 2, status: '#', employee: 'John four' },
 ]
+
+const colors = ['#8280BA', '#35AFAC', '#FF83B0', '#E6E1FF']
+const nullColors = ['#E6E6E6', '#fff']
 
 function groupAppointmentsByEmployee(appointments) {
   const grouped = {};

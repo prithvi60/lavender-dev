@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { range, addDateBy, areDatesSame, getMonday } from "./utils";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { DAYS, DayWrapper, FlexBox, HGrid, Hour, HourLine, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, Appointment, Wrapper } from './CalenderComponents'
+import { DAYS, DayWrapper, FlexBox, HGrid, Hour, HourLine, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, Appointment, Wrapper, HourLineWithLabel } from './CalenderComponents'
+import GetIcon from "../../../assets/Icon/icon";
 
 export const DayCalendar = ({data}) => {
 
@@ -28,7 +29,7 @@ export const DayCalendar = ({data}) => {
 
   return (
     <>
-      <FlexBox>
+      {/* <FlexBox>
         <p>today: {new Date().toDateString()}</p>
         <p>from: {mondayDate?.toDateString()}</p>
         <p>to: {addDateBy(mondayDate, 6).toDateString()}</p>
@@ -39,7 +40,7 @@ export const DayCalendar = ({data}) => {
         <button onClick={nextWeek}>
            <ChevronRight/>
         </button>
-      </FlexBox>
+      </FlexBox> */}
       <Wrapper>
         <HGrid first={"60px"} cols={1}>
           <VGrid rows={24}>
@@ -49,31 +50,42 @@ export const DayCalendar = ({data}) => {
           </VGrid>
           <HGrid cols={7}>
             {appointments.map((employee, index) => (
-              <DayWrapper
-                onDoubleClick={() => onAddEvent(addDateBy(mondayDate, index))}
-              >
-                <p>{employee.employee}</p>
-                {employee.appointments.map(
-                  (appointment) =>
+                <DayWrapper
+                  onDoubleClick={() => onAddEvent(addDateBy(mondayDate, index))}
+                >
+                  <div className="h-32 flex flex-col items-center justify-center font-bold">
+                  <GetIcon svgWidth='80' svgHeight='80' className='' iconName={'ProfileIcon'}/>
+                  <>{employee.employee}</>
+                  </div>
+                  
+                  {employee.appointments.map(
+                    (appointment) =>
+                      // areDatesSame(addDateBy(mondayDate, index), appointment.date) && 
                     (
-                      <Appointment
-                        howLong={appointment.howLong}
-                        fromTop={
-                          appointment.date.getHours() * HOUR_HEIGHT 
-                          +
-                          HOUR_HEIGHT / 2 +
-                          appointment.date.getMinutes() / 2
-                        }
-                      >
-                        {appointment.text}
-                      </Appointment>
-                    )
-                )}
-              </DayWrapper>
+                        <Appointment
+                          statusColor={appointment.status}
+                          howLong={appointment.howLong}
+                          fromTop={
+                            (appointment.date.getHours() * HOUR_HEIGHT) + HOUR_MARGIN_TOP + (appointment.date.getMinutes() * 2)
+                          }
+                        >
+                          {appointment.text}
+                          <br/>
+                          {appointment.date.toString()}
+                        </Appointment>
+                      )
+                  )}
+                </DayWrapper>
             ))}
           </HGrid>
         </HGrid>
-        <HourLine
+        {/* <div className="absolute w-full border-9 border-solid border-orange-400"
+        style={{top: 
+          `${(hourNow * HOUR_HEIGHT) + HOUR_MARGIN_TOP + (minutesNow * 2)}px`
+        }}
+        ></div> */}
+        <HourLineWithLabel
+          label={`${hourNow}:${minutesNow}`}
           fromTop={
             hourNow * HOUR_HEIGHT +
             HOUR_MARGIN_TOP +
