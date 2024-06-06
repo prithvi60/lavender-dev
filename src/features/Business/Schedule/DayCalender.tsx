@@ -10,8 +10,6 @@ export const DayCalendar = ({data}) => {
   const [appointments, setAppointments] = useState(data);
 //   const employees = filterByEmployees(appointments)
 
-  const hourNow = new Date().getHours();
-  const minutesNow = new Date().getMinutes();
 
   const nextWeek = () => setMondayDate(addDateBy(mondayDate, 7));
   const prevWeek = () => setMondayDate(addDateBy(mondayDate, -7));
@@ -52,15 +50,22 @@ export const DayCalendar = ({data}) => {
               </Hour>
             ))}
           </VGrid>
-          <HGrid cols={7}>
+          <HGrid cols={appointments.length}>
             {appointments.map((employee, index) => (
                 <DayWrapper
                   onDoubleClick={() => onAddEvent(addDateBy(mondayDate, index))}
                 >
-                  <div className="h-32 flex flex-col items-center justify-center font-bold">
-                  <GetIcon svgWidth='80' svgHeight='80' className='' iconName={'ProfileIcon'}/>
-                  <>{employee.employee}</>
+                  <div className="h-[120px] flex flex-col flex-grow-0 items-center justify-center font-bold border-b border-b-gray-400">
+                    <GetIcon svgWidth='80' svgHeight='80' className='' iconName={'ProfileIcon'}/>
+                    <>{employee.employee}</>
                   </div>
+                  {range(24).map((hour) => (
+                    <Hour className="flex flex-col">
+                      {range(4).map((block) => (
+                        <div className="border-b border-dashed border-spacing-1 border-b-[#B3B3B3] w-full h-1/4 last:border-b-0"></div>
+                      ))}
+                    </Hour>
+                  ))}
                   
                   {employee.appointments.map(
                     (appointment) =>
@@ -83,20 +88,9 @@ export const DayCalendar = ({data}) => {
             ))}
           </HGrid>
         </HGrid>
-        {/* <div className="absolute w-full border-9 border-solid border-orange-400"
-        style={{top: 
-          `${(hourNow * HOUR_HEIGHT) + HOUR_MARGIN_TOP + (minutesNow * 2)}px`
-        }}
-        ></div> */}
-        <HourLineWithLabel
-          label={getCurrentTime12HrFormat(hourNow, minutesNow)}
-          fromTop={
-            hourNow * HOUR_HEIGHT +
-            HOUR_MARGIN_TOP +
-            HOUR_HEIGHT / 2 +
-            minutesNow / 2
-          }
-        />
+
+        <HourLineWithLabel/>
+
         </Wrapper>
     </>
   );

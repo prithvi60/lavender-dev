@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, useState, useEffect } from "react";
+import { getCurrentTime12HrFormat } from './utils'
 
 interface EventProps extends HTMLAttributes<HTMLDivElement> {
     fromTop?: number;
@@ -15,9 +16,9 @@ interface EventProps extends HTMLAttributes<HTMLDivElement> {
 export const DAYS = ["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"];
 
 export const HOUR_HEIGHT = 120;
-export const HOUR_MARGIN_TOP = 128;
+export const HOUR_MARGIN_TOP = 120;
 export const Wrapper = styled('div')(({theme}) => `
-  // width: calc(100% - 30px);
+  width: 100%;
   border: 1px solid #CCCCCC;
   // margin: 15px;
   position: relative;
@@ -42,19 +43,23 @@ export const VGrid = styled('div')<EventProps>(({theme, rows}) => `
 `);
 
 export const DayWrapper = styled('span')<EventProps>(({theme, isToday}) => `
-  border: 1px solid #CCCCCC;
-  display: relative;
-  background: ${(isToday ? "#F2CEE6" : "")};
-  width: 317px;
+  display: grid;
+  grid-template-rows: repeat(${24}, 1fr); 
+  background: #F2F2F2;
+  position: relative;
+  // background: ${(isToday ? "#F2CEE6" : "")};
+  max-width: 100%;
+  min-width: 317px;
+
 `);
 
-export const Hour = styled('span')(({theme}) => `
+export const Hour = styled('div')(({theme}) => `
   height: ${HOUR_HEIGHT}px;
   display: flex;
   align-items: flex-start;
   justify-content: right;
   text-align: end;
-  // border: 1px solid black;
+  border: 1px solid #CCCCCC;
 `);
 
 export const HourLine = styled('div')<EventProps>(({theme, fromTop}) => `
@@ -84,23 +89,41 @@ export const Appointment = styled('div')<EventProps>(({theme, fromTop, howLong, 
   background: ${statusColor};
   height: ${howLong * HOUR_HEIGHT}px;
   color: ${statusColor === '#E6E1FF' ? 'black' : 'white'};
-  width: 305px;
-  margin: 0px 5px;
+  width: 100%;
+  margin: 0px 2px;
   padding: 5px;
-  border-radius: 6px;
+  border-radius: 12px;
 `);
 
-interface HourLineWithLabelProps extends EventProps {
-  label: string;
-}
 
-export const HourLineWithLabel: React.FC<HourLineWithLabelProps> = ({ label, fromTop }) => {
+
+export const HourLineWithLabel: React.FC = () => {
+
+  const [time, setTime] = useState(new Date())
+  const hourNow = time.getHours();
+  const minutesNow = time.getMinutes();
+
+  const fromTop = 
+    (hourNow * HOUR_HEIGHT) + HOUR_MARGIN_TOP + (minutesNow * 2)
+
+  const label= getCurrentTime12HrFormat(hourNow, minutesNow)
+
+  useEffect(() => {
+
+    const intervalId = setInterval(() => {
+      setTime(new Date());
+    }, 60000);
+
+    return () => clearInterval(intervalId);
+  }, [time]);
+  
   return (
     <Box display="flex" alignItems="center">
       <Typography variant="body2" 
-      style={{ width: '45px', zIndex: 20, position:'absolute', 
-      top: (fromTop-12) + 'px', color: 'white', backgroundColor: '#825FFF', 
-      left: '17px', borderRadius: '5px',   padding: '5px'}}>
+        style={{ width: '45px', zIndex: 20, position:'absolute', 
+        top: (fromTop-12) + 'px', color: 'white', backgroundColor: '#825FFF', 
+        left: '17px', borderRadius: '5px',   padding: '5px'}}
+      >
         {label}
       </Typography>
       <HourLine fromTop={fromTop} />

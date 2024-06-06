@@ -10,6 +10,9 @@ const appointments = [
   { date: new Date(2024, 5, 1, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John two' },
   { date: new Date(2024, 0, 2, 13), text: "forth", howLong: 2, status: '#E6E1FF', employee: 'John test' },
   { date: new Date(2024, 5, 1, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John three' },
+  { date: new Date(2024, 5, 1, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John four' },
+  { date: new Date(2024, 0, 2, 13), text: "forth", howLong: 2, status: '#E6E1FF', employee: 'John five' },
+  { date: new Date(2024, 5, 1, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John six' },
   // { date: new Date(), text: "Current appointment", howLong: 2, status: '#', employee: 'John four' },
 ]
 
@@ -41,7 +44,7 @@ function SchedulePage() {
     <div>
       <div id='Header' className='flex justify-between m-3' >
         <div className='flex  items-center'>
-          <Button className='shadow-lg bg-white' variant='outline' color='inherit' style={{fontWeight:'bold'}}>Today</Button>
+          <Button className='shadow-lg bg-white mr-10' variant='outline' color='inherit' style={{fontWeight:'bold'}}>Today</Button>
           <div>Calender date range picker</div>
         </div>
 
@@ -49,14 +52,16 @@ function SchedulePage() {
           <Button variant='outline' className='w-10 border-2'>
             <GetIcon iconName='FilterIcon'/>
           </Button>
-          <div className='flex border rounded w-40'>
+          <div className='flex border rounded w-40 ml-10'>
             <Button onClick={() => setDurationState('Day')} className={`w-1/2 font-bold  ${durationState === 'Day' ? 'bg-primary text-white' : ''}`} variant='null'>Day</Button>
             <Button onClick={() => setDurationState('Week')} className={`w-1/2 font-bold ${durationState === 'Week' ? 'bg-primary text-white' : ''}`} variant='null'>Week</Button>
           </div>
         </div>
 
       </div>
-      {durationState === 'Day' ? <DayCalendar data={filteredAppointments}/> : <WeeklyCalendar data={appointments}/>}
+      <div className='overflow-x-scroll'>
+        {durationState === 'Day' ? <DayCalendar data={filteredAppointments}/> : <WeeklyCalendar data={appointments}/>}
+      </div>
     </div>
   )
 }
