@@ -9,10 +9,25 @@ import { BusinessClients } from '../features/Business/Clients/BusinessClients';
 import {Services} from '../features/Business/services/Services'
 import BusinessTeam from '../features/Business/team/BusinessTeam';
 import SchedulePage from '../features/Business/Schedule/SchedulePage';
+import endpoint from '../api/endpoints.ts';
+import { useQuery } from '@tanstack/react-query';
+import { useDispatch, useSelector } from 'react-redux';
+import { setEstablishmentData } from '../store/slices/businessSlice.js';
 
 const BusinessLayoutPage = () => {
   //const [isSearchPage, setIsSearchPage] = useState(true);
   const [activeField, setActiveField] = useState("Schedule")
+  const dispatch = useDispatch()
+  const getData = useSelector(
+    (state) => state.businessSlice
+  );
+
+  const { data: establishmentData, isLoading: isLoading, error: userDataError, refetch: refetchUserData } = 
+  useQuery({queryKey: ['query-establishment'], queryFn: () =>{ return endpoint.getEstablishmentDetailsById('2502')}})
+  if(!isLoading) {
+    console.log("establishmentDatahere : : : ", establishmentData)
+    dispatch(setEstablishmentData(establishmentData))
+  }
 
   const renderMainContent = () => {
     console.log("test", activeField, Date.now())

@@ -60,3 +60,17 @@ export enum TimeOfDay {
     Evening = "evening",
     Night = "night",
   }
+
+export type SchedulePayload = {
+    pageNumber?: number;
+    pageSize?: number;
+    sortBy?: string;
+    sortDirection?: string;
+    establishmentId?: string;
+    customerId?: string;
+    customerName?: string;
+    fromDate?: string;
+    toDate?: string;
+    fromCost?: number;
+    toCost?: number;
+}
