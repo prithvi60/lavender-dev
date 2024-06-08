@@ -32,3 +32,46 @@ export const getCurrentTime12HrFormat = (hours, minutes) => {
 
   return `${hoursStr}:${minutesStr}`;
 }
+
+export function getMonthAndDayNames(date) {
+
+  const options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  
+  const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+  return formattedDate;
+}
+
+export function addTime(date, range, value) {
+  let result = new Date(date);
+  console.log('addTime res 1', result)
+
+  switch(range) {
+    case 'days':
+      result.setDate(result.getDate() + value);
+      break;
+    case 'months':
+      result.setMonth(result.getMonth() + value);
+      break;
+    case 'years':
+      result.setFullYear(result.getFullYear() + value);
+      break;
+    case 'hours': 
+    result.setHours(result.getHours() + value);
+      break;
+    case 'minutes': 
+    result.setMinutes(result.getMinutes() + value);
+      break;
+    case 'seconds': 
+    result.setSeconds(result.getSeconds() + value);
+      break;
+    default:
+      break;
+  }
+  console.log('addTime res', result)
+  return result;
+}

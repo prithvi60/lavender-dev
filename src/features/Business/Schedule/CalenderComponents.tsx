@@ -1,8 +1,11 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { HTMLAttributes, useState, useEffect } from "react";
-import { getCurrentTime12HrFormat } from './utils'
-
+import { getCurrentTime12HrFormat, getMonthAndDayNames, addTime } from './utils'
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from '@radix-ui/react-dropdown-menu';
+import { CalendarHeaderComponent } from '../Appointments/AppointmentControllers';
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import { GetScheduleDates } from './BusinessScheduleContext';
 interface EventProps extends HTMLAttributes<HTMLDivElement> {
     fromTop?: number;
     howLong?: number;
@@ -31,6 +34,7 @@ export const HGrid = styled('div')<EventProps>(({theme, first, cols}) => `
       1fr
     );
   width: 100%;
+  height: 100%
 `);
 
 export const VGrid = styled('div')<EventProps>(({theme, rows}) => `
@@ -48,6 +52,7 @@ export const DayWrapper = styled('span')<EventProps>(({theme, isToday}) => `
   background: #F2F2F2;
   position: relative;
   // background: ${(isToday ? "#F2CEE6" : "")};
+  // border: 1px solid #CCCCCC;
   max-width: 100%;
   min-width: 317px;
 
@@ -59,7 +64,7 @@ export const Hour = styled('div')(({theme}) => `
   align-items: flex-start;
   justify-content: right;
   text-align: end;
-  border: 1px solid #CCCCCC;
+  // border: 1px solid #CCCCCC;
 `);
 
 export const HourLine = styled('div')<EventProps>(({theme, fromTop}) => `
@@ -89,7 +94,7 @@ export const Appointment = styled('div')<EventProps>(({theme, fromTop, howLong, 
   background: ${statusColor};
   height: ${howLong * HOUR_HEIGHT}px;
   color: ${statusColor === '#E6E1FF' ? 'black' : 'white'};
-  width: 100%;
+  width: 98%;
   margin: 0px 2px;
   padding: 5px;
   border-radius: 12px;
@@ -131,3 +136,49 @@ export const HourLineWithLabel: React.FC = () => {
   );
 };
 
+export const CalenderDateSelector = ({ view }) => {
+
+  const { selectedDate, setSelectedDate } = GetScheduleDates()
+  console.log("CalenderDateSelector 2", selectedDate)
+
+  return (
+      <div>
+          <DropdownMenu>
+              
+                <div className='w-72 flex justify-between border border-gray-400 border-solid rounded-lg'>
+                  <button className='p-2 border-r border-r-gray-400 border-solid' 
+                    onClick={() => {
+                      setSelectedDate(addTime(selectedDate, 'days', -1))
+                    }}
+                  >
+                    <ChevronLeft/>
+                  </button>
+                  <DropdownMenuTrigger>
+                    {
+                      view === 'Day' ? 
+                      <div>
+                        {getMonthAndDayNames(selectedDate)}
+                      </div>
+                      :
+                      <div>
+                        {selectedDate.toLocaleDateString('en-au')}
+                      </div>
+                    }
+                  </DropdownMenuTrigger>
+
+                  <button className='p-2 border-l border-l-gray-400 border-solid' 
+                    onClick={() => {
+                      setSelectedDate(addTime(selectedDate, 'days', 1))
+                    }}>
+                    <ChevronRight/>
+                  </button>
+
+                </div>
+              <DropdownMenuContent className='bg-white relative z-50 '>
+                <CalendarHeaderComponent date={selectedDate} onChange={setSelectedDate}/>
+              </DropdownMenuContent>
+          </DropdownMenu>
+
+      </div>
+  )
+}

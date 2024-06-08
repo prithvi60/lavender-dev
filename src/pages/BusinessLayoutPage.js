@@ -46,7 +46,7 @@ const BusinessLayoutPage = () => {
           <div className='shadow-2xl rounded-lg h-max'>
             <SideBar activeField={activeField} onChange={setActiveField}/>
           </div>
-          <div id='render-main' className='w-full h-screen overflow-x-auto'>
+          <div id='render-main' className='w-full h-screen' style={{overflowX:'hidden'}}>
             {renderMainContent()}
           </div>
         </div> 

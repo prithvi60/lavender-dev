@@ -89,3 +89,6 @@ export const BUSINESS_NAV = [
 ]
 
 export const bookingStatusFilters = ["Confirmed", "Booked", "Cancelled", "Finished"]
+
+export const statusColors = ['#8280BA', '#35AFAC', '#FF83B0', '#E6E1FF']
+export const nullStatusColors = ['#E6E6E6', '#fff']

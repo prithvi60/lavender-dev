@@ -243,17 +243,18 @@ export const AppointmentDateSelector = ({startDate, endDate, startDateControl, e
 
                     <Tabs
                         value={tabValue}
-                        sx={{
-                            "& button": {},
-                            // "& button:focus": {backgroundColor: 'blue', color: 'white'},
-                            "& ": { textTransform:'initial', minHeight: '35px'}
-                        }}
                         onChange={(event,v: number) => setTabValue(v)}
                     >
-                        <Tab icon={<GetIcon iconName={'CalenderIcon'}/>} iconPosition="start" label="Starting date" />
-                        <Tab icon={<GetIcon iconName={'CalenderIcon'}/>} iconPosition="start" label="Ending date" />
-                        
+                        <Tab 
+                          sx={{ "& ": { textTransform:'initial', minHeight: '35px'}}}
+                          icon={<GetIcon iconName={'CalenderIcon'}/>} iconPosition="start" label="Starting date" 
+                        />
+                        <Tab 
+                          sx={{ "& ": { textTransform:'initial', minHeight: '35px'}}} 
+                          icon={<GetIcon iconName={'CalenderIcon'}/>} iconPosition="start" label="Ending date" 
+                        />
                     </Tabs>
+
                 </Box>
                 <CustomTabPanel value={tabValue} index={0}>
                   <CalendarHeaderComponent date={startDate} onChange={startDateControl}/>

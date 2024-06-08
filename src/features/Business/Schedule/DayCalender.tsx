@@ -40,17 +40,17 @@ export const DayCalendar = ({data}) => {
         </button>
       </FlexBox> */}
       <Wrapper>
-        <HGrid first={"60px"} cols={1}>
-          <VGrid rows={24}>
+        <HGrid  first={"60px"} cols={1}>
+          <VGrid className="mb-[18px]" rows={24}>
             {range(24).map((hour) => (
-              <Hour>
+              <Hour className="border-r border-[#CCCCCC]">
                 {`${!hour ? '12' : ((hour % 12) || '12')}.00`}
                 <br/>
                 {`${hour >= 12 ? 'PM' : 'AM'}`}
               </Hour>
             ))}
           </VGrid>
-          <HGrid cols={appointments.length}>
+          <HGrid className='overflow-x-scroll' cols={appointments.length}>
             {appointments.map((employee, index) => (
                 <DayWrapper
                   onDoubleClick={() => onAddEvent(addDateBy(mondayDate, index))}
@@ -60,9 +60,9 @@ export const DayCalendar = ({data}) => {
                     <>{employee.employee}</>
                   </div>
                   {range(24).map((hour) => (
-                    <Hour className="flex flex-col">
+                    <Hour className="flex flex-col border-r border-solid border-r-gray-400">
                       {range(4).map((block) => (
-                        <div className="border-b border-dashed border-spacing-1 border-b-[#B3B3B3] w-full h-1/4 last:border-b-0"></div>
+                        <div className="border-b border-dashed border-b-[#B3B3B3] w-full h-1/4 last:border-solid"></div>
                       ))}
                     </Hour>
                   ))}
