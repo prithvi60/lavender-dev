@@ -1,11 +1,8 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { HTMLAttributes, useState, useEffect } from "react";
-import { getCurrentTime12HrFormat, getMonthAndDayNames, addTime } from './utils'
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from '@radix-ui/react-dropdown-menu';
-import { CalendarHeaderComponent } from '../Appointments/AppointmentControllers';
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { GetScheduleDates } from './BusinessScheduleContext';
+import { getCurrentTime12HrFormat } from '../utils'
+
 interface EventProps extends HTMLAttributes<HTMLDivElement> {
     fromTop?: number;
     howLong?: number;
@@ -100,8 +97,6 @@ export const Appointment = styled('div')<EventProps>(({theme, fromTop, howLong, 
   border-radius: 12px;
 `);
 
-
-
 export const HourLineWithLabel: React.FC = () => {
 
   const [time, setTime] = useState(new Date())
@@ -135,50 +130,3 @@ export const HourLineWithLabel: React.FC = () => {
     </Box>
   );
 };
-
-export const CalenderDateSelector = ({ view }) => {
-
-  const { selectedDate, setSelectedDate } = GetScheduleDates()
-  console.log("CalenderDateSelector 2", selectedDate)
-
-  return (
-      <div>
-          <DropdownMenu>
-              
-                <div className='w-72 flex justify-between border border-gray-400 border-solid rounded-lg'>
-                  <button className='p-2 border-r border-r-gray-400 border-solid' 
-                    onClick={() => {
-                      setSelectedDate(addTime(selectedDate, 'days', -1))
-                    }}
-                  >
-                    <ChevronLeft/>
-                  </button>
-                  <DropdownMenuTrigger>
-                    {
-                      view === 'Day' ? 
-                      <div>
-                        {getMonthAndDayNames(selectedDate)}
-                      </div>
-                      :
-                      <div>
-                        {selectedDate.toLocaleDateString('en-au')}
-                      </div>
-                    }
-                  </DropdownMenuTrigger>
-
-                  <button className='p-2 border-l border-l-gray-400 border-solid' 
-                    onClick={() => {
-                      setSelectedDate(addTime(selectedDate, 'days', 1))
-                    }}>
-                    <ChevronRight/>
-                  </button>
-
-                </div>
-              <DropdownMenuContent className='bg-white relative z-50 '>
-                <CalendarHeaderComponent date={selectedDate} onChange={setSelectedDate}/>
-              </DropdownMenuContent>
-          </DropdownMenu>
-
-      </div>
-  )
-}

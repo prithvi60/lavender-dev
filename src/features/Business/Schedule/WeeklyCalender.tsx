@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { range, addDateBy, areDatesSame, getMonday } from "./utils";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { DAYS, DayWrapper, FlexBox, HGrid, Hour, HourLine, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, Appointment } from './CalenderComponents'
+import { DAYS, DayWrapper, FlexBox, HGrid, Hour, HourLine, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, Appointment } from './components/CalenderComponents'
 
 
 export const WeeklyCalendar = ({data}) => {

@@ -46,9 +46,21 @@ export function getMonthAndDayNames(date) {
   return formattedDate;
 }
 
+export function getWeekDateRangeFormat(startDate, endDate) {
+  const options = { month: 'long', day: 'numeric' };
+
+  const formatter = new Intl.DateTimeFormat('en-US', options);
+  const yearFormatter = new Intl.DateTimeFormat('en-US', { year: 'numeric' });
+
+  const start = formatter.format(startDate);
+  const end = formatter.format(endDate);
+  const year = yearFormatter.format(endDate);
+
+  return `${start} - ${end}, ${year}`;
+}
+
 export function addTime(date, range, value) {
   let result = new Date(date);
-  console.log('addTime res 1', result)
 
   switch(range) {
     case 'days':
@@ -72,6 +84,23 @@ export function addTime(date, range, value) {
     default:
       break;
   }
-  console.log('addTime res', result)
   return result;
+}
+
+export function filterByDateRange(appointments, startDate, endDate) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  return appointments.filter(appointment => {
+    const date = new Date(appointment.date);
+    return date >= start && date <= end;
+  });
+}
+
+export function filterByDate(appointments, selectedDate) {
+  const date = new Date(selectedDate);
+
+  return appointments.filter(appointment => {
+    const appointmentdate = new Date(appointment.date);
+    return appointmentdate === date;
+  });
 }

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { range, addDateBy, areDatesSame, getMonday, getCurrentTime12HrFormat } from "./utils";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { DAYS, DayWrapper, FlexBox, HGrid, Hour, HourLine, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, Appointment, Wrapper, HourLineWithLabel } from './CalenderComponents'
+import { DAYS, DayWrapper, FlexBox, HGrid, Hour, HourLine, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, Appointment, Wrapper, HourLineWithLabel } from './components/CalenderComponents'
 import GetIcon from "../../../assets/Icon/icon";
 
 export const DayCalendar = ({data}) => {

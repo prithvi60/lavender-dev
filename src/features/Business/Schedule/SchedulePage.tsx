@@ -3,7 +3,7 @@ import { WeeklyCalendar } from './WeeklyCalender'
 import { Button } from '../../../components/ui/button'
 import { DayCalendar } from './DayCalender'
 import GetIcon from '../../../assets/Icon/icon'
-import { CalenderDateSelector } from './CalenderComponents'
+import { CalenderDateSelector } from './components/CalenderDateSelector'
 import { ScheduleProvider } from './BusinessScheduleContext'
 const appointments = [
   { date: new Date(2024, 5, 2, 0, 30), text: "first hi", howLong: 3, status: '#8280BA', employee: 'John test' },
