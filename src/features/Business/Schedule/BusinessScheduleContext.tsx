@@ -1,20 +1,50 @@
-import { createContext, useContext, useState } from 'react';
-import { addTime, getMonday } from './utils';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { addTime, appointments, filterAppointmentsByDate, getMonday, groupAppointmentsByEmployee, getEmployeesList } from './utils';
+import { useQuery } from '@tanstack/react-query';
+import endpoint from '../../../api/endpoints';
+import { useSelector } from 'react-redux';
 
 const ScheduleContext = createContext(null);
 
 export const GetScheduleDates = () => useContext(ScheduleContext);
 
 export const ScheduleProvider = ({ children }) => {
+
+  const [durationState, setDurationState] = useState('Day')
   const [ selectedDate , setSelectedDate] = useState(new Date())
   const [ filterWeekStartDate , setFilterWeekStartDate] = useState(getMonday())
   const [ filterWeekEndDate , setFilterWeekEndDate] = useState(addTime(filterWeekStartDate, 'days', 6))
-  
+  const employees = [{employeeName: 'John test'}, {employeeName: 'John two'}, {employeeName: 'John three'}, 
+    {employeeName: 'John four'}, {employeeName: 'John five'}, {employeeName: 'John six'}]
+  // API call for getting appointments for given date range
+  // const payload = {
+  //   "fromDate": "2024-06-01T23:27:00.000+00:00",
+  //   "toDate": "2024-06-01T23:27:00.000+00:00"
+  // }
+  // const {isLoading, data: userInfo} = useQuery({queryKey: ["query-user-info"], queryFn: () => { return endpoint.getBusinessAppointments(payload)}})
+
+  // !isLoading && console.log("userInfo ScheduleProvider >", userInfo)
+
+  //gets establishmentState from store
+  // const establishmentState = useSelector(
+  //   (state: any) =>  state.businessEstablishment
+  // );
+  // const employees =(getEmployeesList(establishmentState))
+  const [filteredAppointments, setFilteredAppointments] = useState(groupAppointmentsByEmployee(filterAppointmentsByDate(appointments, selectedDate)));
+
+  useEffect(() => {
+    const newApp = groupAppointmentsByEmployee(filterAppointmentsByDate(appointments, selectedDate))
+    setFilteredAppointments(newApp)
+    console.log("filterAppointmentsByDate >",newApp)
+  }, [selectedDate])
+
+  const value = { selectedDate, setSelectedDate, filterWeekStartDate, filterWeekEndDate, 
+    setFilterWeekEndDate, setFilterWeekStartDate, filteredAppointments, setFilteredAppointments, 
+    durationState, setDurationState, employees}
 
   return (
     <ScheduleContext.Provider 
-      value={{ selectedDate, setSelectedDate, filterWeekStartDate, filterWeekEndDate, 
-      setFilterWeekEndDate, setFilterWeekStartDate }}>
+      value={value}>
       {children}
     </ScheduleContext.Provider>
   );

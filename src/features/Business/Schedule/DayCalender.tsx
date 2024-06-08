@@ -1,44 +1,20 @@
-import { useState } from "react";
-import { range, addDateBy, areDatesSame, getMonday, getCurrentTime12HrFormat } from "./utils";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { DAYS, DayWrapper, FlexBox, HGrid, Hour, HourLine, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, Appointment, Wrapper, HourLineWithLabel } from './components/CalenderComponents'
+import { useEffect, useState } from "react";
+import { range, addDateBy, getMonday } from "./utils";
+import { DayWrapper, HGrid, Hour, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, Appointment, Wrapper, HourLineWithLabel } from './components/CalenderComponents'
 import GetIcon from "../../../assets/Icon/icon";
+import { GetScheduleDates } from "./BusinessScheduleContext";
 
-export const DayCalendar = ({data}) => {
+export const DayCalendar = () => {
 
-  const [mondayDate, setMondayDate] = useState(getMonday());
-  const [appointments, setAppointments] = useState(data);
-//   const employees = filterByEmployees(appointments)
-
-
-  const nextWeek = () => setMondayDate(addDateBy(mondayDate, 7));
-  const prevWeek = () => setMondayDate(addDateBy(mondayDate, -7));
+  const { filteredAppointments, employees } = GetScheduleDates()
   
-  const onAddEvent = (date) => {
-    const text = "Hello"
-    const from = 10;
-    const to = 12;
+  const mondayDate = getMonday();
+  const appointments = filteredAppointments;
 
-    date.setHours(from);
-    // date.setMinutes(from)
-
-    setAppointments((prev) => [...prev, { text, date, howLong: to - from }]);
-  };
+  console.log("appointment day", appointments)
 
   return (
     <>
-      {/* <FlexBox>
-        <p>today: {new Date().toDateString()}</p>
-        <p>from: {mondayDate?.toDateString()}</p>
-        <p>to: {addDateBy(mondayDate, 6).toDateString()}</p>
-
-        <button onClick={prevWeek}>
-            <ChevronLeft/>
-        </button>
-        <button onClick={nextWeek}>
-           <ChevronRight/>
-        </button>
-      </FlexBox> */}
       <Wrapper>
         <HGrid  first={"60px"} cols={1}>
           <VGrid className="mb-[18px]" rows={24}>
@@ -50,14 +26,15 @@ export const DayCalendar = ({data}) => {
               </Hour>
             ))}
           </VGrid>
-          <HGrid className='overflow-x-scroll' cols={appointments.length}>
-            {appointments.map((employee, index) => (
+          <HGrid className='overflow-x-scroll' cols={employees.length}>
+            {employees ? 
+            employees.map((employee, index) => (
                 <DayWrapper
-                  onDoubleClick={() => onAddEvent(addDateBy(mondayDate, index))}
+                  //onDoubleClick={() => onAddEvent(addDateBy(mondayDate, index))}
                 >
                   <div className="h-[120px] flex flex-col flex-grow-0 items-center justify-center font-bold border-b border-b-gray-400">
                     <GetIcon svgWidth='80' svgHeight='80' className='' iconName={'ProfileIcon'}/>
-                    <>{employee.employee}</>
+                    <>{employee.employeeName}</>
                   </div>
                   {range(24).map((hour) => (
                     <Hour className="flex flex-col border-r border-solid border-r-gray-400">
@@ -67,8 +44,8 @@ export const DayCalendar = ({data}) => {
                     </Hour>
                   ))}
                   
-                  {employee.appointments.map(
-                    (appointment) =>
+                  {appointments.filter((appointment) => appointment.employee === employee.employeeName)[0]?.appointments?.map(
+                    (appointment, data) =>
                       // areDatesSame(addDateBy(mondayDate, index), appointment.date) && 
                     (
                         <Appointment
@@ -85,7 +62,11 @@ export const DayCalendar = ({data}) => {
                       )
                   )}
                 </DayWrapper>
-            ))}
+            )) 
+            : 
+            <div className="flex w-full h-full justify-center items-center bg-slate-950 text-white">
+              No employees...
+            </div>}
           </HGrid>
         </HGrid>
 

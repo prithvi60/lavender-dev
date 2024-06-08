@@ -1,10 +1,10 @@
+import { useSelector } from 'react-redux';
+
 export const range = (keyCount) => [...Array(keyCount).keys()]
 
 
 export const areDatesSame = (first, second) => {
-    console.log("areDatesSame >>",first.getFullYear() === second.getFullYear(),
-    first.getMonth() === second.getMonth() ,
-    first.getDate() === second.getDate())
+
   return first.getFullYear() === second.getFullYear() &&
   first.getMonth() === second.getMonth() &&
   first.getDate() === second.getDate()
@@ -101,6 +101,60 @@ export function filterByDate(appointments, selectedDate) {
 
   return appointments.filter(appointment => {
     const appointmentdate = new Date(appointment.date);
-    return appointmentdate === date;
+    return areDatesSame(appointmentdate, date);
   });
+}
+
+//Parser Utils and constants
+
+export const appointments = [
+  { date: new Date(2024, 5, 8, 0, 30), text: "first hi", howLong: 3, status: '#8280BA', employee: 'John test' },
+  // { date: new Date(2024, 5, 8, 1, 30), text: "first hi", howLong: 3, status: '#35AFAC', employee: 'John test' },
+  { date: new Date(2024, 5, 9, 19, 15), text: "second", howLong: 2, status: '#35AFAC', employee: 'John test' },
+  { date: new Date(2024, 5, 10, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John two' },
+  { date: new Date(2024, 5, 9, 13), text: "forth", howLong: 2, status: '#E6E1FF', employee: 'John test' },
+  { date: new Date(2024, 5, 10, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John three' },
+  { date: new Date(2024, 5, 8, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John four' },
+  { date: new Date(2024, 5, 8, 13), text: "forth", howLong: 2, status: '#E6E1FF', employee: 'John five' },
+  { date: new Date(2024, 5, 9, 14), text: "third", howLong: 2, status: '#FF83B0', employee: 'John six' },
+  { date: new Date(2024, 5, 9, 19), text: "third", howLong: 2, status: '#FF83B0', employee: 'John five' },
+  { date: new Date(2024, 5, 9, 3), text: "third", howLong: 2, status: '#FF83B0', employee: 'John three' },
+
+  // { date: new Date(), text: "Current appointment", howLong: 2, status: '#', employee: 'John four' },
+]
+
+export function filterAppointmentsByDate(appointments, selectedDate) {
+  let filteredAppointments = []
+  filteredAppointments= filterByDate(appointments, selectedDate)
+  return filteredAppointments
+}
+
+export function groupAppointmentsByEmployee(appointments) {
+  const grouped = {};
+  const employees = []
+  
+  appointments.forEach(appointment => {
+    const employee = appointment.employee;
+    employees.push(employee)
+    if (!grouped[employee]) {
+      grouped[employee] = { employee, appointments: [] };
+    }
+    
+    grouped[employee].appointments.push(appointment);
+  });
+
+  return Object.values(grouped);
+}
+
+export function getEmployeesList(establishmentState) {
+  if(true){
+    return ['John test', 'John two', 'John three', 'John four', 'John five', 'John six']
+  }
+  const employees = []
+  //TODO: use the reducer to get the establishment data
+  establishmentState?.establishmentData?.employees?.forEach(employee => {
+    employees.push(employee?.employeeName)
+  });
+
+  return employees;
 }

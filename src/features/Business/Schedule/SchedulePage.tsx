@@ -1,51 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { WeeklyCalendar } from './WeeklyCalender'
 import { Button } from '../../../components/ui/button'
 import { DayCalendar } from './DayCalender'
 import GetIcon from '../../../assets/Icon/icon'
 import { CalenderDateSelector } from './components/CalenderDateSelector'
-import { ScheduleProvider } from './BusinessScheduleContext'
-const appointments = [
-  { date: new Date(2024, 5, 2, 0, 30), text: "first hi", howLong: 3, status: '#8280BA', employee: 'John test' },
-  { date: new Date(2024, 4, 26, 19, 15), text: "second", howLong: 2, status: '#35AFAC', employee: 'John test' },
-  { date: new Date(2024, 5, 1, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John two' },
-  { date: new Date(2024, 0, 2, 13), text: "forth", howLong: 2, status: '#E6E1FF', employee: 'John test' },
-  { date: new Date(2024, 5, 1, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John three' },
-  { date: new Date(2024, 5, 1, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John four' },
-  { date: new Date(2024, 0, 2, 13), text: "forth", howLong: 2, status: '#E6E1FF', employee: 'John five' },
-  { date: new Date(2024, 5, 1, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John six' },
-  // { date: new Date(), text: "Current appointment", howLong: 2, status: '#', employee: 'John four' },
-]
-
-function filterAppointmentsByDate(appointments) {
-  const filteredAppointments = []
-  
-  return filteredAppointments
-}
-
-function groupAppointmentsByEmployee(appointments) {
-  const grouped = {};
-  
-  appointments.forEach(appointment => {
-    const employee = appointment.employee;
-    
-    if (!grouped[employee]) {
-      grouped[employee] = { employee, appointments: [] };
-    }
-    
-    grouped[employee].appointments.push(appointment);
-  });
-
-  return Object.values(grouped);
-}
+import { GetScheduleDates, ScheduleProvider } from './BusinessScheduleContext'
 
 function SchedulePage() {
 
-  const [durationState, setDurationState] = useState('Day')
+  const { durationState, setDurationState } = GetScheduleDates()
 
-  const filteredAppointments = groupAppointmentsByEmployee(appointments)
   return (
-    <ScheduleProvider>
       <div>
         <div id='Header' className='flex justify-between m-3' >
           <div className='flex  items-center'>
@@ -69,13 +34,20 @@ function SchedulePage() {
 
         </div>
         <div >
-          {durationState === 'Day' ? <DayCalendar data={filteredAppointments}/> : <WeeklyCalendar data={appointments}/>}
+          {durationState === 'Day' ? <DayCalendar/> : 
+          //<WeeklyCalendar data={filteredAppointments}/>
+          <></>
+          }
         </div>
-    </div>
-
-    </ScheduleProvider>
-    
+      </div>    
   )
 }
 
-export default SchedulePage
+function SchedulePageWrapper({children}) {
+  return (
+    <ScheduleProvider>
+      <SchedulePage/>
+    </ScheduleProvider>
+  )
+}
+export default SchedulePageWrapper

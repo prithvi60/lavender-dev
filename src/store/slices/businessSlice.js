@@ -9,10 +9,10 @@ export const businessSlice = createSlice({
   initialState,
   reducers: {
     setEstablishmentData: (state, action) => {
-      state.newAccount = action.payload.data
+      state.establishmentData = action.payload.data
     },
     getEstablishmentData: (state, action) => {
-        state.newAccount = action.payload.data
+        return state.establishmentData
     },
     reset: (state) => {
       state = {...initialState}
