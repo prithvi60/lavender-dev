@@ -5,16 +5,29 @@ import { DayCalendar } from './DayCalender'
 import GetIcon from '../../../assets/Icon/icon'
 import { CalenderDateSelector } from './components/CalenderDateSelector'
 import { GetScheduleDates, ScheduleProvider } from './BusinessScheduleContext'
+import { addTime, getMonday } from './utils'
 
 function SchedulePage() {
 
-  const { durationState, setDurationState } = GetScheduleDates()
+  const { durationState, setDurationState, setSelectedDate, setFilterWeekEndDate, setFilterWeekStartDate } = GetScheduleDates()
+
+  const setCurrentDuration = () => {
+    if(durationState === 'Day') {
+      setSelectedDate(new Date())
+    }else {
+      const monday = getMonday()
+      setFilterWeekStartDate(monday)
+      setFilterWeekEndDate(addTime(monday, 'days', 6))
+    }
+  }
 
   return (
       <div>
         <div id='Header' className='flex justify-between m-3' >
           <div className='flex  items-center'>
-            <Button className='shadow-lg bg-white mr-10' variant='outline' color='inherit' style={{fontWeight:'bold'}}>Today</Button>
+            <Button className='bg-white mr-10 font-bold' variant='outline' onClick={setCurrentDuration}>
+              {durationState === 'Day' ? 'Today' : 'This Week'}
+            </Button>
             <div>
               <CalenderDateSelector 
                   view={durationState}

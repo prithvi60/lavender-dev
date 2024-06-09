@@ -11,7 +11,7 @@ const BusinessHeader = ({pageName}) => {
 
     return (
         <nav className={`bg-white md:text-sm shadow-md w-full`}>
-            <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-2 md:flex md:px-4 py-2">
+            <div className="gap-x-14 items-center px-2 md:flex md:px-4 py-2">
                 <div className="flex flex-row items-center justify-between p-2">
                     <GetIcon
                             className="cursor-pointer  mr-8"
