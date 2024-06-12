@@ -30,10 +30,11 @@ function RegisterLoginScreen({isInLoginModal}) {
 
     function getUserLoginTokenApi(){
         debugger;
-        const payLoad = {
-            "email": email,
-            "password": password
-        }
+        const payLoad ={
+            "loginId": email,
+            "password": password,
+            "userType":"OC"
+          }
         // eslint-disable-next-line react-hooks/rules-of-hooks
         let tokenDetails;
         tokenDetails =  endpoint.getUserLoginToken(payLoad);
@@ -42,7 +43,13 @@ function RegisterLoginScreen({isInLoginModal}) {
         console.log('tokenDetails', tokenDetails.response);
 
         }, 1000)
-         
+
+        const loginPayLoad = {
+            "email": "admin1@lavender.com",
+            "password": "12345"
+        }
+
+        const currentUserDetails = endpoint.getCurrentUserDetails(loginPayLoad)
     }
     const handleClickContinue = () => {
         

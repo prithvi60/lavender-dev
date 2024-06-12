@@ -10,6 +10,8 @@ export const businessAppointment = 'b/getAppointmentList'
 
 export const userLogin = 'au/login'
 
+export const currentUserDetails = 'au/getCurrentUserDetails'
+
 export const userRegister = 'au/signUp'
 
 export const availableSlots = 'c/fetchAvailableSlots'

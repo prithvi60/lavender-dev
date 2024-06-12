@@ -11,6 +11,7 @@ import {
   businessAppointment,
   userRegister,
   availableSlots,
+  currentUserDetails,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -48,6 +49,11 @@ class Endpoint {
       `${BaseURL}${userRegister}`,
       payload
     );
+    return response;
+  }
+
+  async getCurrentUserDetails(payload) {
+    const response = await axiosInstance.get(`${BaseURL}${currentUserDetails}`);
     return response;
   }
 
