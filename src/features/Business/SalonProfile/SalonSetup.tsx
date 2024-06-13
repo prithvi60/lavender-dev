@@ -8,6 +8,8 @@ import Buttons from '../../../components/Button'
 import CloseIcon from "@mui/icons-material/Close";
 import { BusinessInfo } from './SalonProfileSteps/BusinessInfo/BusinessInfo'
 import { Photos } from './SalonProfileSteps/Photos'
+import { AdditionalInfo } from './SalonProfileSteps/AdditionalInfo'
+import { Publish } from './SalonProfileSteps/Publish'
 
 export const SalonSetup = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -59,9 +61,9 @@ export const SalonSetup = () => {
 
             {activeStep === 1 && <Photos />}
 
-            {activeStep === 2 && <div> Additional info</div>}
+            {activeStep === 2 && <AdditionalInfo />}
 
-            {activeStep === 3 && <div> Publish</div>}
+            {activeStep === 3 && <Publish />}
             
           </div>
 

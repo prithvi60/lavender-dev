@@ -310,6 +310,13 @@ function GetIcon(props) {
       <path d="M19.2098 3.08642H15.4074L14.321 2H8.88887L7.80246 3.08642H4V5.25925H19.2098M5.08642 19.3827C5.08642 19.9589 5.31534 20.5116 5.72282 20.9191C6.13031 21.3266 6.68298 21.5555 7.25925 21.5555H15.9506C16.5268 21.5555 17.0795 21.3266 17.487 20.9191C17.8945 20.5116 18.1234 19.9589 18.1234 19.3827V6.34566H5.08642V19.3827Z" fill="#B3B3B3"/>
       </svg>
     break;
+    case 'CloseIcon':
+      IconElement = <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13.3327 3.16797L2.66602 13.8346" stroke="#4D4D4D" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M2.66536 3.16797L13.332 13.8346" stroke="#4D4D4D" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      
+    break;
     case 'CalendarConfirmedIcon':
       IconElement = <svg width="133" height="110" viewBox="0 0 133 110" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g clip-path="url(#clip0_948_26910)">
