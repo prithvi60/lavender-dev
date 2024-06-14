@@ -20,7 +20,11 @@ export const Photos = () => {
   };
 
   return (
-    <DragDropContext onDragEnd={handleDragEnd}>
+    <div>
+        <div className='text-5xl font-bold text-center p-2' style={{color: '#4D4D4D'}}>Add photos</div>
+        <div className='text-xl font-normal text-center p-2 mb-8' style={{color: '#4D4D4D'}}>We recommend uploading at least 5 photos for better reach</div>
+
+        <DragDropContext onDragEnd={handleDragEnd}>
       <div>
         <ImageUploading
           multiple
@@ -75,6 +79,8 @@ export const Photos = () => {
           )}
         </ImageUploading>
       </div>
-    </DragDropContext>
+        </DragDropContext>
+    </div>
+    
   );
 };

@@ -10,6 +10,7 @@ import { BusinessInfo } from './SalonProfileSteps/BusinessInfo/BusinessInfo'
 import { Photos } from './SalonProfileSteps/Photos'
 import { AdditionalInfo } from './SalonProfileSteps/AdditionalInfo'
 import { Publish } from './SalonProfileSteps/Publish'
+import GetIcon from '../../../assets/Icon/icon'
 
 export const SalonSetup = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -23,6 +24,12 @@ export const SalonSetup = () => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
     }
+    const handleBack = () => {
+        if(activeStep===0){
+            setIsOpen(false);
+        }
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+      };
   
     function handleClose() {
       setIsOpen(false);
@@ -35,6 +42,14 @@ export const SalonSetup = () => {
         <Dialog fullScreen open={isOpen} onClose={handleClose}>
         <Toolbar className="mb-4 stepper-header">
             <Box sx={{ width: '100%' }}>
+                <IconButton
+                color="inherit"
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+                >
+                    <GetIcon iconName={'BackIcon'}/>
+                </IconButton>
+
                 <Stepper activeStep={activeStep} alternativeLabel>
                     {steps.map((label) => (
                     <Step key={label}>
@@ -44,7 +59,7 @@ export const SalonSetup = () => {
                 </Stepper>
             </Box>
             <Buttons sx={{borderRadius: '10px', padding: '10px 40px 10px 40px'}} variant= 'contained' onClick={onSetActiveStep} name={'Proceed'}> </Buttons>
-            <IconButton
+            {/* <IconButton
             edge="start"
             color="inherit"
             onClick={handleClose}
@@ -52,7 +67,7 @@ export const SalonSetup = () => {
             sx={{marginLeft: '5px'}}
             >
             <CloseIcon />
-            </IconButton>
+            </IconButton> */}
         </Toolbar>
         <div className="flex flex-wrap md:flex-nowrap w-full h-full gap-6 mg:gap-0 max-w-7xl mx-auto py-4 px-6">
           <div className="w-full md:p-8">
