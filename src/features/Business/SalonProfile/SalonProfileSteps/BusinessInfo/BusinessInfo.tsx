@@ -120,7 +120,7 @@ export const BusinessInfo = () => {
                             </CardContent>
                             <CardContent>
                                 <Typography sx={{fontSize: '18px', fontWeight: '700', color: '#4D4D4D'}}>About</Typography>
-                                <TextField fullWidth size='small' id="outlined-basic" variant="outlined" {...register("establishmentName")} />
+                                <TextField fullWidth size='small' id="outlined-basic" variant="outlined" {...register("establishmentAbout")} />
                                 {errors.establishmentAbout && <p className='text-red-500 font-medium'>{errors.establishmentAbout.message}</p>}
                             </CardContent>
                             <CardContent>

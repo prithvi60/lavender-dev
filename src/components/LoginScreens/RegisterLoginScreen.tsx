@@ -114,18 +114,14 @@ function RegisterLoginScreen({isInLoginModal}) {
         ?
         <RegisterScreen />
         :
-        <Grid item spacing={7} sx={{padding: ''}}>
+        <Grid item spacing={7} sx={{padding: ''}} >
 
             <Grid item xs={12} >
                 <Box sx={{padding: '10px', display: 'flex', justifyContent: 'center'}}>
-                    {/* <img src={emptyLogo} alt="Logo" style={{ width: '15%' }} /> */}
-                    {/* <GetIcon className='cursor-pointer' onClick= {gotoLandingPage} iconName='LavenderLogo'/> */}
                     <div style={{display: 'flex'}}>
                         <GetIcon className='cursor-pointer' iconName='LavenderLogo'/>
                         <Text className="cursor-pointer flex" variant="h6" sx={{ flexGrow: 1, color: '#1B1464', fontWeight: '700' }} name="Lavender"/>
                     </div>
-                    
-                    
                 </Box>
             </Grid>
 

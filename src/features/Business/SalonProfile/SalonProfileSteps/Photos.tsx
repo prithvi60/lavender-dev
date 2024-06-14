@@ -47,12 +47,13 @@ export const Photos = () => {
                             {...provided.draggableProps}
                             {...provided.dragHandleProps}
                             className="image-item"
+                            style={{padding: '10px'}}
                           >
-                            <Card style={{ width: '200px', height: '200px' }}>
+                            <Card style={{ width: '200px', height: '200px'}}>
                               <img src={image.data_url} alt="" />
                             </Card>
                             <div className="image-item__btn-wrapper">
-                              <button onClick={() => onImageUpdate(index)}>Update</button>
+                              {/* <button onClick={() => onImageUpdate(index)}>Update</button> */}
                               <button onClick={() => onImageRemove(index)}>Remove</button>
                             </div>
                           </div>
@@ -63,7 +64,8 @@ export const Photos = () => {
                   </div>
                 )}
               </Droppable>
-              <Card style={{ width: '200px', height: '200px' }}>
+              <div style={{padding: '10px'}}>
+              <Card style={{ width: '200px', height: '200px'}}>
                 <CardContent sx={{ marginTop: '30px' }}>
                   <button
                     style={isDragging ? { color: "red" } : null}
@@ -74,7 +76,7 @@ export const Photos = () => {
                     <GetIcon style={{ display: 'flex', justifyContent: 'center' }} iconName='PlusIcon' />
                   </button>
                 </CardContent>
-              </Card>
+              </Card></div>
             </div>
           )}
         </ImageUploading>

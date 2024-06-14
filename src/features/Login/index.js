@@ -22,7 +22,7 @@ const Login = ({children}) => {
                         }
 
                         <Grid item xs={!isSmallScreen ? 8 : 12}>
-                            <Paper elevation={3} className='login-subcontainer'>
+                            <Paper elevation={3} className='login-subcontainer' >
                                 <main>{children}</main>
                                 {/* {!newAccount && !accountCreated && <LoginLanding />}
                                 {newAccount && <RegisterSide />}
