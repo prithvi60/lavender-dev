@@ -22,7 +22,6 @@ const LandingPage = () => {
 
     useEffect(()=>{
         if(tokenValue){
-            
             const tokenVal = jwtDecode(tokenValue)
             console.log('tokenVal : ', tokenVal)
             const tempUserName = tokenVal.sub.substring(0, 5);

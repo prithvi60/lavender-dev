@@ -38,6 +38,7 @@ axiosInstance.interceptors.request.use(
 
 class Endpoint {
   async getUserLoginToken(payload) {
+    debugger
     const response = await axiosInstance.post(
       `${BaseURL}${userLogin}`,
       payload
@@ -108,9 +109,18 @@ class Endpoint {
   }
 
   async setTenantToken(data: any) {
+    debugger
     // add to cache
-    setBrowserCache("Token", data.token);
-    setBrowserCache("TokenExpiry", data.expiresIn);
+    if(data.success){
+      setBrowserCache("Token", data?.data?.token);
+      setBrowserCache("TokenExpiry", data?.data?.expiresIn);
+      setBrowserCache("UserId", data?.data?.userId);
+      if(data?.data?.establishmentId){
+        setBrowserCache("EstablishmentId", data?.data?.establishmentId);
+  
+      }
+    }
+    
   }
 
   // Business Endpoints

@@ -8,11 +8,11 @@ export const customerProfile = 'c/getCustomerProfile'
 
 export const businessAppointment = 'b/getAppointmentList'
 
-export const userLogin = 'au/login'
+export const userLogin = 'u/login'
 
 export const currentUserDetails = 'au/getCurrentUserDetails'
 
-export const userRegister = 'au/signUp'
+export const userRegister = 'u/signUp'
 
 export const availableSlots = 'c/fetchAvailableSlots'
 
