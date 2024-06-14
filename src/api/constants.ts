@@ -20,6 +20,8 @@ export const appointmentBooking = 'c/saveAppointmentBooking'
 
 export const saveEstablishment = 'e/saveEstablishment/profile'
 
+export const saveWorkingHours = 'e/saveEstablishment/timeslot'
+
 
 export function setBrowserCache(key: string, value: any) {
     window.localStorage.setItem(key, value)

@@ -13,6 +13,7 @@ import {
   availableSlots,
   currentUserDetails,
   saveEstablishment,
+  saveWorkingHours,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -127,6 +128,15 @@ class Endpoint {
   async saveEstablishmentProfile(payload) {
     const response = await axiosInstance.post(
       `${BaseURL}${saveEstablishment}`,
+      payload
+    );
+    
+    return response;
+  }
+
+  async saveEstablishmentWorkingHours(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${saveWorkingHours}`,
       payload
     );
     

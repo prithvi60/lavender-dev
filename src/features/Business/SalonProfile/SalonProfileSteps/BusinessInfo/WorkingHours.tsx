@@ -3,6 +3,8 @@ import { Card, Typography, Grid, Checkbox, Button } from '@mui/material';
 import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import endpoints from '../../../../../api/endpoints';
+import { useMutation } from '@tanstack/react-query';
 
 export const WorkingHours = () => {
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -61,15 +63,36 @@ export const WorkingHours = () => {
                 const times = [];
                 inputFields[day].forEach(field => {
                     times.push({
-                        opens: field.opens,
-                        closes: field.closes
+                        openTime: field.opens,
+                        closeTime: field.closes
                     });
                 });
-                availableTimes.push({ day, time: times });
+                availableTimes.push({ day, timeSlots: times });
             }
         });
         alert(JSON.stringify({ availableTimes }));
+        const payload = {
+            "id": "EST00002500",
+            "availableDays": availableTimes
+        }
+        mutation.mutate(payload)
     };
+
+    const mutation = useMutation({
+        mutationFn: (payload: any) => {
+          return endpoints.saveEstablishmentWorkingHours(payload)
+        },
+        onSuccess: (resopnse: any) => {
+          setTimeout(() => {
+            
+          })
+        },
+        onError: (response: any) => {
+          
+        },
+        onSettled: () => {}
+          
+      })
 
     return (
         <div style={{ paddingTop: '20px' }}>

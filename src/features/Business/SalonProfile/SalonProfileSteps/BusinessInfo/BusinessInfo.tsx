@@ -17,7 +17,7 @@ import { BusinessInfoSchema } from './BusinessInfoSchema';
 //     email: yup.string().email().required(),
 //     cityCode: yup.string().required(),
 //     doorNo: yup.string(),
-//     areaCode: yup.number().required(),
+//     zipCode: yup.number().required(),
 //   });
 
 export const BusinessInfo = () => {
@@ -34,50 +34,15 @@ export const BusinessInfo = () => {
               "establishmentAbout": data.establishmentAbout,
               "phoneExtension": "101",
               "phoneNumber": data.phoneNumber, 
-              "areaCode": data.areaCode,
+              "areaCode": '555',
+              "doorNo": data.doorNo,
+              "zipCode": data.zipCode,
               "cityCode": data.cityCode,
               "stateCode": "NY",
               "locationTitle": "Downtown",
               "geoX": "40.712776",
               "geoY": "-74.005974"
             },
-            "availableTimes": [
-                  {
-                      "day": "Monday",
-                      "openTime": 1000,
-                      "closeTime": 1900
-                  },
-                  {
-                      "day": "Tuesday",
-                      "openTime": 1000,
-                      "closeTime": 1900
-                  },
-                  {
-                      "day": "Wednesday",
-                      "openTime": 1000,
-                      "closeTime": 1900
-                  },
-                  {
-                      "day": "Thursday",
-                      "openTime": 1000,
-                      "closeTime": 1900
-                  },
-                  {
-                      "day": "Friday",
-                      "openTime": 1000,
-                      "closeTime": 1900
-                  },
-                  {
-                      "day": "Saturday",
-                      "openTime": 1100,
-                      "closeTime": 1700
-                  },
-                  {
-                      "day": "Sunday",
-                      "openTime": 1100,
-                      "closeTime": 1700
-                  }
-              ]
         }
         mutation.mutate(payload)
     }
@@ -105,6 +70,7 @@ export const BusinessInfo = () => {
         <Grid container spacing={2} sx={{paddingTop: '20px'}}>
             <form
                 onSubmit={handleSubmit((data: any) => {
+                    debugger
                     alert(JSON.stringify(data));
                     handleSaveButton(JSON.stringify(data));
                 })}
@@ -153,15 +119,18 @@ export const BusinessInfo = () => {
                                 <CardContent>
                                 
                                         <Typography sx={{fontSize: '18px', fontWeight: '700', color: '#4D4D4D'}}>Zip code</Typography>
-                                        <TextField fullWidth  size='small' id="outlined-basic"  variant="outlined" {...register("areaCode")} />
-                                        {errors.areaCode && <p className='text-red-500 font-medium'>{errors.areaCode.message}</p>}
+                                        <TextField fullWidth  size='small' id="outlined-basic"  variant="outlined" {...register("zipCode")} />
+                                        {errors.zipCode && <p className='text-red-500 font-medium'>{errors.zipCode.message}</p>}
                                 </CardContent>
                             </div>
+                                
+                            <Buttons fullWidth type="submit" variant="contained" sx={{fontSize: '14px'}} name={'Save'}></Buttons>
+
                         </Card>
                     </div>
                 </Grid>
                 <Grid xs={5}>
-                    <TextField sx={{width: '90%', paddingBottom: '20px', color: '#B3B3B3'}} type='search' size='small' id="outlined-basic" label='Search for location' variant="outlined" {...register("doorNo")} />
+                    <TextField sx={{width: '90%', paddingBottom: '20px', color: '#B3B3B3'}} type='search' size='small' id="outlined-basic" label='Search for location' variant="outlined" />
                     <Card sx={{ alignContent: 'center', width: '90%'}}>
                         <div className='iframe-container'>
                             {<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31081.53269316962!2d80.20855351621644!3d13.15031202030962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5264db59c3d4b5%3A0x9be03109019f05f!2sMadhavaram%2C%20Chennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1716260701299!5m2!1sen!2sin" width="600" height="450" loading="lazy"></iframe>}
@@ -172,7 +141,6 @@ export const BusinessInfo = () => {
             </Grid>
             <Grid>
                 <WorkingHours />
-                <Buttons fullWidth type="submit" variant="contained" sx={{fontSize: '14px'}} name={'Save'}></Buttons>
             </Grid>
             </form>
             
