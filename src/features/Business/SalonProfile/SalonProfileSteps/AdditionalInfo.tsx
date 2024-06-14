@@ -28,7 +28,7 @@ export const AdditionalInfo = () => {
       <div style={{width: '50%'}}>
          <Typography sx={{fontSize: '18px', fontWeight: '700', color: '#4D4D4D'}}>Select the language spoken by your staff</Typography>
          <FormControl fullWidth>
-         <InputLabel >Language</InputLabel>
+         <InputLabel sx={{display: 'flex'}}><GetIcon iconName='LanguageIcon'/>    Language</InputLabel>
         <Select
           value={selectedValue}
           onChange={handleChange}

@@ -12,6 +12,7 @@ import {
   userRegister,
   availableSlots,
   currentUserDetails,
+  saveEstablishment,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -111,6 +112,17 @@ class Endpoint {
     setBrowserCache("Token", data.token);
     setBrowserCache("TokenExpiry", data.expiresIn);
   }
+
+  // Business Endpoints
+  async saveEstablishmentProfile(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${saveEstablishment}`,
+      payload
+    );
+    
+    return response;
+  }
+
 }
 
 function FormAvailableSlotsModel(response) {
