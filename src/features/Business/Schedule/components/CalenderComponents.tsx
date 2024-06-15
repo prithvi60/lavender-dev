@@ -85,17 +85,26 @@ export const FlexBox = styled('div')(({theme}) => `
   }
 `);
 
-export const Appointment = styled('div')<EventProps>(({theme, fromTop, howLong, statusColor}) => `
-  position: absolute;
-  top: ${fromTop}px;
-  background: ${statusColor};
-  height: ${howLong * HOUR_HEIGHT}px;
-  color: ${statusColor === '#E6E1FF' ? 'black' : 'white'};
-  width: 98%;
-  margin: 0px 2px;
-  padding: 5px;
-  border-radius: 12px;
-`);
+export const Appointment = (({children, fromTop, howLong, statusColor, elementRef, onDragStart, onDragEnd}) => (
+    <div 
+      draggable='true' 
+      ref={elementRef}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      style={{
+        position: 'absolute',
+        top: `${fromTop}px`,
+        background: statusColor,
+        height: `${howLong * HOUR_HEIGHT}px`,
+        color: (statusColor === '#E6E1FF') ? 'black' : 'white',
+        width: '98%',
+        margin: '0px 2px',
+        padding: '5px',
+        borderRadius: '12px',
+        cursor: 'grab'
+    }}>
+      {children}
+    </div>));
 
 export const HourLineWithLabel: React.FC = () => {
 

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { range, addDateBy, getMonday, addTime } from "./utils";
+import { useRef, useState } from "react";
+import { range, getMonday } from "./utils";
 import { DayWrapper, HGrid, Hour, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, Appointment, Wrapper, HourLineWithLabel } from './components/CalenderComponents'
 import GetIcon from "../../../assets/Icon/icon";
 import { GetScheduleDates } from "./BusinessScheduleContext";
@@ -8,60 +8,43 @@ export const DayCalendar = () => {
 
   const { filteredAppointments, employees } = GetScheduleDates()
 
-  const [appointments, setAppointments] = useState(filteredAppointments)
-  
+  // const [appointments, setAppointments] = useState(filteredAppointments)
+  const [deleteIcon, showDeleteIcon] = useState(false)
+
+  const dragElementRef = useRef(null);
+
   const mondayDate = getMonday();
 
-  console.log("appointment day", appointments)
+  console.log("appointment day", filteredAppointments)
 
-  const onDragStart = (e, id, currentEmployee) => {
+  const onDragStartDelete = (e, id, currentEmployee) => {
+    console.log(currentEmployee)
+    showDeleteIcon(true)
     e.dataTransfer.setData('eventId', id);
-    e.dataTransfer.setData('currentEmployee', currentEmployee);
-    const rectTop = e.target.getBoundingClientRect().top;
+    e.dataTransfer.setData('currentEmployee', currentEmployee.employeeName);
+    dragElementRef.current = e.target;
+    setTimeout(() => {
+      dragElementRef.current.style.display = 'none';
+    }, 0);
+  }
 
-    e.dataTransfer.setData('initialTop', rectTop);
-    console.log("updated time onDragStart", rectTop, id)
-
-  };
-
-  const onDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const onDrop = (e, newEmployee) => {
+  const onDragDropDelete = (e) => {
     const id = e.dataTransfer.getData('eventId');
+    e.target.style.backgroundColor = 'red'
     const currentEmployee = e.dataTransfer.getData('currentEmployee');
+    console.log(`drag and drop deletes event - ${id} from ${currentEmployee}`)
+  }
 
-    const initialTop = e.dataTransfer.getData('initialTop');
-
-    const finalTop = e.target.getBoundingClientRect().top;
-    const minutesPerPixel = 0.5;
-    const updatedMinutes = Math.round((initialTop - finalTop) * minutesPerPixel);
-
-    console.log("updated time onDrop", updatedMinutes, initialTop, finalTop, newEmployee)
-
-    const updatedAppointments = appointments
-
-    updatedAppointments.map(empAppointment => {
-
-      if (empAppointment.employee === newEmployee) {
-        empAppointment.appointments.map((app) => {
-          if(app.text === id) {
-            const newTime = addTime(app.date, 'minutes', updatedMinutes * -1)
-            console.log("newTime >>", newTime)
-            return { ...app, date: newTime };
-          }
-         return app
-        })
-      }
-      else {
-        //appointment[]
-      }
-      return empAppointment;
-    });
-
-    // setAppointments(updatedAppointments);
+  const onDragOverDelete = (e) => {
+    e.preventDefault();
+    e.target.style.backgroundColor = 'red'
   };
+
+  const onDragEnd = (e) => {
+    e.preventDefault()
+    showDeleteIcon(false)
+    dragElementRef.current.style.display = 'block';
+  }
 
   return (
     <>
@@ -80,8 +63,6 @@ export const DayCalendar = () => {
             {employees ? 
             employees.map((employee, index) => (
                 <DayWrapper
-                  onDragOver={onDragOver}
-                  onDrop={(e) => onDrop(e, employee.employeeName)}
                   //onDoubleClick={() => onAddEvent(addDateBy(mondayDate, index))}
                 >
                   <div className="h-[120px] flex flex-col flex-grow-0 items-center justify-center font-bold border-b border-b-gray-400">
@@ -96,14 +77,14 @@ export const DayCalendar = () => {
                     </Hour>
                   ))}
                   
-                  {appointments.filter((appointment) => appointment.employee === employee.employeeName)[0]?.appointments?.map(
+                  {filteredAppointments.filter((appointment) => appointment.employee === employee.employeeName)[0]?.appointments?.map(
                     (appointment, data) =>
-                      // areDatesSame(addDateBy(mondayDate, index), appointment.date) && 
                     (
                         <Appointment
-                          draggable
+                          onDragEnd={(e) => onDragEnd(e)}
+                          elementRef={dragElementRef}
                           onDragStart = {(e) => {
-                            onDragStart(e, appointment.text, employee)
+                            onDragStartDelete(e, appointment.text, employee)
                           }}
                           statusColor={appointment.status}
                           howLong={appointment.howLong}
@@ -129,6 +110,15 @@ export const DayCalendar = () => {
         <HourLineWithLabel/>
 
         </Wrapper>
+        {deleteIcon ? 
+        <div
+          onDragOver={onDragOverDelete}
+          onDrop={(e) => onDragDropDelete(e)}
+          id='appointment-delete'
+          className={`inline-flex items-center justify-center w-14 h-14 rounded-full p-3 border-2 fixed top-80 end-10`}
+        >
+            <GetIcon iconName='DeleteIcon'/>
+        </div> : <></>}
     </>
   );
 };
