@@ -7,6 +7,7 @@ import establishmentAdminReducer from './slices/admin/establishmentAdminSlice';
 import loginPageReducer from './slices/login/loginPageSlice';
 import userAdminReducer from './slices/admin/userAdminSlice';
 import filterModalSlice from './slices/filterModal';
+import currentUserSlice from './slices/currentUserSlice';
 import checkOutPageSlice from './slices/checkOutPageSlice';
 import ScheduleAppoinmentSlice from './slices/Booking/ScheduleAppoinmentSlice';
 import businessSlice from './slices/businessSlice';
@@ -20,10 +21,11 @@ const store = configureStore({
     establishmentAdmin: establishmentAdminReducer,
     userAdmin: userAdminReducer,
     loginPage: loginPageReducer,
+    currentUserDetails: currentUserSlice,
     filterModal : filterModalSlice,
     checkOutPage: checkOutPageSlice,
     ScheduleAppoinment: ScheduleAppoinmentSlice,
-    businessEstablishment: businessSlice
+    businessEstablishment: businessSlice,
   },
 });
 

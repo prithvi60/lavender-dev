@@ -20,7 +20,6 @@ export const filterModalSlice = createSlice({
       };
     },
     resetFilter: () => {
-      console.log(initialState)
       return initialState},
   },
 });

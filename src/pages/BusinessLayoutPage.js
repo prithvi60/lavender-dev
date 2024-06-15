@@ -13,6 +13,7 @@ import endpoint from '../api/endpoints.ts';
 import { useQuery } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { setEstablishmentData } from '../store/slices/businessSlice.js';
+import { SalonProfile } from '../features/Business/SalonProfile/SalonProfile.tsx';
 
 const BusinessLayoutPage = () => {
   //const [isSearchPage, setIsSearchPage] = useState(true);
@@ -44,6 +45,8 @@ const BusinessLayoutPage = () => {
         return <Services />
       case 'Team':
         return <BusinessTeam/>
+      case 'Salon profile':
+        return <SalonProfile/>
       default:
         return <div>Default</div>;
     }

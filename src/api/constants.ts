@@ -8,13 +8,20 @@ export const customerProfile = 'c/getCustomerProfile'
 
 export const businessAppointment = 'b/getAppointmentList'
 
-export const userLogin = 'au/login'
+export const userLogin = 'u/login'
 
-export const userRegister = 'au/signUp'
+export const currentUserDetails = 'au/getCurrentUserDetails'
+
+export const userRegister = 'u/signUp'
 
 export const availableSlots = 'c/fetchAvailableSlots'
 
 export const appointmentBooking = 'c/saveAppointmentBooking'
+
+export const saveEstablishment = 'e/saveEstablishment/profile'
+
+export const saveWorkingHours = 'e/saveEstablishment/timeslot'
+
 
 export function setBrowserCache(key: string, value: any) {
     window.localStorage.setItem(key, value)

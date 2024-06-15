@@ -11,6 +11,9 @@ import {
   businessAppointment,
   userRegister,
   availableSlots,
+  currentUserDetails,
+  saveEstablishment,
+  saveWorkingHours,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -36,6 +39,7 @@ axiosInstance.interceptors.request.use(
 
 class Endpoint {
   async getUserLoginToken(payload) {
+    debugger
     const response = await axiosInstance.post(
       `${BaseURL}${userLogin}`,
       payload
@@ -48,6 +52,11 @@ class Endpoint {
       `${BaseURL}${userRegister}`,
       payload
     );
+    return response;
+  }
+
+  async getCurrentUserDetails(payload) {
+    const response = await axiosInstance.get(`${BaseURL}${currentUserDetails}`);
     return response;
   }
 
@@ -101,10 +110,39 @@ class Endpoint {
   }
 
   async setTenantToken(data: any) {
+    debugger
     // add to cache
-    setBrowserCache("Token", data.token);
-    setBrowserCache("TokenExpiry", data.expiresIn);
+    if(data.success){
+      setBrowserCache("Token", data?.data?.token);
+      setBrowserCache("TokenExpiry", data?.data?.expiresIn);
+      setBrowserCache("UserId", data?.data?.userId);
+      if(data?.data?.establishmentId){
+        setBrowserCache("EstablishmentId", data?.data?.establishmentId);
+  
+      }
+    }
+    
   }
+
+  // Business Endpoints
+  async saveEstablishmentProfile(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${saveEstablishment}`,
+      payload
+    );
+    
+    return response;
+  }
+
+  async saveEstablishmentWorkingHours(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${saveWorkingHours}`,
+      payload
+    );
+    
+    return response;
+  }
+
 }
 
 function FormAvailableSlotsModel(response) {
