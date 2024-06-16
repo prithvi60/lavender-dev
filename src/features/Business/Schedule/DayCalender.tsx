@@ -18,8 +18,9 @@ export const DayCalendar = () => {
   console.log("appointment day", filteredAppointments)
 
   const onDragStartDelete = (e, id, currentEmployee) => {
-    console.log(currentEmployee)
-    showDeleteIcon(true)
+    console.log(currentEmployee, e, dragElementRef)
+    showDeleteIcon((prevState) => !prevState)
+
     e.dataTransfer.setData('eventId', id);
     e.dataTransfer.setData('currentEmployee', currentEmployee.employeeName);
     dragElementRef.current = e.target;
@@ -42,7 +43,7 @@ export const DayCalendar = () => {
 
   const onDragEnd = (e) => {
     e.preventDefault()
-    showDeleteIcon(false)
+    showDeleteIcon((prevState) => !prevState)
     dragElementRef.current.style.display = 'block';
   }
 
@@ -69,9 +70,9 @@ export const DayCalendar = () => {
                     <GetIcon svgWidth='80' svgHeight='80' className='' iconName={'ProfileIcon'}/>
                     <>{employee.employeeName}</>
                   </div>
-                  {range(24).map((hour) => (
+                  {range(24).map((_) => (
                     <Hour className="flex flex-col border-r border-solid border-r-gray-400">
-                      {range(4).map((block) => (
+                      {range(4).map((_) => (
                         <div className="border-b border-dashed border-b-[#B3B3B3] w-full h-1/4 last:border-solid"></div>
                       ))}
                     </Hour>
@@ -80,22 +81,20 @@ export const DayCalendar = () => {
                   {filteredAppointments.filter((appointment) => appointment.employee === employee.employeeName)[0]?.appointments?.map(
                     (appointment, data) =>
                     (
+                      
                         <Appointment
+                          data={appointment}
                           onDragEnd={(e) => onDragEnd(e)}
                           elementRef={dragElementRef}
                           onDragStart = {(e) => {
                             onDragStartDelete(e, appointment.text, employee)
                           }}
-                          statusColor={appointment.status}
+                          statusColor={appointment.statusColor}
                           howLong={appointment.howLong}
                           fromTop={
                             (appointment.date.getHours() * HOUR_HEIGHT) + HOUR_MARGIN_TOP + (appointment.date.getMinutes() * 2)
                           }
-                        >
-                          {appointment.text}
-                          <br/>
-                          {appointment.date.toString()}
-                        </Appointment>
+                        />
                       )
                   )}
                 </DayWrapper>

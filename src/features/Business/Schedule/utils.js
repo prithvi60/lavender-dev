@@ -21,16 +21,28 @@ export const getMonday = () => {
   return new Date(today.setDate(first))
 }
 
-export const getCurrentTime12HrFormat = (hours, minutes) => {
+export const getFormattedTimeRange = (date, duration) => {
+  const start = date
+  const end = addTime(start, 'minutes', duration)
+  const startMinutes = start.getMinutes();
+  const startHour = start.getHours()
+  const startTime = getCurrentTime12HrFormat(startHour, startMinutes, true)
+
+  const endMinutes = end.getMinutes();
+  const endHour = end.getHours()
+  const endTime = getCurrentTime12HrFormat(endHour, endMinutes, true)
+  //03:00 AM - 05:00 AM
+  return `${startTime} - ${endTime}`;
+}
+
+export const getCurrentTime12HrFormat = (hours, minutes, includeMerdians = false) => {
   
   const minutesStr = String(minutes).padStart(2, '0');
-  // const ampm = hours >= 12 ? 'PM' : 'AM';
+  const ampm = hours >= 12 ? ' PM' : ' AM';
 
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-  const hoursStr = String(hours).padStart(2, '0');
+  const hoursStr = String(hours % 12 || 12).padStart(2, '0');
 
-  return `${hoursStr}:${minutesStr}`;
+  return `${hoursStr}:${minutesStr}${includeMerdians ? ampm : ''}`;
 }
 
 export function getMonthAndDayNames(date) {
@@ -43,6 +55,7 @@ export function getMonthAndDayNames(date) {
   };
   
   const formattedDate = new Intl.DateTimeFormat('en-US', options).format(date);
+  //Ex: Sunday, June 16, 2024
   return formattedDate;
 }
 
@@ -56,6 +69,7 @@ export function getWeekDateRangeFormat(startDate, endDate) {
   const end = formatter.format(endDate);
   const year = yearFormatter.format(endDate);
 
+  //Ex: June 17 - June 23, 2024
   return `${start} - ${end}, ${year}`;
 }
 
@@ -108,17 +122,17 @@ export function filterByDate(appointments, selectedDate) {
 //Parser Utils and constants
 
 export const appointments = [
-  { date: new Date(2024, 5, 8, 0, 30), text: "first hi", howLong: 3, status: '#8280BA', employee: 'John test' },
-  // { date: new Date(2024, 5, 8, 1, 30), text: "first hi", howLong: 3, status: '#35AFAC', employee: 'John test' },
-  { date: new Date(2024, 5, 9, 19, 15), text: "second", howLong: 2, status: '#35AFAC', employee: 'John test' },
-  { date: new Date(2024, 5, 10, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John two' },
-  { date: new Date(2024, 5, 9, 13), text: "forth", howLong: 2, status: '#E6E1FF', employee: 'John test' },
-  { date: new Date(2024, 5, 10, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John three' },
-  { date: new Date(2024, 5, 8, 11), text: "third", howLong: 2, status: '#FF83B0', employee: 'John four' },
-  { date: new Date(2024, 5, 8, 13), text: "forth", howLong: 2, status: '#E6E1FF', employee: 'John five' },
-  { date: new Date(2024, 5, 9, 14), text: "third", howLong: 2, status: '#FF83B0', employee: 'John six' },
-  { date: new Date(2024, 5, 9, 19), text: "third", howLong: 2, status: '#FF83B0', employee: 'John five' },
-  { date: new Date(2024, 5, 9, 3), text: "third", howLong: 2, status: '#FF83B0', employee: 'John three' },
+  {  date: new Date(2024, 5, 16, 0), text: "first hi", howLong: 1, statusColor: '#8280BA', employee: 'John six', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  // {  date: new Date(2024, 5, 8, 1, 30), text: "first hi", howLong: 3, statusColor: '#35AFAC', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 16, 19, 15), text: "second", howLong: 2, statusColor: '#35AFAC', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 16, 11), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John two', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 16, 13), text: "forth", howLong: 2, statusColor: '#E6E1FF', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 16, 11), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 16, 11), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John four', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 16, 13), text: "forth", howLong: 2, statusColor: '#E6E1FF', employee: 'John six', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 16, 14), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John six', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 16, 19), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John five', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 16, 3), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
 
   // { date: new Date(), text: "Current appointment", howLong: 2, status: '#', employee: 'John four' },
 ]

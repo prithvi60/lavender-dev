@@ -1,7 +1,9 @@
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { HTMLAttributes, useState, useEffect } from "react";
-import { getCurrentTime12HrFormat } from '../utils'
+import { getCurrentTime12HrFormat, getFormattedTimeRange } from '../utils'
+import { CustomTooltip } from '../../../../components/CustomTooltip';
+import GetIcon from '../../../../assets/Icon/icon';
 
 interface EventProps extends HTMLAttributes<HTMLDivElement> {
     fromTop?: number;
@@ -85,7 +87,35 @@ export const FlexBox = styled('div')(({theme}) => `
   }
 `);
 
-export const Appointment = (({children, fromTop, howLong, statusColor, elementRef, onDragStart, onDragEnd}) => (
+export const AppointmentHover = (appointmentData) => {
+  const { appointment: {client, bookedThrough, status, estimatedDuration, howLong, service, price} } = appointmentData
+  return (
+    <div className='flex w-96 h-36 rounded-2xl shadow-2xl'>
+      <div className='flex flex-col justify-center items-center w-4/12 bg-[#C9C5FF] rounded-xl text-black font-bold'>
+        <GetIcon svgWidth='80' svgHeight='80' className='mb-1' iconName={'ProfileIcon'}/>
+        <div>{client}</div>
+        <div>{bookedThrough}</div>
+      </div>
+      <div className='w-8/12 flex flex-col justify-between m-5 text-black'>
+         <div className='rounded-3xl w-fit p-1 flex items-center bg-gray-200'>
+          <GetIcon svgWidth='30' svgHeight='30' iconName={'SelectedIcon'}/>
+          <div className='text-lg mx-2'>{status}</div>
+        </div>
+         <div className='flex w-full'>
+          <div className='flex flex-col w-3/4'>
+            <div className='font-bold text-lg'>{service}</div>
+            <div>{`${estimatedDuration} | ${howLong}`}</div>
+          </div>
+          <div className='w-1/4 font-bold flex items-center justify-end'>{price}</div>
+         </div>
+      </div>
+    </div>
+  )
+}
+
+export const Appointment = (({data, fromTop, howLong, statusColor, elementRef, onDragStart, onDragEnd}) => (
+  <CustomTooltip maxW={'384px'} arrowColor='#C9C5FF' title={<AppointmentHover appointment={data}/>}
+  >
     <div 
       draggable='true' 
       ref={elementRef}
@@ -101,10 +131,16 @@ export const Appointment = (({children, fromTop, howLong, statusColor, elementRe
         margin: '0px 2px',
         padding: '5px',
         borderRadius: '12px',
-        cursor: 'grab'
+        // cursor: 'grab'
     }}>
-      {children}
-    </div>));
+      <div>
+        {getFormattedTimeRange(data.date, data.howLong * 60)} | {data.service}
+      </div>
+
+      <div className='font-bold'>{data.client}</div>
+    </div>
+    </CustomTooltip>
+    ));
 
 export const HourLineWithLabel: React.FC = () => {
 
