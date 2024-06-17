@@ -2,6 +2,7 @@ import React from 'react'
 import FilterDrawer from './FilterDrawer';
 import AppointmentEdit from './AppointmentEdit';
 import AddMemberForm from './team/AddMemberForm';
+import AddServicesForm from './services/AddServicesForm';
 
 interface BusinessDrawerProps {
   type: string;
@@ -16,6 +17,8 @@ const getDrawerComponent = (type, payload) => {
           return <AppointmentEdit />;
         case 'addMember':
           return <AddMemberForm />;
+        case 'addServices':
+          return <AddServicesForm />;
         default:
           return <div>Default</div>;
       }

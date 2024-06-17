@@ -13,6 +13,7 @@ import Input from "@mui/material/Input";
 import GetIcon from "../../../assets/Icon/icon";
 import { SearchInput, Selector } from "../Appointments/AppointmentControllers";
 import { setAddUser } from "../../../store/slices/admin/userAdminSlice";
+import { useDrawer } from '../BusinessDrawerContext'
 
 const initialData = {
   components: [
@@ -62,6 +63,8 @@ export function Services() {
   const [filteredService, setFilteredService] = useState(initialData);
 
   const [serviceInput, setServiceInput] = useState('');
+
+  const { openDrawer } = useDrawer()
 
   const getServices = (service) => {
     if(!service){
@@ -175,7 +178,11 @@ export function Services() {
                   //table.getColumn("email")?.setFilterValue(event.target.value)
                 }
                 />
-                <Selector onSelect={() => { } } className={"w-[180px] justify-evenly"} options={["Add category", "Add service"]} placeholder={"Add new"} label={undefined}/>
+                {/* <Selector onSelect={() => { } } className={"w-[180px] justify-evenly"} options={["Add category", "Add service"]} placeholder={"Add new"} label={undefined}/> */}
+                <div>
+                  <Button variant="outline" size="lg" className="bg-indigo-500 text-white"
+                    onClick={() => openDrawer('addServices')}>Add service</Button>
+                </div>
         </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
