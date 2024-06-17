@@ -3,6 +3,8 @@ import { Card, CardContent, Typography } from '@mui/material';
 import GetIcon from '../../../../assets/Icon/icon';
 import ImageUploading from "react-images-uploading";
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { useMutation } from '@tanstack/react-query';
+import endpoint from '../../../../api/endpoints';
 
 export const Photos = () => {
   const [images, setImages] = React.useState([]);
@@ -18,6 +20,29 @@ export const Photos = () => {
   const handleDragEnd = () => {
     // handle drag end logic if needed
   };
+
+  const mutation = useMutation({
+    mutationFn: (payload: any) => {
+      return endpoint.saveEstablishmentPhotos(payload)
+    },
+    onSuccess: (response: any) => {
+      setTimeout(() => {
+      console.log('resposne : ', response)
+        
+      },1000)
+    },
+    onError: (response: any) => {
+      alert('Upload Error')
+    },
+    onSettled: () => {}
+})
+
+function handleButtonClick(){
+  const payLoad = {
+
+  }
+  mutation.mutate(payLoad)
+}
 
   return (
     <div>

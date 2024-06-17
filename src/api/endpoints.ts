@@ -14,6 +14,7 @@ import {
   currentUserDetails,
   saveEstablishment,
   saveWorkingHours,
+  uploadPhotos,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -142,7 +143,18 @@ class Endpoint {
     return response;
   }
 
+  async saveEstablishmentPhotos(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${uploadPhotos}`,
+      payload
+    );
+    return response;
+  }
+  
 }
+
+
+
 
 function FormAvailableSlotsModel(response) {
   let keyvalue = 1;
