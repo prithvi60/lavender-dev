@@ -9,26 +9,19 @@ import { ServicesInfo } from './ServicesInfo';
 import { useMutation } from '@tanstack/react-query';
 import endpoints from '../../../../../api/endpoints';
 import { BusinessInfoSchema } from './BusinessInfoSchema';
-// const schema = yup.object().shape({
-//     establishmentName: yup.string().required(),
-//     establishmentAbout: yup.string().required(),
-//     phoneNumber: yup.number().required(),
-//     address: yup.string().required(),
-//     email: yup.string().email().required(),
-//     cityCode: yup.string().required(),
-//     doorNo: yup.string(),
-//     zipCode: yup.number().required(),
-//   });
+import { useSelector } from 'react-redux';
 
-export const BusinessInfo = () => {
+export const BusinessInfo = ({userDetails}) => {
     const {register, handleSubmit, watch, formState: {errors}}: any = useForm({
         resolver: yupResolver(BusinessInfoSchema)
       });
 
+      
+      
+
     function handleSaveButton(data){
-        console.log('data : data : ', data);
         const payload = {
-            "id": "EST00002500",
+            "id": userDetails != null ? userDetails?.establishmentId : "",
             "profile": {
               "establishmentName": data.establishmentName,
               "establishmentAbout": data.establishmentAbout,
@@ -70,8 +63,6 @@ export const BusinessInfo = () => {
         <Grid container spacing={2} sx={{paddingTop: '20px'}}>
             <form
                 onSubmit={handleSubmit((data: any) => {
-                    debugger
-                    alert(JSON.stringify(data));
                     handleSaveButton(JSON.stringify(data));
                 })}
             >
@@ -140,7 +131,7 @@ export const BusinessInfo = () => {
                 </Grid>
             </Grid>
             <Grid>
-                <WorkingHours />
+                <WorkingHours userDetails={userDetails}/>
             </Grid>
             </form>
             

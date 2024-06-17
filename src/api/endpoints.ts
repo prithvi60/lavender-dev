@@ -15,6 +15,7 @@ import {
   saveEstablishment,
   saveWorkingHours,
   uploadPhotos,
+  publish,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -56,7 +57,6 @@ class Endpoint {
   }
 
   async getCurrentUserDetails() {
-    debugger
     const response = await axiosInstance.get(`${BaseURL}${currentUserDetails}`);
     return response;
   }
@@ -150,11 +150,15 @@ class Endpoint {
     );
     return response;
   }
-  
+
+  async publishEstablishment(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${publish}`,
+      payload
+    );
+    return response;
+  }
 }
-
-
-
 
 function FormAvailableSlotsModel(response) {
   let keyvalue = 1;

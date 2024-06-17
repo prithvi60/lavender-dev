@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Card, Typography, Grid, Checkbox, Button } from '@mui/material';
+import { Card, Typography, Grid, Checkbox, Button, IconButton } from '@mui/material';
 import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import endpoints from '../../../../../api/endpoints';
 import { useMutation } from '@tanstack/react-query';
+import GetIcon from '../../../../../assets/Icon/icon';
 
-export const WorkingHours = () => {
+export const WorkingHours = ({userDetails}) => {
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     const [checkboxes, setCheckboxes] = useState(() => {
@@ -72,7 +73,7 @@ export const WorkingHours = () => {
         });
         alert(JSON.stringify({ availableTimes }));
         const payload = {
-            "id": "EST00002500",
+            "id": userDetails != null ? userDetails?.establishmentId : "",
             "availableDays": availableTimes
         }
         mutation.mutate(payload)
@@ -140,7 +141,9 @@ export const WorkingHours = () => {
                                                         </LocalizationProvider>
                                                     </div>
                                                 </div>
-                                                <Button onClick={() => handleAddField(day)}>Add</Button>
+                                                <IconButton onClick={() => handleAddField(day)}>
+                                                    <GetIcon iconName="PlusIcon"/>
+                                                </IconButton>
                                             </>
                                         )}
                                         {i > 0 && <button onClick={() => handleDeleteField(day, i)}>Delete</button>}
@@ -150,7 +153,7 @@ export const WorkingHours = () => {
                         </Grid>
                     ))}
                 </Grid>
-                <Button onClick={handleSave}>Save</Button>
+                <Button sx={{width: '10%'}} variant="contained" color="primary" onClick={handleSave}>Save</Button>
             </Card>
         </div>
     );

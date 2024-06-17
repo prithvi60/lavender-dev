@@ -59,7 +59,7 @@ navigate('/userprofile')
           {isSearchPage && <NavFilter setshowSearchBar={setshowSearchBar} />}
           <Stack spacing={2} direction="row">
             <Button
-              href={getAdminRoute()}
+              href={getBusinessRoute()}
               className="button-outline"
               variant="outlined"
             >

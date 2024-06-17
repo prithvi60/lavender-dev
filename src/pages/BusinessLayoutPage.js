@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 //import Navbar from '../components/NavBar';
 import { Box } from '@mui/material';
 import SideBar from '../components/SideBar';
@@ -14,6 +14,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { setEstablishmentData } from '../store/slices/businessSlice.js';
 import { SalonProfile } from '../features/Business/SalonProfile/SalonProfile.tsx';
+import { updateUser } from '../store/slices/currentUserSlice.js';
 
 const BusinessLayoutPage = () => {
   //const [isSearchPage, setIsSearchPage] = useState(true);
@@ -23,6 +24,26 @@ const BusinessLayoutPage = () => {
     (state) => state.businessSlice
   );
 
+  useEffect(()=>{
+    setTimeout(()=>{
+      if(localStorage.getItem('Token')){
+        const fetchCurrentUserDetails = async () => {
+            try {
+              const response = await endpoint.getCurrentUserDetails(); // Call the async function to get user details
+              const userDetails = response?.data; // Assuming response.data contains the user details
+            
+
+              dispatch(updateUser(userDetails?.data)); // Dispatch the updateUser action with user details
+            } catch (error) {
+              console.error('Error fetching user details:', error); // Handle any errors that occur
+            }
+          }
+          fetchCurrentUserDetails();
+      }
+    },[1000])
+    
+  },[])
+  
   const { data: establishmentData, isLoading: isLoading, error: userDataError, refetch: refetchUserData } = 
   useQuery({queryKey: ['query-establishment'], queryFn: () =>{ return endpoint.getEstablishmentDetailsById('2502')}})
   if(!isLoading) {

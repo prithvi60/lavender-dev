@@ -2,7 +2,7 @@ import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { TextField, Checkbox, FormControlLabel, MenuItem, Select, InputLabel, FormControl, FormHelperText, Box, Grid } from '@mui/material';
+import { TextField, Checkbox, Button, FormControlLabel, MenuItem, Select, InputLabel, FormControl, FormHelperText, Box, Grid } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -10,7 +10,6 @@ import { Dayjs } from 'dayjs';
 import endpoint from '../../api/endpoints';
 import { useMutation } from '@tanstack/react-query';
 import Text from '../Text';
-import Button from '../Button';
 
 const schema = yup.object().shape({
     fullName: yup.string().required('Full name is required'),
@@ -30,8 +29,15 @@ const RegisterScreen = () => {
     const [value, setValue] = React.useState<Dayjs | null>(null);
 
     const mutation = useMutation({
-        mutationFn: (payload: any) => {
-          return endpoint.userRegister(payload)
+        mutationFn: async (payload: any) => {
+          const response =  await endpoint.userRegister(payload);
+          if(!response?.data?.success){
+            alert(`ErrorCode : ${response.data.errorCode}`)
+          }
+          else{
+            alert("user created successfully.")
+          }
+          return response;
         },
         onSuccess: (response: any) => {
           setTimeout(() => {
@@ -43,13 +49,9 @@ const RegisterScreen = () => {
           alert('Register unsuccess')
         },
         onSettled: () => {}
-          
     })
 
     const onSubmit = (data) => {
-        debugger
-        alert(JSON.stringify(data, null, 2));
-        
         const payLoad = {
             "userType":data.userType,
             "fullName": data.fullName,
@@ -134,7 +136,7 @@ const RegisterScreen = () => {
                         />
                     </Grid>
 
-                    <Grid sx={{display: 'flex', }} xs={12}>
+                    <Grid sx={{display: 'flex', padding: '10px' }} xs={12}>
                         <Grid  sx={{paddingRight: '5px'}} xs={4} >
                             <Controller
                                     name="areaCode"
@@ -179,7 +181,7 @@ const RegisterScreen = () => {
                                 defaultValue= {new Date()}
                                 render={({ field }) => (
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DatePicker {...field} value={value} />
+                                        <DatePicker {...field} value={value} sx={{width: '100%'}} slotProps={{ textField: { variant: 'standard', } }}/>
                                     </LocalizationProvider>
                                 )}
                             />
@@ -230,10 +232,9 @@ const RegisterScreen = () => {
                         
                     <Grid item xs={12}>
                         <Button type="submit" variant="contained" color="primary">
-                            Submit
+                            Create an account
                         </Button>
                     </Grid>
-
                         
                     </form>
                 </Grid>

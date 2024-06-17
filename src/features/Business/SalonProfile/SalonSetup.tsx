@@ -11,6 +11,7 @@ import { Photos } from './SalonProfileSteps/Photos'
 import { AdditionalInfo } from './SalonProfileSteps/AdditionalInfo'
 import { Publish } from './SalonProfileSteps/Publish'
 import GetIcon from '../../../assets/Icon/icon'
+import { useSelector } from 'react-redux'
 
 export const SalonSetup = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +21,6 @@ export const SalonSetup = () => {
         setIsOpen(true);
     }
     function onSetActiveStep(value) {
-        debugger
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
     }
@@ -35,7 +35,12 @@ export const SalonSetup = () => {
       setIsOpen(false);
     }
   const steps = ["Business info", "Photos", "Additional info", "Publish"];
-
+  
+  const userDetails = useSelector((state) => {
+    console.log('state : ', state.currentUserDetails)
+    return state.currentUserDetails;
+  });
+  
   return (
     <div>
         <Buttons sx={{borderRadius: '10px', padding: '10px 40px 10px 40px'}} variant= 'contained' onClick={handleBtnClick} name={'Get started'}> </Buttons>
@@ -72,13 +77,13 @@ export const SalonSetup = () => {
         <div className="flex flex-wrap md:flex-nowrap w-full h-full gap-6 mg:gap-0 max-w-7xl mx-auto py-4 px-6">
           <div className="w-full md:p-8">
 
-            {activeStep === 0 && <BusinessInfo />}
+            {activeStep === 0 && <BusinessInfo userDetails={userDetails}/>}
 
             {activeStep === 1 && <Photos />}
 
             {activeStep === 2 && <AdditionalInfo />}
 
-            {activeStep === 3 && <Publish />}
+            {activeStep === 3 && <Publish userDetails={userDetails}/>}
             
           </div>
 
