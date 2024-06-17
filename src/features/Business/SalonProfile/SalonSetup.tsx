@@ -64,15 +64,6 @@ export const SalonSetup = () => {
                 </Stepper>
             </Box>
             <Buttons sx={{borderRadius: '10px', padding: '10px 40px 10px 40px'}} variant= 'contained' onClick={onSetActiveStep} name={'Proceed'}> </Buttons>
-            {/* <IconButton
-            edge="start"
-            color="inherit"
-            onClick={handleClose}
-            aria-label="close"
-            sx={{marginLeft: '5px'}}
-            >
-            <CloseIcon />
-            </IconButton> */}
         </Toolbar>
         <div className="flex flex-wrap md:flex-nowrap w-full h-full gap-6 mg:gap-0 max-w-7xl mx-auto py-4 px-6">
           <div className="w-full md:p-8">
@@ -87,9 +78,6 @@ export const SalonSetup = () => {
             
           </div>
 
-          {/* <div>
-            <CheckoutCard activeStep={activeStep} next={onSetActiveStep} establishmentName = {establishmentData.data.establishmentName} establishmentId = {establishmentData.data.id}/>
-          </div> */}
         </div>
         </Dialog>
 

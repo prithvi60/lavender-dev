@@ -89,7 +89,7 @@ export const AdditionalInfo = () => {
                             IconComponent={ArrowDropDownIcon}
                         >
                             {sampledata?.map((item) => (
-                                <MenuItem key={item.value} value={item.value}>{item.name}</MenuItem>
+                                <MenuItem key={item.value} value={item.value}><IconButton><GetIcon iconName='PlusIcon' /></IconButton>{item.name}</MenuItem>
                             ))}
                         </Select>
                         {errors.language && <span>This field is required</span>}
