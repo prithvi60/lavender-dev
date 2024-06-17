@@ -8,36 +8,42 @@ import LearnMore from './LearnMore.tsx'
 import Benifits from './Benifits.tsx';
 import LandingFooter from './landingFooter';
 import { getBrowserCache } from '../api/constants.ts';
-import { jwtDecode } from 'jwt-decode';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateUser } from '../store/slices/currentUserSlice.js';
+import endpoint from '../api/endpoints.ts';
 
 const LandingPage = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userName, setUserName] = useState('');
-
-    const tokenValue = getBrowserCache('Token');
-
-    if(tokenValue){
-        
-    }
+    const dispatch = useDispatch();
 
     useEffect(()=>{
-        if(tokenValue){
-            const tokenVal = jwtDecode(tokenValue)
-            console.log('tokenVal : ', tokenVal)
-            const tempUserName = tokenVal.sub.substring(0, 5);
-            setUserName(tempUserName);
-            const expiryTimeInSeconds = tokenVal.exp;
-            const currentTimestamp = Math.floor(Date.now() / 1000); // Current time in seconds
-            const tokenValid = currentTimestamp < expiryTimeInSeconds;
-            if(tokenValid){
+      setTimeout(()=>{
+        if(localStorage.getItem('Token')){
+          const fetchCurrentUserDetails = async () => {
+              try {
+                const response = await endpoint.getCurrentUserDetails(); // Call the async function to get user details
+                const userDetails = response?.data; // Assuming response.data contains the user details
+                dispatch(updateUser(userDetails?.data)); // Dispatch the updateUser action with user details
                 setIsLoggedIn(true);
+              } catch (error) {
+                console.error('Error fetching user details:', error); // Handle any errors that occur
+              }
             }
+            fetchCurrentUserDetails();
         }
-    },[tokenValue])
-
+      },[1000])
+      
+    },[])
+    
+    const userDetails = useSelector((state) => {
+      console.log('state : ', state.currentUserDetails)
+      return state.currentUserDetails;
+    });
+    console.log("userDetails in landingpage : ", userDetails.fullName);
     return (
         <Box className='landing-page'>
-            <Navbar isSearchPage={false} isLoggedIn={isLoggedIn} userName={userName}/>
+            <Navbar isSearchPage={false} isLoggedIn={isLoggedIn} userName={userDetails.fullName}/>
             <HeroSection />
             {/* <SearchResult /> */}
             <div className='mx-4 max-w-7xl mx-auto'>

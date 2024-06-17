@@ -2,9 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import { UpdateFilter, resetFilter } from './filterModal';
 
 const initialState = {
-    EmailId: '',
-    UserName: '',
-    UserType:  '',
+    userName: "",
+    userId: "",
+    userType: "",
+    establishmentId: "",
+    emailAddress: "",
+    fullName: "",
 }
 
 export const currentUserSlice = createSlice({
@@ -12,11 +15,15 @@ export const currentUserSlice = createSlice({
     initialState,
     reducers : {
         updateUser: (state, action) => {
+            console.log('action',action)
             return{
                 ...state,
-                EmailId: action.payload.EmailId,
-                UserName: action.payload.UserName,
-                UserType:  action.payload.UserType,
+                userName: action.payload.userName,
+                userId: action.payload.userId,
+                userType: action.payload.userType,
+                establishmentId: action.payload.establishmentId,
+                emailAddress: action.payload.emailAddress,
+                fullName: action.payload.fullName,
             }
         },
         resetUser: () => {

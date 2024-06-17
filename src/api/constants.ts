@@ -10,7 +10,7 @@ export const businessAppointment = 'b/getAppointmentList'
 
 export const userLogin = 'u/login'
 
-export const currentUserDetails = 'au/getCurrentUserDetails'
+export const currentUserDetails = 'u/getCurrentUserDetails'
 
 export const userRegister = 'u/signUp'
 

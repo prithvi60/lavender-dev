@@ -3,7 +3,7 @@ import { Grid,Link, Box, MenuItem, Select, InputLabel, FormControl, SelectChange
 import Button from '../Button'
 // import TextField from '../TextField'
 import {TextField} from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ButtonRouter from '../ButtonRouter'
 import { useDispatch } from 'react-redux';
 import { isNewAccount } from '../../store/slices/login/loginPageSlice';
@@ -19,6 +19,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 import * as yup from "yup";
 import Dropdown from '../Dropdown';
+import { updateUser } from '../../store/slices/currentUserSlice.js'
 
 
 const schema = yup.object().shape({
@@ -30,7 +31,7 @@ const schema = yup.object().shape({
 function RegisterLoginScreen({isInLoginModal}) {
     const [renderRegisterModal, setRenderRegisterModal] = useState(false);
     const [disableBtn, setDisableBtn] = useState(true);
-
+    const [userdetails, setUserDetails] = useState(false);
     const [routeValue, setRouteValue] = useState(getRoute("Login"));
     const {register, handleSubmit, watch, formState: {errors}}: any = useForm({
         resolver: yupResolver(schema)
@@ -54,9 +55,9 @@ function RegisterLoginScreen({isInLoginModal}) {
         },
         onSettled: () => {}
           
-      })
+    })
+
     function getUserLoginTokenApi(data){
-        debugger
         const payLoad ={
             "loginId": data?.email,
             "password": data?.password,
@@ -73,22 +74,22 @@ function RegisterLoginScreen({isInLoginModal}) {
         //     "email": "admin1@lavender.com",
         //     "password": "12345"
         // }
-
-        // const currentUserDetails = endpoint.getCurrentUserDetails(loginPayLoad)
+        setUserDetails(true);
     }
     const handleClickContinue = (data) => {
         
-        // if(!disableBtn){
-        //     dispatch(isNewAccount({ newAccount: true }));
-        //     navigate("/");
-        // }
-
         getUserLoginTokenApi(data);
+
+        navigate("/");
+
+        if(!disableBtn){
+            //dispatch(isNewAccount({ newAccount: true }));
+        }
+
     }
 
     function handleButton(){
         setRenderRegisterModal(true);
-        console.log('hiii in butoon');
     }
     
   function handleRegisterClick(){
@@ -108,8 +109,6 @@ function RegisterLoginScreen({isInLoginModal}) {
         <Grid item spacing={7} sx={{padding: ''}} >
             <form
                 onSubmit={handleSubmit((data: any) => {
-                    debugger;
-                    alert(JSON.stringify(data));
                     handleClickContinue(data);
                     // handleSaveButton(JSON.stringify(data));
                 })}
@@ -204,5 +203,6 @@ function RegisterLoginScreen({isInLoginModal}) {
 
   )
 }
+
 
 export default RegisterLoginScreen

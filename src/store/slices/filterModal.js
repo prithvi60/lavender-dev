@@ -11,7 +11,7 @@ export const filterModalSlice = createSlice({
   initialState,
   reducers: {
     UpdateFilter: (state, action) => {
-      console.log('action',action)
+      
       return {
         ...state,
         SortBy: action.payload.SortBy,

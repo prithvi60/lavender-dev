@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AppBar, Avatar, Toolbar } from "@mui/material";
 import Text from "./Text";
 import ButtonRouter from "./ButtonRouter";
@@ -23,7 +23,6 @@ const Navbar = (props) => {
   };
 
   function getUserRoute(){
-    debugger
 navigate('/userprofile')
   };
 

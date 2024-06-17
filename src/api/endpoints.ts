@@ -39,7 +39,6 @@ axiosInstance.interceptors.request.use(
 
 class Endpoint {
   async getUserLoginToken(payload) {
-    debugger
     const response = await axiosInstance.post(
       `${BaseURL}${userLogin}`,
       payload
@@ -55,7 +54,8 @@ class Endpoint {
     return response;
   }
 
-  async getCurrentUserDetails(payload) {
+  async getCurrentUserDetails() {
+    debugger
     const response = await axiosInstance.get(`${BaseURL}${currentUserDetails}`);
     return response;
   }
@@ -110,7 +110,6 @@ class Endpoint {
   }
 
   async setTenantToken(data: any) {
-    debugger
     // add to cache
     if(data.success){
       setBrowserCache("Token", data?.data?.token);
