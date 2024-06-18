@@ -16,6 +16,7 @@ import {
   saveWorkingHours,
   uploadPhotos,
   publish,
+  service,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -154,6 +155,14 @@ class Endpoint {
   async publishEstablishment(payload) {
     const response = await axiosInstance.post(
       `${BaseURL}${publish}`,
+      payload
+    );
+    return response;
+  }
+
+  async saveEstablishmentService(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${service}`,
       payload
     );
     return response;

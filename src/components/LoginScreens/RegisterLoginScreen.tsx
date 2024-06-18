@@ -1,5 +1,5 @@
 import { Google, Facebook, Padding, BorderColor } from '@mui/icons-material'
-import { Grid,Link, Box, MenuItem, Select, InputLabel, FormControl, SelectChangeEvent } from '@mui/material'
+import { Grid,Link, Box, MenuItem, Select, InputLabel, FormControl, SelectChangeEvent, FormHelperText, Typography } from '@mui/material'
 import Button from '../Button'
 // import TextField from '../TextField'
 import {TextField} from '@mui/material'
@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import endpoint from '../../api/endpoints.ts'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import * as yup from "yup";
 import Dropdown from '../Dropdown';
 import { updateUser } from '../../store/slices/currentUserSlice.js'
@@ -33,7 +33,7 @@ function RegisterLoginScreen({isInLoginModal}) {
     const [disableBtn, setDisableBtn] = useState(true);
     const [userdetails, setUserDetails] = useState(false);
     const [routeValue, setRouteValue] = useState(getRoute("Login"));
-    const {register, handleSubmit, watch, formState: {errors}}: any = useForm({
+    const {control, register, handleSubmit, watch, formState: {errors}}: any = useForm({
         resolver: yupResolver(schema)
       });
       
@@ -166,12 +166,33 @@ function RegisterLoginScreen({isInLoginModal}) {
                     {errors.password && <p className='text-red-500 font-medium'>{errors.password.message}</p>}
                 </Grid>
                 <Grid item spacing={1} xs={12} sx={{padding: '10px'}}>
-                    <select {...register("userType")}>
-        <option value="OC">Customer</option>
-        <option value="BU">Business</option>
-      </select>
+                    {/* <select {...register("userType")}>
+                        <option value="OC">Customer</option>
+                        <option value="BU">Business</option>
+                    </select>
                  
-                    {errors.userType && <p className='text-red-500 font-medium'>{errors.userType.message}</p>}
+                    {errors.userType && <p className='text-red-500 font-medium'>{errors.userType.message}</p>} */}
+
+<Controller
+            name="userType"
+            control={control}
+            defaultValue=""
+            render={({ field }) => (
+              <FormControl error={!!errors.userType} fullWidth>
+                <Select
+                  {...field}
+                  label="Usertype"
+                  error={!!errors.usertype}
+                  fullWidth
+                  variant="standard"
+                >
+                  <MenuItem value="OC">Customer</MenuItem>
+                  <MenuItem value="BU">Business</MenuItem>
+                </Select>
+                <FormHelperText>{errors.usertype?.message}</FormHelperText>
+              </FormControl>
+            )}
+          />
                 </Grid>
 
                 {/* <Grid item xs={12}>

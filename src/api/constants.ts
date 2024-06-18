@@ -26,6 +26,9 @@ export const uploadPhotos = 'e/saveEstablishmentImage/EST00002500'
 
 export const publish = 'e/saveEstablishment/publish'
 
+export const service = 'e/saveEstablishment/service'
+
+
 
 export function setBrowserCache(key: string, value: any) {
     window.localStorage.setItem(key, value)

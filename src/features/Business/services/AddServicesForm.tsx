@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
   TextField,
@@ -21,6 +21,8 @@ import { useDrawer } from "../../../features/Business/BusinessDrawerContext";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
+import endpoint from "../../../api/endpoints";
+
 
 const schema = yup.object().shape({
   serviceName: yup.string().required(),
@@ -31,6 +33,7 @@ const schema = yup.object().shape({
   duration: yup.string().required(),
   extraTime: yup.boolean(), // Changed to boolean for the toggle
   category: yup.string(),
+  optionName: yup.string(),
 });
 
 const employeeList = [
@@ -59,11 +62,14 @@ export default function AddServicesForm() {
     border: `2px solid ${theme.palette.background.paper}`,
   }));
 
+  const [addOptions, setAddOptions] = useState(false);
+
   const { closeDrawer } = useDrawer();
 
   const handleFilterDrawerSubmit = (data) => {
     console.log("faatad : ", data)
     alert(JSON.stringify(data, null, 2));
+    const response = endpoint.saveEstablishmentService(payLoad);
   };
 
   return (
@@ -215,7 +221,7 @@ export default function AddServicesForm() {
                       fullWidth
                     >
                       <MenuItem value="Fixed">Fixed</MenuItem>
-                      <MenuItem value="Varies">Varies</MenuItem>
+                      <MenuItem value="From">From</MenuItem>
                     </Select>
                     <FormHelperText>{errors.price?.message}</FormHelperText>
                   </FormControl>
@@ -309,7 +315,131 @@ export default function AddServicesForm() {
             }
             label="Extra time"
             labelPlacement="start"
+            sx={{color: '#4D4D4D', fontSize: '18px', fontWeight: '700'}}
           />
+        </div>
+
+        {
+            addOptions && 
+            <div>
+                <Divider textAlign="left" sx={{color: '#825FFF'}}>Option 1</Divider>
+                <div className="mb-4">
+                    <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>Option name</Typography>
+                    <TextField fullWidth size="small" variant="outlined" {...register("optionName")} />
+                        {errors.optionName && (
+                            <p className="text-red-500 font-medium">{errors.optionName.message}</p>
+                        )}
+                </div>
+
+                <div className="mb-4">
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                        <Controller
+                            name="price"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                            <FormControl error={!!errors.price} fullWidth>
+                                <Typography
+                                
+                                sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}
+                                >
+                                Price
+                                </Typography>
+                                <Select
+                                {...field}
+                                label="Price"
+                                error={!!errors.price}
+                                fullWidth
+                                >
+                                <MenuItem value="Fixed">Fixed</MenuItem>
+                                <MenuItem value="From">From</MenuItem>
+                                </Select>
+                                <FormHelperText>{errors.price?.message}</FormHelperText>
+                            </FormControl>
+                            )}
+                        />
+                        </Grid>
+                        <Grid item xs={6} sx={{alignContent: 'end'}}>
+                        <Controller
+                            name="price"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                            <FormControl  error={!!errors.price} fullWidth>
+                                <TextField
+                                {...field}
+                                label="Amount"
+                                size="small"
+                                variant="outlined"
+                                error={!!errors.price}
+                                fullWidth
+                                />
+                                <FormHelperText>{errors.price?.message}</FormHelperText>
+                            </FormControl>
+                            )}
+                        />
+                        </Grid>
+                    </Grid>
+                </div>
+
+                <div className="mb-4">
+                    <Grid container spacing={2} sx={{alignContent: 'end'}}>
+                        <Grid item xs={6}>
+                        <Controller
+                            name="duration"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                            <FormControl error={!!errors.duration} fullWidth>
+                                <Typography
+                                
+                                sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}
+                                >
+                                Duration
+                                </Typography>
+                                <Select
+                                {...field}
+                                label="Duration Type"
+                                error={!!errors.duration}
+                                fullWidth
+                                >
+                                <MenuItem value="Fixed">Fixed</MenuItem>
+                                <MenuItem value="Varies">Varies</MenuItem>
+                                </Select>
+                                <FormHelperText>{errors.duration?.message}</FormHelperText>
+                            </FormControl>
+                            )}
+                        />
+                        </Grid>
+                        <Grid item xs={6} sx={{alignContent: 'end'}}>
+                        <Controller
+                            name="duration"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                            <FormControl error={!!errors.duration} fullWidth>
+                                <Select
+                                {...field}
+                                label="Duration Amount"
+                                error={!!errors.duration}
+                                fullWidth
+                                >
+                                <MenuItem value="20">20</MenuItem>
+                                <MenuItem value="30">30</MenuItem>
+                                </Select>
+                                <FormHelperText>{errors.duration?.message}</FormHelperText>
+                            </FormControl>
+                            )}
+                        />
+                        </Grid>
+                    </Grid>
+                </div>
+            </div>
+        }
+
+        <div className="flex justify-center mt-4">
+          <Button variant='link' onClick={()=>{setAddOptions(true)}}>Add options [+]</Button>
         </div>
 
         <div className="flex justify-between mt-4">
