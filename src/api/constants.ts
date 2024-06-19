@@ -28,6 +28,8 @@ export const publish = 'e/saveEstablishment/publish'
 
 export const service = 'e/saveEstablishment/service'
 
+export const category = 'e/saveEstablishment/category'
+
 
 
 export function setBrowserCache(key: string, value: any) {

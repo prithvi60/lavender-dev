@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 import GetIcon from '../../../../assets/Icon/icon';
 import ImageUploading from 'react-images-uploading';
@@ -8,19 +8,40 @@ import endpoint from '../../../../api/endpoints';
 
 export const Photos = () => {
   const [images, setImages] = useState([]);
+  const [imageIdList, setImageIdList] = useState<string | any>([]);
   const maxNumber = 69;
+  const test = ["ji", 'de']
+  console.log('test : ', test)
+  console.log("imageListId,: ", imageIdList)
 
   const onChange = (imageList) => {
     setImages(imageList);
+    
   };
+
+  useEffect(()=>{
+    const payload = new FormData();
+    images.forEach((image) => {
+      payload.append('file', image.file);
+    });
+    const res = mutation.mutate(payload);
+    console.log("in muta res : ", res)
+  },[images])
+  console.log("images : ", images)
 
   const handleDragEnd = () => {
     // handle drag end logic if needed
   };
 
   const mutation = useMutation({
-    mutationFn: (payload) => {
-      return endpoint.saveEstablishmentPhotos(payload);
+    mutationFn: async (payload) => {
+      const response =  await endpoint.saveEstablishmentPhotos(payload);
+      console.log("response of iamges : ", response.data);
+      if(response?.data?.success){
+        const updatedImageIdList = [...imageIdList, response?.data?.data];
+        setImageIdList(updatedImageIdList)
+      }
+      return response;
     },
     onSuccess: (response) => {
       setTimeout(() => {
@@ -35,11 +56,7 @@ export const Photos = () => {
   });
 
   function handleButtonClick() {
-    const payload = new FormData();
-    images.forEach((image) => {
-      payload.append('file', image.file);
-    });
-    mutation.mutate(payload);
+    
   }
 
   return (

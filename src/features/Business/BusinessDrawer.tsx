@@ -3,6 +3,7 @@ import FilterDrawer from './FilterDrawer';
 import AppointmentEdit from './AppointmentEdit';
 import AddMemberForm from './team/AddMemberForm';
 import AddServicesForm from './services/AddServicesForm';
+import AddCategoryForm from './services/AddCategoryForm';
 
 interface BusinessDrawerProps {
   type: string;
@@ -19,6 +20,8 @@ const getDrawerComponent = (type, payload) => {
           return <AddMemberForm />;
         case 'addServices':
           return <AddServicesForm />;
+        case 'addCategory':
+          return <AddCategoryForm />;
         default:
           return <div>Default</div>;
       }

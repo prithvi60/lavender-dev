@@ -14,23 +14,25 @@ import GetIcon from "../../../assets/Icon/icon";
 import { SearchInput, Selector } from "../Appointments/AppointmentControllers";
 import { setAddUser } from "../../../store/slices/admin/userAdminSlice";
 import { useDrawer } from '../BusinessDrawerContext'
+import { ButtonGroup, Popper, Grow, Paper, ClickAwayListener, MenuList, MenuItem } from "@mui/material";
+import { ArrowDropDownIcon } from "@mui/x-date-pickers";
 
 const initialData = {
   components: [
     {
       id: "component-a",
-      title: "Component A",
+      title: "Hair Styling",
       rows: [
-        { id: "a-row-1", service: "Row A1", price: "$35", time: "20 min",employees: ["employee one", "employee one", 'employee one', "employee one", "employee one"] },
-        { id: "a-row-2", service: "Row A2", price: "$35", time: "20 min", employees: ["employee one", "employee one", 'employee one'] },
+        { id: "a-row-1", service: "Hair Color", price: "$35", time: "20 min",employees: ["employee one", "employee two", 'employee one',] },
+        { id: "a-row-2", service: "Hair blue color", price: "$35", time: "20 min", employees: ["employee one", "employee one", 'employee one'] },
       ],
     },
     {
       id: "component-b",
-      title: "Component B",
+      title: "Nail",
       rows: [
-        { id: "b-row-1", service: "Row B1", price: "$35", time: "20 min", employees: ["employee one", "employee one", 'employee one', "employee one", "employee one"] },
-        { id: "b-row-2", service: "Row B2", price: "$35", time: "20 min", employees: ["employee one", ] },
+        { id: "b-row-1", service: "Nail color", price: "$35", time: "20 min", employees: ["employee one", "employee one", 'employee one', "employee one", "employee one"] },
+        { id: "b-row-2", service: "nail color blue", price: "$35", time: "20 min", employees: ["employee one", ] },
       ],
     },
     // {
@@ -43,6 +45,8 @@ const initialData = {
     //   },
   ],
 };
+
+const options = ['Add services', 'Add category'];
 
 export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
   const [enabled, setEnabled] = useState(false);
@@ -65,6 +69,43 @@ export function Services() {
   const [serviceInput, setServiceInput] = useState('');
 
   const { openDrawer } = useDrawer()
+
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef<HTMLDivElement>(null);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const handleClick = () => {
+    console.info(`You clicked ${options[selectedIndex]}`);
+    if(options[selectedIndex] == 'Add services'){
+      openDrawer('addServices')
+    }
+    else{
+      openDrawer('addCategory')
+    }
+  };
+
+  const handleMenuItemClick = (
+    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
+    index: number,
+  ) => {
+    setSelectedIndex(index);
+    setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event: Event) => {
+    if (
+      anchorRef.current &&
+      anchorRef.current.contains(event.target as HTMLElement)
+    ) {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   const getServices = (service) => {
     if(!service){
@@ -180,8 +221,64 @@ export function Services() {
                 />
                 {/* <Selector onSelect={() => { } } className={"w-[180px] justify-evenly"} options={["Add category", "Add service"]} placeholder={"Add new"} label={undefined}/> */}
                 <div>
-                  <Button variant="outline" size="lg" className="bg-indigo-500 text-white"
-                    onClick={() => openDrawer('addServices')}>Add service</Button>
+                  {/* <Button variant="outline" size="lg" className="bg-indigo-500 text-white"
+                    onClick={() => openDrawer('addServices')}>Add service</Button> */}
+
+                    <ButtonGroup
+                      variant="contained"
+                      ref={anchorRef}
+                      aria-label="Button group with a nested menu"
+                    >
+                      <Button style={{borderRadius: '5px 0px 0px 5px'}} onClick={handleClick}>{options[selectedIndex]}</Button>
+                      <Button
+                        style={{height: '40px', borderRadius: '0px 5px 5px 0px'}}
+                        size="sm"
+                        aria-controls={open ? 'split-button-menu' : undefined}
+                        aria-expanded={open ? 'true' : undefined}
+                        aria-label="select merge strategy"
+                        aria-haspopup="menu"
+                        onClick={handleToggle}
+                      >
+                        <ArrowDropDownIcon />
+                      </Button>
+                    </ButtonGroup>
+                    <Popper
+                      sx={{
+                        zIndex: 1,
+                      }}
+                      open={open}
+                      anchorEl={anchorRef.current}
+                      role={undefined}
+                      transition
+                      disablePortal
+                    >
+                      {({ TransitionProps, placement }) => (
+                        <Grow
+                          {...TransitionProps}
+                          style={{
+                            transformOrigin:
+                              placement === 'bottom' ? 'center top' : 'center bottom',
+                          }}
+                        >
+                          <Paper>
+                            <ClickAwayListener onClickAway={handleClose}>
+                              <MenuList id="split-button-menu" autoFocusItem>
+                                {options.map((option, index) => (
+                                  <MenuItem
+                                    key={option}
+                                    disabled={index === 2}
+                                    selected={index === selectedIndex}
+                                    onClick={(event) => handleMenuItemClick(event, index)}
+                                  >
+                                    {option}
+                                  </MenuItem>
+                                ))}
+                              </MenuList>
+                            </ClickAwayListener>
+                          </Paper>
+                        </Grow>
+                      )}
+                    </Popper>
                 </div>
         </div>
 

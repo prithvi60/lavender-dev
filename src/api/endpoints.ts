@@ -17,6 +17,7 @@ import {
   uploadPhotos,
   publish,
   service,
+  category,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -163,6 +164,14 @@ class Endpoint {
   async saveEstablishmentService(payload) {
     const response = await axiosInstance.post(
       `${BaseURL}${service}`,
+      payload
+    );
+    return response;
+  }
+
+  async saveEstablishmentCategory(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${category}`,
       payload
     );
     return response;
