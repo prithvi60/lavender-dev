@@ -6,6 +6,11 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useMutation } from '@tanstack/react-query';
 import endpoint from '../../../../api/endpoints';
 
+    success: boolean;
+    data: string; 
+  };
+}
+
 export const Photos = () => {
   const [images, setImages] = useState([]);
   const [imageIdList, setImageIdList] = useState<string | any>([]);
@@ -41,7 +46,6 @@ export const Photos = () => {
     try{
       debugger
       const payload = new FormData();
-      console.log("images : ", images)
       images.forEach((image) => {
         payload.append('file', image.file);
       });
@@ -50,13 +54,13 @@ export const Photos = () => {
     catch{
 
     }
-  }
+  };
 
   const handleDragEnd = () => {
     // handle drag end logic if needed
   };
 
-  const mutation = useMutation({
+  const mutation = useMutation<ImageUploadResponse, Error, FormData>({
     mutationFn: async (payload) => {
       const response =  await endpoint.saveEstablishmentPhotos(payload);
       if(response?.data?.success){
