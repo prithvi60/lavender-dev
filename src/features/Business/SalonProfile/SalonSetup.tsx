@@ -69,7 +69,7 @@ export const SalonSetup = () => {
 
             {activeStep === 0 && <BusinessInfo userDetails={userDetails}/>}
 
-            {activeStep === 1 && <Photos />}
+            {activeStep === 1 && <Photos userDetails={userDetails}/>}
 
             {activeStep === 2 && <AdditionalInfo />}
 

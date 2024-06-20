@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 import GetIcon from '../../../../assets/Icon/icon';
 import ImageUploading from 'react-images-uploading';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import endpoint from '../../../../api/endpoints';
 
 interface ImageUploadResponse {
@@ -13,13 +13,43 @@ interface ImageUploadResponse {
   };
 }
 
-export const Photos = () => {
+export const Photos = ({userDetails}) => {
   const [images, setImages] = useState([]);
   const [imageIdList, setImageIdList] = useState<string | any>([]);
   const maxNumber = 69;
   const [imageUrls, setImageUrls] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const establishmentId = userDetails != null ? userDetails?.establishmentId : "";
+
+  useEffect(()=>{
+    const getEstablishmentDetails = async () => {
+      const establishmentData  = await endpoint.getEstablishmentDetailsById(establishmentId);
+      if(establishmentData?.data?.success){
+        setImages(establishmentData?.data?.data?.estImages)
+      }
+    }
+
+    getEstablishmentDetails();
+    
+  }, [])
+
+  useEffect( () =>{
+    debugger
+    const something = async () =>{
+      const urls = [];
+      for (const imageId of images) {
+        const imageUrl = await fetchImage(imageId);
+        urls.push(imageUrl);
+      }
+      setImageUrls(urls);
+      setLoading(false);
+    }
+    if (images.length > 0) {
+      something();
+    }
+  }, [images])
 
   const fetchImage = async (image) => {
     try {
@@ -37,20 +67,20 @@ export const Photos = () => {
   const onChange =  (imageList) => {
     setImages(imageList);
   };
-  useEffect(()=>{saveImages()},[images])
-
-  // function saveImagesId(){
-  //   saveImages();
-  // }
+  useEffect(() => {
+    if (images.length > 0) {
+      saveImages();
+    }
+  }, [images]); 
 
   const saveImages = async () => {
     try{
-      debugger
       const payload = new FormData();
       images.forEach((image) => {
         payload.append('file', image.file);
       });
       const res = mutation.mutate(payload);
+      setImages([]);
     }
     catch{
 
