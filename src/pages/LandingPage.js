@@ -37,10 +37,8 @@ const LandingPage = () => {
     },[])
     
     const userDetails = useSelector((state) => {
-      console.log('state : ', state.currentUserDetails)
       return state.currentUserDetails;
     });
-    console.log("userDetails in landingpage : ", userDetails.fullName);
     return (
         <Box className='landing-page'>
             <Navbar isSearchPage={false} isLoggedIn={isLoggedIn} userName={userDetails.fullName}/>

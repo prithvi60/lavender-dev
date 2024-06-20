@@ -11,10 +11,8 @@ export const DrawerProvider = ({ children }) => {
   const [content, setContent] = useState(null);
   const [payload, setPayload] = useState(null);
 
-  console.log("inside drawer context")
 
   const openDrawer = (content, payloadProp = null) => {
-    console.log("inside opendrawer",content)
     setContent(content);
     setPayload(payloadProp)
     setIsOpen(true);

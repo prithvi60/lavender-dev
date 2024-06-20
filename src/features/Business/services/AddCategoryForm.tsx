@@ -65,7 +65,6 @@ export default function AddCategoryForm() {
   const { closeDrawer } = useDrawer();
 
   const handleDrawerSubmit = (data) => {
-    console.log("faatad : ", data)
     alert(JSON.stringify(data, null, 2));
     const payLoad = {
       "id": "EST00002500",

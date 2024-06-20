@@ -14,11 +14,9 @@ import {
   } from 'react-redux';
 import CheckBox from './CheckBox.tsx';
 function OptionsModal({props}) {
-    console.log('OptionsModal({props})',props)
     const checkOutList = useSelector(
         (state: any) => state.checkOutPage
       );
-console.log('checkOutList.checkOut.', checkOutList.checkOut)
      //const {props} = props
     const [isOpen, setIsOpen] = useState();
     const [btnValue, setBtnValue] = useState("Select");
@@ -39,7 +37,6 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
             'finalPrice': finalPrice,
             'serviceDuration': serviceDuration
         }
-        console.log("checkOutObj in option : ", checkOutObj)
         if(btnValue === 'Select'){
             // addItemsToCheckOut(checkOutObj)
             disPatch(updateCheckOut(checkOutObj))
@@ -66,7 +63,6 @@ console.log('checkOutList.checkOut.', checkOutList.checkOut)
     boxShadow: 24,
     p: 4,
     }
-    console.log("props.options : ", props.options)
   return (
     <div>
         <Add onClick={handleOpen}/>

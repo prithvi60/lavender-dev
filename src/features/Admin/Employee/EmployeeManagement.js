@@ -17,7 +17,6 @@ const EmployeeManagement = () => {
       label: "Actions",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
-          console.log('tableMeta', tableMeta);
           return (
             <>
               <IconButton onClick={() => handleUpdateEmployee(tableMeta.rowData[1])}>
@@ -48,7 +47,6 @@ const EmployeeManagement = () => {
       label: "Status",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
-          console.log('tableMeta', tableMeta);
           return (
               <Chip label={tableMeta?.rowData[4]} style={{ color: "white", backgroundColor: tableMeta?.rowData[4] === "Active" ? "green" : "red"}} />
           );
@@ -77,7 +75,6 @@ const EmployeeManagement = () => {
 
   const handleDeleteEmployee = (employeeId) => {
     // Delete employee logic
-    console.log('handleDeleteEmployee: ', employeeId, employees);
     // setEmployees(employees.filter(employee => employee.id !== employeeId));
     dispatch(removeEmployee({id: employeeId}));
     

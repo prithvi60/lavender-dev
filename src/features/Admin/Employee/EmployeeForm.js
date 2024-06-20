@@ -31,7 +31,6 @@ const EmployeeForm = () => {
     const [employee, setEmployee] = useState({...initialState});
 
     const handleOnChange = (key, value) => {
-        console.log('handleOnChange: ', key, value);
         const employeeTemp = {...employee};
         employeeTemp[key] = value;
         setEmployee(employeeTemp);

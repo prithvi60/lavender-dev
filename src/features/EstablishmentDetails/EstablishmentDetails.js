@@ -23,7 +23,6 @@ function EstablishmentDetails({estId}) {
   const id=789
   const { data: establishmentData, isLoading: isLoading, error: userDataError, refetch: refetchUserData } = 
   useQuery({queryKey: ['query-establishment-details'], queryFn: () =>{ return endpoint.getEstablishmentDetailsById(estId)}})
-console.log("establishmentDatahere : : : ", establishmentData)
   return (
     <div className='searchDetailsContainer'>
         <HeaderDetails isLoading={isLoading} establishmentData={establishmentData}/>

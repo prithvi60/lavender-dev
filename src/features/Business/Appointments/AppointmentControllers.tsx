@@ -58,7 +58,6 @@ export function Selector({placeholder, options, className, label, onSelect}) {
         <>
             <Select onValueChange={(value) => {
                 onSelect(value)
-                console.log("value selected",value)
             }
             }>
             <SelectGroup>
@@ -216,9 +215,6 @@ export function CustomTabPanel(props) {
 }
 export const AppointmentDateSelector = ({startDate, endDate, startDateControl, endDateControl}) => {
     const [tabValue, setTabValue] = useState(0)
-
-    console.log("AppointmentDateSelector", startDate)
-    console.log("AppointmentDateSelector", endDate)
 
     useEffect(() => {
       if(endDate < startDate) {

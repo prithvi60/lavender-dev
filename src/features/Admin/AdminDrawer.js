@@ -15,7 +15,7 @@ export const AdminDrawer = ({ open, toggleDrawer }) => {
       anchor="left"
       open={open}
       onClose={toggleDrawer}
-      onOpen={() => console.log("Drawer opened")}
+      onOpen={() => console.log("open")}
       // disableBackdropTransition={true}
       classes={{
         paper: "admin-drawer",

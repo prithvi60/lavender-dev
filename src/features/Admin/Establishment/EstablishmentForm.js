@@ -44,7 +44,6 @@ const EstablishmentForm = ({ onSubmit }) => {
 
   const validateData = (data) => {
     for (let key in data) {
-      console.log('data: ', key, data[key])
       if (!data[key]) {
           return false;
       }

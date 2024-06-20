@@ -35,7 +35,6 @@ const BusinessHours = ({ onSubmit }) => {
   };
 
   const handleSubmit = () => {
-    console.log('============handleSubmit: ', businessHours);
 
 
     

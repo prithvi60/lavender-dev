@@ -17,7 +17,6 @@ const ServiceManagement = () => {
       label: "Actions",
       options: {
         customBodyRender: (value, tableMeta, updateValue) => {
-          console.log('tableMeta', tableMeta);
           return (
             <>
               <IconButton onClick={() => handleUpdateService(tableMeta.rowData[1])}>
@@ -78,7 +77,6 @@ const ServiceManagement = () => {
 
   const handleDeleteService = (serviceId) => {
     // Delete Service logic
-    console.log('handleDeleteService: ', serviceId, services);
     dispatch(removeService({id: serviceId}));
     
   };

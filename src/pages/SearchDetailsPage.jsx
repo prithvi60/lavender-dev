@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 function SearchDetailsPage() {
   const [isSearchPage, setIsSearchPage] = useState(true);
   const {estId} = useParams();
-  console.log('estId : ', estId)
   return (
     <Box className='landing-page'>
         <Navbar isSearchPage={isSearchPage}/>

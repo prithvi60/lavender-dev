@@ -15,10 +15,8 @@ export const DayCalendar = () => {
 
   const mondayDate = getMonday();
 
-  console.log("appointment day", filteredAppointments)
 
   const onDragStartDelete = (e, id, currentEmployee) => {
-    console.log(currentEmployee, e, dragElementRef)
     showDeleteIcon((prevState) => !prevState)
 
     e.dataTransfer.setData('eventId', id);
@@ -33,7 +31,6 @@ export const DayCalendar = () => {
     const id = e.dataTransfer.getData('eventId');
     e.target.style.backgroundColor = 'red'
     const currentEmployee = e.dataTransfer.getData('currentEmployee');
-    console.log(`drag and drop deletes event - ${id} from ${currentEmployee}`)
   }
 
   const onDragOverDelete = (e) => {

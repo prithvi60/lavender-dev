@@ -20,7 +20,6 @@ const monthNames = [
 ];
 export const formatDateString = (dateStr) => {
   const dateObj = new Date(dateStr);
-  console.log(dateObj.toLocaleString());
 
   const day = dateObj.getDate();
   const monthIndex = dateObj.getMonth();
@@ -30,7 +29,6 @@ export const formatDateString = (dateStr) => {
 
   const formattedDate = day + " " + monthNames[monthIndex] + " " + year;
   const formattedTime = hours + "." + (minutes < 10 ? "0" : "") + minutes;
-  console.log(formattedDate, formattedTime);
   return { date: formattedDate, time: formattedTime };
 };
 

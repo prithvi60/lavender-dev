@@ -41,7 +41,6 @@ const RegisterScreen = () => {
         },
         onSuccess: (response: any) => {
           setTimeout(() => {
-          console.log('resposne : ', response)
             
           },1000)
         },

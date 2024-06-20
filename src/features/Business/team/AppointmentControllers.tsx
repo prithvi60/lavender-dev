@@ -58,7 +58,6 @@ export function Selector({placeholder, options, className, label, onSelect}) {
         <>
             <Select onValueChange={(value) => {
                 onSelect(value)
-                console.log("value selected",value)
             }
             }>
             <SelectGroup>

@@ -56,14 +56,12 @@ export default function ScheduleAppointment(props) {
     // Concatenate the formatted parts
     const formattedDate = `${year}-${month}-${day}`;
     const test = appointmentTimings?.filter(slot => slot.availableDate === formattedDate);
-    console.log('test : ', test);
 
     setAvailableTimeSlots(test);
     //TODO set date value in store redux
     dispatch(UpdateSelectedDate({selectedDate: date}));
 
   };
-  console.log('availableTimeSlots : ', availableTimeSlots);
   const testaTS = availableTimeSlots?.length > 0 && availableTimeSlots[0]?.availableSlots;
   
 

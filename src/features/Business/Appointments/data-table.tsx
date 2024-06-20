@@ -49,7 +49,6 @@ export function DataTable<TData, TValue>({
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
 
-  console.log("data from data-table >",data)
   const table = useReactTable({
     data,
     columns,
@@ -99,7 +98,6 @@ export function DataTable<TData, TValue>({
             <div>
                   <GetIcon onClick={    
                     () => {
-                    console.log("filter icon clicked")
                     openDrawer("FilterDrawer")
                     }}
                     className='my-5 mx-16 border-2 border-gray-400 p-1 cursor-pointer rounded-sm' 

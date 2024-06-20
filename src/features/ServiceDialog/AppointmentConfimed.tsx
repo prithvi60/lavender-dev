@@ -36,7 +36,6 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
   );
   const dispatch = useDispatch();
 
-  console.log('checkOutList in appoint : ', checkOutList);
   const handleOpen = () => {
     setOpen((prev) => !prev);
     navigate("/");
@@ -46,7 +45,6 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
 
     
     if(activeStep===2){
-        console.log("in methoddd activeStep ...")
         const payLoad:SaveAppoinment = {
           "customerId": "2500",
           "establishmentId": establishmentId,
@@ -72,7 +70,6 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
           "walkIn": false
         }
         const appointmentBooking =await endpoint.saveAppointmentBookings(payLoad);
-        console.log('appointmentBooking : ', appointmentBooking);
         
         setOpen((prev) => !prev);
 

@@ -30,7 +30,6 @@ function DatePicker(props: DatepickerProps) {
     getSelectedDay,
   } = props;
 
-  console.log('slectDate : ', selectDate)
   const next = (event) => {
     event.preventDefault();
     const e: any = document.getElementById("container");

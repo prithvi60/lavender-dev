@@ -49,7 +49,6 @@ const RecommendSection = () => {
     "availableEndTime": "2024-05-21T09:08:43.496Z"
   }
   const {isLoading, data: establishmentSearchResult} = useQuery({queryKey: ['custom-data'], queryFn: () =>{ return endpoint.getEstablishmentSearch(payLoad)}})
-console.log("content", establishmentSearchResult)
   const NextArrow = (props) => {
     const { className, onClick } = props;
     return (

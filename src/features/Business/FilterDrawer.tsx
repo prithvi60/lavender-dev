@@ -20,12 +20,7 @@ export default function FilterDrawer() {
   const { closeDrawer } = useDrawer();
 
   const handleFilterDrawerSubmit = () => {
-    console.log(
-      "filterDrawer",
-      selectedBookingStatusFilters,
-      selectedClient,
-      selectedTeamMember
-    );
+ 
     closeDrawer()
   };
   return (

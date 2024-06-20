@@ -18,7 +18,6 @@ const DrawerForm = ({ formElements }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form State:', formState);
   };
 
   const handleReset = () => {

@@ -14,7 +14,6 @@ function getData(): Appointments[] {
 
 function parseAppointmentResponse(response: BookingResponse) {
   const parsedResponse: Appointments[] = []
-  console.log("Appointments >>", response)
 
   response?.content?.forEach((booking) => {
     const {bookingId, customerName, startTime, 
@@ -39,7 +38,6 @@ function parseAppointmentResponse(response: BookingResponse) {
 export default function AppointmentsPage() {
   const [customerName, setCustomerName] = useState('')
 
-  console.log("customerName >>", customerName)
   const payload = {
     "pageNumber": 0,
     "pageSize": 10,
@@ -62,7 +60,6 @@ export default function AppointmentsPage() {
     const { data: { content, ...pageD } } = userInfo
     pageData = pageD
     appointmentData = parseAppointmentResponse(userInfo.data)
-    console.log("data from AppointmentsPage >", appointmentData)
   }
 
   return (

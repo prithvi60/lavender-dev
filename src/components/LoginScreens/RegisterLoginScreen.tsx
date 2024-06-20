@@ -46,7 +46,6 @@ function RegisterLoginScreen({isInLoginModal}) {
         },
         onSuccess: (response: any) => {
           setTimeout(() => {
-          console.log('resposne : ', response)
             
           },1000)
         },
@@ -66,7 +65,6 @@ function RegisterLoginScreen({isInLoginModal}) {
         mutation.mutate(payLoad)
 
         // setTimeout(()=>{
-        // console.log('tokenDetails', tokenDetails.response);
 
         // }, 1000)
 

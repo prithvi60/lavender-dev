@@ -47,12 +47,10 @@ const BusinessLayoutPage = () => {
   const { data: establishmentData, isLoading: isLoading, error: userDataError, refetch: refetchUserData } = 
   useQuery({queryKey: ['query-establishment'], queryFn: () =>{ return endpoint.getEstablishmentDetailsById('2502')}})
   if(!isLoading) {
-    console.log("establishmentDatahere : : : ", establishmentData)
     dispatch(setEstablishmentData(establishmentData))
   }
 
   const renderMainContent = () => {
-    console.log("test", activeField, Date.now())
     switch (activeField) {
       case 'Home':
         return <div>Home</div>;

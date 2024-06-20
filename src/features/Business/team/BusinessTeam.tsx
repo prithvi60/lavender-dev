@@ -25,7 +25,6 @@ export default function BusinessTeam() {
     queryFn: () => endpoint.getBusinessAppointments(payload)
   })
 
-  console.log("teamss >>", userInfo, isLoading)
   const data = teams
 
   return (

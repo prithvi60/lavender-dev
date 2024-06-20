@@ -10,24 +10,47 @@ export const Photos = () => {
   const [images, setImages] = useState([]);
   const [imageIdList, setImageIdList] = useState<string | any>([]);
   const maxNumber = 69;
-  const test = ["ji", 'de']
-  console.log('test : ', test)
-  console.log("imageListId,: ", imageIdList)
+  const [imageUrls, setImageUrls] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const onChange = (imageList) => {
-    setImages(imageList);
-    
+  const fetchImage = async (image) => {
+    try {
+      setLoading(true);
+      const response = await endpoint.getImages(image);
+
+      const imageUrl = URL.createObjectURL(response.data);
+      return imageUrl
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
   };
 
-  useEffect(()=>{
-    const payload = new FormData();
-    images.forEach((image) => {
-      payload.append('file', image.file);
-    });
-    const res = mutation.mutate(payload);
-    console.log("in muta res : ", res)
-  },[images])
-  console.log("images : ", images)
+  const onChange =  (imageList) => {
+    setImages(imageList);
+    //saveImagesId();
+  };
+  useEffect(()=>{saveImages()},[images])
+
+  // function saveImagesId(){
+  //   saveImages();
+  // }
+
+  const saveImages = async () => {
+    try{
+      debugger
+      const payload = new FormData();
+      console.log("images : ", images)
+      images.forEach((image) => {
+        payload.append('file', image.file);
+      });
+      const res = mutation.mutate(payload);
+    }
+    catch{
+
+    }
+  }
 
   const handleDragEnd = () => {
     // handle drag end logic if needed
@@ -36,7 +59,6 @@ export const Photos = () => {
   const mutation = useMutation({
     mutationFn: async (payload) => {
       const response =  await endpoint.saveEstablishmentPhotos(payload);
-      console.log("response of iamges : ", response.data);
       if(response?.data?.success){
         const updatedImageIdList = [...imageIdList, response?.data?.data];
         setImageIdList(updatedImageIdList)
@@ -44,9 +66,6 @@ export const Photos = () => {
       return response;
     },
     onSuccess: (response) => {
-      setTimeout(() => {
-        console.log('response : ', response);
-      }, 1000);
     },
     onError: (error) => {
       console.error('Upload Error:', error);
@@ -55,9 +74,21 @@ export const Photos = () => {
     onSettled: () => {},
   });
 
-  function handleButtonClick() {
-    
-  }
+  const handleButtonClick = async () => {
+    setLoading(true);
+    try {
+      const urls = [];
+      for (const imageId of imageIdList) {
+        const imageUrl = await fetchImage(imageId);
+        urls.push(imageUrl);
+      }
+      setImageUrls(urls);
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -125,9 +156,20 @@ export const Photos = () => {
         </ImageUploading>
       </DragDropContext>
 
+      <div>
+      <br />
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {imageUrls.map((url, index) => (
+          <img key={index} src={url} alt={`Image ${index}`} style={{ width: '200px', margin: '10px' }} />
+        ))}
+      </div>
+    </div>
+      
       <div className='flex justify-center mt-4'>
         <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleButtonClick}>
-          Upload
+          Save
         </button>
       </div>
     </div>

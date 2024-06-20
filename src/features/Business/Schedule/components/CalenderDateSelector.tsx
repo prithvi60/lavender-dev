@@ -8,7 +8,6 @@ export const CalenderDateSelector = ({ view }) => {
 
     const { selectedDate, setSelectedDate, filterWeekStartDate, filterWeekEndDate, 
       setFilterWeekEndDate, setFilterWeekStartDate } = GetScheduleDates()
-    console.log("CalenderDateSelector 2", selectedDate, filterWeekStartDate, filterWeekEndDate)
   
     const handleLeftClick = () => {
       if(view === 'Day') {

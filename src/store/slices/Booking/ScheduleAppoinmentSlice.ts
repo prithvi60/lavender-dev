@@ -33,7 +33,6 @@ export const ScheduleAppoinmentSlice = createSlice({
 
     },
     resetFilter: () => {
-      console.log(initialState);
       return initialState;
     },
   },

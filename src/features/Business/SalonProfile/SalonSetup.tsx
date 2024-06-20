@@ -37,7 +37,6 @@ export const SalonSetup = () => {
   const steps = ["Business info", "Photos", "Additional info", "Publish"];
   
   const userDetails = useSelector((state) => {
-    console.log('state : ', state.currentUserDetails)
     return state.currentUserDetails;
   });
   

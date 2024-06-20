@@ -16,7 +16,6 @@ const checkoutData = [{'name': 'Yong Chow’s Paradise - Women’s Parlour & Spa
 
 function CheckoutCard(props) {
   const {activeStep, next, establishmentName, establishmentId} = props
-  console.log('next : ', next);
   const [testId, setTestId] = useState(false);
 
   const checkOutList = useSelector(
@@ -50,7 +49,6 @@ function CheckoutCard(props) {
 
   function sendDataToParent() {
     
-    console.log("in methoddd sendDataToParent ...")
     next((prevActiveStep) => prevActiveStep + 1); // Invoke the callback function with data
   };
 
@@ -81,7 +79,6 @@ function CheckoutCard(props) {
   //     "cardStoreId": "2500"
   //   }
   //   const appointmentBooking = endpoint.saveAppointmentBookings(payLoad);
-  //   console.log('appointmentBooking : ', appointmentBooking);
   // },[testId])
 
   return (

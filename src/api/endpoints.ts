@@ -18,6 +18,7 @@ import {
   publish,
   service,
   category,
+  savePhotos,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -174,6 +175,11 @@ class Endpoint {
       `${BaseURL}${category}`,
       payload
     );
+    return response;
+  }
+
+  async getImages(payload) {
+    const response = await axiosInstance.get(`${BaseURL}${savePhotos}${payload}`,{responseType: 'blob'});
     return response;
   }
 }

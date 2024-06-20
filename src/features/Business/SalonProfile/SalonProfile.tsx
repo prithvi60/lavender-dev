@@ -15,7 +15,6 @@ export const SalonProfile = () => {
       setIsOpen(true);
   }
   function onSetActiveStep(value) {
-    console.log('activeStep : ', activeStep)
     setActiveStep(value);
   }
 

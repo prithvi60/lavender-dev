@@ -116,16 +116,13 @@ export function Services() {
     const filteredData = data
     filteredData.components.forEach((serviceArr,index) => {
         serviceArr.rows = serviceArr.rows.filter((row) => {
-            console.log("forEach >",row.service.toLowerCase().indexOf(Lservice))
             if(row.service.toLowerCase().indexOf(Lservice) !== -1){
-                console.log("getServices filter >",Lservice, row.service.toLowerCase(), )
                 return true
             }
             return false
         })
     })
 
-    console.log("getServices >", filteredData.components)
 
     setData(filteredData)
   }
@@ -138,12 +135,10 @@ export function Services() {
         }
         return category
     })
-    console.log("newData >",newData, value, id)
     setData(newData)
   }
 
   const onDragEnd = (result) => {
-    console.log("onDragEnd >", result);
     const { destination, source, draggableId, type } = result;
 
     if (!destination) {

@@ -37,7 +37,6 @@ const Establishment = () => {
     onSubmit: false
   });
 
-  console.log('Data: ', data, addEst, editEstablishmentId);
 
   const handleOnChange = (key, value) => {
     const dataTemp = {...data};
