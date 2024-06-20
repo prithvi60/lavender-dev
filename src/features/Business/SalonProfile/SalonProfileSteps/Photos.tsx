@@ -6,6 +6,8 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useMutation } from '@tanstack/react-query';
 import endpoint from '../../../../api/endpoints';
 
+interface ImageUploadResponse {
+  data: {
     success: boolean;
     data: string; 
   };
@@ -34,7 +36,6 @@ export const Photos = () => {
 
   const onChange =  (imageList) => {
     setImages(imageList);
-    //saveImagesId();
   };
   useEffect(()=>{saveImages()},[images])
 
