@@ -15,11 +15,13 @@ interface ImageUploadResponse {
 
 export const Photos = ({userDetails}) => {
   const [images, setImages] = useState([]);
+  const [photosId, setPhotoId] = useState([]);
   const [imageIdList, setImageIdList] = useState<string | any>([]);
   const maxNumber = 69;
   const [imageUrls, setImageUrls] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isImageUploaded, setIsImageUploaded] = useState(false);
 
   const establishmentId = userDetails != null ? userDetails?.establishmentId : "";
 
@@ -27,7 +29,8 @@ export const Photos = ({userDetails}) => {
     const getEstablishmentDetails = async () => {
       const establishmentData  = await endpoint.getEstablishmentDetailsById(establishmentId);
       if(establishmentData?.data?.success){
-        setImages(establishmentData?.data?.data?.estImages)
+        setPhotoId(establishmentData?.data?.data?.estImages)
+        setImageIdList(establishmentData?.data?.data?.estImages)
       }
     }
 
@@ -37,24 +40,24 @@ export const Photos = ({userDetails}) => {
 
   useEffect( () =>{
     debugger
-    const something = async () =>{
+    const callFetchImageApi = async () =>{
       const urls = [];
-      for (const imageId of images) {
+      for (const imageId of photosId) {
         const imageUrl = await fetchImage(imageId);
         urls.push(imageUrl);
       }
       setImageUrls(urls);
       setLoading(false);
     }
-    if (images.length > 0) {
-      something();
+    if (photosId.length > 0) {
+      callFetchImageApi();
     }
-  }, [images])
+  }, [photosId])
 
   const fetchImage = async (image) => {
     try {
       setLoading(true);
-      const response = await endpoint.getImages(image);
+      const response = await endpoint.getImages(image, establishmentId);
 
       const imageUrl = URL.createObjectURL(response.data);
       return imageUrl
@@ -66,7 +69,9 @@ export const Photos = ({userDetails}) => {
 
   const onChange =  (imageList) => {
     setImages(imageList);
+    setIsImageUploaded(true);
   };
+
   useEffect(() => {
     if (images.length > 0) {
       saveImages();
@@ -93,7 +98,7 @@ export const Photos = ({userDetails}) => {
 
   const mutation = useMutation<ImageUploadResponse, Error, FormData>({
     mutationFn: async (payload) => {
-      const response =  await endpoint.saveEstablishmentPhotos(payload);
+      const response =  await endpoint.saveEstablishmentPhotos(payload, establishmentId);
       if(response?.data?.success){
         const updatedImageIdList = [...imageIdList, response?.data?.data];
         setImageIdList(updatedImageIdList)
@@ -110,6 +115,7 @@ export const Photos = ({userDetails}) => {
   });
 
   const handleButtonClick = async () => {
+    debugger
     setLoading(true);
     try {
       const urls = [];
@@ -117,6 +123,7 @@ export const Photos = ({userDetails}) => {
         const imageUrl = await fetchImage(imageId);
         urls.push(imageUrl);
       }
+      callSaveImageIdApi(imageIdList);
       setImageUrls(urls);
       setLoading(false);
     } catch (error) {
@@ -124,6 +131,15 @@ export const Photos = ({userDetails}) => {
       setLoading(false);
     }
   };
+
+  const callSaveImageIdApi = async(imageId) =>{
+    console.log('iamgeId : ', imageId)
+    const payload = {
+      "id": establishmentId,
+      "estImages": imageId,
+    }
+   const response = await endpoint.saveImageId(payload);
+  }
 
   return (
     <div>
@@ -202,11 +218,15 @@ export const Photos = ({userDetails}) => {
       </div>
     </div>
       
-      <div className='flex justify-center mt-4'>
+      {
+        (isImageUploaded && !loading) && 
+        <div className='flex justify-center mt-4'>
         <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleButtonClick}>
           Save
         </button>
       </div>
+      }
+      
     </div>
   );
 };

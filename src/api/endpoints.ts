@@ -19,6 +19,8 @@ import {
   service,
   category,
   savePhotos,
+  saveImageId,
+  additionalInformation,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -146,9 +148,9 @@ class Endpoint {
     return response;
   }
 
-  async saveEstablishmentPhotos(payload) {
+  async saveEstablishmentPhotos(payload, establishmentId) {
     const response = await axiosInstance.post(
-      `${BaseURL}${uploadPhotos}`,
+      `${BaseURL}${uploadPhotos}${establishmentId}`,
       payload
     );
     return response;
@@ -178,10 +180,27 @@ class Endpoint {
     return response;
   }
 
-  async getImages(payload) {
-    const response = await axiosInstance.get(`${BaseURL}${savePhotos}${payload}`,{responseType: 'blob'});
+  async getImages(payload, establishmentId) {
+    const response = await axiosInstance.get(`${BaseURL}${savePhotos}${establishmentId}/${payload}`,{responseType: 'blob'});
     return response;
   }
+
+  async saveImageId(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${saveImageId}`,
+      payload
+    );
+    return response;
+  }
+
+  async saveEstablishmentAdditionalInfo(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${additionalInformation}`,
+      payload
+    );
+    return response;
+  }
+
 }
 
 function FormAvailableSlotsModel(response) {

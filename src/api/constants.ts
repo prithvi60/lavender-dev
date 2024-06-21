@@ -22,7 +22,7 @@ export const saveEstablishment = 'e/saveEstablishment/profile'
 
 export const saveWorkingHours = 'e/saveEstablishment/timeslot'
 
-export const uploadPhotos = 'e/saveEstablishmentImage/EST00002507'
+export const uploadPhotos = 'e/saveEstablishmentImage/'
 
 export const publish = 'e/saveEstablishment/publish'
 
@@ -30,7 +30,11 @@ export const service = 'e/saveEstablishment/service'
 
 export const category = 'e/saveEstablishment/category'
 
-export const savePhotos = 'e/getEstablishmentImage/EST00002507/'
+export const savePhotos = 'e/getEstablishmentImage/'
+
+export const saveImageId = 'e/saveEstablishment/images'
+
+export const additionalInformation = 'e/saveEstablishment/additional'
 
 
 export function setBrowserCache(key: string, value: any) {

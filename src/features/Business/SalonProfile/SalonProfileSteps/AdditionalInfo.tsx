@@ -6,6 +6,7 @@ import { ArrowDropDownIcon } from '@mui/x-date-pickers';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import endpoint from '../../../../api/endpoints';
 
 const sampledata = [{'name': 'English', 'value': 'English'}, {'name': 'French', 'value': 'French'},{'name': 'Spanish', 'value': 'Spanish'},{'name': 'Hindi', 'value': 'Hindi'}]
 const chipData = ['Cash', 'Debit Card', 'Credit Card', 'Mobile payment']
@@ -17,11 +18,13 @@ const schema = yup.object().shape({
     otherChips: yup.array().min(1),
 });
 
-export const AdditionalInfo = () => {
+export const AdditionalInfo = ({userDetails}) => {
     const [selectedItems, setSelectedItems] = useState([]);
     const [selectedValue, setSelectedValue] = useState('');
     const [selectedChips, setSelectedChips] = useState([]);
     const [otherChips, setOtherChips] = useState([]);
+  const establishmentId = userDetails != null ? userDetails?.establishmentId : "";
+
     const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
 
     const handleChipClick = (item) => {
@@ -62,15 +65,29 @@ export const AdditionalInfo = () => {
 
     const onSubmit = (data) => {
         const selectedLanguage = data.language;
-    const selectedPaymentChips = selectedChips;
-    const selectedOtherChips = otherChips;
-    const formData = {
-        language: { selectedLanguage: data.language },
-        payment: selectedPaymentChips,
-        others: selectedOtherChips
+        const selectedPaymentChips = {};
+        selectedChips.forEach(chip => {
+            selectedPaymentChips[chip.toLowerCase().replace(' ', '')] = true;
+        });
+    
+        const formData = {
+            id: establishmentId,
+            paymentTypes: selectedPaymentChips,
+            languages: [selectedLanguage],
+            features: {}
+        };
+    
+        otherChips.forEach(chip => {
+            formData.features[chip.toLowerCase().replace(' ', '')] = true;
+        });
+    
+        console.log("formaDta L: ", formData)
+        alert(JSON.stringify(formData));
+    
+        // Assuming endpoint.saveEstablishmentAdditionalInfo(formData); needs formData as argument
+        const response = endpoint.saveEstablishmentAdditionalInfo(formData);
     };
-    alert(JSON.stringify(formData));
-    };
+    
 
     return (
         <div>

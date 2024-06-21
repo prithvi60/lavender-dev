@@ -71,7 +71,7 @@ export const SalonSetup = () => {
 
             {activeStep === 1 && <Photos userDetails={userDetails}/>}
 
-            {activeStep === 2 && <AdditionalInfo />}
+            {activeStep === 2 && <AdditionalInfo userDetails={userDetails}/>}
 
             {activeStep === 3 && <Publish userDetails={userDetails}/>}
             
