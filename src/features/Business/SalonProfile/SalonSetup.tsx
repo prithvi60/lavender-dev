@@ -25,8 +25,8 @@ export const SalonSetup = () => {
     const [paymentTypes, setPaymentTypes] = useState();     
     const [languages, setLanguages] = useState([]);      
 
-    const userDetails = useSelector((state) => {
-      return state.currentUserDetails;
+    const userDetails = useSelector((state: any) => {
+      return state?.currentUserDetails;
     });
 
   const establishmentId = userDetails != null ? userDetails?.establishmentId : "";

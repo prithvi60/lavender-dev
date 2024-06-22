@@ -5,48 +5,126 @@ import {
   Draggable,
   DroppableProps,
 } from "react-beautiful-dnd";
-import { Button } from "../../../components/ui/button";
-import FormControl from "@mui/material/FormControl";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import Input from "@mui/material/Input";
+import {
+  Button,
+  ButtonGroup,
+  FormControl,
+  IconButton,
+  Input,
+  InputAdornment,
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper,
+  Grow,
+  ClickAwayListener,
+} from "@mui/material";
+import { ArrowDropDown as ArrowDropDownIcon } from "@mui/icons-material";
 import GetIcon from "../../../assets/Icon/icon";
-import { SearchInput, Selector } from "../Appointments/AppointmentControllers";
-import { setAddUser } from "../../../store/slices/admin/userAdminSlice";
-import { useDrawer } from '../BusinessDrawerContext'
-import { ButtonGroup, Popper, Grow, Paper, ClickAwayListener, MenuList, MenuItem } from "@mui/material";
-import { ArrowDropDownIcon } from "@mui/x-date-pickers";
+import { SearchInput } from "../Appointments/AppointmentControllers";
+import { useDrawer } from "../BusinessDrawerContext";
+import { useSelector } from "react-redux";
+import endpoint from "../../../api/endpoints";
+import { category } from "../../../api/constants";
+
+type Option = "Add services" | "Add category";
+
+interface OptionProps {
+  value: Option;
+  label: string;
+}
+
+const options: OptionProps[] = [
+  { value: "Add services", label: "Add services" },
+  { value: "Add category", label: "Add category" },
+];
+
+interface OptionButtonProps {
+  selectedIndex: number;
+  handleClick: () => void;
+  handleMenuItemClick: (
+    event: React.MouseEvent<HTMLLIElement, MouseEvent>,
+    index: number
+  ) => void;
+  handleToggle: () => void;
+  open: boolean;
+  anchorRef: React.RefObject<HTMLDivElement>;
+}
+
+const OptionButton: React.FC<OptionButtonProps> = ({
+  selectedIndex,
+  handleClick,
+  handleMenuItemClick,
+  handleToggle,
+  open,
+  anchorRef,
+}) => (
+  <ButtonGroup variant="contained" ref={anchorRef} aria-label="Button group with a nested menu">
+    <Button style={{ borderRadius: '5px 0px 0px 5px' }} onClick={handleClick}>
+      {options[selectedIndex].label}
+    </Button>
+    <Button
+      style={{ height: '40px', borderRadius: '0px 5px 5px 0px' }}
+      aria-controls={open ? 'split-button-menu' : undefined}
+      aria-expanded={open ? 'true' : undefined}
+      aria-label="select merge strategy"
+      aria-haspopup="menu"
+      onClick={handleToggle}
+    >
+      <ArrowDropDownIcon />
+    </Button>
+    <Popper
+      sx={{
+        zIndex: 1,
+      }}
+      open={open}
+      anchorEl={anchorRef.current}
+      role={undefined}
+      transition
+      disablePortal
+    >
+      {({ TransitionProps, placement }) => (
+        <Grow
+          {...TransitionProps}
+          style={{
+            transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
+          }}
+        >
+          <Paper>
+            <ClickAwayListener onClickAway={handleToggle}>
+              <MenuList id="split-button-menu" autoFocusItem>
+                {options.map((option, index) => (
+                  <MenuItem
+                    key={option.value}
+                    disabled={index === 2}
+                    selected={index === selectedIndex}
+                    onClick={(event) => handleMenuItemClick(event, index)}
+                  >
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </ClickAwayListener>
+          </Paper>
+        </Grow>
+      )}
+    </Popper>
+  </ButtonGroup>
+);
 
 const initialData = {
-  components: [
-    {
-      id: "component-a",
-      title: "Hair Styling",
-      rows: [
-        { id: "a-row-1", service: "Hair Color", price: "$35", time: "20 min",employees: ["employee one", "employee two", 'employee one',] },
-        { id: "a-row-2", service: "Hair blue color", price: "$35", time: "20 min", employees: ["employee one", "employee one", 'employee one'] },
-      ],
-    },
-    {
-      id: "component-b",
-      title: "Nail",
-      rows: [
-        { id: "b-row-1", service: "Nail color", price: "$35", time: "20 min", employees: ["employee one", "employee one", 'employee one', "employee one", "employee one"] },
-        { id: "b-row-2", service: "nail color blue", price: "$35", time: "20 min", employees: ["employee one", ] },
-      ],
-    },
-    // {
-    //     id: 'component-c',
-    //     title: 'Component C',
-    //     rows: [
-    //       { id: 'c-row-1', service: 'Row C1', price: "$35", time: "20 min", employees: ["employee one", "employee one", 'employee one', "employee one", "employee one"] },
-    //       { id: 'c-row-2', service: 'Row C2', price: "$35", time: "20 min", employees: ["employee one", "employee one", 'employee one', "employee one"] },
-    //     ],
-    //   },
-  ],
+  components: [] as {
+    id: string;
+    title: string;
+    rows: {
+      id: string;
+      service: string;
+      price: string;
+      time: string;
+      employees: string[];
+    }[];
+  }[],
 };
-
-const options = ['Add services', 'Add category'];
 
 export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
   const [enabled, setEnabled] = useState(false);
@@ -57,30 +135,39 @@ export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
       setEnabled(false);
     };
   }, []);
+
   if (!enabled) {
     return null;
   }
+
   return <Droppable {...props}>{children}</Droppable>;
 };
-export function Services() {
+
+export const Services: React.FC = () => {
   const [data, setData] = useState(initialData);
   const [filteredService, setFilteredService] = useState(initialData);
 
-  const [serviceInput, setServiceInput] = useState('');
+  const [serviceInput, setServiceInput] = useState<string | any>('');
 
-  const { openDrawer } = useDrawer()
+  const { openDrawer } = useDrawer();
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [categories, setCategories] = React.useState<any[]>([]); // Update type accordingly
+
+  const userDetails = useSelector((state: any) => {
+    return state?.currentUserDetails;
+  });
+
+  const establishmentId = userDetails?.establishmentId || "";
 
   const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex]}`);
-    if(options[selectedIndex] == 'Add services'){
-      openDrawer('addServices')
-    }
-    else{
-      openDrawer('addCategory')
+    console.info(`You clicked ${options[selectedIndex].label}`);
+    if (options[selectedIndex].value === 'Add services') {
+      openDrawer('addServices');
+    } else {
+      openDrawer('addCategory');
     }
   };
 
@@ -107,38 +194,34 @@ export function Services() {
     setOpen(false);
   };
 
-  const getServices = (service) => {
-    if(!service){
-        setData(initialData)
-        return
+  const getServices = (service: string) => {
+    if (!service) {
+      setData(initialData);
+      return;
     }
-    const Lservice = service.toLowerCase()
-    const filteredData = data
-    filteredData.components.forEach((serviceArr,index) => {
-        serviceArr.rows = serviceArr.rows.filter((row) => {
-            if(row.service.toLowerCase().indexOf(Lservice) !== -1){
-                return true
-            }
-            return false
-        })
-    })
+    const Lservice = service.toLowerCase();
+    const filteredData = { ...initialData };
+    filteredData.components = data.components.map((serviceArr) => {
+      serviceArr.rows = serviceArr.rows.filter((row) =>
+        row.service.toLowerCase().includes(Lservice)
+      );
+      return serviceArr;
+    });
+    setData(filteredData);
+  };
 
+  const setCategoryName = (id: string, value: string) => {
+    const newData = { ...data };
+    newData.components = newData.components.map((category) => {
+      if (category.id === id) {
+        category.title = value;
+      }
+      return category;
+    });
+    setData(newData);
+  };
 
-    setData(filteredData)
-  }
-
-  const setCategoryName = (id, value) => {
-    const newData = {...data}
-    newData.components.map((category) => {
-        if(category.id === id) {
-            category.title = value
-        }
-        return category
-    })
-    setData(newData)
-  }
-
-  const onDragEnd = (result) => {
+  const onDragEnd = (result: any) => {
     const { destination, source, draggableId, type } = result;
 
     if (!destination) {
@@ -201,81 +284,101 @@ export function Services() {
     }
   };
 
+  useEffect(() => {
+    const getEstablishmentDetails = async () => {
+      try {
+        const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
+        if (establishmentData?.data?.success) {
+          setCategories(establishmentData?.data?.data?.categories || []);
+        }
+      } catch (error) {
+        console.error("Error fetching establishment details:", error);
+      }
+    };
+
+    getEstablishmentDetails();
+  }, [establishmentId]);
+
+  const handleDeleteService = async (categoryId: string, serviceId: string) => {
+    try {
+      const response = await endpoint.deleteEstablishmentService({
+        id: establishmentId,
+        categories: [
+          {
+            categoryId: categoryId,
+            services: [{ serviceId: serviceId }],
+          },
+        ],
+      });
+  
+      if (response.data.success) {
+        // Update categories state to reflect the deletion
+        const updatedCategories = categories.map((category) => {
+          if (category.categoryId === categoryId) {
+            // Filter out the deleted service from the category
+            category.services = category.services.filter(
+              (service) => service.serviceId !== serviceId
+            );
+          }
+          return category;
+        });
+  
+        // Update state with the new categories array
+        setCategories(updatedCategories);
+  
+        // Show notification for successful deletion
+      } else {
+        // Show error notification if deletion was not successful
+      }
+    } catch (error) {
+      console.error("Error deleting service:", error);
+      // Show error notification if there was an exception
+    }
+  };
+  
+
+  useEffect(() => {
+    // Transform categories into initialData format
+    const transformedCategories = categories.map((category) => {
+      return {
+        id: category.categoryId,
+        title: category.categoryName,
+        rows: category.services.map((service) => ({
+          id: service.serviceId,
+          service: service.serviceName,
+          price: `$${service.startingPrice}`,
+          time: `${service.options[0]?.duration || 0} min`, // Assuming first option's duration
+          employees: service.employees || [],
+        })),
+      };
+    });
+
+    setData({ components: transformedCategories });
+  }, [categories]);
+
+  const handleEditCategory = (categoryId) =>{
+    console.log('category Id : ', categoryId)
+    openDrawer('addCategory', categoryId);
+  }
+
   return (
     <div>
-            <div className="flex mx-24 my-4 justify-between w-10/12">
-                <SearchInput
-                placeholder={'Search services'}
-                value={serviceInput}
-                onChange={(event) => {
-                    setServiceInput(event.target.value)
-                    //getServices(event.target.value)
-                }
-                  //table.getColumn("email")?.setFilterValue(event.target.value)
-                }
-                />
-                {/* <Selector onSelect={() => { } } className={"w-[180px] justify-evenly"} options={["Add category", "Add service"]} placeholder={"Add new"} label={undefined}/> */}
-                <div>
-                  {/* <Button variant="outline" size="lg" className="bg-indigo-500 text-white"
-                    onClick={() => openDrawer('addServices')}>Add service</Button> */}
-
-                    <ButtonGroup
-                      variant="contained"
-                      ref={anchorRef}
-                      aria-label="Button group with a nested menu"
-                    >
-                      <Button style={{borderRadius: '5px 0px 0px 5px'}} onClick={handleClick}>{options[selectedIndex]}</Button>
-                      <Button
-                        style={{height: '40px', borderRadius: '0px 5px 5px 0px'}}
-                        size="sm"
-                        aria-controls={open ? 'split-button-menu' : undefined}
-                        aria-expanded={open ? 'true' : undefined}
-                        aria-label="select merge strategy"
-                        aria-haspopup="menu"
-                        onClick={handleToggle}
-                      >
-                        <ArrowDropDownIcon />
-                      </Button>
-                    </ButtonGroup>
-                    <Popper
-                      sx={{
-                        zIndex: 1,
-                      }}
-                      open={open}
-                      anchorEl={anchorRef.current}
-                      role={undefined}
-                      transition
-                      disablePortal
-                    >
-                      {({ TransitionProps, placement }) => (
-                        <Grow
-                          {...TransitionProps}
-                          style={{
-                            transformOrigin:
-                              placement === 'bottom' ? 'center top' : 'center bottom',
-                          }}
-                        >
-                          <Paper>
-                            <ClickAwayListener onClickAway={handleClose}>
-                              <MenuList id="split-button-menu" autoFocusItem>
-                                {options.map((option, index) => (
-                                  <MenuItem
-                                    key={option}
-                                    disabled={index === 2}
-                                    selected={index === selectedIndex}
-                                    onClick={(event) => handleMenuItemClick(event, index)}
-                                  >
-                                    {option}
-                                  </MenuItem>
-                                ))}
-                              </MenuList>
-                            </ClickAwayListener>
-                          </Paper>
-                        </Grow>
-                      )}
-                    </Popper>
-                </div>
+      <div className="flex mx-24 my-4 justify-between w-10/12">
+        <SearchInput
+          placeholder={'Search services'}
+          onChange={(event: any) => setServiceInput(event.target.value)}
+        />
+        <div>
+          <OptionButton
+            selectedIndex={selectedIndex}
+            handleClick={handleClick}
+            handleMenuItemClick={handleMenuItemClick}
+            handleToggle={handleToggle}
+            open={open}
+            anchorRef={anchorRef}
+          />
         </div>
+      </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
         <StrictModeDroppable
@@ -310,42 +413,20 @@ export function Services() {
                             m: 1,
                             width: "18ch",
                             fontWeight: "700",
-                            "&::before": {
-                              borderBottom: "none",
-                            },
-                            "& MuiInputBase-root MuiInput-root ::before": {
-                              borderBottom: "none",
-                            },
                           }}
                           variant="standard"
                         >
-                          <Input
-                            type={"text"}
-                            className="font-bold"
-                            value={component.title}
-                            onChange={(value) => {
-                                setCategoryName(component.id ,value.target.value)
-                            }}
-                            sx={{
-                                "& ::before": {
-                                  borderBottom: "none",
-                                },
-                                "& MuiInputBase-root MuiInput-root ::before": {
-                                  borderBottom: "none",
-                                },
-                              }}
-                            endAdornment={
-                              <InputAdornment position="end">
-                                <IconButton>
-                                    <GetIcon iconName='EditIcon'/>
-                                </IconButton>
-                              </InputAdornment>
-                            }
-                          />
+                          <div className="flex">
+                            <div className="font-bold content-center">{component.title} </div>
+
+                            <IconButton onClick={()=> handleEditCategory(component.id)}>
+                              <GetIcon iconName='EditIcon'/>
+                            </IconButton>
+                          </div>
+
                         </FormControl>
                         <GetIcon className='mb-3 mr-4' iconName='DragIcon'/>
                         <Button
-                          variant="ghost"
                           className="flex justify-between items-center font-bold mr-5"
                         >
                           <GetIcon iconName='DeleteIcon'/>
@@ -375,25 +456,33 @@ export function Services() {
                                     {...provided.draggableProps}
                                   >
                                     <div className="flex w-1/4">
-                                        <GetIcon {...provided.dragHandleProps} className='mr-4' iconName='DragIcon'/>
-                                        {row.service}
+                                      <GetIcon {...provided.dragHandleProps} className='mr-4' iconName='DragIcon'/>
+                                      {row.service}
                                     </div>
                                     <div className="w-1/4">{row.time}</div>
                                     <div className="w-1/4">{row.price}</div>
                                     <div className="flex items-center justify-end w-1/4">
-                                        <div className="flex">{row.employees.map((employee) => <GetIcon iconName='ProfileIcon' className='m-1'/>)}</div>
-                                        <div className="ml-2"><GetIcon onClick={() => console.log("delete clicked")} iconName='DeleteIcon'/></div>
+                                      <div className="flex">
+                                        {row.employees.map((employee, index) => (
+                                          <GetIcon key={index} iconName='ProfileIcon' className='m-1'/>
+                                        ))}
+                                      </div>
+                                      <div className="ml-2">
+                                        <GetIcon
+                                          onClick={() => handleDeleteService(component.id, row.id)}
+                                          iconName='DeleteIcon'
+                                        />
+                                      </div>
                                     </div>
                                   </div>
                                 )}
                               </Draggable>
                             ))}
-                           
                             {provided.placeholder}
                             <div className="h-12 font-bold flex items-center justify-center bottom-0">
-                                <button>
-                                    Add new service [+]
-                                </button>
+                              <button>
+                                Add new service [+]
+                              </button>
                             </div>
                           </div>
                         )}
@@ -409,4 +498,4 @@ export function Services() {
       </DragDropContext>
     </div>
   );
-}
+};

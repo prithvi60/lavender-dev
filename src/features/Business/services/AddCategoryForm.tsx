@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
   TextField,
@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
-import editIcon from "../../../assets/editbtn.svg";
 import { Button } from "../../../components/ui/button";
 import { useDrawer } from "../../../features/Business/BusinessDrawerContext";
 import * as yup from "yup";
@@ -23,6 +22,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import endpoint from "../../../api/endpoints";
 import { categories } from "../../../constants/constants";
+import { useSelector } from "react-redux";
 
 
 const schema = yup.object().shape({
@@ -30,11 +30,11 @@ const schema = yup.object().shape({
   serviceTags: yup.string(),
 });
 
-const categoriesApiResponseSample = {
-  'categoryId' : 'CAT00002503',
-  'categoryName': 'hair wash',
-  'serviceTags': 'Hair coloring'
-}
+// const categoriesApiResponseSample = {
+//   'categoryId' : 'CAT00002503',
+//   'categoryName': 'hair wash',
+//   'serviceTags': 'Hair coloring'
+// }
 
 const serviceTagList = [
     { name: "Hair styling", value: "Hair styling" },
@@ -45,7 +45,7 @@ const serviceTagList = [
 
   ];
 
-export default function AddCategoryForm() {
+export default function AddCategoryForm({payload}) {
   const {
     control,
     register,
@@ -54,11 +54,18 @@ export default function AddCategoryForm() {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      categoryName: categoriesApiResponseSample.categoryName,
-      serviceTags: categoriesApiResponseSample.serviceTags,
+      categoryName: '',
+      serviceTags: '',
     },
   });
+  const categoryId: string = payload;
 
+  const [categories, setCategories] = useState('');
+  const userDetails = useSelector((state: any) => {
+    return state?.currentUserDetails;
+  });
+
+  const establishmentId = userDetails?.establishmentId || "";
 
   const [addOptions, setAddOptions] = useState(false);
 
@@ -67,7 +74,7 @@ export default function AddCategoryForm() {
   const handleDrawerSubmit = (data) => {
     alert(JSON.stringify(data, null, 2));
     const payLoad = {
-      "id": "EST00002500",
+      "id": establishmentId,
       "categories": [
         {
           "categoryId":"",
@@ -81,13 +88,41 @@ export default function AddCategoryForm() {
     const response = endpoint.saveEstablishmentCategory(payLoad);
   };
 
+  useEffect(() => {
+    const getEstablishmentDetails = async () => {
+      try {
+        const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
+        if (establishmentData?.data?.success) {
+          setCategories(establishmentData?.data?.data?.categories || []);
+        }
+      } catch (error) {
+        console.error("Error fetching establishment details:", error);
+      }
+    };
+
+    getEstablishmentDetails();
+  }, [establishmentId]);
+
+  if(categoryId){
+    // categoryId ? categories.:
+  }
+
   return (
     <div className="flex-col h-full">
       <form onSubmit={handleSubmit(handleDrawerSubmit)}>
         <div style={{backgroundColor: '#1B1464'}}>
+          {
+            categoryId 
+            ?  
+            <div className="text-lg h-14 mb-2 p-4 text-white">
+                Edit new Category
+            </div> 
+            : 
             <div className="text-lg h-14 mb-2 p-4 text-white">
                 Add new Category
-            </div>
+            </div> 
+          }
+            
         </div>
         
         <div className="flex-col h-full p-4">

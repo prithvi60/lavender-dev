@@ -21,6 +21,8 @@ import {
   savePhotos,
   saveImageId,
   additionalInformation,
+  deleteService,
+  addService,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -196,6 +198,22 @@ class Endpoint {
   async saveEstablishmentAdditionalInfo(payload) {
     const response = await axiosInstance.post(
       `${BaseURL}${additionalInformation}`,
+      payload
+    );
+    return response;
+  }
+
+  // async saveEstablishmentService(payload) {
+  //   const response = await axiosInstance.post(
+  //     `${BaseURL}${addService}`,
+  //     payload
+  //   );
+  //   return response;
+  // }
+
+  async deleteEstablishmentService(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${deleteService}`,
       payload
     );
     return response;

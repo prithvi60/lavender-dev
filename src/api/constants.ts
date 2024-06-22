@@ -36,6 +36,9 @@ export const saveImageId = 'e/saveEstablishment/images'
 
 export const additionalInformation = 'e/saveEstablishment/additional'
 
+export const addService = 'e/saveEstablishment/service'
+
+export const deleteService = 'e/saveEstablishment/service/delete'
 
 export function setBrowserCache(key: string, value: any) {
     window.localStorage.setItem(key, value)

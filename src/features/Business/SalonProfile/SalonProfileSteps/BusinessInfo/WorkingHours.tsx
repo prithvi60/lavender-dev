@@ -109,7 +109,7 @@ export const WorkingHours = ({ userDetails, availableDays }) => {
     };
 
     const mutation = useMutation({
-        mutationFn: (payload) => {
+        mutationFn: (payload: any) => {
             return endpoints.saveEstablishmentWorkingHours(payload);
         },
         onSuccess: (response) => {

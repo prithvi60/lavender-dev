@@ -11,13 +11,14 @@ export const DrawerProvider = ({ children }) => {
   const [content, setContent] = useState(null);
   const [payload, setPayload] = useState(null);
 
-
   const openDrawer = (content, payloadProp = null) => {
     setContent(content);
     setPayload(payloadProp)
     setIsOpen(true);
   };
+console.log("content : ", content)
 
+console.log("payload : ", payload)
   const closeDrawer = () => {
     setIsOpen(false);
     setContent(null);
