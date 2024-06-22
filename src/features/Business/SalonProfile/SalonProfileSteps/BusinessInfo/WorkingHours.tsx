@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Card, Typography, Grid, Checkbox, Button, IconButton, TextField } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Card, Typography, Grid, Checkbox, Button, IconButton } from '@mui/material';
 import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -7,7 +7,7 @@ import endpoints from '../../../../../api/endpoints';
 import { useMutation } from '@tanstack/react-query';
 import GetIcon from '../../../../../assets/Icon/icon';
 
-export const WorkingHours = ({ userDetails }) => {
+export const WorkingHours = ({ userDetails, availableDays }) => {
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     const [checkboxes, setCheckboxes] = useState(() => {
@@ -21,10 +21,32 @@ export const WorkingHours = ({ userDetails }) => {
     const [inputFields, setInputFields] = useState(() => {
         const initialState = {};
         daysOfWeek.forEach(day => {
-            initialState[day] = [{ opens: '', closes: '' }];
+            initialState[day] = [{ opens: null, closes: null }];
         });
         return initialState;
     });
+
+    useEffect(() => {
+        if (availableDays && availableDays.length > 0) {
+            const updatedFields = {};
+            const updatedCheckboxes = {};
+            daysOfWeek.forEach(day => {
+                const matchingDay = availableDays.find(d => d.day === day);
+                if (matchingDay) {
+                    updatedFields[day] = matchingDay.timeSlots.map(slot => ({
+                        opens: slot.openTime,
+                        closes: slot.closeTime
+                    }));
+                    updatedCheckboxes[day] = true;
+                } else {
+                    updatedFields[day] = [{ opens: null, closes: null }];
+                    updatedCheckboxes[day] = false;
+                }
+            });
+            setInputFields(updatedFields);
+            setCheckboxes(updatedCheckboxes);
+        }
+    }, [availableDays]);
 
     const handleCheckboxChange = (e, day) => {
         const isChecked = e.target.checked;
@@ -32,6 +54,12 @@ export const WorkingHours = ({ userDetails }) => {
             ...prevState,
             [day]: isChecked
         }));
+        if (!isChecked) {
+            setInputFields(prevState => ({
+                ...prevState,
+                [day]: [{ opens: null, closes: null }]
+            }));
+        }
     };
 
     const handleInputChange = (newValue, day, index, field) => {
@@ -46,7 +74,7 @@ export const WorkingHours = ({ userDetails }) => {
     const handleAddField = (day) => {
         setInputFields(prevState => ({
             ...prevState,
-            [day]: [...prevState[day], { opens: '', closes: '' }]
+            [day]: [...prevState[day], { opens: null, closes: null }]
         }));
     };
 
@@ -63,15 +91,17 @@ export const WorkingHours = ({ userDetails }) => {
             if (checkboxes[day]) {
                 const times = [];
                 inputFields[day].forEach(field => {
-                    times.push({
-                        openTime: field.opens,
-                        closeTime: field.closes
-                    });
+                    if (field.opens && field.closes) {
+                        times.push({
+                            openTime: field.opens,
+                            closeTime: field.closes
+                        });
+                    }
                 });
                 availableTimes.push({ day, timeSlots: times });
             }
         });
-        const payload: any = {
+        const payload = {
             id: userDetails ? userDetails.establishmentId : '',
             availableDays: availableTimes
         };
@@ -118,21 +148,21 @@ export const WorkingHours = ({ userDetails }) => {
                                                 <div style={{ width: '50%', paddingRight: '10px' }}>
                                                     <Typography sx={{ fontSize: '14px', fontWeight: '500', color: '#4D4D4D', textAlign: 'start' }}>Opens at</Typography>
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <TimePicker
-                                                                label="from"
-                                                                value={field.opens ? dayjs(field.opens, 'HH:mm') : null}
-                                                                onChange={(newValue) => handleInputChange(newValue, day, i, 'opens')}
-                                                            />
+                                                        <TimePicker
+                                                            label="from"
+                                                            value={field.opens ? dayjs(field.opens, 'HH:mm') : null}
+                                                            onChange={(newValue) => handleInputChange(newValue, day, i, 'opens')}
+                                                        />
                                                     </LocalizationProvider>
                                                 </div>
                                                 <div style={{ width: '50%', paddingLeft: '10px' }}>
                                                     <Typography sx={{ fontSize: '14px', fontWeight: '500', color: '#4D4D4D', textAlign: 'start' }}>Closes at</Typography>
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                    <TimePicker
-                                                                label="to"
-                                                                value={field.closes ? dayjs(field.closes, 'HH:mm') : null}
-                                                                onChange={(newValue) => handleInputChange(newValue, day, i, 'closes')}
-                                                            />
+                                                        <TimePicker
+                                                            label="to"
+                                                            value={field.closes ? dayjs(field.closes, 'HH:mm') : null}
+                                                            onChange={(newValue) => handleInputChange(newValue, day, i, 'closes')}
+                                                        />
                                                     </LocalizationProvider>
                                                 </div>
                                             </div>
@@ -142,7 +172,6 @@ export const WorkingHours = ({ userDetails }) => {
                                                 <GetIcon iconName="CloseIcon" />
                                             </IconButton>
                                         )}
-                                        
                                     </div>
                                 ))}
                                 {checkboxes[day] && (

@@ -1,5 +1,5 @@
 import { Dialog, Toolbar, Box, Stepper, Step, StepLabel, IconButton } from '@mui/material';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CheckoutCard from '../../ServiceDialog/CheckoutCard';
 import ConfirmScreen from '../../ServiceDialog/ConfirmScreeen';
 import ScheduleAppointment from '../../ServiceDialog/ScheduleAppointment';
@@ -22,7 +22,6 @@ export const SalonProfile = () => {
     setIsOpen(false);
   }
   
-  const steps = ["Pick services", "Schedule appointment", "Confirm"];
   return (
     <>
     <div className='flex justify-center items-center flex-col w-full h-full '>

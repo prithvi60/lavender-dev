@@ -3,22 +3,69 @@ import React from 'react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import Buttons from '../../../../../components/Button';
-import { WorkingHours } from './WorkingHours';
-import { ServicesInfo } from './ServicesInfo';
 import { useMutation } from '@tanstack/react-query';
 import endpoints from '../../../../../api/endpoints';
 import { BusinessInfoSchema } from './BusinessInfoSchema';
-import { useSelector } from 'react-redux';
+import { WorkingHours } from './WorkingHours';
+import { AnyAction } from 'redux';
 
-export const BusinessInfo = ({ userDetails }) => {
+interface IBasicInfo {
+  establishmentName: string;
+  establishmentAbout: string;
+  phoneExtension: string;
+  phoneNumber: number;
+  doorNo: string;
+  zipCode: number;
+  areaCode: string;
+  cityCode: string;
+  stateCode: string;
+  locationTitle: string;
+  geoX: string;
+  geoY: string;
+}
+
+export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDetails: any; basicInfo: IBasicInfo | null; availableDays: any }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm({
     resolver: yupResolver(BusinessInfoSchema),
+    defaultValues: {
+      establishmentName: '',
+      establishmentAbout: '',
+      phoneExtension: '',
+      phoneNumber: '',
+      doorNo: '',
+      zipCode: '',
+      areaCode: '',
+      cityCode: '',
+      stateCode: '',
+      locationTitle: '',
+      geoX: '',
+      geoY: '',
+      ...basicInfo, // Populate with basicInfo if available
+    },
   });
+
+  // Set form values if basicInfo is available
+  React.useEffect(() => {
+    if (basicInfo) {
+      setValue('establishmentName', basicInfo.establishmentName);
+      setValue('establishmentAbout', basicInfo.establishmentAbout);
+      setValue('phoneExtension', basicInfo.phoneExtension);
+      setValue('phoneNumber', basicInfo.phoneNumber);
+      setValue('doorNo', basicInfo.doorNo);
+      setValue('zipCode', basicInfo.zipCode);
+      setValue('areaCode', basicInfo.areaCode);
+      setValue('cityCode', basicInfo.cityCode);
+      //setValue('stateCode', basicInfo.stateCode);
+      // setValue('locationTitle', basicInfo.locationTitle);
+      // setValue('geoX', basicInfo.geoX);
+      // setValue('geoY', basicInfo.geoY);
+    }
+  }, [basicInfo, setValue]);
 
   const handleSaveButton = (data) => {
     const payload = {
@@ -26,23 +73,23 @@ export const BusinessInfo = ({ userDetails }) => {
       profile: {
         establishmentName: data.establishmentName,
         establishmentAbout: data.establishmentAbout,
-        phoneExtension: '101',
+        phoneExtension: data.phoneExtension,
         phoneNumber: data.phoneNumber,
-        areaCode: '555',
+        areaCode: data.areaCode,
         doorNo: data.doorNo,
         zipCode: data.zipCode,
         cityCode: data.cityCode,
-        stateCode: 'NY',
-        locationTitle: 'Downtown',
-        geoX: '40.712776',
-        geoY: '-74.005974',
+        stateCode: data.stateCode,
+        locationTitle: data.locationTitle,
+        geoX: data.geoX,
+        geoY: data.geoY,
       },
     };
     mutation.mutate(payload);
   };
 
   const mutation = useMutation({
-    mutationFn: (payload) => {
+    mutationFn: (payload: any) => {
       return endpoints.saveEstablishmentProfile(payload);
     },
     onSuccess: (response) => {
@@ -146,7 +193,9 @@ export const BusinessInfo = ({ userDetails }) => {
                   {errors.zipCode && <p className="text-red-500 font-medium">{errors.zipCode.message}</p>}
                 </CardContent>
                 <CardContent>
-                  <Buttons fullWidth type="submit" variant="contained" sx={{fontSize: '14px'}} name={'Save'}></Buttons>
+                  <Button fullWidth type="submit" variant="contained" sx={{ fontSize: '14px' }}>
+                    Save
+                  </Button>
                 </CardContent>
               </Card>
             </Grid>
@@ -180,11 +229,10 @@ export const BusinessInfo = ({ userDetails }) => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <WorkingHours userDetails={userDetails} />
+            <WorkingHours userDetails={userDetails} availableDays={availableDays}/>
           </Grid>
         </form>
       </Grid>
-      <ServicesInfo />
     </div>
   );
 };
