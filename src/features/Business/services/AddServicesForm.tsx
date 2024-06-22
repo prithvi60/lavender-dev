@@ -5,54 +5,37 @@ import {
   Divider,
   MenuItem,
   FormControl,
+  InputLabel,
   Select,
   Typography,
   FormHelperText,
   Grid,
   FormControlLabel,
   Switch,
+  Checkbox,
 } from "@mui/material";
-import { Button } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { Button } from "../../../components/ui/button";
+import { useDrawer } from "../../../features/Business/BusinessDrawerContext";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Controller, useForm, useFieldArray } from "react-hook-form";
+import endpoint from "../../../api/endpoints";
 
 const schema = yup.object().shape({
   serviceName: yup.string().required(),
   serviceDescription: yup.string().required(),
-  employee: yup.string().required(),
+  employee: yup.array().min(1, "Please select at least one employee").required(),
   gender: yup.string().required(),
-  price: yup.string().when('hasOptions', {
-    is: true,
-    then: yup.string().required('Price is required when adding options'),
-    otherwise: yup.string(),
-  }),
-  duration: yup.string().when('hasOptions', {
-    is: true,
-    then: yup.string().required('Duration is required when adding options'),
-    otherwise: yup.string(),
-  }),
-  optionName: yup.string(),
-  salePrice: yup.number().when('hasOptions', {
-    is: true,
-    then: yup.number().required('Sale price is required when adding options'),
-    otherwise: yup.number(),
-  }),
-  maxPrice: yup.number().when('hasOptions', {
-    is: true,
-    then: yup.number().required('Max price is required when adding options'),
-    otherwise: yup.number(),
-  }),
-  discountPrice: yup.number().when('hasOptions', {
-    is: true,
-    then: yup.number().required('Discount price is required when adding options'),
-    otherwise: yup.number(),
-  }),
-  discountPercentage: yup.number().when('hasOptions', {
-    is: true,
-    then: yup.number().required('Discount percentage is required when adding options'),
-    otherwise: yup.number(),
-  }),
+  price: yup.string().required(),
+  duration: yup.string().required(),
+  category: yup.string(),
+  options: yup.array().of(
+    yup.object().shape({
+      optionName: yup.string().required("Option name is required"),
+      optionPrice: yup.number().required("Option price is required"),
+      optionDuration: yup.number().required("Option duration is required"),
+    })
+  ),
 });
 
 const employeeList = [
@@ -70,70 +53,56 @@ export default function AddServicesForm() {
     control,
     register,
     handleSubmit,
+    setValue, // Added setValue from useForm
     formState: { errors },
-    watch,
-    setValue
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: {
-      hasOptions: false, // New state to track if options are added
-    },
   });
 
-  const [addOptions, setAddOptions] = useState(false);
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "options",
+  });
+
+  const { closeDrawer } = useDrawer();
 
   const handleFilterDrawerSubmit = (data) => {
-    // Prepare the payload based on whether options are added or not
-    const payload = {
-      categoryId: "CAT00002500",
-      services: [
+    // Adjust options based on serviceName, price, and duration if options are not entered
+    if (!data.options || data.options.length === 0) {
+      data.options = [
         {
-          serviceName: data.serviceName,
-          serviceDescription: data.serviceDescription,
-          gender: data.gender,
-          price: data.price,
-          duration: data.duration,
-          options: data.hasOptions
-            ? [
-                {
-                  optionName: data.optionName,
-                  salePrice: parseFloat(data.salePrice),
-                  maxPrice: parseFloat(data.maxPrice),
-                  discountPrice: parseFloat(data.discountPrice),
-                  discountPercentage: parseInt(data.discountPercentage),
-                  duration: parseInt(data.durationAmount),
-                },
-                // Add more options here if needed
-              ]
-            : [],
-          startingPrice: parseFloat(data.priceAmount),
-          active: true,
+          optionName: data.serviceName,
+          optionPrice: parseFloat(data.price) || 0,
+          optionDuration: parseInt(data.duration) || 0,
         },
-      ],
-    };
+      ];
+    }
 
-    console.log("Payload: ", payload);
-    alert(JSON.stringify(payload, null, 2));
-    // Implement API call or further processing with the payload
+    alert(JSON.stringify(data, null, 2));
+    const response = endpoint.saveEstablishmentService(data);
+  };
+
+  const addOption = () => {
+    append({});
+  };
+
+  const removeOption = (index) => {
+    remove(index);
   };
 
   return (
-    <div className="flex-col h-full p-4">
+    <div className="flex-col h-full">
       <form onSubmit={handleSubmit(handleFilterDrawerSubmit)}>
         <div className="bg-blue-950">
           <div className="text-lg h-14 mb-2 text-white">Add new service</div>
-          <div className="mb-4 text-white">
+          <div className="mb-4 bg-white" style={{ width: "70%", borderRadius: "10px" }}>
             <Controller
               name="category"
               control={control}
               defaultValue=""
               render={({ field }) => (
                 <FormControl error={!!errors.category} fullWidth>
-                  <Select
-                    {...field}
-                    error={!!errors.category}
-                    fullWidth
-                  >
+                  <Select {...field} error={!!errors.category} fullWidth>
                     {categoryList.map((item) => (
                       <MenuItem key={item.value} value={item.value}>
                         {item.name}
@@ -146,283 +115,229 @@ export default function AddServicesForm() {
             />
           </div>
         </div>
-
-        <div className="mb-4">
-          <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-            Service name
-          </Typography>
-          <TextField
-            fullWidth
-            size="small"
-            variant="outlined"
-            {...register("serviceName")}
-          />
-          {errors.serviceName && (
-            <p className="text-red-500 font-medium">{errors.serviceName.message}</p>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-            Service description
-          </Typography>
-          <TextField
-            fullWidth
-            size="small"
-            variant="outlined"
-            {...register("serviceDescription")}
-          />
-          {errors.serviceDescription && (
-            <p className="text-red-500 font-medium">{errors.serviceDescription.message}</p>
-          )}
-        </div>
-
-        <div className="mb-4">
-          <Controller
-            name="employee"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <FormControl error={!!errors.employee} fullWidth>
-                <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-                  Employee
-                </Typography>
-                <Select
-                  {...field}
-                  label="Employee"
-                  error={!!errors.employee}
-                  fullWidth
-                >
-                  {employeeList.map((emp) => (
-                    <MenuItem key={emp.value} value={emp.value}>
-                      {emp.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText>{errors.employee?.message}</FormHelperText>
-              </FormControl>
+        <div className="p-4">
+          <div className="mb-4">
+            <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+              Service name
+            </Typography>
+            <TextField fullWidth size="small" variant="outlined" {...register("serviceName")} />
+            {errors.serviceName && (
+              <p className="text-red-500 font-medium">{errors.serviceName.message}</p>
             )}
-          />
-        </div>
-
-        <div className="mb-4">
-          <Controller
-            name="gender"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <FormControl error={!!errors.gender} fullWidth>
-                <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-                  Gender
-                </Typography>
-                <Select
-                  {...field}
-                  label="Gender"
-                  error={!!errors.gender}
-                  fullWidth
-                >
-                  <MenuItem value="M">Male</MenuItem>
-                  <MenuItem value="F">Female</MenuItem>
-                </Select>
-                <FormHelperText>{errors.gender?.message}</FormHelperText>
-              </FormControl>
-            )}
-          />
-        </div>
-
-        <Divider />
-
-        <div className="mb-4">
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Controller
-                name="price"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <FormControl error={!!errors.price} fullWidth>
-                    <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-                      Price
-                    </Typography>
-                    <Select
-                      {...field}
-                      label="Price"
-                      error={!!errors.price}
-                      fullWidth
-                    >
-                      <MenuItem value="Fixed">Fixed</MenuItem>
-                      <MenuItem value="From">From</MenuItem>
-                    </Select>
-                    <FormHelperText>{errors.price?.message}</FormHelperText>
-                  </FormControl>
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="priceAmount"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Amount"
-                    size="small"
-                    variant="outlined"
-                    error={!!errors.priceAmount}
-                    fullWidth
-                  />
-                )}
-              />
-            </Grid>
-          </Grid>
-        </div>
-
-        <div className="mb-4">
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Controller
-                name="duration"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <FormControl error={!!errors.duration} fullWidth>
-                    <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-                      Duration
-                    </Typography>
-                    <Select
-                      {...field}
-                      label="Duration Type"
-                      error={!!errors.duration}
-                      fullWidth
-                    >
-                      <MenuItem value="Fixed">Fixed</MenuItem>
-                      <MenuItem value="Varies">Varies</MenuItem>
-                    </Select>
-                    <FormHelperText>{errors.duration?.message}</FormHelperText>
-                  </FormControl>
-                )}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Controller
-                name="durationAmount"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Duration Amount"
-                    size="small"
-                    variant="outlined"
-                    error={!!errors.durationAmount}
-                    fullWidth
-                  />
-                )}
-              />
-            </Grid>
-          </Grid>
-        </div>
-
-        <div className="mb-4">
-          <FormControlLabel
-            control={
-              <Switch
-                checked={addOptions}
-                onChange={(e) => {
-                  setAddOptions(e.target.checked);
-                  setValue("hasOptions", e.target.checked);
-                }}
-                name="addOptions"
-                color="primary"
-              />
-            }
-            label="Add options"
-          />
-        </div>
-
-        {addOptions && (
-          <div>
-            <Divider />
-            <div className="mb-4">
-              <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-                Option Name
-              </Typography>
-              <TextField
-                fullWidth
-                size="small"
-                variant="outlined"
-                {...register("optionName", { required: true })}
-              />
-              {errors.optionName && (
-                <p className="text-red-500 font-medium">{errors.optionName.message}</p>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-                Sale Price
-              </Typography>
-              <TextField
-                fullWidth
-                size="small"
-                variant="outlined"
-                {...register("salePrice", { required: true })}
-              />
-              {errors.salePrice && (
-                <p className="text-red-500 font-medium">{errors.salePrice.message}</p>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-                Max Price
-              </Typography>
-              <TextField
-                fullWidth
-                size="small"
-                variant="outlined"
-                {...register("maxPrice", { required: true })}
-              />
-              {errors.maxPrice && (
-                <p className="text-red-500 font-medium">{errors.maxPrice.message}</p>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-                Discount Price
-              </Typography>
-              <TextField
-                fullWidth
-                size="small"
-                variant="outlined"
-                {...register("discountPrice", { required: true })}
-              />
-              {errors.discountPrice && (
-                <p className="text-red-500 font-medium">{errors.discountPrice.message}</p>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-                Discount Percentage
-              </Typography>
-              <TextField
-                fullWidth
-                size="small"
-                variant="outlined"
-                {...register("discountPercentage", { required: true })}
-              />
-              {errors.discountPercentage && (
-                <p className="text-red-500 font-medium">{errors.discountPercentage.message}</p>
-              )}
-            </div>
           </div>
-        )}
 
-        <div className="mt-4">
-          <Button variant="contained" type="submit">Save</Button>
+          <div className="mb-4">
+            <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+              Service description
+            </Typography>
+            <TextField
+              fullWidth
+              size="small"
+              variant="outlined"
+              {...register("serviceDescription")}
+            />
+            {errors.serviceDescription && (
+              <p className="text-red-500 font-medium">{errors.serviceDescription.message}</p>
+            )}
+          </div>
+
+          <div className="mb-4">
+            <Controller
+              name="employee"
+              control={control}
+              defaultValue={[]}
+              render={({ field }) => (
+                <FormControl error={!!errors.employee} fullWidth>
+                  <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+                    Employee
+                  </Typography>
+                  <Select
+                    {...field}
+                    label="Employee"
+                    multiple
+                    error={!!errors.employee}
+                    fullWidth
+                    renderValue={(selected) => selected.join(", ")}
+                  >
+                    {employeeList.map((emp) => (
+                      <MenuItem key={emp.value} value={emp.value}>
+                        <Checkbox checked={field.value.indexOf(emp.value) > -1} />
+                        {emp.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  <FormHelperText>{errors.employee?.message}</FormHelperText>
+                </FormControl>
+              )}
+            />
+          </div>
+
+          <div className="mb-4">
+            <Controller
+              name="gender"
+              control={control}
+              defaultValue=""
+              render={({ field }) => (
+                <FormControl error={!!errors.gender} fullWidth>
+                  <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+                    Gender
+                  </Typography>
+                  <Select {...field} label="Gender" error={!!errors.gender} fullWidth>
+                    <MenuItem value="M">Male</MenuItem>
+                    <MenuItem value="F">Female</MenuItem>
+                  </Select>
+                  <FormHelperText>{errors.gender?.message}</FormHelperText>
+                </FormControl>
+              )}
+            />
+          </div>
+
+          <Divider />
+
+          <div className="mb-4">
+            <Grid container spacing={2}>
+              <Grid item xs={6} sx={{ alignContent: "end" }}>
+                <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+                  Price
+                </Typography>
+                <Controller
+                  name="price"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <FormControl error={!!errors.price} fullWidth>
+                      <TextField
+                        {...field}
+                        size="small"
+                        variant="outlined"
+                        error={!!errors.price}
+                        fullWidth
+                      />
+                      <FormHelperText>{errors.price?.message}</FormHelperText>
+                    </FormControl>
+                  )}
+                />
+              </Grid>
+            </Grid>
+          </div>
+
+          <div className="mb-4">
+            <Grid container spacing={2} sx={{ alignContent: "end" }}>
+              <Grid item xs={6} sx={{ alignContent: "end" }}>
+                <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+                  Duration
+                </Typography>
+                <Controller
+                  name="duration"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <FormControl error={!!errors.duration} fullWidth>
+                      <Select {...field} label="Duration Amount" error={!!errors.duration} fullWidth>
+                        <MenuItem value="20">20</MenuItem>
+                        <MenuItem value="30">30</MenuItem>
+                      </Select>
+                      <FormHelperText>{errors.duration?.message}</FormHelperText>
+                    </FormControl>
+                  )}
+                />
+              </Grid>
+            </Grid>
+          </div>
+
+          {fields.map((option, index) => (
+            <div key={option.id}>
+              <Divider textAlign="left" sx={{ color: "#825FFF" }}>
+                Option {index + 1}
+              </Divider>
+              <div className="mb-4">
+                <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+                  Option name
+                </Typography>
+                <TextField
+                  fullWidth
+                  size="small"
+                  variant="outlined"
+                  {...register(`options[${index}].optionName`)}
+                />
+                {errors?.options?.[index]?.optionName && (
+                  <p className="text-red-500 font-medium">{errors.options[index].optionName.message}</p>
+                )}
+              </div>
+
+              <div className="mb-4">
+                <Grid container spacing={2}>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={6} sx={{ alignContent: "end" }}>
+                    <Controller
+                      name={`options[${index}].optionPrice`}
+                      control={control}
+                      defaultValue=""
+                      render={({ field }) => (
+                        <FormControl error={!!errors?.options?.[index]?.optionPrice} fullWidth>
+                          <TextField
+                            {...field}
+                            label="Amount"
+                            size="small"
+                            variant="outlined"
+                            error={!!errors?.options?.[index]?.optionPrice}
+                            fullWidth
+                          />
+                          <FormHelperText>{errors?.options?.[index]?.optionPrice?.message}</FormHelperText>
+                        </FormControl>
+                      )}
+                    />
+                  </Grid>
+                </Grid>
+              </div>
+
+              <div className="mb-4">
+                <Grid container spacing={2} sx={{ alignContent: "end" }}>
+                  <Grid item xs={6}></Grid>
+                  <Grid item xs={6} sx={{ alignContent: "end" }}>
+                    <Controller
+                      name={`options[${index}].optionDuration`}
+                      control={control}
+                      defaultValue=""
+                      render={({ field }) => (
+                        <FormControl error={!!errors?.options?.[index]?.optionDuration} fullWidth>
+                          <Select
+                            {...field}
+                            label="Duration Amount"
+                            error={!!errors?.options?.[index]?.optionDuration}
+                            fullWidth
+                          >
+                            <MenuItem value="20">20</MenuItem>
+                            <MenuItem value="30">30</MenuItem>
+                          </Select>
+                          <FormHelperText>{errors?.options?.[index]?.optionDuration?.message}</FormHelperText>
+                        </FormControl>
+                      )}
+                    />
+                  </Grid>
+                </Grid>
+              </div>
+
+              <div className="mb-4">
+                <Button variant="link" onClick={() => removeOption(index)}>
+                  Remove Option
+                </Button>
+              </div>
+            </div>
+          ))}
+
+          <div className="flex justify-center mt-4">
+            <Button variant="link" onClick={addOption}>
+              Add options [+]
+            </Button>
+          </div>
+
+          <div className="flex justify-between mt-4">
+            <Button onClick={closeDrawer} variant="ghost" style={{ color: "#825FFF" }}>
+              Cancel
+            </Button>
+            <Button type="submit">Save</Button>
+          </div>
         </div>
       </form>
     </div>
