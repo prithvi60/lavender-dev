@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { range, getMonday } from "./utils";
-import { DayWrapper, HGrid, Hour, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, Appointment, Wrapper, HourLineWithLabel } from './components/CalenderComponents'
+import { EmployeeWrapper, HGrid, Hour, VGrid, Appointment, Wrapper, HourLineWithLabel } from './components/CalenderComponents'
 import GetIcon from "../../../assets/Icon/icon";
 import { GetScheduleDates } from "./BusinessScheduleContext";
 
@@ -18,12 +18,34 @@ export const DayCalendar = () => {
 
   const onDragStartDelete = (e, id, currentEmployee) => {
     showDeleteIcon((prevState) => !prevState)
+    dragElementRef.current = e.target;
+
+    const dragEle = dragElementRef.current.parentElement;
+    const nodeRect = dragEle.getBoundingClientRect();
+
+    // const ghostEle: HTMLElement = dragEle.cloneNode(true);
+    // ghostEle.style.display = 'block';
+    // ghostEle.style.width = nodeRect.width
+    //document.body.appendChild(ghostEle);
+
+    // console.log(currentEmployee, e, dragElementRef, nodeRect, ghostEle)
+
+    // e.dataTransfer.setDragImage(
+    //     ghostEle,
+    //     e.clientX - nodeRect.left,
+    //     e.clientY - nodeRect.top
+    // );
 
     e.dataTransfer.setData('eventId', id);
     e.dataTransfer.setData('currentEmployee', currentEmployee.employeeName);
-    dragElementRef.current = e.target;
+    //e.dataTransfer.setDragImage(e.target, 310,0)
+    //e.target.style.opacity = 100
     setTimeout(() => {
-      dragElementRef.current.style.display = 'none';
+      const parentElement = dragElementRef.current.parentElement;
+      if (parentElement) {
+        parentElement.style.display = 'none';
+      }
+      //dragElementRef.current.style.display = 'none';
     }, 0);
   }
 
@@ -41,7 +63,12 @@ export const DayCalendar = () => {
   const onDragEnd = (e) => {
     e.preventDefault()
     showDeleteIcon((prevState) => !prevState)
-    dragElementRef.current.style.display = 'block';
+    const parentElement = dragElementRef.current.parentElement;
+      if (parentElement) {
+        parentElement.style.display = 'block';
+      }
+      console.log(parentElement)
+    //dragElementRef.current.style.display = 'block';
   }
 
   return (
@@ -60,7 +87,7 @@ export const DayCalendar = () => {
           <HGrid className='overflow-x-scroll' cols={employees.length}>
             {employees ? 
             employees.map((employee, index) => (
-                <DayWrapper
+                <EmployeeWrapper
                   //onDoubleClick={() => onAddEvent(addDateBy(mondayDate, index))}
                 >
                   <div className="h-[120px] flex flex-col flex-grow-0 items-center justify-center font-bold border-b border-b-gray-400">
@@ -75,26 +102,26 @@ export const DayCalendar = () => {
                     </Hour>
                   ))}
                   
-                  {filteredAppointments.filter((appointment) => appointment.employee === employee.employeeName)[0]?.appointments?.map(
-                    (appointment, data) =>
-                    (
-                      
-                        <Appointment
-                          data={appointment}
-                          onDragEnd={(e) => onDragEnd(e)}
-                          elementRef={dragElementRef}
-                          onDragStart = {(e) => {
-                            onDragStartDelete(e, appointment.text, employee)
-                          }}
-                          statusColor={appointment.statusColor}
-                          howLong={appointment.howLong}
-                          fromTop={
-                            (appointment.date.getHours() * HOUR_HEIGHT) + HOUR_MARGIN_TOP + (appointment.date.getMinutes() * 2)
-                          }
-                        />
+                  {filteredAppointments[employee.employeeName]?.appointments?.map(
+                    (appointment, index, allAppointments) => {
+                      console.log("render day >", allAppointments.length, index)
+                      const allAppointmentsCount = allAppointments.length
+                      return (
+                          <Appointment
+                            data={appointment}
+                            index={index}
+                            count={allAppointmentsCount}
+                            onDragEnd={(e) => onDragEnd(e)}
+                            elementRef={dragElementRef}
+                            onDragStart = {(e) => {
+                              onDragStartDelete(e, appointment.text, employee)
+                            }}
+                          />
                       )
-                  )}
-                </DayWrapper>
+                    }
+                  )
+                  }
+                </EmployeeWrapper>
             )) 
             : 
             <div className="flex w-full h-full justify-center items-center bg-slate-950 text-white">

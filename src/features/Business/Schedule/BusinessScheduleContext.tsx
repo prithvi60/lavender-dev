@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { addTime, appointments, filterAppointmentsByDate, getMonday, groupAppointmentsByEmployee, getEmployeesList } from './utils';
+import { addTime, appointments, weekappointments, filterAppointmentsByDate, getMonday, groupAppointmentsByEmployee, getEmployeesList, groupAppointments, getWeekEndDate } from './utils';
 import { useQuery } from '@tanstack/react-query';
 import endpoint from '../../../api/endpoints';
 import { useSelector } from 'react-redux';
@@ -13,7 +13,7 @@ export const ScheduleProvider = ({ children }) => {
   const [durationState, setDurationState] = useState('Day')
   const [ selectedDate , setSelectedDate] = useState(new Date())
   const [ filterWeekStartDate , setFilterWeekStartDate] = useState(getMonday())
-  const [ filterWeekEndDate , setFilterWeekEndDate] = useState(addTime(filterWeekStartDate, 'days', 6))
+  const [ filterWeekEndDate , setFilterWeekEndDate] = useState(getWeekEndDate())
   const employees = [{employeeName: 'John test'}, {employeeName: 'John two'}, {employeeName: 'John three'}, 
     {employeeName: 'John four'}, {employeeName: 'John five'}, {employeeName: 'John six'}]
   // API call for getting appointments for given date range
@@ -30,12 +30,15 @@ export const ScheduleProvider = ({ children }) => {
   //   (state: any) =>  state.businessEstablishment
   // );
   // const employees =(getEmployeesList(establishmentState))
-  const [filteredAppointments, setFilteredAppointments] = useState(groupAppointmentsByEmployee(filterAppointmentsByDate(appointments, selectedDate)));
+
+  //appointments will be filtered by date from API itself - only filter by employees in CS
+  const [filteredAppointments, setFilteredAppointments] = useState(groupAppointments(durationState, weekappointments, selectedDate, filterWeekStartDate, filterWeekEndDate));
 
   useEffect(() => {
-    const newApp = groupAppointmentsByEmployee(filterAppointmentsByDate(appointments, selectedDate))
+    const newApp = groupAppointments(durationState, weekappointments, selectedDate, filterWeekStartDate, filterWeekEndDate)
     setFilteredAppointments(newApp)
-  }, [selectedDate])
+    console.log("filterAppointmentsByDate >",newApp)
+  }, [selectedDate, filterWeekStartDate, durationState])
 
   const value = { selectedDate, setSelectedDate, filterWeekStartDate, filterWeekEndDate, 
     setFilterWeekEndDate, setFilterWeekStartDate, filteredAppointments, setFilteredAppointments, 

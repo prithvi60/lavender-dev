@@ -48,8 +48,7 @@ function SchedulePage() {
         </div>
         <div >
           {durationState === 'Day' ? <DayCalendar/> : 
-          //<WeeklyCalendar data={filteredAppointments}/>
-          <></>
+          <WeeklyCalendar/>
           }
         </div>
       </div>    
