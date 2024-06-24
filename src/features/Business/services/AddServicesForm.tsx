@@ -26,26 +26,29 @@ const schema = yup.object().shape({
   serviceDescription: yup.string().required(),
   employee: yup.array().min(1, "Please select at least one employee").required(),
   gender: yup.string().required(),
-  price: yup.string().required(),
+  startingPrice: yup.string().required(),
   duration: yup.string().required(),
-  category: yup.string(),
+  category: yup.string().required(),
   options: yup.array().of(
     yup.object().shape({
       optionName: yup.string().required("Option name is required"),
-      optionPrice: yup.number().required("Option price is required"),
-      optionDuration: yup.number().required("Option duration is required"),
+      salePrice: yup.number().required("sale price is required"),
+      maxPrice: null,
+              discountPrice: null,
+              discountPercentage: null,
+      duration: yup.number().required("Option duration is required"),
     })
   ),
 });
 
 const employeeList = [
-  { name: "Richard", value: "Richard" },
-  { name: "Stanley", value: "Stanley" },
+  { name: "Richard", value: "E123" },
+  { name: "Stanley", value: "E1011234" },
 ];
 
 const categoryList = [
-  { name: "Hair styling", value: "Hair styling" },
-  { name: "Nail", value: "Nail" },
+  { name: "Hair styling", value: "CAT00002509" },
+  { name: "Nail", value: "CAT00002508" },
 ];
 
 export default function AddServicesForm() {
@@ -67,18 +70,57 @@ export default function AddServicesForm() {
   const { closeDrawer } = useDrawer();
 
   const handleFilterDrawerSubmit = (data) => {
-    // Adjust options based on serviceName, price, and duration if options are not entered
+    // Adjust options based on serviceName, startingPrice, and duration if options are not entered
     if (!data.options || data.options.length === 0) {
       data.options = [
         {
           optionName: data.serviceName,
-          optionPrice: parseFloat(data.price) || 0,
-          optionDuration: parseInt(data.duration) || 0,
+          salePrice: parseFloat(data.startingPrice) || 0,
+          maxPrice: null,
+              discountPrice: null,
+              discountPercentage: null,
+          duration: parseInt(data.duration) || 0,
         },
       ];
     }
 
+    else {
+      // Ensure all existing options have maxPrice, discountPrice, and discountPercentage fields
+      data.options = data.options.map(option => ({
+        ...option,
+        maxPrice: null,
+        discountPrice: null,
+        discountPercentage: null,
+      }));
+    }
+
     alert(JSON.stringify(data, null, 2));
+    const payload = {
+      "id": "EST00002507",
+      "categories": [
+        {
+          "categoryId" : data.categoryId,
+          "services": [
+            {
+              "serviceName": data.serviceName,
+              "serviceDescription": data.serviceDescription,
+              "gender": data.gender,
+              "employees": data.employees,
+              "options": [
+                {
+                  "optionName": "MAkeup Facial 2",
+                  "salePrice": 150.00,
+                  "duration": 45
+                },
+              ],
+              "duration": 140,
+              "startingPrice": 145.00,
+              "active": true
+            }
+          ]
+        }
+      ]
+    }
     const response = endpoint.saveEstablishmentService(data);
   };
 
@@ -94,7 +136,7 @@ export default function AddServicesForm() {
     <div className="flex-col h-full">
       <form onSubmit={handleSubmit(handleFilterDrawerSubmit)}>
         <div className="bg-blue-950">
-          <div className="text-lg h-14 mb-2 text-white">Add new service</div>
+          <div className="text-lg h-14 mb-2 pt-4 pl-4 text-white">Add new service</div>
           <div className="mb-4 bg-white" style={{ width: "70%", borderRadius: "10px" }}>
             <Controller
               name="category"
@@ -201,19 +243,19 @@ export default function AddServicesForm() {
                   Price
                 </Typography>
                 <Controller
-                  name="price"
+                  name="startingPrice"
                   control={control}
                   defaultValue=""
                   render={({ field }) => (
-                    <FormControl error={!!errors.price} fullWidth>
+                    <FormControl error={!!errors.startingPrice} fullWidth>
                       <TextField
                         {...field}
                         size="small"
                         variant="outlined"
-                        error={!!errors.price}
+                        error={!!errors.startingPrice}
                         fullWidth
                       />
-                      <FormHelperText>{errors.price?.message}</FormHelperText>
+                      <FormHelperText>{errors.startingPrice?.message}</FormHelperText>
                     </FormControl>
                   )}
                 />
@@ -270,20 +312,20 @@ export default function AddServicesForm() {
                   <Grid item xs={6}></Grid>
                   <Grid item xs={6} sx={{ alignContent: "end" }}>
                     <Controller
-                      name={`options[${index}].optionPrice`}
+                      name={`options[${index}].salePrice`}
                       control={control}
                       defaultValue=""
                       render={({ field }) => (
-                        <FormControl error={!!errors?.options?.[index]?.optionPrice} fullWidth>
+                        <FormControl error={!!errors?.options?.[index]?.salePrice} fullWidth>
                           <TextField
                             {...field}
                             label="Amount"
                             size="small"
                             variant="outlined"
-                            error={!!errors?.options?.[index]?.optionPrice}
+                            error={!!errors?.options?.[index]?.salePrice}
                             fullWidth
                           />
-                          <FormHelperText>{errors?.options?.[index]?.optionPrice?.message}</FormHelperText>
+                          <FormHelperText>{errors?.options?.[index]?.salePrice?.message}</FormHelperText>
                         </FormControl>
                       )}
                     />
@@ -296,21 +338,21 @@ export default function AddServicesForm() {
                   <Grid item xs={6}></Grid>
                   <Grid item xs={6} sx={{ alignContent: "end" }}>
                     <Controller
-                      name={`options[${index}].optionDuration`}
+                      name={`options[${index}].duration`}
                       control={control}
                       defaultValue=""
                       render={({ field }) => (
-                        <FormControl error={!!errors?.options?.[index]?.optionDuration} fullWidth>
+                        <FormControl error={!!errors?.options?.[index]?.duration} fullWidth>
                           <Select
                             {...field}
                             label="Duration Amount"
-                            error={!!errors?.options?.[index]?.optionDuration}
+                            error={!!errors?.options?.[index]?.duration}
                             fullWidth
                           >
                             <MenuItem value="20">20</MenuItem>
                             <MenuItem value="30">30</MenuItem>
                           </Select>
-                          <FormHelperText>{errors?.options?.[index]?.optionDuration?.message}</FormHelperText>
+                          <FormHelperText>{errors?.options?.[index]?.duration?.message}</FormHelperText>
                         </FormControl>
                       )}
                     />
