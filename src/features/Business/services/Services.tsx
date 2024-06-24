@@ -357,7 +357,6 @@ export const Services: React.FC = () => {
   }, [categories]);
 
   const handleEditCategory = (categoryId) =>{
-    console.log('category Id : ', categoryId)
     openDrawer('addCategory', categoryId);
   }
 

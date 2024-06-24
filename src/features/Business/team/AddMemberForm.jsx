@@ -8,7 +8,7 @@ import { Button } from "../../../components/ui/button";
 import { AppointmentDateSelector } from "./AppointmentControllers";
 import { useDrawer } from "../../../features/Business/BusinessDrawerContext";
 
-export default function AddMemberForm() {
+export default function AddMemberForms() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [accessLevel, setAccessLevel] = useState("");

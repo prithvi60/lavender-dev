@@ -127,8 +127,6 @@ export const AdditionalInfo = ({
       }, {}),
     };
 
-    console.log('formData: ', formData);
-    alert(JSON.stringify(formData));
 
     // Assuming endpoint.saveEstablishmentAdditionalInfo(formData); needs formData as argument
     const response = endpoint.saveEstablishmentAdditionalInfo(formData);

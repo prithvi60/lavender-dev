@@ -20,15 +20,16 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import endpoint from "../../../api/endpoints";
+import { useSelector } from "react-redux";
 
 const schema = yup.object().shape({
   serviceName: yup.string().required(),
   serviceDescription: yup.string().required(),
-  employee: yup.array().min(1, "Please select at least one employee").required(),
+  employees: yup.array().min(1, "Please select at least one employees").required(),
   gender: yup.string().required(),
   startingPrice: yup.string().required(),
   duration: yup.string().required(),
-  category: yup.string().required(),
+  categoryId: yup.string().required(),
   options: yup.array().of(
     yup.object().shape({
       optionName: yup.string().required("Option name is required"),
@@ -41,12 +42,12 @@ const schema = yup.object().shape({
   ),
 });
 
-const employeeList = [
+const employeesList = [
   { name: "Richard", value: "E123" },
   { name: "Stanley", value: "E1011234" },
 ];
 
-const categoryList = [
+const categoryIdList = [
   { name: "Hair styling", value: "CAT00002509" },
   { name: "Nail", value: "CAT00002508" },
 ];
@@ -68,6 +69,12 @@ export default function AddServicesForm() {
   });
 
   const { closeDrawer } = useDrawer();
+
+  const userDetails = useSelector((state: any) => {
+    return state?.currentUserDetails;
+  });
+
+  const establishmentId = userDetails?.establishmentId || "";
 
   const handleFilterDrawerSubmit = (data) => {
     // Adjust options based on serviceName, startingPrice, and duration if options are not entered
@@ -93,35 +100,30 @@ export default function AddServicesForm() {
         discountPercentage: null,
       }));
     }
+    
 
     alert(JSON.stringify(data, null, 2));
     const payload = {
-      "id": "EST00002507",
+      "id": establishmentId,
       "categories": [
         {
-          "categoryId" : data.categoryId,
-          "services": [
-            {
-              "serviceName": data.serviceName,
-              "serviceDescription": data.serviceDescription,
-              "gender": data.gender,
-              "employees": data.employees,
-              "options": [
-                {
-                  "optionName": "MAkeup Facial 2",
-                  "salePrice": 150.00,
-                  "duration": 45
-                },
-              ],
-              "duration": 140,
-              "startingPrice": 145.00,
-              "active": true
-            }
-          ]
-        }
-      ]
+         "categoryId" : data.categoryId,
+        "services": [{
+        serviceName: data.serviceName,
+        serviceDescription: data.serviceDescription,
+        gender: data.gender,
+        employees: data.employees,
+        startingPrice: parseFloat(data.startingPrice) || 0,
+        duration: parseInt(data.duration) || 0,
+        options: data.options,
+        active: true,  // Add active: true here
+      }
+    ]
+
     }
-    const response = endpoint.saveEstablishmentService(data);
+  ]
+}
+    const response = endpoint.saveEstablishmentService(payload);
   };
 
   const addOption = () => {
@@ -139,19 +141,19 @@ export default function AddServicesForm() {
           <div className="text-lg h-14 mb-2 pt-4 pl-4 text-white">Add new service</div>
           <div className="mb-4 bg-white" style={{ width: "70%", borderRadius: "10px" }}>
             <Controller
-              name="category"
+              name="categoryId"
               control={control}
               defaultValue=""
               render={({ field }) => (
-                <FormControl error={!!errors.category} fullWidth>
-                  <Select {...field} error={!!errors.category} fullWidth>
-                    {categoryList.map((item) => (
+                <FormControl error={!!errors.categoryId} fullWidth>
+                  <Select {...field} error={!!errors.categoryId} fullWidth>
+                    {categoryIdList.map((item) => (
                       <MenuItem key={item.value} value={item.value}>
                         {item.name}
                       </MenuItem>
                     ))}
                   </Select>
-                  <FormHelperText>{errors.category?.message}</FormHelperText>
+                  <FormHelperText>{errors.categoryId?.message}</FormHelperText>
                 </FormControl>
               )}
             />
@@ -185,30 +187,30 @@ export default function AddServicesForm() {
 
           <div className="mb-4">
             <Controller
-              name="employee"
+              name="employees"
               control={control}
               defaultValue={[]}
               render={({ field }) => (
-                <FormControl error={!!errors.employee} fullWidth>
+                <FormControl error={!!errors.employees} fullWidth>
                   <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-                    Employee
+                    employees
                   </Typography>
                   <Select
                     {...field}
-                    label="Employee"
+                    label="employees"
                     multiple
-                    error={!!errors.employee}
+                    error={!!errors.employees}
                     fullWidth
                     renderValue={(selected) => selected.join(", ")}
                   >
-                    {employeeList.map((emp) => (
+                    {employeesList.map((emp) => (
                       <MenuItem key={emp.value} value={emp.value}>
                         <Checkbox checked={field.value.indexOf(emp.value) > -1} />
                         {emp.name}
                       </MenuItem>
                     ))}
                   </Select>
-                  <FormHelperText>{errors.employee?.message}</FormHelperText>
+                  <FormHelperText>{errors.employees?.message}</FormHelperText>
                 </FormControl>
               )}
             />

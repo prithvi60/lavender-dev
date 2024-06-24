@@ -16,18 +16,33 @@ import PersonIcon from "@mui/icons-material/Person";
 import GetIcon from "../../assets/Icon/icon";
 
 function About(props) {
-  const { establishmentData } = props;
+  const { establishmentEmployees, establishmentAbout, establishmentFeatures, establishmentLanguages, establishmentPaymentTypes } = props;
+
+  const featureNames = [];
+
+  // Check each key in the features object and add to featureNames if the value is true
+  if (establishmentFeatures?.wheelchair) {
+    featureNames.push('Wheel chair');
+  }
+  if (establishmentFeatures?.freewifi) {
+    featureNames.push('Free wifi');
+  }
+  // Add more conditions for other possible features here
+
+  // Join featureNames array with comma and space
+  const displayText = featureNames.join(', ');
+
   const additionalInfos = ["Payment methods", "Languages", "Accessibility"];
   return (
     <div className="mx-16 my-10 md:w-8/12 sm:w-full" id="SearchDetailAbout">
       <div className="max-w-2xl">
         <div className="urbanist-font text-xl font-bold pb-2">About</div>
         <div className="urbanist-font text-lg font-normal">
-          {establishmentData?.data?.establishmentAbout}
+          {establishmentAbout}
         </div>
 
         <div className="md:flex mt-4 rounded-3xl shadow-lg border overflow-hidden">
-          <div className="inline lg:w-8/12 md:w-8/12 sm:w-full w-full">
+          <div className="inline  sm:w-full w-full">
             <div className="p-8">
               <div className="text-lg font-medium urbanist-font">
                 Additional information
@@ -41,7 +56,7 @@ function About(props) {
                   />
                 </div>
                 <div className="w-full md:w-4/12 pl-8 md:pl-0">
-                  {SampleData[0].paymentMethod.map((item) => (
+                  {establishmentPaymentTypes?.map((item) => (
                     <div className="urbanist-font font-normal text-sm py-1">
                       {item}
                     </div>
@@ -57,7 +72,7 @@ function About(props) {
                   text="Payment methods"
                 />
               <div className="w-full md:w-4/12 pl-8 md:pl-0">
-                {SampleData[0].languages.map((item) => (
+                {establishmentLanguages?.map((item) => (
                   <div className="urbanist-font font-normal text-sm py-1">
                     {item}
                   </div>
@@ -71,7 +86,9 @@ function About(props) {
                   
                 </GetIcon>
                 <div className="w-full md:w-4/12 pl-8 md:pl-0">
-                  {establishmentData?.data?.otherInfos?.map((item) => (
+                  
+                    {featureNames?.map((item) => (
+                  
                     <div className="urbanist-font font-normal text-sm py-1">
                       {item}
                     </div>
@@ -81,10 +98,10 @@ function About(props) {
             </div>
           </div>
 
-          <div className="custom-bg-light inline lg:w-4/12 md:w-4/12 sm:w-full w-full">
+          <div className="custom-bg-light inline  sm:w-full w-full">
             <div className="p-8">
               <div className="text-lg font-bold pb-4">Our team</div>
-              {establishmentData?.data?.employees?.map((item) => (
+              {establishmentEmployees?.map((item) => (
                 <div className="flex py-2 gap-3 items-center">
                   <Avatar>
                     <img src={`/${item.imageId}`} />

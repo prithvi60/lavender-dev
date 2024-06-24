@@ -84,7 +84,6 @@ export default function AddCategoryForm({payload}) {
         }
       ]
     }
-    debugger
     const response = endpoint.saveEstablishmentCategory(payLoad);
   };
 

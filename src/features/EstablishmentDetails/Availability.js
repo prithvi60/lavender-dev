@@ -6,17 +6,20 @@ import emptyLogo from "../../assets/emptyImage.png"
 import GetIcon from '../../assets/Icon/icon';
 
 function Availability(props) {
-  const {isLoading, establishmentData} = props
+  const {isLoading, establishmentData, profile} = props
+  console.log("establishmentData avail: ", establishmentData)
   return (
     <Card className='availability-card'>
       {!isLoading && 
       <CardContent>
       <div className='urbanist-font text-xl font-bold pb-2'>Availability</div>
       {
-        establishmentData?.data?.availableTimes?.map((item) => (
+        establishmentData?.map((item) => (
             <div className={`flex justify-between ${false ? 'selected-availability' : ''}`} style={{padding: "1px", color: '#808080'}}>
-              <div className='urbanist-font text-sm'>{item.day}</div>
-              <div className='urbanist-font text-base'>{item.openTime}am - {item.closeTime - 12}pm</div>
+              <div className='urbanist-font text-base'>{item.day}</div>
+              {item.timeSlots?.map((time)=>(
+                <div className='urbanist-font text-base'>{time.openTime}am - {time.closeTime}pm</div>
+              ))}
             </div>
         ))
     }
@@ -24,8 +27,8 @@ function Availability(props) {
       <Divider style={{backgroundColor:'#A7A7A766'}}/>
     </div>
     <div className='urbanist-font text-xl font-bold pb-2'>Location</div>
-    <div className='urbanist-font text-base font-medium mb-2 gap-2' style={{color: '#4D4D4D', display: 'flex'}}><GetIcon iconName='LocationIcon'/> {establishmentData?.data?.establishmentLocation}</div>
-    <div className='urbanist-font text-base font-medium mb-2 gap-2' style={{color: '#4D4D4D', display: 'flex'}}><GetIcon iconName='CalendarIcon'/> Neighbourhood - Downtown</div>
+    <div className='urbanist-font text-base font-medium mb-2 gap-2' style={{color: '#4D4D4D', display: 'flex'}}><GetIcon iconName='LocationIcon'/>{profile?.doorNo}, {profile?.cityCode}, {profile?.stateCode}</div>
+    <div className='urbanist-font text-base font-medium mb-2 gap-2' style={{color: '#4D4D4D', display: 'flex'}}><GetIcon iconName='SalonHomeIcon'/> Neighbourhood - <span className='font-bold'>{profile?.locationTitle}</span></div>
     <img src={emptyLogo} alt='' className='w-full h-24 mb-4 md:mb-0 rounded-2xl'/>
     </CardContent>
       }

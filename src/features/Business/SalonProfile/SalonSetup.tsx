@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux'
 import endpoint from '../../../api/endpoints'
 
 export const SalonSetup = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
     const [activeStep, setActiveStep] = useState(0);
     const steps = ["Business info", "Photos", "Additional info", "Publish"];      
 
@@ -60,7 +60,6 @@ export const SalonSetup = () => {
         setPaymentTypes(establishmentData?.data?.data?.paymentTypes)
         setLanguages(establishmentData?.data?.data?.languages)
       }
-      console.log("establishmentDate : ", establishmentData?.data?.data?.profile)
     }
 
     getEstablishmentDetails();

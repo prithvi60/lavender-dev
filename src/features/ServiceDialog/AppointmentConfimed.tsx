@@ -106,7 +106,7 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
                 </Grid>
                 </Grid>
             </Box>
-        </Modal>
+      </Modal>
     </div>
   )
 }

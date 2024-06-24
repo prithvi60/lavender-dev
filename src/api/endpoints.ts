@@ -23,6 +23,7 @@ import {
   additionalInformation,
   deleteService,
   addService,
+  saveEmployee,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -214,6 +215,14 @@ class Endpoint {
   async deleteEstablishmentService(payload) {
     const response = await axiosInstance.post(
       `${BaseURL}${deleteService}`,
+      payload
+    );
+    return response;
+  }
+
+  async saveEstablishmentEmployee(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${saveEmployee}`,
       payload
     );
     return response;

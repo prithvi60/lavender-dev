@@ -16,9 +16,7 @@ export const DrawerProvider = ({ children }) => {
     setPayload(payloadProp)
     setIsOpen(true);
   };
-console.log("content : ", content)
 
-console.log("payload : ", payload)
   const closeDrawer = () => {
     setIsOpen(false);
     setContent(null);

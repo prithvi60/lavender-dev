@@ -11,6 +11,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import GetIcon from "../assets/Icon/icon.tsx";
 import PersonIcon from "@mui/icons-material/Person";
+import SaveReviews from "../features/CustomerProfile/SaveReviews.tsx";
 
 
 const Navbar = (props) => {
@@ -58,6 +59,7 @@ navigate('/userprofile')
           />
           {isSearchPage && <NavFilter setshowSearchBar={setshowSearchBar} />}
           <Stack spacing={2} direction="row">
+            <SaveReviews />
             <Button
               href={getBusinessRoute()}
               className="button-outline"

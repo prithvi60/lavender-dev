@@ -1,6 +1,6 @@
 export const BaseURL = 'http://dev.agilemadhi.in/lavender-api/'
 
-export const establishmentSearch = 'p/estsearch'
+export const establishmentSearch = 'e/estsearch'
 
 export const establishmentDetails = 'e/getEstablishmentDetails/'
 
@@ -39,6 +39,9 @@ export const additionalInformation = 'e/saveEstablishment/additional'
 export const addService = 'e/saveEstablishment/service'
 
 export const deleteService = 'e/saveEstablishment/service/delete'
+
+export const saveEmployee = 'e/saveEstablishment/employee'
+
 
 export function setBrowserCache(key: string, value: any) {
     window.localStorage.setItem(key, value)

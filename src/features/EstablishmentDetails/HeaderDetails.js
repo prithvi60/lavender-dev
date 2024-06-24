@@ -14,7 +14,6 @@ function HeaderDetails(props) {
     const [selectedHref, setSelectedHref] = useState('pictures')
     const {isLoading, establishmentData} = props
     if(!isLoading){
-    //console.log("establishmentData:  : ", establishmentData.data)
 
     }
 
@@ -31,7 +30,7 @@ function HeaderDetails(props) {
         {!isLoading && 
             <div className='mx-16'>
                 <div className='search-header-container'>
-                    <div className='text-3xl font-bold' id='SearchDetailPicture'>{establishmentData?.data?.establishmentName}</div>
+                    <div className='text-3xl font-bold' id='SearchDetailPicture'>{establishmentData?.establishmentName}</div>
                     <div className='search-detail-chips'>
                         <a
                             onClick={() => setSelectedHref('pictures')}
@@ -42,7 +41,7 @@ function HeaderDetails(props) {
                         
                             onClick={() => setSelectedHref('service')}
                             href="#SearchDetailService" className={selectedHref === 'service' ? "active" : ""}>
-                            <ServiceDialog establishmentData={establishmentData}/>
+                            {/* <ServiceDialog establishmentData={establishmentData}/> */}
                         </a>
                         <a
                         
@@ -69,11 +68,13 @@ function HeaderDetails(props) {
                     <div className='text-base'>{'('+establishmentData?.data?.rating?.ratingCount+')'}</div>
                     <FavoriteIcon/>
                     <Chip label={'Opens at '+establishmentData?.data?.geoX} className='header-chip'/>
-                    <Chip label={establishmentData?.data?.establishmentLocation} className='header-chip'/>
+                    <Chip label={establishmentData?.cityCode} className='header-chip'/>
                     <div className='search-chips-container'>
                         <Grid>
-                            {establishmentData?.data?.facilities?.instantBooking && <Chip className='mx-2' label={"Instant Booking"}/>}
-                            {establishmentData?.data?.facilities?.freeCancellation && <Chip className='mx-2' label={"Free Cancellation"}/>}
+                            {/* {establishmentData?.data?.facilities?.instantBooking &&  */}
+                            <Chip className='mx-2' label={"Instant Booking"} value={"Instant Booking"}/>
+                            {/* {establishmentData?.data?.facilities?.freeCancellation &&  */}
+                            <Chip className='mx-2' label={"Free Cancellation"} value={"Free Cancellation"}/>
                         </Grid>
                     </div>
                 </div>

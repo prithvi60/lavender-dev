@@ -4,18 +4,10 @@ import GetIcon from "../../../assets/Icon/icon"
 import { Button } from "../../../components/ui/button" // Adjust the import path as needed
 
 export type Team = {
-  member: {
-    name: string,
-    avatarUrl: string // Assuming you have avatar URLs in your data
-  },
-  contact: {
-    email: string,
-    phoneNo: string
-  },
-  servicingFrom: {
-    date: string,
-    totalDays: string
-  }
+  profileImage: string,
+  employeeName: string,
+  employeeNames: string,
+  startingDate: string
 }
 
 export const columns: ColumnDef<Team>[] = [
@@ -29,18 +21,8 @@ export const columns: ColumnDef<Team>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex items-center">
-        <Avatar src={row.original.member.avatarUrl || "/broken-image.jpg"} style={{ backgroundColor: '#1B1464' }} />
-        <div className="ml-2">{row.original.member.name}</div>
-      </div>
-    ),
-  },
-  {
-    accessorKey: "contact",
-    header: "Contact",
-    cell: ({ row }) => (
-      <div>
-        <div>{row.original.contact.email}</div>
-        <div>{row.original.contact.phoneNo}</div>
+        <Avatar src={row.original.profileImage|| "/broken-image.jpg"} style={{ backgroundColor: '#1B1464' }} />
+        <div className="ml-2">{row.original.employeeName}</div>
       </div>
     ),
   },
@@ -57,8 +39,7 @@ export const columns: ColumnDef<Team>[] = [
     ),
     cell: ({ row }) => (
       <div>
-        <div>{row.original.servicingFrom.date}</div>
-        <div>{row.original.servicingFrom.totalDays}</div>
+        <div>{row.original.startingDate}</div>
       </div>
     ),
     enableSorting: true,
@@ -72,46 +53,3 @@ export const columns: ColumnDef<Team>[] = [
     ),
   },
 ]
-
-
-
-// import { ColumnDef } from "@tanstack/react-table"
-// import GetIcon from "../../../assets/Icon/icon"
-
-
-// export type Teams = {
-//     member:string,
-//     contact:string,
-//     servicingFrom
-   
-//   }
-// export const columns: ColumnDef<teams>[] = [
-    
-      
-//       {
-//         accessorKey: "member",
-//         header: () => (<button className="flex items-center cursor-pointer text-left">
-//             <div className="mr-1">Member</div>
-//             <GetIcon
-//             iconName="IconSortDefault"
-//           />
-//         </button>),
-//       },
-//       {
-//         accessorKey: "contact",
-//         header: "Contact",
-//       },
-//       {
-//         accessorKey: "servicingFrom",
-        
-//         header: ({column}) => (<button className="flex items-center cursor-pointer">
-//             <div className="mr-1">Servicing From</div>
-//             <GetIcon
-//             iconName="IconSortDefault"
-//             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-//           />
-//         </button>),
-//         cell: ({row}) => (<div>{row.getValue('duration')} min</div>),
-//         enableSorting: true,
-//       }
-// ]

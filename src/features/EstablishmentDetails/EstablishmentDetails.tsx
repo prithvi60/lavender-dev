@@ -13,8 +13,8 @@ import "./style.css";
 
 import { Keyboard, Pagination, Navigation } from "swiper/modules";
 import GetImage from "../../assets/GetImage.tsx";
+import { Reviews } from "./Reviews.tsx";
 function EstablishmentDetails({ estId }) {
-  const id = 789;
   const {
     data: establishmentData,
     isLoading: isLoading,
@@ -26,12 +26,11 @@ function EstablishmentDetails({ estId }) {
       return endpoint.getEstablishmentDetailsById(estId);
     },
   });
-
   return (
     <div className="searchDetailsContainer">
       <HeaderDetails
         isLoading={isLoading}
-        establishmentData={establishmentData}
+        establishmentData={establishmentData?.data?.data?.profile}
       />
       {/* <ImageSlides /> */}
       <Swiper
@@ -60,14 +59,18 @@ function EstablishmentDetails({ estId }) {
       <div className="mx-16 service-search-container">
         <ServiceDetails
           isLoading={isLoading}
-          establishmentData={establishmentData}
+          establishmentData={establishmentData?.data?.data?.categories}
         />
         <Availability
           isLoading={isLoading}
-          establishmentData={establishmentData}
+          establishmentData={establishmentData?.data?.data?.availableDays}
+          profile={establishmentData?.data?.data?.profile}
         />
       </div>
-      <About establishmentData={establishmentData} id="SearchDetailAbout" />
+
+      <Reviews  />
+
+      <About establishmentEmployees= {establishmentData?.data?.data?.employees} establishmentAbout= {establishmentData?.data?.data?.profile?.establishmentAbout} establishmentFeatures={establishmentData?.data?.data?.features} establishmentLanguages={establishmentData?.data?.data?.languages} establishmentPaymentTypes={establishmentData?.data?.data?.paymentTypes} id="SearchDetailAbout" />
     </div>
   );
 }

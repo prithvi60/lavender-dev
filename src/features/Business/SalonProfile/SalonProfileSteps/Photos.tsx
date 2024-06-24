@@ -133,7 +133,6 @@ export const Photos = ({userDetails}) => {
   };
 
   const callSaveImageIdApi = async(imageId) =>{
-    console.log('iamgeId : ', imageId)
     const payload = {
       "id": establishmentId,
       "estImages": imageId,

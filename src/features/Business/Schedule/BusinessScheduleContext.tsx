@@ -37,7 +37,6 @@ export const ScheduleProvider = ({ children }) => {
   useEffect(() => {
     const newApp = groupAppointments(durationState, weekappointments, selectedDate, filterWeekStartDate, filterWeekEndDate)
     setFilteredAppointments(newApp)
-    console.log("filterAppointmentsByDate >",newApp)
   }, [selectedDate, filterWeekStartDate, durationState])
 
   const value = { selectedDate, setSelectedDate, filterWeekStartDate, filterWeekEndDate, 
