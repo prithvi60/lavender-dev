@@ -8,6 +8,7 @@ import OptionsModal from './OptionsModal';
 import { Divider } from '@mui/material';
 
 function ServiceListItems({ serviceCategories }) {
+  console.log("serviceCategories : ", serviceCategories)
   const listRef = useRef(null);
   const [value, setValue] = useState(0);
   const handleTabChange = (event, newValue) => {

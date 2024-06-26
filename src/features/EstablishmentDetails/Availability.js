@@ -7,7 +7,6 @@ import GetIcon from '../../assets/Icon/icon';
 
 function Availability(props) {
   const {isLoading, establishmentData, profile} = props
-  console.log("establishmentData avail: ", establishmentData)
   return (
     <Card className='availability-card'>
       {!isLoading && 

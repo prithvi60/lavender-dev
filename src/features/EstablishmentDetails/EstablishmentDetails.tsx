@@ -30,7 +30,7 @@ function EstablishmentDetails({ estId }) {
     <div className="searchDetailsContainer">
       <HeaderDetails
         isLoading={isLoading}
-        establishmentData={establishmentData?.data?.data?.profile}
+        establishmentData={establishmentData?.data?.data}
       />
       {/* <ImageSlides /> */}
       <Swiper

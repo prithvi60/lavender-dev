@@ -14,6 +14,8 @@ export const currentUserDetails = 'u/getCurrentUserDetails'
 
 export const userRegister = 'u/signUp'
 
+export const updateProfile = 'u/updateProfile'
+
 export const availableSlots = 'c/fetchAvailableSlots'
 
 export const appointmentBooking = 'c/saveAppointmentBooking'

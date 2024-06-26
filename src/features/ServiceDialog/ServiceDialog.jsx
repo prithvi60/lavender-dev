@@ -15,6 +15,7 @@ import ConfirmScreen from "./ConfirmScreeen.tsx";
 import { Grid } from "@mui/material";
 
 function ServiceDialog({establishmentData}) {
+  console.log("establishmentData daialog : ", establishmentData)
   const [isOpen, setIsOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 
@@ -56,15 +57,15 @@ function ServiceDialog({establishmentData}) {
         <div className="flex flex-wrap md:flex-nowrap h-full gap-6 mg:gap-0 max-w-7xl mx-auto py-4 px-6">
           <div className="w-full md:pr-8">
 
-            {activeStep === 0 && <ServiceListItems serviceCategories={establishmentData?.data?.serviceCategories}/>}
+            {activeStep === 0 && <ServiceListItems serviceCategories={establishmentData?.categories}/>}
 
-            {activeStep === 1 && <ScheduleAppointment estData={establishmentData?.data} onSetActiveStep={onSetActiveStep} />}
+            {activeStep === 1 && <ScheduleAppointment estData={establishmentData} onSetActiveStep={onSetActiveStep} />}
 
-            {activeStep === 2 && <ConfirmScreen estData={establishmentData?.data} onSetActiveStep={onSetActiveStep} />}
+            {activeStep === 2 && <ConfirmScreen estData={establishmentData} onSetActiveStep={onSetActiveStep} />}
           </div>
 
           <div>
-            <CheckoutCard activeStep={activeStep} next={onSetActiveStep} establishmentName = {establishmentData.data.establishmentName} establishmentId = {establishmentData.data.id}/>
+            <CheckoutCard activeStep={activeStep} next={onSetActiveStep} establishmentName = {establishmentData?.profile?.establishmentName} establishmentId = {establishmentData?.data?.id}/>
           </div>
         </div>
       </Dialog>

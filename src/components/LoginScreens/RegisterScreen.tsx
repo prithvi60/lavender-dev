@@ -48,7 +48,7 @@ const RegisterScreen = () => {
           alert('Register unsuccess')
         },
         onSettled: () => {}
-    })
+    });
 
     const onSubmit = (data) => {
         const payLoad = {

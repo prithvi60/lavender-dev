@@ -44,6 +44,12 @@ function GetImage(props) {
     case 'BookingImage':
       imageElement = <img src={require('./Benifits/Booking.png')} alt=''></img>
       break;
+
+    case 'AddPaymentCard':
+      imageElement = <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
+        <img src={require('./makePayment.png')} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover' }}></img>
+        </div>
+      break;
   }
 
   return (

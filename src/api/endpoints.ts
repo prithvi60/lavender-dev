@@ -24,6 +24,7 @@ import {
   deleteService,
   addService,
   saveEmployee,
+  updateProfile,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -86,6 +87,14 @@ class Endpoint {
 
   async getCustomerProfile() {
     const response = await axiosInstance.get(`${BaseURL}${customerProfile}`);
+    return response;
+  }
+
+  async updateProfile(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${updateProfile}`,
+      payload
+    );
     return response;
   }
 

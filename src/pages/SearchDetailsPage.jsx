@@ -5,7 +5,6 @@ import EstablishmentDetails from '../features/EstablishmentDetails/Establishment
 import { useParams } from "react-router-dom";
 
 function SearchDetailsPage() {
-  debugger
   const [isSearchPage, setIsSearchPage] = useState(true);
   const {estId} = useParams();
   return (

@@ -33,7 +33,7 @@ function upComingBookings({userInfo}) {
   return (
     <div className='mt-10'>
         <div className='text-3xl font-bold py-4'>Upcoming Bookings</div>
-        {userInfo?.upcomingBookings.length > 0 ? (
+        {userInfo?.upcomingBookings?.length > 0 ? (
             userInfo?.upcomingBookings?.map((bookings)=>(
                 <div>
             <Card sx={{width: 500, height: 150, borderRadius: 4}}>

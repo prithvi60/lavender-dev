@@ -7,7 +7,7 @@ import endpoint from "../../api/endpoints";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
-function MyFavorites() {
+export function MyFavorites() {
   const StyledRating = styled(Rating)({
     '& .MuiRating-iconFilled': {
       color: '#ff6d75',
@@ -49,20 +49,20 @@ function MyFavorites() {
               <div className="p-6 favourite-card">
                 <img src={establishmentImg} alt="CardImage" className="card-image" />
                 <CardContent className='favourite-card-content'>
-                    <Text variant="h5" align="left" className="card-title" sx={{color: '#4D4D4D'}} name={card.establishmentName}/>
+                    <Text variant="h5" align="left" className="card-title" sx={{color: '#4D4D4D'}} name={card?.establishmentName}/>
                     <div className="card-rating">
-                        <Text sx={{color: '#4D4D4D'}} variant="body2" align="left" name={card.rating.ratingStar}/>
+                        <Text sx={{color: '#4D4D4D'}} variant="body2" align="left" name={card?.rating?.ratingStar}/>
                         <StyledRating
                         name="customized-color"
-                        value={card.rating.ratingStar}
+                        value={card?.rating.ratingStar}
                         precision={0.5}
                         readOnly
                         />
-                        <Text sx={{color: '#4D4D4D'}} variant="body2" align="left" name={card.rating.ratingCount}/>
+                        <Text sx={{color: '#4D4D4D'}} variant="body2" align="left" name={card?.rating?.ratingCount}/>
                     </div>
-                    <Text sx={{color: '#808080'}} variant="body2" align="left" className="card-location" name={card.establishmentLocation} />
-                    <div className="card-tags gap-1" sx={{display: 'flex', justifyContent: 'center'}}>
-                        {card.serviceTags.map((tag, index) => (
+                    <Text sx={{color: '#808080'}} variant="body2" align="left" className="card-location" name={card?.establishmentLocation} />
+                    <div className="card-tags gap-1" style={{display: 'flex', justifyContent: 'center'}}>
+                        {card?.serviceTags.map((tag, index) => (
                             <Chip key={index} label={tag} className="small" />
                         ))}
                     </div>
@@ -82,4 +82,3 @@ function MyFavorites() {
   );
 }
 
-export default MyFavorites;

@@ -10,7 +10,7 @@ function EmptyBookings({noAppointmentsMessage}) {
             <div className='p-8'>
                 <GetIcon
                   className="flex items-center gap-3 h-fit urbanist-font text-lg font-semibold w-full md:w-8/12"
-                  iconName="Team"
+                  iconName="NoBookingIcon"
                   text={noAppointmentsMessage}
                   sz={{size: "10px"}}
                 />

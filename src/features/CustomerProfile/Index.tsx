@@ -8,12 +8,23 @@ import UpComingBookings from './UpComingBookings'
 import PastBookings from './PastBookings'
 import Notifications from './Notifications'
 import EditProfile from './EditProfile'
+import { MyFavorites } from '../MyFavorites/MyFavorites'
+import { useNavigate } from 'react-router-dom'
+import { PaymentCard } from './PaymentCard'
 
 function Index() {
+  const navigate = useNavigate()
    const {isLoading, data: userInfo} = useQuery({queryKey: ["query-user-info"], queryFn: () => { return endpoint.getCustomerProfile()}})
-  
+
+  const handleFavouriteClick = () => {
+    navigate('/favourites')
+  }
+
   return (
-    <div className='mx-auto max-w-7xl px-5 pb-8'>
+    <div>
+      {
+        !isLoading && 
+        <div className='mx-auto max-w-7xl px-5 pb-8'>
         <div className='mt-24'>
           <div className='text-3xl font-bold pb-4'>User Account</div>
           <Card sx={{backgroundColor: '#FAF5FF', borderRadius: 6, border: '1px solid #CCCCCC', boxShadow: 'none'}}>
@@ -24,27 +35,31 @@ function Index() {
                 </div>
                 <div style={{alignContent: 'center'}}>
                   <div>
-                    <div className='text-4xl font-semibold'>{userInfo?.data?.appUser?.fullName}</div>
-                    <div className='text-xl'>{userInfo?.data?.appUser?.emailAddress}</div>
-                    <div className='text-xl'><span>{userInfo?.data?.appUser?.mobileCountryCode} </span>{userInfo?.data?.appUser?.mobileNumber}</div>
+                    <div className='text-4xl font-semibold'>{userInfo?.data?.data?.appUser?.fullName}</div>
+                    <div className='text-xl'>{userInfo?.data?.data?.appUser?.emailAddress}</div>
+                    <div className='text-xl'><span>{userInfo?.data?.data?.appUser?.mobileCountryCode} </span>{userInfo?.data?.data?.appUser?.mobileNumber}</div>
                   </div>
                   <div className='pt-4'>
-                  <EditProfile />
+                  <EditProfile userInfo={userInfo?.data?.data}/>
                   </div>
                 </div>
                 
               </Grid>
               <Grid item className='grid gap-3' lg={4} sx={{placeSelf: 'center'}}>
-                <Button className='w-fit' name={"My Favourites"}></Button>
+                <Button className='w-fit' name={"My Favourites"} onClick={()=> {handleFavouriteClick()}}></Button>
                 <Button className='w-fit' variant={"outlined"} name={"Browse Treatments"}></Button>
               </Grid>
             </Grid>
           </Card>
         </div>
-        <UpComingBookings userInfo={userInfo?.data}/>
-        <PastBookings userInfo={userInfo?.data}/>
-        <Notifications userInfo={userInfo?.data}/>
+        <UpComingBookings userInfo={userInfo?.data?.data}/>
+        <PastBookings userInfo={userInfo?.data?.data}/>
+        <PaymentCard />
+        <Notifications userInfo={userInfo?.data?.data}/>
     </div>
+      }
+    </div>
+    
     
   )
 }
