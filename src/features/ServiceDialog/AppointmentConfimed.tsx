@@ -41,34 +41,78 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
     navigate("/");
   };
 
+  const userDetails = useSelector((state: any) => {
+    return state.currentUserDetails;
+  });
+  console.log("userDeatsial : ", userDetails)
+
   async function saveAppointmentClick(){
 
     
     if(activeStep===2){
-        const payLoad:SaveAppoinment = {
-          "customerId": "2500",
+        // const payLoad = {
+        //   "customerId": "2500",
+        //   "establishmentId": establishmentId,
+        //   "employeeId": "E101",
+        //   "startTime": convertToDateTime(startTime,selectedDate),
+        //   "endTime": convertToDateTime(endTime,selectedDate),
+        //   "totalDuration": checkOutList.checkOut[0].duration,
+        //   "totalCost": checkOutList.checkOut[0].finalPrice,
+        //   "appointmentNotes": "Prefer organic products",
+        //   "serviceTags": [
+        //     "Hair","Facial"
+        //   ],
+        //   "appointmentServices": [
+        //     {
+        //       "serviceId": checkOutList.checkOut[0].serviceId,
+        //       "optionId": checkOutList.checkOut[0].optionId
+        //     },
+        //   ],
+        //   "paymentInfo": {
+        //     "payAtVenue": false,
+        //     "cardStoreId": "2500"
+        //   },
+        //   "walkIn": false
+        // }
+
+        const payLoad = {
+          "id": "",
+          "createdDate": new Date(),
+          "createdBy": "",
+          "lastModifiedDate": new Date(),
+          "lastModifiedBy": "",
+          "customerId": userDetails?.userId,
           "establishmentId": establishmentId,
-          "employeeId": "E101",
-          "startTime": convertToDateTime(startTime,selectedDate),
-          "endTime": convertToDateTime(endTime,selectedDate),
+          "bookedBy": "",
+          "bookingTime": new Date(),
           "totalDuration": checkOutList.checkOut[0].duration,
           "totalCost": checkOutList.checkOut[0].finalPrice,
-          "appointmentNotes": "Prefer organic products",
-          "serviceTags": [
-            "Hair","Facial"
-          ],
           "appointmentServices": [
             {
               "serviceId": checkOutList.checkOut[0].serviceId,
-              "optionId": checkOutList.checkOut[0].optionId
-            },
+              "optionId": checkOutList.checkOut[0].optionId,
+              "serviceNotes": "string",
+              "employeeId": "string",
+              "serviceCost": 30,
+              "bookingStatus": "string",
+              "startTime": convertToDateTime(startTime,selectedDate),
+              "endTime": convertToDateTime(endTime,selectedDate),
+              "review": {
+                "serviceRating": 0,
+                "reviewDate": "2024-06-27T06:39:21.715Z",
+                "publicComments": "string",
+                "privateComments": "string"
+              }
+            }
           ],
           "paymentInfo": {
-            "payAtVenue": false,
-            "cardStoreId": "2500"
-          },
-          "walkIn": false
+            "payAtVenue": true,
+            "cardStoreId": "string",
+            "paymentStatus": "string",
+            "paymentTxnId": "string"
+          }
         }
+        
         const appointmentBooking =await endpoint.saveAppointmentBookings(payLoad);
         
         setOpen((prev) => !prev);
@@ -97,7 +141,7 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
                         }}
                         className='my-5 mx-16 p-1 cursor-pointer rounded-sm' 
                         iconName="CalendarConfirmedIcon"/>
-                    <div id="title" className="font-bold text-xl mb-3">Dear John</div>
+                    <div id="title" className="font-bold text-xl mb-3">Dear {userDetails?.fullName}</div>
                     <div>Your appointment has been confirmed</div>
                 </div>
                 <Grid container spacing={2} className='filters-container'>

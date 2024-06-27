@@ -15,10 +15,14 @@ import GetImage from "../../assets/GetImage.tsx";
 import { Reviews } from "./Reviews.tsx";
 import { useEffect, useState } from "react";
 import { Card } from "@mui/material";
+import { updateUser } from "../../store/slices/currentUserSlice.js";
+import { useDispatch } from "react-redux";
 function EstablishmentDetails({ estId }) {
   const [imageIdList, setImageIdList]= useState<string | any>([]);
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
+
+  const dispatch = useDispatch();
 
   const {
     data: establishmentData,
@@ -67,6 +71,25 @@ function EstablishmentDetails({ estId }) {
     setImageIdList(establishmentData?.data?.data?.estImages)
   }, [establishmentData])
 
+  useEffect(()=>{
+    setTimeout(()=>{
+      if(localStorage.getItem('Token')){
+        const fetchCurrentUserDetails = async () => {
+            try {
+              const response = await endpoint.getCurrentUserDetails(); // Call the async function to get user details
+              const userDetails = response?.data; // Assuming response.data contains the user details
+            
+
+              dispatch(updateUser(userDetails?.data)); // Dispatch the updateUser action with user details
+            } catch (error) {
+              console.error('Error fetching user details:', error); // Handle any errors that occur
+            }
+          }
+          fetchCurrentUserDetails();
+      }
+    },1000)
+    
+  },[])
 
   return (
     <div className="searchDetailsContainer">

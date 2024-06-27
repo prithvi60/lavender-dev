@@ -106,14 +106,13 @@ class Endpoint {
     return response;
   }
 
-  async getAvailableSlots(payload): Promise<IScheduleAppointmentList[]> {
+  async getAvailableSlots(payload): Promise<any> {
     const response = await axiosInstance.post(
       `${BaseURL}${availableSlots}`,
       payload
     );
-    const result = FormAvailableSlotsModel(response);
 
-    return result?.data;
+    return response;
   }
 
   async saveAppointmentBookings(payload) {
@@ -239,25 +238,25 @@ class Endpoint {
 
 }
 
-function FormAvailableSlotsModel(response) {
-  let keyvalue = 1;
+// function FormAvailableSlotsModel(response) {
+//   let keyvalue = 1;
   
 
-  response.data.map((item) => {
-    Object.keys(item.availableSlots).forEach((period) => {
-      item.availableSlots[period as keyof IAvailableSlots].forEach((slot) => {
-        slot.isSelected = false;
-        // slot.id = keyvalue;
-        slot.id = item.availableDate + slot.startTime;
+//   response.data.map((item) => {
+//     Object.keys(item.availableSlots).forEach((period) => {
+//       item.availableSlots[period as keyof IAvailableSlots].forEach((slot) => {
+//         slot.isSelected = false;
+//         // slot.id = keyvalue;
+//         slot.id = item.availableDate + slot.startTime;
 
-        keyvalue++;
-      });
-    });
-    return response;
-  });
+//         keyvalue++;
+//       });
+//     });
+//     return response;
+//   });
 
-  return response;
-}
+//   return response;
+// }
 
 const endpoint = new Endpoint();
 export default endpoint;

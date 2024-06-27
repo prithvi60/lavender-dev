@@ -16,9 +16,9 @@ export const userRegister = 'u/signUp'
 
 export const updateProfile = 'u/updateProfile'
 
-export const availableSlots = 'c/fetchAvailableSlots'
+export const availableSlots = 'a/fetchAvailableSlots'
 
-export const appointmentBooking = 'c/saveAppointmentBooking'
+export const appointmentBooking = 'a/saveAppointmentBooking'
 
 export const saveEstablishment = 'e/saveEstablishment/profile'
 
