@@ -24,7 +24,7 @@ function ServiceListItems({ serviceCategories }) {
   return (
     <div className='w-full gridServiceLayout  urbanist-font'>
       <div className='text-4xl font-semibold pl-6 pb-5'>Services</div>
-      <Tabs
+      {/* <Tabs
       className='serviceTabs'
         value={value}
         onChange={handleTabChange}
@@ -34,7 +34,7 @@ function ServiceListItems({ serviceCategories }) {
         {serviceCategories?.map((service, index) => (
           <Tab key={index} label={service?.services[0]?.serviceTags} value={index} />
         ))}
-      </Tabs>
+      </Tabs> */}
 
       <List ref={listRef} className='serviceGridList' sx={{ width: '100%', maxWidth: '100%', maxHeight: 500, bgcolor: 'background.paper', overflowY: 'auto' }}>
         {serviceCategories?.map((item, index) => (

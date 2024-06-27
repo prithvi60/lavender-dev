@@ -40,7 +40,7 @@ export const Reviews = () => {
   };
 
   return (
-    <div className="w-3/4 mx-auto">
+    <div className="mx-auto" style={{width: '85%'}}>
       <ReviewsTable data={jsonData.content} />
     </div>
   );

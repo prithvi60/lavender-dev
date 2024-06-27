@@ -39,7 +39,6 @@ export const Photos = ({userDetails}) => {
   }, [])
 
   useEffect( () =>{
-    debugger
     const callFetchImageApi = async () =>{
       const urls = [];
       for (const imageId of photosId) {
@@ -115,7 +114,6 @@ export const Photos = ({userDetails}) => {
   });
 
   const handleButtonClick = async () => {
-    debugger
     setLoading(true);
     try {
       const urls = [];

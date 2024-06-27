@@ -15,7 +15,6 @@ import ConfirmScreen from "./ConfirmScreeen.tsx";
 import { Grid } from "@mui/material";
 
 function ServiceDialog({establishmentData}) {
-  console.log("establishmentData daialog : ", establishmentData)
   const [isOpen, setIsOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 

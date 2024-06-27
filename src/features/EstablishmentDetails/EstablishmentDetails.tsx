@@ -8,13 +8,18 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
 import "./style.css";
 
 import { Keyboard, Pagination, Navigation } from "swiper/modules";
 import GetImage from "../../assets/GetImage.tsx";
 import { Reviews } from "./Reviews.tsx";
+import { useEffect, useState } from "react";
+import { Card } from "@mui/material";
 function EstablishmentDetails({ estId }) {
+  const [imageIdList, setImageIdList]= useState<string | any>([]);
+  const [loading, setLoading] = useState(false);
+  const [imageUrls, setImageUrls] = useState([]);
+
   const {
     data: establishmentData,
     isLoading: isLoading,
@@ -26,6 +31,43 @@ function EstablishmentDetails({ estId }) {
       return endpoint.getEstablishmentDetailsById(estId);
     },
   });
+
+  
+  const fetchImage = async (image) => {
+    try {
+      setLoading(true);
+      const response = await endpoint.getImages(image, establishmentData?.data?.data?.id);
+
+      const imageUrl = URL.createObjectURL(response.data);
+      return imageUrl
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  useEffect( () =>{
+    const callFetchImageApi = async () =>{
+      debugger
+      console.log("in  api")
+      const urls = [];
+      for (const imageId of imageIdList) {
+        const imageUrl = await fetchImage(imageId);
+        urls.push(imageUrl);
+      }
+      setImageUrls(urls);
+      setLoading(false);
+    }
+    if (imageIdList?.length > 0) {
+      callFetchImageApi();
+    }
+  }, [imageIdList])
+
+  useEffect(()=>{
+    console.log('in effect')
+    setImageIdList(establishmentData?.data?.data?.estImages)
+  }, [establishmentData])
+
+
   return (
     <div className="searchDetailsContainer">
       <HeaderDetails
@@ -34,7 +76,6 @@ function EstablishmentDetails({ estId }) {
       />
       {/* <ImageSlides /> */}
       <Swiper
-        // className="w-4"
         slidesPerView={3}
         spaceBetween={30}
         keyboard={{
@@ -46,14 +87,17 @@ function EstablishmentDetails({ estId }) {
         navigation={true}
         modules={[Keyboard, Pagination, Navigation]}
       >
-        {/* TODO: API integration */}
-        {Array.from({ length: 12 }).map(() => {
-          return (
-            <SwiperSlide>
-              <GetImage imageName="SaloonImage" />
-            </SwiperSlide>
-          );
-        })}
+        
+              {/* <GetImage imageName="SaloonImage" /> */}
+              {loading && <p>Loading...</p>}
+              <div style={{ display: 'flex', flexWrap: 'wrap'}}>
+                {imageUrls.map((url, index) => (
+                  <SwiperSlide>
+                    <img key={index} src={url} alt={`Image ${index}`} style={{ width: '300px', height: '200px', margin: '10px' }} />
+                  </SwiperSlide>
+                ))}
+              </div>
+            
       </Swiper>
 
       <div className="mx-16 service-search-container">
