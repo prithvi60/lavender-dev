@@ -11,7 +11,7 @@ export const CustomTooltip =
     styled(({ className, ...props }: customTooltipProps) => (
     <Tooltip
     placement="right"
-    TransitionComponent={Zoom} arrow
+    TransitionComponent={Zoom}
     {...props} classes={{ popper: className }} />))
     (({ theme, maxW, arrowColor }) => ({
         [`& .${tooltipClasses.tooltip}`]: {

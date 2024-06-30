@@ -6,10 +6,12 @@ import GetIcon from '../../../assets/Icon/icon'
 import { CalenderDateSelector } from './components/CalenderDateSelector'
 import { GetScheduleDates, ScheduleProvider } from './BusinessScheduleContext'
 import { addTime, getMonday } from './utils'
+import { useDrawer } from '../BusinessDrawerContext'
 
 function SchedulePage() {
 
   const { durationState, setDurationState, setSelectedDate, setFilterWeekEndDate, setFilterWeekStartDate } = GetScheduleDates()
+  const { openDrawer } = useDrawer()
 
   const setCurrentDuration = () => {
     if(durationState === 'Day') {
@@ -29,14 +31,12 @@ function SchedulePage() {
               {durationState === 'Day' ? 'Today' : 'This Week'}
             </Button>
             <div>
-              <CalenderDateSelector 
-                  view={durationState}
-              />
+              <CalenderDateSelector />
             </div>
           </div>
 
           <div className='flex items-center'>
-            <Button variant='outline' className='w-10 border-2'>
+            <Button onClick={() => openDrawer('FilterDrawer')} variant='outline' className='w-10 border-2'>
               <GetIcon iconName='FilterIcon'/>
             </Button>
             <div className='flex border rounded w-40 ml-10'>

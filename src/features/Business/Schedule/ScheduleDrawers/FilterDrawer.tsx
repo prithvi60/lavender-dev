@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Selector } from "./Appointments/AppointmentControllers";
-import { SelectSeparator } from "../../components/ui/select";
-import StatusFilter from "../../components/FilterButtons";
+import { Selector } from "../../Appointments/AppointmentControllers";
+import { SelectSeparator } from "../../../../components/ui/select";
+import StatusFilter from "../../../../components/FilterButtons";
 import Divider from "@mui/material/Divider";
-import { Button } from "../../components/ui/button";
-import { useDrawer } from "./BusinessDrawerContext";
+import { Button } from "../../../../components/ui/button";
+import { useDrawer } from "../../BusinessDrawerContext";
 
 export default function FilterDrawer() {
   const [selectedTeamMember, setSelectedTeamMember] = useState("");
@@ -32,7 +32,7 @@ export default function FilterDrawer() {
           onSelect={setSelectedTeamMember}
           placeholder={"Everyone"}
           options={["Content", "bContent", "cContent", "dContent"]}
-          className={"w-56 mb-4 shadow-lg rounded"}
+          className={"w-full mb-4 shadow-lg rounded"}
           label={"Team member"}
         />
         <Divider />
@@ -40,7 +40,7 @@ export default function FilterDrawer() {
           onSelect={setClient}
           placeholder={"All Bookings"}
           options={["Content", "bContent", "cContent", "dContent"]}
-          className={"w-56 mb-4 shadow-lg rounded"}
+          className={"w-full mb-4 shadow-lg rounded"}
           label={"Booked by"}
         />
         <Divider />

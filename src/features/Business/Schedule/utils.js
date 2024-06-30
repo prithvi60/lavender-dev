@@ -18,9 +18,9 @@ export const addDateBy = (date, count) => {
 export const getMonday = () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const diff = (today.getDay() === 0 ? 6 : today.getDay() + 1);
+  const diff = (today.getDay() === 0 ? 6 : (today.getDay() - 1));
   const monday = today.getDate() - diff;
-  console.log("getMonday >>", monday, today.getDay(), today.getDate())
+  console.log("getMonday >>", monday, today.getDay(), today.getDate(), diff)
   return new Date(today.setDate(monday))
 }
 
@@ -47,7 +47,10 @@ export const getFormattedTimeRange = (date, duration) => {
 }
 
 export const getCurrentTime12HrFormat = (hours, minutes, includeMerdians = false) => {
-  
+  if(minutes === 60){
+    minutes = 0
+    hours += 1
+  }
   const minutesStr = String(minutes).padStart(2, '0');
   const ampm = hours >= 12 ? ' PM' : ' AM';
 
@@ -135,17 +138,17 @@ export function filterByDate(appointments, selectedDate) {
 //Parser Utils and constants
 
 export const appointments = [
-  {  date: new Date(2024, 5, 22, 0), text: "first hi", howLong: 1, statusColor: '#8280BA', employee: 'John six', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 27, 0), text: "first hi", howLong: 1, statusColor: '#8280BA', employee: 'John six', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
   // {  date: new Date(2024, 5, 8, 1, 30), text: "first hi", howLong: 3, statusColor: '#35AFAC', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 22, 19, 15), text: "second", howLong: 2, statusColor: '#35AFAC', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 22, 4), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John two', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 22, 13), text: "forth", howLong: 2, statusColor: '#E6E1FF', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 22, 11), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 22, 11), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John four', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 22, 13), text: "forth", howLong: 2, statusColor: '#E6E1FF', employee: 'John six', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 22, 14), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John six', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 22, 19), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John five', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 22, 3), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 27, 19, 15), text: "second", howLong: 2, statusColor: '#35AFAC', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 27, 4), text: "third1", howLong: 2, statusColor: '#FF83B0', employee: 'John two', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 27, 13), text: "forth", howLong: 2, statusColor: '#E6E1FF', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 27, 11), text: "third2", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 27, 11), text: "third3", howLong: 2, statusColor: '#FF83B0', employee: 'John four', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 27, 13), text: "forth", howLong: 2, statusColor: '#E6E1FF', employee: 'John six', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 27, 14), text: "third4", howLong: 2, statusColor: '#FF83B0', employee: 'John six', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 27, 19), text: "third5", howLong: 2, statusColor: '#FF83B0', employee: 'John five', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 27, 3), text: "third6", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
 
   // { date: new Date(), text: "Current appointment", howLong: 2, status: '#', employee: 'John four' },
 ]
@@ -171,14 +174,15 @@ export const weekappointments = [
   {  date: new Date(2024, 5, 21, 10), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
   {  date: new Date(2024, 5, 22, 11), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John four', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
   {  date: new Date(2024, 5, 23, 1), text: "forth", howLong: 2, statusColor: '#E6E1FF', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 23, 1), text: "forth2", howLong: 2, statusColor: '#E6E1FF', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 23, 2), text: "forth3", howLong: 2, statusColor: '#E6E1FF', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 23, 2, 45), text: "forth4", howLong: 2, statusColor: '#E6E1FF', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 23, 4, 45), text: "forth5", howLong: 2, statusColor: '#E6E1FF', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 23, 3, 30), text: "forth", howLong: 2, statusColor: '#E6E1FF', employee: 'John test', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
   {  date: new Date(2024, 5, 24, 14), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John six', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
   {  date: new Date(2024, 5, 25, 13), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John five', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-  {  date: new Date(2024, 5, 26, 12), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
-
+  {  date: new Date(2024, 5, 28, 12), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 28, 1), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 29, 2), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 29, 12), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  {  date: new Date(2024, 5, 29, 1), text: "third", howLong: 2, statusColor: '#FF83B0', employee: 'John three', client: 'Olivia', status: 'Confirmed', service: 'Layered Long Haircut', price: '$228', bookedThrough: 'Online Booking', estimatedDuration: '20 mins - 60 mins', },
+  
   // { date: new Date(), text: "Current appointment", howLong: 2, status: '#', employee: 'John four' },
 ]
 
@@ -216,18 +220,11 @@ export const groupAppointments = (range, appointments, currentDate, weekStartDat
   console.log("groupAppointments >", weekEndDate)
   let filteredAppointments = []
   if(range === 'Day') {
-    filteredAppointments = groupAppointmentsByEmployee(filterAppointmentsByDate(appointments, currentDate))
+    filteredAppointments = groupAppointmentsBy(filterAppointmentsByDate(appointments, currentDate), 'Employee') //groupAppointmentsByEmployee(filterAppointmentsByDate(appointments, currentDate))
     console.log("groupEmployees day", filteredAppointments)
-
-  //   let employees = getEmployeesList()
-  //   let newApp = employees.map((emp) => {
-  //       return groupOverlappingEvents(filteredAppointments[emp].appointments, emp)
-  //     }
-  // )
-  // console.log("groupOverlappingEvents >>", newApp)
   }
   else {
-    filteredAppointments = filterAppointmentsByDateRange(appointments, weekStartDate, weekEndDate)
+    filteredAppointments = groupAppointmentsBy(appointments, 'Date') //filterAppointmentsByDateRange(appointments, weekStartDate, weekEndDate)
     console.log("groupEmployees week", filteredAppointments)
   }
 
@@ -236,11 +233,9 @@ export const groupAppointments = (range, appointments, currentDate, weekStartDat
 
 export function groupAppointmentsByEmployee(appointments) {
   const grouped = {};
-  const employees = []
 
   appointments.forEach(appointment => {
     const employee = appointment.employee;
-    employees.push(employee)
     if (!grouped[employee]) {
       grouped[employee] = { employee, appointments: [] };
     }
@@ -250,48 +245,6 @@ export function groupAppointmentsByEmployee(appointments) {
 
   return grouped
   //return Object.values(grouped);
-}
-
-export const groupOverlappingEvents = (appointmentsObj, employee) => {
-  const appointments = appointmentsObj.map(appointment => {
-      const startDate = new Date(appointment.date);
-      const endDate = new Date(startDate.getTime() + appointment.howLong * 60 * 60 * 1000);
-      return { ...appointment, startDate, endDate };
-  });
-
-  appointments.sort((a, b) => a.startDate - b.startDate);
-
-  const result = [];
-  let currentGroup = [];
-
-  for (let i = 0; i < appointments.length; i++) {
-      if (currentGroup.length === 0) {
-          currentGroup.push(appointments[i]);
-      } else {
-          const lastAppointment = currentGroup[currentGroup.length - 1];
-          if (appointments[i].startDate < lastAppointment.endDate) {
-              currentGroup.push(appointments[i]);
-          } else {
-              if (currentGroup.length === 1) {
-                console.log("groupOverlappingEvents 0")
-
-                  result.push(currentGroup[0]);
-              } else {
-                  result.push({ group: currentGroup });
-              }
-              currentGroup = [appointments[i]];
-          }
-      }
-  }
-
-  if (currentGroup.length === 1) {
-    console.log("groupOverlappingEvents 1") 
-      result.push(currentGroup[0]);
-  } else {
-      result.push({ group: currentGroup });
-  }
-
-  return result;
 }
 
 export const getSelectedWeekDetails = (startDate) => {
@@ -315,4 +268,81 @@ export function getEmployeesList(establishmentState) {
   });
 
   return employees;
+}
+
+function isOverlapping(appointment1, appointment2) {
+  return appointment1.start < appointment2.end && appointment1.end > appointment2.start;
+}
+
+function mergeGroups(groups) {
+  let merged = [];
+  while (groups.length) {
+      let group = groups.pop();
+      let mergeInto = null;
+      for (let i = 0; i < merged.length; i++) {
+          if (group.some(appointment => merged[i].some(a => isOverlapping(a, appointment)))) {
+              mergeInto = merged[i];
+              break;
+          }
+      }
+      if (mergeInto) {
+          mergeInto.push(...group);
+      } else {
+          merged.push(group);
+      }
+  }
+  return merged;
+}
+
+function groupAppointmentsBy(appointments, filterBy) {
+
+  const appointmentsArr = appointments.map((appointment) => {
+    return {
+      ...appointment,
+      start: appointment.date,
+      end: addTime(appointment.date, 'hours', appointment.howLong )
+    }
+  })
+  appointmentsArr.sort((a, b) => a.start - b.start);
+
+  let groupedBy = {};
+  appointmentsArr.forEach(appointment => {
+    if(filterBy === 'Date') {
+      const date = formatDate(appointment.start);
+      if (!groupedBy[date]) {
+          groupedBy[date] = [];
+      }
+      groupedBy[date].push(appointment);
+    }
+    else{
+        const employee = appointment.employee;
+        if (!groupedBy[employee]) {
+          groupedBy[employee] = [];
+        }
+        groupedBy[employee].push(appointment);
+    }
+  });
+
+  console.log("groupAppointmentsBy >", groupedBy)
+  let groupedAppointments = {};
+  for (let date in groupedBy) {
+      let dateGroup = groupedBy[date];
+      let overlappingGroups = [];
+      dateGroup.forEach(appointment => {
+          let placed = false;
+          for (let group of overlappingGroups) {
+              if (group.every(a => isOverlapping(a, appointment))) {
+                  group.push(appointment);
+                  placed = true;
+                  break;
+              }
+          }
+          if (!placed) {
+              overlappingGroups.push([appointment]);
+          }
+      });
+      groupedAppointments[date] = mergeGroups(overlappingGroups);
+  }
+
+  return groupedAppointments;
 }

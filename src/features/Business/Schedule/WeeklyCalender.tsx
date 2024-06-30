@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { range, addDateBy, areDatesSame, getMonday, addTime, getSelectedWeekDetails, formatDate } from "./utils";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { DAYS, DayWrapper, FlexBox, HGrid, Hour, HourLine, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, Appointment, HourLineWithLabel, Wrapper, DayHeader, HourTimeline } from './components/CalenderComponents'
+import { DAYS, DayWrapper, FlexBox, HGrid, Hour, HourLine, VGrid, HOUR_HEIGHT, HOUR_MARGIN_TOP, HourLineWithLabel, Wrapper, DayHeader, HourTimeline } from './components/CalenderComponents'
 import { GetScheduleDates } from "./BusinessScheduleContext";
 import GetIcon from "../../../assets/Icon/icon";
+import { Appointment } from "./components/Appointment";
 
 
 export const WeeklyCalendar = () => {
@@ -45,7 +46,7 @@ export const WeeklyCalendar = () => {
                     </Hour>
                   ))}
                   
-                  {filteredAppointments[formatDate(day.date)]?.map(
+                  {filteredAppointments[formatDate(day.date)]?.map((appointmentGroup) => appointmentGroup.map(
                     (appointment, index, allAppointments) => {
                       console.log("render day >", allAppointments.length, index)
                       const allAppointmentsCount = allAppointments.length
@@ -55,14 +56,18 @@ export const WeeklyCalendar = () => {
                           index={index}
                           count={allAppointmentsCount}
                           data={appointment}
-                          onDragEnd={(e) => {}}
+                          onDragEnd={(e) => { } }
                           elementRef={null}
-                          onDragStart = {(e) => {}}
+                          onDragStart={(e) => { } }
                           disabled={true}
-                        />
+                          disableHoverOnDrag={undefined} 
+                          onDrag={() => {}}
+                          />
                         )
                     }
-                  )}
+                  )
+                  )
+                  }
                 </DayWrapper>
             )) 
             }

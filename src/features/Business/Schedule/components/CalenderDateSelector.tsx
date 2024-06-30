@@ -4,13 +4,13 @@ import { CalendarHeaderComponent } from '../../Appointments/AppointmentControlle
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { GetScheduleDates } from '../BusinessScheduleContext';
 
-export const CalenderDateSelector = ({ view }) => {
+export const CalenderDateSelector = () => {
 
     const { selectedDate, setSelectedDate, filterWeekStartDate, filterWeekEndDate, 
-      setFilterWeekEndDate, setFilterWeekStartDate } = GetScheduleDates()
+      setFilterWeekEndDate, setFilterWeekStartDate, durationState } = GetScheduleDates()
   
     const handleLeftClick = () => {
-      if(view === 'Day') {
+      if(durationState === 'Day') {
         setSelectedDate(addTime(selectedDate, 'days', -1))
       }
       else {
@@ -22,7 +22,7 @@ export const CalenderDateSelector = ({ view }) => {
     }
   
     const handleRightClick = () => {
-      if(view === 'Day') {
+      if(durationState === 'Day') {
         setSelectedDate(addTime(selectedDate, 'days', 1))
       }
       else {
@@ -43,7 +43,7 @@ export const CalenderDateSelector = ({ view }) => {
                     </button>
                       <DropdownMenuTrigger>
                         {
-                          view === 'Day' ? 
+                          durationState === 'Day' ? 
                           <div>
                             {getMonthAndDayNames(selectedDate)}
                           </div>
