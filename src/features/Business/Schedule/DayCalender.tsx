@@ -6,37 +6,40 @@ import { GetScheduleDates } from "./BusinessScheduleContext";
 import { useDrawer } from "../BusinessDrawerContext";
 import { Appointment } from "./components/Appointment";
 
-const setDragElement = (e) => {
-  const dragEle = e.target;
-  var hideDragImage = dragEle.cloneNode(true);
-  hideDragImage.id = "hideDragImage-hide"
-  const nodeRect = dragEle.getBoundingClientRect();
-  // const offsetX = e.clientX - nodeRect.left;
-  // const offsetY = e.clientY - nodeRect.top;
-  // e.dataTransfer.setData('offsetX', offsetX);
-  // e.dataTransfer.setData('offsetY', offsetY);
-  // console.log("setDragElement called", offsetX, offsetY)
+// const setDragElement = (e) => {
+//   const dragEle = e.target;
+//   const bg = dragEle.parentElement.style.backgroundColor
+//   var hideDragImage = dragEle.cloneNode(true);
+//   hideDragImage.id = "hideDragImage-hide"
+//   const nodeRect = dragEle.getBoundingClientRect();
+//   // const offsetX = e.clientX - nodeRect.left;
+//   // const offsetY = e.clientY - nodeRect.top;
+//   // e.dataTransfer.setData('offsetX', offsetX);
+//   // e.dataTransfer.setData('offsetY', offsetY);
+//   // console.log("setDragElement called", offsetX, offsetY)
 
-  var dragImage = dragEle.cloneNode(true);
-  dragImage.id = "draggedimage";
-  dragImage.style.position = "absolute";
+//   var dragImage = dragEle.cloneNode(true);
+//   dragImage.id = "draggedimage";
+//   dragImage.style.position = "absolute";
 
-  hideDragImage.style.opacity = 0;
-  hideDragImage.style.width = nodeRect.width + 'px'
-  dragImage.style.width = nodeRect.width + 'px'
+//   hideDragImage.style.opacity = 0;
+//   // hideDragImage.style.width = nodeRect.width + 'px'
+//   dragImage.style.width = nodeRect.width + 'px'
+//   dragImage.style.height = nodeRect.height + 'px'
+//   dragImage.style.backgroundColor = bg
 
-  document.body.appendChild(hideDragImage);
-  document.body.appendChild(dragImage);
-  e.dataTransfer.setDragImage(hideDragImage, 0, 0);
-  //console.log("dragStart",e, nodeRect, dragImage, hideDragImage, nodeRect.width)
-}
+//   document.body.appendChild(hideDragImage);
+//   document.body.appendChild(dragImage);
+//   e.dataTransfer.setDragImage(hideDragImage, 0, 0);
+//   console.log("dragStart",e.target.parentElement, nodeRect, dragImage, hideDragImage, nodeRect.width)
+// }
 
-const removeDragElement = () => {
-  var hideDragImage = document.getElementById('hideDragImage-hide');
-  var dragImage = document.getElementById('draggedimage');
-  hideDragImage.remove();
-  dragImage.remove();
-}
+// const removeDragElement = () => {
+//   var hideDragImage = document.getElementById('hideDragImage-hide');
+//   var dragImage = document.getElementById('draggedimage');
+//   hideDragImage.remove();
+//   dragImage.remove();
+// }
 
 export const DayCalendar = () => {
 
