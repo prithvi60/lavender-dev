@@ -16,7 +16,7 @@ export default function ScheduleAppointment(props) {
   const [availableTimeSlots, setAvailableTimeSlots] = React.useState<any>([]);
   const [clickedChipIndices, setClickedChipIndices] = React.useState({});
   const dispatch = useDispatch();
-  const { selectedDate,timeOfDay,startTime,endTime ,id} = useSelector(
+  const { selectedDate, timeOfDay, startTime, endTime, id} = useSelector(
     (state: any) => state.ScheduleAppoinment
   );
   
@@ -56,7 +56,7 @@ export default function ScheduleAppointment(props) {
 
     // Concatenate the formatted parts
     const formattedDate = `${year}-${month}-${day}`;
-    debugger
+    
     const test = appointmentTimings?.data?.data?.filter(slot => slot.availableDate === formattedDate);
 console.log('test : ',test)
     setAvailableTimeSlots(test);
@@ -103,6 +103,7 @@ console.log('test : ',test)
       <div className='mt-4'>
 
         {!isLoading && availableTimeSlots?.length > 0 ? Object.entries(availableTimeSlots[0]?.availableSlots).map(([timePeriod, slotsArray]) => {
+          debugger
           return (
             <div className='schedule-chips' key={timePeriod}>
               <p className='font-semibold capitalize'>{timePeriod}</p>

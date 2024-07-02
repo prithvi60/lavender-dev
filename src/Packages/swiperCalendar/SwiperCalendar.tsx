@@ -5,7 +5,7 @@ import DatePicker from './DatePicker.tsx';
 function SwiperCalendar() {
   
   const selectedDay = (val) => {
-    console.log(val)
+    console.log('i swiprwrcalendar ; ', val)
   };
 
   return (

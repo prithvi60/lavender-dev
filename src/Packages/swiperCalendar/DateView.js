@@ -13,7 +13,7 @@ import {
 
 
 const DateView = ({startDate, lastDate, selectDate, getSelectedDay, primaryColor, labelFormat, marked}) => {
-    
+    debugger
     const [selectedDate, setSelectedDate] = useState(null);
     const firstSection = {marginLeft: '40px'};
     const selectedStyle = {fontWeight:"bold",width:"55px",height:"55px",borderRadius:"50%", background:'grey'};
@@ -45,6 +45,7 @@ const DateView = ({startDate, lastDate, selectDate, getSelectedDay, primaryColor
     };
 
     const renderDays = () => {
+        debugger
         const dayFormat = "E";
         const dateFormat = "d";
 

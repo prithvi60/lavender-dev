@@ -1,5 +1,5 @@
 import React from 'react'
-import FilterDrawer from './FilterDrawer';
+import FilterDrawer from './Schedule/ScheduleDrawers/FilterDrawer';
 import AppointmentEdit from './AppointmentEdit';
 import AddMemberForm from './team/AddMemberForm';
 import AddServicesForm from './services/AddServicesForm';

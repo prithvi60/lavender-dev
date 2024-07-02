@@ -79,7 +79,7 @@ function EditProfile({ userInfo }) {
     });
 
     const onSubmit = async (data) => {
-        debugger
+        
         const payLoad = {
             "id": userInfo?.appUser?.id,
             "fullName": data.fullName,
@@ -120,7 +120,7 @@ function EditProfile({ userInfo }) {
             >
                 <Card sx={modalStyle}>
                 <form onSubmit={ handleSubmit((data)=>{
-                        debugger
+                        
                         onSubmit(data);
                     })}>
                     <Grid container spacing={2}>

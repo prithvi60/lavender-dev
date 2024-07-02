@@ -51,7 +51,7 @@ function EstablishmentDetails({ estId }) {
 
   useEffect( () =>{
     const callFetchImageApi = async () =>{
-      debugger
+      
       console.log("in  api")
       const urls = [];
       for (const imageId of imageIdList) {

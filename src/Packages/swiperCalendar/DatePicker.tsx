@@ -4,7 +4,7 @@ import React from "react";
 import hexToRgb from "./hexToRgb";
 import { DateView } from "./DateView";
 import { MonthView } from "./MonthView";
-import styles from "./DatePicker.module.css";
+import styles from "./DatePicker.module.css"
 import GetIcon from "../../assets/Icon/icon";
 
 interface DatepickerProps {
@@ -19,6 +19,7 @@ interface DatepickerProps {
 }
 
 function DatePicker(props: DatepickerProps) {
+  debugger
   const {
     selectDate,
     color,
@@ -35,7 +36,7 @@ function DatePicker(props: DatepickerProps) {
     const e: any = document.getElementById("container");
     const width = e ? e.getBoundingClientRect().width : 0;
     e.scrollLeft += width - 60;
-  };
+  }
 
   const prev = (event) => {
     event.preventDefault();
