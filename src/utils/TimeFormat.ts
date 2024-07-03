@@ -101,6 +101,10 @@ export const convertToDateTime = (timeStr, date) => {
     return combinedDateTime;
 }
 
+export function convertToDateMonth(date){
+  const formattedDate = moment(date).format('MM/YY');
+  return formattedDate;
+}
 export function convertToDateOnly(date){
   const dateObj = moment(date);
   return dateObj.date();

@@ -3,13 +3,15 @@ import React from 'react'
 import GetIcon from '../../assets/Icon/icon'
 import GetImage from '../../assets/GetImage'
 import { AddNewCard } from './AddNewCard'
+import { convertToDateMonth } from '../../utils/TimeFormat'
 
 
 const SampleData = [{"cardHolderName": 'Olivia', "cardNumber": "12******125", "lastUsedDate": '06/24'},
   {"cardHolderName": 'Olivia', "cardNumber": "12******125", "lastUsedDate": '06/24'}, 
   {"cardHolderName": 'Olivia', "cardNumber": "12******125", "lastUsedDate": '06/24'}]
 
-export const PaymentCard = () => {
+export const PaymentCard = ({userInfo}) => {
+  console.log("userInfo : ", userInfo?.cardList)
   return (
     <div className='mt-10'>
         <div className='text-3xl font-bold py-4'>Payment Methods</div>
@@ -21,14 +23,14 @@ export const PaymentCard = () => {
                   <Table>
                     <TableBody>
                       {
-                        SampleData?.map((item)=>(
-                          <TableRow>
-                            <TableCell><GetIcon iconName='PaymentCardIcon'/></TableCell>
-                            <TableCell>{item.cardHolderName}</TableCell>
-                            <TableCell>{item.cardNumber}</TableCell>
-                            <TableCell>{item.lastUsedDate}</TableCell>
-                            <TableCell><GetIcon iconName='DeleteIcon'/></TableCell>
-                          </TableRow>
+                        userInfo?.cardList?.map((item)=>(
+                        <TableRow>
+                          <TableCell><GetIcon iconName='PaymentCardIcon'/></TableCell>
+                          <TableCell>{item?.cardName}</TableCell>
+                          <TableCell>{item?.cardNum}</TableCell>
+                          <TableCell>{convertToDateMonth(item?.createdDate)}</TableCell>
+                          <TableCell><GetIcon iconName='DeleteIcon'/></TableCell>
+                        </TableRow>
                         ))
                       }
                     </TableBody>

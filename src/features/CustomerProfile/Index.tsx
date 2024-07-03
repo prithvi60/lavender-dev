@@ -54,7 +54,7 @@ function Index() {
         </div>
         <UpComingBookings userInfo={userInfo?.data?.data}/>
         <PastBookings userInfo={userInfo?.data?.data}/>
-        <PaymentCard />
+        <PaymentCard userInfo={userInfo?.data?.data}/>
         <Notifications userInfo={userInfo?.data?.data}/>
     </div>
       }

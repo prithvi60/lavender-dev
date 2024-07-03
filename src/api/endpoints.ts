@@ -25,6 +25,7 @@ import {
   addService,
   saveEmployee,
   updateProfile,
+  saveCard,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -236,6 +237,13 @@ class Endpoint {
     return response;
   }
 
+  async saveCardInfo(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${saveCard}`,
+      payload
+    );
+    return response;
+  }
 }
 
 // function FormAvailableSlotsModel(response) {

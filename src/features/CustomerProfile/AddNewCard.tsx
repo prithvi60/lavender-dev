@@ -1,16 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Modal, Card, Grid, Typography, TextField } from '@mui/material';
+import { Button, Modal, Card, Grid, Typography, TextField, Checkbox, FormControlLabel } from '@mui/material';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
+import CloseIcon from '@mui/icons-material/Close';
+import endpoint from '../../api/endpoints';
 
 const schema = yup.object().shape({
-    cardNumber: yup.string().required('Card number is required').matches(/^\d{16}$/, 'Must be 16 digits'),
+    cardNumber: yup.string().required('Card number is required').matches(/^\d{16}$/, 'Must be exactly 16 digits'),
     cardOwner: yup.string().required('Card owner is required'),
-    expiryMonth: yup.string().required('Expiry month is required').matches(/^(0[1-9]|1[0-2])$/, 'Invalid month'),
+    expiryMonth: yup.string().required('Expiry month is required').matches(/^\d{1,2}$/, 'Invalid month'),
     expiryYear: yup.string().required('Expiry year is required').matches(/^\d{2}$/, 'Invalid year'),
-    cvv: yup.string().required('CVV is required').matches(/^\d{3}$/, 'Must be 3 digits'),
+    cvv: yup.string().required('CVV is required').matches(/^\d{3}$/, 'Must be exactly 3 digits'),
 });
 
 const typographyStyle = {
@@ -25,8 +27,8 @@ const modalStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '100%', // Adjust width as needed
-    maxWidth: 500, // Maximum width for responsiveness
+    width: '90%', // Adjust width as needed
+    maxWidth: 700, // Maximum width for responsiveness
     bgcolor: 'background.paper',
     boxShadow: 24,
     borderRadius: 8,
@@ -34,7 +36,6 @@ const modalStyle = {
 };
 
 export const AddNewCard = () => {
-    
     const { control, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
     });
@@ -45,8 +46,29 @@ export const AddNewCard = () => {
         setIsOpen((prev) => !prev);
     };
 
+    // function handleSaveClick(){
+    //     handleClick();
+    //     navigate('/userprofile')
+    // }
+
     const onSubmit = (data) => {
-        alert(JSON.stringify(data, null, 2)); // Show form data in alert for demo purposes
+        // Convert checkbox value to boolean
+        const newData = {
+            ...data,
+            makeDefault: !!data.makeDefault
+        };
+        const payLoad = {
+            "cardName": data.cardOwner,
+            "cardNum": data.cardNumber,
+            "expiry": `${data.expiryMonth}${data.expiryYear}`,
+            "cvv": data.cvv,
+            "default": false
+        }
+        console.log('paylaodv : ', payLoad);
+
+        const res = endpoint.saveCardInfo(payLoad);
+        handleClick();
+
     };
 
     return (
@@ -65,9 +87,15 @@ export const AddNewCard = () => {
                 onClose={handleClick}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
+                disableAutoFocus={true}
             >
                 <Card sx={modalStyle}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className='absolute top-4 right-4 cursor-pointer'>
+                        <CloseIcon onClick={handleClick} />
+                    </div>
+                    <form onSubmit={
+                        handleSubmit(onSubmit)
+                        }>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <Typography variant="h4" align="center" sx={{ fontFamily: 'Urbanist', fontSize: '28px', fontWeight: '600', color: '#616161', marginBottom: '8px' }}>Add new card</Typography>
@@ -76,7 +104,7 @@ export const AddNewCard = () => {
                             <Grid container item xs={12} spacing={2}>
                                 <Grid item xs={4}>
                                     <Typography sx={typographyStyle}>Card number</Typography>
-                                    <Typography>Enter the 16-digit card no. on the card</Typography>
+                                    <Typography sx={{fontSize: '12px'}}>Enter the 16-digit card no. on the card</Typography>
                                 </Grid>
                                 <Grid item xs={8}>
                                     <Controller
@@ -90,6 +118,7 @@ export const AddNewCard = () => {
                                                 variant="outlined"
                                                 error={!!errors.cardNumber}
                                                 helperText={errors.cardNumber?.message}
+                                                inputProps={{ maxLength: 16 }} // Allow up to 16 digits input
                                             />
                                         )}
                                     />
@@ -99,7 +128,7 @@ export const AddNewCard = () => {
                             <Grid container item xs={12} spacing={2}>
                                 <Grid item xs={4}>
                                     <Typography sx={typographyStyle}>Card owner</Typography>
-                                    <Typography>Enter the name on the card</Typography>
+                                    <Typography sx={{fontSize: '12px'}}>Enter the name on the card</Typography>
                                 </Grid>
                                 <Grid item xs={8}>
                                     <Controller
@@ -122,25 +151,30 @@ export const AddNewCard = () => {
                             <Grid container item xs={12} spacing={2}>
                                 <Grid item xs={4}>
                                     <Typography sx={typographyStyle}>Expiry date</Typography>
-                                    <Typography>Enter the expiration date</Typography>
+                                    <Typography sx={{fontSize: '12px'}}>Enter the expiration date</Typography>
                                 </Grid>
-                                <Grid item xs={8} container spacing={2}>
+                                <Grid item xs={4} container spacing={2}>
                                     <Grid item xs={6}>
+                                    <div className='flex'>
                                         <Controller
                                             name="expiryMonth"
                                             control={control}
                                             defaultValue=""
                                             render={({ field }) => (
                                                 <TextField
-                                                    fullWidth
+                                                    sx={{minWidth: '80px'}}
                                                     {...field}
                                                     variant="outlined"
                                                     error={!!errors.expiryMonth}
                                                     helperText={errors.expiryMonth?.message}
+                                                    inputProps={{ maxLength: 2 }} // Allow up to 2 digits input
                                                 />
+                                                 
                                             )}
                                         />
+                                        <span className='text-6xl'>/</span></div>
                                     </Grid>
+                                    
                                     <Grid item xs={6}>
                                         <Controller
                                             name="expiryYear"
@@ -148,43 +182,63 @@ export const AddNewCard = () => {
                                             defaultValue=""
                                             render={({ field }) => (
                                                 <TextField
-                                                    fullWidth
+                                                sx={{width: '80px'}}
                                                     {...field}
                                                     variant="outlined"
                                                     error={!!errors.expiryYear}
                                                     helperText={errors.expiryYear?.message}
+                                                    inputProps={{ maxLength: 2 }} // Allow up to 2 digits input
                                                 />
                                             )}
                                         />
                                     </Grid>
                                 </Grid>
+
+                                <Grid item xs={4} container spacing={1} sx={{display: 'flex', justifyContent: 'end'}}>
+                                    <Grid item xs={4}>
+                                        <Typography sx={typographyStyle}>CVV</Typography>
+                                        <Typography sx={{fontSize: '12px'}}>Security code</Typography>
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        <Controller
+                                            name="cvv"
+                                            control={control}
+                                            defaultValue=""
+                                            render={({ field }) => (
+                                                <TextField
+                                                sx={{width: '100px'}}
+                                                    {...field}
+                                                    variant="outlined"
+                                                    error={!!errors.cvv}
+                                                    helperText={errors.cvv?.message}
+                                                    inputProps={{ maxLength: 3 }} // Allow up to 3 digits input
+                                                />
+                                            )}
+                                        />
+                                    </Grid>
+                                    
+                                </Grid>
                             </Grid>
 
                             <Grid container item xs={12} spacing={2}>
-                                <Grid item xs={4}>
-                                    <Typography sx={typographyStyle}>CVV</Typography>
-                                    <Typography>Enter the 3-digit CVV number</Typography>
-                                </Grid>
                                 <Grid item xs={8}>
-                                    <Controller
-                                        name="cvv"
-                                        control={control}
-                                        defaultValue=""
-                                        render={({ field }) => (
-                                            <TextField
-                                                fullWidth
-                                                {...field}
-                                                variant="outlined"
-                                                error={!!errors.cvv}
-                                                helperText={errors.cvv?.message}
+
+                                </Grid>
+                                <Grid item xs={4} sx={{display: 'flex', justifyContent: 'end'}}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                name="makeDefault"
+                                                color="primary"
                                             />
-                                        )}
+                                        }
+                                        label="Make default"
                                     />
                                 </Grid>
                             </Grid>
 
                             <Grid item xs={12}>
-                                <Button type="submit" variant="contained" color="primary">Save this card</Button>
+                                <Button type="submit" variant="contained" color="primary" fullWidth>Save this card</Button>
                             </Grid>
                         </Grid>
                     </form>
