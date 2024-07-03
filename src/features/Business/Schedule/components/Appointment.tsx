@@ -6,7 +6,8 @@ import { HOUR_HEIGHT, HOUR_MARGIN_TOP, AppointmentHover } from "./CalenderCompon
 
 export const Appointment = ({data, elementRef, onDragStart, onDragEnd, onDrag, disabled = false, count, index, disableHoverOnDrag}) => {
 
-    const {howLong, date, client, service, statusColor } = data
+    const {howLong, client, service, statusColor } = data
+    const date = new Date(data.date)
     const fromTop = (date.getHours() * HOUR_HEIGHT) + HOUR_MARGIN_TOP + (date.getMinutes() * 2)
     const width = 99/count
     const left = ((width ) * index)
@@ -14,7 +15,7 @@ export const Appointment = ({data, elementRef, onDragStart, onDragEnd, onDrag, d
     // const nodeRect = elementRef.current.getBoundingClientRect();
 
 
-    const [height, setHeight] = useState(howLong * HOUR_HEIGHT);
+    const [height, setHeight] = useState(howLong * 2);
 
     const resizableRef = useRef(null);
 
@@ -82,7 +83,7 @@ export const Appointment = ({data, elementRef, onDragStart, onDragEnd, onDrag, d
             className='truncate'
           >
             <div>
-              {getFormattedTimeRange(date, howLong * 60)} | {service}
+              {getFormattedTimeRange(date, howLong)} | {service}
             </div>
   
             <div className='font-bold'>{client}</div>

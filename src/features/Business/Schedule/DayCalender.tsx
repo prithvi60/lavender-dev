@@ -133,7 +133,7 @@ export const DayCalendar = () => {
                 </Hour>
               ))}
             </VGrid>
-            <HGrid className='overflow-x-scroll' cols={employees.length}>
+            <HGrid className='overflow-x-scroll' cols={employees?.length}>
               {employees ? 
               employees.map((employee, index) => (
                   <EmployeeWrapper>
@@ -168,7 +168,7 @@ export const DayCalendar = () => {
                                 onDragEnd={(e) => onDragEnd(e)}
                                 elementRef={dragElementRef}
                                 onDragStart = {(e) => {
-                                  onDragStartDelete(e, appointment.text, employee)
+                                  onDragStartDelete(e, appointment.service, employee)
                                 }}
                                 //disabled={true}//temp
                                 disableHoverOnDrag={deleteIcon}
@@ -179,7 +179,7 @@ export const DayCalendar = () => {
                   </EmployeeWrapper>
               )) 
               : 
-              <div className="flex w-full h-full justify-center items-center bg-slate-950 text-white">
+              <div className="flex w-full h-full justify-center items-center text-white">
                 No employees...
               </div>}
             </HGrid>

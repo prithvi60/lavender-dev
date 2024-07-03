@@ -9,7 +9,7 @@ export const businessSlice = createSlice({
   initialState,
   reducers: {
     setEstablishmentData: (state, action) => {
-      state.establishmentData = action.payload.data
+      state.establishmentData = action.payload
     },
     getEstablishmentData: (state, action) => {
         return state.establishmentData

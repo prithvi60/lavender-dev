@@ -23,6 +23,8 @@ type Booking = {
     payAtVenue: boolean;
     services: BookingService[];
     review: any;
+    serviceName: string;
+    bookingType: string;
 };
 
 type SortInfo = {
@@ -41,17 +43,20 @@ type Pageable = {
 };
 
 export type BookingResponse = {
-    content: Booking[];
-    pageable: Pageable;
-    totalPages: number;
-    totalElements: number;
-    last: boolean;
-    numberOfElements: number;
-    size: number;
-    number: number;
-    sort: SortInfo;
-    first: boolean;
-    empty: boolean;
+    data:
+    {
+        content: Booking[];
+        pageable: Pageable;
+        totalPages: number;
+        totalElements: number;
+        last: boolean;
+        numberOfElements: number;
+        size: number;
+        number: number;
+        sort: SortInfo;
+        first: boolean;
+        empty: boolean;
+    }
 };
 
 export enum TimeOfDay {

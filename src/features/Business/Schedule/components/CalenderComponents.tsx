@@ -116,7 +116,7 @@ export const AppointmentHover = (appointmentData) => {
          <div className='flex w-full'>
           <div className='flex flex-col w-3/4'>
             <div className='font-bold text-lg'>{service}</div>
-            <div>{`${estimatedDuration} | ${howLong}`}</div>
+            <div>{`${estimatedDuration} | ${Math.round(howLong/60)}`}</div>
           </div>
           <div className='w-1/4 font-bold flex items-center justify-end'>{price}</div>
          </div>

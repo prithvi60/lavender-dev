@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+import { differenceInMinutes } from 'date-fns';
 
 export const range = (keyCount) => [...Array(keyCount).keys()]
 
@@ -15,6 +16,14 @@ export const addDateBy = (date, count) => {
   return new Date(d.setDate(d.getDate() + count))
 }
 
+export const getDifferenceInMinutes = (end, start) => {
+
+const date1 = new Date(start);
+const date2 = new Date(end);
+
+const diffInMinutes = differenceInMinutes(date2, date1);
+return diffInMinutes
+}
 export const getMonday = () => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -300,7 +309,7 @@ function groupAppointmentsBy(appointments, filterBy) {
     return {
       ...appointment,
       start: appointment.date,
-      end: addTime(appointment.date, 'hours', appointment.howLong )
+      end: addTime(appointment.date, 'minutes', appointment.howLong )
     }
   })
   appointmentsArr.sort((a, b) => a.start - b.start);
@@ -345,4 +354,31 @@ function groupAppointmentsBy(appointments, filterBy) {
   }
 
   return groupedAppointments;
+}
+
+export function parseAppointmentResponse(response) {
+  const parsedResponse = []
+
+  response?.data?.content?.forEach((booking) => {
+    const {bookingId, customerName, startTime, endTime,
+      totalDuration, 
+      //services, 
+      serviceName,
+      employeeName, totalCost, bookingStatus, bookingType } = booking
+      const temp =   {  
+        date: new Date(startTime), 
+        howLong: getDifferenceInMinutes(endTime, startTime),
+        statusColor: '#35AFAC', 
+        employee: employeeName,
+        client: customerName,
+        status: bookingStatus,
+        service: serviceName, 
+        price: totalCost, 
+        bookedThrough: bookingType,
+        estimatedDuration: '20 mins - 60 mins', 
+      }
+
+    parsedResponse.push(temp)
+  })
+  return parsedResponse
 }

@@ -44,11 +44,19 @@ const BusinessLayoutPage = () => {
     
   },[])
   
-  const { data: establishmentData, isLoading: isLoading, error: userDataError, refetch: refetchUserData } = 
-  useQuery({queryKey: ['query-establishment'], queryFn: () =>{ return endpoint.getEstablishmentDetailsById('2502')}})
-  if(!isLoading) {
-    dispatch(setEstablishmentData(establishmentData))
-  }
+  useEffect(()=> {
+    const getEstablishmentDetails = async () => {
+      const response = await endpoint.getEstablishmentDetailsById('EST00002507')
+      if(response.status === 200) {
+        console.log("success",response)
+        dispatch(setEstablishmentData(response.data.data))
+      }else {
+        console.log("err-getEstablishmentDetailsById",response)
+      }
+    }
+
+    getEstablishmentDetails()
+  }, [])
 
   const renderMainContent = () => {
     switch (activeField) {
