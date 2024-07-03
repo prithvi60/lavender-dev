@@ -19,6 +19,7 @@ export default function ScheduleAppointment(props) {
   const { selectedDate, timeOfDay, startTime, endTime, id} = useSelector(
     (state: any) => state.ScheduleAppoinment
   );
+  console.log("selectedDate ;: ", selectedDate)
   
   console.log("id ;: ", id)
   // useQuery with enabled option that depends on selectedDate
@@ -36,7 +37,7 @@ export default function ScheduleAppointment(props) {
   const payLoad = {
     "startDate": new Date(),
     "establishmentId": estData.id,
-    "employeeId": "string",
+    // "employeeId": "",
     "totalDuration": 30,
     "serviceTags": [
       "hair"
@@ -62,7 +63,6 @@ console.log('test : ',test)
     setAvailableTimeSlots(test);
     //TODO set date value in store redux
     dispatch(UpdateSelectedDate({selectedDate: date}));
-
   };
   
 

@@ -6,7 +6,7 @@ export const establishmentDetails = 'e/getEstablishmentDetails/'
 
 export const customerProfile = 'c/getCustomerProfile'
 
-export const businessAppointment = 'b/getAppointmentList'
+export const businessAppointment = 'a/getAppointmentList'
 
 export const userLogin = 'u/login'
 

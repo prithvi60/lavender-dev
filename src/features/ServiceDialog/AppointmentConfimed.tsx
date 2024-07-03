@@ -76,13 +76,13 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
         // }
 
         const payLoad = {
+          "establishmentId": 'EST00002507',
           "id": "",
           "createdDate": new Date(),
           "createdBy": "",
           "lastModifiedDate": new Date(),
           "lastModifiedBy": "",
           "customerId": userDetails?.userId,
-          "establishmentId": establishmentId,
           "bookedBy": "",
           "bookingTime": new Date(),
           "totalDuration": checkOutList.checkOut[0].duration,
@@ -92,7 +92,7 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
               "serviceId": checkOutList.checkOut[0].serviceId,
               "optionId": checkOutList.checkOut[0].optionId,
               "serviceNotes": "string",
-              "employeeId": "string",
+              "employeeId": "EMP00002500",
               "serviceCost": 30,
               "bookingStatus": "string",
               "startTime": convertToDateTime(startTime,selectedDate),

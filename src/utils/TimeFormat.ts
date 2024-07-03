@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import moment from 'moment';
+
 
 export const convertTo_HH_AM = (date: Date): string => {
   var aa = dayjs(date).format("hh a");
@@ -97,4 +99,29 @@ export const convertToDateTime = (timeStr, date) => {
     combinedDateTime.setMinutes(combinedDateTime.getMinutes() + offsetDifference);
   
     return combinedDateTime;
-  }
+}
+
+export function convertToDateOnly(date){
+  const dateObj = moment(date);
+  return dateObj.date();
+}
+
+export function convertToDayOnly(date){
+  const dateObj = moment(date);
+  return dateObj.format('dddd');
+}
+
+export function convertToMonthOnly(date){
+  const dateObj = moment(date);
+  return dateObj.format('MMMM');;
+}
+
+export function convertToYearOnly(date){
+  const dateObj = moment(date);
+  return dateObj.year();
+}
+
+export function convertToTimeOnly(date){
+  const dateObj = moment(date);
+  return dateObj.format('h:mm A');
+}

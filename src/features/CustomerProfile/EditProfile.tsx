@@ -33,7 +33,6 @@ const typographyStyle = {
 
 
 function EditProfile({ userInfo }) {
-    console.log("userInfohhh : ", userInfo?.appUser)
     const { control, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
     });
@@ -43,7 +42,6 @@ function EditProfile({ userInfo }) {
 
     // Populate form fields with initial data from userInfo on component mount
     useEffect(() => {
-        console.log("in useEfect appUSer : ", userInfo?.appUser)
         if (userInfo?.appUser) {
             reset({
                 fullName: userInfo?.appUser?.fullName || '',
