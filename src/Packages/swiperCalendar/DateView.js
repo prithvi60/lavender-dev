@@ -14,7 +14,8 @@ import {
 
 const DateView = ({startDate, lastDate, selectDate, getSelectedDay, primaryColor, labelFormat, marked}) => {
     debugger
-    const [selectedDate, setSelectedDate] = useState(null);
+    // const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(selectDate || startDate);
     const firstSection = {marginLeft: '40px'};
     const selectedStyle = {fontWeight:"bold",width:"55px",height:"55px",borderRadius:"50%", background:'grey'};
     const labelColor = {color: primaryColor};
@@ -95,7 +96,7 @@ const DateView = ({startDate, lastDate, selectDate, getSelectedDay, primaryColor
         return <div id={"container"} className={`${styles.dateListScrollable} urbanist-font`}>{months}</div>;
     }
 
-    const onDateClick = day => {
+    const onDateClick = (day) => {
         setSelectedDate(day);
         if (getSelectedDay) {
             getSelectedDay(day);

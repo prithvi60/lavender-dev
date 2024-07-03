@@ -22,10 +22,10 @@ export const ScheduleAppoinmentSlice = createSlice({
   initialState,
   reducers: {
     UpdateSelectedDate: (state, action) => {
+      debugger
       state.selectedDate = action.payload.selectedDate;
     },
     UpdateTimeOfDayAndTime: (state, action) => {
-      
       state.timeOfDay = action.payload.TimeOfDay;
       state.startTime = action.payload.startTime;
       state.endTime = action.payload.endTime;

@@ -19,9 +19,7 @@ export default function ScheduleAppointment(props) {
   const { selectedDate, timeOfDay, startTime, endTime, id} = useSelector(
     (state: any) => state.ScheduleAppoinment
   );
-  console.log("selectedDate ;: ", selectedDate)
   
-  console.log("id ;: ", id)
   // useQuery with enabled option that depends on selectedDate
   const { isLoading, data: appointmentTimings } = useQuery({ queryKey:
     ['query-appointment-timing'],
@@ -57,12 +55,11 @@ export default function ScheduleAppointment(props) {
 
     // Concatenate the formatted parts
     const formattedDate = `${year}-${month}-${day}`;
-    
+    debugger
     const test = appointmentTimings?.data?.data?.filter(slot => slot.availableDate === formattedDate);
-console.log('test : ',test)
     setAvailableTimeSlots(test);
     //TODO set date value in store redux
-    dispatch(UpdateSelectedDate({selectedDate: date}));
+    dispatch(UpdateSelectedDate({selectedDate}));
   };
   
 
