@@ -17,7 +17,7 @@ type Booking = {
     startTime: string;
     endTime: string;
     totalDuration: number;
-    totalCost: number;
+    serviceCost: number;
     appointmentNotes: string;
     bookingStatus: string;
     payAtVenue: boolean;
