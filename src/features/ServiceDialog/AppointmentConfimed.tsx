@@ -29,11 +29,16 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
   const [disabled, setDisabled] = React.useState(true);
   const navigate = useNavigate();
   const checkOutList = useSelector(
-    (state) => state.checkOutPage
+    (state: any) => state.checkOutPage
   );
-  const { selectedDate,timeOfDay,startTime,endTime ,id} = useSelector(
-    (state) => state.ScheduleAppoinment
+  
+  const { selectedDate, timeOfDay, startTime, endTime ,id} = useSelector(
+    (state: any) => state.ScheduleAppoinment
   );
+  
+
+
+
   const dispatch = useDispatch();
 
   const handleOpen = () => {
@@ -44,7 +49,6 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
   const userDetails = useSelector((state: any) => {
     return state.currentUserDetails;
   });
-  console.log("userDeatsial : ", userDetails)
 
   async function saveAppointmentClick(){
 
@@ -75,6 +79,9 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
         //   "walkIn": false
         // }
 
+        const modifiedStartTime = convertToDateTime(startTime, selectedDate);
+        const modifiedEndTime = convertToDateTime(endTime, selectedDate)
+
         const payLoad = {
           "establishmentId": 'EST00002507',
           "id": "",
@@ -87,24 +94,7 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
           "bookingTime": new Date(),
           "totalDuration": checkOutList.checkOut[0].duration,
           "totalCost": checkOutList.checkOut[0].finalPrice,
-          "appointmentServices": [
-            {
-              "serviceId": checkOutList.checkOut[0].serviceId,
-              "optionId": checkOutList.checkOut[0].optionId,
-              "serviceNotes": "string",
-              "employeeId": "EMP00002500",
-              "serviceCost": 30,
-              "bookingStatus": "string",
-              "startTime": convertToDateTime(startTime,selectedDate),
-              "endTime": convertToDateTime(endTime,selectedDate),
-              "review": {
-                "serviceRating": 0,
-                "reviewDate": "2024-06-27T06:39:21.715Z",
-                "publicComments": "string",
-                "privateComments": "string"
-              }
-            }
-          ],
+          "appointmentServices": [],
           "paymentInfo": {
             "payAtVenue": true,
             "cardStoreId": "string",
@@ -112,6 +102,27 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
             "paymentTxnId": "string"
           }
         }
+
+        const appointmentServices = checkOutList.checkOut.map(item => ({
+          serviceId: item.serviceId,
+          optionId: item.optionId,
+          serviceNotes: 'string', 
+          employeeId: 'EMP00002500', 
+          serviceCost: item.finalPrice, 
+          bookingStatus: 'string', 
+          startTime: modifiedStartTime, 
+          endTime: modifiedEndTime, 
+          review: {
+            serviceRating: 0,
+            reviewDate: '2024-06-27T06:39:21.715Z',
+            publicComments: 'string', 
+            privateComments: 'string' 
+          }
+        }));
+        
+        // Assign the dynamically populated appointmentServices to payload
+        payLoad.appointmentServices = appointmentServices;
+        
         
         const appointmentBooking =await endpoint.saveAppointmentBookings(payLoad);
         
@@ -137,7 +148,6 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
                 <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                     <GetIcon onClick={    
                         () => {
-                        console.log("filter icon clicked")
                         }}
                         className='my-5 mx-16 p-1 cursor-pointer rounded-sm' 
                         iconName="CalendarConfirmedIcon"/>

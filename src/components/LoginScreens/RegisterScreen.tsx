@@ -10,6 +10,7 @@ import { Dayjs } from 'dayjs';
 import endpoint from '../../api/endpoints';
 import { useMutation } from '@tanstack/react-query';
 import Text from '../Text';
+import { useNavigate } from 'react-router-dom';
 
 const schema = yup.object().shape({
     fullName: yup.string().required('Full name is required'),
@@ -63,6 +64,8 @@ const RegisterScreen = () => {
         mutation.mutate(payLoad)
     };
 
+    const navigate = useNavigate();
+
     return (
         <div>
 
@@ -73,6 +76,7 @@ const RegisterScreen = () => {
                 <Grid container spacing={2} sx={{display: 'flex', justifyContent: 'center'}}>
                     <form onSubmit={handleSubmit((data)=>{
                         onSubmit(data);
+                        navigate('/');
                     })}>
                     <Grid item xs={12}>
                         <Controller

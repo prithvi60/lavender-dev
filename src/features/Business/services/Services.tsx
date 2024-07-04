@@ -163,7 +163,6 @@ export const Services: React.FC = () => {
   const establishmentId = userDetails?.establishmentId || "";
 
   const handleClick = () => {
-    console.info(`You clicked ${options[selectedIndex].label}`);
     if (options[selectedIndex].value === 'Add services') {
       openDrawer('addServices');
     } else {
@@ -360,6 +359,41 @@ export const Services: React.FC = () => {
     openDrawer('addCategory', categoryId);
   }
 
+  function handleAddServices(categoryId){
+    openDrawer('addServices', categoryId);
+  }
+
+  async function handleDeleteCategory(categoryId) {
+    try {
+      const response = await endpoint.deleteEstablishmentCategory({
+        id: establishmentId,
+        categories: [
+          {
+            categoryId: categoryId,
+          },
+        ],
+      });
+  
+      if (response.data.success) {
+        
+        // Update categories state to reflect the deletion
+        const updatedCategories = categories?.filter(
+          (cat) => cat.categoryId !== categoryId
+        );
+  
+        // Update state with the new categories array
+        setCategories(updatedCategories);
+  
+        // Show notification for successful deletion
+      } else {
+        // Show error notification if deletion was not successful
+      }
+    } catch (error) {
+      console.error("Error deleting service:", error);
+      // Show error notification if there was an exception
+    }
+  }
+
   return (
     <div>
       <div className="flex mx-24 my-4 justify-between w-10/12">
@@ -427,6 +461,7 @@ export const Services: React.FC = () => {
                         <GetIcon className='mb-3 mr-4' iconName='DragIcon'/>
                         <Button
                           className="flex justify-between items-center font-bold mr-5"
+                          onClick={()=> handleDeleteCategory(component.id)}
                         >
                           <GetIcon iconName='DeleteIcon'/>
                           <span>Delete category</span>
@@ -479,7 +514,7 @@ export const Services: React.FC = () => {
                             ))}
                             {provided.placeholder}
                             <div className="h-12 font-bold flex items-center justify-center bottom-0">
-                              <button>
+                              <button onClick={()=> handleAddServices(component.id)}>
                                 Add new service [+]
                               </button>
                             </div>

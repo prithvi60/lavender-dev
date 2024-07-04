@@ -10,30 +10,32 @@ import endpoint from '../../api/endpoints.ts';
 import { UpdateSelectedDate, UpdateTimeOfDayAndTime } from '../../store/slices/Booking/ScheduleAppoinmentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { TimeOfDay } from '../../api/type';
+import ReactWeeklyDayPicker from "react-weekly-day-picker";
+import  './style.css'
+import { useEffect, useRef, useState } from 'react';
 
 export default function ScheduleAppointment(props) {
+  const datePickerRef = useRef(null);
+  const [selectedDateBtn, setSelectedDateBtn] = useState(new Date());
   const { estData, onSetActiveStep } = props
   const [availableTimeSlots, setAvailableTimeSlots] = React.useState<any>([]);
-  const [clickedChipIndices, setClickedChipIndices] = React.useState({});
+  const [clickedChipIndices, setClickedChipIndices] = React.useState(null);
+  
+  const [employee, setEmployee] = React.useState('');
+
+let appointmentTimings;
   const dispatch = useDispatch();
   const { selectedDate, timeOfDay, startTime, endTime, id} = useSelector(
     (state: any) => state.ScheduleAppoinment
   );
-  
-  // useQuery with enabled option that depends on selectedDate
-  const { isLoading, data: appointmentTimings } = useQuery({ queryKey:
-    ['query-appointment-timing'],
-    queryFn: () => fetchAvailableSlots()}
-  );
-
 
   // Function to fetch available slots
-  const fetchAvailableSlots = async () => {
+  const fetchAvailableSlots = async (day) => {
     // const payLoad = { date }; // Adjust payload as needed
     // const currentDate = new Date();
 
   const payLoad = {
-    "startDate": new Date(),
+    "startDate": day[0],
     "establishmentId": estData.id,
     // "employeeId": "",
     "totalDuration": 30,
@@ -44,40 +46,47 @@ export default function ScheduleAppointment(props) {
     return await endpoint.getAvailableSlots(payLoad);
   };
 
-
+  async function handleDateClick(day){
+    setSelectedDateBtn(day[0]);
+  appointmentTimings = await fetchAvailableSlots(day);
+  setTimeout(()=>{
+    selectedDay(day[0])
+  }, 1000)
+}
 
   const selectedDay = (val) => {
+    
     const date = new Date(val);
     // Extract year, month, and day
     const year = date.getFullYear().toString().slice(-2); // Last two digits of the year
     const month = ("0" + (date.getMonth() + 1)).slice(-2); // Adding leading zero if month < 10
     const day = ("0" + date.getDate()).slice(-2); // Adding leading zero if day < 10
-
     // Concatenate the formatted parts
     const formattedDate = `${year}-${month}-${day}`;
-    debugger
     const test = appointmentTimings?.data?.data?.filter(slot => slot.availableDate === formattedDate);
     setAvailableTimeSlots(test);
+    setEmployee(id);
     //TODO set date value in store redux
-    dispatch(UpdateSelectedDate({selectedDate}));
+    dispatch(UpdateSelectedDate({selectedDate: formattedDate}));
   };
   
 
   const createHandleMenuClick = (menuItem: string) => {
     return () => {
-      console.log(`Clicked on ${menuItem}`);
     };
   };
+
   const handleClick = (timePeriod, slot, index) => {
-    console.log('slot L : ', slot)
-    console.log(`Clicked chip Start Time ${timePeriod},- ${slot.startTime}, End Time - ${slot.endTime}`);
+    setClickedChipIndices(slot.startTime)
     dispatch(UpdateTimeOfDayAndTime({TimeOfDay: TimeOfDay[timePeriod],
       startTime : slot.startTime,
       endTime: slot.endTime,
-      id:slot.id
+      id:slot.employeeId
     }));
   };
-  React.useEffect(() => { }, [availableTimeSlots])
+  useEffect(() => { }, [availableTimeSlots])
+
+
   return (
 
     <div className='mt-2 md:mx-16 my-10'>
@@ -88,31 +97,52 @@ export default function ScheduleAppointment(props) {
 
       <div className='mb-4'>
 
-        <DatePicker getSelectedDay={selectedDay}
+        {/* <DatePicker getSelectedDay={selectedDay}
           endDate={30}
           selectDate={selectedDate}
           labelFormat={"MMMM"}
           color={"black"}
-        />
+        /> */}
+        <ReactWeeklyDayPicker
+        ref={datePickerRef} 
+            daysCount={7}  //How many days will be shown
+            startDay={new Date()} // First day as Date Object or 22 June 2016
+            selectedDays={[selectedDateBtn]} // Selected days list
+            multipleDaySelect={false} //enables multiple day selection
+            selectDay={function(day){ handleDateClick(day)}}
+            unselectDay={function(day){}}
+            onPrevClick={function(startDay, selectedDays){}} // called with the new startDay
+            onNextClick={function(startDay, selectedDays){}} // called with the new startDay
+            unselectable={false} // if true allows to unselect a date once it has been selected. Only works when multipleDaySelect={false}
+            format={'YYYY-MM-DD'} //format of dates that handled in selectDay and unselectDay functions
+            firstLineFormat={'ddd'} // format for the first line of the day button
+            secondLineFormat={'MMM D'} // format for the second line of the day button
+            firstLineMobileFormat={'dddd'} // format for the first line of the day button mobile
+            secondLineMobileFormat={'MMMM D, Y'} // format for the second line of the day button mobile
+            beforeToday={false}   // all dates before today set as unavailable (default:true)
+            todayText={"today"}  // replacing today text (default : - TODAY -)
+            unavailableText={""}  // replacing unavailable text (default: unavailable )
+          />
 
       </div>
 
       <div className='mt-4'>
 
-        {!isLoading && availableTimeSlots?.length > 0 ? Object.entries(availableTimeSlots[0]?.availableSlots).map(([timePeriod, slotsArray]) => {
-          debugger
+        {availableTimeSlots?.length > 0 ? Object.entries(availableTimeSlots[0]?.availableSlots).map(([timePeriod, slotsArray]) => {
+          
           return (
             <div className='schedule-chips' key={timePeriod}>
               <p className='font-semibold capitalize'>{timePeriod}</p>
               <div className='flex items-center flex-wrap gap-2'>
-                {slotsArray?.map((slot: any, index) => {
+                {slotsArray?.map((slot: any, index: any) => {
+                  
                   return (
                     <div className='cursor-pointer' key={index}>
                       <Chip
                         label={`${slot.startTime} - ${slot.endTime}`}
                         variant="outlined"
                         onClick={() => handleClick(timePeriod, slot, index)}
-                        style={{ backgroundColor: slot.id === id  ? '#E6E1FF' : 'inherit' }} />
+                        style={{ backgroundColor: clickedChipIndices === slot.startTime  ? '#E6E1FF' : 'inherit' }} />
                     </div>
                   );
                 })}
@@ -126,13 +156,12 @@ export default function ScheduleAppointment(props) {
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <GetIcon onClick={
               () => {
-                console.log("filter icon clicked")
               }}
               className='my-5 mx-16 p-1 cursor-pointer rounded-sm'
               iconName="SlotBoxesFilled" />
             <div id="title" className="font-bold text-xl mb-3 " style={{ color: '#4D4D4D' }}>We are fully booked</div>
-            <div style={{ color: '#4D4D4D' }}>How about the next slot on 20th March ?</div>
-            <Button onClick={() => { }} sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }} variant="contained" >Go to 20th March</Button>
+            <div style={{ color: '#4D4D4D' }}>How about the next slot ?</div>
+            <Button onClick={() => { }} sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }} variant="contained" >Go to next slot</Button>
           </div>
         }
 
@@ -147,12 +176,10 @@ export default function ScheduleAppointment(props) {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={'age'}
-                label="Age"
+                value={employee}
+                label="employee"
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={employee}>{employee}</MenuItem>
               </Select>
             </Grid>
           </Grid>

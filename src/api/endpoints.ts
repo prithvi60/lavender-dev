@@ -26,6 +26,7 @@ import {
   saveEmployee,
   updateProfile,
   saveCard,
+  deleteCategory,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -224,6 +225,14 @@ class Endpoint {
   async deleteEstablishmentService(payload) {
     const response = await axiosInstance.post(
       `${BaseURL}${deleteService}`,
+      payload
+    );
+    return response;
+  }
+
+  async deleteEstablishmentCategory(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${deleteCategory}`,
       payload
     );
     return response;

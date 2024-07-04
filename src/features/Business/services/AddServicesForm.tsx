@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import {
   TextField,
@@ -30,6 +30,7 @@ const schema = yup.object().shape({
   startingPrice: yup.string().required(),
   duration: yup.string().required(),
   categoryId: yup.string().required(),
+  categoryName: yup.string(),
   options: yup.array().of(
     yup.object().shape({
       optionName: yup.string().required("Option name is required"),
@@ -42,17 +43,9 @@ const schema = yup.object().shape({
   ),
 });
 
-const employeesList = [
-  { name: "Richard", value: "E123" },
-  { name: "Stanley", value: "E1011234" },
-];
 
-const categoryIdList = [
-  { name: "Hair styling", value: "CAT00002509" },
-  { name: "Nail", value: "CAT00002508" },
-];
-
-export default function AddServicesForm() {
+export default function AddServicesForm({payload}) {
+  console.log("in add ser : ", payload)
   const {
     control,
     register,
@@ -62,6 +55,11 @@ export default function AddServicesForm() {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const [categories, setCategories] = React.useState<any[]>([]); // Update type accordingly
+  const [employee, setEmployee] = React.useState<any[]>([]); // Update type accordingly
+  const [currentCategories, setCurrentCategories] = useState([]);
+
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -76,6 +74,24 @@ export default function AddServicesForm() {
 
   const establishmentId = userDetails?.establishmentId || "";
 
+
+  useEffect(() => {
+    const getEstablishmentDetails = async () => {
+      try {
+        const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
+        if (establishmentData?.data?.success) {
+          setCategories(establishmentData?.data?.data?.categories || []);
+          setEmployee(establishmentData?.data?.data?.employees || []);
+
+        }
+      } catch (error) {
+        console.error("Error fetching establishment details:", error);
+      }
+    };
+
+    getEstablishmentDetails();
+  }, [establishmentId]);
+  
   const handleFilterDrawerSubmit = (data) => {
     // Adjust options based on serviceName, startingPrice, and duration if options are not entered
     if (!data.options || data.options.length === 0) {
@@ -102,7 +118,6 @@ export default function AddServicesForm() {
     }
     
 
-    alert(JSON.stringify(data, null, 2));
     const payload = {
       "id": establishmentId,
       "categories": [
@@ -134,12 +149,26 @@ export default function AddServicesForm() {
     remove(index);
   };
 
+  useEffect(()=>{
+    if(payload){
+      
+      setCurrentCategories(categories?.filter(cat => cat.categoryId === payload));
+    }
+  },[categories])
+
+  useEffect(() => {
+    if (payload) {
+      setValue('categoryId', currentCategories[0]?.categoryId);
+      setValue('categoryName', currentCategories[0]?.categoryName);
+    }
+  }, [currentCategories, setValue]);
+
   return (
     <div className="flex-col h-full">
       <form onSubmit={handleSubmit(handleFilterDrawerSubmit)}>
         <div className="bg-blue-950">
           <div className="text-lg h-14 mb-2 pt-4 pl-4 text-white">Add new service</div>
-          <div className="mb-4 bg-white" style={{ width: "70%", borderRadius: "10px" }}>
+          <div className="mb-4 bg-white" style={{ width: "70%", borderRadius: "10px", marginLeft: '10px' }}>
             <Controller
               name="categoryId"
               control={control}
@@ -147,9 +176,9 @@ export default function AddServicesForm() {
               render={({ field }) => (
                 <FormControl error={!!errors.categoryId} fullWidth>
                   <Select {...field} error={!!errors.categoryId} fullWidth>
-                    {categoryIdList.map((item) => (
-                      <MenuItem key={item.value} value={item.value}>
-                        {item.name}
+                    {categories?.map((item) => (
+                      <MenuItem key={item.categoryId} value={item.categoryId}>
+                        {item?.categoryName}
                       </MenuItem>
                     ))}
                   </Select>
@@ -203,10 +232,10 @@ export default function AddServicesForm() {
                     fullWidth
                     renderValue={(selected) => selected.join(", ")}
                   >
-                    {employeesList.map((emp) => (
-                      <MenuItem key={emp.value} value={emp.value}>
-                        <Checkbox checked={field.value.indexOf(emp.value) > -1} />
-                        {emp.name}
+                    {employee?.map((emp) => (
+                      <MenuItem key={emp.employeeId} value={emp.employeeId}>
+                        <Checkbox checked={field.value.indexOf(emp.employeeId) > -1} />
+                        {emp?.employeeName}
                       </MenuItem>
                     ))}
                   </Select>

@@ -19,7 +19,7 @@ interface DatepickerProps {
 }
 
 function DatePicker(props: DatepickerProps) {
-  debugger
+  
   const {
     selectDate,
     color,

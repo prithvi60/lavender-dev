@@ -68,37 +68,41 @@ export const convertToISO8601 = (timeStr, date) => {
   return isoString;
 };
 
-export const convertToDateTime = (timeStr, date) => {
-    // Extracting components from the given time string
-    const [time, modifier] = timeStr.split(' ');
-    let [hours, minutes] = time.split(':');
-    hours = parseInt(hours, 10);
-    minutes = parseInt(minutes, 10);
+export function convertToDateTime(timeString, dateString) {
   
-    // Adjust hours based on AM/PM
-    if (modifier === 'PM' && hours !== 12) {
+  // Parse the date string "24-07-06" to get year, month, and day
+  const [shortYear, month, day] = dateString.split('-').map(Number);
+  
+  // Calculate the full year based on the short year format
+  const fullYear = 2000 + shortYear;
+
+  // Create a new Date object with the parsed values
+  const date = new Date(fullYear, month - 1, day);
+
+  // Parse the time string "6:00 PM" to get hours and minutes
+  const [time, period] = timeString.split(' ');
+  let [hours, minutes] = time.split(':').map(Number);
+  
+  // Adjust hours for PM time if necessary
+  if (period === 'PM' && hours < 12) {
       hours += 12;
-    } else if (modifier === 'AM' && hours === 12) {
-      hours = 0;
-    }
+  }
   
-    // Combine the current date with the extracted time
-    const year = date.getFullYear();
-    const month = date.getMonth(); // Months are 0-indexed
-    const day = date.getDate();
-  
-    // Creating a new Date object for the combined datetime
-    const combinedDateTime = new Date(year, month, day, hours, minutes, 0);
-  
-    // Calculate the timezone offset in minutes
-    const targetTimezoneOffset = 8 * 60; // +08:00 in minutes
-    const localTimezoneOffset = combinedDateTime.getTimezoneOffset(); // Local timezone offset in minutes
-    const offsetDifference = targetTimezoneOffset - localTimezoneOffset;
-  
-    // Adjust the combinedDateTime by the offset difference
-    combinedDateTime.setMinutes(combinedDateTime.getMinutes() + offsetDifference);
-  
-    return combinedDateTime;
+  // Set hours and minutes to the Date object in local time
+  date.setHours(hours, minutes, 0, 0);
+
+  // Get UTC components
+  const yearUTC = date.getUTCFullYear();
+  const monthUTC = String(date.getUTCMonth() + 1).padStart(2, '0');
+  const dayUTC = String(date.getUTCDate()).padStart(2, '0');
+  const hoursUTC = String(date.getHours()).padStart(2, '0');
+  const minutesUTC = String(date.getMinutes()).padStart(2, '0');
+
+  // Construct the ISO 8601 formatted date-time string in UTC
+  const isoString = `${yearUTC}-${monthUTC}-${dayUTC}T${hoursUTC}:${minutesUTC}:00.000Z`;
+
+  // Return the formatted ISO 8601 date-time string
+  return isoString;
 }
 
 export function convertToDateMonth(date){

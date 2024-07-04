@@ -19,7 +19,7 @@ const getDrawerComponent = (type, payload) => {
         case 'addMember':
           return <AddMemberForm />;
         case 'addServices':
-          return <AddServicesForm />;
+          return <AddServicesForm payload={payload}/>;
         case 'addCategory':
           return <AddCategoryForm payload={payload}/>;
         default:

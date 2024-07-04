@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 
 
 const schema = yup.object().shape({
+  categoryId: yup.string(),
   categoryName: yup.string().required(),
   serviceTags: yup.string(),
 });
@@ -50,17 +51,24 @@ export default function AddCategoryForm({payload}) {
     control,
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
+      categoryId: '',
       categoryName: '',
       serviceTags: '',
     },
   });
-  const categoryId: string = payload;
 
-  const [categories, setCategories] = useState('');
+  
+  const categoryId: string = payload;
+  console.log("in cat ", categoryId)
+
+  const [categories, setCategories] = useState([]);
+  const [currentCategories, setCurrentCategories] = useState([]);
+
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
   });
@@ -77,7 +85,7 @@ export default function AddCategoryForm({payload}) {
       "id": establishmentId,
       "categories": [
         {
-          "categoryId":"",
+          "categoryId": categoryId ? categoryId : "",
           "categoryName": data.categoryName,
           "serviceTag": data.serviceTags,
           "isActive": true
@@ -100,12 +108,24 @@ export default function AddCategoryForm({payload}) {
     };
 
     getEstablishmentDetails();
-  }, [establishmentId]);
 
-  if(categoryId){
-    // categoryId ? categories.:
-  }
+  }, []);
 
+  useEffect(()=>{
+    if(categoryId){
+      
+      setCurrentCategories(categories?.filter(cat => cat.categoryId === categoryId));
+    }
+  },[categories])
+
+  useEffect(() => {
+    if (currentCategories) {
+      setValue('categoryId', currentCategories[0]?.categoryId);
+      setValue('categoryName', currentCategories[0]?.categoryName);
+      setValue('serviceTags', currentCategories[0]?.serviceTag);
+    }
+  }, [currentCategories, setValue]);
+  
   return (
     <div className="flex-col h-full">
       <form onSubmit={handleSubmit(handleDrawerSubmit)}>
@@ -132,7 +152,14 @@ export default function AddCategoryForm({payload}) {
             >
               Category name
             </Typography>
-            <TextField fullWidth size="small" variant="outlined" {...register("categoryName")} />
+            {
+              categoryId 
+              ?
+              <TextField fullWidth defaultValue="hiii" size="small" variant="outlined" {...register("categoryName")} />
+              :
+              <TextField fullWidth defaultValue="hiii"  size="small" variant="outlined" {...register("categoryName")} />
+
+            }
             {errors.categoryName && (
               <p className="text-red-500 font-medium">{errors.categoryName.message}</p>
             )}

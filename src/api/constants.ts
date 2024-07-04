@@ -42,6 +42,8 @@ export const addService = 'e/saveEstablishment/service'
 
 export const deleteService = 'e/saveEstablishment/service/delete'
 
+export const deleteCategory = 'e/saveEstablishment/category/delete'
+
 export const saveEmployee = 'e/saveEstablishment/employee'
 
 export const saveCard = 'c/saveCardInfo'

@@ -7,7 +7,6 @@ import { useMutation } from '@tanstack/react-query';
 import endpoints from '../../../../../api/endpoints';
 import { BusinessInfoSchema } from './BusinessInfoSchema';
 import { WorkingHours } from './WorkingHours';
-import { AnyAction } from 'redux';
 
 interface IBasicInfo {
   establishmentName: string;
