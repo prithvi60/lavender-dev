@@ -5,6 +5,7 @@ import GetIcon from '../../assets/Icon/icon';
 import { CancelAppointmentModal } from './CancelAppointmentModal';
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
+import SaveReviews from './SaveReviews';
 
 const modalStyle = {
     position: 'absolute',
@@ -27,7 +28,7 @@ export const BookingInfoModal = ({ isModalOpen, bookings, establishmentId }) => 
     const handleClick = () => {
         setIsOpen((prev) => !prev);
     };
-
+console.log("establishmentId :  : ", establishmentId)
     function timeDifference(startTime, endTime){
         // Convert ISO strings to Date objects
         const startDate: any = new Date(startTime);
@@ -118,6 +119,7 @@ export const BookingInfoModal = ({ isModalOpen, bookings, establishmentId }) => 
                                     <GetIcon iconName='CalendarIcon' />
                                     <div className='pl-4'>Reschedule</div>
                                 </div>
+                                <SaveReviews bookings={bookings} establishmentId={establishmentId}/>
                             </div>
                         </Grid>
                     </Grid>

@@ -30,7 +30,7 @@ const LandingPage = () => {
                 dispatch(updateUser(userDetails?.data)); // Dispatch the updateUser action with user details
                 setIsLoggedIn(true);
                 if(userDetails?.success && userDetails?.data?.userType === 'BU'){
-                  // navigate('/business');
+                   navigate('/business');
                 }
                 console.log("suerDetails : ", userDetails)
               } catch (error) {

@@ -80,7 +80,7 @@ function PastBookings({ userInfo }) {
                 ) : (
                     <EmptyBookings noAppointmentsMessage={NoPastBookings} />
                 )}
-                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} bookings={userInfo?.pastBookings[0]} />}
+                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} bookings={userInfo?.pastBookings[0]} establishmentId={''}/>}
             </div>
         </div>
     );

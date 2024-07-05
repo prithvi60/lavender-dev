@@ -37,7 +37,7 @@ export default function EditMemberForm() {
 
   return (
     <div className="flex-col h-full p-4">
-      <div className="text-lg h-14 mb-2 text-white bg-blue-950 p-4">Edit Member</div>
+      <div className="text-lg h-14 mb-2 text-white bg-blue-950 p-4">Edit Memberss</div>
       
       <div className="flex justify-center items-center h-32 mb-4">
         <Badge

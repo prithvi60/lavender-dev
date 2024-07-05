@@ -28,15 +28,17 @@ const RegisterScreen = () => {
         resolver: yupResolver(schema),
     });
     const [value, setValue] = React.useState<Dayjs | null>(null);
+    const navigate = useNavigate();
 
     const mutation = useMutation({
         mutationFn: async (payload: any) => {
           const response =  await endpoint.userRegister(payload);
           if(!response?.data?.success){
-            alert(`ErrorCode : ${response.data.errorCode}`)
+            alert(`ErrorCode : ${response.data.errorCode} ${response?.data?.data}`)
           }
           else{
             alert("user created successfully.")
+            navigate('/');
           }
           return response;
         },
@@ -64,7 +66,6 @@ const RegisterScreen = () => {
         mutation.mutate(payLoad)
     };
 
-    const navigate = useNavigate();
 
     return (
         <div>
@@ -76,7 +77,6 @@ const RegisterScreen = () => {
                 <Grid container spacing={2} sx={{display: 'flex', justifyContent: 'center'}}>
                     <form onSubmit={handleSubmit((data)=>{
                         onSubmit(data);
-                        navigate('/');
                     })}>
                     <Grid item xs={12}>
                         <Controller

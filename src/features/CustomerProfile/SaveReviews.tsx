@@ -7,6 +7,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import GetIcon from '../../assets/Icon/icon';
+import endpoint from '../../api/endpoints';
 
 const style = {
   position: 'absolute',
@@ -51,12 +53,13 @@ const sampleData = {
   ]
 };
 
-const SaveReviews = () => {
+const SaveReviews = ({bookings, establishmentId}) => {
+  console.log('bookings : ', bookings)
   const [open, setOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
-  const [comments, setComments] = useState(new Array(sampleData.OptedServices.length).fill(''));
+  const [comments, setComments] = useState(new Array(bookings?.services.length).fill(''));
 
   const { control, handleSubmit } = useForm();
 
@@ -71,7 +74,7 @@ const SaveReviews = () => {
     setCurrentStep(0);
     setReviews([]);
     setRating(0);
-    setComments(new Array(sampleData.OptedServices.length).fill(''));
+    setComments(new Array(bookings?.services.length).fill(''));
   };
 
   const handleClose = () => {
@@ -84,8 +87,8 @@ const SaveReviews = () => {
 
   const onSubmit = (data) => {
     const formData = {
-      serviceName: sampleData.OptedServices[currentStep].serviceName,
-      employeeId: sampleData.OptedServices[currentStep].employeeId,
+      serviceName: bookings?.services[currentStep].serviceName,
+      employeeId: bookings?.services[currentStep].employeeId,
       rating: rating.toString(),
       comments: comments[currentStep].trim() !== '' ? comments[currentStep] : undefined // Only add comments if not empty
     };
@@ -93,7 +96,7 @@ const SaveReviews = () => {
     setReviews([...reviews, formData]);
     setRating(0);
 
-    if (currentStep < sampleData.OptedServices.length - 1) {
+    if (currentStep < bookings?.services.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
       // If it's the last step, don't proceed to next step automatically
@@ -103,29 +106,39 @@ const SaveReviews = () => {
   const handleFinalSubmit = () => {
     // Add the last review object before displaying the final alert
     const lastReview = {
-      serviceName: sampleData.OptedServices[currentStep].serviceName,
-      employeeId: sampleData.OptedServices[currentStep].employeeId,
-      rating: rating.toString(),
-      comments: comments[currentStep].trim() !== '' ? comments[currentStep] : undefined // Only add comments if not empty
+      serviceId: bookings?.services[currentStep].serviceId,
+      review: {
+        serviceRating: rating.toString(),
+        publicComments: comments[currentStep].trim() !== '' ? comments[currentStep] : undefined,
+        privateComments: ''
+      }
     };
 
     const finalReviews = [...reviews, lastReview].filter(review => review.rating !== '0'); // Filter out reviews with rating 0
 
-    // Display final data in alert
-    window.alert(JSON.stringify(finalReviews, null, 2));
-
+    const payload = {
+      "id": bookings?.bookingId,
+      "appointmentServices": finalReviews,
+    }
+    //bookings?.establishmentId
+    const res = endpoint.saveAppointmentReview('EST00002507', payload);
+    
     // Reset state after submission (optional)
     setReviews([]);
     setRating(0);
-    setComments(new Array(sampleData.OptedServices.length).fill(''));
+    setComments(new Array(bookings?.services.length).fill(''));
     setOpen(false);
   };
 
   return (
     <div>
-      <Button className='w-full' onClick={handleOpen} sx={{ display: 'flex', justifyContent: 'center' }} variant="contained">
+      <div className='flex items-center p-5 cursor-pointer' onClick={()=>{handleOpen()}}>
+        <GetIcon iconName='CalendarIcon' />
+        <div className='pl-4'>Add review</div>
+      </div>
+      {/* <Button className='w-full' onClick={handleOpen} sx={{ display: 'flex', justifyContent: 'center' }} variant="contained">
         Add reviews
-      </Button>
+      </Button> */}
       <Modal
         open={open}
         onClose={() => setOpen(false)}
@@ -145,16 +158,16 @@ const SaveReviews = () => {
               </div>
 
               <div className="font-semibold text-xl mb-3" style={{ color: '#616161', textAlign: 'start' }}>
-                {sampleData.establishmentName}
+                {bookings?.establishmentName}
               </div>
-              {currentStep < sampleData.OptedServices.length && (
+              {currentStep < bookings?.services?.length && (
                 <>
                   {/* <div className="font-semibold text-xl mb-3" style={{ color: '#616161', textAlign: 'center' }}>
-                    {sampleData.OptedServices[currentStep].serviceName}
+                    {bookings?.services[currentStep].serviceName}
                   </div> */}
 
                   <div className="font-semibold text-l mb-3" style={{ color: '#616161', textAlign: 'start' }}>
-                  {sampleData.OptedServices[currentStep].serviceName} serviced by {sampleData.OptedServices[currentStep].employeeName}
+                  {bookings?.services[currentStep].serviceName} serviced by {bookings?.services[currentStep].employeeName}
                   </div>
                   
                   <div style={{ color: '#616161', textAlign: 'center' }}>
@@ -190,7 +203,7 @@ const SaveReviews = () => {
                     )}
                   />
 
-                  {currentStep === sampleData.OptedServices.length - 1 ? (
+                  {currentStep === bookings?.services.length - 1 ? (
                     <div style={{textAlign: 'center'}}><Button onClick={handleFinalSubmit} variant="contained">Submit</Button></div>
                   ) : (
                     <div style={{textAlign: 'end'}}><Button onClick={handleSubmit(onSubmit)} variant="contained">Next</Button></div>

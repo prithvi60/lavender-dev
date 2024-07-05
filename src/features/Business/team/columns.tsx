@@ -49,7 +49,7 @@ export const columns: ColumnDef<Team>[] = [
     
     cell: () => (
       <Button variant="outline" size="lg" className="bg-indigo-500 text-white"
-      onClick={() => openDrawer('addMember')}>Edit Member</Button>
+      >Edit Member</Button>
     ),
   },
 ]

@@ -55,13 +55,7 @@ function About(props) {
                     text="Payment methods"
                   />
                 </div>
-                <div className="w-full md:w-4/12 pl-8 md:pl-0">
-                  {/* {establishmentPaymentTypes?.map((item) => ( */}
-                    <div className="urbanist-font font-normal text-sm py-1">
-                      {establishmentPaymentTypes.creditcard}
-                    </div>
-                   {/* ))} */}
-                </div>
+                
               </div>
               <hr />
 

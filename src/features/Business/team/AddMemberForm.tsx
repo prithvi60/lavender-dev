@@ -75,6 +75,7 @@ export default function AddMemberForm({ payload }) {
         <div style={{ backgroundColor: '#1B1464' }}>
           <div className="text-lg h-14 mb-2 p-4 text-white">
             {payload ? "Edit new Member" : "Add new Member"}
+
           </div>
         </div>
 
@@ -103,7 +104,7 @@ export default function AddMemberForm({ payload }) {
               defaultValue={new Date()}
               render={({ field }) => (
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker {...field} value={field.value} onChange={(date) => field.onChange(date)} sx={{ width: '100%' }} />
+                  <DatePicker {...field} value={value} onChange={(date) => field.onChange(date)} sx={{ width: '100%' }} />
                 </LocalizationProvider>
               )}
             />

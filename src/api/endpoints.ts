@@ -28,6 +28,7 @@ import {
   saveCard,
   deleteCategory,
   cancelAppointment,
+  saveReviews,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -258,6 +259,14 @@ class Endpoint {
   async cancelAppointment(payload) {
     const response = await axiosInstance.post(
       `${BaseURL}${cancelAppointment}`,
+      payload
+    );
+    return response;
+  }
+
+  async saveAppointmentReview(estId, payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${saveReviews}`,
       payload
     );
     return response;

@@ -7,6 +7,7 @@ const DrawerContext = createContext(null);
 export const useDrawer = () => useContext(DrawerContext);
 
 export const DrawerProvider = ({ children }) => {
+  debugger
   const [isOpen, setIsOpen] = useState(false);
   const [content, setContent] = useState(null);
   const [payload, setPayload] = useState(null);
