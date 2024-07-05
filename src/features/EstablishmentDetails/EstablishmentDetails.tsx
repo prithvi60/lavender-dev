@@ -90,7 +90,7 @@ function EstablishmentDetails({ estId }) {
     },1000)
     
   },[])
-
+  console.log("establishmentData :::: ", establishmentData)
   return (
     <div className="searchDetailsContainer">
       <HeaderDetails

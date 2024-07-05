@@ -18,7 +18,8 @@ import { updateUser } from '../store/slices/currentUserSlice.js';
 
 const BusinessLayoutPage = () => {
   //const [isSearchPage, setIsSearchPage] = useState(true);
-  const [activeField, setActiveField] = useState("Schedule")
+  const [activeField, setActiveField] = useState("Salon profile")
+  const [userDetails, setUserDetails] = useState('')
   const dispatch = useDispatch()
   const getData = useSelector(
     (state) => state.businessSlice
@@ -31,7 +32,7 @@ const BusinessLayoutPage = () => {
             try {
               const response = await endpoint.getCurrentUserDetails(); // Call the async function to get user details
               const userDetails = response?.data; // Assuming response.data contains the user details
-            
+              setUserDetails(userDetails)
 
               dispatch(updateUser(userDetails?.data)); // Dispatch the updateUser action with user details
             } catch (error) {
@@ -46,9 +47,8 @@ const BusinessLayoutPage = () => {
   
   useEffect(()=> {
     const getEstablishmentDetails = async () => {
-      const response = await endpoint.getEstablishmentDetailsById('EST00002507')
+      const response = await endpoint.getEstablishmentDetailsById(userDetails?.data?.establishmentId)
       if(response.status === 200) {
-        console.log("success",response)
         dispatch(setEstablishmentData(response.data.data))
       }else {
         console.log("err-getEstablishmentDetailsById",response)
@@ -56,7 +56,7 @@ const BusinessLayoutPage = () => {
     }
 
     getEstablishmentDetails()
-  }, [])
+  }, [userDetails])
 
   const renderMainContent = () => {
     switch (activeField) {

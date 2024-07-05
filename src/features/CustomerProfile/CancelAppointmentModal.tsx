@@ -4,6 +4,8 @@ import GetIcon from '../../assets/Icon/icon';
 import Button from '../../components/Button';
 import GetImage from '../../assets/GetImage';
 import CloseIcon from '@mui/icons-material/Close';
+import endpoint from '../../api/endpoints';
+import { bookingStatus } from '../../constants/appointments';
 
 const modalStyle = {
     position: 'absolute',
@@ -17,18 +19,39 @@ const modalStyle = {
     overflow: 'hidden', // Ensure contents do not overflow
 };
 
-export const CancelAppointmentModal = () => {
+export const CancelAppointmentModal = ({bookings}) => {
+    console.log('bookings in cancel: ', bookings);
     const [isCancelOpen, setIsCancelOpen] = useState(false);
 
     function handleCancelClick() {
         setIsCancelOpen((prev) => !prev);
     }
 
+    function handleCancelApptClick(serviceId) {
+        
+        const payload = {
+            "id": bookings?.bookingId,
+            "appointmentServices": [{
+                serviceId: serviceId,
+                bookingStatus: "CANCELED"
+            }]
+        }
+        // const appointmentServices = bookings?.services?.map((item)=> ({
+        //     serviceId: item.serviceId,
+        //     bookingStatus: 
+        // }))
+        const res = endpoint.cancelAppointment(payload);
+    }
+
+    function handleRescheduleClick(){
+        console.log('in reschedule')
+    }
+
     return (
         <div>
             <div className='flex items-center justify-end p-5' style={{ cursor: 'pointer' }} onClick={handleCancelClick}>
                 <GetIcon iconName='CancelIcon' />
-                <div className='pl-4'>Cancel</div>
+                <div className='pl-1'>Cancel</div>
             </div>
             <Modal
                 open={isCancelOpen}
@@ -51,8 +74,8 @@ export const CancelAppointmentModal = () => {
                                 <div className='text-lg font-normal py-3' style={{ color: '#333333' }}>Should your plans change, we encourage you to explore rescheduling for a more suitable time.</div>
                             </div>
                             <div className='pt-12 pb-4 flex justify-start sm:justify-between'>
-                                <div className='p-4'><Button variant='outlined' name={'Yes, Cancel'} /></div>
-                                <div className='p-4'><Button name={'Reschedule'} /></div>
+                                <div className='p-4'><Button variant='outlined' name={'Yes, Cancel'} onClick={()=>{handleCancelApptClick("SER00002514")}}/></div>
+                                <div className='p-4'><Button name={'Reschedule'} onClick={()=> {handleRescheduleClick()}}/></div>
                             </div>
                         </Grid>
                     </Grid>

@@ -48,6 +48,9 @@ export const saveEmployee = 'e/saveEstablishment/employee'
 
 export const saveCard = 'c/saveCardInfo'
 
+export const cancelAppointment = 'a/updateAppointmentStatus'
+
+
 export function setBrowserCache(key: string, value: any) {
     window.localStorage.setItem(key, value)
 }

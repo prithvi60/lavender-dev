@@ -80,7 +80,7 @@ function UpComingBookings({ userInfo }) {
                 ) : (
                     <EmptyBookings noAppointmentsMessage={NoUpComingBookings} />
                 )}
-                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} bookings={userInfo?.upcomingBookings[0]} />}
+                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} bookings={userInfo?.upcomingBookings[0]} establishmentId={userInfo?.appUser?.establishmentId}/>}
             </div>
         </div>
     );

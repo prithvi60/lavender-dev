@@ -4,6 +4,7 @@ import { convertToDateOnly, convertToDayOnly, convertToMonthOnly, convertToTimeO
 import GetIcon from '../../assets/Icon/icon';
 import { CancelAppointmentModal } from './CancelAppointmentModal';
 import CloseIcon from '@mui/icons-material/Close';
+import { useNavigate } from 'react-router-dom';
 
 const modalStyle = {
     position: 'absolute',
@@ -11,13 +12,16 @@ const modalStyle = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '90%', // Set the modal to 90% width of the viewport
-    maxWidth: 700, // Maximum width for larger screens
+    maxWidth: 900, // Maximum width for larger screens
     boxShadow: 24,
     borderRadius: 8,
     overflow: 'hidden' // Ensure contents do not overflow
 };
 
-export const BookingInfoModal = ({ isModalOpen, bookings }) => {
+export const BookingInfoModal = ({ isModalOpen, bookings, establishmentId }) => {
+
+    const navigate = useNavigate();
+
     const [isOpen, setIsOpen] = useState(isModalOpen);
 
     const handleClick = () => {
@@ -35,6 +39,11 @@ export const BookingInfoModal = ({ isModalOpen, bookings }) => {
         // Convert milliseconds to minutes
         const differenceMinutes = Math.floor(differenceMs / (1000 * 60));
         return differenceMinutes;
+    }
+
+    function handleClickReschedule(){
+        console.log("in reschedulw", bookings)
+        navigate(`/salon/${establishmentId}#SearchDetailService`,  { replace: true })
     }
 
     return (
@@ -62,7 +71,6 @@ export const BookingInfoModal = ({ isModalOpen, bookings }) => {
                                     <Grid item xs={12} sm={8} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
                                         <div className="text-4xl font-semibold p-1" style={{ color: '#4D4D4D' }}>{bookings?.establishmentName}</div>
                                         <div className="text-2xl font-bold p-1" style={{ color: '#808080' }}>{bookings?.establishmentLocation}</div>
-                                        <div className="text-xl p-1">Confirmed</div>
                                     </Grid>
                                 </Grid>
                             </div>
@@ -70,9 +78,16 @@ export const BookingInfoModal = ({ isModalOpen, bookings }) => {
                                 <div>
                                     {
                                         bookings?.services?.map((service, index) => (
-                                            <div key={index} className='flex justify-between w-full py-2'>
+                                            <div key={index} className='flex justify-between items-center w-full py-2'>
                                                 <div style={{ color: '#4D4D4D', fontSize: '20px', fontWeight: '600' }}>{service?.serviceName}</div>
-                                                <div style={{ color: '#4D4D4D', fontSize: '20px', fontWeight: '600' }}>{timeDifference(service?.startTime, service?.endTime)} mins</div>
+                                                <div className='flex items-center'>
+                                                    <div style={{ color: '#4D4D4D', fontSize: '20px', fontWeight: '600' }}>{timeDifference(service?.startTime, service?.endTime)} mins</div>
+                                                    <div className="text-md text-center pl-2">{service?.bookingStatus}</div>
+                                                    {
+                                                        service?.bookingStatus !== 'CANCELED' && <CancelAppointmentModal bookings={service}/> 
+                                                    }
+                                                    
+                                                </div>
                                             </div>
                                         ))
                                     }
@@ -99,11 +114,10 @@ export const BookingInfoModal = ({ isModalOpen, bookings }) => {
                                     <GetIcon iconName='LocationIcon' />
                                     <div className='pl-4'>Directions</div>
                                 </div>
-                                <div className='flex items-center p-5'>
+                                <div className='flex items-center p-5' onClick={()=>{handleClickReschedule()}}>
                                     <GetIcon iconName='CalendarIcon' />
                                     <div className='pl-4'>Reschedule</div>
                                 </div>
-                                <CancelAppointmentModal />
                             </div>
                         </Grid>
                     </Grid>

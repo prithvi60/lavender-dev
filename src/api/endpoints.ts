@@ -27,6 +27,7 @@ import {
   updateProfile,
   saveCard,
   deleteCategory,
+  cancelAppointment,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -253,6 +254,15 @@ class Endpoint {
     );
     return response;
   }
+
+  async cancelAppointment(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${cancelAppointment}`,
+      payload
+    );
+    return response;
+  }
+
 }
 
 // function FormAvailableSlotsModel(response) {
