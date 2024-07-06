@@ -39,6 +39,11 @@ navigate('/userprofile')
 
   const navigate = useNavigate();
 
+  function handleLogOutBtn(){
+    localStorage.clear();
+    return navigate("/");
+  }
+
   return (
     <>
       <AppBar position="fixed" className="nav-bar">
@@ -58,6 +63,15 @@ navigate('/userprofile')
           />
           {isSearchPage && <NavFilter setshowSearchBar={setshowSearchBar} />}
           <Stack spacing={2} direction="row">
+            {
+              isLoggedIn && <Button
+              onClick={()=>{handleLogOutBtn()}}
+              className="button-outline"
+              variant="outlined"
+            >
+              Logout
+            </Button>
+            }
             <Button
               href={getBusinessRoute()}
               className="button-outline"
