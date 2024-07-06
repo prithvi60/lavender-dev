@@ -14,6 +14,7 @@ import ReactWeeklyDayPicker from "react-weekly-day-picker";
 import  './style.css'
 import { useEffect, useRef, useState } from 'react';
 
+
 export default function ScheduleAppointment(props) {
   console.log("props : ", props)
   const datePickerRef = useRef(null);
@@ -23,6 +24,11 @@ export default function ScheduleAppointment(props) {
   const [clickedChipIndices, setClickedChipIndices] = React.useState(null);
   
   const [employee, setEmployee] = React.useState('');
+  const [isDisabled, setIsDisabled] = React.useState(false);
+  const [timePeriodValue, setTimePeriodValue] = React.useState('');
+  const [indexValue, setIndexValue] = React.useState('');
+
+  
 
   let appointmentTimings;
   const dispatch = useDispatch();
@@ -30,6 +36,7 @@ export default function ScheduleAppointment(props) {
     (state: any) => state.ScheduleAppoinment
   );
 
+  console.log("totalDuration: ", totalDuration)
   // Function to fetch available slots
   const fetchAvailableSlots = async (day) => {
 
@@ -75,8 +82,36 @@ export default function ScheduleAppointment(props) {
     };
   };
 
+
+  
   const handleClick = (timePeriod, slot, index) => {
+    // Parse time strings into Date objects
+    const startTime: any = new Date(`1970/01/01 ${slot.startTime}`);
+    const endTime: any = new Date(`1970/01/01 ${slot.endTime}`);
+
+    // Calculate the difference in milliseconds
+    const timeDiffInMilliseconds = Math.abs(endTime - startTime);
+
+    // Convert milliseconds to minutes
+    const timeDiffInMinutes = timeDiffInMilliseconds / (1000 * 60);
+    debugger
+
+    if(totalDuration <= timeDiffInMinutes){
+      if(timePeriodValue === timePeriod && indexValue === index){
+        setIsDisabled(false)
+      }
+      else{
+        setIsDisabled(true)
+      }
+      setTimePeriodValue(timePeriod)
+      setIndexValue(index)
+    }
+    else{
+      
+    }
+
     setClickedChipIndices(slot.startTime)
+    
     dispatch(UpdateTimeOfDayAndTime({TimeOfDay: TimeOfDay[timePeriod],
       startTime : slot.startTime,
       endTime: slot.endTime,
@@ -134,10 +169,11 @@ export default function ScheduleAppointment(props) {
               <p className='font-semibold capitalize'>{timePeriod}</p>
               <div className='flex items-center flex-wrap gap-2'>
                 {slotsArray?.map((slot: any, index: any) => {
-                  
+                  debugger
                   return (
                     <div className='cursor-pointer' key={index}>
                       <Chip
+                        disabled={isDisabled && ((timePeriodValue === timePeriod && indexValue === index) ? false : true) }
                         label={`${slot.startTime} - ${slot.endTime}`}
                         variant="outlined"
                         onClick={() => handleClick(timePeriod, slot, index)}
@@ -216,26 +252,6 @@ const grey = {
   900: '#1C2025',
 };
 
-const Listbox = styled('ul')(
-  ({ theme }) => `
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.875rem;
-  box-sizing: border-box;
-  padding: 6px;
-  margin: 12px 0;
-  min-width: 200px;
-  border-radius: 12px;
-  overflow: auto;
-  outline: 0px;
-  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  box-shadow: 0px 4px 6px ${theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.50)' : 'rgba(0,0,0, 0.05)'
-    };
-  z-index: 1;
-  `,
-);
-
 const MenuItem = styled(BaseMenuItem)(
   ({ theme }) => `
   list-style: none;
@@ -260,34 +276,5 @@ const MenuItem = styled(BaseMenuItem)(
   `,
 );
 
-const MenuButton = styled(BaseMenuButton)(
-  ({ theme }) => `
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-weight: 600;
-  font-size: 0.875rem;
-  line-height: 1.5;
-  padding: 8px 16px;
-  border-radius: 8px;
-  color: white;
-  transition: all 150ms ease;
-  cursor: pointer;
-  background: ${theme.palette.mode === 'dark' ? grey[900] : '#fff'};
-  border: 1px solid ${theme.palette.mode === 'dark' ? grey[700] : grey[200]};
-  color: ${theme.palette.mode === 'dark' ? grey[200] : grey[900]};
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
-  &:hover {
-    background: ${theme.palette.mode === 'dark' ? grey[800] : grey[50]};
-    border-color: ${theme.palette.mode === 'dark' ? grey[600] : grey[300]};
-  }
 
-  &:active {
-    background: ${theme.palette.mode === 'dark' ? grey[700] : grey[100]};
-  }
-
-  &:focus-visible {
-    box-shadow: 0 0 0 4px ${theme.palette.mode === 'dark' ? blue[300] : blue[200]};
-    outline: none;
-  }
-  `,
-);
