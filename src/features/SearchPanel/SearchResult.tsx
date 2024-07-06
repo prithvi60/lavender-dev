@@ -11,6 +11,7 @@ import endpoint from '../../api/endpoints.ts';
 import './style.css';
 import GetImage from '../../assets/GetImage.tsx';
 import GetIcon from '../../assets/Icon/icon.tsx';
+import { MarginOutlined } from '@mui/icons-material';
 
 export default function SearchResult() {
   
@@ -130,9 +131,9 @@ export default function SearchResult() {
                       <CardContent>
                         <div className='card-wrap-container'>
                           <div className='card-container'>
-                            <div className='card-header'>
+                            <div className='card-header' style={{padding: '20px'}}>
                               <GetImage imageName='SaloonImage' className='w-full rounded-lg' />
-                              <div className='card-header-details'>
+                              <div className='card-header-details' style={{marginLeft: '20px'}}>
                                 <div className='chip-wrap'>
                                   {card?.serviceTags?.map((tag, index) => (
                                     <Chip key={index} label={tag} className='mr-2 mb-2' />
@@ -152,7 +153,7 @@ export default function SearchResult() {
                                 <div className='text-base'>{card?.establishmentLocation}</div>
                               </div>
                             </div>
-                            <Grid container>
+                            <Grid container style={{padding: '20px'}}>
                               {card?.services?.map((service, index) => (
                                 <Grid item xs={12} key={index}>
                                   <div className='card-body-details'>
@@ -160,7 +161,7 @@ export default function SearchResult() {
                                       <div className='font-semibold'>{service?.serviceName}</div>
                                       <div>from ${service?.startingPrice}</div>
                                     </div>
-                                    <div className="card-slick-container">
+                                    <div className="card-slick-container" style={{marginLeft: '20px'}}>
                                       <div style={{ overflowX: 'auto', display: 'flex' }}>
                                         {service?.availabilities?.map((availability, index) => (
                                           <div key={index} className="availability-container">
@@ -186,7 +187,7 @@ export default function SearchResult() {
                             </Grid>
                           </div>
                         </div>
-                        <CardActions className='card-footer-action'>
+                        <CardActions className='card-footer-action ' style={{borderRadius: '0px 0px 20px 20px'}}>
                           <StoreMallDirectoryOutlinedIcon />
                           <TextRouter name={"Saloon Details"} to={`/salon/${card?.establishmentId}`} />
                         </CardActions>

@@ -29,7 +29,7 @@ export const SalonSetup = () => {
       return state?.currentUserDetails;
     });
 
-  const establishmentId = userDetails != null ? userDetails?.establishmentId : "";
+    const establishmentId = userDetails != null ? userDetails?.establishmentId : "";
 
     function handleBtnClick(){
         setIsOpen(true);

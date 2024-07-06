@@ -15,6 +15,7 @@ import  './style.css'
 import { useEffect, useRef, useState } from 'react';
 
 export default function ScheduleAppointment(props) {
+  console.log("props : ", props)
   const datePickerRef = useRef(null);
   const [selectedDateBtn, setSelectedDateBtn] = useState(new Date());
   const { estData, onSetActiveStep } = props
@@ -23,26 +24,24 @@ export default function ScheduleAppointment(props) {
   
   const [employee, setEmployee] = React.useState('');
 
-let appointmentTimings;
+  let appointmentTimings;
   const dispatch = useDispatch();
-  const { selectedDate, timeOfDay, startTime, endTime, id} = useSelector(
+  const { selectedDate, timeOfDay, startTime, endTime, id, totalDuration} = useSelector(
     (state: any) => state.ScheduleAppoinment
   );
 
   // Function to fetch available slots
   const fetchAvailableSlots = async (day) => {
-    // const payLoad = { date }; // Adjust payload as needed
-    // const currentDate = new Date();
 
-  const payLoad = {
-    "startDate": day[0],
-    "establishmentId": estData.id,
-    // "employeeId": "",
-    "totalDuration": 30,
-    "serviceTags": [
-      "hair"
-    ]
-  }
+    const payLoad = {
+      "startDate": day[0],
+      "establishmentId": estData.id,
+      // "employeeId": "",
+      "totalDuration": 30,
+      "serviceTags": [
+        "hair"
+      ]
+    }
     return await endpoint.getAvailableSlots(payLoad);
   };
 

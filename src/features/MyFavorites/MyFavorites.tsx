@@ -45,7 +45,7 @@ export function MyFavorites() {
         <h2 className="text-2xl font-bold mb-8">My Favourites</h2>
         {establishmentSearchResult ? 
           <div className="favourite-cards">
-            {establishmentSearchResult?.data?.content?.map((card) => (
+            {establishmentSearchResult?.data?.data?.content?.map((card) => (
               <div className="p-6 favourite-card">
                 <img src={establishmentImg} alt="CardImage" className="card-image" />
                 <CardContent className='favourite-card-content'>
@@ -54,7 +54,7 @@ export function MyFavorites() {
                         <Text sx={{color: '#4D4D4D'}} variant="body2" align="left" name={card?.rating?.ratingStar}/>
                         <StyledRating
                         name="customized-color"
-                        value={card?.rating.ratingStar}
+                        value={card?.rating?.ratingStar}
                         precision={0.5}
                         readOnly
                         />

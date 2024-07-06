@@ -54,30 +54,6 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
 
     
     if(activeStep===2){
-        // const payLoad = {
-        //   "customerId": "2500",
-        //   "establishmentId": establishmentId,
-        //   "employeeId": "E101",
-        //   "startTime": convertToDateTime(startTime,selectedDate),
-        //   "endTime": convertToDateTime(endTime,selectedDate),
-        //   "totalDuration": checkOutList.checkOut[0].duration,
-        //   "totalCost": checkOutList.checkOut[0].finalPrice,
-        //   "appointmentNotes": "Prefer organic products",
-        //   "serviceTags": [
-        //     "Hair","Facial"
-        //   ],
-        //   "appointmentServices": [
-        //     {
-        //       "serviceId": checkOutList.checkOut[0].serviceId,
-        //       "optionId": checkOutList.checkOut[0].optionId
-        //     },
-        //   ],
-        //   "paymentInfo": {
-        //     "payAtVenue": false,
-        //     "cardStoreId": "2500"
-        //   },
-        //   "walkIn": false
-        // }
 
         const modifiedStartTime = convertToDateTime(startTime, selectedDate);
         const modifiedEndTime = convertToDateTime(endTime, selectedDate)

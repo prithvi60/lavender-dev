@@ -7,6 +7,8 @@ interface IScheduleAppoinment {
   startTime: string;
   endTime: string;
   id:string;
+  totalPrice: string;
+  totalDuration: string;
 }
 
 const initialState: IScheduleAppoinment = {
@@ -14,7 +16,9 @@ const initialState: IScheduleAppoinment = {
   timeOfDay: null,
   startTime: "",
   endTime: "",
-  id :''
+  id :'',
+  totalPrice:'',
+  totalDuration: ''
 };
 
 export const ScheduleAppoinmentSlice = createSlice({
@@ -30,7 +34,10 @@ export const ScheduleAppoinmentSlice = createSlice({
       state.startTime = action.payload.startTime;
       state.endTime = action.payload.endTime;
       state.id = action.payload.id;
-
+    },
+    UpdateCheckoutInfo: (state, action) => {
+      state.totalPrice= action.payload.totalPrice;
+      state.totalDuration= action.payload.totalDuration;
     },
     resetFilter: () => {
       return initialState;
@@ -38,7 +45,7 @@ export const ScheduleAppoinmentSlice = createSlice({
   },
 });
 
-export const { UpdateSelectedDate, UpdateTimeOfDayAndTime, resetFilter } =
+export const { UpdateSelectedDate, UpdateTimeOfDayAndTime, UpdateCheckoutInfo, resetFilter } =
   ScheduleAppoinmentSlice.actions;
 
 export default ScheduleAppoinmentSlice.reducer;

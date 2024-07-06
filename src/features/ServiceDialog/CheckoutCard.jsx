@@ -11,32 +11,46 @@ import { Divider } from "@mui/material";
 import { useQuery } from '@tanstack/react-query';
 import endpoint from '../../api/endpoints';
 import AppointmentConfimed from './AppointmentConfimed';
-
-const checkoutData = [{'name': 'Yong Chow’s Paradise - Women’s Parlour & Spa', 'services': [{'serviceName': 'haircut', 'duration': '30mins', 'finalPrice': 50},{'serviceName': 'Layered Long Haircut', 'duration': '60mins', 'finalPrice': 60}, {'serviceName': 'Layered Long Haircut', 'duration': '60mins', 'finalPrice': 60}, {'serviceName': 'Layered Long Haircut', 'duration': '60mins', 'finalPrice': 60}]}]
+import { UpdateCheckoutInfo } from '../../store/slices/Booking/ScheduleAppoinmentSlice';
 
 function CheckoutCard(props) {
   const {activeStep, next, establishmentName, establishmentId} = props
-  const [testId, setTestId] = useState(false);
 
+  const dispatch = useDispatch();
   const checkOutList = useSelector(
     (state) => state.checkOutPage
   );
 
   const [disabled, setDisabled] = useState(true);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalDuration, setTotalDuration] = useState(0);
+
 
   useEffect(()=>{
     if(checkOutList.checkOut.length > 0){
       setDisabled(false);
+      calculateTotalPrice();
+      calculateTotalDuration();
     }
   },[checkOutList])
 
-  let totalPrice = 0;
+
   function calculateTotalPrice(){
     for(let item of checkOutList.checkOut){
-      totalPrice = totalPrice + item.finalPrice
+      setTotalPrice(totalPrice + item?.finalPrice)
     }
-    return totalPrice;
   }
+
+  function calculateTotalDuration(){
+    for(let item of checkOutList.checkOut){
+     setTotalDuration(totalDuration + item?.duration)
+    }
+  }
+
+  dispatch(UpdateCheckoutInfo({
+    totalPrice:  totalPrice,
+    totalDuration: totalDuration
+  }))
 
   const btnStyle = {
     margin: 0,
@@ -51,35 +65,6 @@ function CheckoutCard(props) {
     
     next((prevActiveStep) => prevActiveStep + 1); // Invoke the callback function with data
   };
-
-  // useEffect(()=>{
-  //   const payLoad = {
-  //     "customerId": "2507",
-  //     "establishmentId": "2001",
-  //     "employeeId": "201",
-  //     "startTime": "2024-05-25T10:00:00+08:00",
-  //     "endTime": "2024-05-25T11:30:00+08:00",
-  //     "totalDuration": 90,
-  //     "totalCost": 75,
-  //     "appointmentNotes": "Prefer organic products",
-  //     "serviceTags": [
-  //       "Hair","Facial"
-  //     ],
-  //     "appointmentServices": [
-  //       {
-  //         "serviceId": "101",
-  //         "optionId": "1011"
-  //       },
-  //       {
-  //         "serviceId": "102",
-  //         "optionId": "1021"
-  //       }
-  //     ],
-  //     "payAtVenue": false,
-  //     "cardStoreId": "2500"
-  //   }
-  //   const appointmentBooking = endpoint.saveAppointmentBookings(payLoad);
-  // },[testId])
 
   return (
       <div className='urbanist-font mb-6 rounded-2xl chackout-card-container'> {/* Adjusted width to be responsive */}
@@ -107,9 +92,12 @@ function CheckoutCard(props) {
               <div className='pt-3'>
                 <div className='flex justify-between'>
                   <div className='text-lg font-bold'>Total</div>
-                  <div className='text-lg font-bold'>${calculateTotalPrice()}</div>
+                  <div className='text-lg font-bold'>${totalPrice}</div>
                 </div>
+
                 <div className='text-sm font-normal pb-2'>excluding Tax</div>
+                <div className='text-sm font-normal pb-2'>{totalDuration} mins</div>
+
 
                 <div className='flex justify-center'>
                   {activeStep < 2 ? <Button  disabled={disabled} className='w-full' onClick={()=>sendDataToParent()} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button> : <AppointmentConfimed establishmentId={establishmentId} activeStep={activeStep}/>}
