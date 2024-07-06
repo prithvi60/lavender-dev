@@ -2,7 +2,7 @@ import * as React from 'react';
 import { MenuButton as BaseMenuButton } from '@mui/base/MenuButton';
 import { MenuItem as BaseMenuItem, menuItemClasses } from '@mui/base/MenuItem';
 import { styled } from '@mui/system';
-import { Button, Chip, Divider, Grid, Select } from '@mui/material';
+import { Button, Divider, Grid, IconButton, Select } from '@mui/material';
 import DatePicker from '../../Packages/swiperCalendar/DatePicker.tsx'
 import GetIcon from '../../assets/Icon/icon';
 import { useQuery } from '@tanstack/react-query';
@@ -13,6 +13,7 @@ import { TimeOfDay } from '../../api/type';
 import ReactWeeklyDayPicker from "react-weekly-day-picker";
 import  './style.css'
 import { useEffect, useRef, useState } from 'react';
+import Chip from '../../components/Chip.js';
 
 
 export default function ScheduleAppointment(props) {
@@ -25,10 +26,10 @@ export default function ScheduleAppointment(props) {
   
   const [employee, setEmployee] = React.useState('');
   const [isDisabled, setIsDisabled] = React.useState(false);
-  const [timePeriodValue, setTimePeriodValue] = React.useState('');
-  const [indexValue, setIndexValue] = React.useState('');
-
-  
+  const [timePeriodValue, setTimePeriodValue] = React.useState([]);
+  const [indexValue, setIndexValue] = React.useState([]);
+  const [totalDurationValue, setTotalDurationValue] = useState(0);
+  const[startTimeValue, setStartTimeValue] = useState('11:59 pm');
 
   let appointmentTimings;
   const dispatch = useDispatch();
@@ -85,30 +86,7 @@ export default function ScheduleAppointment(props) {
 
   
   const handleClick = (timePeriod, slot, index) => {
-    // Parse time strings into Date objects
-    const startTime: any = new Date(`1970/01/01 ${slot.startTime}`);
-    const endTime: any = new Date(`1970/01/01 ${slot.endTime}`);
-
-    // Calculate the difference in milliseconds
-    const timeDiffInMilliseconds = Math.abs(endTime - startTime);
-
-    // Convert milliseconds to minutes
-    const timeDiffInMinutes = timeDiffInMilliseconds / (1000 * 60);
-    debugger
-
-    if(totalDuration <= timeDiffInMinutes){
-      if(timePeriodValue === timePeriod && indexValue === index){
-        setIsDisabled(false)
-      }
-      else{
-        setIsDisabled(true)
-      }
-      setTimePeriodValue(timePeriod)
-      setIndexValue(index)
-    }
-    else{
-      
-    }
+    
 
     setClickedChipIndices(slot.startTime)
     
@@ -120,7 +98,97 @@ export default function ScheduleAppointment(props) {
   };
   useEffect(() => { }, [availableTimeSlots])
 
+  const [selectedPaymentChips, setSelectedPaymentChips] = useState([]);
 
+  useEffect(()=>{
+
+  },[totalDuration, totalDurationValue])
+
+  const handleChipClick = (timePeriod, slot, index) => {
+    const currentDate = new Date();
+    const currentDateValue = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1}/${currentDate.getDate()}`
+    // Parse time strings into Date objects
+    const startTime: any = new Date(`${currentDateValue} ${slot.startTime}`);
+    const endTime: any = new Date(`${currentDateValue} ${slot.endTime}`);
+
+    // Calculate the difference in milliseconds
+    const timeDiffInMilliseconds = Math.abs(endTime - startTime);
+
+    const newTotalDurationValue = totalDurationValue + timeDiffInMilliseconds / (1000 * 60);
+    setTotalDurationValue(newTotalDurationValue);
+
+    if(totalDuration <= newTotalDurationValue){
+      if(timePeriodValue === timePeriod && indexValue === index){
+        setIsDisabled(false)
+      }
+      else{
+        setIsDisabled(true)
+      }
+      
+    }
+    setTimePeriodValue([...timePeriodValue, timePeriod])
+    setIndexValue([...indexValue, index])
+
+    const item = `${slot.startTime} - ${slot.endTime}`;
+    
+    const updatedChips = selectedPaymentChips.includes(item)
+      ? selectedPaymentChips.filter((chip) => chip !== item)
+      : [...selectedPaymentChips, item];
+    setSelectedPaymentChips(updatedChips);
+
+    dispatch(UpdateTimeOfDayAndTime({TimeOfDay: TimeOfDay[timePeriod],
+      startTime : calculateTime(slot.startTime),
+      endTime: slot.endTime,
+      id:slot.employeeId
+    }));
+  };
+
+  function calculateTime(newStartTime){
+    debugger
+    const convertTo24Hour = (time12h) => {
+      const [time, period] = time12h.split(' ');
+      let [hours, minutes] = time.split(':');
+      hours = parseInt(hours);
+      if (period === 'pm' && hours !== 12) {
+        hours += 12;
+      } else if (period === 'am' && hours === 12) {
+        hours = 0;
+      }
+      return hours * 60 + parseInt(minutes);
+    };
+    
+    const startTimeInMinutes = convertTo24Hour(startTimeValue);
+    const newStartTimeInMinutes = convertTo24Hour(newStartTime);
+    
+    // Compare times
+    if (newStartTimeInMinutes < startTimeInMinutes) {
+      setStartTimeValue(newStartTime)
+      return newStartTime;
+    }
+    return startTimeValue;
+  }
+
+  const handleChipDelete = (timePeriod, slot, index) => {
+
+    // Parse time strings into Date objects
+    const startTime: any = new Date(`1970/01/01 ${slot.startTime}`);
+    const endTime: any = new Date(`1970/01/01 ${slot.endTime}`);
+
+    // Calculate the difference in milliseconds
+    const timeDiffInMilliseconds = Math.abs(endTime - startTime);
+
+    const newTotalDurationValue = totalDurationValue - timeDiffInMilliseconds / (1000 * 60);
+    setTotalDurationValue(newTotalDurationValue);
+
+    setIsDisabled(false)
+    const item = `${slot.startTime} - ${slot.endTime}`;
+
+    const updatedChips = selectedPaymentChips.filter((chip) => chip !== item);
+    setSelectedPaymentChips(updatedChips);
+  };
+
+
+  console.log("selectedPaymentChips : ", selectedPaymentChips)
   return (
 
     <div className='mt-2 md:mx-16 my-10'>
@@ -169,15 +237,37 @@ export default function ScheduleAppointment(props) {
               <p className='font-semibold capitalize'>{timePeriod}</p>
               <div className='flex items-center flex-wrap gap-2'>
                 {slotsArray?.map((slot: any, index: any) => {
-                  debugger
                   return (
                     <div className='cursor-pointer' key={index}>
-                      <Chip
+                      {/* <Chip
                         disabled={isDisabled && ((timePeriodValue === timePeriod && indexValue === index) ? false : true) }
                         label={`${slot.startTime} - ${slot.endTime}`}
                         variant="outlined"
                         onClick={() => handleClick(timePeriod, slot, index)}
-                        style={{ backgroundColor: clickedChipIndices === slot.startTime  ? '#E6E1FF' : 'inherit' }} />
+                        style={{ backgroundColor: clickedChipIndices === slot.startTime  ? '#E6E1FF' : 'inherit' }} /> */}
+
+
+                      <Chip
+                        disabled={isDisabled && ((timePeriodValue?.includes(timePeriod) && indexValue?.includes(index)) ? false : true) }
+                        type={selectedPaymentChips.includes(`${slot.startTime} - ${slot.endTime}`) ? 'deletable' : 'clickable'}
+                        label={`${slot.startTime} - ${slot.endTime}`}
+                        onDelete={() => handleChipDelete(timePeriod, slot, index)}
+                        deleteIcon={
+                          selectedPaymentChips.includes(`${slot.startTime} - ${slot.endTime}`) ? (
+                            <IconButton>
+                              <GetIcon iconName='CloseIcon' />
+                            </IconButton>
+                          ) : undefined
+                        }
+                        onClick={() => handleChipClick(timePeriod, slot, index)}
+                        style={{
+                          margin: '5px',
+                          backgroundColor: selectedPaymentChips.includes(`${slot.startTime} - ${slot.endTime}`)
+                            ? '#E6E1FF'
+                            : '#F2F2F2',
+                        }}
+                      />
+
                     </div>
                   );
                 })}

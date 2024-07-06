@@ -82,7 +82,7 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
         const appointmentServices = checkOutList.checkOut.map(item => ({
           serviceId: item.serviceId,
           optionId: item.optionId,
-          serviceNotes: 'string', 
+          serviceNotes: 'confirmed', 
           employeeId: 'EMP00002500', 
           serviceCost: item.finalPrice, 
           bookingStatus: 'string', 
@@ -90,9 +90,9 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
           endTime: modifiedEndTime, 
           review: {
             serviceRating: 0,
-            reviewDate: '2024-06-27T06:39:21.715Z',
-            publicComments: 'string', 
-            privateComments: 'string' 
+            reviewDate: '',
+            publicComments: '', 
+            privateComments: '' 
           }
         }));
         
