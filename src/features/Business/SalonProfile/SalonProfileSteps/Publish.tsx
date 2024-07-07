@@ -45,6 +45,7 @@ export const Publish = ({userDetails}) => {
 
   useEffect(()=>{
     setImageIdList(establishmentData?.data?.data?.estImages)
+    setIsPublish(establishmentData?.data?.data?.published)
   }, [establishmentData])
   
   const fetchImage = async (image) => {
@@ -101,11 +102,14 @@ export const Publish = ({userDetails}) => {
   };
 
   useEffect(()=>{
-    const payLoad = {
-      "id" : userDetails != null ? userDetails?.establishmentId : "",
-      "published": isPublish
+    if(isPublish){
+      const payLoad = {
+        "id" : userDetails != null ? userDetails?.establishmentId : "",
+        "published": isPublish
+      }
+      publishEstablishment(payLoad);
     }
-    publishEstablishment(payLoad);
+    
   }, [isPublish])
 
   return (
@@ -120,9 +124,9 @@ export const Publish = ({userDetails}) => {
 
         <div className='flex justify-center'>
         <div className='flex justify-center flex-col w-36'>
-            {/* {showPublish &&  */}
+            {!isPublish && 
               <Buttons fullWidth variant="contained" sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', marginBottom: '10px'}} name={'Publish'}  onClick={()=>{handlePublishClick()}}></Buttons>
-            {/* } */}
+            } 
             <Buttons  variant="outlined" sx={{borderRadius: '10px', padding: '10px 40px 10px 40px'}} name={'Preview'} onClick={()=>onClickPreview()}></Buttons>
         </div>
         </div>

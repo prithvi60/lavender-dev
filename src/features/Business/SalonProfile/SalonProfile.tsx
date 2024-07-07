@@ -24,7 +24,7 @@ export const SalonProfile = () => {
   
   return (
     <>
-    <div className='flex justify-center items-center flex-col w-full h-full '>
+    <div className='flex justify-center items-center flex-col w-full h-full mt-12 pt-12'>
       <div className='text-5xl font-bold text-center w-9/12 p-4' style={{color: '#4D4D4D'}}>Setup your online Salon profile with Lavender</div>
       <div className='text-xl font-normal text-center w-9/12 p-4' style={{color: '#4D4D4D'}}>You have successfully completed the lavender business setup for your salon. Now you can use our platform to manage our businesses</div>
       <SalonSetup />

@@ -13,7 +13,6 @@ interface BusinessDrawerProps {
 }
 
 const getDrawerComponent = (type, payload) => {
-  console.log("in drawer typw : ", type, payload);
     switch (type) {
         case 'FilterDrawer':
           return <FilterDrawer/>;

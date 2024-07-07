@@ -15,7 +15,7 @@ import { useSelector } from 'react-redux'
 import endpoint from '../../../api/endpoints'
 
 export const SalonSetup = () => {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const [activeStep, setActiveStep] = useState(0);
     const steps = ["Business info", "Photos", "Additional info", "Publish"];      
 
@@ -23,7 +23,9 @@ export const SalonSetup = () => {
     const [availableDays, setAvailableDays] = useState([]);
     const [features, setFeatures] = useState();
     const [paymentTypes, setPaymentTypes] = useState();     
-    const [languages, setLanguages] = useState([]);      
+    const [languages, setLanguages] = useState([]);   
+    const [isPublished, setIsPublished] = useState(false);
+
 
     const userDetails = useSelector((state: any) => {
       return state?.currentUserDetails;
@@ -59,12 +61,20 @@ export const SalonSetup = () => {
         setFeatures(establishmentData?.data?.data?.features)
         setPaymentTypes(establishmentData?.data?.data?.paymentTypes)
         setLanguages(establishmentData?.data?.data?.languages)
+        setIsPublished(establishmentData?.data?.data?.published)
       }
     }
 
     getEstablishmentDetails();
+    
   },[])
 
+useEffect(()=>{
+  if(isPublished){
+    debugger
+    handleBtnClick();
+  }
+},[isPublished])
   
   return (
     <div>

@@ -19,7 +19,7 @@ import { updateUser } from '../store/slices/currentUserSlice.js';
 
 const BusinessLayoutPage = () => {
   //const [isSearchPage, setIsSearchPage] = useState(true);
-  const [activeField, setActiveField] = useState("Home")
+  const [activeField, setActiveField] = useState("Salon profile")
   const [userDetails, setUserDetails] = useState('')
   const dispatch = useDispatch()
   const getData = useSelector(

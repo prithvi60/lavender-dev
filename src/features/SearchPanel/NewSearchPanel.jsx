@@ -96,7 +96,7 @@ const NewSearchPanel = () => {
   const handleBoxClick = (name) => {
     
     // Update form values on box click
-    dispatch(updateSearchSelectedBox({ selectedBox: name, showOptionContainer: true }))
+    // dispatch(updateSearchSelectedBox({ selectedBox: name, showOptionContainer: true }))
   };
 //  const mutation = useMutation({
 //     mutationFn : (payLoad) => {
