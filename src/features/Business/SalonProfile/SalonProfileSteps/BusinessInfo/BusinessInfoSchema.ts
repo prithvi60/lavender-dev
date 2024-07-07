@@ -11,6 +11,5 @@ export const BusinessInfoSchema = yup.object().shape({
     cityCode: yup.string().required(),
     doorNo: yup.string(),
     zipCode: yup.number().required(),
-    areaCode: yup.string().required(),
-
+    areaCode: yup.string(),
   });

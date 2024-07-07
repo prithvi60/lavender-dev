@@ -115,6 +115,7 @@ export const WorkingHours = ({ userDetails, availableDays }) => {
         onSuccess: (response) => {
             setTimeout(() => {
                 // handle success actions if needed
+                alert("working hours saved successfully.")
             });
         },
         onError: (error) => {

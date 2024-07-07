@@ -17,7 +17,7 @@ export default function SearchResult() {
   
   const payLoad = {
     "pageNumber": 0,
-    "pageSize": 1,
+    "pageSize": 50,
     "sortBy": "",
     "sortDirection": "",
     "serviceTypes": [

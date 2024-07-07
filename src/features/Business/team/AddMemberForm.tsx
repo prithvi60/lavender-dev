@@ -34,6 +34,7 @@ export default function AddMemberForm({ payload }) {
       startingDate: new Date(),
     },
   });
+  const { closeDrawer } = useDrawer();
   
   const [value, setValue] = React.useState<Dayjs | null>(null);
 
@@ -41,14 +42,7 @@ export default function AddMemberForm({ payload }) {
   const establishmentId = userDetails?.establishmentId || "";
 
   const handleDrawerSubmit = (data) => {
-    alert(JSON.stringify({
-      employees: [
-        {
-          employeeName: data.employeeName,
-          startingDate: data.startingDate ? data.startingDate?.toLocaleDateString('en-GB') : null,
-        },
-      ],
-    }, null, 2));
+    
 
     const payLoad = {
         "id": establishmentId,
@@ -63,10 +57,10 @@ export default function AddMemberForm({ payload }) {
     }
 
     const response = endpoint.saveEstablishmentEmployee(payLoad);
+    closeDrawer();
 
   };
 
-  const { closeDrawer } = useDrawer();
 
 
   return (

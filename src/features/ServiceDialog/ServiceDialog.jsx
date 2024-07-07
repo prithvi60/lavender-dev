@@ -15,6 +15,7 @@ import ConfirmScreen from "./ConfirmScreeen.tsx";
 import { Grid } from "@mui/material";
 
 function ServiceDialog({establishmentData}) {
+  console.log("establishmentData : : ", establishmentData)
   const [isOpen, setIsOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 
@@ -64,7 +65,7 @@ function ServiceDialog({establishmentData}) {
           </div>
 
           <div>
-            <CheckoutCard activeStep={activeStep} next={onSetActiveStep} establishmentName = {establishmentData?.profile?.establishmentName} establishmentId = {establishmentData?.data?.id}/>
+            <CheckoutCard activeStep={activeStep} next={onSetActiveStep} establishmentName = {establishmentData?.profile?.establishmentName} establishmentId = {establishmentData?.id}/>
           </div>
         </div>
       </Dialog>

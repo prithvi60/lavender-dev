@@ -86,7 +86,6 @@ function EditProfile({ userInfo }) {
             "mobileNumber": data.mobileNumber,
             "dob": data.dateOfBirth.toISOString(), // Convert date to ISO string
         };
-        alert(JSON.stringify(payLoad));
         try {
             await mutation.mutateAsync(payLoad); // Wait for mutation to complete
         } catch (error) {

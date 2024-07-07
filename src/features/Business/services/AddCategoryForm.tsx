@@ -64,10 +64,11 @@ export default function AddCategoryForm({payload}) {
 
   
   const categoryId: string = payload;
-  console.log("in cat ", categoryId)
 
   const [categories, setCategories] = useState([]);
   const [currentCategories, setCurrentCategories] = useState([]);
+  const [response, setResponse] = useState([]);
+
 
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
@@ -80,7 +81,6 @@ export default function AddCategoryForm({payload}) {
   const { closeDrawer } = useDrawer();
 
   const handleDrawerSubmit = (data) => {
-    alert(JSON.stringify(data, null, 2));
     const payLoad = {
       "id": establishmentId,
       "categories": [
@@ -93,22 +93,24 @@ export default function AddCategoryForm({payload}) {
       ]
     }
     const response = endpoint.saveEstablishmentCategory(payLoad);
+    closeDrawer();
+    
+    getEstablishmentDetails();
+  };
+
+  const getEstablishmentDetails = async () => {
+    try {
+      const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
+      if (establishmentData?.data?.success) {
+        setCategories(establishmentData?.data?.data?.categories || []);
+      }
+    } catch (error) {
+      console.error("Error fetching establishment details:", error);
+    }
   };
 
   useEffect(() => {
-    const getEstablishmentDetails = async () => {
-      try {
-        const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
-        if (establishmentData?.data?.success) {
-          setCategories(establishmentData?.data?.data?.categories || []);
-        }
-      } catch (error) {
-        console.error("Error fetching establishment details:", error);
-      }
-    };
-
     getEstablishmentDetails();
-
   }, []);
 
   useEffect(()=>{

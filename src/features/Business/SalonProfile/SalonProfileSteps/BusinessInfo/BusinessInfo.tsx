@@ -93,7 +93,7 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
     },
     onSuccess: (response) => {
       setTimeout(() => {
-        // handle success actions if needed
+        alert('profile saved successfully')
       });
     },
     onError: (error) => {

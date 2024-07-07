@@ -18,7 +18,7 @@ export function MyFavorites() {
   });
   const payLoad = {
     "pageNumber": 0,
-    "pageSize": 10,
+    "pageSize": 50,
     "sortBy": "",
     "sortDirection": "",
     "serviceTypes": [

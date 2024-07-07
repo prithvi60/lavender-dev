@@ -139,6 +139,8 @@ export default function AddServicesForm({payload}) {
   ]
 }
     const response = endpoint.saveEstablishmentService(payload);
+    closeDrawer();
+
   };
 
   const addOption = () => {

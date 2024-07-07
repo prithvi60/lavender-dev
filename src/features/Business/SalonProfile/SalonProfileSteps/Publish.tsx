@@ -4,12 +4,28 @@ import { publish } from '../../../../api/constants'
 import endpoint from '../../../../api/endpoints'
 import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { Modal, Box } from '@mui/material'
+import GetIcon from '../../../../assets/Icon/icon'
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  bgcolor: "background.paper",
+  border: "2px",
+  boxShadow: 24,
+  p: 4,
+  borderradius: "2px",
+};
 
 export const Publish = ({userDetails}) => {
   console.log("userDetails L ", userDetails)
   const [isPublish, setIsPublish] = useState(false);
   const navigate = useNavigate();
   const [showPublish, setShowPublish] = useState(false);
+  const [open, setOpen] = React.useState(false);
   
   const [imageIdList, setImageIdList]= useState<string | any>([]);
   const [loading, setLoading] = useState(false);
@@ -26,8 +42,8 @@ export const Publish = ({userDetails}) => {
       return endpoint.getEstablishmentDetailsById(userDetails?.establishmentId);
     },
   });
+
   useEffect(()=>{
-    console.log('in effect')
     setImageIdList(establishmentData?.data?.data?.estImages)
   }, [establishmentData])
   
@@ -46,7 +62,6 @@ export const Publish = ({userDetails}) => {
   useEffect( () =>{
     const callFetchImageApi = async () =>{
       
-      console.log("in  api")
       const urls = [];
       for (const imageId of imageIdList) {
         const imageUrl = await fetchImage(imageId);
@@ -75,6 +90,16 @@ export const Publish = ({userDetails}) => {
     navigate(`/salon/${userDetails != null ? userDetails?.establishmentId : ""}`)
   }
 
+  function handlePublishClick(){
+    setIsPublish(true); 
+    setOpen((prev) => !prev);
+  }
+
+  const handleOpen = () => {
+    setOpen((prev) => !prev);
+    navigate("/");
+  };
+
   useEffect(()=>{
     const payLoad = {
       "id" : userDetails != null ? userDetails?.establishmentId : "",
@@ -90,18 +115,36 @@ export const Publish = ({userDetails}) => {
             <img  src={imageUrls[0]} style={{ width: '300px', height: '200px', margin: '10px' }} />
         </div>
 
-        <div className='text-5xl font-bold text-center p-4' style={{color: '#4D4D4D'}}>Lee Chow Salon’s online profile is created</div>
+        <div className='text-5xl font-bold text-center p-4' style={{color: '#4D4D4D'}}>{establishmentData?.data?.data?.profile?.establishmentName} profile is created</div>
         <div className='text-xl font-normal text-center p-4' style={{color: '#4D4D4D'}}>You can publish now to make it available for everyone</div>
 
         <div className='flex justify-center'>
         <div className='flex justify-center flex-col w-36'>
-            {showPublish && 
-              <Buttons fullWidth variant="contained" sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', marginBottom: '10px'}} name={'Publish'}  onClick={()=>{setIsPublish(true)}}></Buttons>
-            }
-            <Buttons  variant="outlined" sx={{borderRadius: '10px', padding: '10px 40px 10px 40px'}} name={'Preview'} onClick={()=>{onClickPreview()}}></Buttons>
+            {/* {showPublish &&  */}
+              <Buttons fullWidth variant="contained" sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', marginBottom: '10px'}} name={'Publish'}  onClick={()=>{handlePublishClick()}}></Buttons>
+            {/* } */}
+            <Buttons  variant="outlined" sx={{borderRadius: '10px', padding: '10px 40px 10px 40px'}} name={'Preview'} onClick={()=>onClickPreview()}></Buttons>
         </div>
         </div>
-        
-        </div>
+
+        <Modal
+          open={open}
+          onClose={handleOpen}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          >
+              <Box sx={style} className="rounded-3xl filter-box">
+                  <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                      <GetIcon onClick={    
+                          () => {
+                          }}
+                          className='my-5 mx-16 p-1 cursor-pointer rounded-sm' 
+                          iconName="CalendarConfirmedIcon"/>
+                      <div id="title" className="font-bold text-xl mb-3">Dear {userDetails?.fullName}</div>
+                      <div>Your establishment has been published</div>
+                  </div>
+              </Box>
+        </Modal>
+    </div>
   )
 }
