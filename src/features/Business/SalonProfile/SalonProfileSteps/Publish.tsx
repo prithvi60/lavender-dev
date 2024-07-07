@@ -103,7 +103,7 @@ export const Publish = ({userDetails}) => {
   useEffect(()=>{
     const payLoad = {
       "id" : userDetails != null ? userDetails?.establishmentId : "",
-      "isPublished": isPublish
+      "published": isPublish
     }
     publishEstablishment(payLoad);
   }, [isPublish])

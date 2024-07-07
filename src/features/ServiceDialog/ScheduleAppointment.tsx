@@ -144,7 +144,7 @@ export default function ScheduleAppointment(props) {
   };
 
   function calculateTime(newStartTime){
-    debugger
+    
     const convertTo24Hour = (time12h) => {
       const [time, period] = time12h.split(' ');
       let [hours, minutes] = time.split(':');

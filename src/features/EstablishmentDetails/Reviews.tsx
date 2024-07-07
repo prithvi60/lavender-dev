@@ -6,6 +6,8 @@ import { Typography, styled } from '@mui/material';
 import { Rating } from '@mui/material';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import endpoint from '../../api/endpoints';
+import { useQuery } from '@tanstack/react-query';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -16,21 +18,21 @@ const StyledRating = styled(Rating)({
   },
 });
 
-export const Reviews = () => {
+export const Reviews = ({establishmentId}) => {
   const jsonData = {
     content: [
       {
-        "reviewerName": "sam",
+        "customerName": "sam",
         "employeeName": "harry",
-        "overallRating": 5,
+        "serviceRating": 5,
         "reviewDate": "2024-06-20T11:45:16.923Z",
         "publicComments": "I'm always on the lookout for a salon that values communication, and I found it here. The consultation was thorough, and the stylist listened to my concerns, resulting in a haircut that exceeded my expectations.",
         "serviceTags": ["hair", "nail"]
       },
       {
-        "reviewerName": "sam",
+        "customerName": "sam",
         "employeeName": "harry",
-        "overallRating": 4,
+        "serviceRating": 4,
         "reviewDate": "2024-06-24T11:45:16.923Z",
         "publicComments": "Another comment about the service and experience at the salon.",
         "serviceTags": ["hair", "nail"]
@@ -39,9 +41,23 @@ export const Reviews = () => {
     ]
   };
 
+  const payload = {
+    "pageNumber": 1,
+    "pageSize": 1,
+    "sortBy": "string",
+    "sortDirection": "string"
+  }
+
+  const {isLoading, data: reviewData} = useQuery({
+    queryKey: ["query-establishment-reviews"],
+    queryFn: () => {
+      return endpoint.getAppointmentReview(establishmentId, payload)
+    },
+  });
+  
   return (
     <div className="mx-auto" style={{width: '85%'}}>
-      <ReviewsTable data={jsonData.content} />
+      <ReviewsTable data={reviewData?.data?.data?.content} />
     </div>
   );
 };
@@ -52,6 +68,7 @@ const PublicCommentsRow = ({ publicComments }) => {
   const toggleExpand = () => {
     setExpanded(!expanded);
   };
+
 
   const renderComments = () => {
     if (expanded) {
@@ -109,8 +126,8 @@ const ReviewsTable = ({ data }) => {
       { accessor: 'reviewDate' },
       { accessor: 'serviceTags', Cell: ServiceTagsCell },
       { accessor: 'employeeName' },
-      { accessor: 'reviewerName' },
-      { accessor: 'overallRating' },
+      { accessor: 'customerName' },
+      { accessor: 'serviceRating' },
       { accessor: 'publicComments' }, // This will be rendered separately as a nested row
     ],
     []
@@ -119,13 +136,13 @@ const ReviewsTable = ({ data }) => {
   // Create flattened data for rendering
   const flattenedData = useMemo(() => {
     const flattened = [];
-    data.forEach(item => {
+    data?.forEach(item => {
       flattened.push({
         reviewDate: calculateDaysAgo(item.reviewDate),
         serviceTags: item.serviceTags,
         employeeName: item.employeeName,
-        reviewerName: item.reviewerName,
-        overallRating: item.overallRating,
+        customerName: item.customerName,
+        serviceRating: item.serviceRating,
         isMainRow: true,
       }); // Push main row
       if (item.publicComments) {
@@ -150,92 +167,106 @@ const ReviewsTable = ({ data }) => {
   const handleSortChange = (event) => {
     const sortBy = event.target.value;
     if (sortBy === 'highest') {
-      rows.sort((a, b) => b.values.overallRating - a.values.overallRating);
+      rows.sort((a, b) => b.values.serviceRating - a.values.serviceRating);
     } else if (sortBy === 'lowest') {
-      rows.sort((a, b) => a.values.overallRating - b.values.overallRating);
+      rows.sort((a, b) => a.values.serviceRating - b.values.serviceRating);
     }
   };
 
   return (
     <div className="w-full">
         <div className="urbanist-font text-xl font-bold pb-2">Reviews</div>
-        <div className='flex'>
+        {
+          data?.length > 0 ? (
             <div>
-                <StyledRating
-                        name="customized-color"
-                        value={5}
-                        precision={0.5}
-                        readOnly
-                      />    
+              <div className='flex items-center'>
+              <div className='text-4xl'>4.0</div>
+              <div className='text-center'>
+                  <StyledRating
+                          name="customized-color"
+                          value={4}
+                          precision={0.5}
+                          readOnly
+                        />    
+              </div>
+              <div className="flex justify-end mb-4">
+              <Typography sx={{alignContent: 'center', padding: '10px'}}>Filter</Typography>
+              <Select
+              defaultValue=""
+              onChange={handleSortChange}
+              className="mr-4"
+              style={{ minWidth: '150px' }}
+              >
+              <MenuItem value="highest">Highest Rating</MenuItem>
+              <MenuItem value="lowest">Lowest Rating</MenuItem>
+              </Select>
+              </div>
+              <div className="flex justify-end mb-4">
+                  <Typography sx={{alignContent: 'center', padding: '10px'}}>Sort by </Typography>
+                  <Select
+                  defaultValue=""
+                  onChange={handleSortChange}
+                  className="mr-4"
+                  style={{ minWidth: '150px' }}
+                  >
+                  <MenuItem value="highest">Highest Rating</MenuItem>
+                  <MenuItem value="lowest">Lowest Rating</MenuItem>
+                  </Select>
+              </div>
+              </div>
+          
+              <table {...getTableProps()} className="w-full table-auto">
+                <tbody {...getTableBodyProps()}>
+                  {rows.map((row, rowIndex) => {
+                    prepareRow(row);
+                    return (
+                      <React.Fragment key={rowIndex}>
+                        {/* Render first nested row */}
+                        {row.original.isMainRow && (
+                          <tr className="mb-4">
+                            <td className="w-1/4 pt-8 pb-2 px-2 text-base style={{color: '#808080'}}">{row.values.reviewDate}</td>
+                            <td className="w-3/4 p-2"><ServiceTagsCell value={row.values.serviceTags} /></td>
+                          </tr>
+                        )}
+                        {/* Render second nested row */}
+                        {row.original.isMainRow && (
+                          <tr>
+                            <td className="w-1/4 p-2 text-xl font-semibold" style={{color: '#4D4D4D'}}>{row.values.customerName}</td>
+                            <td className="w-1/4 p-2 text-base" style={{color: '#808080'}}>{"Serviced by "}{row.values.employeeName}</td>
+                          </tr>
+                        )}
+                        {/* Render third nested row */}
+                        {row.original.isMainRow && (
+                          <tr>
+                            <td className="w-1/4 pl-2 pr-2" colSpan={2}>
+                              <StyledRating
+                                name="customized-color"
+                                value={row.values.serviceRating}
+                                precision={0.5}
+                                readOnly
+                              />
+                            </td>
+                          </tr>
+                        )}
+                        {/* Render fourth nested row for public comments */}
+                        {!row.original.isMainRow && (
+                          <PublicCommentsRow publicComments={row.original.publicComments} />
+                        )}
+                      </React.Fragment>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
-            <div className="flex justify-end mb-4">
-            <Typography sx={{alignContent: 'center', padding: '10px'}}>Filter</Typography>
-            <Select
-            defaultValue=""
-            onChange={handleSortChange}
-            className="mr-4"
-            style={{ minWidth: '150px' }}
-            >
-            <MenuItem value="highest">Highest Rating</MenuItem>
-            <MenuItem value="lowest">Lowest Rating</MenuItem>
-            </Select>
+          )
+          :
+          (
+            <div>
+              No reviews
             </div>
-            <div className="flex justify-end mb-4">
-                <Typography sx={{alignContent: 'center', padding: '10px'}}>Sort by </Typography>
-                <Select
-                defaultValue=""
-                onChange={handleSortChange}
-                className="mr-4"
-                style={{ minWidth: '150px' }}
-                >
-                <MenuItem value="highest">Highest Rating</MenuItem>
-                <MenuItem value="lowest">Lowest Rating</MenuItem>
-                </Select>
-            </div>
-        </div>
+          )
+        }
         
-      <table {...getTableProps()} className="w-full table-auto">
-        <tbody {...getTableBodyProps()}>
-          {rows.map((row, rowIndex) => {
-            prepareRow(row);
-            return (
-              <React.Fragment key={rowIndex}>
-                {/* Render first nested row */}
-                {row.original.isMainRow && (
-                  <tr className="mb-4">
-                    <td className="w-1/4 p-2 text-base style={{color: '#808080'}}">{row.values.reviewDate}</td>
-                    <td className="w-3/4 p-2"><ServiceTagsCell value={row.values.serviceTags} /></td>
-                  </tr>
-                )}
-                {/* Render second nested row */}
-                {row.original.isMainRow && (
-                  <tr>
-                    <td className="w-1/4 p-2 text-xl font-semibold" style={{color: '#4D4D4D'}}>{row.values.reviewerName}</td>
-                    <td className="w-1/4 p-2 text-base" style={{color: '#808080'}}>{"Serviced by "}{row.values.employeeName}</td>
-                  </tr>
-                )}
-                {/* Render third nested row */}
-                {row.original.isMainRow && (
-                  <tr>
-                    <td className="w-1/4 p-2" colSpan={2}>
-                      <StyledRating
-                        name="customized-color"
-                        value={row.values.overallRating}
-                        precision={0.5}
-                        readOnly
-                      />
-                    </td>
-                  </tr>
-                )}
-                {/* Render fourth nested row for public comments */}
-                {!row.original.isMainRow && (
-                  <PublicCommentsRow publicComments={row.original.publicComments} />
-                )}
-              </React.Fragment>
-            );
-          })}
-        </tbody>
-      </table>
     </div>
   );
 };

@@ -27,8 +27,19 @@ function Availability(props) {
     </div>
     <div className='urbanist-font text-xl font-bold pb-2'>Location</div>
     <div className='urbanist-font text-base font-medium mb-2 gap-2' style={{color: '#4D4D4D', display: 'flex'}}><GetIcon iconName='LocationIcon'/>{profile?.doorNo}, {profile?.cityCode}, {profile?.stateCode}</div>
-    <div className='urbanist-font text-base font-medium mb-2 gap-2' style={{color: '#4D4D4D', display: 'flex'}}><GetIcon iconName='SalonHomeIcon'/> Neighbourhood - <span className='font-bold'>{profile?.locationTitle}</span></div>
-    <img src={emptyLogo} alt='' className='w-full h-24 mb-4 md:mb-0 rounded-2xl'/>
+    <div className='urbanist-font text-base font-medium mb-8 gap-2' style={{color: '#4D4D4D', display: 'flex'}}><GetIcon iconName='SalonHomeIcon'/> Neighbourhood - <span className='font-bold'>{profile?.locationTitle}</span></div>
+    <Card className='w-full mb-4 md:mb-0 rounded-4xl' sx={{maxHeight: '200px !important'}}>
+        <iframe 
+          title="Google Map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31081.53269316962!2d80.20855351621644!3d13.15031202030962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5264db59c3d4b5%3A0x9be03109019f05f!2sMadhavaram%2C%20Chennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1716260701299!5m2!1sen!2sin"
+          width="100%"
+          height="450"
+          allowFullScreen=""
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        ></iframe>
+    </Card>
+    
     </CardContent>
       }
       

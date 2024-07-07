@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { TextField, Checkbox, Button, FormControlLabel, MenuItem, Select, InputLabel, FormControl, FormHelperText, Box, Grid } from '@mui/material';
+import { TextField, Checkbox, Button, FormControlLabel, MenuItem, Select, InputLabel, FormControl, FormHelperText, Box, Grid, Snackbar, IconButton } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -11,6 +11,7 @@ import endpoint from '../../api/endpoints';
 import { useMutation } from '@tanstack/react-query';
 import Text from '../Text';
 import { useNavigate } from 'react-router-dom';
+import GetIcon from '../../assets/Icon/icon';
 
 const schema = yup.object().shape({
     fullName: yup.string().required('Full name is required'),
@@ -28,16 +29,22 @@ const RegisterScreen = () => {
         resolver: yupResolver(schema),
     });
     const [value, setValue] = React.useState<Dayjs | null>(null);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
     const navigate = useNavigate();
 
     const mutation = useMutation({
         mutationFn: async (payload: any) => {
           const response =  await endpoint.userRegister(payload);
           if(!response?.data?.success){
-            alert(`ErrorCode : ${response.data.errorCode} ${response?.data?.data}`)
+            debugger
+            setSnackbarMessage(`ErrorCode : ${response.data.errorCode} ${response?.data?.data}`);
+            setSnackbarOpen(true);
           }
           else{
-            alert("user created successfully.")
+            debugger
+            setSnackbarMessage("user created successfully.");
+            setSnackbarOpen(true);
             navigate('/');
           }
           return response;
@@ -66,7 +73,9 @@ const RegisterScreen = () => {
         mutation.mutate(payLoad)
     };
 
-
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
+    };
     return (
         <div>
 
@@ -240,7 +249,24 @@ const RegisterScreen = () => {
                     </Grid>
                         
                     </form>
+                    <Snackbar
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    
+                    open={snackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={handleCloseSnackbar}
+                    message={snackbarMessage}
+                    action={
+                        <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseSnackbar}>
+                            <GetIcon iconName="CloseIcon" />
+                        </IconButton>
+                    }
+                />
                 </Grid>
+                
             </Box>
         </div>
 

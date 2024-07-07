@@ -21,7 +21,7 @@ export default function SearchResult() {
     "sortBy": "",
     "sortDirection": "",
     "serviceTypes": [
-      "Hair","Nail"
+      
     ],
     "searchCoordinates": [
       "string"
@@ -64,7 +64,7 @@ export default function SearchResult() {
     if (!isLoading) {
       let tempData = [...establishmentList];
       if (FILTERR.selectedTags && FILTERR.selectedTags.length > 0) {
-        tempData = establishmentList.filter((item: any) =>
+        tempData = establishmentList?.filter((item: any) =>
           item.serviceTags.some((tag) =>
             FILTERR.selectedTags.some((selectedTag) =>
               tag.toLowerCase() === selectedTag.toLowerCase()
@@ -73,7 +73,7 @@ export default function SearchResult() {
         );
       }
       if (FILTERR.price.min !== 0 || FILTERR.price.max !== 100) {
-        tempData = tempData.map((item: any) => ({
+        tempData = tempData?.map((item: any) => ({
           ...item,
           services: item.services.filter((service: any) =>
             service?.startingPrice >= FILTERR.price.min && service?.startingPrice <= FILTERR.price.max
@@ -124,8 +124,8 @@ export default function SearchResult() {
         <Grid container spacing={2}>
           <Grid item xs={12} md={isShowMap ? 6 : 12}>
             <Grid container spacing={2}>
-              {filteredData && filteredData.length > 0 ? (
-                filteredData.map((card, index) => (
+              {filteredData && filteredData?.length > 0 ? (
+                filteredData?.map((card, index) => (
                   <Grid item xs={12} key={card?.establishmentId}>
                     <Card sx={{ width: '100%', height: '100%' }}>
                       <CardContent>
@@ -166,7 +166,7 @@ export default function SearchResult() {
                                         {service?.availabilities?.map((availability, index) => (
                                           <div key={index} className="availability-container">
                                             <div className="time-slots-container">
-                                              {availability.timeSlots.map((timeSlot, idx) => (
+                                              {availability?.timeSlots?.map((timeSlot, idx) => (
                                                 <Chip
                                                   key={idx}
                                                   label={timeSlot}

@@ -52,6 +52,8 @@ export const cancelAppointment = 'a/updateAppointmentStatus'
 
 export const saveReviews = 'a/saveAppointmentReview'
 
+export const getReviews = 'e/getEstablishmentReviews'
+
 
 export function setBrowserCache(key: string, value: any) {
     window.localStorage.setItem(key, value)

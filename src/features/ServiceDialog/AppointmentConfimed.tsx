@@ -59,7 +59,7 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
         const modifiedEndTime = convertToDateTime(endTime, selectedDate)
 
         const payLoad = {
-          "establishmentId": 'EST00002507',
+          "establishmentId": establishmentId,
           "id": "",
           "createdDate": new Date(),
           "createdBy": "",

@@ -36,7 +36,7 @@ function EstablishmentDetails({ estId }) {
     },
   });
 
-  
+  console.log("establishmentData rev : ", establishmentData?.data?.data)
   const fetchImage = async (image) => {
     try {
       setLoading(true);
@@ -134,7 +134,7 @@ function EstablishmentDetails({ estId }) {
         />
       </div>
 
-      <Reviews  />
+      <Reviews  establishmentId = {establishmentData?.data?.data?.id}/>
 
       <About establishmentEmployees= {establishmentData?.data?.data?.employees} establishmentAbout= {establishmentData?.data?.data?.profile?.establishmentAbout} establishmentFeatures={establishmentData?.data?.data?.features} establishmentLanguages={establishmentData?.data?.data?.languages} establishmentPaymentTypes={establishmentData?.data?.data?.paymentTypes} id="SearchDetailAbout" />
     </div>
