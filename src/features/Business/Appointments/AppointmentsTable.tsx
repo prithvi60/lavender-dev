@@ -17,7 +17,7 @@ function parseAppointmentResponse(response: BookingResponse) {
   const parsedResponse: Appointments[] = []
 
   response?.data?.content?.forEach((booking) => {
-    const {bookingId, customerName, startTime, endTime,      serviceName,
+    const {bookingId, customerName, startTime, endTime, serviceName,
       employeeName, serviceCost, bookingStatus } = booking
     const bookingTemp: Appointments = {
       id: bookingId,
@@ -59,13 +59,13 @@ export default function AppointmentsPage() {
   let appointmentData = [];
   let pageData;
   if(!isLoading && userInfo){
-    const { data: { content, ...pageD } } = userInfo
+    const { data: { data: {content, ...pageD} } } = userInfo
     pageData = pageD
-    appointmentData = parseAppointmentResponse(userInfo.data)
+    appointmentData = parseAppointmentResponse(content)
   }
 
   return (
-    <div className="container mx-auto">
+    <div>
       {!isLoading ? <DataTable controllers={controllerObj} columns={columns} data={appointmentData} pageData={pageData} /> : <>Loading...</>}
     </div>
  )

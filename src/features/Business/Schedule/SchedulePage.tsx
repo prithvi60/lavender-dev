@@ -55,7 +55,7 @@ function SchedulePage() {
   )
 }
 
-function SchedulePageWrapper({children}) {
+function SchedulePageWrapper() {
   return (
     <ScheduleProvider>
       <SchedulePage/>

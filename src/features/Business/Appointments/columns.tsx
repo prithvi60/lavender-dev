@@ -101,7 +101,7 @@ export const columns: ColumnDef<Appointments>[] = [
         accessorKey: "status",
         header: "Status",
         cell: ({ row }) => {
-            const status = row.getValue("status")
+            const status: string = row.getValue("status")
             return <Selector onSelect={() => { } } className={"border-2 border-primary-clr"} placeholder={status} options={bookingStatus} label={undefined}/>
           },
       }

@@ -359,7 +359,7 @@ function groupAppointmentsBy(appointments, filterBy) {
 export function parseAppointmentResponse(response) {
   const parsedResponse = []
 
-  response?.data?.content?.forEach((booking) => {
+  response?.forEach((booking) => {
     const {bookingId, customerName, startTime, endTime,
       totalDuration, 
       //services, 

@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react'
 //import Navbar from '../components/NavBar';
 import { Box } from '@mui/material';
-import SideBar from '../components/SideBar';
-import AppointmentsPage from '../features/Business/Appointments/AppointmentsTable';
-import { DrawerProvider } from '../features/Business/BusinessDrawerContext';
-import BusinessHeader from '../features/Business/BusinessHeader';
-import { BusinessClients } from '../features/Business/Clients/BusinessClients';
-import {Services} from '../features/Business/services/Services'
-import BusinessTeam from '../features/Business/team/BusinessTeam';
-import SchedulePage from '../features/Business/Schedule/SchedulePage';
+import SideBar from '../components/SideBar.tsx';
+import AppointmentsPage from '../features/Business/Appointments/AppointmentsTable.tsx';
+import { DrawerProvider } from '../features/Business/BusinessDrawerContext.tsx';
+import BusinessHeader from '../features/Business/BusinessHeader.tsx';
+import { BusinessClients } from '../features/Business/Clients/BusinessClients.tsx';
+import {Services} from '../features/Business/services/Services.tsx'
+import BusinessTeam from '../features/Business/team/BusinessTeam.tsx';
+import SchedulePageWrapper from '../features/Business/Schedule/SchedulePage.tsx';
 import endpoint from '../api/endpoints.ts';
+import { getBrowserCache } from '../api/constants.ts'
 import { useQuery } from '@tanstack/react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { setEstablishmentData } from '../store/slices/businessSlice.js';
@@ -18,7 +19,7 @@ import { updateUser } from '../store/slices/currentUserSlice.js';
 
 const BusinessLayoutPage = () => {
   //const [isSearchPage, setIsSearchPage] = useState(true);
-  const [activeField, setActiveField] = useState("Salon profile")
+  const [activeField, setActiveField] = useState("Home")
   const [userDetails, setUserDetails] = useState('')
   const dispatch = useDispatch()
   const getData = useSelector(
@@ -47,7 +48,7 @@ const BusinessLayoutPage = () => {
   
   useEffect(()=> {
     const getEstablishmentDetails = async () => {
-      const response = await endpoint.getEstablishmentDetailsById(userDetails?.data?.establishmentId)
+      const response = await endpoint.getEstablishmentDetailsById(userDetails?.data?.establishmentId)//getBrowserCache('EstablishmentId')
       if(response.status === 200) {
         dispatch(setEstablishmentData(response.data.data))
       }else {
@@ -63,7 +64,7 @@ const BusinessLayoutPage = () => {
       case 'Home':
         return <div>Home</div>;
       case 'Schedule':
-        return <SchedulePage />;
+        return <SchedulePageWrapper />;
       case 'Appointments':
         return <AppointmentsPage/>
       case 'Clients':
@@ -82,16 +83,13 @@ const BusinessLayoutPage = () => {
   return (
     <DrawerProvider>
       <Box className='landing-page'>
-      <div className='flex flex-col h-screen select-none'>
-        {/* <div className='drop-shadow-md'>
-          <Navbar isSearchPage={isSearchPage}/>
-        </div> */}
+      <div className='flex flex-col h-full'>
         <BusinessHeader pageName={activeField}/>
         <div className='flex flex-row'>
           <div className='shadow-2xl rounded-lg h-max'>
             <SideBar activeField={activeField} onChange={setActiveField}/>
           </div>
-          <div id='render-main' className='w-full h-screen' style={{overflowX:'hidden'}}>
+          <div id='render-main' className='w-full h-full' style={{overflowX:'hidden'}}>
             {renderMainContent()}
           </div>
         </div> 

@@ -41,7 +41,7 @@ export const CalenderDateSelector = () => {
                     <button className='p-2 border-r border-r-gray-400 border-solid' onClick={handleLeftClick}>
                       <ChevronLeft/>
                     </button>
-                      <DropdownMenuTrigger>
+                      <DropdownMenuTrigger className='w-full'>
                         {
                           durationState === 'Day' ? 
                           <div>
@@ -59,7 +59,7 @@ export const CalenderDateSelector = () => {
                     </button>
   
                   </div>
-                <DropdownMenuContent className='bg-white relative z-50 '>
+                <DropdownMenuContent className='bg-white relative z-50 shadow-2xl'>
                   <CalendarHeaderComponent date={selectedDate} onChange={setSelectedDate}/>
                 </DropdownMenuContent>
             </DropdownMenu>

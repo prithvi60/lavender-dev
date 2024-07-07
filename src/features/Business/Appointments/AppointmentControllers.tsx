@@ -27,7 +27,7 @@ import GetIcon from '../../../assets/Icon/icon';
 import { Button } from '../../../components/ui/button';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import TabPanel from '@mui/lab/TabPanel';
+// import TabPanel from '@mui/lab/TabPanel';
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import dayjs, { Dayjs } from 'dayjs';
@@ -53,7 +53,7 @@ export function SearchInput({onChange, placeholder}) {
     );
 }
 
-export function Selector({placeholder, options, className, label, onSelect}) {
+export function Selector({ placeholder = '', options, className, label=null, labelStyle='text-black', onSelect}) {
     return (
         <>
             <Select onValueChange={(value) => {
@@ -61,7 +61,7 @@ export function Selector({placeholder, options, className, label, onSelect}) {
             }
             }>
             <SelectGroup>
-                {label ? <SelectLabel>{label}</SelectLabel> : <></>}
+                {label ? <SelectLabel className={labelStyle}>{label}</SelectLabel> : <></>}
 
                 <SelectTrigger className={className}>
                     <SelectValue placeholder={placeholder} />
@@ -167,7 +167,7 @@ export function CustomCalendarHeader(props: PickersCalendarHeaderProps<Dayjs>) {
             <ChevronLeft width={17} height={17} className={`text-white bg-blue-950 rounded-full`}/>
         </IconButton>
       </Stack>
-      <Typography variant="body2">{currentMonth.format('MMMM YYYY')}</Typography>
+      <Typography className='text-black' variant="body2">{currentMonth.format('MMMM YYYY')}</Typography>
       <Stack spacing={1} direction="row">
         <IconButton onClick={selectNextMonth} title="Next month">
             <ChevronRight width={24} height={24} className={`text-white bg-blue-950 rounded-full`}/>
@@ -189,6 +189,12 @@ export function CalendarHeaderComponent({date, onChange}) {
           const dateV = new Date(v)
           onChange(dateV)
           }}
+          value={dayjs(date)}
+          // sx={{
+          //   border: '2px solid #000', // Customize the border width and color
+          //   boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.25)', // Customize the shadow
+          //   borderRadius: '8px' // Optional: add border radius for rounded corners
+          // }}
           slots={{ calendarHeader: CustomCalendarHeader }}/>
       </DemoContainer>
     </LocalizationProvider>

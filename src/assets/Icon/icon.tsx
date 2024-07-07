@@ -372,6 +372,12 @@ function GetIcon(props) {
       
     break;
 
+    case 'Search':
+      IconElement = <svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="9.96178" cy="9.16667" rx="6.71569" ry="6.66667" stroke="#B3B3B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M14.5781 14.1317L18.7754 18.2984" stroke="#B3B3B3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    break;
 
     default:
       break;

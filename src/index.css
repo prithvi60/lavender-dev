@@ -170,6 +170,11 @@ code {
   }
 }
 
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
 .custom-bg-light {
   background-color: #EEEEFF;
 }
