@@ -64,7 +64,6 @@ export const AddNewCard = () => {
             "cvv": data.cvv,
             "default": false
         }
-        console.log('paylaodv : ', payLoad);
 
         const res = endpoint.saveCardInfo(payLoad);
         handleClick();

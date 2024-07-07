@@ -71,7 +71,6 @@ export const SalonSetup = () => {
 
 useEffect(()=>{
   if(isPublished){
-    debugger
     handleBtnClick();
   }
 },[isPublished])

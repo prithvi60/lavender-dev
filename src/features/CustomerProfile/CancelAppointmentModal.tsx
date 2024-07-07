@@ -20,7 +20,6 @@ const modalStyle = {
 };
 
 export const CancelAppointmentModal = ({bookings}) => {
-    console.log('bookings in cancel: ', bookings);
     const [isCancelOpen, setIsCancelOpen] = useState(false);
 
     function handleCancelClick() {
@@ -44,7 +43,6 @@ export const CancelAppointmentModal = ({bookings}) => {
     }
 
     function handleRescheduleClick(){
-        console.log('in reschedule')
     }
 
     return (

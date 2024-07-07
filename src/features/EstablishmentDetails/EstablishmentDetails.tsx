@@ -67,7 +67,6 @@ function EstablishmentDetails({ estId }) {
   }, [imageIdList])
 
   useEffect(()=>{
-    console.log('in effect')
     setImageIdList(establishmentData?.data?.data?.estImages)
   }, [establishmentData])
 

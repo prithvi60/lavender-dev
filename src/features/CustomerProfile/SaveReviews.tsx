@@ -54,7 +54,6 @@ const sampleData = {
 };
 
 const SaveReviews = ({bookings, establishmentId}) => {
-  console.log('bookings : ', bookings)
   const [open, setOpen] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [reviews, setReviews] = useState([]);
