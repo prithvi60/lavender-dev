@@ -3,20 +3,20 @@ import { getMonday, groupAppointments, getWeekEndDate, parseAppointmentResponse 
 import { useQuery } from '@tanstack/react-query';
 import endpoint from '../../../api/endpoints';
 import { useSelector } from 'react-redux';
+import { useFetchAppointments, useFetchEmployees } from '../BusinessHooks';
 
 const ScheduleContext = createContext(null);
 
 export const GetScheduleDates = () => useContext(ScheduleContext);
 
 export const ScheduleProvider = ({ children }) => {
-
-  let employees = []
   
   const [durationState, setDurationState] = useState('Day')
   const [ selectedDate , setSelectedDate] = useState(new Date())
   const [ filterWeekStartDate , setFilterWeekStartDate] = useState(getMonday())
   const [ filterWeekEndDate , setFilterWeekEndDate] = useState(getWeekEndDate())
-  employees = useSelector((state: any) => state.businessEstablishment.establishmentData.employees)
+  
+  const employees = useFetchEmployees()
   const payload = 
     {
       "pageNumber": 0,
@@ -32,14 +32,12 @@ export const ScheduleProvider = ({ children }) => {
       // "fromDate": "2024-05-10T10:56:01.819Z",
       // "toDate": "2024-05-25T10:56:01.822Z",
   }
-  const {isLoading, data: userInfo} = useQuery({queryKey: ["query-user-info"], queryFn: () => { return endpoint.getBusinessAppointments(payload)}})
+  const {isLoading, data: userInfo} = useFetchAppointments(payload)
 
   let appointmentData = [];
-  let pageData;
   if(!isLoading && userInfo){
-    const { data: { content, ...pageD } } = userInfo
-    pageData = pageD
-    appointmentData = parseAppointmentResponse(userInfo.data)
+    const { data: { data: {content, ...pageD} } } = userInfo
+    appointmentData = parseAppointmentResponse(content)
   }
   
   //appointments will be filtered by date from API itself - only filter by employees in CS

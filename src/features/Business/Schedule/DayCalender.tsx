@@ -5,6 +5,7 @@ import GetIcon from "../../../assets/Icon/icon";
 import { GetScheduleDates } from "./BusinessScheduleContext";
 import { useDrawer } from "../BusinessDrawerContext";
 import { Appointment } from "./components/Appointment";
+import { CustomTooltip } from "../../../components/CustomTooltip";
 
 // const setDragElement = (e) => {
 //   const dragEle = e.target;
@@ -147,7 +148,8 @@ export const DayCalendar = () => {
                           <div onClick={() => addNewAppointment(employee.employeeName, hour, min)} className="border-b border-dashed border-b-[#B3B3B3] w-full h-1/4 last:border-solid">
                             {newAppointment === `${employee.employeeName}-${hour}-${min}` ? 
                             <div className="w-full h-full bg-white border-2 p-1 border-[#825FFF] rounded-xl text-left">
-                              <div className="ml-4 font-bold">{getCurrentTime12HrFormat(hour, (min) * 15, true)}</div>
+                              <CustomTooltip children={<div className="ml-4 font-bold">{getCurrentTime12HrFormat(hour, (min) * 15, true)}</div>} 
+                              title={<div className="w-20 h-10 p-5 bg-white rounded-lg">Hello - add or block app</div>} maxW={"100%"} arrowColor={"white"}/>
                             </div>
                             : <></>}
                           </div>

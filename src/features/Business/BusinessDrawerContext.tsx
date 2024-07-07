@@ -24,7 +24,7 @@ export const DrawerProvider = ({ children }) => {
   };
 
   return (
-    <DrawerContext.Provider value={{ isOpen, content, openDrawer, closeDrawer }}>
+    <DrawerContext.Provider value={{ isOpen, content, openDrawer, closeDrawer, payload }}>
         <SwipeableDrawer
             anchor={'right'}
             open={isOpen}

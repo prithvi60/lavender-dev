@@ -4,6 +4,8 @@ import AppointmentEdit from './AppointmentEdit';
 import AddMemberForm from './team/AddMemberForm';
 import AddServicesForm from './services/AddServicesForm';
 import AddCategoryForm from './services/AddCategoryForm';
+import AppointmentDrawer from './Schedule/ScheduleDrawers/AppointmentDrawer';
+import NewAppointmentDrawer from './Schedule/ScheduleDrawers/NewAppointmentDrawer';
 
 interface BusinessDrawerProps {
   type: string;
@@ -15,14 +17,18 @@ const getDrawerComponent = (type, payload) => {
     switch (type) {
         case 'FilterDrawer':
           return <FilterDrawer/>;
-        case 'AppointmentEdit':
-          return <AppointmentEdit />;
+        // case 'AppointmentEdit':
+        //   return <AppointmentEdit />;
         case 'addMember':
           return <AddMemberForm payload={payload}/>;
         case 'addServices':
           return <AddServicesForm payload={payload}/>;
         case 'addCategory':
           return <AddCategoryForm payload={payload}/>;
+        case 'AppointmentDetails':
+          return <AppointmentDrawer />
+        case 'NewAppointment':
+          return <NewAppointmentDrawer />
         default:
           return <div>Default</div>;
       }
@@ -35,4 +41,4 @@ function BusinessDrawer({type, payload}: BusinessDrawerProps) {
   )
 }
 
-export default React.memo(BusinessDrawer)
+export default BusinessDrawer
