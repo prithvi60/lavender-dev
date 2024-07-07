@@ -55,7 +55,6 @@ export default function AppointmentDrawer() {
   };
   return (
     <div className="flex-col h-full">
-      <div className='overflow-y-scroll flex-col h-full'>
       <div className="flex-col text-lg text-center p-4 mb-2 bg-blue-950">
         <CustomTooltip
           placement="bottom" style={{ opacity: 1 }}
@@ -102,7 +101,7 @@ export default function AppointmentDrawer() {
 
         <Divider />
 
-        <div className="mb-3">
+        <div className="my-3">
           <ServiceSelector selectedServices={selectedServices} setSelectedServices={setSelectedServices}/>
         </div>
         
@@ -116,8 +115,8 @@ export default function AppointmentDrawer() {
         <Divider />
 
       </div>
-      </div>
-      <div className="relative bottom-4 mx-7 bg-gray-800">
+
+      <div className="absolute bottom-4 mx-7 bg-gray-800">
         <Button
           onClick={resetData}
           className="mx-10"

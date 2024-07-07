@@ -41,6 +41,7 @@ const SelectedService = ({service, deleteService}) => {
         </div>
     )
 }
+
 function ServiceSelector({selectedServices, setSelectedServices}) {
 
     const selectService = (category, service, option = {}) => {
@@ -281,7 +282,7 @@ function ServiceSelector({selectedServices, setSelectedServices}) {
                     <SearchIcon />
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className='w-72 z-[1600] max-h-96 overflow-y-scroll no-scrollbar'>
+            <DropdownMenuContent className='w-72 z-[1600] bg-white p-5 max-h-96 overflow-y-scroll no-scrollbar'>
             {categories.map((category) => (
                 <div>
                     <DropdownMenuLabel>
