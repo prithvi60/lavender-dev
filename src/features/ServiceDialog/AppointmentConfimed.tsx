@@ -36,7 +36,7 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
     (state: any) => state.ScheduleAppoinment
   );
   
-
+console.log("id : ", id)
 
 
   const dispatch = useDispatch();
@@ -83,7 +83,7 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
           serviceId: item.serviceId,
           optionId: item.optionId,
           serviceNotes: 'string', 
-          employeeId: 'EMP00002500', 
+          employeeId: id, 
           serviceCost: item.finalPrice, 
           bookingStatus: 'confirmed', 
           startTime: modifiedStartTime, 

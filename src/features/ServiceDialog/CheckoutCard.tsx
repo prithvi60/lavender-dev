@@ -116,6 +116,7 @@ function CheckoutCard(props) {
     }
   }, [imageIdList])
 
+  console.log("establishmentData : ", establishmentData)
   return (
       <div className='urbanist-font mb-6 rounded-2xl chackout-card-container'> {/* Adjusted width to be responsive */}
         <CardContent >
