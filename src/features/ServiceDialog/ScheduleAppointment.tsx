@@ -17,7 +17,6 @@ import Chip from '../../components/Chip.js';
 
 
 export default function ScheduleAppointment(props) {
-  console.log("props : ", props)
   const datePickerRef = useRef(null);
   const [selectedDateBtn, setSelectedDateBtn] = useState(new Date());
   const { estData, onSetActiveStep } = props
@@ -37,7 +36,6 @@ export default function ScheduleAppointment(props) {
     (state: any) => state.ScheduleAppoinment
   );
 
-  console.log("totalDuration: ", totalDuration)
   // Function to fetch available slots
   const fetchAvailableSlots = async (day) => {
 
@@ -188,7 +186,6 @@ export default function ScheduleAppointment(props) {
   };
 
 
-  console.log("selectedPaymentChips : ", selectedPaymentChips)
   return (
 
     <div className='mt-2 md:mx-16 my-10'>

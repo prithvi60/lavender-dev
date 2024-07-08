@@ -13,7 +13,6 @@ import AppointmentConfimed from './AppointmentConfimed';
 import { UpdateCheckoutInfo } from '../../store/slices/Booking/ScheduleAppoinmentSlice';
 
 function CheckoutCard(props) {
-  console.log("props in check : : ", props)
   const {activeStep, next, establishmentName, establishmentId} = props
 
   const dispatch = useDispatch();

@@ -11,7 +11,6 @@ const SampleData = [{"cardHolderName": 'Olivia', "cardNumber": "12******125", "l
   {"cardHolderName": 'Olivia', "cardNumber": "12******125", "lastUsedDate": '06/24'}]
 
 export const PaymentCard = ({userInfo}) => {
-  console.log("userInfo : ", userInfo?.cardList)
   return (
     <div className='mt-10'>
         <div className='text-3xl font-bold py-4'>Payment Methods</div>

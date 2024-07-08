@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { TextField, Checkbox, Button, FormControlLabel, MenuItem, Select, InputLabel, FormControl, FormHelperText, Box, Grid, Snackbar, IconButton } from '@mui/material';
+import { TextField, Checkbox, Button, FormControlLabel, MenuItem, Select, InputLabel, FormControl, FormHelperText, Box, Grid, Snackbar, IconButton, Modal } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -13,6 +13,18 @@ import Text from '../Text';
 import { useNavigate } from 'react-router-dom';
 import GetIcon from '../../assets/Icon/icon';
 
+const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 500,
+    bgcolor: "background.paper",
+    border: "2px",
+    boxShadow: 24,
+    p: 4,
+    borderradius: "2px",
+  };
 const schema = yup.object().shape({
     fullName: yup.string().required('Full name is required'),
     areaCode: yup.string().required('Area code is required'),
@@ -31,21 +43,32 @@ const RegisterScreen = () => {
     const [value, setValue] = React.useState<Dayjs | null>(null);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [open, setOpen] = React.useState(false);
+    const [message, setMessage] = React.useState('');
+
+
     const navigate = useNavigate();
+
+    const handleOpen = () => {
+        setOpen((prev) => !prev);
+        navigate("/");
+      };
 
     const mutation = useMutation({
         mutationFn: async (payload: any) => {
           const response =  await endpoint.userRegister(payload);
           if(!response?.data?.success){
-            debugger
-            setSnackbarMessage(`ErrorCode : ${response.data.errorCode} ${response?.data?.data}`);
-            setSnackbarOpen(true);
+            setOpen((prev) => !prev);
+            setMessage(`ErrorCode : ${response.data.errorCode} ${response?.data?.data}`)
+            // setSnackbarMessage(`ErrorCode : ${response.data.errorCode} ${response?.data?.data}`);
+            // setSnackbarOpen(true);
           }
           else{
-            debugger
-            setSnackbarMessage("user created successfully.");
-            setSnackbarOpen(true);
-            navigate('/');
+            setOpen((prev) => !prev);
+            setMessage("user created successfully.")
+            // setSnackbarMessage("user created successfully.");
+            // setSnackbarOpen(true);
+            // navigate('/');
           }
           return response;
         },
@@ -268,6 +291,24 @@ const RegisterScreen = () => {
                 </Grid>
                 
             </Box>
+
+            <Modal
+          open={open}
+          onClose={handleOpen}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          >
+              <Box sx={style} className="rounded-3xl filter-box">
+                  <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                      <GetIcon onClick={    
+                          () => {
+                          }}
+                          className='my-5 mx-16 p-1 cursor-pointer rounded-sm' 
+                          iconName="Success"/>
+                      <div id="title" className="font-bold text-xl mb-3">{message} </div>
+                  </div>
+              </Box>
+        </Modal>
         </div>
 
 

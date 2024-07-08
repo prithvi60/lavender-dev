@@ -21,7 +21,6 @@ const style = {
 };
 
 export const Publish = ({userDetails}) => {
-  console.log("userDetails L ", userDetails)
   const [isPublish, setIsPublish] = useState(false);
   const navigate = useNavigate();
   const [showPublish, setShowPublish] = useState(false);

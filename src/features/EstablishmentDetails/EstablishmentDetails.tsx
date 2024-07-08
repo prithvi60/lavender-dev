@@ -36,7 +36,6 @@ function EstablishmentDetails({ estId }) {
     },
   });
 
-  console.log("establishmentData rev : ", establishmentData?.data?.data)
   const fetchImage = async (image) => {
     try {
       setLoading(true);
@@ -52,7 +51,6 @@ function EstablishmentDetails({ estId }) {
   useEffect( () =>{
     const callFetchImageApi = async () =>{
       
-      console.log("in  api")
       const urls = [];
       for (const imageId of imageIdList) {
         const imageUrl = await fetchImage(imageId);

@@ -28,7 +28,6 @@ export const BookingInfoModal = ({ isModalOpen, bookings, establishmentId }) => 
     const handleClick = () => {
         setIsOpen((prev) => !prev);
     };
-console.log("establishmentId :  : ", establishmentId)
     function timeDifference(startTime, endTime){
         // Convert ISO strings to Date objects
         const startDate: any = new Date(startTime);
@@ -43,7 +42,6 @@ console.log("establishmentId :  : ", establishmentId)
     }
 
     function handleClickReschedule(){
-        console.log("in reschedulw", bookings)
         navigate(`/salon/${establishmentId}#SearchDetailService`,  { replace: true })
     }
 
