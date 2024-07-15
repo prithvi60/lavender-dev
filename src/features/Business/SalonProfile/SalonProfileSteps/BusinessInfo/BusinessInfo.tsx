@@ -49,8 +49,6 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
     },
   });
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
     
   // Set form values if basicInfo is available
   React.useEffect(() => {
@@ -97,8 +95,7 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
     },
     onSuccess: (response) => {
       setTimeout(() => {
-        setSnackbarMessage('Items saved successfully.');
-            setSnackbarOpen(true);
+       
       });
     },
     onError: (error) => {
@@ -108,9 +105,7 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
       // handle settled actions if needed
     },
   });
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-};
+
   return (
     <div className="w-full">
       <div className="text-5xl font-bold text-center p-4" style={{ color: '#4D4D4D' }}>
@@ -242,22 +237,7 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
           </Grid>
         </form>
       </Grid>
-      <Snackbar
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                
-                open={snackbarOpen}
-                autoHideDuration={2000}
-                onClose={handleCloseSnackbar}
-                message={snackbarMessage}
-                action={
-                    <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseSnackbar}>
-                        <GetIcon iconName="CloseIcon" />
-                    </IconButton>
-                }
-            />
+
     </div>
   );
 };

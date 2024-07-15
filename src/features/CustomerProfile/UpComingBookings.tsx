@@ -9,9 +9,11 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 function UpComingBookings({ userInfo }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [bookingIndex, setBookingIndex] = useState(0);
     const scrollContainerRef = useRef(null);
 
-    const handleCardClick = () => {
+    const handleCardClick = (index) => {
+        setBookingIndex(index)
         setIsModalOpen(!isModalOpen);
     };
 
@@ -37,8 +39,8 @@ function UpComingBookings({ userInfo }) {
                             {userInfo?.upcomingBookings?.map((bookings, index) => (
                                 <Card
                                     key={index}
-                                    sx={{ minWidth: 500, maxWidth: 500, height: 150, borderRadius: 4, marginLeft: 2, marginRight: 2 }}
-                                    onClick={handleCardClick}
+                                    sx={{ minWidth: 500, maxWidth: 500, height: 150, borderRadius: 4, marginLeft: 2, marginRight: 2,  cursor: 'pointer' }}
+                                    onClick={()=> handleCardClick(index)}
                                 >
                                     <Grid container spacing={1}>
                                         <Grid item xs={4}>
@@ -80,7 +82,7 @@ function UpComingBookings({ userInfo }) {
                 ) : (
                     <EmptyBookings noAppointmentsMessage={NoUpComingBookings} />
                 )}
-                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} bookings={userInfo?.upcomingBookings[0]} establishmentId={userInfo?.appUser?.establishmentId}/>}
+                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} bookings={userInfo?.upcomingBookings[bookingIndex]} />}
             </div>
         </div>
     );

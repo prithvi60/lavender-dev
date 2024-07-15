@@ -41,8 +41,7 @@ const RegisterScreen = () => {
         resolver: yupResolver(schema),
     });
     const [value, setValue] = React.useState<Dayjs | null>(null);
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
+
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState('');
 
@@ -96,9 +95,7 @@ const RegisterScreen = () => {
         mutation.mutate(payLoad)
     };
 
-    const handleCloseSnackbar = () => {
-        setSnackbarOpen(false);
-    };
+
     return (
         <div>
 
@@ -272,22 +269,7 @@ const RegisterScreen = () => {
                     </Grid>
                         
                     </form>
-                    <Snackbar
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    
-                    open={snackbarOpen}
-                    autoHideDuration={6000}
-                    onClose={handleCloseSnackbar}
-                    message={snackbarMessage}
-                    action={
-                        <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseSnackbar}>
-                            <GetIcon iconName="CloseIcon" />
-                        </IconButton>
-                    }
-                />
+
                 </Grid>
                 
             </Box>

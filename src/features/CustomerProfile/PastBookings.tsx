@@ -9,9 +9,12 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 function PastBookings({ userInfo }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [bookingIndex, setBookingIndex] = useState(0);
+
     const scrollContainerRef = useRef(null);
 
-    const handleCardClick = () => {
+    const handleCardClick = (index) => {
+        setBookingIndex(index)
         setIsModalOpen(!isModalOpen);
     };
 
@@ -38,7 +41,7 @@ function PastBookings({ userInfo }) {
                                 <Card
                                     key={index}
                                     sx={{ minWidth: 500, maxWidth: 500, height: 150, borderRadius: 4, marginLeft: 2, marginRight: 2, cursor: 'pointer' }}
-                                    onClick={handleCardClick}
+                                    onClick={()=> handleCardClick(index)}
                                 >
                                     <Grid container spacing={1}>
                                         <Grid item xs={4}>
@@ -77,10 +80,12 @@ function PastBookings({ userInfo }) {
                             <ArrowForwardIcon />
                         </IconButton>
                     </>
-                ) : (
+                ) 
+                : 
+                (
                     <EmptyBookings noAppointmentsMessage={NoPastBookings} />
                 )}
-                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} bookings={userInfo?.pastBookings[0]} establishmentId={''}/>}
+                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} bookings={userInfo?.pastBookings[bookingIndex]}/>}
             </div>
         </div>
     );

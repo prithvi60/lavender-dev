@@ -3,8 +3,13 @@ import { Card, FormControlLabel, FormGroup, Switch, Button } from '@mui/material
 import { useForm, Controller } from 'react-hook-form';
 import endpoint from '../../api/endpoints'; // Import your API endpoint function
 import { useMutation } from '@tanstack/react-query';
+import { useSnackbar } from '../../components/Snackbar';
+import { useNavigate } from 'react-router-dom';
 
 function Notifications({ userInfo }) {
+  const navigate = useNavigate();
+  const showSnackbar = useSnackbar();
+
   const { control, handleSubmit } = useForm({
     defaultValues: {
       notificationSMS: userInfo?.appUser?.customerSettings?.notificationSMS || false,
@@ -20,8 +25,12 @@ function Notifications({ userInfo }) {
   const mutation = useMutation({
     mutationFn: async (payload: any) => {
       const response = await endpoint.updateProfile(payload);
-      if (!response?.data?.success) {
-        throw new Error(`ErrorCode : ${response.data.errorCode}`);
+      if(response?.data?.success){
+        showSnackbar('Items saved successfully.', 'success');
+       // navigate(0)
+      }
+      else{
+        showSnackbar(response?.data?.data, 'error');
       }
       return response;
     },
@@ -49,14 +58,12 @@ function Notifications({ userInfo }) {
     try {
       const response = await mutation.mutateAsync(payLoad); // Wait for mutation to complete
       if (response?.data?.success) {
-        alert('Successfully updated');
         setFormChanged(false); // Reset form changed state after successful submission
       } else {
-        alert(`ErrorCode : ${response.data.errorCode}`);
+        console.log("error")
       }
     } catch (error) {
       console.error('Mutation failed:', error);
-      alert('Edit unsuccessful: ' + error.message);
     }
   };
 

@@ -60,6 +60,7 @@ class Endpoint {
       payload
     );
     this.setTenantToken(response.data);
+    return response;
   }
 
   async userRegister(payload) {

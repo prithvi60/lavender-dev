@@ -6,6 +6,9 @@ import GetImage from '../../assets/GetImage';
 import CloseIcon from '@mui/icons-material/Close';
 import endpoint from '../../api/endpoints';
 import { bookingStatus } from '../../constants/appointments';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from '../../components/Snackbar';
 
 const modalStyle = {
     position: 'absolute',
@@ -21,7 +24,8 @@ const modalStyle = {
 
 export const CancelAppointmentModal = ({bookings}) => {
     const [isCancelOpen, setIsCancelOpen] = useState(false);
-
+    const navigate = useNavigate();
+    const showSnackbar = useSnackbar();
     function handleCancelClick() {
         setIsCancelOpen((prev) => !prev);
     }
@@ -35,12 +39,30 @@ export const CancelAppointmentModal = ({bookings}) => {
                 bookingStatus: "CANCELED"
             }]
         }
-        // const appointmentServices = bookings?.services?.map((item)=> ({
-        //     serviceId: item.serviceId,
-        //     bookingStatus: 
-        // }))
-        const res = endpoint.cancelAppointment(payload);
+
+        try {
+            mutation.mutate(payload);
+        } catch (error) {
+            console.error('Mutation failed:', error);
+        }
     }
+    
+    const mutation = useMutation({
+        mutationFn: async (payload: any) => {
+            const response = await endpoint.cancelAppointment(payload);
+            if(response?.data?.success){
+                showSnackbar('Items saved successfully.', 'success');
+                navigate(0)
+              }
+              else{
+                showSnackbar(response?.data?.data, 'error');
+            }
+            return response;
+        },
+        onError: (error) => {
+            alert('Edit unsuccessful: ' + error.message);
+        },
+    });
 
     function handleRescheduleClick(){
     }

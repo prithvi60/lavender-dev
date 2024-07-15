@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Typography, Grid, Checkbox, Button, IconButton, Snackbar } from '@mui/material';
+import { Card, Typography, Grid, Checkbox, Button, IconButton } from '@mui/material';
 import { LocalizationProvider, TimePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -25,9 +25,6 @@ export const WorkingHours = ({ userDetails, availableDays }) => {
         });
         return initialState;
     });
-
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     useEffect(() => {
         if (availableDays && availableDays.length > 0) {
@@ -114,8 +111,7 @@ export const WorkingHours = ({ userDetails, availableDays }) => {
     const mutation = useMutation({
         mutationFn: (payload) => endpoints.saveEstablishmentWorkingHours(payload),
         onSuccess: (response) => {
-            setSnackbarMessage('Items saved successfully.');
-            setSnackbarOpen(true);
+
         },
         onError: (error) => {
             // handle error actions if needed
@@ -124,10 +120,6 @@ export const WorkingHours = ({ userDetails, availableDays }) => {
             // handle settled actions if needed
         },
     });
-
-    const handleCloseSnackbar = () => {
-        setSnackbarOpen(false);
-    };
 
     return (
         <div style={{ paddingTop: '20px' }}>
@@ -190,22 +182,6 @@ export const WorkingHours = ({ userDetails, availableDays }) => {
                 <Button variant="contained" color="primary" onClick={handleSave} style={{ marginTop: '20px' }}>Save</Button>
             </Card>
 
-            <Snackbar
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                
-                open={snackbarOpen}
-                autoHideDuration={2000}
-                onClose={handleCloseSnackbar}
-                message={snackbarMessage}
-                action={
-                    <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseSnackbar}>
-                        <GetIcon iconName="CloseIcon" />
-                    </IconButton>
-                }
-            />
         </div>
     );
 };
