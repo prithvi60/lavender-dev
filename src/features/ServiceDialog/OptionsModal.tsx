@@ -1,57 +1,99 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
-import {  Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import { Add } from '@mui/icons-material';
-import Buttons from '@mui/material/Button';
+import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Divider from '@mui/material/Divider';
+import CheckBox from './CheckBox';
 import { updateCheckOut, resetCheckOut } from '../../store/slices/checkOutPageSlice';
-import {
-    useDispatch,
-    useSelector,
-  } from 'react-redux';
-import CheckBox from './CheckBox.tsx';
-function OptionsModal({props}) {
-    const checkOutList = useSelector(
-        (state: any) => state.checkOutPage
-      );
-     //const {props} = props
-    const [isOpen, setIsOpen] = useState();
-    const [btnValue, setBtnValue] = useState("Select");
-    const [btnVariant, setBtnVariant] = useState<"contained" | "outlined" | "text">("outlined");
-    
-    const disPatch = useDispatch()
+import { useDispatch } from 'react-redux';
 
-    const handleOpen = () => {
-        setIsOpen((prev):any => !prev);
-      };
-    
-    function handleSelectBtnClick(serviceName, finalPrice, serviceDuration){
-        // setIsChecked((prev) => !prev)
-        let checkOutObj = {
-            'serviceId': props.serviceId,
-            'serviceName': serviceName,
-            'finalPrice': finalPrice,
-            'serviceDuration': serviceDuration
-        }
-        if(btnValue === 'Select'){
-            // addItemsToCheckOut(checkOutObj)
-            disPatch(updateCheckOut(checkOutObj))
-            setBtnValue("Deselect")
-            setBtnVariant("contained")
-        }
-        else{
-            // removeItemsToCheckOut(checkOutObj)
-            disPatch(resetCheckOut(checkOutObj))
+function OptionsModal({ props }) {
+  const dispatch = useDispatch();
 
-            setBtnValue("Select")
-            setBtnVariant("outlined")
-        }
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [isSelectionValid, setIsSelectionValid] = useState(false); // To track if at least one option is selected
+
+  useEffect(() => {
+    // Check if selectedOptions has changed from initial state or is not empty
+    setIsSelectionValid(selectedOptions.length > 0);
+  }, [selectedOptions]);
+
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const handleSelectAll = () => {
+    if (!selectAll) {
+      // Select all options
+      const selected = props.options.map(option => option.optionId);
+      setSelectedOptions(selected);
+      setSelectAll(true);
+    } else {
+      // Deselect all options
+      setSelectedOptions([]);
+      setSelectAll(false);
     }
+  };
 
-    const style = {
+  const handleOptionSelect = (optionId) => {
+    let updatedSelection = [...selectedOptions];
+    if (updatedSelection.includes(optionId)) {
+      // Deselect option
+      updatedSelection = updatedSelection.filter(id => id !== optionId);
+    } else {
+      // Select option
+      updatedSelection.push(optionId);
+    }
+    setSelectedOptions(updatedSelection);
+  };
+
+  const handleSaveSelection = () => {
+    debugger
+    // Filter out deselected options
+    const deselectedOptions = props.options
+      .filter(option => !selectedOptions.includes(option.optionId))
+      .map(option => option.optionId);
+  
+    // Update Redux store based on selectedOptions
+    selectedOptions.forEach(optionId => {
+      const selectedOption = props.options.find(option => option.optionId === optionId);
+      if (selectedOption) {
+        dispatch(updateCheckOut({
+          serviceId: props.serviceId,
+          optionId: selectedOption.optionId,
+          serviceName: selectedOption.optionName,
+          finalPrice: selectedOption.salePrice,
+          serviceDuration: selectedOption.duration
+        }));
+      }
+    });
+  
+    // Remove deselected options from Redux store
+    deselectedOptions.forEach(optionId => {
+      const deselectedOption = props.options.find(option => option.optionId === optionId);
+      if (deselectedOption) {
+        dispatch(resetCheckOut({
+          serviceId: props.serviceId,
+          optionId: deselectedOption.optionId
+        }));
+      }
+    });
+  
+    setIsOpen(false);
+  };
+  
+
+  const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -61,85 +103,90 @@ function OptionsModal({props}) {
     border: "2px",
     boxShadow: 24,
     p: 4,
-    }
+  };
+
   return (
     <div>
-        <Add onClick={handleOpen}/>
-        <Modal
+      <Add onClick={handleOpen} />
+      <Modal
         open={isOpen}
-        onClose={handleOpen}
+        onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-        >
-            <Box sx={style} className='rounded-3xl max-w-7xl urbanist-font'>
-                <IconButton
-                aria-label="close"
-                onClick={handleOpen}
-                sx={{
-                    position: 'absolute',
-                    right: 8,
-                    top: 8,
-                    color: (theme) => theme.palette.grey[500],
-                }}
+      >
+        <Box sx={style} className='rounded-3xl max-w-7xl urbanist-font'>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <div className='flex flex-wrap p-6'>
+            <Grid className='w-full'>
+              <div className='text-2xl md:text-3xl font-bold'>{props.serviceName}</div>
+              <div className='flex justify-between items-end'>
+                <div>
+                  <div className='text-xl md:text-2xl font-normal'>{props.serviceDuration} mins</div>
+                  <div className='text-xl md:text-2xl font-bold'>
+                    {props.options.length > 0 ? `from $${props.startingPrice}` : `$${props.finalPrice}`}
+                  </div>
+                </div>
+                <Button
+                  variant={selectAll ? "contained" : "outlined"}
+                  endIcon={<Add />}
+                  className='w-40 h-fit'
+                  onClick={handleSelectAll}
+                  disabled={!props.options.length} // Disable if no options available
                 >
-                    <CloseIcon />
-                </IconButton>
-                <div className='flex flex-wrap p-6'>
-                    <Grid className='w-full'>
-                        <div className='text-2xl md:text-3xl font-bold'>{props.serviceName}</div>
-                        <div className='flex justify-between items-end'>
-                            <div>
-                                <div className='text-xl md:text-2xl font-normal'>{props.serviceDuration} mins</div>
-                                <div className='text-xl md:text-2xl font-bold'>
-                                {
-                                    props.options.length > 0 
-                                    ? 'from $'+props.startingPrice
-                                    : '$'+props.finalPrice
-                                }
-                                </div>
-                            </div>
-                            <Buttons variant={btnVariant} endIcon={<Add />} className='w-40 h-fit' onClick={() => handleSelectBtnClick(props.serviceName, props.finalPrice, props.serviceDuration)}>{btnValue}</Buttons>
-                        </div>
-                    </Grid>
-                    
-                    <Grid className='w-full my-4'>
-                        <div className='text-xl md:text-2xl font-normal'>{props.serviceDescription}</div>
-                    </Grid>
-                </div>
-
-                <div className="mx-6">
-                    <Divider/>
-                </div>
-                {
-                    props.options.length > 0 && <Grid container spacing={2} sx={{margin: "5px", padding: "15px"}}>
-                        <Grid xs={12} >
-                            <div className='text-2xl font-bold text-gray-500'>Choose options</div>
-                        </Grid>
-                        <Grid xs={12} className='service-options'>
-                            {
-                                props.options.map((option) => (
-                                    <Grid className='py-4 flex justify-between'>
-                                        <div >
-                                            <div className='text-lg font-bold'>{option.optionName}</div>
-                                            <div className='text-sm font-normal'>{option.duration} mins</div>
-                                            <div className='text-base font-bold'>${option.salePrice}</div>
-                                        </div>
-                                        <div className='px-16 py-4'>
-                                        
-                                        <CheckBox  serviceId= {props.serviceId} optionId = {option.optionId} optionName ={option.optionName} salePrice ={option.salePrice} duration ={ option.duration} setBtnValue  = {setBtnValue} btnValue= {btnValue} setBtnVariant ={setBtnVariant}/>
-
-                                        </div>
-                                    </Grid>
-                                ))
-                            }
-                        </Grid>
-                    </Grid>
-                }
-            </Box>
-        </Modal>
+                  {selectAll ? "Deselect All" : "Select All"}
+                </Button>
+              </div>
+            </Grid>
+            <Grid className='w-full my-4'>
+              <div className='text-xl md:text-2xl font-normal'>{props.serviceDescription}</div>
+            </Grid>
+          </div>
+          <div className="mx-6">
+            <Divider />
+          </div>
+          {props.options.length > 0 &&
+            <Grid container spacing={2} sx={{ margin: "5px", padding: "15px" }}>
+              <Grid xs={12}>
+                <div className='text-2xl font-bold text-gray-500'>Choose options</div>
+              </Grid>
+              <Grid xs={12} className='service-options'>
+                {props.options.map((option) => (
+                  <Grid className='py-4 flex justify-between' key={option.optionId}>
+                    <div>
+                      <div className='text-lg font-bold'>{option.optionName}</div>
+                      <div className='text-sm font-normal'>{option.duration} mins</div>
+                      <div className='text-base font-bold'>${option.salePrice}</div>
+                    </div>
+                    <div className='px-16 py-4'>
+                      <CheckBox
+                        optionId={option.optionId}
+                        isSelected={selectedOptions.includes(option.optionId)}
+                        onOptionSelect={() => handleOptionSelect(option.optionId)}
+                      />
+                    </div>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          }
+          <div className="flex justify-end mt-4 mx-6">
+            <Button variant="contained" onClick={handleSaveSelection} >Save Selection</Button>
+          </div>
+        </Box>
+      </Modal>
     </div>
-    
-  )
+  );
 }
 
-export default OptionsModal
+export default OptionsModal;
