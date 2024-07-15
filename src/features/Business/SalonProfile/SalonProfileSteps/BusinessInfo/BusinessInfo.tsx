@@ -8,6 +8,7 @@ import endpoints from '../../../../../api/endpoints';
 import { BusinessInfoSchema } from './BusinessInfoSchema';
 import { WorkingHours } from './WorkingHours';
 import GetIcon from '../../../../../assets/Icon/icon';
+import { useSnackbar } from '../../../../../components/Snackbar';
 
 interface IBasicInfo {
   establishmentName: string;
@@ -49,6 +50,8 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
     },
   });
 
+  //const navigate = useNavigate();
+  const showSnackbar = useSnackbar();
     
   // Set form values if basicInfo is available
   React.useEffect(() => {
@@ -94,9 +97,12 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
       return endpoints.saveEstablishmentProfile(payload);
     },
     onSuccess: (response) => {
-      setTimeout(() => {
-       
-      });
+      if(response?.data?.success){
+        showSnackbar('Items saved successfully.', 'success');
+      }
+      else{
+        showSnackbar(response?.data?.data, 'error');
+      }
     },
     onError: (error) => {
       // handle error actions if needed

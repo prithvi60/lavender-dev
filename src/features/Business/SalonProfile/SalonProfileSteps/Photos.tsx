@@ -5,6 +5,7 @@ import ImageUploading from 'react-images-uploading';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import endpoint from '../../../../api/endpoints';
+import { useSnackbar } from '../../../../components/Snackbar';
 
 interface ImageUploadResponse {
   data: {
@@ -24,6 +25,7 @@ export const Photos = ({userDetails}) => {
   const [isImageUploaded, setIsImageUploaded] = useState(false);
 
   const establishmentId = userDetails != null ? userDetails?.establishmentId : "";
+  const showSnackbar = useSnackbar();
 
   useEffect(()=>{
     const getEstablishmentDetails = async () => {
@@ -105,6 +107,12 @@ export const Photos = ({userDetails}) => {
       return response;
     },
     onSuccess: (response) => {
+      // if(response?.data?.success){
+      //   showSnackbar('Items saved successfully.', 'success');
+      // }
+      // else{
+      //   showSnackbar(response?.data?.data, 'error');
+      // }
     },
     onError: (error) => {
       console.error('Upload Error:', error);
@@ -136,6 +144,12 @@ export const Photos = ({userDetails}) => {
       "estImages": imageId,
     }
    const response = await endpoint.saveImageId(payload);
+    if(response?.data?.success){
+      showSnackbar('Items saved successfully.', 'success');
+    }
+    else{
+      showSnackbar(response?.data?.data, 'error');
+    }
   }
 
   return (

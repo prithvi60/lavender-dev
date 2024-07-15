@@ -6,10 +6,12 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import endpoints from '../../../../../api/endpoints';
 import { useMutation } from '@tanstack/react-query';
 import GetIcon from '../../../../../assets/Icon/icon';
+import { useSnackbar } from '../../../../../components/Snackbar';
 
 export const WorkingHours = ({ userDetails, availableDays }) => {
     const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
+    const showSnackbar = useSnackbar();
     const [checkboxes, setCheckboxes] = useState(() => {
         const initialState = {};
         daysOfWeek.forEach(day => {
@@ -109,9 +111,14 @@ export const WorkingHours = ({ userDetails, availableDays }) => {
     };
 
     const mutation = useMutation({
-        mutationFn: (payload) => endpoints.saveEstablishmentWorkingHours(payload),
+        mutationFn: (payload: any) => endpoints.saveEstablishmentWorkingHours(payload),
         onSuccess: (response) => {
-
+            if(response?.data?.success){
+                showSnackbar('Items saved successfully.', 'success');
+              }
+              else{
+                showSnackbar(response?.data?.data, 'error');
+              }
         },
         onError: (error) => {
             // handle error actions if needed

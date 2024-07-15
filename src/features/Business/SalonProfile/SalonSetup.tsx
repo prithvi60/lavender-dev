@@ -35,6 +35,7 @@ export const SalonSetup = () => {
 
     function handleBtnClick(){
         setIsOpen(true);
+        setActiveStep(0);
     }
 
     function onSetActiveStep(value) {
@@ -67,7 +68,7 @@ export const SalonSetup = () => {
 
     getEstablishmentDetails();
     
-  },[])
+  },[isOpen])
 
 useEffect(()=>{
   if(isPublished){
@@ -77,7 +78,7 @@ useEffect(()=>{
   
   return (
     <div>
-        <Buttons sx={{borderRadius: '10px', padding: '10px 40px 10px 40px'}} variant= 'contained' onClick={handleBtnClick} name={'Get started'}> </Buttons>
+        <Buttons sx={{borderRadius: '10px', padding: '10px 40px 10px 40px'}} variant= 'contained' onClick={()=>handleBtnClick()} name={'Get started'}> </Buttons>
         <Dialog fullScreen open={isOpen} onClose={handleClose}>
         <Toolbar className="mb-4 stepper-header">
             <Box sx={{ width: '100%' }}>
