@@ -32,24 +32,33 @@ function CheckoutCard(props) {
 
 
   useEffect(()=>{
-    if(checkOutList.checkOut.length > 0){
+    
+    if(checkOutList?.checkOut?.length > 0){
       setDisabled(false);
       calculateTotalPrice();
       calculateTotalDuration();
     }
+    else{
+      setTotalPrice(0);
+      setTotalDuration(0);
+    }
   },[checkOutList])
 
 
-  function calculateTotalPrice(){
-    for(let item of checkOutList.checkOut){
-      setTotalPrice(totalPrice + item?.finalPrice)
+  function calculateTotalPrice() {
+    let totalPriceSum = 0;
+    for (let item of checkOutList?.checkOut) {
+      totalPriceSum += item?.finalPrice;
     }
+    setTotalPrice(totalPriceSum);
   }
-
-  function calculateTotalDuration(){
-    for(let item of checkOutList.checkOut){
-     setTotalDuration(totalDuration + item?.duration)
+  
+  function calculateTotalDuration() {
+    let totalDurationSum = 0;
+    for (let item of checkOutList?.checkOut) {
+      totalDurationSum += item?.duration;
     }
+    setTotalDuration(totalDurationSum);
   }
 
   dispatch(UpdateCheckoutInfo({
@@ -116,7 +125,6 @@ function CheckoutCard(props) {
     }
   }, [imageIdList])
 
-  console.log("establishmentData : ", establishmentData)
   return (
       <div className='urbanist-font mb-6 rounded-2xl chackout-card-container'> {/* Adjusted width to be responsive */}
         <CardContent >

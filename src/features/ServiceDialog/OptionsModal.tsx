@@ -29,7 +29,6 @@ function OptionsModal({props}) {
       };
     
     function handleSelectBtnClick(serviceName, finalPrice, serviceDuration){
-        
         // setIsChecked((prev) => !prev)
         let checkOutObj = {
             'serviceId': props.serviceId,

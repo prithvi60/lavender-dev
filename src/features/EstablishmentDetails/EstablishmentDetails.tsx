@@ -87,6 +87,7 @@ function EstablishmentDetails({ estId }) {
     },1000)
     
   },[])
+  console.log('establishmentData?.data?.data?.id : ', establishmentData?.data?.data?.id)
   return (
     <div className="searchDetailsContainer">
       <HeaderDetails
@@ -130,9 +131,11 @@ function EstablishmentDetails({ estId }) {
           profile={establishmentData?.data?.data?.profile}
         />
       </div>
-
-      <Reviews  establishmentId = {establishmentData?.data?.data?.id}/>
-
+      
+      {
+        establishmentData?.data?.data?.id  && <Reviews  establishmentId = {establishmentData?.data?.data?.id}/>
+      }
+      
       <About establishmentEmployees= {establishmentData?.data?.data?.employees} establishmentAbout= {establishmentData?.data?.data?.profile?.establishmentAbout} establishmentFeatures={establishmentData?.data?.data?.features} establishmentLanguages={establishmentData?.data?.data?.languages} establishmentPaymentTypes={establishmentData?.data?.data?.paymentTypes} id="SearchDetailAbout" />
     </div>
   );

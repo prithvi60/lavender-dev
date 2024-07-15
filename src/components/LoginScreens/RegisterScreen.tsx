@@ -51,7 +51,7 @@ const RegisterScreen = () => {
 
     const handleOpen = () => {
         setOpen((prev) => !prev);
-        navigate("/");
+        navigate("/login");
       };
 
     const mutation = useMutation({
@@ -305,7 +305,9 @@ const RegisterScreen = () => {
                           }}
                           className='my-5 mx-16 p-1 cursor-pointer rounded-sm' 
                           iconName="Success"/>
-                      <div id="title" className="font-bold text-xl mb-3">{message} </div>
+                      <div id="title" className="font-bold text-2xl mb-3">{message} </div>
+                      <div className="font-bold text-lg mb-3">Please login to explore further.</div>
+                      <Button variant='contained' onClick={()=>{navigate('/login')}}>Login</Button>
                   </div>
               </Box>
         </Modal>

@@ -106,6 +106,67 @@ export default function SearchResult() {
     return getRoute("SearchDetails");
   };
 
+  const [imageIdList, setImageIdList]= useState([]);
+  const [loading, setLoading] = useState(false);
+  const [imageUrls, setImageUrls] = useState([]);
+  const [estIdList, setEstIdList] = useState([]);
+
+  useEffect(()=>{
+    const imageIds = establishmentSearchResult?.data?.data?.content?.
+    map(establishment => establishment.estImages.length > 0 ? establishment.estImages[0] : "");
+
+    const estIds = establishmentSearchResult?.data?.data?.content?.map(item  => item?.establishmentId)
+    setImageIdList(imageIds)
+    setEstIdList(estIds)
+      // setImageIdList(establishmentSearchResult?.data?.data?.estImages)
+    }, [establishmentSearchResult])
+    
+    const fetchImage = async (image, estId) => {
+      try {
+        setLoading(true);
+        const response = await endpoint.getImages(image, estId);
+
+        const imageUrl = URL.createObjectURL(response.data);
+        return imageUrl
+      } catch (error) {
+        setLoading(false);
+      }
+    };
+
+    useEffect( () =>{
+      const callFetchImageApi = async () =>{
+        const urls = [];
+        for (let i = 0; i < imageIdList.length; i++) {
+          const imageId = imageIdList[i];
+          const id = estIdList[i];
+      
+          const imageUrl = await fetchImage(imageId, id); // Await the fetchImage function
+
+          const imageObject = { [imageId]: imageUrl };
+          
+          urls.push(imageObject);
+        }
+        setImageUrls(urls);
+        setLoading(false);
+      }
+      if (imageIdList?.length > 0) {
+        callFetchImageApi();
+      }
+    }, [imageIdList])
+
+
+  function getImages(imgId){
+    for (let i = 0; i < imageUrls?.length; i++) {
+      // Check if the current object has the key we're looking for
+      if (imgId in imageUrls[i]) {
+          // Return the corresponding value
+          return imageUrls[i][imgId];
+      }
+  }
+  // Return null or handle case when key is not found
+  return null; 
+  }
+
   return (
     <Card className='search-page-container' sx={{ width: '100%', height: '100%' }}>
       <CardHeader
@@ -132,7 +193,18 @@ export default function SearchResult() {
                         <div className='card-wrap-container'>
                           <div className='card-container'>
                             <div className='card-header' style={{padding: '20px'}}>
-                              <GetImage imageName='SaloonImage' className='w-full rounded-lg' />
+                              {
+                                getImages(card?.estImages[0]) 
+                                ? 
+                                (
+                                  <img src={getImages(card?.estImages[0])} alt="CardImage" className='w-full rounded-lg' />
+                                ) 
+                                :  
+                                (
+                                  <h6 className='w-full rounded-lg'> Image not uploaded</h6>
+                                )
+                              }
+                              
                               <div className='card-header-details' style={{marginLeft: '20px'}}>
                                 <div className='chip-wrap'>
                                   {card?.serviceTags?.map((tag, index) => (
@@ -210,7 +282,6 @@ export default function SearchResult() {
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31081.53269316962!2d80.20855351621644!3d13.15031202030962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5264db59c3d4b5%3A0x9be03109019f05f!2sMadhavaram%2C%20Chennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1716260701299!5m2!1sen!2sin"
                   width="100%"
                   height="450"
-                  allowFullScreen=""
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 ></iframe>
