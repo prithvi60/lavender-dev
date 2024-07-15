@@ -23,7 +23,7 @@ export default function ScheduleAppointment(props) {
   const [availableTimeSlots, setAvailableTimeSlots] = React.useState<any>([]);
   const [clickedChipIndices, setClickedChipIndices] = React.useState(null);
   
-  const [employee, setEmployee] = React.useState('');
+  const [employee, setEmployee] = React.useState(['']);
   const [isDisabled, setIsDisabled] = React.useState(false);
   const [timePeriodValue, setTimePeriodValue] = React.useState([]);
   const [indexValue, setIndexValue] = React.useState([]);
@@ -137,7 +137,7 @@ export default function ScheduleAppointment(props) {
     dispatch(UpdateTimeOfDayAndTime({TimeOfDay: TimeOfDay[timePeriod],
       startTime : calculateTime(slot.startTime),
       endTime: slot.endTime,
-      id:slot.employeeId
+      id:slot?.employeeId
     }));
   };
 
@@ -304,7 +304,7 @@ export default function ScheduleAppointment(props) {
 
         <Grid key={100} container item spacing={2}>
 
-          <Grid item xs={3}>
+          {/* <Grid item xs={3}>
             <p className='font-semibold capitalize'>Service by</p>
           </Grid>
 
@@ -319,7 +319,7 @@ export default function ScheduleAppointment(props) {
                 <MenuItem value={employee}>{employee}</MenuItem>
               </Select>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Grid>
 
        </div>
