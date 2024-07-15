@@ -29,6 +29,7 @@ export default function ScheduleAppointment(props) {
   const [indexValue, setIndexValue] = React.useState([]);
   const [totalDurationValue, setTotalDurationValue] = useState(0);
   const[startTimeValue, setStartTimeValue] = useState('11:59 pm');
+  const[dateClicked, setDateClicked] = useState(false);
 
   let appointmentTimings;
   const dispatch = useDispatch();
@@ -38,7 +39,6 @@ export default function ScheduleAppointment(props) {
 
   // Function to fetch available slots
   const fetchAvailableSlots = async (day) => {
-
     const payLoad = {
       "startDate": day[0],
       "establishmentId": estData.id,
@@ -53,10 +53,10 @@ export default function ScheduleAppointment(props) {
 
   async function handleDateClick(day){
     setSelectedDateBtn(day[0]);
-  appointmentTimings = await fetchAvailableSlots(day);
-  setTimeout(()=>{
-    selectedDay(day[0])
-  }, 1000)
+    appointmentTimings = await fetchAvailableSlots(day);
+    setTimeout(()=>{
+      selectedDay(day[0])
+    }, 1000)
 }
 
   const selectedDay = (val) => {
@@ -94,7 +94,7 @@ export default function ScheduleAppointment(props) {
       id:slot.employeeId
     }));
   };
-  useEffect(() => { }, [availableTimeSlots])
+  useEffect(() => { handleDateClick(new Date().toISOString())}, [])
 
   const [selectedPaymentChips, setSelectedPaymentChips] = useState([]);
 
@@ -208,7 +208,7 @@ export default function ScheduleAppointment(props) {
             startDay={new Date()} // First day as Date Object or 22 June 2016
             selectedDays={[selectedDateBtn]} // Selected days list
             multipleDaySelect={false} //enables multiple day selection
-            selectDay={function(day){ handleDateClick(day)}}
+            selectDay={function(day){ handleDateClick(day); setDateClicked(true);}}
             unselectDay={function(day){}}
             onPrevClick={function(startDay, selectedDays){}} // called with the new startDay
             onNextClick={function(startDay, selectedDays){}} // called with the new startDay
@@ -227,7 +227,7 @@ export default function ScheduleAppointment(props) {
 
       <div className='mt-4'>
 
-        {availableTimeSlots?.length > 0 ? Object.entries(availableTimeSlots[0]?.availableSlots).map(([timePeriod, slotsArray]) => {
+        {availableTimeSlots?.length > 0 ? Object.entries(availableTimeSlots[0]?.availableSlots).map(([timePeriod, slotsArray]:any) => {
           
           return (
             <div className='schedule-chips' key={timePeriod}>
@@ -275,15 +275,30 @@ export default function ScheduleAppointment(props) {
           );
         })
           :
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-            <GetIcon onClick={
-              () => {
-              }}
-              className='my-5 mx-16 p-1 cursor-pointer rounded-sm'
-              iconName="SlotBoxesFilled" />
-            <div id="title" className="font-bold text-xl mb-3 " style={{ color: '#4D4D4D' }}>We are fully booked</div>
-            <div style={{ color: '#4D4D4D' }}>How about the next slot ?</div>
-            <Button onClick={() => { }} sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }} variant="contained" >Go to next slot</Button>
+          <div>
+            {dateClicked ? (
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: '10px' }}>
+              <GetIcon onClick={
+                () => {
+                }}
+                className='my-5 mx-16 p-1 cursor-pointer rounded-sm'
+                iconName="SlotBoxesFilled" />
+              <div id="title" className="font-bold text-xl mb-3 " style={{ color: '#4D4D4D' }}>We are fully booked</div>
+              <div style={{ color: '#4D4D4D' }}>How about the next slot ?</div>
+              <Button onClick={() => { }} sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }} variant="contained" >Go to next slot</Button>
+            </div>
+            ) 
+            : 
+            (
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginBottom: '10px' }}>
+                <GetIcon onClick={
+                  () => {
+                  }}
+                  className='my-5 mx-16 p-1 cursor-pointer rounded-sm'
+                  iconName="SlotBoxesFilled" />
+                <div id="title" className="font-bold text-xl mb-3 " style={{ color: '#4D4D4D' }}>Select a date to book your slot</div>
+            </div>
+            )}
           </div>
         }
 
@@ -307,7 +322,7 @@ export default function ScheduleAppointment(props) {
           </Grid>
         </Grid>
 
-        <Button onClick={() => onSetActiveStep(2)} variant="outlined">Next</Button>      </div>
+       </div>
     </div>
 
   );

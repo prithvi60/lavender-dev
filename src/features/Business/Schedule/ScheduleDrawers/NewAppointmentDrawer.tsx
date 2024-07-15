@@ -20,7 +20,6 @@ export default function NewAppointmentDrawer() {
   const [startTime, setStartTime] = useState(getCurrentTime12HrFormat(date.getHours(), date.getMinutes()));
   const [selectedDate, setSelectedDate] = useState(date)
   const [selectedBookingStatusFilters, setSelectedBookingStatusFilters] = useState([]);
-  console.log("AppointmentDrawer >",date,selectedDate, getCurrentTime12HrFormat(date.getHours(), date.getMinutes()))
 
   const resetData = () => {
     setSelectedTeamMember("");
@@ -30,7 +29,6 @@ export default function NewAppointmentDrawer() {
   };
 
   useEffect(() => {
-    console.log("appointmentdrawer triggered", getCurrentTime12HrFormat(date.getHours(), date.getMinutes()), startTime)
     setStartTime(getCurrentTime12HrFormat(date.getHours(), date.getMinutes()))
     setSelectedDate(date)
     return () => {

@@ -21,6 +21,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import endpoint from "../../../api/endpoints";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 
 const schema = yup.object().shape({
   serviceName: yup.string().required(),
@@ -45,7 +47,6 @@ const schema = yup.object().shape({
 
 
 export default function AddServicesForm({payload}) {
-  console.log("in add ser : ", payload)
   const {
     control,
     register,
@@ -67,6 +68,7 @@ export default function AddServicesForm({payload}) {
   });
 
   const { closeDrawer } = useDrawer();
+  const navigate = useNavigate()
 
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
@@ -82,7 +84,6 @@ export default function AddServicesForm({payload}) {
         if (establishmentData?.data?.success) {
           setCategories(establishmentData?.data?.data?.categories || []);
           setEmployee(establishmentData?.data?.data?.employees || []);
-
         }
       } catch (error) {
         console.error("Error fetching establishment details:", error);
@@ -116,8 +117,6 @@ export default function AddServicesForm({payload}) {
         discountPercentage: null,
       }));
     }
-    
-
     const payload = {
       "id": establishmentId,
       "categories": [
@@ -137,11 +136,25 @@ export default function AddServicesForm({payload}) {
 
     }
   ]
-}
-    const response = endpoint.saveEstablishmentService(payload);
-    closeDrawer();
+    }
+    mutation.mutate(payload)
 
   };
+
+  const mutation = useMutation({
+    mutationFn: (payload: any) => {
+      return endpoint.saveEstablishmentService(payload);
+    },
+    onSuccess: (response: any) => {
+      closeDrawer();
+    },
+    onError: (response: any) => {
+      alert('login unsuccess')
+    },
+    onSettled: () => {}
+      
+})
+
 
   const addOption = () => {
     append({});
@@ -228,7 +241,6 @@ export default function AddServicesForm({payload}) {
                   </Typography>
                   <Select
                     {...field}
-                    label="employees"
                     multiple
                     error={!!errors.employees}
                     fullWidth
@@ -236,7 +248,7 @@ export default function AddServicesForm({payload}) {
                   >
                     {employee?.map((emp) => (
                       <MenuItem key={emp.employeeId} value={emp.employeeId}>
-                        <Checkbox checked={field.value.indexOf(emp.employeeId) > -1} />
+                        <Checkbox checked={field.value.indexOf(emp.employeeName) > -1} />
                         {emp?.employeeName}
                       </MenuItem>
                     ))}
@@ -257,7 +269,7 @@ export default function AddServicesForm({payload}) {
                   <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
                     Gender
                   </Typography>
-                  <Select {...field} label="Gender" error={!!errors.gender} fullWidth>
+                  <Select {...field}  error={!!errors.gender} fullWidth>
                     <MenuItem value="M">Male</MenuItem>
                     <MenuItem value="F">Female</MenuItem>
                   </Select>
@@ -308,7 +320,7 @@ export default function AddServicesForm({payload}) {
                   defaultValue=""
                   render={({ field }) => (
                     <FormControl error={!!errors.duration} fullWidth>
-                      <Select {...field} label="Duration Amount" error={!!errors.duration} fullWidth>
+                      <Select {...field} error={!!errors.duration} fullWidth>
                         <MenuItem value="20">20</MenuItem>
                         <MenuItem value="30">30</MenuItem>
                       </Select>

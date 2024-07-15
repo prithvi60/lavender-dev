@@ -18,11 +18,14 @@ function OptionsModal({ props }) {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
   const [isSelectionValid, setIsSelectionValid] = useState(false); // To track if at least one option is selected
+  const [isSelected, setSelected] = useState(false);
 
   useEffect(() => {
     // Check if selectedOptions has changed from initial state or is not empty
-    setIsSelectionValid(selectedOptions.length > 0);
-  }, [selectedOptions]);
+    if(isSelected){
+        setSelected(true);
+    }
+  }, [isSelected, isSelectionValid]);
 
   const handleOpen = () => {
     setIsOpen(true);
@@ -38,10 +41,13 @@ function OptionsModal({ props }) {
       const selected = props.options.map(option => option.optionId);
       setSelectedOptions(selected);
       setSelectAll(true);
+      setSelected(true);
+
     } else {
       // Deselect all options
       setSelectedOptions([]);
       setSelectAll(false);
+      setSelected(true);
     }
   };
 
@@ -55,10 +61,10 @@ function OptionsModal({ props }) {
       updatedSelection.push(optionId);
     }
     setSelectedOptions(updatedSelection);
+    setSelected(true);
   };
 
   const handleSaveSelection = () => {
-    debugger
     // Filter out deselected options
     const deselectedOptions = props.options
       .filter(option => !selectedOptions.includes(option.optionId))
@@ -181,7 +187,7 @@ function OptionsModal({ props }) {
             </Grid>
           }
           <div className="flex justify-end mt-4 mx-6">
-            <Button variant="contained" onClick={handleSaveSelection} >Save Selection</Button>
+            {isSelected && <Button variant="contained" onClick={handleSaveSelection}>Save Selection</Button>}
           </div>
         </Box>
       </Modal>

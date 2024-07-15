@@ -32,7 +32,6 @@ const LandingPage = () => {
                 if(userDetails?.success && userDetails?.data?.userType === 'BU'){
                    navigate('/business');
                 }
-                console.log("suerDetails : ", userDetails)
               } catch (error) {
                 console.error('Error fetching user details:', error); // Handle any errors that occur
               }

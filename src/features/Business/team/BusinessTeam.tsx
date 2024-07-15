@@ -2,15 +2,15 @@ import { Button } from "../../../components/ui/button"
 import { DataTable } from "./data-table"
 import { useQuery } from '@tanstack/react-query'
 import endpoint from "../../../api/endpoints"
-import { teams } from "./teamsData"
 import { columns } from "./columns"
 import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
+import { useDrawer } from "../BusinessDrawerContext"
 
 export default function BusinessTeam() {
   const payload = {
     "pageNumber": 0,
-    "pageSize": 0,
+    "pageSize": 30,
     "sortBy": "",
     "sortDirection": "",
     "establishmentId": "",
@@ -21,6 +21,7 @@ export default function BusinessTeam() {
     "fromCost": 0,
     "toCost": 0
   }
+
 
   const { isLoading, data: userInfo } = useQuery({
     queryKey: ["query-user-info"],

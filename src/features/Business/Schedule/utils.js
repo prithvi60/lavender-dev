@@ -29,7 +29,6 @@ export const getMonday = () => {
   today.setHours(0, 0, 0, 0);
   const diff = (today.getDay() === 0 ? 6 : (today.getDay() - 1));
   const monday = today.getDate() - diff;
-  console.log("getMonday >>", monday, today.getDay(), today.getDate(), diff)
   return new Date(today.setDate(monday))
 }
 
@@ -37,7 +36,6 @@ export const getWeekEndDate = () => {
   const monday = getMonday()
   monday.setHours(23,59,0,0)
   const weekEndDate = addTime(monday, 'days', 6)
-  console.log("getWeekEndDate >", weekEndDate)
   return weekEndDate
 }
 
@@ -211,7 +209,6 @@ function filterAppointmentsByDateRange(data, startDate, endDate) {
 
       if (itemDate >= startDate && endDate >= itemDate) {
         const formattedDate = formatDate(itemDate);
-        console.log("test app test", formattedDate)
           if(appointments[formattedDate]){
             appointments[formattedDate].push(item);
           }
@@ -226,15 +223,12 @@ function filterAppointmentsByDateRange(data, startDate, endDate) {
 
 export const groupAppointments = (range, appointments, currentDate, weekStartDate, weekEndDate) => {
 
-  console.log("groupAppointments >", weekEndDate)
   let filteredAppointments = []
   if(range === 'Day') {
     filteredAppointments = groupAppointmentsBy(filterAppointmentsByDate(appointments, currentDate), 'Employee') //groupAppointmentsByEmployee(filterAppointmentsByDate(appointments, currentDate))
-    console.log("groupEmployees day", filteredAppointments)
   }
   else {
     filteredAppointments = groupAppointmentsBy(appointments, 'Date') //filterAppointmentsByDateRange(appointments, weekStartDate, weekEndDate)
-    console.log("groupEmployees week", filteredAppointments)
   }
 
   return filteredAppointments
@@ -332,7 +326,6 @@ function groupAppointmentsBy(appointments, filterBy) {
     }
   });
 
-  console.log("groupAppointmentsBy >", groupedBy)
   let groupedAppointments = {};
   for (let date in groupedBy) {
       let dateGroup = groupedBy[date];

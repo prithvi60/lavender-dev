@@ -28,7 +28,7 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     setValue,
   } = useForm({
     resolver: yupResolver(BusinessInfoSchema),
@@ -199,9 +199,12 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
                   {errors.zipCode && <p className="text-red-500 font-medium">{errors.zipCode.message}</p>}
                 </CardContent>
                 <CardContent>
-                  <Button fullWidth type="submit" variant="contained" sx={{ fontSize: '14px' }}>
+                  {isDirty && (
+                    <Button fullWidth type="submit" variant="contained" sx={{ fontSize: '14px' }}>
                     Save
                   </Button>
+                  )}
+                  
                 </CardContent>
               </Card>
             </Grid>

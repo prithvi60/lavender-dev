@@ -87,7 +87,6 @@ function EstablishmentDetails({ estId }) {
     },1000)
     
   },[])
-  console.log('establishmentData?.data?.data?.id : ', establishmentData?.data?.data?.id)
   return (
     <div className="searchDetailsContainer">
       <HeaderDetails

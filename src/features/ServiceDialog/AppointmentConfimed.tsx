@@ -1,9 +1,8 @@
 import { Modal, Divider, Slider, Avatar } from '@mui/material';
-import Buttons from "@mui/material/Button";
+import Button from "@mui/material/Button";
 import { Box, Grid } from '@mui/material';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Controller } from 'react-hook-form';
-import Button from "../../components/Button";
 import endpoint from '../../api/endpoints';
 import GetIcon from '../../assets/Icon/icon';
 import { useNavigate } from 'react-router-dom';
@@ -32,13 +31,11 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
     (state: any) => state.checkOutPage
   );
   
-  const { selectedDate, timeOfDay, startTime, endTime ,id} = useSelector(
+  const { selectedDate, timeOfDay, startTime, endTime ,id, payAtVenue, tncAgree, promotionAgree, serviceNotes} = useSelector(
     (state: any) => state.ScheduleAppoinment
   );
   
-console.log("id : ", id)
-
-
+  
   const dispatch = useDispatch();
 
   const handleOpen = () => {
@@ -52,7 +49,6 @@ console.log("id : ", id)
 
   async function saveAppointmentClick(){
 
-    
     if(activeStep===2){
 
         const modifiedStartTime = convertToDateTime(startTime, selectedDate);
@@ -72,7 +68,7 @@ console.log("id : ", id)
           "totalCost": checkOutList.checkOut[0].finalPrice,
           "appointmentServices": [],
           "paymentInfo": {
-            "payAtVenue": true,
+            "payAtVenue": payAtVenue,
             "cardStoreId": "string",
             "paymentStatus": "string",
             "paymentTxnId": "string"
@@ -82,7 +78,7 @@ console.log("id : ", id)
         const appointmentServices = checkOutList.checkOut.map(item => ({
           serviceId: item.serviceId,
           optionId: item.optionId,
-          serviceNotes: 'string', 
+          serviceNotes: serviceNotes, 
           employeeId: id, 
           serviceCost: item.finalPrice, 
           bookingStatus: 'confirmed', 
@@ -111,9 +107,18 @@ console.log("id : ", id)
 
   }
 
+  useEffect(()=>{
+    if(tncAgree){
+      setDisabled(false)
+    }
+    else{
+      setDisabled(true)
+    }
+  },[tncAgree])
+
   return (
     <div>
-    <Buttons  disabled={false} className='w-full' onClick={()=>saveAppointmentClick()} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Buttons>
+      <Button fullWidth disabled={disabled} className='w-full' onClick={()=>saveAppointmentClick()} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button>
       <Modal
         open={open}
         onClose={handleOpen}

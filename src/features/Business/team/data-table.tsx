@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Button } from "../../../components/ui/button"
 import {
   ColumnDef,
@@ -60,11 +60,14 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  const { openDrawer } = useDrawer()
+  const { openDrawer, isOpen } = useDrawer()
  
+  useEffect(() => {
 
-  const [filterStartDate, setFilterStartDate] = useState(new Date())
-  const [filterEndDate, setFilterEndDate] = useState('')
+  }, [isOpen])
+
+  // const [filterStartDate, setFilterStartDate] = useState(new Date())
+  // const [filterEndDate, setFilterEndDate] = useState('')
 
   return (
     <div className="rounded-md border">
@@ -240,7 +243,6 @@ export function DataTable<TData, TValue>({
             {/* <div>
                   <GetIcon onClick={    
                     () => {
-                    console.log("filter icon clicked")
                     openDrawer("FilterDrawer")
                     }}
                     className='my-5 mx-16 border-2 border-gray-400 p-1 cursor-pointer rounded-sm' 

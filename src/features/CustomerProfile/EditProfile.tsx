@@ -117,7 +117,6 @@ function EditProfile({ userInfo }) {
             >
                 <Card sx={modalStyle}>
                 <form onSubmit={ handleSubmit((data)=>{
-                        
                         onSubmit(data);
                     })}>
                     <Grid container spacing={2}>

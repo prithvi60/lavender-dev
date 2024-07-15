@@ -182,7 +182,6 @@ export default function AddCategoryForm({payload}) {
                   </Typography>
                   <Select
                     {...field}
-                    label="serviceTags"
                     error={!!errors.serviceTags}
                     fullWidth
                   >

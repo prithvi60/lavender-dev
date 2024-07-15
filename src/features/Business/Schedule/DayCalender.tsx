@@ -45,7 +45,6 @@ import { CustomTooltip } from "../../../components/CustomTooltip";
 export const DayCalendar = () => {
 
   const { filteredAppointments, employees } = GetScheduleDates()
-  console.log("test day >", filteredAppointments)
   // const [appointments, setAppointments] = useState(filteredAppointments)
   const [deleteIcon, showDeleteIcon] = useState(false)
   const [newAppointment, setNewAppointment] = useState('')
@@ -159,7 +158,6 @@ export const DayCalendar = () => {
                     
                     {filteredAppointments[employee.employeeName]?.map( (appointmentGroup) => appointmentGroup.map(
                       (appointment, index, allAppointments) => {
-                        console.log("render day >", allAppointments.length, index)
                         const allAppointmentsCount = allAppointments.length
                         return (
                               <Appointment

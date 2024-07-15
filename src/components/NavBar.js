@@ -11,19 +11,40 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import GetIcon from "../assets/Icon/icon.tsx";
 import PersonIcon from "@mui/icons-material/Person";
-
+import endpoint from "../api/endpoints.ts";
 
 const Navbar = (props) => {
-  const { isSearchPage, isLoggedIn, userName } = props;
+  const { isSearchPage, isLoggedIn } = props;
 
   const [showSearchBar, setshowSearchBar] = useState(false);
+  const [userName, setUserName] = useState('');
+  const [userType, setUserType] = useState('');
+
+  useEffect(()=>{
+    setTimeout(()=>{
+      if(localStorage.getItem('Token')){
+        const fetchCurrentUserDetails = async () => {
+            try {
+              const response = await endpoint.getCurrentUserDetails(); // Call the async function to get user details
+              const userDetails = response?.data; // Assuming response.data contains the user details
+              setUserName(userDetails?.data?.fullName)
+              setUserType(userDetails?.data?.userType)
+            } catch (error) {
+              console.error('Error fetching user details:', error); // Handle any errors that occur
+            }
+          }
+          fetchCurrentUserDetails();
+      }
+    },[1000])
+    
+  },[])
 
   const getLoginRoute = () => {
     return navigate('/login')
   };
 
   function getUserRoute(){
-navigate('/userprofile')
+  navigate('/userprofile')
   };
 
   const getAdminRoute = () => {
@@ -41,7 +62,7 @@ navigate('/userprofile')
 
   function handleLogOutBtn(){
     localStorage.clear();
-    return navigate("/");
+    return navigate(0);
   }
 
   return (
@@ -72,13 +93,16 @@ navigate('/userprofile')
               Logout
             </Button>
             }
-            <Button
+            {
+              userType === "BU" && <Button
               href={getBusinessRoute()}
               className="button-outline"
               variant="outlined"
             >
               Business
             </Button>
+            }
+            
             {isLoggedIn ? (
                 <ButtonRouter name={userName} to={'/userprofile'} startIcon={<PersonIcon />} />
             ) : (

@@ -10,7 +10,6 @@ const checkOutPageSlice = createSlice({
     initialState,
     reducers: {
         updateCheckOut: (state, action) => {
-            debugger;
             let serviceDetails =  {
                 serviceId: action.payload.serviceId,
                 optionId: action.payload.optionId,

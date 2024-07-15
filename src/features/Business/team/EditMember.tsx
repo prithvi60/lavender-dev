@@ -24,14 +24,7 @@ export default function EditMemberForm() {
   const { closeDrawer } = useDrawer();
 
   const handleFilterDrawerSubmit = () => {
-    console.log(
-      "filterDrawer",
-      fullName,
-      email,
-      accessLevel,
-      filterStartDate,
-      filterEndDate
-    );
+    
     closeDrawer();
   };
 
