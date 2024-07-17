@@ -166,7 +166,7 @@ const RecommendSection = () => {
   return (
     <div className="recommend-section">
         <Grid item xs={12} className="pt-16 pb-8 md:pb-16">
-            <h4 className='text-2xl md:text-4xl font-semibold text-center text'>Our Recommended Picks</h4>
+            <Text sx={styles.header} name={'Our Recommended Picks'}/>
         </Grid>
         {!isLoading && 
         
@@ -220,3 +220,12 @@ const RecommendSection = () => {
 };
 
 export default RecommendSection;
+
+const styles = {
+  header: {
+    fontSize: '36px',
+    fontWeight: 600,
+    color: '#333333',
+    lineHeight: '43px'
+  }
+}

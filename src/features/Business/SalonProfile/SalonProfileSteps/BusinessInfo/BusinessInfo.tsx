@@ -148,22 +148,32 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
                     <p className="text-red-500 font-medium">{errors.establishmentAbout.message}</p>
                   )}
                 </CardContent>
+
                 <CardContent>
-                  <Typography variant="h6" sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
-                    Extension
-                  </Typography>
-                  <Grid container spacing={1}>
+                  <Grid container spacing={2}>
+                    {/* Extension label and TextField */}
                     <Grid item xs={4}>
-                      <TextField size="small" variant="outlined" {...register('phoneExtension')} />
+                      <Typography variant="h6" sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
+                        Extension
+                      </Typography>
+                      <TextField inputProps={{ maxLength: 3 }} size="small" variant="outlined" {...register('phoneExtension')} />
                     </Grid>
+
+                    {/* Phone label and TextField */}
                     <Grid item xs={8}>
-                      <TextField size="small" variant="outlined" {...register('phoneNumber')} />
+                      <Typography variant="h6" sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
+                        Phone
+                      </Typography>
+                      <TextField inputProps={{ maxLength: 10 }} size="small" fullWidth variant="outlined" {...register('phoneNumber')} />
                     </Grid>
                   </Grid>
                   {errors.phoneNumber && (
                     <p className="text-red-500 font-medium">{errors.phoneNumber.message}</p>
                   )}
                 </CardContent>
+
+
+
                 <CardContent>
                   <Typography variant="h6" sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
                     Email ID

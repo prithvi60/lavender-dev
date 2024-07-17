@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Box, Card, CardContent, IconButton, List, ListItem, ListItemText, Typography } from '@mui/material';
 import GetIcon from '../../../../assets/Icon/icon';
 import ImageUploading from 'react-images-uploading';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import endpoint from '../../../../api/endpoints';
 import { useSnackbar } from '../../../../components/Snackbar';
-
+import Text from '../../../../components/Text';
 interface ImageUploadResponse {
   data: {
     success: boolean;
@@ -227,7 +227,7 @@ export const Photos = ({userDetails}) => {
           <img key={index} src={url} alt={`Image ${index}`} style={{ width: '200px', margin: '10px' }} />
         ))}
       </div>
-    </div>
+      </div>
       
       {
         (isImageUploaded && !loading) && 
@@ -237,7 +237,45 @@ export const Photos = ({userDetails}) => {
         </button>
       </div>
       }
+
+      <Box sx={{display: 'flex', justifyContent: 'center', padding: 3}}>
+        <Box>
+          <Card sx={styles.cardContainer}>
+            <Box sx={{display: 'flex', justifyContent: 'center', padding: 0}}>
+              <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                <IconButton>
+                  <GetIcon iconName='Caution'/>
+                </IconButton>
+              </Box>
+              <Box>
+                <List sx={{maxWidth: '517px'}}>
+                  <ListItem>
+                    <Typography align={"left"} sx={styles.text} >Use high-resolution images to ensure your photos look great on all devices with a minimum size of <strong>800 x 600 pixels.</strong></Typography>
+                  </ListItem>
+                  <ListItem>
+                    <Typography align={"left"} sx={styles.text}>We accept <strong>JPEG & PNG</strong> file formats.</Typography>
+                  </ListItem>
+                </List>
+              </Box>
+              </Box>
+          </Card>
+        </Box>
+      </Box>
       
     </div>
   );
 };
+
+const styles = {
+  cardContainer: {
+    backgroundColor: '#E6E1FF',
+    width: '640px',
+    height: '91px',
+    Padding: 2
+  },
+  text: {
+    fontSize: '12px',
+    fontWeight: 500,
+    lineHeight: '14.4px'
+  },
+}

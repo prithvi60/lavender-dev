@@ -53,7 +53,7 @@ const TreatmentPanel = () => {
 
   return (
     <div className='home-treatments-filter'>
-      <Text variant="body1" align="left" className="bold" name="Choose your Treatments" />
+      <Text align="left" sx={styles.header} name="Choose your Treatments" />
       <div className='treatment-grid'>
         <Grid item xs={12}>
           <Grid container spacing={1}>
@@ -81,3 +81,11 @@ const TreatmentPanel = () => {
 };
 
 export default TreatmentPanel;
+
+const styles = {
+  header: {
+    fontSize: '18px',
+    fontWeight: 700,
+    color: '#4D4D4D'
+  }
+}

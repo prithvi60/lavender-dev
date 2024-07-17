@@ -7,7 +7,7 @@ import TextRouter from "./TextRouter";
 import NewSearchPanel from "../features/SearchPanel/NewSearchPanel";
 import NavFilter from "./NavFilter.tsx";
 import { useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
+import Button from "./Button.js";
 import Stack from "@mui/material/Stack";
 import GetIcon from "../assets/Icon/icon.tsx";
 import PersonIcon from "@mui/icons-material/Person";
@@ -70,18 +70,12 @@ const Navbar = (props) => {
       <AppBar position="fixed" className="nav-bar">
         <Toolbar>
           <GetIcon
-            className="cursor-pointer"
-            onClick={gotoLandingPage}
-            iconName="LavenderLogo"
-          />
-          <Text
-            onClick={gotoLandingPage}
-            align="left"
             className="cursor-pointer nav-bar-title flex"
-            variant="h6"
-            sx={{ flexGrow: 1 }}
-            name="Lavender"
+            align="left"
+            onClick={gotoLandingPage}
+            iconName="LavenderFullLogo"
           />
+          
           {isSearchPage && <NavFilter setshowSearchBar={setshowSearchBar} />}
           <Stack spacing={2} direction="row">
             {
@@ -89,8 +83,10 @@ const Navbar = (props) => {
               onClick={()=>{handleLogOutBtn()}}
               className="button-outline"
               variant="outlined"
+              name="Logout"
+              sx={styles.buttonStyles}
             >
-              Logout
+              
             </Button>
             }
             {
@@ -98,15 +94,17 @@ const Navbar = (props) => {
               href={getBusinessRoute()}
               className="button-outline"
               variant="outlined"
+              name={'Business'}
+              sx={styles.buttonStyles}
             >
-              Business
+              
             </Button>
             }
             
             {isLoggedIn ? (
-                <ButtonRouter name={userName} to={'/userprofile'} startIcon={<PersonIcon />} />
+                <ButtonRouter sx={styles.buttonStyles} name={userName} to={'/userprofile'} startIcon={<PersonIcon />} />
             ) : (
-                <ButtonRouter name={"Login"} to={'/login'} />
+                <ButtonRouter sx={styles.buttonStyles} name={"Log in"} to={'/login'} />
             )}
           </Stack>
           {isSearchPage && showSearchBar && (
@@ -122,3 +120,14 @@ const Navbar = (props) => {
 };
 
 export default Navbar;
+
+const styles = {
+  buttonStyles : {
+    width: '120px', 
+    height: '37px', 
+    fontFamily: 'Urbanist',
+    borderRadius: '10px',
+    padding: "10px, 40px, 10px, 40px !important",
+    gap: '10px'
+  }
+}

@@ -34,3 +34,11 @@ const CategoryPanel = () => {
 };
 
 export default CategoryPanel;
+
+const styles = {
+  header: {
+    fontSize: '18px',
+    fontWeight: 700,
+    color: '#4D4D4D'
+  }
+}
