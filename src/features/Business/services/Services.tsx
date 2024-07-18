@@ -353,7 +353,7 @@ export const Services: React.FC = () => {
     });
 
     setData({ components: transformedCategories });
-  }, [categories, isOpen]);
+  }, [categories]);
 
   const handleEditCategory = (categoryId) =>{
     openDrawer('addCategory', categoryId);

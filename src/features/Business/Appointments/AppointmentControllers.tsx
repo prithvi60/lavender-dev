@@ -36,7 +36,7 @@ export function SearchInput({onChange, placeholder}) {
     return (
         <Paper
         component="form"
-        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
+        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: '35%', height:  '37px'}}
         >
         <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
             <SearchIcon />
@@ -234,7 +234,7 @@ export const AppointmentDateSelector = ({startDate, endDate, startDateControl, e
         <>
             <DropdownMenu>
                 <DropdownMenuTrigger>
-                    <Button variant="outline" className='w-72 flex justify-between shadow'>
+                    <Button variant="outline" className='w-64 flex justify-between shadow'>
                         <GetIcon iconName={'CalenderIcon'}/>
                         {startDate.toLocaleDateString('en-au') || '__/__/____'} to {endDate ? endDate?.toLocaleDateString('en-au') : '__/__/____'}
                         <ChevronDown className="h-4 w-4" />

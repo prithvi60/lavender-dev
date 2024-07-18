@@ -38,7 +38,7 @@ export const searchPageSlice = createSlice({
       state.SelectedTime.to = action.payload.SelectedTimeTo;
     },
     updateSearchSelectedBox: (state, action) => {
-      debugger
+      
       state.selectedBox = action.payload.selectedBox;
       state.showOptionContainer = action.payload.showOptionContainer;
     },

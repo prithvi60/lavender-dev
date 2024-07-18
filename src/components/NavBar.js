@@ -102,7 +102,7 @@ const Navbar = (props) => {
             }
             
             {isLoggedIn ? (
-                <ButtonRouter sx={styles.buttonStyles} name={userName} to={'/userprofile'} startIcon={<PersonIcon />} />
+                <ButtonRouter sx={styles.buttonStylesCust} name={userName} to={'/userprofile'} startIcon={<PersonIcon />} />
             ) : (
                 <ButtonRouter sx={styles.buttonStyles} name={"Log in"} to={'/login'} />
             )}
@@ -128,6 +128,14 @@ const styles = {
     fontFamily: 'Urbanist',
     borderRadius: '10px',
     padding: "10px, 40px, 10px, 40px !important",
-    gap: '10px'
+    gap: '10px',
+  },
+  buttonStylesCust : {
+    width: '200px', 
+    height: '37px', 
+    fontFamily: 'Urbanist',
+    borderRadius: '10px',
+    padding: "10px, 40px, 10px, 40px !important",
+    gap: '10px',
   }
 }

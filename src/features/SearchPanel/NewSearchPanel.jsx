@@ -40,7 +40,7 @@ const NewSearchPanel = () => {
     {
       label: "tomorrow",
       getValue: () => {
-        debugger
+        
         const tomorrow = dayjs().add(1, 'day');
         return [tomorrow.startOf("day"), tomorrow.endOf("day")];
       },
@@ -48,7 +48,7 @@ const NewSearchPanel = () => {
     {
       label: "+2days",
       getValue: () => {
-        debugger
+        
         const tomorrow = dayjs().add(1, 'day');
         const plusTwoDay = dayjs().add(2, 'day');
         return [tomorrow, plusTwoDay.endOf("day")];
@@ -66,7 +66,7 @@ const NewSearchPanel = () => {
     {
       label: "Next Week",
       getValue: () => {
-        debugger
+        
         const today = dayjs();
         const startOfNextWeek = today.endOf("week").add(1, "day");
         return [startOfNextWeek, startOfNextWeek.endOf("week")];

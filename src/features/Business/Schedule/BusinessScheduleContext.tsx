@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import endpoint from '../../../api/endpoints';
 import { useSelector } from 'react-redux';
 import { useFetchAppointments, useFetchEmployees } from '../BusinessHooks';
+import { getBrowserCache } from '../../../api/constants';
 
 const ScheduleContext = createContext(null);
 
@@ -11,17 +12,21 @@ export const GetScheduleDates = () => useContext(ScheduleContext);
 
 export const ScheduleProvider = ({ children }) => {
   
-  const [durationState, setDurationState] = useState('Day')
+  const [durationState, setDurationState] = useState('Week')
   const [ selectedDate , setSelectedDate] = useState(new Date())
   const [ filterWeekStartDate , setFilterWeekStartDate] = useState(getMonday())
   const [ filterWeekEndDate , setFilterWeekEndDate] = useState(getWeekEndDate())
   
   const employees = useFetchEmployees()
+
+  const estId = getBrowserCache("EstablishmentId")
+  
+  console.log("estId", estId)
   const payload = 
     {
       "pageNumber": 0,
       "pageSize": 10,
-      "establishmentId":"EST00002507",
+      "establishmentId": estId === "" ? "" : estId,
       "fromCost": 0,
       "toCost": 1000,
       // "sortBy": "",
