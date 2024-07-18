@@ -7,6 +7,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import endpoint from '../../../../api/endpoints';
 import { useSnackbar } from '../../../../components/Snackbar';
 import Text from '../../../../components/Text';
+import Button from '../../../../components/Button';
 interface ImageUploadResponse {
   data: {
     success: boolean;
@@ -118,7 +119,8 @@ export const Photos = ({userDetails}) => {
       console.error('Upload Error:', error);
       alert('Upload Error');
     },
-    onSettled: () => {},
+    onSettled: () => {
+    },
   });
 
   const handleButtonClick = async () => {
@@ -132,6 +134,7 @@ export const Photos = ({userDetails}) => {
       callSaveImageIdApi(imageIdList);
       setImageUrls(urls);
       setLoading(false);
+      setIsImageUploaded(false);
     } catch (error) {
       setError(error);
       setLoading(false);
@@ -151,7 +154,7 @@ export const Photos = ({userDetails}) => {
       showSnackbar(response?.data?.data, 'error');
     }
   }
-
+  
   return (
     <div>
       <div className='text-5xl font-bold text-center p-2' style={{ color: '#4D4D4D' }}>
@@ -200,13 +203,11 @@ export const Photos = ({userDetails}) => {
                 )}
               </Droppable>
               <div style={{ padding: '10px' }}>
-                <Card style={{ width: '200px', height: '200px' }}>
-                  <CardContent sx={{ marginTop: '30px' }}>
-                    <button
-                      style={isDragging ? { color: 'red' } : null}
+                <Card sx={{ width: '200px', height: '200px', cursor: "pointer" }} style={isDragging ? { backgroundColor: '#E6E1FF' } : null}
                       onClick={onImageUpload}
-                      {...dragProps}
-                    >
+                      {...dragProps}>
+                  <CardContent sx={{ marginTop: '30px' }}>
+                    <button>
                       <Typography sx={{ fontSize: '20px', fontWeight: '600' }}>Add your first photos</Typography>
                       <GetIcon style={{ display: 'flex', justifyContent: 'center' }} iconName='PlusIcon' />
                     </button>
@@ -217,6 +218,19 @@ export const Photos = ({userDetails}) => {
           )}
         </ImageUploading>
       </DragDropContext>
+
+      {
+        (isImageUploaded && !loading) && 
+        <div className='flex flex-col justify-center items-center mt-4'>
+        <Text name={"Photo is uploaded. Please save it."} sx={{p: 1}}/>
+        
+        <Button
+              onClick={handleButtonClick}
+              name={'Save'}
+              sx={styles.buttonStyles}
+            ></Button>
+      </div>
+      }
 
       <div>
       <br />
@@ -229,14 +243,6 @@ export const Photos = ({userDetails}) => {
       </div>
       </div>
       
-      {
-        (isImageUploaded && !loading) && 
-        <div className='flex justify-center mt-4'>
-        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleButtonClick}>
-          Save
-        </button>
-      </div>
-      }
 
       <Box sx={{display: 'flex', justifyContent: 'center', padding: 3}}>
         <Box>
@@ -278,4 +284,12 @@ const styles = {
     fontWeight: 500,
     lineHeight: '14.4px'
   },
+    buttonStyles : {
+      width: '120px', 
+      height: '37px', 
+      fontFamily: 'Urbanist',
+      borderRadius: '10px',
+      padding: "10px, 40px, 10px, 40px !important",
+      gap: '10px',
+    },
 }
