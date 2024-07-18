@@ -131,7 +131,7 @@ const styles = {
     gap: '10px',
   },
   buttonStylesCust : {
-    width: '200px', 
+    width: '100%', 
     height: '37px', 
     fontFamily: 'Urbanist',
     borderRadius: '10px',

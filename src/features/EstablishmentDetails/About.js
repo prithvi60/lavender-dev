@@ -54,6 +54,20 @@ function About(props) {
                     iconName="PaymentCardIcon"
                     text="Payment methods"
                   />
+                  <div className="w-full md:w-4/12 pl-8 md:pl-0">
+                  
+                  <div>
+                    {establishmentPaymentTypes ? (
+                      Object?.keys(establishmentPaymentTypes)?.map((item, index) => (
+                        <div key={index} className="urbanist-font font-normal text-sm py-1">
+                          {item}
+                        </div>
+                      ))
+                    ) : (
+                      <div>Payment types not added</div>
+                    )}
+                  </div>
+                </div>
                 </div>
                 
               </div>
@@ -62,8 +76,8 @@ function About(props) {
             <div className="flex flex-wrap justify-between py-4">
               <GetIcon
                   className="flex items-center gap-3 h-fit urbanist-font text-lg font-semibold w-full md:w-8/12"
-                  iconName="PaymentCardIcon"
-                  text="Payment methods"
+                  iconName="LanguageIcon"
+                  text="Languages"
                 />
               <div className="w-full md:w-4/12 pl-8 md:pl-0">
                 {establishmentLanguages?.map((item) => (
@@ -81,12 +95,17 @@ function About(props) {
                 </GetIcon>
                 <div className="w-full md:w-4/12 pl-8 md:pl-0">
                   
-                    {featureNames?.map((item) => (
-                  
-                    <div className="urbanist-font font-normal text-sm py-1">
-                      {item}
-                    </div>
-                  ))}
+                  <div>
+                    {establishmentFeatures ? (
+                      Object?.keys(establishmentFeatures)?.map((item, index) => (
+                        <div key={index} className="urbanist-font font-normal text-sm py-1">
+                          {item}
+                        </div>
+                      ))
+                    ) : (
+                      <div>Features not added</div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
