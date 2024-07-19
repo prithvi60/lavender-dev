@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunklavender_ui=self.webpackChunklavender_ui||[]).push([[591],{88591:(e,a,n)=>{n.r(a),n.d(a,{default:()=>s});var t=n(96540),l=n(48993),c=n(97553),r=n(69067);const s=function(){const[e,a]=(0,t.useState)(!0);return t.createElement(r.A,{className:"landing-page"},t.createElement(c.A,{isSearchPage:e}),t.createElement(l.A,null))}}}]);
