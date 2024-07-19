@@ -30,6 +30,10 @@ import {
   cancelAppointment,
   saveReviews,
   getReviews,
+  getTreatmentServices,
+  treatmentServicesByLocation,
+  treatmentServicesByDate,
+  treatmentServicesByTime,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -60,7 +64,6 @@ class Endpoint {
       payload
     );
     this.setTenantToken(response.data);
-    return response;
   }
 
   async userRegister(payload) {
@@ -122,28 +125,24 @@ class Endpoint {
   }
 
   async saveAppointmentBookings(payload) {
-    
-
     const response = await axiosInstance.post(
       `${BaseURL}${appointmentBooking}`,
       payload
     );
-    
+
     return response;
   }
 
   async setTenantToken(data: any) {
     // add to cache
-    if(data.success){
+    if (data.success) {
       setBrowserCache("Token", data?.data?.token);
       setBrowserCache("TokenExpiry", data?.data?.expiresIn);
       setBrowserCache("UserId", data?.data?.userId);
-      if(data?.data?.establishmentId){
+      if (data?.data?.establishmentId) {
         setBrowserCache("EstablishmentId", data?.data?.establishmentId);
-  
       }
     }
-    
   }
 
   // Business Endpoints
@@ -152,7 +151,7 @@ class Endpoint {
       `${BaseURL}${saveEstablishment}`,
       payload
     );
-    
+
     return response;
   }
 
@@ -161,7 +160,7 @@ class Endpoint {
       `${BaseURL}${saveWorkingHours}`,
       payload
     );
-    
+
     return response;
   }
 
@@ -174,31 +173,25 @@ class Endpoint {
   }
 
   async publishEstablishment(payload) {
-    const response = await axiosInstance.post(
-      `${BaseURL}${publish}`,
-      payload
-    );
+    const response = await axiosInstance.post(`${BaseURL}${publish}`, payload);
     return response;
   }
 
   async saveEstablishmentService(payload) {
-    const response = await axiosInstance.post(
-      `${BaseURL}${service}`,
-      payload
-    );
+    const response = await axiosInstance.post(`${BaseURL}${service}`, payload);
     return response;
   }
 
   async saveEstablishmentCategory(payload) {
-    const response = await axiosInstance.post(
-      `${BaseURL}${category}`,
-      payload
-    );
+    const response = await axiosInstance.post(`${BaseURL}${category}`, payload);
     return response;
   }
 
   async getImages(payload, establishmentId) {
-    const response = await axiosInstance.get(`${BaseURL}${savePhotos}${establishmentId}/${payload}`,{responseType: 'blob'});
+    const response = await axiosInstance.get(
+      `${BaseURL}${savePhotos}${establishmentId}/${payload}`,
+      { responseType: "blob" }
+    );
     return response;
   }
 
@@ -251,10 +244,7 @@ class Endpoint {
   }
 
   async saveCardInfo(payload) {
-    const response = await axiosInstance.post(
-      `${BaseURL}${saveCard}`,
-      payload
-    );
+    const response = await axiosInstance.post(`${BaseURL}${saveCard}`, payload);
     return response;
   }
 
@@ -282,11 +272,45 @@ class Endpoint {
     return response;
   }
 
+  async getTreatmentServicesList(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${getTreatmentServices}`,
+      payload
+    );
+
+    return response;
+  }
+
+  async getTreatmentServicesListByLocation(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${treatmentServicesByLocation}`,
+      payload
+    );
+
+    return response;
+  }
+
+  async getTreatmentServicesListByDate(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${treatmentServicesByDate}`,
+      payload
+    );
+
+    return response;
+  }
+
+  async getTreatmentServicesListByTime(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${treatmentServicesByTime}`,
+      payload
+    );
+
+    return response;
+  }
 }
 
 // function FormAvailableSlotsModel(response) {
 //   let keyvalue = 1;
-  
 
 //   response.data.map((item) => {
 //     Object.keys(item.availableSlots).forEach((period) => {

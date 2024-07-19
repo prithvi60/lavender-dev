@@ -21,6 +21,7 @@ export default function AppointmentDrawer() {
   const [startTime, setStartTime] = useState(getCurrentTime12HrFormat(date.getHours(), date.getMinutes()));
   const [selectedDate, setSelectedDate] = useState(date)
   const [selectedBookingStatusFilters, setSelectedBookingStatusFilters] = useState([]);
+  console.log("AppointmentDrawer >", date, selectedDate, getCurrentTime12HrFormat(date.getHours(), date.getMinutes()))
 
   const dataObj = [
     { name: 'asd', phone: '+91 981184838', email: 'asd@gmail.com' },

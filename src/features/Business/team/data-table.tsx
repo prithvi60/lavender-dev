@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { Button as Buttons} from "../../../components/ui/button"
-import Button from "../../../components/Button"
+import React, { useState } from "react"
+import { Button } from "../../../components/ui/button"
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -27,7 +26,6 @@ import { DataTablePagination } from "../../../components/DataTablePagination"
 import { useDrawer } from '../BusinessDrawerContext'
 import { useNavigate } from "react-router-dom"
 import AddMemberForm from "./AddMemberForm"
-import endpoint from "../../../api/endpoints"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -62,15 +60,16 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  const { openDrawer, isOpen } = useDrawer()
+  const { openDrawer } = useDrawer()
  
-  // const [filterStartDate, setFilterStartDate] = useState(new Date())
-  // const [filterEndDate, setFilterEndDate] = useState('')
+
+  const [filterStartDate, setFilterStartDate] = useState(new Date())
+  const [filterEndDate, setFilterEndDate] = useState('')
 
   return (
     <div className="rounded-md border">
-      <div className="w-full flex flex-row justify-between items-center">
-        <div className="flex m-4 justify-between items-center">
+      <div className="w-3/4 flex flex-row justify-between items-center">
+        <div className="flex m-4 justify-between items-center w-6/12">
           <SearchInput
             placeholder="Search by ID/Client name"
             value={(table.getColumn("client")?.getFilterValue() as string) ?? ""}
@@ -78,13 +77,11 @@ export function DataTable<TData, TValue>({
               table.getColumn("client")?.setFilterValue(event.target.value)
             }
           />
-          <div style={{paddingLeft: '10px'}}>
-            <Buttons variant="outline" size="lg" style={{minWidth: '188px', minHeight: '37px'}}>Export</Buttons>
-          </div>
+          <Button variant="outline" size="lg">Export</Button>
         </div>
-        <div style={{paddingRight: '10px'}}>
-          <Button size="lg" sx={{minWidth: '148px', minHeight: '25px'}}
-          onClick={() => openDrawer('addMember')} name={"Add Member"}></Button>
+        <div>
+          <Button variant="outline" size="lg" className="bg-indigo-500 text-white"
+          onClick={() => openDrawer('addMember')}>Add Member</Button>
         </div>
       </div>
 
@@ -243,6 +240,7 @@ export function DataTable<TData, TValue>({
             {/* <div>
                   <GetIcon onClick={    
                     () => {
+                    console.log("filter icon clicked")
                     openDrawer("FilterDrawer")
                     }}
                     className='my-5 mx-16 border-2 border-gray-400 p-1 cursor-pointer rounded-sm' 

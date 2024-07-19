@@ -130,6 +130,6 @@ export function convertToYearOnly(date){
 }
 
 export function convertToTimeOnly(date){
-  const dateObj = moment.utc(date);
+  const dateObj = moment(date);
   return dateObj.format('h:mm A');
 }

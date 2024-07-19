@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 import BusinessDrawer from './BusinessDrawer';
-import endpoint from '../../api/endpoints';
 
 const DrawerContext = createContext(null);
 
@@ -22,7 +21,6 @@ export const DrawerProvider = ({ children }) => {
   const closeDrawer = () => {
     setIsOpen(false);
     setContent(null);
-
   };
 
   return (

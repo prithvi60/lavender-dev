@@ -20,11 +20,6 @@ function CheckoutCard(props) {
     (state: any) => state.checkOutPage
   );
 
-  const scheduleAppoinmentList = useSelector(
-    (state: any) => state.ScheduleAppoinment
-  );
-
-
   const [imageIdList, setImageIdList]= useState<string | any>([]);
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
@@ -33,44 +28,28 @@ function CheckoutCard(props) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
 
+
+
+
   useEffect(()=>{
-    if(checkOutList?.checkOut?.length > 0){
+    if(checkOutList.checkOut.length > 0){
       setDisabled(false);
       calculateTotalPrice();
       calculateTotalDuration();
     }
-    else{
-      setTotalPrice(0);
-      setTotalDuration(0);
-    }
   },[checkOutList])
 
-  useEffect(()=>{
-    if(activeStep >= 1)
-    setDisabled(true);
-  },[activeStep])
 
-  useEffect(()=>{
-    if(activeStep >= 1 && scheduleAppoinmentList?.startTime){
-      setDisabled(false);
+  function calculateTotalPrice(){
+    for(let item of checkOutList.checkOut){
+      setTotalPrice(totalPrice + item?.finalPrice)
     }
-  },[scheduleAppoinmentList])
-
-
-  function calculateTotalPrice() {
-    let totalPriceSum = 0;
-    for (let item of checkOutList?.checkOut) {
-      totalPriceSum += item?.finalPrice;
-    }
-    setTotalPrice(totalPriceSum);
   }
-  
-  function calculateTotalDuration() {
-    let totalDurationSum = 0;
-    for (let item of checkOutList?.checkOut) {
-      totalDurationSum += item?.duration;
+
+  function calculateTotalDuration(){
+    for(let item of checkOutList.checkOut){
+     setTotalDuration(totalDuration + item?.duration)
     }
-    setTotalDuration(totalDurationSum);
   }
 
   dispatch(UpdateCheckoutInfo({
@@ -137,6 +116,7 @@ function CheckoutCard(props) {
     }
   }, [imageIdList])
 
+  console.log("establishmentData : ", establishmentData)
   return (
       <div className='urbanist-font mb-6 rounded-2xl chackout-card-container'> {/* Adjusted width to be responsive */}
         <CardContent >
@@ -172,11 +152,7 @@ function CheckoutCard(props) {
 
 
                 <div className='flex justify-center'>
-                  {activeStep < 2 
-                  ? 
-                  <Button disabled={disabled} className='w-full' onClick={()=>sendDataToParent()} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button> 
-                  : 
-                  <AppointmentConfimed establishmentId={establishmentId} activeStep={activeStep}/>}
+                  {activeStep < 2 ? <Button  disabled={disabled} className='w-full' onClick={()=>sendDataToParent()} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button> : <AppointmentConfimed establishmentId={establishmentId} activeStep={activeStep}/>}
                 </div>
             </div>
           }

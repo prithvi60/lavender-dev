@@ -130,11 +130,9 @@ function EstablishmentDetails({ estId }) {
           profile={establishmentData?.data?.data?.profile}
         />
       </div>
-      
-      {
-        establishmentData?.data?.data?.id  && <Reviews  establishmentId = {establishmentData?.data?.data?.id}/>
-      }
-      
+
+      <Reviews  establishmentId = {establishmentData?.data?.data?.id}/>
+
       <About establishmentEmployees= {establishmentData?.data?.data?.employees} establishmentAbout= {establishmentData?.data?.data?.profile?.establishmentAbout} establishmentFeatures={establishmentData?.data?.data?.features} establishmentLanguages={establishmentData?.data?.data?.languages} establishmentPaymentTypes={establishmentData?.data?.data?.paymentTypes} id="SearchDetailAbout" />
     </div>
   );

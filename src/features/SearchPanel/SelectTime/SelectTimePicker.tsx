@@ -20,7 +20,7 @@ export default function SelectTimePicker() {
   const timeSelectorChip = [
     { item: "Anytime", iconName: 'AccessTimeFilledIcon', from: 1, to: 23 },
     { item: "Now", iconName: 'AccessTimeFilledIcon', from: new Date().getHours(), to: new Date().getHours() + 1 },
-    { item: "Twohour", iconName: 'MoreTimeIcon', from: new Date().getHours(), to: new Date().getHours() + 2 },
+    { item: "Twohour", iconName: 'MoreTimeIcon', from: new Date().getHours(), to: new Date().getHours() + 1 },
     { item: "Morning", iconName: 'MorningIcon', from: 5, to: 12 },
     { item: "Afternoon", iconName: 'LightModeIcon', from: 12, to: 16 },
     { item: "Evening", iconName: 'NightIcon', from: 16, to: 23 },
@@ -49,7 +49,9 @@ export default function SelectTimePicker() {
       <div className="home-time-filter">
         <div className="flex-start-container">
           <Text
-            sx={styles.header}
+            variant="body1"
+            align="left"
+            className="bold"
             name="Chose your convenient Time slot"
           ></Text>
           <CloseIcon onClick={() => closeFilterPannel()} />
@@ -101,12 +103,4 @@ export default function SelectTimePicker() {
       {/* </Grid> */}
     </React.Fragment>
   );
-}
-
-const styles = {
-  header: {
-    fontSize: '18px',
-    fontWeight: 700,
-    color: '#4D4D4D'
-  }
 }

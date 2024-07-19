@@ -29,7 +29,6 @@ export const Publish = ({userDetails}) => {
   const [imageIdList, setImageIdList]= useState<string | any>([]);
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
-  const [isDisabled, setIsDisabled] = useState(true);
 
   const {
     data: establishmentData,
@@ -44,11 +43,6 @@ export const Publish = ({userDetails}) => {
   });
 
   useEffect(()=>{
-    if(establishmentData?.data?.data?.estImages?.length > 0 
-    && establishmentData?.data?.data?.availableDays?.length > 0 
-    ){
-      setIsDisabled(false)
-    }
     setImageIdList(establishmentData?.data?.data?.estImages)
     setIsPublish(establishmentData?.data?.data?.published)
   }, [establishmentData])
@@ -130,7 +124,7 @@ export const Publish = ({userDetails}) => {
         <div className='flex justify-center'>
         <div className='flex justify-center flex-col w-36'>
             {!isPublish && 
-              <Buttons disabled={isDisabled} fullWidth variant="contained" sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', marginBottom: '10px'}} name={'Publish'}  onClick={()=>{handlePublishClick()}}></Buttons>
+              <Buttons fullWidth variant="contained" sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', marginBottom: '10px'}} name={'Publish'}  onClick={()=>{handlePublishClick()}}></Buttons>
             } 
             <Buttons  variant="outlined" sx={{borderRadius: '10px', padding: '10px 40px 10px 40px'}} name={'Preview'} onClick={()=>onClickPreview()}></Buttons>
         </div>

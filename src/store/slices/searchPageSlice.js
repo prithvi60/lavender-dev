@@ -15,14 +15,13 @@ export const searchPageSlice = createSlice({
   initialState,
   reducers: {
     saveSearchInputs: (state, action) => {
-      ;
       state.treatmentList = action.payload.treatment;
       state.locationList = action.payload.locationList;
-      state.selectedDate = action.payload?.selectedDate;
-      state.SelectedTime = action.payload?.SelectedTime;
+      state.selectedDate = action.payload;
+      state.SelectedTime = action.payload;
     },
     updateSearchTreatment: (state, action) => {
-      state.treatmentList = action.payload.treatment;
+      state.treatmentList = action.payload;
     },
     updateSearchDate: (state, action) => {
       state.selectedDate = action.payload.selectedDate;
@@ -34,16 +33,17 @@ export const searchPageSlice = createSlice({
       state.SelectedTime.to = action.payload.SelectedTimeTo;
     },
     updateSearchTime: (state, action) => {
-      state.SelectedTime.from = action.payload.SelectedTimeFrom;
-      state.SelectedTime.to = action.payload.SelectedTimeTo;
+      // state.SelectedTime.from = action.payload.SelectedTimeFrom;
+      // state.SelectedTime.to = action.payload.SelectedTimeTo;
+      state.SelectedTime = action.payload;
+      state.SelectedTime = action.payload;
     },
     updateSearchSelectedBox: (state, action) => {
-      
       state.selectedBox = action.payload.selectedBox;
       state.showOptionContainer = action.payload.showOptionContainer;
     },
     updateSearchLocationList: (state, action) => {
-      state.locationList = action.payload.locationList;
+      state.locationList = action.payload;
     },
     closeSearchModal: (state) => {
       state.showOptionContainer = false;
@@ -64,6 +64,6 @@ export const {
   updateSearchSelectedBox,
   updateSearchTreatment,
   updateSearchDate,
-  updateSearchTime
+  updateSearchTime,
 } = searchPageSlice.actions;
 export default searchPageSlice.reducer;

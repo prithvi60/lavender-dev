@@ -15,7 +15,6 @@ import { Dayjs } from 'dayjs';
 import endpoint from '../../api/endpoints';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { useSnackbar } from '../../components/Snackbar';
 
 const schema = yup.object().shape({
     fullName: yup.string().required('Full name is required'),
@@ -40,7 +39,6 @@ function EditProfile({ userInfo }) {
     const [value, setValue] = React.useState<Dayjs | null>(null);
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
-    const showSnackbar = useSnackbar();
 
     // Populate form fields with initial data from userInfo on component mount
     useEffect(() => {
@@ -66,13 +64,10 @@ function EditProfile({ userInfo }) {
     const mutation = useMutation({
         mutationFn: async (payload: any) => {
             const response = await endpoint.updateProfile(payload);
-            if(response?.data?.success){
-                showSnackbar('Items saved successfully.', 'success');
-                setIsOpen(false)
-                navigate(0)
-              }
-              else{
-                showSnackbar(response?.data?.data, 'error');
+            if (!response?.data?.success) {
+                alert(`ErrorCode : ${response.data.errorCode}`);
+            } else {
+                alert('successfully updated'); // Alert with response data
             }
             return response;
         },
@@ -122,6 +117,7 @@ function EditProfile({ userInfo }) {
             >
                 <Card sx={modalStyle}>
                 <form onSubmit={ handleSubmit((data)=>{
+                        
                         onSubmit(data);
                     })}>
                     <Grid container spacing={2}>

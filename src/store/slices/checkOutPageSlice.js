@@ -5,7 +5,6 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {checkOut:[]}
 
 const checkOutPageSlice = createSlice({
-    
     name: 'checkOutPageSlice',
     initialState,
     reducers: {
@@ -20,10 +19,8 @@ const checkOutPageSlice = createSlice({
             state.checkOut.push(serviceDetails)
         },
         resetCheckOut: (state, action) => {
-            const { serviceId, optionId } = action.payload;
-            // Filter out the item to be removed
-            state.checkOut = state.checkOut.filter(item => !(item.serviceId === serviceId && item.optionId === optionId));
-          }
+            state.checkOut = state.checkOut.filter((item)=> item.serviceName != action.payload.serviceName)
+        }
     }
 })
 

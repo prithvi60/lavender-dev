@@ -1,13 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Box, Card, CardContent, IconButton, List, ListItem, ListItemText, Typography } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import GetIcon from '../../../../assets/Icon/icon';
 import ImageUploading from 'react-images-uploading';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import endpoint from '../../../../api/endpoints';
-import { useSnackbar } from '../../../../components/Snackbar';
-import Text from '../../../../components/Text';
-import Button from '../../../../components/Button';
+
 interface ImageUploadResponse {
   data: {
     success: boolean;
@@ -26,7 +24,6 @@ export const Photos = ({userDetails}) => {
   const [isImageUploaded, setIsImageUploaded] = useState(false);
 
   const establishmentId = userDetails != null ? userDetails?.establishmentId : "";
-  const showSnackbar = useSnackbar();
 
   useEffect(()=>{
     const getEstablishmentDetails = async () => {
@@ -108,19 +105,12 @@ export const Photos = ({userDetails}) => {
       return response;
     },
     onSuccess: (response) => {
-      // if(response?.data?.success){
-      //   showSnackbar('Items saved successfully.', 'success');
-      // }
-      // else{
-      //   showSnackbar(response?.data?.data, 'error');
-      // }
     },
     onError: (error) => {
       console.error('Upload Error:', error);
       alert('Upload Error');
     },
-    onSettled: () => {
-    },
+    onSettled: () => {},
   });
 
   const handleButtonClick = async () => {
@@ -134,7 +124,6 @@ export const Photos = ({userDetails}) => {
       callSaveImageIdApi(imageIdList);
       setImageUrls(urls);
       setLoading(false);
-      setIsImageUploaded(false);
     } catch (error) {
       setError(error);
       setLoading(false);
@@ -147,14 +136,8 @@ export const Photos = ({userDetails}) => {
       "estImages": imageId,
     }
    const response = await endpoint.saveImageId(payload);
-    if(response?.data?.success){
-      showSnackbar('Items saved successfully.', 'success');
-    }
-    else{
-      showSnackbar(response?.data?.data, 'error');
-    }
   }
-  
+
   return (
     <div>
       <div className='text-5xl font-bold text-center p-2' style={{ color: '#4D4D4D' }}>
@@ -203,11 +186,13 @@ export const Photos = ({userDetails}) => {
                 )}
               </Droppable>
               <div style={{ padding: '10px' }}>
-                <Card sx={{ width: '200px', height: '200px', cursor: "pointer" }} style={isDragging ? { backgroundColor: '#E6E1FF' } : null}
-                      onClick={onImageUpload}
-                      {...dragProps}>
+                <Card style={{ width: '200px', height: '200px' }}>
                   <CardContent sx={{ marginTop: '30px' }}>
-                    <button>
+                    <button
+                      style={isDragging ? { color: 'red' } : null}
+                      onClick={onImageUpload}
+                      {...dragProps}
+                    >
                       <Typography sx={{ fontSize: '20px', fontWeight: '600' }}>Add your first photos</Typography>
                       <GetIcon style={{ display: 'flex', justifyContent: 'center' }} iconName='PlusIcon' />
                     </button>
@@ -219,19 +204,6 @@ export const Photos = ({userDetails}) => {
         </ImageUploading>
       </DragDropContext>
 
-      {
-        (isImageUploaded && !loading) && 
-        <div className='flex flex-col justify-center items-center mt-4'>
-        <Text name={"Photo is uploaded. Please save it."} sx={{p: 1}}/>
-        
-        <Button
-              onClick={handleButtonClick}
-              name={'Save'}
-              sx={styles.buttonStyles}
-            ></Button>
-      </div>
-      }
-
       <div>
       <br />
       {loading && <p>Loading...</p>}
@@ -241,55 +213,17 @@ export const Photos = ({userDetails}) => {
           <img key={index} src={url} alt={`Image ${index}`} style={{ width: '200px', margin: '10px' }} />
         ))}
       </div>
-      </div>
+    </div>
       
-
-      <Box sx={{display: 'flex', justifyContent: 'center', padding: 3}}>
-        <Box>
-          <Card sx={styles.cardContainer}>
-            <Box sx={{display: 'flex', justifyContent: 'center', padding: 0}}>
-              <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                <IconButton>
-                  <GetIcon iconName='Caution'/>
-                </IconButton>
-              </Box>
-              <Box>
-                <List sx={{maxWidth: '517px'}}>
-                  <ListItem>
-                    <Typography align={"left"} sx={styles.text} >Use high-resolution images to ensure your photos look great on all devices with a minimum size of <strong>800 x 600 pixels.</strong></Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography align={"left"} sx={styles.text}>We accept <strong>JPEG & PNG</strong> file formats.</Typography>
-                  </ListItem>
-                </List>
-              </Box>
-              </Box>
-          </Card>
-        </Box>
-      </Box>
+      {
+        (isImageUploaded && !loading) && 
+        <div className='flex justify-center mt-4'>
+        <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={handleButtonClick}>
+          Save
+        </button>
+      </div>
+      }
       
     </div>
   );
 };
-
-const styles = {
-  cardContainer: {
-    backgroundColor: '#E6E1FF',
-    width: '640px',
-    height: '91px',
-    Padding: 2
-  },
-  text: {
-    fontSize: '12px',
-    fontWeight: 500,
-    lineHeight: '14.4px'
-  },
-    buttonStyles : {
-      width: '120px', 
-      height: '37px', 
-      fontFamily: 'Urbanist',
-      borderRadius: '10px',
-      padding: "10px, 40px, 10px, 40px !important",
-      gap: '10px',
-    },
-}

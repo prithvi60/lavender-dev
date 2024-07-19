@@ -6,8 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import CloseIcon from '@mui/icons-material/Close';
 import endpoint from '../../api/endpoints';
-import { useMutation } from '@tanstack/react-query';
-import { useSnackbar } from '../../components/Snackbar';
 
 const schema = yup.object().shape({
     cardNumber: yup.string().required('Card number is required').matches(/^\d{16}$/, 'Must be exactly 16 digits'),
@@ -43,7 +41,6 @@ export const AddNewCard = () => {
     });
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
-    const showSnackbar = useSnackbar();
 
     const handleClick = () => {
         setIsOpen((prev) => !prev);
@@ -68,32 +65,10 @@ export const AddNewCard = () => {
             "default": false
         }
 
-        try {
-            mutation.mutate(payLoad);
-        } catch (error) {
-            console.error('Mutation failed:', error);
-        }
+        const res = endpoint.saveCardInfo(payLoad);
         handleClick();
+
     };
-
-
-    const mutation = useMutation({
-        mutationFn: async (payload: any) => {
-            const response = await endpoint.saveCardInfo(payload);
-            if(response?.data?.success){
-                showSnackbar('Items saved successfully.', 'success');
-                navigate(0)
-              }
-              else{
-                showSnackbar(response?.data?.data, 'error');
-            }
-            return response;
-        },
-        onError: (error) => {
-            alert('Edit unsuccessful: ' + error.message);
-        },
-    });
-
 
     return (
         <>

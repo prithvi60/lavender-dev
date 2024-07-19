@@ -14,7 +14,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import SearchDetailsPage from './pages/SearchDetailsPage'
 import { UserPage } from './pages/UserPage.tsx';
 import { MyFavorites } from './features/MyFavorites/MyFavorites.tsx';
-import { SnackbarProvider } from './components/Snackbar.tsx';
 
 const Admin = React.lazy(() => import('./pages/AdminPage'));
 const Places = React.lazy(() => import('./pages/Places'));
@@ -34,7 +33,6 @@ const queryClient = new QueryClient();
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <SnackbarProvider>
         <BrowserRouter>
         <div className="app">
           <Routes>
@@ -59,7 +57,6 @@ const App = () => {
           </Routes>
         </div>
         </BrowserRouter>
-      </SnackbarProvider>
     </QueryClientProvider>
     
     

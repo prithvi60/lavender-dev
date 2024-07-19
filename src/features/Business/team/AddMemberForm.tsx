@@ -41,7 +41,7 @@ export default function AddMemberForm({ payload }) {
   const userDetails = useSelector((state: any) => state?.currentUserDetails);
   const establishmentId = userDetails?.establishmentId || "";
 
-  const handleDrawerSubmit = async (data) => {
+  const handleDrawerSubmit = (data) => {
     
 
     const payLoad = {
@@ -56,13 +56,9 @@ export default function AddMemberForm({ payload }) {
           ],
     }
 
-    const response = await endpoint.saveEstablishmentEmployee(payLoad);
-    // if(response?.data?.success){
-    //   
-    //   const res = endpoint.getEstablishmentDetailsById(establishmentId);
-
-    // }
+    const response = endpoint.saveEstablishmentEmployee(payLoad);
     closeDrawer();
+
   };
 
 

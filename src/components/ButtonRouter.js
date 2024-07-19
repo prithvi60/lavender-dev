@@ -3,11 +3,11 @@ import React from "react";
 import Button from "./Button";
 
 const ButtonRouter = (props) => {
-  const { to, variant, ...rest } = props;
+  const { to, ...rest } = props;
 
   return (
     <Link to={to}>
-      <Button variant={variant ?? "contained"} {...rest} disableRipple />
+      <Button {...rest} />
     </Link>
   );
 };

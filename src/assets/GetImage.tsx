@@ -54,12 +54,6 @@ function GetImage(props) {
         <img src={require('./makePayment.png')} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover' }}></img>
         </div>
       break;
-
-      case 'LearnMore':
-        imageElement = <div style={{ width: '1270px', height: '687px' }}>
-          <img src={require('./BackgroundImage/LearnMore.png')} alt='' style={{ width: '1270px', height: '687px', objectFit: 'cover', position: 'relative', zIndex: 1 }}></img>
-          </div>
-        break;
   }
 
   return (

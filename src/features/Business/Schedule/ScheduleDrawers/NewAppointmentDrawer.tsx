@@ -4,31 +4,23 @@ import StatusFilter from "../../../../components/FilterButtons";
 import Divider from "@mui/material/Divider";
 import { Button } from "../../../../components/ui/button";
 import { useDrawer } from "../../BusinessDrawerContext";
-import { addTime, getCurrentTime12HrFormat, getMonthAndDayNames, getTimeIntervals, range } from "../utils";
+import { addTime, getCurrentTime12HrFormat, getMonthAndDayNames, range } from "../utils";
 import { Tooltip } from "@mui/material";
 import { CustomTooltip } from "../../../../components/CustomTooltip";
 import CustomSelect from "../../../../components/ui/select";
 
 
-const clients = [{key: 1, value: [{ name: 'vamsi'}, {phNumber: '999999122'}, {mailId: 'vamsitest@gamil.com'}]}, 
-{key: 2, value: [{ name: 'mark'}, {phNumber: '999999122'}, {mailId: 'amrktest@gamil.com'}]},
-{key: 3, value: [{ name: 'andy'}, {phNumber: '999999122'}, {mailId: 'andytest@gamil.com'}]},
-]
+export default function NewAppointmentDrawer() {
+  const { closeDrawer, payload } = useDrawer();
 
-export default function NewAppointmentDrawer({payload}) {
-  
-  const { closeDrawer } = useDrawer();
-debugger
   const {date, client, employee, service, status, price, start } = payload
-  console.log("payload : ", payload)
-  debugger
   const [selectedTeamMember, setSelectedTeamMember] = useState(employee);
   const [selectedClient, setClient] = useState(client || '');
   const [occuranceState, setOccuranceState] = useState("Doesn't repeat")
-  const [startTime, setStartTime] = useState(start);
+  const [startTime, setStartTime] = useState(getCurrentTime12HrFormat(date.getHours(), date.getMinutes()));
   const [selectedDate, setSelectedDate] = useState(date)
   const [selectedBookingStatusFilters, setSelectedBookingStatusFilters] = useState([]);
-  const [timeInterval, setTimeInterval] = useState(getTimeIntervals(start))
+  console.log("AppointmentDrawer >",date,selectedDate, getCurrentTime12HrFormat(date.getHours(), date.getMinutes()))
 
   const resetData = () => {
     setSelectedTeamMember("");
@@ -38,8 +30,8 @@ debugger
   };
 
   useEffect(() => {
-    debugger
-    setStartTime(start)
+    console.log("appointmentdrawer triggered", getCurrentTime12HrFormat(date.getHours(), date.getMinutes()), startTime)
+    setStartTime(getCurrentTime12HrFormat(date.getHours(), date.getMinutes()))
     setSelectedDate(date)
     return () => {
       //resetData()
@@ -51,7 +43,6 @@ debugger
   const handleFilterDrawerSubmit = () => {
     closeDrawer()
   };
-  console.log('startTime : ',startTime)
   return (
     <div className="flex-col h-full">
         <div className="flex-col text-lg text-center p-4 mb-2 bg-blue-950">
@@ -72,8 +63,8 @@ debugger
             <div className="flex flex-row justify-around mt-3">
                 <Selector
                   onSelect={setStartTime}
-                  placeholder={start}
-                  options={timeInterval}
+                  placeholder={startTime}
+                  options={["Doesn't repeat", "Every day", "Every week", "Every month"]}
                   // options={range(5).map((i,index) => 
                   //   getCurrentTime12HrFormat(parseInt(startTime.split(':')[0]), index * 15)
                   // )}
@@ -93,8 +84,8 @@ debugger
         {/* <SelectSeparator className='bg-black'/> */}
         <Selector
           onSelect={setClient}
-          placeholder={'Search client'}
-          options={["vamsi", "mark", "andy"]}
+          placeholder={'Change client'}
+          options={["Content", "bContent", "cContent", "dContent"]}
           className={"w-full mb-4 shadow-lg rounded"}
           label={"Client"}
         />
