@@ -1,0 +1,262 @@
+[
+    {
+        "establishmentId": "123",
+        "establishmentName": "ABC Salon",
+        "establishmentLocation": "456 Oak St, Anytown, USA",
+        "estImages": [
+            "image1.jpg",
+            "image2.jpg"
+        ],
+        "rating": null,
+        "services": [
+            {
+                "serviceId": "101",
+                "serviceName": "Men's Haircut",
+                "startingPrice": 20,
+                "availabilities": [
+                    {
+                        "date": "21 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    },
+                    {
+                        "date": "25 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    }
+                ]
+            },
+            {
+                "serviceId": "102",
+                "serviceName": "Women's Haircut",
+                "startingPrice": 25,
+                "availabilities": [
+                    {
+                        "date": "21 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    },
+                    {
+                        "date": "25 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    }
+                ]
+            },
+            {
+                "serviceId": "201",
+                "serviceName": "Highlights",
+                "startingPrice": 60,
+                "availabilities": [
+                    {
+                        "date": "21 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    },
+                    {
+                        "date": "25 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "serviceTags": [
+            "Haircut",
+            "Coloring",
+            "Highlights"
+        ]
+    },
+    {
+        "establishmentId": "456",
+        "establishmentName": "XYZ Spa & Salon",
+        "establishmentLocation": "789 Maple Ave, Anycity, USA",
+        "estImages": [
+            "image3.jpg",
+            "image4.jpg"
+        ],
+        "rating": null,
+        "services": [
+            {
+                "serviceId": "301",
+                "serviceName": "Swedish Massage",
+                "startingPrice": 60,
+                "availabilities": [
+                    {
+                        "date": "22 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    },
+                    {
+                        "date": "24 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    }
+                ]
+            },
+            {
+                "serviceId": "302",
+                "serviceName": "Deep Tissue Massage",
+                "startingPrice": 90,
+                "availabilities": [
+                    {
+                        "date": "22 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    },
+                    {
+                        "date": "24 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    }
+                ]
+            },
+            {
+                "serviceId": "401",
+                "serviceName": "Classic Facial",
+                "startingPrice": 50,
+                "availabilities": [
+                    {
+                        "date": "21 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    },
+                    {
+                        "date": "24 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "serviceTags": [
+            "Massage",
+            "Therapy",
+            "Facial",
+            "Skincare"
+        ]
+    },
+    {
+        "establishmentId": "789",
+        "establishmentName": "Sunrise Beauty Spa",
+        "establishmentLocation": "101 Sunset Blvd, Sunnytown, USA",
+        "estImages": [
+            "sunrise1.jpg",
+            "sunrise2.jpg"
+        ],
+        "rating": null,
+        "services": [
+            {
+                "serviceId": "501",
+                "serviceName": "Gel Manicure",
+                "startingPrice": 35,
+                "availabilities": [
+                    {
+                        "date": "21 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    },
+                    {
+                        "date": "25 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    }
+                ]
+            },
+            {
+                "serviceId": "502",
+                "serviceName": "Classic Pedicure",
+                "startingPrice": 45,
+                "availabilities": [
+                    {
+                        "date": "22 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    },
+                    {
+                        "date": "24 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    }
+                ]
+            },
+            {
+                "serviceId": "601",
+                "serviceName": "Hydrating Facial",
+                "startingPrice": 60,
+                "availabilities": [
+                    {
+                        "date": "21 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    },
+                    {
+                        "date": "24 Apr 2024",
+                        "timeSlots": [
+                            "9:00am",
+                            "11:00am",
+                            "12:00pm"
+                        ]
+                    }
+                ]
+            }
+        ],
+        "serviceTags": [
+            "Nails",
+            "ManiPedi",
+            "Facial",
+            "Skincare"]
+}
+]
+

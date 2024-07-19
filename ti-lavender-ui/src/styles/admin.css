@@ -1,0 +1,89 @@
+
+/* Dashboard */
+.dashboard {
+    display: flex;
+}
+
+.dashboard-box {
+    background-color: #f5f5f5;
+    flex-grow: 1;
+    height: 100%;
+}
+
+/* Admin App Bar */
+.admin-appbar {
+    z-index: 1201; 
+    transition: width 0.3s ease, margin 0.3s ease;
+}
+  
+.admin-appbar.open {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+}
+
+.admin-appbar > .title {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.admin-toolbar {
+    color: white;
+    background-color: #816F7D;
+}
+
+/* Establishment Management */
+.est-paper {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.est-paper .title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    color: #5F4F65;
+}
+
+.admin-drawer {
+    width: 260px;
+}
+
+.admin-drawer.MuiPaper-root.css-4t3x6l-MuiPaper-root-MuiDrawer-paper{
+    background-color: #5F4F65;
+    color: #FAF4FC;
+    width: 500;
+}
+
+/* Business Hours */
+.business-hours-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 0px 0px 10px;
+}
+
+.weekday-grid {
+    display: inline-flex;
+    align-items: center;
+}
+
+.weekday-button {
+    text-align: right;
+}
+
+.MuiInputBase-input {
+    padding: 10px;
+}
+
+.weekday-grid .MuiCheckbox-root.Mui-checked {
+    color: #654f50;
+}
+
+/* Admin Tables */
+.admin-table.MuiPaper-root {
+    /* border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);  */
+    border: none;
+    box-shadow: none;
+}
