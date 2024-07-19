@@ -142,6 +142,46 @@ export function filterByDate(appointments, selectedDate) {
   });
 }
 
+export function getTimeIntervals(startTime) {
+  // Parse the input time
+  let [hours, minutes] = startTime.split(/[.:]/);
+  let period = startTime.slice(-2); // AM or PM
+
+  // Convert hours and minutes to integers
+  hours = parseInt(hours, 10);
+  minutes = parseInt(minutes, 10);
+
+  // Determine the initial hour for generating intervals
+  let initialHour = hours;
+  if (period === 'PM' && hours !== 12) {
+      initialHour += 12;
+  } else if (period === 'AM' && hours === 12) {
+      initialHour = 0;
+  }
+
+  // Array to store the time intervals
+  let intervals = [];
+
+  // Generate 4 intervals starting from the initial time
+  for (let i = 0; i < 4; i++) {
+      let hour = initialHour + Math.floor((minutes + i * 15) / 60);
+      let minute = (minutes + i * 15) % 60;
+
+      let period = (hour < 12 || hour === 24) ? 'AM' : 'PM';
+
+      if (hour === 0) {
+          hour = 12;
+      } else if (hour > 12) {
+          hour -= 12;
+      }
+
+      let timeString = `${hour.toString().padStart(2, '0')}.${minute.toString().padStart(2, '0')} ${period}`;
+      intervals.push(timeString);
+  }
+
+  return intervals;
+}
+
 //Parser Utils and constants
 
 export const appointments = [
