@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunklavender_ui=self.webpackChunklavender_ui||[]).push([[712],{86712:(e,l,a)=>{a.r(l),a.d(l,{Places:()=>u,default:()=>t});var n=a(33551),s=a(96540);const u=()=>s.createElement(n.A,null,"Testing"),t=u}}]);
