@@ -11,7 +11,7 @@ const HeroSection = () => {
                 <Text sx={styles.title} name={LANDING_PAGE?.TITLE}/>
                 <Text className="hero-title urbanist-font " variant="body1" name={LANDING_PAGE?.SUBTITLE}/>
                 {/* <SearchPanel /> */}
-                <Box sx={{paddingBottom: 7, paddingTop: 4, paddingLeft: 7, paddingRight: 7}}>
+                <Box sx={{paddingBottom: 7, paddingTop: 3, paddingLeft: 7, paddingRight: 7}}>
                     <NewSearchPanel/>
                 </Box>
 
