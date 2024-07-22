@@ -47,7 +47,6 @@ import endpoint from "../../../api/endpoints";
 // }
 
 export const DayCalendar = () => {
-debugger
   const { filteredAppointments, selectedDate, employees } = GetScheduleDates()
   // const [appointments, setAppointments] = useState(filteredAppointments)
   const [deleteIcon, showDeleteIcon] = useState(false)
@@ -62,7 +61,6 @@ debugger
   // const establishmentId = userDetails?.establishmentId || "";
 
   // useEffect(() => {
-  //   debugger
   //   const getEstablishmentDetails = async () => {
   //     try {
   //       const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
@@ -139,9 +137,7 @@ debugger
     // }
   }
 
-  debugger
   function handleAddAppointment(hour, min){
-    debugger
     const startTime = getCurrentTime12HrFormat(hour, (min) * 15, true)
     const payload = {
       start: startTime,

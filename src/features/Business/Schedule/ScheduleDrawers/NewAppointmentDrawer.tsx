@@ -21,10 +21,8 @@ const clients = [{key: 1, value: [{ name: 'vamsi'}, {phNumber: '999999122'}, {ma
 export default function NewAppointmentDrawer({payload}) {
   
   const { closeDrawer } = useDrawer();
-debugger
   const {date, client, employee, service, status, price, start } = payload
-  console.log("payload : ", payload)
-  debugger
+  
   const [selectedTeamMember, setSelectedTeamMember] = useState(employee);
   const [selectedClient, setClient] = useState(client || '');
   const [occuranceState, setOccuranceState] = useState("Doesn't repeat")
@@ -98,7 +96,6 @@ debugger
   };
 
   useEffect(() => {
-    debugger
     setStartTime(start)
     setSelectedDate(date)
     return () => {

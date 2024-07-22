@@ -39,7 +39,6 @@ const styles = {
         fontWeight: 700,
         lineHeight: '54px',
         color: '#333333',
-        maxWidth: '674px',
         textAlign:'center',
         paddingLeft: 0
     },
