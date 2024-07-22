@@ -45,12 +45,14 @@ function ServiceListItems({ serviceCategories }) {
               <ListItemButton className='serviceList' sx={{ display: 'flex', justifyContent: 'space-between' }} key={serviceIndex}>
                 <div className='p-2 w-4/5'>
                   <Text sx={styles.serviceName} name={service?.serviceName} align="left"/>
-                  <Text sx={styles.duration} name={service?.serviceDuration} align="left"/>
+                  {
+                    service?.options?.length > 0 && <Text sx={styles.duration} name={`${service?.options[0]?.duration} mins`} align="left"/>
+                  }
                   <Text sx={styles.description} name={service?.serviceDescription} align="left"/>
                   
                   {/* <div className='text-base font-normal text-ellipsis text-nowrap overflow-hidden'>{service.serviceDescription}</div> */}
                   <div className='text-base'>
-                    {service.options.length > 0
+                    {service?.options?.length > 0
                       ? <span style={{color: '#808080'}}>from: <span className='font-bold' style={{color: '#4D4D4D', fontWeight: 700}}>${service.startingPrice}</span></span>
                       : '$' + <span className='font-bold'>$service.finalPrice</span>}
                   </div>

@@ -11,6 +11,7 @@ import CheckBox from './CheckBox';
 import { updateCheckOut, resetCheckOut } from '../../store/slices/checkOutPageSlice';
 import { useDispatch } from 'react-redux';
 import GetIcon from '../../assets/Icon/icon';
+import Text from '../../components/Text';
 
 function OptionsModal({ props }) {
   const dispatch = useDispatch();
@@ -109,6 +110,8 @@ function OptionsModal({ props }) {
     bgcolor: "background.paper",
     border: "2px",
     boxShadow: 24,
+    maxWidth: '1145px',
+    maxHeight: '628px',
     p: 4,
   };
 
@@ -138,50 +141,52 @@ function OptionsModal({ props }) {
           </IconButton>
           <div className='flex flex-wrap p-6'>
             <Grid className='w-full'>
-              <div className='text-2xl md:text-3xl font-bold'>{props.serviceName}</div>
+              <Text sx={styles.serviceName} name={props?.serviceName} align="left"/>
               <div className='flex justify-between items-end'>
                 <div>
-                  <div className='text-xl md:text-2xl font-normal'>{props.serviceDuration} mins</div>
-                  <div className='text-xl md:text-2xl font-bold'>
-                    {props.options.length > 0 ? `from $${props.startingPrice}` : `$${props.finalPrice}`}
+                  <Text sx={styles.duration} name={`${props?.serviceDuration} mins`} align="left"/>
+                  <div style={styles.startingPrice}>
+                    {props?.options?.length > 0 ? `from $${props?.startingPrice}` : `$${props?.finalPrice}`}
                   </div>
                 </div>
                 <Button
+                  sx={styles.btn}
                   variant={selectAll ? "contained" : "outlined"}
-                  endIcon={<Add />}
-                  className='w-40 h-fit'
+                  startIcon={<GetIcon iconName="PlusIcon"/>}
                   onClick={handleSelectAll}
-                  disabled={!props.options.length} // Disable if no options available
+                  disabled={!props?.options?.length} // Disable if no options available
                 >
                   {selectAll ? "Deselect All" : "Select All"}
                 </Button>
+                
               </div>
             </Grid>
-            <Grid className='w-full my-4'>
-              <div className='text-xl md:text-2xl font-normal'>{props.serviceDescription}</div>
+            <Grid className='w-full mt-4'>
+              <Text sx={styles.description} name={props?.serviceDescription} align="left"/>
             </Grid>
           </div>
           <div className="mx-6">
             <Divider />
           </div>
           {props.options.length > 0 &&
-            <Grid container spacing={2} sx={{ margin: "5px", padding: "15px" }}>
+            <Grid container spacing={2} sx={{ margin: "5px", padding: "10px" }}>
               <Grid xs={12}>
-                <div className='text-2xl font-bold text-gray-500'>Choose options</div>
+                <Text sx={styles.subHeading} name={"Choose options"} align="left"/>
               </Grid>
               <Grid xs={12} className='service-options'>
                 {props.options.map((option) => (
-                  <Grid className='py-4 flex justify-between' key={option.optionId}>
+                  <Grid className='py-4 flex justify-between' key={option?.optionId}>
                     <div>
-                      <div className='text-lg font-bold'>{option.optionName}</div>
-                      <div className='text-sm font-normal'>{option.duration} mins</div>
-                      <div className='text-base font-bold'>${option.salePrice}</div>
+                      <Text sx={styles.optName} name={option?.optionName} align="left"/>
+                      <Text sx={styles.optDuration} name={`${option?.duration} mins`} align="left"/>
+                      <Text sx={styles.optPrice} name={`$${option?.salePrice}`} align="left"/>
+                     
                     </div>
                     <div className='px-16 py-4'>
                       <CheckBox
-                        optionId={option.optionId}
-                        isSelected={selectedOptions.includes(option.optionId)}
-                        onOptionSelect={() => handleOptionSelect(option.optionId)}
+                        optionId={option?.optionId}
+                        isSelected={selectedOptions.includes(option?.optionId)}
+                        onOptionSelect={() => handleOptionSelect(option?.optionId)}
                       />
                     </div>
                   </Grid>
@@ -190,7 +195,7 @@ function OptionsModal({ props }) {
             </Grid>
           }
           <div className="flex justify-end mt-4 mx-6">
-            {isSelected && <Button variant="contained" onClick={handleSaveSelection}>Save Selection</Button>}
+            {isSelected && <Button sx={styles.btn} variant="contained" onClick={handleSaveSelection}>Save Selection</Button>}
           </div>
         </Box>
       </Modal>
@@ -201,17 +206,62 @@ function OptionsModal({ props }) {
 export default OptionsModal;
 
 const styles={
-  heading: {
-    color: '#333333',
+  subHeading: {
+    color: '#4D4D4D',
+    fontSize: '28px',
+    fontWeight: 700,
+    paddingLeft: 0,
+    paddingTop: 1,
+  },
+  serviceName:{
+    color: '#4D4D4D',
     fontSize: '36px',
     fontWeight: 600,
-    paddingBottom: 2
+    lineHeight: '42px',
+    py: '1px'
   },
-  rating: {
+  startingPrice: {
     color: '#4D4D4D',
-    fontSize: '45px',
+    fontSize: '28px',
     fontWeight: 700,
-    padding: 1
+    py: '1px'
   },
+  duration: {
+    color: '#808080',
+    fontSize: '16px',
+    fontWeight: 400,
+    py: '1px'
+  },
+  description: {
+    color: '#616161',
+    fontSize: '20px',
+    fontWeight: 400,
+    py: '0px'
+  },
+  optName: {
+    color: '#4D4D4D',
+    fontSize: '20px',
+    fontWeight: 600,
+    py: '1px'
+  },
+  optPrice: {
+    color: '#4D4D4D',
+    fontSize: '18px',
+    fontWeight: 700,
+    py: '2px'
+  },
+  optDuration: {
+    color: '#808080',
+    fontSize: '16px',
+    fontWeight: 400,
+    py: '1px'
+  },
+  btn: {
+    padding: "10px, 16px, 10px, 16px",
+    borderRadius: '10px',
+    textTransform: 'none', 
+    fontSize: '20px',
+    fontWeight: 500
+  }
 }
 

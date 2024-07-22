@@ -55,7 +55,7 @@ function ServiceDialog({establishmentData}) {
             onClick={handleClose}
             aria-label="close"
             >
-            <CloseIcon />
+              <CloseIcon />
             </IconButton>
         </Toolbar>
         <div className="flex flex-wrap md:flex-nowrap h-full gap-6 mg:gap-0 max-w-7xl mx-auto py-4 px-6">

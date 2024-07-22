@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SaveAppoinment } from '../../interface/interface';
 import { convertToDateTime, convertToISO8601 } from '../../utils/TimeFormat';
 import { resetFilter } from '../../store/slices/Booking/ScheduleAppoinmentSlice';
+import { removeCheckOutDetails } from '../../store/slices/checkOutPageSlice';
 const style = {
     position: "absolute",
     top: "50%",
@@ -96,12 +97,13 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
         payLoad.appointmentServices = appointmentServices;
         
         
-        const appointmentBooking =await endpoint.saveAppointmentBookings(payLoad);
+        const appointmentBooking = await endpoint.saveAppointmentBookings(payLoad);
         
         setOpen((prev) => !prev);
 
         if(appointmentBooking.status === 200){
           dispatch(resetFilter())
+          dispatch(removeCheckOutDetails())
         }
       }
 
@@ -117,8 +119,8 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
   },[tncAgree])
 
   return (
-    <div>
-      <Button fullWidth disabled={disabled} className='w-full' onClick={()=>saveAppointmentClick()} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button>
+    <>
+      <Button fullWidth disabled={disabled} className='w-full' onClick={()=>saveAppointmentClick()} sx={styles.btn} variant="contained" >Proceed</Button>
       <Modal
         open={open}
         onClose={handleOpen}
@@ -142,8 +144,21 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
                 </Grid>
             </Box>
       </Modal>
-    </div>
+    </>
   )
 }
 
 export default AppointmentConfimed
+
+
+const styles = {
+  btn: {
+    padding: "10px, 16px, 10px, 16px",
+    borderRadius: '10px',
+    textTransform: 'none', 
+    fontSize: '20px',
+    fontWeight: 500,
+    display: 'flex',
+    justifyContent: 'center'
+  }
+}

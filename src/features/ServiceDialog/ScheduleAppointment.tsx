@@ -190,7 +190,9 @@ export default function ScheduleAppointment(props) {
 
     <div className='mt-2 md:mx-16 my-10'>
       <div className='flex gap-3 mb-2 items-center'>
-        <GetIcon iconName='BackIcon' onClick={() => onSetActiveStep(0)} />
+        <IconButton onClick={() => onSetActiveStep(0)}>
+          <GetIcon iconName='BackIconArrow'  />
+        </IconButton>
         <div className='font-bold text-3xl'>Schedule</div>
       </div>
 

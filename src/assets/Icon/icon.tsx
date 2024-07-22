@@ -196,6 +196,13 @@ function GetIcon(props) {
         />
       </svg>
       break;
+
+      case 'BackIconArrow':
+        IconElement = <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 22.5C6.47715 22.5 2 18.0228 2 12.5C2 6.97715 6.47715 2.5 12 2.5C17.5228 2.5 22 6.97715 22 12.5C22 18.0228 17.5228 22.5 12 22.5ZM11.0993 12.3666C10.9928 12.4655 10.9928 12.6341 11.0993 12.733L13.8101 15.2502C14.1137 15.5321 14.1313 16.0066 13.8494 16.3101C13.5675 16.6137 13.093 16.6313 12.7895 16.3494L10.0786 13.8322C9.33301 13.1398 9.33301 11.9598 10.0786 11.2674L12.7895 8.75021C13.093 8.46836 13.5675 8.48593 13.8494 8.78947C14.1313 9.093 14.1137 9.56755 13.8101 9.8494L11.0993 12.3666Z" fill="#1B1464"/>
+        </svg>
+        
+      break;
       
     case 'NextIcon':
       IconElement = <svg
@@ -316,7 +323,7 @@ function GetIcon(props) {
       <path d="M10.6 22V13.4H2V10.6H10.6V2H13.4V10.6H22V13.4H13.4V22H10.6Z" fill="#825FFF"/>
       </svg>
       break;
-      
+
     case 'BusinessProfile':
       IconElement = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="12" cy="12" r="12" fill="#E0B8FF"/>

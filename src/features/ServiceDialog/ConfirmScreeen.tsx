@@ -3,7 +3,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import StoreIcon from '@mui/icons-material/Store';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import TextField from "@mui/material/TextField";
-import { Checkbox, FormControlLabel, Typography } from "@mui/material";
+import { Checkbox, FormControlLabel, IconButton, Typography } from "@mui/material";
 import LoginModal from "./LoginModal/LoginModal.tsx";
 import GetIcon from "../../assets/Icon/icon";
 import { getBrowserCache } from "../../api/constants.ts";
@@ -20,6 +20,7 @@ export default function ConfirmScreen(props) {
     const [marketingOffersChecked, setMarketingOffersChecked] = useState(false);
     const [isUser, setIsUser] = useState(true);
     const [appointmentNotes, setAppointmentNotes] = useState(""); // State for appointment notes
+    const [termsError, setTermsError] = useState(false);
 
     const userId = getBrowserCache("UserId");
 
@@ -36,10 +37,18 @@ export default function ConfirmScreen(props) {
         }));
     }, [payAtVenueChecked, termsAndConditionsChecked, marketingOffersChecked, appointmentNotes]);
 
+    useEffect(()=>{
+        if (!termsAndConditionsChecked) {
+            setTermsError(true); // Set error state to true if terms are not checked
+        } else {
+            setTermsError(false); // Reset error state if terms are checked
+        }
+    }, [])
+
     return (
         <div className='mt-2 md:mx-16 my-10 h-full urbanist-font'>
             <div className='flex gap-1 mb-2 items-center gap-3'>
-                <p onClick={() => onSetActiveStep(1)}><GetIcon iconName='BackIcon'/></p>
+                <IconButton onClick={() => onSetActiveStep(1)}><GetIcon iconName='BackIconArrow'/></IconButton>
                 <div className='font-bold text-2xl md:text-3xl'>Confirm</div>
             </div>
 
@@ -85,11 +94,15 @@ export default function ConfirmScreen(props) {
                     className="my-4 text-sm"
                     label="I Agree to terms and condition, privacy policy and terms of use"
                     control={<Checkbox
-                        className="checkBoxCommon"
+                        className={`checkBoxCommon ${termsError ? 'errorCheckbox' : ''}`} // Conditionally apply error style
                         checked={termsAndConditionsChecked}
-                        onChange={(e) => setTermsAndConditionsChecked(e.target.checked)}
+                        onChange={(e) => {
+                            setTermsAndConditionsChecked(e.target.checked);
+                            setTermsError(false); // Reset error when user interacts with checkbox
+                        }}
                     />}
                 />
+                {termsError && <div style={{color: 'red'}} className="errorText">Please agree to terms and conditions.</div>} {/* Display error text */}
                 <FormControlLabel
                     label="Sign me up to receive marketing offers from Lavender"
                     control={<Checkbox

@@ -11,6 +11,7 @@ import { useQuery } from '@tanstack/react-query';
 import endpoint from '../../api/endpoints';
 import AppointmentConfimed from './AppointmentConfimed';
 import { UpdateCheckoutInfo } from '../../store/slices/Booking/ScheduleAppoinmentSlice';
+import Text from '../../components/Text';
 
 function CheckoutCard(props) {
   const {activeStep, next, establishmentName, establishmentId} = props
@@ -144,17 +145,17 @@ function CheckoutCard(props) {
             {/* <img src={} className='w-full md:w-60 h-24 mb-4 md:mb-0 rounded-2xl' alt='Logo'/> */}
             {/* <GetImage className='w-2/4' imageName='SaloonImage'/> */}
             <img  src={imageUrls[0]} style={{ width: '400px', height: '120px', margin: '10px' }} />
-            <div className='text-xl w-2/4 font-bold px-2'>{establishmentName}</div>
+            <Text sx={styles.subHeading} name={establishmentName}/>
           </div>
 
           <div className='py-2 overflow-auto checkout-card'>
             {checkOutList.checkOut.map((item, index) => (
               <div className='py-2'>
                 <div className='flex justify-between py-1' key={index}>
-                  <div className='text-lg font-bold'>{item.serviceName}</div>
-                  <div className='text-lg font-bold'>${item.finalPrice}</div>
+                  <Text sx={styles.serviceName} name={item?.serviceName} align="left"/>
+                  <Text sx={styles.startingPrice} name={`$${item.finalPrice}`} align="right"/>
                 </div>
-                <div className='text-sm font-normal'>{item.duration} mins</div>
+                <Text sx={styles.duration} name={`${item.duration} mins`} align="left"/>
               </div>
             ))}
           </div>
@@ -164,17 +165,17 @@ function CheckoutCard(props) {
               <div className='pt-3'>
                 <div className='flex justify-between'>
                   <div className='text-lg font-bold'>Total</div>
-                  <div className='text-lg font-bold'>${totalPrice}</div>
+                  <Text sx={{fontSize: '20px', fontWeight: 600, color: '#000000'}} name={`$${totalPrice}`} align="right"/>
                 </div>
 
-                <div className='text-sm font-normal pb-2'>excluding Tax</div>
-                <div className='text-sm font-normal pb-2'>{totalDuration} mins</div>
+                <div className='text-sm font-normal pb-2' style={{color: '#808080'}}>excluding Tax</div>
+                <div className='text-sm font-normal pb-2' style={{color: '#808080'}}>{totalDuration} mins</div>
 
 
-                <div className='flex justify-center'>
+                <div className='flex justify-center pt-2'>
                   {activeStep < 2 
                   ? 
-                  <Button disabled={disabled} className='w-full' onClick={()=>sendDataToParent()} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Button> 
+                  <Button disabled={disabled} className='w-full' onClick={()=>sendDataToParent()} sx={styles.btn} variant="contained" >Proceed</Button> 
                   : 
                   <AppointmentConfimed establishmentId={establishmentId} activeStep={activeStep}/>}
                 </div>
@@ -187,3 +188,42 @@ function CheckoutCard(props) {
 }
 
 export default CheckoutCard
+
+
+const styles={
+  subHeading: {
+    color: '#4D4D4D',
+    fontSize: '20px',
+    fontWeight: 600,
+    paddingLeft: 0,
+    paddingTop: 1,
+  },
+  serviceName:{
+    color: '#4D4D4D',
+    fontSize: '20px',
+    fontWeight: 600,
+    lineHeight: '24px',
+    py: '1px'
+  },
+  startingPrice: {
+    color: '#4D4D4D',
+    fontSize: '20px',
+    fontWeight: 600,
+    py: '1px'
+  },
+  duration: {
+    color: '#808080',
+    fontSize: '16px',
+    fontWeight: 400,
+    py: '1px'
+  },
+  btn: {
+    padding: "10px, 16px, 10px, 16px",
+    borderRadius: '10px',
+    textTransform: 'none', 
+    fontSize: '20px',
+    fontWeight: 500,
+    display: 'flex',
+    justifyContent: 'center'
+  }
+}
