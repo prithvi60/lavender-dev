@@ -5,10 +5,13 @@ import Divider from "@mui/material/Divider";
 import { Button } from "../../../../components/ui/button";
 import { useDrawer } from "../../BusinessDrawerContext";
 import { addTime, getCurrentTime12HrFormat, getMonthAndDayNames, getTimeIntervals, range } from "../utils";
-import { Tooltip } from "@mui/material";
+import { Autocomplete, Box, Card, CardContent, Grid, IconButton, List, ListItem, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
 import { CustomTooltip } from "../../../../components/CustomTooltip";
 import CustomSelect from "../../../../components/ui/select";
-
+import Text from "../../../../components/Text";
+import endpoint from "../../../../api/endpoints";
+import { useSelector } from "react-redux";
+import { DeleteRounded } from "@mui/icons-material";
 
 const clients = [{key: 1, value: [{ name: 'vamsi'}, {phNumber: '999999122'}, {mailId: 'vamsitest@gamil.com'}]}, 
 {key: 2, value: [{ name: 'mark'}, {phNumber: '999999122'}, {mailId: 'amrktest@gamil.com'}]},
@@ -29,7 +32,64 @@ debugger
   const [selectedDate, setSelectedDate] = useState(date)
   const [selectedBookingStatusFilters, setSelectedBookingStatusFilters] = useState([]);
   const [timeInterval, setTimeInterval] = useState(getTimeIntervals(start))
+  const [categories, setCategories] = React.useState<any[]>([]);
+  
+  const userDetails = useSelector((state: any) => {
+    return state?.currentUserDetails;
+  });
 
+  const establishmentId = userDetails?.establishmentId || "";
+
+
+  useEffect(() => {
+    const getEstablishmentDetails = async () => {
+      try {
+        const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
+        if (establishmentData?.data?.success) {
+          setCategories(establishmentData?.data?.data?.categories || []);
+        }
+      } catch (error) {
+        console.error("Error fetching establishment details:", error);
+      }
+    };
+
+    getEstablishmentDetails();
+  }, [establishmentId]);
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedServices, setSelectedServices] = useState([]);
+
+  const handleSearchChange = (event, value) => {
+    setSearchTerm(value);
+  };
+
+  const handleServiceSelect = (event, value) => {
+    if (value && !selectedServices.find(service => service.serviceId === value.serviceId)) {
+      setSelectedServices([...selectedServices, value]);
+    }
+  };
+
+  const handleDeleteService = (serviceId) => {
+    setSelectedServices(selectedServices.filter(service => service.serviceId !== serviceId));
+  };
+   // Filter categories and services based on search term
+  //  const filteredCategories = categories.filter(category =>
+  //   category.services.some(service =>
+  //     service.serviceName.toLowerCase().includes(searchTerm.toLowerCase())
+  //   )
+  // );
+
+  // // Prepare options for Autocomplete
+  // const options = filteredCategories.map(category => ({
+  //   category: category.categoryName,
+  //   services: category.services
+  //     .filter(service =>
+  //       service.serviceName.toLowerCase().includes(searchTerm.toLowerCase())
+  //     )
+  //     .map(service => service.serviceName)
+  // }));
+
+  
   const resetData = () => {
     setSelectedTeamMember("");
     setClient("");
@@ -52,6 +112,9 @@ debugger
     closeDrawer()
   };
   console.log('startTime : ',startTime)
+
+  console.log('categories : ',categories)
+
   return (
     <div className="flex-col h-full">
         <div className="flex-col text-lg text-center p-4 mb-2 bg-blue-950">
@@ -93,26 +156,79 @@ debugger
         {/* <SelectSeparator className='bg-black'/> */}
         <Selector
           onSelect={setClient}
-          placeholder={'Search client'}
+          placeholder={'Add client'}
           options={["vamsi", "mark", "andy"]}
-          className={"w-full mb-4 shadow-lg rounded"}
+          className={"w-full mb-4 rounded-lg"}
           label={"Client"}
         />
         <div>
           {client}
         </div>
         <Divider />
-        <Selector
+
+        <Card sx={{backgroundColor: '#E6E1FF', marginTop: '10px', marginBottom: '10px'}}>
+          <CardContent>
+            <Box>
+              <Text align="left" sx={{color: '#4D4D4D', fontSize: '18px', fontWeight: 700}} name={"Walkin"}/>
+              <Text align="left" sx={{color: '#808080', fontSize: '16px', fontWeight: 400}} name={"Default"}/>
+            </Box>
+          </CardContent>
+        </Card>
+
+        <Divider />
+
+        {/* <Selector
           onSelect={setSelectedTeamMember}
-          placeholder={"All Bookings"}
+          placeholder={"Add new service"}
           options={["Content", "bContent", "cContent", "dContent"]}
-          className={"w-full mb-4 shadow-lg rounded"}
-          label={"Booked by"}
+          className={"w-full mb-4 rounded-lg"}
+          label={"Service"}
+        /> */}
+
+<Grid container spacing={2}>
+      <Grid item xs={12}>
+        <Autocomplete
+          options={categories.flatMap(category => category.services)}
+          getOptionLabel={(option) => option.serviceName}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Search services"
+              variant="outlined"
+              fullWidth
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+          )}
+          onChange={handleServiceSelect}
         />
+      </Grid>
+      {selectedServices.map(service => (
+        <Grid item xs={12} key={service.serviceId}>
+          <Card>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                {service.serviceName}
+              </Typography>
+              <Typography variant="body1" gutterBottom>
+                Duration: {service.options.length > 0 ? `${service.options[0].duration} mins` : 'Not specified'}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                Employee: {service.employees.length > 0 ? service.employees[0] : 'Not assigned'}
+              </Typography>
+              <IconButton onClick={() => handleDeleteService(service.serviceId)}>
+                <DeleteRounded />
+              </IconButton>
+            </CardContent>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
+
         <Divider />
         
       </div>
-      <div className="absolute bottom-4 mx-7">
+      <div className="my-4 mx-7">
         <Button
           onClick={resetData}
           className="mx-10"
