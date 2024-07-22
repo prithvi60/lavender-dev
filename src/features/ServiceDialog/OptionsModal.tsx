@@ -10,6 +10,7 @@ import Divider from '@mui/material/Divider';
 import CheckBox from './CheckBox';
 import { updateCheckOut, resetCheckOut } from '../../store/slices/checkOutPageSlice';
 import { useDispatch } from 'react-redux';
+import GetIcon from '../../assets/Icon/icon';
 
 function OptionsModal({ props }) {
   const dispatch = useDispatch();
@@ -113,7 +114,9 @@ function OptionsModal({ props }) {
 
   return (
     <div>
-      <Add onClick={handleOpen} />
+      <IconButton onClick={() => handleOpen()}>
+        <GetIcon iconName="PlusIcon"/>
+      </IconButton>
       <Modal
         open={isOpen}
         onClose={handleClose}
@@ -196,3 +199,19 @@ function OptionsModal({ props }) {
 }
 
 export default OptionsModal;
+
+const styles={
+  heading: {
+    color: '#333333',
+    fontSize: '36px',
+    fontWeight: 600,
+    paddingBottom: 2
+  },
+  rating: {
+    color: '#4D4D4D',
+    fontSize: '45px',
+    fontWeight: 700,
+    padding: 1
+  },
+}
+

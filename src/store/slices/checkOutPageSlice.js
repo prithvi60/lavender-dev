@@ -23,10 +23,13 @@ const checkOutPageSlice = createSlice({
             const { serviceId, optionId } = action.payload;
             // Filter out the item to be removed
             state.checkOut = state.checkOut.filter(item => !(item.serviceId === serviceId && item.optionId === optionId));
-          }
+        },
+        removeCheckOutDetails: () => {
+            return initialState;
+        }
     }
 })
 
-export const {updateCheckOut, resetCheckOut} = checkOutPageSlice.actions
+export const {updateCheckOut, resetCheckOut, removeCheckOutDetails} = checkOutPageSlice.actions
 
 export default checkOutPageSlice.reducer

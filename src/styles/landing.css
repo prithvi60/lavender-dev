@@ -407,7 +407,7 @@
 
         .icon-wrapper{
             padding: 6px;
-            background-color: #47294c;
+            background-color: var(--primary-clr);
             border-radius: 50%;
             display: flex;
             color: #FFFFFF;

@@ -310,6 +310,13 @@ function GetIcon(props) {
       <path d="M7.5003 12.9998L10.6726 14.9794L16.8447 8.73633" stroke="white" stroke-width="2" stroke-linecap="round"/>
       </svg>
       break;
+
+      case 'AddIcon':
+      IconElement = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10.6 22V13.4H2V10.6H10.6V2H13.4V10.6H22V13.4H13.4V22H10.6Z" fill="#825FFF"/>
+      </svg>
+      break;
+      
     case 'BusinessProfile':
       IconElement = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="12" cy="12" r="12" fill="#E0B8FF"/>

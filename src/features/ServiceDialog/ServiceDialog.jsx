@@ -13,10 +13,14 @@ import ServiceListItems from "./ServiceListItems";
 import ScheduleAppointment from "./ScheduleAppointment.tsx";
 import ConfirmScreen from "./ConfirmScreeen.tsx";
 import { Grid } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { removeCheckOutDetails } from "../../store/slices/checkOutPageSlice.js";
 
 function ServiceDialog({establishmentData}) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+
+  const dispatch = useDispatch();
 
   function handleBtnClick(){
       setIsOpen(true);
@@ -27,6 +31,7 @@ function ServiceDialog({establishmentData}) {
 
   function handleClose() {
     setIsOpen(false);
+    dispatch(removeCheckOutDetails());
   }
   
   const steps = ["Pick services", "Schedule appointment", "Confirm"];

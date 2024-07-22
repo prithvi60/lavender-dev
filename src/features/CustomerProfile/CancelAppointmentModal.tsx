@@ -1,4 +1,4 @@
-import { Card, Grid, Modal } from '@mui/material';
+import { Card, Grid, IconButton, Modal } from '@mui/material';
 import React, { useState } from 'react';
 import GetIcon from '../../assets/Icon/icon';
 import Button from '../../components/Button';
@@ -82,7 +82,9 @@ export const CancelAppointmentModal = ({bookings}) => {
             >
                 <Card sx={modalStyle}>
                     <div className='absolute top-4 right-4'>
-                        <CloseIcon onClick={handleCancelClick} />
+                        <IconButton  onClick={() => handleCancelClick()}>
+                            <CloseIcon />
+                        </IconButton>
                     </div>
                     <Grid container sx={{ padding: '20px' }} spacing={4}>
                         <Grid item xs={12} sm={4} sx={{ order: { xs: 1, sm: 2 }, padding: '4px' }}>
