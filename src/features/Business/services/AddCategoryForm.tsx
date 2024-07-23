@@ -157,9 +157,9 @@ export default function AddCategoryForm({payload}) {
             {
               categoryId 
               ?
-              <TextField fullWidth defaultValue="test" size="small" variant="outlined" {...register("categoryName")} />
+              <TextField fullWidth defaultValue="hiii" size="small" variant="outlined" {...register("categoryName")} />
               :
-              <TextField fullWidth defaultValue="test"  size="small" variant="outlined" {...register("categoryName")} />
+              <TextField fullWidth defaultValue="hiii"  size="small" variant="outlined" {...register("categoryName")} />
 
             }
             {errors.categoryName && (

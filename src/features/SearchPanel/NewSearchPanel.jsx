@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Paper,
@@ -45,6 +46,8 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo/DemoContainer"
 import { MdOutlineClose } from "react-icons/md";
 import { CiSearch } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
+import { format } from "date-fns";
 
 const NewSearchPanel = () => {
   const [isTreatmentOpen, setIsTreatmentOpen] = useState(false);
@@ -68,6 +71,7 @@ const NewSearchPanel = () => {
     locationList,
     selectedDate,
     SelectedTime,
+    choseFromOptions,
   } = useSelector((state) => state.searchPage);
 
   const dispatch = useDispatch();
@@ -138,9 +142,9 @@ const NewSearchPanel = () => {
   //   dispatch(updateSearchDate({ selectedDate: `${fromDate} - ${toDate}` }));
   // };
 
-  const onChangeDate = (data) => {
-    dispatch(updateSearchDate({ selectedDate: data.target.value }));
-  };
+  // const onChangeDate = (data) => {
+  //   dispatch(updateSearchDate({ selectedDate: data.target.value }));
+  // };
 
   const onChangeTime = (data) => {
     const startTime = data.target.value;
@@ -158,23 +162,34 @@ const NewSearchPanel = () => {
   };
 
   const handleBoxClick = (name) => {
-    switch (name) {
-      case "Treatment":
-        setIsTreatmentOpen(true);
-        break;
-      case "Location":
-        setModalShow(true);
-        break;
-      case "Date":
-        setDatePickerOpen(true);
-        break;
+    // switch (name) {
+    //   case "Treatment":
+    //     setIsTreatmentOpen(true);
+    //     break;
+    //   case "Location":
+    //     setModalShow(true);
+    //     break;
+    //   case "Date":
+    //     setDatePickerOpen(true);
+    //     break;
 
-      case "Time":
-        setTimePickerOpen(true);
-        break;
+    //   case "Time":
+    //     setTimePickerOpen(true);
+    //     break;
 
-      default:
-        return;
+    //   default:
+    //     return;
+    // }
+
+    if (name === "Location") {
+      setModalShow(true);
+    } else {
+      dispatch(
+        updateSearchSelectedBox({
+          selectedBox: name,
+          showOptionContainer: true,
+        })
+      );
     }
 
     // Update form values on box click
@@ -190,6 +205,13 @@ const NewSearchPanel = () => {
     setDatePickerOpen(false);
   };
 
+  const onChangeDate = (data) => {
+    const fromDate = data[0] ? format(new Date(data[0]), "yyyy-MM-dd") : "";
+    const toDate = data[1] ? format(new Date(data[1]), "yyyy-MM-dd") : "";
+
+    dispatch(updateSearchDate({ selectedDate: `${fromDate} to ${toDate}` }));
+  };
+
   const [queryResult, setQueryResult] = useState(null);
   const payLoad = {};
   useEffect(() => {}, []);
@@ -197,9 +219,101 @@ const NewSearchPanel = () => {
   //const {isLoading, isRefetching, data: customersData} = useQuery({queryKey: ['customer-data'], queryFn: () =>{ return endpoint.getSearchCustomers(payLoad)}})
   //const {data} = useQuery({queryKey: ['customer-da'], queryFn: () =>{ return endpoint.getEstablishemntDetails()}})
 
-  const handleSearchIconClick = () => {
+  const getAddressDetails = async (card) => {
+    console.log(card, "card");
+    const { geoX, geoY } = card;
+    if (geoX !== null && geoY !== null) {
+      const geocodeResponse = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${geoX},${geoY}&key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}`
+      );
+      const geocodeData = await geocodeResponse.json();
+
+      if (geocodeData.results && geocodeData.results.length > 0) {
+        const location = geocodeData.results[0].formatted_address;
+        return location;
+      }
+    }
+    return null;
+  };
+
+  const handleSearchIconClick = async () => {
     // mutation.mutate(payLoad)
-    return getRoute("Search");
+    // return getRoute("Search");
+
+    console.log(locationList, "lllll");
+
+    const payLoad = {
+      // seviceNames: treatmentList,
+      // // categoryName: ["Hair treatment"],
+      // startDate: selectedDate.split("to")[0]?.trim(),
+      // endDate: selectedDate.split("to")[1]?.trim(),
+      // geoX: locationList[0]?.center?.lat,
+      // geoY: locationList[0]?.center?.lng,
+      // range: locationList[0]?.range,
+      // startTime: SelectedTime?.from,
+      // endTime: SelectedTime?.to,
+    };
+
+    if (treatmentList && treatmentList.length > 0) {
+      payLoad.serviceNames = treatmentList;
+    }
+
+    if (selectedDate) {
+      const [startDate, endDate] = selectedDate
+        .split("to")
+        .map((date) => date?.trim());
+      if (startDate) {
+        payLoad.startDate = startDate;
+      }
+      if (endDate) {
+        payLoad.endDate = endDate;
+      }
+    }
+
+    if (locationList.length > 0) {
+      const { center, range } = locationList[0];
+      if (center) {
+        if (center.lat) {
+          payLoad.geoX = center.lat;
+        }
+        if (center.lng) {
+          payLoad.geoY = center.lng;
+        }
+      }
+      if (range) {
+        payLoad.range = range;
+      }
+    }
+
+    if (SelectedTime) {
+      const { from, to } = SelectedTime;
+      if (from) {
+        payLoad.startTime = from;
+      }
+      if (to) {
+        payLoad.endTime = to;
+      }
+    }
+
+    try {
+      const establishmentSearchResultResponse =
+        await endpoint.getEstablishmentSearchResults(payLoad);
+      const treatmentServicesList = establishmentSearchResultResponse.data.data;
+      console.log(treatmentServicesList);
+
+      for (const card of treatmentServicesList) {
+        const location = await getAddressDetails(card);
+        card.location = location;
+      }
+      setTreatmentServicesList(treatmentServicesList);
+      navigate("/search", {
+        state: {
+          treatmentServicesList: treatmentServicesList,
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const handleChangeTreatment = (e) => {
@@ -217,22 +331,6 @@ const NewSearchPanel = () => {
 
   const closeTimeInputBox = () => {
     setTimePickerOpen(false);
-  };
-
-  const getAddressDetails = async (card) => {
-    const { geoX, geoY } = card;
-    if (geoX !== null && geoY !== null) {
-      const geocodeResponse = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${geoX},${geoY}&key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}`
-      );
-      const geocodeData = await geocodeResponse.json();
-
-      if (geocodeData.results && geocodeData.results.length > 0) {
-        const location = geocodeData.results[0].formatted_address;
-        return location;
-      }
-    }
-    return null;
   };
 
   const getTreatementBasedGeoLocation = async () => {
@@ -336,6 +434,12 @@ const NewSearchPanel = () => {
     }
   };
 
+  const closeFilterPannel = () => {
+    dispatch(updateSearchSelectedBox({ selectedBox: "" }));
+  };
+
+  console.log(locationList);
+
   return (
     <>
       <MyVerticallyCenteredModal
@@ -353,254 +457,119 @@ const NewSearchPanel = () => {
         <div className="search-panel">
           {/* <Form> */}
 
-          {isTreatmentOpen ? (
+          <div className="grid-container">
             <>
-              <div className="flex justify-end  mb-2 ">
-                <MdOutlineClose
-                  size={22}
-                  color="red"
-                  className="cursor-pointer"
-                  onClick={closeTreatmentInputBox}
-                />
-              </div>
-              <div className="treatment-input-grid-container ">
-                <div className="treatment-input-container">
-                  <input
-                    type="text"
-                    id="treatment"
-                    placeholder="Enter Service name"
-                    onChange={(e) => setTreatmentValue(e.target.value)}
-                  />
-                </div>
-                <div
-                  className="addtl-search-icon"
-                  onClick={getTreatementBasedGeoLocation}
-                >
-                  <Search
-                    className="search-button text-right text-white"
-                    fontSize="medium"
-                  />
-                </div>
-              </div>
-            </>
-          ) : isDatePickerOpen ? (
-            <>
-              <div className="flex justify-end mb-2">
-                <MdOutlineClose
-                  size={22}
-                  color="red"
-                  className="cursor-pointer"
-                  onClick={closeDateInputBox}
-                />
-              </div>
-              <div className="treatment-input-grid-container ">
-                <div className="treatment-input-container">
-                  <input
-                    type="date"
-                    id="treatement-date"
-                    placeholder="Select Date"
-                    onChange={(e) => setTreatmentDate(e.target.value)}
-                  />
-                </div>
-                <div
-                  className="addtl-search-icon"
-                  onClick={getDateBasedGeoLocation}
-                >
-                  <Search
-                    className="search-button text-right text-white"
-                    fontSize="medium"
-                  />
-                </div>
-              </div>
-            </>
-          ) : isTimePickerOpen ? (
-            <>
-              <div className="flex justify-end mb-2">
-                <MdOutlineClose
-                  size={22}
-                  color="red"
-                  className="cursor-pointer"
-                  onClick={closeTimeInputBox}
-                />
-              </div>
-              <div className="treatment-input-grid-container ">
-                <div className="treatment-input-container">
-                  <input
-                    id="treatement-Time"
-                    placeholder="Select Time"
-                    type="time"
-                    onChange={onChangeTime}
-                  />
-                </div>
-                <div
-                  className="addtl-search-icon"
-                  onClick={getTimeBasedGeoLocation}
-                >
-                  <Search
-                    className="search-button text-right text-white"
-                    fontSize="medium"
-                  />
-                </div>
-              </div>
-            </>
-          ) : isLocationOpen ? (
-            <div className="treatment-input-grid-container ">
-              <div className="treatment-input-container">
-                <input
-                  id="treatement-location"
-                  placeholder="Enter Location"
-                  type="text"
-                  onChange={(e) => setLocationValue(e.target.value)}
-                />
-              </div>
               <div
-                className="addtl-search-icon"
-                onClick={getLocationBasedGeoLocation}
+                className={`grid-items ${
+                  selectedBox === "Treatment" && "active"
+                }`}
               >
-                <Search
-                  className="search-button text-right text-white"
-                  fontSize="medium"
-                />
-              </div>
-            </div>
-          ) : (
-            <div className="grid-container">
-              <>
-                <div
-                  className={`grid-items ${
-                    selectedBox === "Treatment" && "active"
+                <Box
+                  className={`search-box ${false ? "selected" : ""} ${
+                    selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
                   }`}
                 >
-                  <Box
-                    className={`search-box ${false ? "selected" : ""} ${
-                      selectedBox?.toLowerCase() === "time"
-                        ? "addtl-button"
-                        : ""
-                    }`}
-                  >
-                    <div className="search-box-title-icon">
-                      <GetIcon iconName="TreatmentHeartIcon" />
-                      <div className="search-box-title">
-                        {treatmentList &&
-                        treatmentList.length > 0 &&
-                        !isTreatmentOpen ? (
-                          <>
-                            <Text name="Select" />
+                  <div className="search-box-title-icon">
+                    <GetIcon iconName="TreatmentHeartIcon" />
+                    <div className="search-box-title">
+                      {treatmentList && treatmentList.length > 0 ? (
+                        <Text
+                          className="cursor-pointer"
+                          onClick={() => handleBoxClick("Treatment")}
+                          name={treatmentList.toString().replaceAll(",", ", ")}
+                        ></Text>
+                      ) : (
+                        <>
+                          <Text
+                            align="left"
+                            className="name-top"
+                            name="Select"
+                          />
+                          <label htmlFor="name-bottom">
                             <Text
-                              className="cursor-pointer name-bottom"
-                              onClick={() => handleBoxClick("Treatment")}
-                              name={treatmentList[0].treatmentList
-                                .toString()
-                                .replaceAll(",", ", ")}
-                            ></Text>
-                          </>
-                        ) : (
-                          <>
-                            <Text
+                              id="name-bottom"
                               align="left"
-                              className="name-top"
-                              name="Select"
-                            />
-
-                            <label htmlFor="name-bottom">
-                              <Text
-                                id="name-bottom"
-                                align="left"
-                                className="name-bottom"
-                                name={"Treatment"}
-                                onClick={() => handleBoxClick("Treatment")}
-                              />
-                            </label>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  </Box>
-                </div>
-
-                <div
-                  className={`grid-items ${
-                    selectedBox === "Location" && "active"
-                  }`}
-                >
-                  <Box
-                    className={`search-box ${false ? "selected" : ""} ${
-                      selectedBox?.toLowerCase() === "time"
-                        ? "addtl-button"
-                        : ""
-                    }`}
-                  >
-                    <div className="search-box-title-icon">
-                      <GetIcon iconName="LocationIcon" />
-                      <div className="search-box-title">
-                        {locationList && locationList.length > 0 ? (
-                          <>
-                            <Text
                               className="name-bottom"
-                              onClick={() => handleBoxClick("Location")}
-                              name={locationList[0].location
-                                .toString()
-                                .replaceAll(",", ", ")}
-                            ></Text>
-                          </>
-                        ) : (
-                          <>
-                            <Text
-                              align="left"
-                              className="name-top"
-                              name="Select"
+                              name={"Treatment"}
+                              onClick={() => handleBoxClick("Treatment")}
                             />
-                            <label htmlFor="name-bottom">
-                              <Text
-                                id="name-bottom"
-                                align="left"
-                                className="name-bottom"
-                                name="Location"
-                                onClick={() => handleBoxClick("Location")}
-                              />
-                            </label>
-                          </>
-                        )}
-                      </div>
+                          </label>
+                        </>
+                      )}
                     </div>
-                  </Box>
-                </div>
+                  </div>
+                </Box>
+              </div>
 
-                <div
-                  className={`grid-items ${selectedBox === "Date" && "active"}`}
+              <div
+                className={`grid-items ${
+                  selectedBox === "Location" && "active"
+                }`}
+              >
+                <Box
+                  className={`search-box ${false ? "selected" : ""} ${
+                    selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
+                  }`}
                 >
-                  <Box
-                    className={`search-box ${false ? "selected" : ""} ${
-                      selectedBox?.toLowerCase() === "time"
-                        ? "addtl-button"
-                        : ""
-                    }`}
-                  >
-                    <div className="search-box-title-icon">
-                      <GetIcon iconName="CalendarIcon" />
-                      <div className="search-box-title">
-                        {selectedDate && !isDatePickerOpen ? (
-                          <>
+                  <div className="search-box-title-icon">
+                    <GetIcon iconName="LocationIcon" />
+                    <div className="search-box-title">
+                      {locationList && locationList.length > 0 ? (
+                        <Text
+                          className="cursor-pointer"
+                          onClick={() => handleBoxClick("Location")}
+                          name={locationList[0]?.location
+                            ?.toString()
+                            .replaceAll(",", ", ")}
+                        ></Text>
+                      ) : (
+                        <>
+                          <Text
+                            align="left"
+                            className="name-top"
+                            name="Select"
+                          />
+                          <label htmlFor="name-bottom">
                             <Text
+                              id="name-bottom"
                               align="left"
-                              className="name-top"
-                              name="Select"
+                              className="name-bottom"
+                              name="Location"
+                              onClick={() => handleBoxClick("Location")}
                             />
-                            <Text
-                              className="cursor-pointer"
-                              onClick={() => handleBoxClick("Date")}
-                              name={selectedDate}
-                              type
-                            ></Text>
-                          </>
-                        ) : (
-                          <>
-                            <Text
-                              align="left"
-                              className="name-top"
-                              name="Select"
-                            />
+                          </label>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </Box>
+              </div>
 
+              <div
+                className={`grid-items ${selectedBox === "Date" && "active"}`}
+              >
+                <Box
+                  className={`search-box ${false ? "selected" : ""} ${
+                    selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
+                  }`}
+                >
+                  <div className="search-box-title-icon">
+                    <GetIcon iconName="CalendarIcon" />
+                    <div className="search-box-title">
+                      {selectedDate ? (
+                        <Text
+                          className="cursor-pointer"
+                          onClick={() => handleBoxClick("Date")}
+                          name={selectedDate}
+                        ></Text>
+                      ) : (
+                        <>
+                          <Text
+                            align="left"
+                            className="name-top"
+                            name="Select"
+                          />
+                          <label htmlFor="name-bottom">
                             <Text
                               id="name-bottom"
                               align="left"
@@ -608,69 +577,68 @@ const NewSearchPanel = () => {
                               name="Date"
                               onClick={() => handleBoxClick("Date")}
                             />
-                          </>
-                        )}
-                      </div>
+                          </label>
+                        </>
+                      )}
                     </div>
-                  </Box>
-                </div>
+                  </div>
+                </Box>
+              </div>
 
-                <div
-                  className={`grid-items ${selectedBox === "Time" && "active"}`}
-                >
-                  <Box className="search-box addtl-button MuiBox-root css-0">
-                    <div className="search-box-title-icon">
-                      <GetIcon iconName="AccessTimeFilledIcon" />
-                      <div className="search-box-title">
-                        {SelectedTime &&
-                        (SelectedTime.from || SelectedTime.to) ? (
+              <div
+                className={`grid-items ${selectedBox === "Time" && "active"}`}
+              >
+                <Box className="search-box addtl-button MuiBox-root css-0">
+                  <div className="search-box-title-icon">
+                    <GetIcon iconName="AccessTimeFilledIcon" />
+                    <div className="search-box-title">
+                      {SelectedTime &&
+                      (SelectedTime.from || SelectedTime.to) ? (
+                        <Text
+                          className="cursor-pointer"
+                          onClick={() => handleBoxClick("Time")}
+                          // name={
+                          //   !choseFromOptions
+                          //     ? `${convertTo_HH_AM(
+                          //         SelectedTime?.from
+                          //       )} - ${convertTo_HH_AM(SelectedTime?.to)}`
+                          //     : `${SelectedTime?.from} - ${SelectedTime?.to}`
+                          // }
+                          name={`${SelectedTime?.from} - ${SelectedTime?.to}`}
+                        ></Text>
+                      ) : (
+                        <>
                           <Text
-                            className="cursor-pointer"
-                            onClick={() => handleBoxClick("Time")}
-                            name={`${convertTo_HH_AM(
-                              SelectedTime?.from?.selectedTime?.from
-                            )} - ${convertTo_HH_AM(
-                              SelectedTime?.to?.selectedTime?.to
-                            )}`}
-                          ></Text>
-                        ) : (
-                          <>
+                            align="left"
+                            className="name-top"
+                            name="Select"
+                          />
+                          <label htmlFor="name-bottom">
                             <Text
+                              id="name-bottom"
                               align="left"
-                              className="name-top"
-                              name="Select"
+                              className="name-bottom"
+                              name="Time"
+                              onClick={() => handleBoxClick("Time")}
                             />
-
-                            <label htmlFor="name-bottom">
-                              <Text
-                                id="name-bottom"
-                                align="left"
-                                className="name-bottom"
-                                name="Time"
-                                onClick={() => handleBoxClick("Time")}
-                              />
-                            </label>
-                          </>
-                        )}
-                      </div>
+                          </label>
+                        </>
+                      )}
                     </div>
-                    <div className="addtl-search-icon">
-                      {/* <Link to={handleSearchIconClick()}>
-                        <Search
-                          className="search-button text-right text-white"
-                          fontSize="medium"
-                        />
-                      </Link> */}
-                      <Search
-                        className="search-button text-right text-white"
-                        fontSize="medium"
-                      />
-                    </div>
-                  </Box>
-                </div>
-              </>
-            </div>
-          )}
+                  </div>
+                  <div
+                    className="addtl-search-icon"
+                    onClick={() => handleSearchIconClick()}
+                  >
+                    <IconButton>
+                      <GetIcon iconName="MainSearch" />
+                    </IconButton>
+                    {/* <Search className='search-button text-right mr-2' fontSize='medium' /> */}
+                  </div>
+                </Box>
+              </div>
+            </>
+          </div>
 
           {selectedBox === "Treatment" && showOptionContainer && (
             <div className="home-filter-panel">
@@ -697,6 +665,9 @@ const NewSearchPanel = () => {
                 className="date-panel"
                 style={{ overflow: "auto" }}
               >
+                <div className="flex justify-end p-2 cursor-pointer text-red-600">
+                  <CloseIcon onClick={() => closeFilterPannel()} />
+                </div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <StaticDateRangePicker
                     slotProps={{
@@ -708,7 +679,7 @@ const NewSearchPanel = () => {
                     // calendars={2}
                     onChange={onChangeDate}
                     sx={{
-                      [`.${pickersLayoutClasses.contentWrapper}`]: {
+                      [`.${pickersLayoutClasses?.contentWrapper}`]: {
                         alignItems: "center",
                       },
                     }}

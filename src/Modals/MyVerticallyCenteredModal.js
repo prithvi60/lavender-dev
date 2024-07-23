@@ -156,6 +156,7 @@ const MyVerticallyCenteredModal = (props) => {
         status === window.google.maps.places.PlacesServiceStatus.OK &&
         place
       ) {
+        console.log(place.geometry.location.lat(), "place");
         const location = `${place.formatted_address.slice(0, 40)}...`;
         const lat = place.geometry.location.lat();
         const lng = place.geometry.location.lng();
@@ -277,56 +278,56 @@ const MyVerticallyCenteredModal = (props) => {
     setTimePickerOpen(false),
   ];
 
-  const getAddressDetails = async (card) => {
-    const { geoX, geoY } = card;
-    if (geoX !== null && geoY !== null) {
-      const geocodeResponse = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${geoX},${geoY}&key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}`
-      );
-      const geocodeData = await geocodeResponse.json();
+  // const getAddressDetails = async (card) => {
+  //   const { geoX, geoY } = card;
+  //   if (geoX !== null && geoY !== null) {
+  //     const geocodeResponse = await fetch(
+  //       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${geoX},${geoY}&key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}`
+  //     );
+  //     const geocodeData = await geocodeResponse.json();
 
-      if (geocodeData.results && geocodeData.results.length > 0) {
-        const location = geocodeData.results[0].formatted_address;
-        return location;
-      }
-    }
-    return null;
-  };
+  //     if (geocodeData.results && geocodeData.results.length > 0) {
+  //       const location = geocodeData.results[0].formatted_address;
+  //       return location;
+  //     }
+  //   }
+  //   return null;
+  // };
 
-  const getLocationList = async () => {
-    if (locationList?.length > 0) {
-      const payLoad = {
-        geoX: locationList[0]?.center?.lat,
-        geoY: locationList[0]?.center?.lng,
-        range: locationList[0]?.range,
-      };
+  // const getLocationList = async () => {
+  //   if (locationList?.length > 0) {
+  //     const payLoad = {
+  //       geoX: locationList[0]?.center?.lat,
+  //       geoY: locationList[0]?.center?.lng,
+  //       range: locationList[0]?.range,
+  //     };
 
-      try {
-        const treatementBasedGeoLocationResponse =
-          await endpoint.getTreatmentServicesListByLocation(payLoad);
+  //     try {
+  //       const treatementBasedGeoLocationResponse =
+  //         await endpoint.getTreatmentServicesListByLocation(payLoad);
 
-        const treatmentServicesList =
-          treatementBasedGeoLocationResponse.data.data;
-        for (const card of treatmentServicesList) {
-          const location = await getAddressDetails(card);
-          card.location = location;
-        }
+  //       const treatmentServicesList =
+  //         treatementBasedGeoLocationResponse.data.data;
+  //       for (const card of treatmentServicesList) {
+  //         const location = await getAddressDetails(card);
+  //         card.location = location;
+  //       }
 
-        setTreatmentServicesList(treatmentServicesList);
-        navigate("/search", {
-          state: {
-            treatmentServicesList: treatmentServicesList,
-          },
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  };
+  //       setTreatmentServicesList(treatmentServicesList);
+  //       navigate("/search", {
+  //         state: {
+  //           treatmentServicesList: treatmentServicesList,
+  //         },
+  //       });
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  // };
 
-  useEffect(() => {
-    getLocationList();
-  }, [locationList]);
+  // useEffect(() => {
+  //   getLocationList();
+  // }, [locationList]);
 
   return (
     <Modal

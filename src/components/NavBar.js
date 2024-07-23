@@ -12,18 +12,19 @@ import Stack from "@mui/material/Stack";
 import GetIcon from "../assets/Icon/icon.tsx";
 import PersonIcon from "@mui/icons-material/Person";
 
+
 const Navbar = (props) => {
   const { isSearchPage, isLoggedIn, userName } = props;
 
   const [showSearchBar, setshowSearchBar] = useState(false);
 
   const getLoginRoute = () => {
-    return navigate("/login");
+    return navigate('/login')
   };
 
-  function getUserRoute() {
-    navigate("/userprofile");
-  }
+  function getUserRoute(){
+navigate('/userprofile')
+  };
 
   const getAdminRoute = () => {
     return getRoute("Admin");
@@ -38,10 +39,10 @@ const Navbar = (props) => {
 
   const navigate = useNavigate();
 
-  const handleLogOutBtn = () => {
+  function handleLogOutBtn(){
     localStorage.clear();
     return navigate("/");
-  };
+  }
 
   return (
     <>
@@ -62,17 +63,15 @@ const Navbar = (props) => {
           />
           {isSearchPage && <NavFilter setshowSearchBar={setshowSearchBar} />}
           <Stack spacing={2} direction="row">
-            {isLoggedIn && (
-              <Button
-                onClick={() => {
-                  handleLogOutBtn();
-                }}
-                className="button-outline"
-                variant="outlined"
-              >
-                Logout
-              </Button>
-            )}
+            {
+              isLoggedIn && <Button
+              onClick={()=>{handleLogOutBtn()}}
+              className="button-outline"
+              variant="outlined"
+            >
+              Logout
+            </Button>
+            }
             <Button
               href={getBusinessRoute()}
               className="button-outline"
@@ -81,13 +80,9 @@ const Navbar = (props) => {
               Business
             </Button>
             {isLoggedIn ? (
-              <ButtonRouter
-                name={userName}
-                to={"/userprofile"}
-                startIcon={<PersonIcon />}
-              />
+                <ButtonRouter name={userName} to={'/userprofile'} startIcon={<PersonIcon />} />
             ) : (
-              <ButtonRouter name={"Login"} to={"/login"} />
+                <ButtonRouter name={"Login"} to={'/login'} />
             )}
           </Stack>
           {isSearchPage && showSearchBar && (

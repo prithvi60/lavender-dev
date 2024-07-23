@@ -1,13 +1,6 @@
 import { useRef, useState } from "react";
 import { range, getMonday, getCurrentTime12HrFormat } from "./utils";
-import {
-  EmployeeWrapper,
-  HGrid,
-  Hour,
-  VGrid,
-  Wrapper,
-  HourLineWithLabel,
-} from "./components/CalenderComponents";
+import { EmployeeWrapper, HGrid, Hour, VGrid, Wrapper, HourLineWithLabel } from './components/CalenderComponents'
 import GetIcon from "../../../assets/Icon/icon";
 import { GetScheduleDates } from "./BusinessScheduleContext";
 import { useDrawer } from "../BusinessDrawerContext";
@@ -50,48 +43,28 @@ import { CustomTooltip } from "../../../components/CustomTooltip";
 // }
 
 export const DayCalendar = () => {
-  const { filteredAppointments, selectedDate, employees } = GetScheduleDates();
+
+  const { filteredAppointments, employees } = GetScheduleDates()
+  console.log("test day >", filteredAppointments)
   // const [appointments, setAppointments] = useState(filteredAppointments)
-  const [deleteIcon, showDeleteIcon] = useState(false);
-  const [newAppointment, setNewAppointment] = useState("");
-  const { openDrawer, isOpen } = useDrawer();
-  const [employeeeName, setEmployeeName] = useState("");
-  // const [establishmentData, setEstablishmentData] = useState('')
-  // const userDetails = useSelector((state: any) => {
-  //   return state?.currentUserDetails;
-  // });
-
-  // const establishmentId = userDetails?.establishmentId || "";
-
-  // useEffect(() => {
-  //   const getEstablishmentDetails = async () => {
-  //     try {
-  //       const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
-  //       if (establishmentData?.data?.success) {
-  //         setEstablishmentData(establishmentData?.data?.data || []);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching establishment details:", error);
-  //     }
-  //   };
-
-  //   getEstablishmentDetails();
-  // }, [establishmentId, isOpen]);
+  const [deleteIcon, showDeleteIcon] = useState(false)
+  const [newAppointment, setNewAppointment] = useState('')
+  const { openDrawer, isOpen } = useDrawer()
 
   const dragElementRef = useRef(null);
 
   const mondayDate = getMonday();
 
   const addNewAppointment = (employee, hour, min) => {
-    setNewAppointment(`${employee}-${hour}-${min}`);
+    setNewAppointment(`${employee}-${hour}-${min}`)
     // openDrawer()
-  };
+  }
 
   const onDragStartDelete = (e, id, currentEmployee) => {
-    showDeleteIcon(true);
+    showDeleteIcon(true)
     dragElementRef.current = e.target;
-    e.dataTransfer.setData("eventId", id);
-    e.dataTransfer.setData("currentEmployee", currentEmployee.employeeName);
+    e.dataTransfer.setData('eventId', id);
+    e.dataTransfer.setData('currentEmployee', currentEmployee.employeeName);
     // const nodeRect = e.target.getBoundingClientRect();
     // const offsetX = e.clientX - nodeRect.left;
     // const offsetY = e.clientY - nodeRect.top;
@@ -100,185 +73,133 @@ export const DayCalendar = () => {
     // console.log("setDragElement called", offsetX, offsetY)
 
     //setDragElement(e)
-
+    
     //console.log("dragStart",e, dragElementRef)
 
     setTimeout(() => {
-      dragElementRef.current.parentElement.style.display = "none";
+      dragElementRef.current.parentElement.style.display = 'none';
     }, 0);
-  };
+  }
 
   const onDragDropDelete = (e) => {
-    const id = e.dataTransfer.getData("eventId");
-    e.target.style.backgroundColor = "red";
-    const currentEmployee = e.dataTransfer.getData("currentEmployee");
-  };
+    const id = e.dataTransfer.getData('eventId');
+    e.target.style.backgroundColor = 'red'
+    const currentEmployee = e.dataTransfer.getData('currentEmployee');
+  }
 
   const onDragOverDelete = (e) => {
     e.preventDefault();
-    e.target.style.backgroundColor = "red";
+    e.target.style.backgroundColor = 'red'
   };
 
   const onDragEnd = (e) => {
-    e.preventDefault();
-    showDeleteIcon(false);
+    e.preventDefault()
+    showDeleteIcon(false)
     //removeDragElement()
-    dragElementRef.current.parentElement.style.display = "block";
-  };
+    dragElementRef.current.parentElement.style.display = 'block';
+  }
 
   const onDrag = (e) => {
     // const x = e.dataTransfer.getData('offsetX');
     // const y = e.dataTransfer.getData('offsetY');
     // const id = e.dataTransfer.getData('eventId');
     // console.log("onDrag called", x, y, id)
+
     // var dragImage = document.getElementById('draggedimage');
     // if(dragImage) {
     //     dragImage.style.left =( e.pageX )+ "px";//TRY offsetWidth
     //     dragImage.style.top = (e.pageY) + "px";
     // }
-  };
-
-  function handleAddAppointment(hour, min) {
-    const startTime = getCurrentTime12HrFormat(hour, min * 15, true);
-    const payload = {
-      start: startTime,
-      employee: employeeeName,
-      date: selectedDate,
-    };
-    openDrawer("NewAppointment", payload);
   }
 
   return (
     <>
       <Wrapper>
         {/* <VGrid setTop={false}> */}
-        {/* <HGrid className="fixed" cols={employees.length}>
+          {/* <HGrid className="fixed" cols={employees.length}>
             {employees.map((employee) => <div className="h-[120px] flex flex-col flex-grow-0 items-center justify-center font-bold border-b border-b-gray-400">
               <GetIcon svgWidth='80' svgHeight='80' className='' iconName={'ProfileIcon'}/>
               <>{employee.employeeName}</>
             </div>)}
           </HGrid>
              */}
-
-        <HGrid first={"60px"} cols={1}>
-          <VGrid className="mb-[18px]" rows={24}>
-            {range(24).map((hour) => (
-              <Hour className="border-r border-[#CCCCCC]">
-                {`${!hour ? "12" : hour % 12 || "12"}.00`}
-                <br />
-                {`${hour >= 12 ? "PM" : "AM"}`}
-              </Hour>
-            ))}
-          </VGrid>
-          <HGrid className="overflow-x-scroll" cols={employees?.length}>
-            {employees ? (
+        
+          <HGrid  first={"60px"} cols={1}>
+            <VGrid className="mb-[18px]" rows={24}>
+              {range(24).map((hour) => (
+                <Hour className="border-r border-[#CCCCCC]">
+                  {`${!hour ? '12' : ((hour % 12) || '12')}.00`}
+                  <br/>
+                  {`${hour >= 12 ? 'PM' : 'AM'}`}
+                </Hour>
+              ))}
+            </VGrid>
+            <HGrid className='overflow-x-scroll' cols={employees?.length}>
+              {employees ? 
               employees.map((employee, index) => (
-                <EmployeeWrapper>
-                  <div className="h-[120px] flex flex-col flex-grow-0 items-center justify-center shadow font-bold border-b border-b-gray-400">
-                    <GetIcon
-                      svgWidth="80"
-                      svgHeight="80"
-                      className=""
-                      iconName={"ProfileIcon"}
-                    />
-                    <>{employee.employeeName}</>
-                  </div>
-                  {range(24).map((hour) => (
-                    <Hour className="flex flex-col border-r border-solid border-r-gray-400">
-                      {range(4).map((min) => (
-                        <div
-                          onClick={() =>
-                            addNewAppointment(employee.employeeName, hour, min)
-                          }
-                          className="border-b border-dashed border-b-[#B3B3B3] w-full h-1/4 last:border-solid"
-                        >
-                          {newAppointment ===
-                          `${employee.employeeName}-${hour}-${min}` ? (
+                  <EmployeeWrapper>
+                    <div className="h-[120px] flex flex-col flex-grow-0 items-center justify-center shadow font-bold border-b border-b-gray-400">
+                      <GetIcon svgWidth='80' svgHeight='80' className='' iconName={'ProfileIcon'}/>
+                      <>{employee.employeeName}</>
+                    </div>
+                    {range(24).map((hour) => (
+                      <Hour className="flex flex-col border-r border-solid border-r-gray-400">
+                        {range(4).map((min) => (
+                          <div onClick={() => addNewAppointment(employee.employeeName, hour, min)} className="border-b border-dashed border-b-[#B3B3B3] w-full h-1/4 last:border-solid">
+                            {newAppointment === `${employee.employeeName}-${hour}-${min}` ? 
                             <div className="w-full h-full bg-white border-2 p-1 border-[#825FFF] rounded-xl text-left">
-                              <CustomTooltip
-                                children={
-                                  <div className="ml-4 font-bold">
-                                    {getCurrentTime12HrFormat(
-                                      hour,
-                                      min * 15,
-                                      true
-                                    )}
-                                  </div>
-                                }
-                                title={
-                                  <div className="w-20 h-10 p-5 bg-white rounded-lg">
-                                    Hello - add or block app
-                                  </div>
-                                }
-                                maxW={"100%"}
-                                arrowColor={"white"}
-                              />
+                              <CustomTooltip children={<div className="ml-4 font-bold">{getCurrentTime12HrFormat(hour, (min) * 15, true)}</div>} 
+                              title={<div className="w-20 h-10 p-5 bg-white rounded-lg">Hello - add or block app</div>} maxW={"100%"} arrowColor={"white"}/>
                             </div>
-                          ) : (
-                            <></>
-                          )}
-                        </div>
-                      ))}
-                    </Hour>
-                  ))}
-
-                  {filteredAppointments[employee.employeeName]?.map(
-                    (appointmentGroup) =>
-                      appointmentGroup.map(
-                        (appointment, index, allAppointments) => {
-                          console.log(
-                            "render day >",
-                            allAppointments.length,
-                            index
-                          );
-                          const allAppointmentsCount = allAppointments.length;
-                          return (
-                            <Appointment
-                              data={appointment}
-                              index={index}
-                              count={allAppointmentsCount}
-                              onDrag={onDrag}
-                              onDragEnd={(e) => onDragEnd(e)}
-                              elementRef={dragElementRef}
-                              onDragStart={(e) => {
-                                onDragStartDelete(
-                                  e,
-                                  appointment.service,
-                                  employee
-                                );
-                              }}
-                              //disabled={true}//temp
-                              disableHoverOnDrag={deleteIcon}
-                            />
-                          );
-                        }
-                      )
-                  )}
-                </EmployeeWrapper>
-              ))
-            ) : (
+                            : <></>}
+                          </div>
+                        ))}
+                      </Hour>
+                    ))}
+                    
+                    {filteredAppointments[employee.employeeName]?.map( (appointmentGroup) => appointmentGroup.map(
+                      (appointment, index, allAppointments) => {
+                        console.log("render day >", allAppointments.length, index)
+                        const allAppointmentsCount = allAppointments.length
+                        return (
+                              <Appointment
+                                data={appointment}
+                                index={index}
+                                count={allAppointmentsCount}
+                                onDrag={onDrag}
+                                onDragEnd={(e) => onDragEnd(e)}
+                                elementRef={dragElementRef}
+                                onDragStart = {(e) => {
+                                  onDragStartDelete(e, appointment.service, employee)
+                                }}
+                                //disabled={true}//temp
+                                disableHoverOnDrag={deleteIcon}
+                              />
+                        )
+                      }
+                    ))}
+                  </EmployeeWrapper>
+              )) 
+              : 
               <div className="flex w-full h-full justify-center items-center text-white">
                 No employees...
-              </div>
-            )}
+              </div>}
+            </HGrid>
           </HGrid>
-        </HGrid>
         {/* </VGrid> */}
 
-        <HourLineWithLabel />
+        <HourLineWithLabel/>
+
       </Wrapper>
-      {deleteIcon ? (
+        {deleteIcon ? 
         <div
           onDragOver={onDragOverDelete}
           onDrop={(e) => onDragDropDelete(e)}
-          id="appointment-delete"
+          id='appointment-delete'
           className={`inline-flex items-center justify-center w-14 h-14 rounded-full p-3 border-2 fixed top-80 end-10`}
         >
-          <GetIcon iconName="DeleteIcon" />
-        </div>
-      ) : (
-        <></>
-      )}
+            <GetIcon iconName='DeleteIcon'/>
+        </div> : <></>}
     </>
   );
 };

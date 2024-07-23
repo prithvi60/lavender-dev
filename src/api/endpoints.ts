@@ -31,9 +31,11 @@ import {
   saveReviews,
   getReviews,
   getTreatmentServices,
+  getCategoryServices,
   treatmentServicesByLocation,
   treatmentServicesByDate,
   treatmentServicesByTime,
+  establishmentSearchResult,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -272,10 +274,17 @@ class Endpoint {
     return response;
   }
 
-  async getTreatmentServicesList(payload) {
-    const response = await axiosInstance.post(
-      `${BaseURL}${getTreatmentServices}`,
-      payload
+  async getTreatmentServicesList() {
+    const response = await axiosInstance.get(
+      `${BaseURL}${getTreatmentServices}`
+    );
+
+    return response;
+  }
+
+  async getCategoryServicesList() {
+    const response = await axiosInstance.get(
+      `${BaseURL}${getCategoryServices}`
     );
 
     return response;
@@ -302,6 +311,15 @@ class Endpoint {
   async getTreatmentServicesListByTime(payload) {
     const response = await axiosInstance.post(
       `${BaseURL}${treatmentServicesByTime}`,
+      payload
+    );
+
+    return response;
+  }
+
+  async getEstablishmentSearchResults(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${establishmentSearchResult}`,
       payload
     );
 

@@ -53,7 +53,7 @@ export function SearchInput({onChange, placeholder}) {
     );
 }
 
-export function Selector({ placeholder = '', options, className, label=null, onSelect}) {
+export function Selector({ placeholder = '', options, className, label=null, labelStyle='text-black', onSelect}) {
     return (
         <>
             <Select onValueChange={(value) => {
@@ -61,9 +61,9 @@ export function Selector({ placeholder = '', options, className, label=null, onS
             }
             }>
             <SelectGroup>
-                {label ? <SelectLabel style={{color: '#4D4D4D', fontSize: '18px', fontWeight: 700, paddingTop: '10px' }}>{label}</SelectLabel> : <></>}
+                {label ? <SelectLabel className={labelStyle}>{label}</SelectLabel> : <></>}
 
-                <SelectTrigger className={className} >
+                <SelectTrigger className={className}>
                     <SelectValue placeholder={placeholder} />
                 </SelectTrigger>
                 <SelectContent className='z-[1500]'>

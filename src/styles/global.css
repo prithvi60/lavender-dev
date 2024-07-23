@@ -119,18 +119,14 @@
   }
 
   .addtl-search-icon {
-    padding: 18px;
+    padding: 10px;
     color: white;
-    border-radius: 20px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 2px;
     cursor: pointer;
-    & svg {
-      width: 26px;
-      height: 26px;
-    }
   }
 
   .search-box-title .name-top {

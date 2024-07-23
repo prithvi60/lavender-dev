@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Chip from "../../components/Chip";
 import {
   Grid,
@@ -55,8 +61,44 @@ const markers = [
   },
 ];
 
+interface SearchPageState {
+  searchPage: {
+    selectedBox: string; // Or appropriate types for each property
+    showOptionContainer: boolean;
+    treatmentList: string[];
+    locationList: any;
+    selectedDate: any;
+    SelectedTime: any;
+    choseFromOptions: boolean;
+  };
+}
+
+interface Payload {
+  serviceNames?: any;
+  startDate?: any;
+  endDate?: any;
+  geoX?: number;
+  geoY?: number;
+  range?: number;
+  startTime?: any;
+  endTime?: any;
+}
+
 export default function SearchResult() {
+  const mapRef = useRef(null);
+
+  const {
+    selectedBox,
+    showOptionContainer,
+    treatmentList,
+    locationList,
+    selectedDate,
+    SelectedTime,
+    choseFromOptions,
+  } = useSelector((state: SearchPageState) => state.searchPage);
+
   const [map, setMap] = React.useState(null);
+  const [zoom, setZoom] = useState<number>(1);
 
   const [activeMarker, setActiveMarker] = useState(null);
   const [activeCurrentLocation, setActiveCurrentLocation] = useState(false);
@@ -67,7 +109,9 @@ export default function SearchResult() {
 
   const { state } = useLocation();
 
-  const markers = [...state.treatmentServicesList];
+  const [markers, setMarkers] = useState(state.treatmentServicesList);
+
+  // const markers = [...state.treatmentServicesList];
 
   const transformData = (data) => ({
     position: { lat: data.geoX || null, lng: data.geoY || null },
@@ -302,6 +346,109 @@ export default function SearchResult() {
 
   const processDataForCSV = (data) => {
     return data.map(({ estImage, ...rest }) => rest);
+  };
+
+  const getAddressDetails = async (card) => {
+    const { geoX, geoY } = card;
+    if (geoX !== null && geoY !== null) {
+      const geocodeResponse = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${geoX},${geoY}&key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}`
+      );
+      const geocodeData = await geocodeResponse.json();
+
+      if (geocodeData.results && geocodeData.results.length > 0) {
+        const location = geocodeData.results[0].formatted_address;
+        return location;
+      }
+    }
+    return null;
+  };
+
+  const handleZoomChanged = async () => {
+    if (map) {
+      const baseRange = 1000;
+      const Range = baseRange / Math.pow(2, map.getZoom() - 10);
+
+      if (Range) {
+        const payLoad: Payload = {
+          // seviceNames: treatmentList,
+          // // categoryName: ["Hair treatment"],
+          // startDate: selectedDate.split("to")[0]?.trim(),
+          // endDate: selectedDate.split("to")[1]?.trim(),
+          // geoX: locationList[0]?.center?.lat,
+          // geoY: locationList[0]?.center?.lng,
+          // range: locationList[0]?.range,
+          // startTime: SelectedTime?.from,
+          // endTime: SelectedTime?.to,
+        };
+
+        if (treatmentList && treatmentList.length > 0) {
+          payLoad.serviceNames = treatmentList;
+        }
+
+        if (selectedDate) {
+          const [startDate, endDate] = selectedDate
+            .split("to")
+            .map((date) => date?.trim());
+          if (startDate) {
+            payLoad.startDate = startDate;
+          }
+          if (endDate) {
+            payLoad.endDate = endDate;
+          }
+        }
+
+        if (locationList && locationList[0]) {
+          const { center, range } = locationList[0];
+          if (center) {
+            if (center.lat) {
+              payLoad.geoX = center.lat;
+            }
+            if (center.lng) {
+              payLoad.geoY = center.lng;
+            }
+          }
+          if (Range) {
+            payLoad.range = Range;
+          }
+        }
+
+        if (SelectedTime) {
+          const { from, to } = SelectedTime;
+          if (from) {
+            payLoad.startTime = from;
+          }
+          if (to) {
+            payLoad.endTime = to;
+          }
+        }
+
+        try {
+          const establishmentSearchResultResponse =
+            await endpoint.getEstablishmentSearchResults(payLoad);
+          const treatmentServicesList =
+            establishmentSearchResultResponse.data.data;
+
+          for (const card of treatmentServicesList) {
+            const location = await getAddressDetails(card);
+            card.location = location;
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+  };
+
+  const handleDragEnd = (map: google.maps.Map) => {
+    const newCenter = map.getCenter();
+    if (newCenter) {
+      setCenter({
+        lat: newCenter.lat(),
+        lng: newCenter.lng(),
+      });
+    }
+    console.log("Map dragged to:", newCenter?.toJSON());
   };
 
   return (
@@ -591,6 +738,7 @@ export default function SearchResult() {
               {apiIsLoaded && isLoaded ? (
                 <GoogleMap
                   mapContainerStyle={containerStyle}
+                  onLoad={(mapInstance) => setMap(mapInstance)}
                   center={center}
                   zoom={1}
                   onClick={() => setActiveMarker(null)}
@@ -598,8 +746,22 @@ export default function SearchResult() {
                     mapTypeControl: false,
                     streetViewControl: false,
                   }}
+                  ref={mapRef}
+                  onZoomChanged={handleZoomChanged}
+                  // onDragEnd={() => handleDragEnd(map)}
                   // onLoad={onLoad}
                   // onUnmount={onUnmount}
+
+                  // onLoad={(map) => {
+                  //   map.addListener("zoom_changed", () =>
+                  //     handleZoomChanged(map)
+                  //   );
+                  //   map.addListener("dragend", () => handleDragEnd(map));
+                  // }}
+                  // onUnmount={(map) => {
+                  //   google.maps.event.clearListeners(map, "zoom_changed");
+                  //   google.maps.event.clearListeners(map, "dragend");
+                  // }}
                 >
                   {transformedData.map(
                     ({ id, name, position, image, location }) => (

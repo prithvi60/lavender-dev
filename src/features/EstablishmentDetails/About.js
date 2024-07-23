@@ -14,8 +14,6 @@ import {
 import Avatar from "@mui/material/Avatar";
 import PersonIcon from "@mui/icons-material/Person";
 import GetIcon from "../../assets/Icon/icon";
-import Text from '../../components/Text';
-
 
 function About(props) {
   const { establishmentEmployees, establishmentAbout, establishmentFeatures, establishmentLanguages, establishmentPaymentTypes } = props;
@@ -38,7 +36,7 @@ function About(props) {
   return (
     <div className="mx-16 my-10 md:w-8/12 sm:w-full" id="SearchDetailAbout">
       <div className="max-w-2xl">
-        <Text sx={styles.heading} name={"About"} align="left"/>
+        <div className="urbanist-font text-xl font-bold pb-2">About</div>
         <div className="urbanist-font text-lg font-normal">
           {establishmentAbout}
         </div>
@@ -116,10 +114,3 @@ function About(props) {
 }
 
 export default About;
-const styles={
-  heading: {
-    color: '#333333',
-    fontSize: '36px',
-    fontWeight: 600,
-  },
-}

@@ -1,116 +1,58 @@
-import React, { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
-import { Checkbox, Grid } from "@mui/material";
-import Modal from "@mui/material/Modal";
-import { Add } from "@mui/icons-material";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import Divider from "@mui/material/Divider";
-import CheckBox from "./CheckBox";
+import { useState } from 'react'
+import Box from '@mui/material/Box';
+import {  Grid } from '@mui/material';
+import Modal from '@mui/material/Modal';
+import { Add } from '@mui/icons-material';
+import Buttons from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Divider from '@mui/material/Divider';
+import { updateCheckOut, resetCheckOut } from '../../store/slices/checkOutPageSlice';
 import {
-  updateCheckOut,
-  resetCheckOut,
-} from "../../store/slices/checkOutPageSlice";
-import { useDispatch } from "react-redux";
-import GetIcon from "../../assets/Icon/icon";
-import Text from "../../components/Text";
-
-function OptionsModal({ props }) {
-  const dispatch = useDispatch();
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
-  const [isSelectionValid, setIsSelectionValid] = useState(false); // To track if at least one option is selected
-  const [isSelected, setSelected] = useState(false);
-
-  useEffect(() => {
-    // Check if selectedOptions has changed from initial state or is not empty
-    if (isSelected) {
-      setSelected(true);
-    }
-  }, [isSelected, isSelectionValid]);
-
-  const handleOpen = () => {
-    setIsOpen(true);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
-  const handleSelectAll = () => {
-    if (!selectAll) {
-      // Select all options
-      const selected = props.options.map((option) => option.optionId);
-      setSelectedOptions(selected);
-      setSelectAll(true);
-      setSelected(true);
-    } else {
-      // Deselect all options
-      setSelectedOptions([]);
-      setSelectAll(false);
-      setSelected(true);
-    }
-  };
-
-  const handleOptionSelect = (optionId) => {
-    let updatedSelection = [...selectedOptions];
-    if (updatedSelection.includes(optionId)) {
-      // Deselect option
-      updatedSelection = updatedSelection.filter((id) => id !== optionId);
-    } else {
-      // Select option
-      updatedSelection.push(optionId);
-    }
-    setSelectedOptions(updatedSelection);
-    setSelected(true);
-  };
-
-  const handleSaveSelection = () => {
-    // Filter out deselected options
-    const deselectedOptions = props.options
-      .filter((option) => !selectedOptions.includes(option.optionId))
-      .map((option) => option.optionId);
-
-    // Update Redux store based on selectedOptions
-    selectedOptions.forEach((optionId) => {
-      const selectedOption = props.options.find(
-        (option) => option.optionId === optionId
+    useDispatch,
+    useSelector,
+  } from 'react-redux';
+import CheckBox from './CheckBox.tsx';
+function OptionsModal({props}) {
+    const checkOutList = useSelector(
+        (state: any) => state.checkOutPage
       );
-      if (selectedOption) {
-        dispatch(
-          updateCheckOut({
-            serviceId: props.serviceId,
-            optionId: selectedOption.optionId,
-            serviceName: selectedOption.optionName,
-            finalPrice: selectedOption.salePrice,
-            serviceDuration: selectedOption.duration,
-          })
-        );
-      }
-    });
+     //const {props} = props
+    const [isOpen, setIsOpen] = useState();
+    const [btnValue, setBtnValue] = useState("Select");
+    const [btnVariant, setBtnVariant] = useState<"contained" | "outlined" | "text">("outlined");
+    
+    const disPatch = useDispatch()
 
-    // Remove deselected options from Redux store
-    deselectedOptions.forEach((optionId) => {
-      const deselectedOption = props.options.find(
-        (option) => option.optionId === optionId
-      );
-      if (deselectedOption) {
-        dispatch(
-          resetCheckOut({
-            serviceId: props.serviceId,
-            optionId: deselectedOption.optionId,
-          })
-        );
-      }
-    });
+    const handleOpen = () => {
+        setIsOpen((prev):any => !prev);
+      };
+    
+    function handleSelectBtnClick(serviceName, finalPrice, serviceDuration){
+        
+        // setIsChecked((prev) => !prev)
+        let checkOutObj = {
+            'serviceId': props.serviceId,
+            'serviceName': serviceName,
+            'finalPrice': finalPrice,
+            'serviceDuration': serviceDuration
+        }
+        if(btnValue === 'Select'){
+            // addItemsToCheckOut(checkOutObj)
+            disPatch(updateCheckOut(checkOutObj))
+            setBtnValue("Deselect")
+            setBtnVariant("contained")
+        }
+        else{
+            // removeItemsToCheckOut(checkOutObj)
+            disPatch(resetCheckOut(checkOutObj))
 
-    setIsOpen(false);
-  };
+            setBtnValue("Select")
+            setBtnVariant("outlined")
+        }
+    }
 
-  const style = {
+    const style = {
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -119,196 +61,86 @@ function OptionsModal({ props }) {
     bgcolor: "background.paper",
     border: "2px",
     boxShadow: 24,
-    maxWidth: "1145px",
-    maxHeight: "628px",
     p: 4,
-  };
-
+    }
   return (
     <div>
-      <IconButton onClick={() => handleOpen()}>
-        <GetIcon iconName="PlusIcon" />
-      </IconButton>
-      <Modal
+        <Add onClick={handleOpen}/>
+        <Modal
         open={isOpen}
-        onClose={handleClose}
+        onClose={handleOpen}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-      >
-        <Box sx={style} className="rounded-3xl max-w-7xl urbanist-font">
-          <IconButton
-            aria-label="close"
-            onClick={handleClose}
-            sx={{
-              position: "absolute",
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-          <div className="flex flex-wrap p-6">
-            <Grid className="w-full">
-              <Text
-                sx={styles.serviceName}
-                name={props?.serviceName}
-                align="left"
-              />
-              <div className="flex justify-between items-end">
-                <div>
-                  <Text
-                    sx={styles.duration}
-                    name={`${props?.serviceDuration} mins`}
-                    align="left"
-                  />
-                  <div style={styles.startingPrice}>
-                    {props?.options?.length > 0
-                      ? `from $${props?.startingPrice}`
-                      : `$${props?.finalPrice}`}
-                  </div>
-                </div>
-                <Button
-                  sx={styles.btn}
-                  variant={selectAll ? "contained" : "outlined"}
-                  startIcon={<GetIcon iconName="PlusIcon" />}
-                  onClick={handleSelectAll}
-                  disabled={!props?.options?.length} // Disable if no options available
+        >
+            <Box sx={style} className='rounded-3xl max-w-7xl urbanist-font'>
+                <IconButton
+                aria-label="close"
+                onClick={handleOpen}
+                sx={{
+                    position: 'absolute',
+                    right: 8,
+                    top: 8,
+                    color: (theme) => theme.palette.grey[500],
+                }}
                 >
-                  {selectAll ? "Deselect All" : "Select All"}
-                </Button>
-              </div>
-            </Grid>
-            <Grid className="w-full mt-4">
-              <Text
-                sx={styles.description}
-                name={props?.serviceDescription}
-                align="left"
-              />
-            </Grid>
-          </div>
-          <div className="mx-6">
-            <Divider />
-          </div>
-          {props.options.length > 0 && (
-            <Grid container spacing={2} sx={{ margin: "5px", padding: "10px" }}>
-              <Grid xs={12}>
-                <Text
-                  sx={styles.subHeading}
-                  name={"Choose options"}
-                  align="left"
-                />
-              </Grid>
-              <Grid xs={12} className="service-options">
-                {props.options.map((option) => (
-                  <Grid
-                    className="py-4 flex justify-between"
-                    key={option?.optionId}
-                  >
-                    <div>
-                      <Text
-                        sx={styles.optName}
-                        name={option?.optionName}
-                        align="left"
-                      />
-                      <Text
-                        sx={styles.optDuration}
-                        name={`${option?.duration} mins`}
-                        align="left"
-                      />
-                      <Text
-                        sx={styles.optPrice}
-                        name={`$${option?.salePrice}`}
-                        align="left"
-                      />
-                    </div>
-                    <div className="px-16 py-4">
-                      {/* <Checkbox
-                        optionId={option?.optionId}
-                        isSelected={selectedOptions.includes(option?.optionId)}
-                        onOptionSelect={() => handleOptionSelect(option?.optionId)}
-                      /> */}
-                    </div>
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          )}
-          <div className="flex justify-end mt-4 mx-6">
-            {isSelected && (
-              <Button
-                sx={styles.btn}
-                variant="contained"
-                onClick={handleSaveSelection}
-              >
-                Save Selection
-              </Button>
-            )}
-          </div>
-        </Box>
-      </Modal>
+                    <CloseIcon />
+                </IconButton>
+                <div className='flex flex-wrap p-6'>
+                    <Grid className='w-full'>
+                        <div className='text-2xl md:text-3xl font-bold'>{props.serviceName}</div>
+                        <div className='flex justify-between items-end'>
+                            <div>
+                                <div className='text-xl md:text-2xl font-normal'>{props.serviceDuration} mins</div>
+                                <div className='text-xl md:text-2xl font-bold'>
+                                {
+                                    props.options.length > 0 
+                                    ? 'from $'+props.startingPrice
+                                    : '$'+props.finalPrice
+                                }
+                                </div>
+                            </div>
+                            <Buttons variant={btnVariant} endIcon={<Add />} className='w-40 h-fit' onClick={() => handleSelectBtnClick(props.serviceName, props.finalPrice, props.serviceDuration)}>{btnValue}</Buttons>
+                        </div>
+                    </Grid>
+                    
+                    <Grid className='w-full my-4'>
+                        <div className='text-xl md:text-2xl font-normal'>{props.serviceDescription}</div>
+                    </Grid>
+                </div>
+
+                <div className="mx-6">
+                    <Divider/>
+                </div>
+                {
+                    props.options.length > 0 && <Grid container spacing={2} sx={{margin: "5px", padding: "15px"}}>
+                        <Grid xs={12} >
+                            <div className='text-2xl font-bold text-gray-500'>Choose options</div>
+                        </Grid>
+                        <Grid xs={12} className='service-options'>
+                            {
+                                props.options.map((option) => (
+                                    <Grid className='py-4 flex justify-between'>
+                                        <div >
+                                            <div className='text-lg font-bold'>{option.optionName}</div>
+                                            <div className='text-sm font-normal'>{option.duration} mins</div>
+                                            <div className='text-base font-bold'>${option.salePrice}</div>
+                                        </div>
+                                        <div className='px-16 py-4'>
+                                        
+                                        <CheckBox  serviceId= {props.serviceId} optionId = {option.optionId} optionName ={option.optionName} salePrice ={option.salePrice} duration ={ option.duration} setBtnValue  = {setBtnValue} btnValue= {btnValue} setBtnVariant ={setBtnVariant}/>
+
+                                        </div>
+                                    </Grid>
+                                ))
+                            }
+                        </Grid>
+                    </Grid>
+                }
+            </Box>
+        </Modal>
     </div>
-  );
+    
+  )
 }
 
-export default OptionsModal;
-
-const styles = {
-  subHeading: {
-    color: "#4D4D4D",
-    fontSize: "28px",
-    fontWeight: 700,
-    paddingLeft: 0,
-    paddingTop: 1,
-  },
-  serviceName: {
-    color: "#4D4D4D",
-    fontSize: "36px",
-    fontWeight: 600,
-    lineHeight: "42px",
-    py: "1px",
-  },
-  startingPrice: {
-    color: "#4D4D4D",
-    fontSize: "28px",
-    fontWeight: 700,
-    py: "1px",
-  },
-  duration: {
-    color: "#808080",
-    fontSize: "16px",
-    fontWeight: 400,
-    py: "1px",
-  },
-  description: {
-    color: "#616161",
-    fontSize: "20px",
-    fontWeight: 400,
-    py: "0px",
-  },
-  optName: {
-    color: "#4D4D4D",
-    fontSize: "20px",
-    fontWeight: 600,
-    py: "1px",
-  },
-  optPrice: {
-    color: "#4D4D4D",
-    fontSize: "18px",
-    fontWeight: 700,
-    py: "2px",
-  },
-  optDuration: {
-    color: "#808080",
-    fontSize: "16px",
-    fontWeight: 400,
-    py: "1px",
-  },
-  btn: {
-    padding: "10px, 16px, 10px, 16px",
-    borderRadius: "10px",
-    textTransform: "none",
-    fontSize: "20px",
-    fontWeight: 500,
-  },
-};
+export default OptionsModal

@@ -56,13 +56,17 @@ export const saveReviews = "a/saveAppointmentReview";
 
 export const getReviews = "e/getEstablishmentReviews";
 
-export const getTreatmentServices = "ef/getEstablishmentsByService";
+export const getTreatmentServices = "em/getServices";
+
+export const getCategoryServices = "em/getCategories";
 
 export const treatmentServicesByLocation = "ef/getEstablishmentsByLocation";
 
 export const treatmentServicesByDate = "ef/getEstablishmentsByDate";
 
 export const treatmentServicesByTime = "ef/getEstablishmentsByTime";
+
+export const establishmentSearchResult = "ef/getEstablishments";
 
 export function setBrowserCache(key: string, value: any) {
   window.localStorage.setItem(key, value);
