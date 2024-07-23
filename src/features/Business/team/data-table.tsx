@@ -112,7 +112,7 @@ export function DataTable<TData, TValue>({
                 style={{ fontWeight: '700', color: "#4D4D4D" }}
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                onClick={() => openDrawer("addMember", row?.id)}
+                onClick={() => openDrawer("addMember", row?.original?.employeeId)}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>

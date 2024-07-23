@@ -17,8 +17,9 @@ import { useEffect, useState } from "react";
 import { Card } from "@mui/material";
 import { updateUser } from "../../store/slices/currentUserSlice.js";
 import { useDispatch } from "react-redux";
+
 function EstablishmentDetails({ estId }) {
-  const [imageIdList, setImageIdList]= useState<string | any>([]);
+  const [imageIdList, setImageIdList] = useState<string | any>([]);
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
 
@@ -39,18 +40,20 @@ function EstablishmentDetails({ estId }) {
   const fetchImage = async (image) => {
     try {
       setLoading(true);
-      const response = await endpoint.getImages(image, establishmentData?.data?.data?.id);
+      const response = await endpoint.getImages(
+        image,
+        establishmentData?.data?.data?.id
+      );
 
       const imageUrl = URL.createObjectURL(response.data);
-      return imageUrl
+      return imageUrl;
     } catch (error) {
       setLoading(false);
     }
   };
 
-  useEffect( () =>{
-    const callFetchImageApi = async () =>{
-      
+  useEffect(() => {
+    const callFetchImageApi = async () => {
       const urls = [];
       for (const imageId of imageIdList) {
         const imageUrl = await fetchImage(imageId);
@@ -58,35 +61,33 @@ function EstablishmentDetails({ estId }) {
       }
       setImageUrls(urls);
       setLoading(false);
-    }
+    };
     if (imageIdList?.length > 0) {
       callFetchImageApi();
     }
-  }, [imageIdList])
+  }, [imageIdList]);
 
-  useEffect(()=>{
-    setImageIdList(establishmentData?.data?.data?.estImages)
-  }, [establishmentData])
+  useEffect(() => {
+    setImageIdList(establishmentData?.data?.data?.estImages);
+  }, [establishmentData]);
 
-  useEffect(()=>{
-    setTimeout(()=>{
-      if(localStorage.getItem('Token')){
+  useEffect(() => {
+    setTimeout(() => {
+      if (localStorage.getItem("Token")) {
         const fetchCurrentUserDetails = async () => {
-            try {
-              const response = await endpoint.getCurrentUserDetails(); // Call the async function to get user details
-              const userDetails = response?.data; // Assuming response.data contains the user details
-            
+          try {
+            const response = await endpoint.getCurrentUserDetails(); // Call the async function to get user details
+            const userDetails = response?.data; // Assuming response.data contains the user details
 
-              dispatch(updateUser(userDetails?.data)); // Dispatch the updateUser action with user details
-            } catch (error) {
-              console.error('Error fetching user details:', error); // Handle any errors that occur
-            }
+            dispatch(updateUser(userDetails?.data)); // Dispatch the updateUser action with user details
+          } catch (error) {
+            console.error("Error fetching user details:", error); // Handle any errors that occur
           }
-          fetchCurrentUserDetails();
+        };
+        fetchCurrentUserDetails();
       }
-    },1000)
-    
-  },[])
+    }, 1000);
+  }, []);
   return (
     <div className="searchDetailsContainer">
       <HeaderDetails
@@ -106,17 +107,20 @@ function EstablishmentDetails({ estId }) {
         navigation={true}
         modules={[Keyboard, Pagination, Navigation]}
       >
-        
-              {/* <GetImage imageName="SaloonImage" /> */}
-              {loading && <p>Loading...</p>}
-              <div style={{ display: 'flex', flexWrap: 'wrap'}}>
-                {imageUrls.map((url, index) => (
-                  <SwiperSlide>
-                    <img key={index} src={url} alt={`Image ${index}`} style={{ width: '300px', height: '200px', margin: '10px' }} />
-                  </SwiperSlide>
-                ))}
-              </div>
-            
+        {/* <GetImage imageName="SaloonImage" /> */}
+        {loading && <p>Loading...</p>}
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
+          {imageUrls.map((url, index) => (
+            <SwiperSlide>
+              <img
+                key={index}
+                src={url}
+                alt={`Image ${index}`}
+                style={{ width: "300px", height: "200px", margin: "10px" }}
+              />
+            </SwiperSlide>
+          ))}
+        </div>
       </Swiper>
 
       <div className="mx-16 service-search-container">
@@ -131,9 +135,20 @@ function EstablishmentDetails({ estId }) {
         />
       </div>
 
-      <Reviews  establishmentId = {establishmentData?.data?.data?.id}/>
+      {establishmentData?.data?.data?.id && (
+        <Reviews establishmentId={establishmentData?.data?.data?.id} />
+      )}
 
-      <About establishmentEmployees= {establishmentData?.data?.data?.employees} establishmentAbout= {establishmentData?.data?.data?.profile?.establishmentAbout} establishmentFeatures={establishmentData?.data?.data?.features} establishmentLanguages={establishmentData?.data?.data?.languages} establishmentPaymentTypes={establishmentData?.data?.data?.paymentTypes} id="SearchDetailAbout" />
+      <About
+        establishmentEmployees={establishmentData?.data?.data?.employees}
+        establishmentAbout={
+          establishmentData?.data?.data?.profile?.establishmentAbout
+        }
+        establishmentFeatures={establishmentData?.data?.data?.features}
+        establishmentLanguages={establishmentData?.data?.data?.languages}
+        establishmentPaymentTypes={establishmentData?.data?.data?.paymentTypes}
+        id="SearchDetailAbout"
+      />
     </div>
   );
 }
