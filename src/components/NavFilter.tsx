@@ -1,8 +1,7 @@
 import React from 'react';
+import { Search } from "@mui/icons-material";
 import { useSelector } from 'react-redux';
 import { convertTo_HH_AM } from '../utils/TimeFormat.ts';
-import { IconButton } from '@mui/material';
-import GetIcon from '../assets/Icon/icon.tsx';
 
 const NavFilter = ({setshowSearchBar}) => {
 
@@ -17,50 +16,16 @@ const NavFilter = ({setshowSearchBar}) => {
   return (
     <div id='navdiv' className='filtered-panel ml-auto cursor-pointer' onClick={()=> onClickHandle()}>
       <div className='filtered-items'>
-        {treatmentList?.length > 0
-        ? 
-        (
-          <p>{treatmentList?.toString().replaceAll(',', ', ')}</p>
-
-        )
-        : 
-        (
-          <p>treatment</p>
-        )}
+        <p>{treatmentList?.toString().replaceAll(',', ', ')}</p>
       </div>
       <div className='filtered-items'>
-        {locationList?.length > 0
-        ? 
-        (
-          <p>{locationList?.toString().replaceAll(',', ', ')}</p>
-        )
-        :
-        (
-          <p>location</p>
-        )}
+        <p>{locationList?.toString().replaceAll(',', ', ')}</p>
       </div>
       <div className='filtered-items'>
-        {locationList?.length > 0
-        ? 
-        (
         <p>{selectedDate}</p>
-        )
-        :
-        (
-          <p>date</p>
-        )}
       </div>
       <div className='filtered-items'>
-        <p>
-          {
-            SelectedTime?.from
-          }
-        </p> 
-        <div className='icon-wrapper'>
-        <IconButton>
-          <GetIcon iconName='MainSearch'/>
-        </IconButton>
-        </div>
+        <p>{ }</p> <div className='icon-wrapper'><Search /></div>
       </div>
     </div>
   );

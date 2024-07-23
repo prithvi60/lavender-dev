@@ -161,6 +161,7 @@ export const HourLineWithLabel: React.FC = () => {
 
 export const DayHeader = ({currentDay}) => {
   const {day, date} = currentDay
+  console.log("DayHeader >", currentDay)
   const selected = areDatesSame(new Date, date)
   return (
     <div className={`h-[120px] flex flex-col flex-grow-0 items-center justify-center font-bold border-b border-b-gray-400 ${selected ? 'bg-tertiary' : 'bg-white'}`}>

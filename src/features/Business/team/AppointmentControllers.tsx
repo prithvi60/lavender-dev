@@ -27,6 +27,7 @@ import GetIcon from '../../../assets/Icon/icon';
 import { Button } from '../../../components/ui/button';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import TabPanel from '@mui/lab/TabPanel';
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import dayjs, { Dayjs } from 'dayjs';

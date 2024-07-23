@@ -19,7 +19,7 @@ const SelectTreatment = () => {
       <TreatmentPanel />
       <Box className='home-treatments-filter'>
         <div className='flex-between-container'>
-          <Text sx={styles.header} align="left" name="Categories"/>
+          <Text variant="body1" className="bold" align="left" name="Categories"/>
           <CloseIcon onClick={() => closeFilterPannel()} />
         </div>
         <CategoryPanel />
@@ -29,10 +29,3 @@ const SelectTreatment = () => {
 }
 
 export default SelectTreatment;
-const styles = {
-  header: {
-    fontSize: '18px',
-    fontWeight: 700,
-    color: '#4D4D4D'
-  }
-}

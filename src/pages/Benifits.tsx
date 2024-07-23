@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import React from 'react';
 import GetImage from '../assets/GetImage';
-import Text from '../components/Text';
+
 function Benifits() {
   return (
     <div className='mt-4'>
@@ -10,20 +10,21 @@ function Benifits() {
 
         <div className='rounded-xl shadow-lg p-6 border'>
           <GetImage className='flex justify-center items-center' imageName='FaceService' />
-          <Text sx={styles.header} name={"Personalized Service Selection"} align={'left'}/>
-          <Text sx={styles.subHeader} align={'left'} name={"Choose from our array of soothing services, each designed to rejuvenate your mind, body, and soul."}/>
+          <p className='my-5 font-bold urbanist-font text-2xl lg:text-3xl'>Personalized Service Selection</p>
+          <p className='urbanist-font text-lg md:text-xl'>Choose from our array of soothing services, each designed to rejuvenate your mind, body, and soul.</p>
         </div>
 
         <div className='rounded-xl shadow-lg p-6 border'>
           <GetImage className='flex justify-center items-center' imageName='BookingImage' />
-          <Text sx={styles.header} name={"Effortless Booking"} align={'left'}/>
-          <Text sx={styles.subHeader} align={'left'} name={"We offer a user-friendly online platform for effortless appointment scheduling."}/>
+          <p className="urbanist-font my-5 font-bold text-2xl lg:text-3xl">Effortless
+            Booking</p>
+          <p className="urbanist-font text-lg md:text-xl">We offer a user-friendly online platform for effortless appointment scheduling. </p>
         </div>
 
         <div className='rounded-xl shadow-lg p-6 border'>
           <GetImage className='flex justify-center items-center' imageName='CancellationImage' />
-          <Text sx={styles.header} name={"Cancellation"} align={'left'}/>
-          <Text sx={styles.subHeader} align={'left'} name={"To cancel an appointment, please provide a minimum of 24 hours' notice."}/>
+          <p className="urbanist-font my-5 font-bold text-2xl lg:text-3xl">Cancellation</p>
+          <p className="urbanist-font text-lg md:text-xl">To cancel an appointment, please provide a minimum of 24 hours' notice. </p>
         </div>
       </div>
     </div>
@@ -32,19 +33,3 @@ function Benifits() {
 }
 
 export default Benifits;
-
-const styles = {
-  header: {
-    fontSize: '28px',
-    fontWeight: 700,
-    color: '#4D4D4D',
-    lineHeight: '33.6px',
-    paddingBottom: '15px'
-  },
-  subHeader: {
-    fontSize: '20px',
-    fontWeight: 400,
-    color: '#000000',
-    lineHeight: '24px',
-  },
-}

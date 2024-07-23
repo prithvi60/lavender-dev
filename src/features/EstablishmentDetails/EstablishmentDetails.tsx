@@ -17,7 +17,6 @@ import { useEffect, useState } from "react";
 import { Card } from "@mui/material";
 import { updateUser } from "../../store/slices/currentUserSlice.js";
 import { useDispatch } from "react-redux";
-
 function EstablishmentDetails({ estId }) {
   const [imageIdList, setImageIdList]= useState<string | any>([]);
   const [loading, setLoading] = useState(false);
@@ -131,11 +130,9 @@ function EstablishmentDetails({ estId }) {
           profile={establishmentData?.data?.data?.profile}
         />
       </div>
-      
-      {
-        establishmentData?.data?.data?.id  && <Reviews  establishmentId = {establishmentData?.data?.data?.id} />
-      }
-      
+
+      <Reviews  establishmentId = {establishmentData?.data?.data?.id}/>
+
       <About establishmentEmployees= {establishmentData?.data?.data?.employees} establishmentAbout= {establishmentData?.data?.data?.profile?.establishmentAbout} establishmentFeatures={establishmentData?.data?.data?.features} establishmentLanguages={establishmentData?.data?.data?.languages} establishmentPaymentTypes={establishmentData?.data?.data?.paymentTypes} id="SearchDetailAbout" />
     </div>
   );

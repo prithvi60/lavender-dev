@@ -14,8 +14,6 @@ import {
 import Avatar from "@mui/material/Avatar";
 import PersonIcon from "@mui/icons-material/Person";
 import GetIcon from "../../assets/Icon/icon";
-import Text from '../../components/Text';
-
 
 function About(props) {
   const { establishmentEmployees, establishmentAbout, establishmentFeatures, establishmentLanguages, establishmentPaymentTypes } = props;
@@ -38,7 +36,7 @@ function About(props) {
   return (
     <div className="mx-16 my-10 md:w-8/12 sm:w-full" id="SearchDetailAbout">
       <div className="max-w-2xl">
-        <Text sx={styles.heading} name={"About"} align="left"/>
+        <div className="urbanist-font text-xl font-bold pb-2">About</div>
         <div className="urbanist-font text-lg font-normal">
           {establishmentAbout}
         </div>
@@ -56,20 +54,6 @@ function About(props) {
                     iconName="PaymentCardIcon"
                     text="Payment methods"
                   />
-                  <div className="w-full md:w-4/12 pl-8 md:pl-0">
-                  
-                  <div>
-                    {establishmentPaymentTypes ? (
-                      Object?.keys(establishmentPaymentTypes)?.map((item, index) => (
-                        <div key={index} className="urbanist-font font-normal text-sm py-1">
-                          {item}
-                        </div>
-                      ))
-                    ) : (
-                      <div>Payment types not added</div>
-                    )}
-                  </div>
-                </div>
                 </div>
                 
               </div>
@@ -78,8 +62,8 @@ function About(props) {
             <div className="flex flex-wrap justify-between py-4">
               <GetIcon
                   className="flex items-center gap-3 h-fit urbanist-font text-lg font-semibold w-full md:w-8/12"
-                  iconName="LanguageIcon"
-                  text="Languages"
+                  iconName="PaymentCardIcon"
+                  text="Payment methods"
                 />
               <div className="w-full md:w-4/12 pl-8 md:pl-0">
                 {establishmentLanguages?.map((item) => (
@@ -97,17 +81,12 @@ function About(props) {
                 </GetIcon>
                 <div className="w-full md:w-4/12 pl-8 md:pl-0">
                   
-                  <div>
-                    {establishmentFeatures ? (
-                      Object?.keys(establishmentFeatures)?.map((item, index) => (
-                        <div key={index} className="urbanist-font font-normal text-sm py-1">
-                          {item}
-                        </div>
-                      ))
-                    ) : (
-                      <div>Features not added</div>
-                    )}
-                  </div>
+                    {featureNames?.map((item) => (
+                  
+                    <div className="urbanist-font font-normal text-sm py-1">
+                      {item}
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -135,10 +114,3 @@ function About(props) {
 }
 
 export default About;
-const styles={
-  heading: {
-    color: '#333333',
-    fontSize: '36px',
-    fontWeight: 600,
-  },
-}

@@ -7,7 +7,6 @@ WORKDIR /app
 # Copy package.json and package-lock.json (if available)
 COPY package*.json /app/
 COPY tailwind*.js /app/
-COPY tsconfig*.json /app/
 
 # Install dependencies
 RUN npm install --force
