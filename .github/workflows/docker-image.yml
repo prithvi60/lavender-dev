@@ -52,5 +52,4 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/lavender-ui:latest
-            ${{ secrets.DOCKER_USERNAME }}/lavender-ui:${{ env.COMMIT_HASH }}
+            nehemhub/lavender-ui:${{ env.COMMIT_HASH }}

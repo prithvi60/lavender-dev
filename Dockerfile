@@ -7,6 +7,7 @@ WORKDIR /app
 # Copy package.json and package-lock.json (if available)
 COPY package*.json /app/
 COPY tailwind*.js /app/
+COPY tsconfig*.json /app/
 
 # Install dependencies
 RUN npm install --force
@@ -15,6 +16,7 @@ RUN npm install --force
 # Copy the rest of the application code
 COPY src /app/src
 COPY public /app/public
+
 
 # Build production app
 RUN npm run build 
