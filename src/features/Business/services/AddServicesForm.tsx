@@ -345,7 +345,7 @@ export default function AddServicesForm({payload}) {
                   fullWidth
                   size="small"
                   variant="outlined"
-                  {...register(`options[${index}].optionName`)}
+                  {...register(`options.${index}.optionName`)}
                 />
                 {errors?.options?.[index]?.optionName && (
                   <p className="text-red-500 font-medium">{errors.options[index].optionName.message}</p>
@@ -357,9 +357,8 @@ export default function AddServicesForm({payload}) {
                   <Grid item xs={6}></Grid>
                   <Grid item xs={6} sx={{ alignContent: "end" }}>
                     <Controller
-                      name={`options[${index}].salePrice`}
+                      name={`options.${index}.salePrice`}
                       control={control}
-                      defaultValue=""
                       render={({ field }) => (
                         <FormControl error={!!errors?.options?.[index]?.salePrice} fullWidth>
                           <TextField
@@ -383,9 +382,8 @@ export default function AddServicesForm({payload}) {
                   <Grid item xs={6}></Grid>
                   <Grid item xs={6} sx={{ alignContent: "end" }}>
                     <Controller
-                      name={`options[${index}].duration`}
+                      name={`options.${index}.duration`}
                       control={control}
-                      defaultValue=""
                       render={({ field }) => (
                         <FormControl error={!!errors?.options?.[index]?.duration} fullWidth>
                           <Select

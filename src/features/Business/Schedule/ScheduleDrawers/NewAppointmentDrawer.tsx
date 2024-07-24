@@ -7,7 +7,6 @@ import { useDrawer } from "../../BusinessDrawerContext";
 import { addTime, getCurrentTime12HrFormat, getMonthAndDayNames, getTimeIntervals, range } from "../utils";
 import { Autocomplete, Box, Card, CardContent, Grid, IconButton, List, ListItem, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
 import { CustomTooltip } from "../../../../components/CustomTooltip";
-import CustomSelect from "../../../../components/ui/select";
 import Text from "../../../../components/Text";
 import endpoint from "../../../../api/endpoints";
 import { useSelector } from "react-redux";
@@ -57,8 +56,8 @@ export default function NewAppointmentDrawer({payload}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedServices, setSelectedServices] = useState([]);
 
-  const handleSearchChange = (event, value) => {
-    setSearchTerm(value);
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   const handleServiceSelect = (event, value) => {

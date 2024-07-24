@@ -1,4 +1,4 @@
-export const BaseURL = 'http://dev.agilemadhi.in/lavender-api/'
+export const BaseURL = `${process.env.REACT_APP_API_BASE_URL}/lavender-api/`;
 
 export const establishmentSearch = 'e/estsearch'
 
@@ -54,6 +54,17 @@ export const saveReviews = 'a/saveAppointmentReview'
 
 export const getReviews = 'e/getEstablishmentReviews'
 
+export const getTreatmentServices = "em/getServices";
+
+export const getCategoryServices = "em/getCategories";
+
+export const treatmentServicesByLocation = "ef/getEstablishmentsByLocation";
+
+export const treatmentServicesByDate = "ef/getEstablishmentsByDate";
+
+export const treatmentServicesByTime = "ef/getEstablishmentsByTime";
+
+export const establishmentSearchResult = "ef/getEstablishments";
 
 export function setBrowserCache(key: string, value: any) {
     window.localStorage.setItem(key, value)

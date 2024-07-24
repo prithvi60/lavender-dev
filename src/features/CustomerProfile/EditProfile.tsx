@@ -240,15 +240,15 @@ function EditProfile({ userInfo }) {
                                                 <DatePicker
                                                     {...field}
                                                     value={value}
-                                                    renderInput={(params: any) => (
-                                                        <TextField
-                                                            {...params}
-                                                            fullWidth
-                                                            variant="standard"
-                                                            error={!!errors.dateOfBirth}
-                                                            helperText={errors.dateOfBirth?.message}
-                                                        />
-                                                    )}
+                                                    // renderInput={(params: any) => (
+                                                    //     <TextField
+                                                    //         {...params}
+                                                    //         fullWidth
+                                                    //         variant="standard"
+                                                    //         error={!!errors.dateOfBirth}
+                                                    //         helperText={errors.dateOfBirth?.message}
+                                                    //     />
+                                                    // )}
                                                 />
                                             </LocalizationProvider>
                                         )}
