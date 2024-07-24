@@ -5,7 +5,7 @@ module.exports = {
     // './pages/**/*.{ts,tsx}',
     // './components/**/*.{ts,tsx}',
     // './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    "./src/**/*.{ts,tsx,js}",
   ],
   prefix: "",
   theme: {
@@ -51,8 +51,8 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
         zIndex: {
-          '1500': '1500',
-        }
+          1500: "1500",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -76,4 +76,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
