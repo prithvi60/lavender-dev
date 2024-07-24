@@ -31,6 +31,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.3.1",
     "dayjs": "^1.11.10",
+    "env-cmd": "^10.1.0",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.378.0",
     "moment": "^2.30.1",
@@ -70,7 +71,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "webpack:serve": "webpack serve --mode development",
-    "webpack:build": "webpack --mode production"
+    "webpack:build": "webpack --mode production",
+    "build:dev": "env-cmd -f .env.dev react-scripts build",
+    "build:prod": "env-cmd -f .env.prod react-scripts build"
   },
   "eslintConfig": {
     "extends": [

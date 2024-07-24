@@ -1,6 +1,6 @@
 // export const BaseURL = "http://dev.agilemadhi.in/lavender-api/";
 
-export const BaseURL = "https://static.150.38.181.135.clients.your-server.de/lavender-api/";
+export const BaseURL = `${process.env.REACT_APP_API_BASE_URL}/lavender-api/`;
 
 export const establishmentSearch = "e/estsearch";
 
