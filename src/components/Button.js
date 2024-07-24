@@ -6,7 +6,6 @@ const Button = (props) => {
 
   return (
     <MuiButton
-      disableRipple
       classes={{ root: `button ${className ?? ""}` }}
       variant={variant ?? "contained"}
       onClick={onClick}

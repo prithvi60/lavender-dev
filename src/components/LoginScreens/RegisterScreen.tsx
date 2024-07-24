@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { TextField, Checkbox, Button, FormControlLabel, MenuItem, Select, InputLabel, FormControl, FormHelperText, Box, Grid, Snackbar, IconButton, Modal, CircularProgress } from '@mui/material';
+import { TextField, Checkbox, Button, FormControlLabel, MenuItem, Select, InputLabel, FormControl, FormHelperText, Box, Grid, Snackbar, IconButton, Modal } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -41,8 +41,8 @@ const RegisterScreen = () => {
         resolver: yupResolver(schema),
     });
     const [value, setValue] = React.useState<Dayjs | null>(null);
-    const [loading, setLoading] = React.useState(false);
-
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState('');
 
@@ -51,7 +51,7 @@ const RegisterScreen = () => {
 
     const handleOpen = () => {
         setOpen((prev) => !prev);
-        navigate("/login");
+        navigate("/");
       };
 
     const mutation = useMutation({
@@ -60,22 +60,27 @@ const RegisterScreen = () => {
           if(!response?.data?.success){
             setOpen((prev) => !prev);
             setMessage(`ErrorCode : ${response.data.errorCode} ${response?.data?.data}`)
+            // setSnackbarMessage(`ErrorCode : ${response.data.errorCode} ${response?.data?.data}`);
+            // setSnackbarOpen(true);
           }
           else{
             setOpen((prev) => !prev);
             setMessage("user created successfully.")
+            // setSnackbarMessage("user created successfully.");
+            // setSnackbarOpen(true);
+            // navigate('/');
           }
           return response;
         },
         onSuccess: (response: any) => {
-            setLoading(false);
+          setTimeout(() => {
+            
+          },1000)
         },
         onError: (response: any) => {
           alert('Register unsuccess')
         },
-        onSettled: () => {
-
-        }
+        onSettled: () => {}
     });
 
     const onSubmit = (data) => {
@@ -88,203 +93,205 @@ const RegisterScreen = () => {
             "mobileNumber": data.mobileNumber,
             "dob": data.dateOfBirth
           }
-          setLoading(true)
         mutation.mutate(payLoad)
     };
 
-
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
+    };
     return (
         <div>
-            
 
             <Grid>
                 <Text variant="h4" align="center" name="Register or Login" />
             </Grid>
-            
             <Box  sx={{ mt: 3 }}>
                 <Grid container spacing={2} sx={{display: 'flex', justifyContent: 'center'}}>
-                    {
-                        !loading 
-                        ? 
-                        (
-                            <form onSubmit={handleSubmit((data)=>{
-                                                    onSubmit(data);
-                                                })}>
-                                                <Grid item xs={12}>
-                                                    <Controller
-                                                            name="fullName"
-                                                            control={control}
-                                                            defaultValue=""
-                                                            render={({ field }) => (
-                                                                <TextField
-                                                                fullWidth
-                                                                    {...field}
-                                                                    label="Full Name"
-                                                                    variant="standard"
-                                                                    error={!!errors.fullName}
-                                                                    helperText={errors.fullName?.message}
-                                                                />
-                                                            )}
-                                                        />
-                                                </Grid>
+                    <form onSubmit={handleSubmit((data)=>{
+                        onSubmit(data);
+                    })}>
+                    <Grid item xs={12}>
+                        <Controller
+                                name="fullName"
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => (
+                                    <TextField
+                                    fullWidth
+                                        {...field}
+                                        label="Full Name"
+                                        variant="standard"
+                                        error={!!errors.fullName}
+                                        helperText={errors.fullName?.message}
+                                    />
+                                )}
+                            />
+                    </Grid>
 
-                                                <Grid item xs={12}>
-                                                    <Controller
-                                                            name="email"
-                                                            control={control}
-                                                            defaultValue=""
-                                                            render={({ field }) => (
-                                                                <TextField
-                                                                fullWidth
-                                                                    {...field}
-                                                                    label="Email"
-                                                                    variant="standard"
-                                                                    error={!!errors.email}
-                                                                    helperText={errors.email?.message}
-                                                                />
-                                                            )}
-                                                        />
-                                                </Grid>
-                                                
-                                                <Grid item xs={12}>
-                                                <Controller
-                                                        name="userType"
-                                                        control={control}
-                                                        defaultValue=""
-                                                        render={({ field }) => (
-                                                            <FormControl error={!!errors.userType} fullWidth>
-                                                                <InputLabel>User Type</InputLabel>
-                                                                <Select
-                                                                fullWidth
-                                                                    {...field}
-                                                                    label="User Type"
-                                                                    error={!!errors.userType}
-                                                                    variant="standard"
-                                                                    
-                                                                >
-                                                                    <MenuItem value="OC">Customer</MenuItem>
-                                                                    <MenuItem value="BU">Business</MenuItem>
-                                                                </Select>
-                                                                <FormHelperText>{errors.userType?.message}</FormHelperText>
-                                                            </FormControl>
-                                                        )}
-                                                    />
-                                                </Grid>
-
-                                                <Grid sx={{display: 'flex', padding: '10px' }} xs={12}>
-                                                    <Grid  sx={{paddingRight: '5px'}} xs={4} >
-                                                        <Controller
-                                                                name="areaCode"
-                                                                control={control}
-                                                                defaultValue=""
-                                                                render={({ field }) => (
-                                                                    <TextField
-                                                                    fullWidth
-                                                                        {...field}
-                                                                        label="Area Code"
-                                                                        variant="standard"
-                                                                        error={!!errors.areaCode}
-                                                                        helperText={errors.areaCode?.message}
-                                                                    />
-                                                                )}
-                                                            />
-                                                    </Grid>
-                                                        
-                                                    <Grid  xs={8}>
-                                                        <Controller
-                                                                name="mobileNumber"
-                                                                control={control}
-                                                                defaultValue=""
-                                                                render={({ field }) => (
-                                                                    <TextField
-                                                                    fullWidth
-                                                                        {...field}
-                                                                        label="Mobile Number"
-                                                                        variant="standard"
-                                                                        error={!!errors.mobileNumber}
-                                                                        helperText={errors.mobileNumber?.message}
-                                                                    />
-                                                                )}
-                                                            />
-                                                    </Grid>
-                                                </Grid>
-                                                
-                                                <Grid item xs={12}>
-                                                    <Controller
-                                                            name="dateOfBirth"
-                                                            
-                                                            control={control}
-                                                            defaultValue= {new Date()}
-                                                            render={({ field }) => (
-                                                                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                                    <DatePicker label="Date of birth" {...field} value={value} sx={{width: '100%'}} slotProps={{ textField: { variant: 'standard', } }}/>
-                                                                </LocalizationProvider>
-                                                            )}
-                                                        />
-                                                </Grid>
-                                                    
-                                                <Grid item xs={12}>
-                                                    <Controller
-                                                            name="password"
-                                                            control={control}
-                                                            defaultValue=""
-                                                            render={({ field }) => (
-                                                                <TextField
-                                                                fullWidth
-                                                                    {...field}
-                                                                    label="Password"
-                                                                    type="password"
-                                                                    variant="standard"
-                                                                    error={!!errors.password}
-                                                                    helperText={errors.password?.message}
-                                                                />
-                                                            )}
-                                                        />
-                                                </Grid>
-
-                                                <Grid item xs={12}>
-                                                <FormControlLabel
-                                                        control={
-                                                            <Controller
-                                                                name="accept"
-                                                                control={control}
-                                                                defaultValue={false}
-                                                                render={({ field }) => (
-                                                                    <Checkbox
-                                                                        {...field}
-                                                                        color="primary"
-                                                                        inputProps={{ 'aria-label': 'Accept terms and conditions' }}
-                                                                    />
-                                                                )}
-                                                            />
-                                                        }
-                                                        label="I Agree to terms and condition, privacy policy and terms of use"
-                                                        error={!!errors.accept}
-                                                    />
-                                                    <FormHelperText error={!!errors.accept}>{errors.accept?.message}</FormHelperText>
-
-                                                </Grid>
-
-                                                    
-                                                <Grid item xs={12}>
-                                                    <Button type="submit" variant="contained" color="primary">
-                                                        Create an account
-                                                    </Button>
-                                                </Grid>
-                                                    
-                            </form>
-                        )
-                        :
-                        (
-                            <div>
-                                <CircularProgress sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}/>
-                            </div>
-                        )
-                    }
+                    <Grid item xs={12}>
+                        <Controller
+                                name="email"
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => (
+                                    <TextField
+                                    fullWidth
+                                        {...field}
+                                        label="Email"
+                                        variant="standard"
+                                        error={!!errors.email}
+                                        helperText={errors.email?.message}
+                                    />
+                                )}
+                            />
+                    </Grid>
                     
+                    <Grid item xs={12}>
+                    <Controller
+                            name="userType"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                                <FormControl error={!!errors.userType} fullWidth>
+                                    <InputLabel>User Type</InputLabel>
+                                    <Select
+                                    fullWidth
+                                        {...field}
+                                        label="User Type"
+                                        error={!!errors.userType}
+                                        variant="standard"
+                                        
+                                    >
+                                        <MenuItem value="OC">Customer</MenuItem>
+                                        <MenuItem value="BU">Business</MenuItem>
+                                    </Select>
+                                    <FormHelperText>{errors.userType?.message}</FormHelperText>
+                                </FormControl>
+                            )}
+                        />
+                    </Grid>
+
+                    <Grid sx={{display: 'flex', padding: '10px' }} xs={12}>
+                        <Grid  sx={{paddingRight: '5px'}} xs={4} >
+                            <Controller
+                                    name="areaCode"
+                                    control={control}
+                                    defaultValue=""
+                                    render={({ field }) => (
+                                        <TextField
+                                        fullWidth
+                                            {...field}
+                                            label="Area Code"
+                                            variant="standard"
+                                            error={!!errors.areaCode}
+                                            helperText={errors.areaCode?.message}
+                                        />
+                                    )}
+                                />
+                        </Grid>
+                            
+                        <Grid  xs={8}>
+                            <Controller
+                                    name="mobileNumber"
+                                    control={control}
+                                    defaultValue=""
+                                    render={({ field }) => (
+                                        <TextField
+                                        fullWidth
+                                            {...field}
+                                            label="Mobile Number"
+                                            variant="standard"
+                                            error={!!errors.mobileNumber}
+                                            helperText={errors.mobileNumber?.message}
+                                        />
+                                    )}
+                                />
+                        </Grid>
+                    </Grid>
+                    
+                    <Grid item xs={12}>
+                        <Controller
+                                name="dateOfBirth"
+                                control={control}
+                                defaultValue= {new Date()}
+                                render={({ field }) => (
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DatePicker {...field} value={value} sx={{width: '100%'}} slotProps={{ textField: { variant: 'standard', } }}/>
+                                    </LocalizationProvider>
+                                )}
+                            />
+                    </Grid>
+                        
+                    <Grid item xs={12}>
+                        <Controller
+                                name="password"
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => (
+                                    <TextField
+                                    fullWidth
+                                        {...field}
+                                        label="Password"
+                                        type="password"
+                                        variant="standard"
+                                        error={!!errors.password}
+                                        helperText={errors.password?.message}
+                                    />
+                                )}
+                            />
+                    </Grid>
+
+                    <Grid item xs={12}>
+                    <FormControlLabel
+                            control={
+                                <Controller
+                                    name="accept"
+                                    control={control}
+                                    defaultValue={false}
+                                    render={({ field }) => (
+                                        <Checkbox
+                                            {...field}
+                                            color="primary"
+                                            inputProps={{ 'aria-label': 'Accept terms and conditions' }}
+                                        />
+                                    )}
+                                />
+                            }
+                            label="I Agree to terms and condition, privacy policy and terms of use"
+                            // error={!!errors.accept}
+                        />
+                        <FormHelperText error={!!errors.accept}>{errors.accept?.message}</FormHelperText>
+
+                    </Grid>
+
+                        
+                    <Grid item xs={12}>
+                        <Button type="submit" variant="contained" color="primary">
+                            Create an account
+                        </Button>
+                    </Grid>
+                        
+                    </form>
+                    <Snackbar
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    
+                    open={snackbarOpen}
+                    autoHideDuration={6000}
+                    onClose={handleCloseSnackbar}
+                    message={snackbarMessage}
+                    action={
+                        <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseSnackbar}>
+                            <GetIcon iconName="CloseIcon" />
+                        </IconButton>
+                    }
+                />
                 </Grid>
-            </Box>
                 
+            </Box>
+
             <Modal
           open={open}
           onClose={handleOpen}
@@ -298,9 +305,7 @@ const RegisterScreen = () => {
                           }}
                           className='my-5 mx-16 p-1 cursor-pointer rounded-sm' 
                           iconName="Success"/>
-                      <div id="title" className="font-bold text-2xl mb-3">{message} </div>
-                      <div className="font-bold text-lg mb-3">Please login to explore further.</div>
-                      <Button variant='contained' onClick={()=>{navigate('/login')}}>Login</Button>
+                      <div id="title" className="font-bold text-xl mb-3">{message} </div>
                   </div>
               </Box>
         </Modal>

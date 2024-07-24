@@ -1,7 +1,8 @@
 import { ColumnDef } from "@tanstack/react-table"
 import Avatar from '@mui/material/Avatar'
 import GetIcon from "../../../assets/Icon/icon"
-import Button from "../../../components/Button"
+import { Button } from "../../../components/ui/button" // Adjust the import path as needed
+
 export type Team = {
   profileImage: string,
   employeeName: string,
@@ -47,8 +48,8 @@ export const columns: ColumnDef<Team>[] = [
     id: "edit", 
     
     cell: () => (
-      <Button variant="outlined" size="lg" sx={{minWidth: '148px', minHeight: '37px'}} name={'Edit member'}
-      ></Button>
+      <Button variant="outline" size="lg" className="bg-indigo-500 text-white"
+      >Edit Member</Button>
     ),
   },
 ]

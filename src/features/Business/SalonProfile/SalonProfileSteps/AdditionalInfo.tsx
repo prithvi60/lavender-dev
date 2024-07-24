@@ -15,8 +15,6 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import endpoint from '../../../../api/endpoints';
-import { useSnackbar } from '../../../../components/Snackbar';
-import { useMutation } from '@tanstack/react-query';
 
 const sampledata = [
   { name: 'English', value: 'English' },
@@ -45,7 +43,6 @@ export const AdditionalInfo = ({
   const [selectedPaymentChips, setSelectedPaymentChips] = useState([]);
   const [otherChips, setOtherChips] = useState([]);
   const establishmentId = userDetails ? userDetails.establishmentId : '';
-  const showSnackbar = useSnackbar();
 
   const {
     register,
@@ -130,29 +127,10 @@ export const AdditionalInfo = ({
       }, {}),
     };
 
-    mutation.mutate(formData);
 
+    // Assuming endpoint.saveEstablishmentAdditionalInfo(formData); needs formData as argument
+    const response = endpoint.saveEstablishmentAdditionalInfo(formData);
   };
-
-  const mutation = useMutation({
-    mutationFn: (payload: any) => {
-      return endpoint.saveEstablishmentAdditionalInfo(payload);
-    },
-    onSuccess: (response) => {
-      if(response?.data?.success){
-        showSnackbar('Items saved successfully.', 'success');
-      }
-      else{
-        showSnackbar(response?.data?.data, 'error');
-      }
-    },
-    onError: (error) => {
-      // handle error actions if needed
-    },
-    onSettled: () => {
-      // handle settled actions if needed
-    },
-  });
 
   return (
     <div>

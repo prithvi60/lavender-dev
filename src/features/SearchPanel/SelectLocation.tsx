@@ -48,7 +48,7 @@ const SelectLocation = () => {
     return (
         <div className='home-date-filter'>
             <div className='flex-between-container'>
-                <Text sx={styles.header} name="Choose your Location" />
+                <Text variant="body1" align="left" className="bold" name="Choose your Location" />
                 <CloseIcon onClick={() => closeFilterPannel()} />
             </div>
             <div className='treatment-grid'>
@@ -77,11 +77,3 @@ const SelectLocation = () => {
 };
 
 export default SelectLocation;
-
-const styles = {
-    header: {
-      fontSize: '18px',
-      fontWeight: 700,
-      color: '#4D4D4D'
-    }
-  }

@@ -12,7 +12,7 @@ import {
 } from "@tanstack/react-table"
 import { ChevronDown } from "lucide-react"
 
-import Button from "../../../components/Button"
+import { Button } from "../../../components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -73,7 +73,7 @@ export function BusinessClients() {
   
   return (
     <div className="w-full">
-      <div className="flex items-center justify-evenly py-4">
+      <div className="flex items-center justify-around py-4">
         {/* <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -102,21 +102,21 @@ export function BusinessClients() {
             table.getIsSomePageRowsSelected() || table.getIsAllPageRowsSelected()
             ?
             <div className="flex ">
-              <Button name={"Cancel"} variant="outlined" onClick={() => {
+              <Button variant="outline" onClick={() => {
                 table.toggleAllPageRowsSelected(false)
               }} className="mx-5">
-                
+                Cancel
                 <Cancel/>
               </Button>
-                <Button name={"Delete"} className="mx-5">
-                
+                <Button className="mx-5">
+                Delete
                 <div className="rounded-full p-1 px-2 bg-black ml-1">{table.getFilteredSelectedRowModel().rows.length}</div>
               </Button>
             </div>
             :
             <div>
-              <Button name={"Add new client"} className="mx-5" sx={{minWidth: "144px", padding: "10px, 40px, 10px, 40px"}}>
-                
+              <Button variant="outline" className="mx-5">
+                Add client
               </Button>
             </div>
             }
@@ -204,22 +204,20 @@ export function BusinessClients() {
         </div>
         <div className="space-x-2">
           <Button
-            variant="outlined"
+            variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
-            name={"Previous"}
           >
-            
+            Previous
           </Button>
           <Button
-            variant="outlined"
+            variant="outline"
             size="sm"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
-            name={"Next"}
           >
-            
+            Next
           </Button>
         </div>
       </div>

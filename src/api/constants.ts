@@ -1,64 +1,77 @@
-export const BaseURL = 'http://dev.agilemadhi.in/lavender-api/'
+// export const BaseURL = "http://dev.agilemadhi.in/lavender-api/";
 
-export const establishmentSearch = 'e/estsearch'
+export const BaseURL = `${process.env.REACT_APP_API_BASE_URL}/lavender-api/`;
 
-export const establishmentDetails = 'e/getEstablishmentDetails/'
+export const establishmentSearch = "e/estsearch";
 
-export const customerProfile = 'c/getCustomerProfile'
+export const establishmentDetails = "e/getEstablishmentDetails/";
 
-export const businessAppointment = 'a/getAppointmentList'
+export const customerProfile = "c/getCustomerProfile";
 
-export const userLogin = 'u/login'
+export const businessAppointment = "a/getAppointmentList";
 
-export const currentUserDetails = 'u/getCurrentUserDetails'
+export const userLogin = "u/login";
 
-export const userRegister = 'u/signUp'
+export const currentUserDetails = "u/getCurrentUserDetails";
 
-export const updateProfile = 'u/updateProfile'
+export const userRegister = "u/signUp";
 
-export const availableSlots = 'a/fetchAvailableSlots'
+export const updateProfile = "u/updateProfile";
 
-export const appointmentBooking = 'a/saveAppointmentBooking'
+export const availableSlots = "a/fetchAvailableSlots";
 
-export const saveEstablishment = 'e/saveEstablishment/profile'
+export const appointmentBooking = "a/saveAppointmentBooking";
 
-export const saveWorkingHours = 'e/saveEstablishment/timeslot'
+export const saveEstablishment = "e/saveEstablishment/profile";
 
-export const uploadPhotos = 'e/saveEstablishmentImage/'
+export const saveWorkingHours = "e/saveEstablishment/timeslot";
 
-export const publish = 'e/saveEstablishment/publish'
+export const uploadPhotos = "e/saveEstablishmentImage/";
 
-export const service = 'e/saveEstablishment/service'
+export const publish = "e/saveEstablishment/publish";
 
-export const category = 'e/saveEstablishment/category'
+export const service = "e/saveEstablishment/service";
 
-export const savePhotos = 'e/getEstablishmentImage/'
+export const category = "e/saveEstablishment/category";
 
-export const saveImageId = 'e/saveEstablishment/images'
+export const savePhotos = "e/getEstablishmentImage/";
 
-export const additionalInformation = 'e/saveEstablishment/additional'
+export const saveImageId = "e/saveEstablishment/images";
 
-export const addService = 'e/saveEstablishment/service'
+export const additionalInformation = "e/saveEstablishment/additional";
 
-export const deleteService = 'e/saveEstablishment/service/delete'
+export const addService = "e/saveEstablishment/service";
 
-export const deleteCategory = 'e/saveEstablishment/category/delete'
+export const deleteService = "e/saveEstablishment/service/delete";
 
-export const saveEmployee = 'e/saveEstablishment/employee'
+export const deleteCategory = "e/saveEstablishment/category/delete";
 
-export const saveCard = 'c/saveCardInfo'
+export const saveEmployee = "e/saveEstablishment/employee";
 
-export const cancelAppointment = 'a/updateAppointmentStatus'
+export const saveCard = "c/saveCardInfo";
 
-export const saveReviews = 'a/saveAppointmentReview'
+export const cancelAppointment = "a/updateAppointmentStatus";
 
-export const getReviews = 'e/getEstablishmentReviews'
+export const saveReviews = "a/saveAppointmentReview";
 
+export const getReviews = "e/getEstablishmentReviews";
+
+export const getTreatmentServices = "em/getServices";
+
+export const getCategoryServices = "em/getCategories";
+
+export const treatmentServicesByLocation = "ef/getEstablishmentsByLocation";
+
+export const treatmentServicesByDate = "ef/getEstablishmentsByDate";
+
+export const treatmentServicesByTime = "ef/getEstablishmentsByTime";
+
+export const establishmentSearchResult = "ef/getEstablishments";
 
 export function setBrowserCache(key: string, value: any) {
-    window.localStorage.setItem(key, value)
+  window.localStorage.setItem(key, value);
 }
 
 export function getBrowserCache(key: string) {
-    return window.localStorage.getItem(key)
+  return window.localStorage.getItem(key);
 }

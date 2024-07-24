@@ -4,7 +4,7 @@ import React from "react";
 import hexToRgb from "./hexToRgb";
 import { DateView } from "./DateView";
 import { MonthView } from "./MonthView";
-import styles from "./DatePicker.module.css"
+import "./DatePicker.module.css"
 import GetIcon from "../../assets/Icon/icon";
 
 interface DatepickerProps {
@@ -31,6 +31,7 @@ function DatePicker(props: DatepickerProps) {
     getSelectedDay,
   } = props;
 
+  console.log("in datepicker : ", props);
   const next = (event) => {
     event.preventDefault();
     const e: any = document.getElementById("container");
@@ -65,9 +66,9 @@ function DatePicker(props: DatepickerProps) {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.buttonWrapper} style={buttonzIndex}>
-        <button className={styles.button} style={buttonStyle} onClick={prev}>
+    <div className={"container"}>
+      <div className={"buttonWrapper"} style={buttonzIndex}>
+        <button className={"button"} style={buttonStyle} onClick={prev}>
           <GetIcon iconName='BackIcon'/>
         </button>
       </div>
@@ -80,8 +81,8 @@ function DatePicker(props: DatepickerProps) {
         labelFormat={labelFormat}
         marked={marked}
       />
-      <div className={styles.buttonWrapper} style={buttonzIndex}>
-        <button className={styles.button} style={buttonStyle} onClick={next}>
+      <div className={"buttonWrapper"} style={buttonzIndex}>
+        <button className={"button"} style={buttonStyle} onClick={next}>
           <GetIcon iconName='NextIcon'/>
         </button>
       </div>

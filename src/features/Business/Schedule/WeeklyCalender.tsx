@@ -11,6 +11,7 @@ export const WeeklyCalendar = () => {
 
   const { filteredAppointments, filterWeekStartDate, filterWeekEndDate, employees } = GetScheduleDates()
   const week = getSelectedWeekDetails(filterWeekStartDate);
+  console.log("filteredAppointments >", filteredAppointments, filterWeekStartDate, filterWeekEndDate)
   const [appointments, setAppointments] = useState(filteredAppointments);
 
   const onAddEvent = (date) => {
@@ -47,6 +48,7 @@ export const WeeklyCalendar = () => {
                   
                   {filteredAppointments[formatDate(day.date)]?.map((appointmentGroup) => appointmentGroup.map(
                     (appointment, index, allAppointments) => {
+                      console.log("render day >", allAppointments.length, index)
                       const allAppointmentsCount = allAppointments.length
                       return (
                         //<></>

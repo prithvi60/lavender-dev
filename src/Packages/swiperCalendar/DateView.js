@@ -30,6 +30,7 @@ const DateView = ({startDate, lastDate, selectDate, getSelectedDay, primaryColor
     };
 
     const getMarked = (day) => {
+        console.log("marked",marked)
         let markedRes = marked.find(i => isSameDay(i.date, day));
         if (markedRes) {
             if (!markedRes?.marked) {

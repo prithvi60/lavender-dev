@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { range, getMonday, getCurrentTime12HrFormat } from "./utils";
 import { EmployeeWrapper, HGrid, Hour, VGrid, Wrapper, HourLineWithLabel } from './components/CalenderComponents'
 import GetIcon from "../../../assets/Icon/icon";
@@ -6,10 +6,6 @@ import { GetScheduleDates } from "./BusinessScheduleContext";
 import { useDrawer } from "../BusinessDrawerContext";
 import { Appointment } from "./components/Appointment";
 import { CustomTooltip } from "../../../components/CustomTooltip";
-import { Tooltip } from "@mui/material";
-import {Button} from "@mui/material";
-import { useSelector } from "react-redux";
-import endpoint from "../../../api/endpoints";
 
 // const setDragElement = (e) => {
 //   const dragEle = e.target;
@@ -47,41 +43,20 @@ import endpoint from "../../../api/endpoints";
 // }
 
 export const DayCalendar = () => {
-  const { filteredAppointments, selectedDate, employees } = GetScheduleDates()
+
+  const { filteredAppointments, employees } = GetScheduleDates()
+  console.log("test day >", filteredAppointments)
   // const [appointments, setAppointments] = useState(filteredAppointments)
   const [deleteIcon, showDeleteIcon] = useState(false)
   const [newAppointment, setNewAppointment] = useState('')
   const { openDrawer, isOpen } = useDrawer()
-  const [employeeeName, setEmployeeName] = useState('');
-  // const [establishmentData, setEstablishmentData] = useState('')
-  // const userDetails = useSelector((state: any) => {
-  //   return state?.currentUserDetails;
-  // });
-
-  // const establishmentId = userDetails?.establishmentId || "";
-
-  // useEffect(() => {
-  //   const getEstablishmentDetails = async () => {
-  //     try {
-  //       const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
-  //       if (establishmentData?.data?.success) {
-  //         setEstablishmentData(establishmentData?.data?.data || []);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching establishment details:", error);
-  //     }
-  //   };
-
-  //   getEstablishmentDetails();
-  // }, [establishmentId, isOpen]);
 
   const dragElementRef = useRef(null);
 
   const mondayDate = getMonday();
 
-  const addNewAppointment = (employee, employeeId, hour, min) => {
+  const addNewAppointment = (employee, hour, min) => {
     setNewAppointment(`${employee}-${hour}-${min}`)
-    setEmployeeName(employee)
     // openDrawer()
   }
 
@@ -137,16 +112,6 @@ export const DayCalendar = () => {
     // }
   }
 
-  function handleAddAppointment(hour, min){
-    const startTime = getCurrentTime12HrFormat(hour, (min) * 15, true)
-    const payload = {
-      start: startTime,
-      employee: employeeeName,
-      date: selectedDate
-    }
-    openDrawer('NewAppointment', payload)
-  }
-
   return (
     <>
       <Wrapper>
@@ -180,19 +145,11 @@ export const DayCalendar = () => {
                     {range(24).map((hour) => (
                       <Hour className="flex flex-col border-r border-solid border-r-gray-400">
                         {range(4).map((min) => (
-                          <div onClick={() => addNewAppointment(employee.employeeName, employee.employeeId, hour, min)} className="border-b border-dashed border-b-[#B3B3B3] w-full h-1/4 last:border-solid">
+                          <div onClick={() => addNewAppointment(employee.employeeName, hour, min)} className="border-b border-dashed border-b-[#B3B3B3] w-full h-1/4 last:border-solid">
                             {newAppointment === `${employee.employeeName}-${hour}-${min}` ? 
                             <div className="w-full h-full bg-white border-2 p-1 border-[#825FFF] rounded-xl text-left">
-                                <Tooltip title={<div style={{display: 'flex', flexDirection: 'column'}}>
-                                        <Button disableRipple variant="text" sx={styles.button} onClick={() => handleAddAppointment(hour, min)}><GetIcon style={{display: 'flex', padding: 1}} iconName='CalenderIcon' text={"Add appointment"}/></Button>
-                                        <Button disableRipple variant="text" sx={styles.button} onClick={() => console.log("2")}><GetIcon style={{display: 'flex', padding:1}} iconName='AccessTimeFilledIcon' text={"Block this time"}/></Button>
-                                      </div>} placement="right" arrow>
-                                
-                                      <div className="ml-4 font-bold">{getCurrentTime12HrFormat(hour, (min) * 15, true)}</div>
-                                </Tooltip>
-
-                              {/* <CustomTooltip children={<div className="ml-4 font-bold">{getCurrentTime12HrFormat(hour, (min) * 15, true)}</div>} 
-                              title={<div className="w-20 h-10 p-5 bg-white text-black rounded-lg">Hello - add or block app</div>} maxW={"100%"} arrowColor={"white"}/> */}
+                              <CustomTooltip children={<div className="ml-4 font-bold">{getCurrentTime12HrFormat(hour, (min) * 15, true)}</div>} 
+                              title={<div className="w-20 h-10 p-5 bg-white rounded-lg">Hello - add or block app</div>} maxW={"100%"} arrowColor={"white"}/>
                             </div>
                             : <></>}
                           </div>
@@ -202,6 +159,7 @@ export const DayCalendar = () => {
                     
                     {filteredAppointments[employee.employeeName]?.map( (appointmentGroup) => appointmentGroup.map(
                       (appointment, index, allAppointments) => {
+                        console.log("render day >", allAppointments.length, index)
                         const allAppointmentsCount = allAppointments.length
                         return (
                               <Appointment
@@ -245,10 +203,3 @@ export const DayCalendar = () => {
     </>
   );
 };
-
-
-const styles = {
-  button: {
-    color: 'black',
-  }
-}

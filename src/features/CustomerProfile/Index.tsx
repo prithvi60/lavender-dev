@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, Grid, IconButton } from '@mui/material'
+import { Avatar, Card, Grid } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import endpoint from '../../api/endpoints'
@@ -11,8 +11,6 @@ import EditProfile from './EditProfile'
 import { MyFavorites } from '../MyFavorites/MyFavorites'
 import { useNavigate } from 'react-router-dom'
 import { PaymentCard } from './PaymentCard'
-import Text from '../../components/Text'
-import GetIcon from '../../assets/Icon/icon'
 
 function Index() {
   const navigate = useNavigate()
@@ -26,46 +24,39 @@ function Index() {
     <div>
       {
         !isLoading && 
-        <div className='mx-auto max-w-7xl px-6 pb-8'>
-          <div className='mt-24'>
-            <Box sx={{display: 'flex', paddingBottom: 2}}>
-              <IconButton onClick={()=> navigate(-1)}>
-                <GetIcon iconName="BackIcon"/>
-              </IconButton>
-              <Text sx={styles.heading} name={'User Account'} align="left"></Text>
-            </Box>
-            
-            <Card sx={{backgroundColor: '#FAF5FF', borderRadius: 6, border: '1px solid #CCCCCC', boxShadow: 'none'}}>
-              <Grid container spacing={1} className='p-6 md:p-10 lg:p-16'>
-                <Grid item lg={8} sx={{display: 'flex', gap: '30px', flexWrap: 'wrap'}}>
-                  <div >
-                    <Avatar sx={{ width: 239, height: 239, backgroundColor: '#1B1464' }} ><PersonIcon sx={{width: 110, height: 122}}/></Avatar>
+        <div className='mx-auto max-w-7xl px-5 pb-8'>
+        <div className='mt-24'>
+          <div className='text-3xl font-bold pb-4'>User Account</div>
+          <Card sx={{backgroundColor: '#FAF5FF', borderRadius: 6, border: '1px solid #CCCCCC', boxShadow: 'none'}}>
+            <Grid container spacing={1} className='p-6 md:p-10 lg:p-16'>
+              <Grid item lg={8} sx={{display: 'flex', gap: '30px', flexWrap: 'wrap'}}>
+                <div >
+                  <Avatar sx={{ width: 239, height: 239 }} ><PersonIcon sx={{width: 110, height: 122}}/></Avatar>
+                </div>
+                <div style={{alignContent: 'center'}}>
+                  <div>
+                    <div className='text-4xl font-semibold'>{userInfo?.data?.data?.appUser?.fullName}</div>
+                    <div className='text-xl'>{userInfo?.data?.data?.appUser?.emailAddress}</div>
+                    <div className='text-xl'><span>{userInfo?.data?.data?.appUser?.mobileCountryCode} </span>{userInfo?.data?.data?.appUser?.mobileNumber}</div>
                   </div>
-                  <div style={{alignContent: 'center'}}>
-                    <div>
-                      <Text sx={styles.userName} name={userInfo?.data?.data?.appUser?.fullName} align='left'/>
-                      <Text sx={styles.email} name={userInfo?.data?.data?.appUser?.emailAddress} align='left'/>
-                      <Text sx={styles.phone} name={`${userInfo?.data?.data?.appUser?.mobileCountryCode} ${userInfo?.data?.data?.appUser?.mobileNumber}`} align='left'/>
-                      
-                    </div>
-                    <div className='pt-4'>
-                    <EditProfile userInfo={userInfo?.data?.data}/>
-                    </div>
+                  <div className='pt-4'>
+                  <EditProfile userInfo={userInfo?.data?.data}/>
                   </div>
-                  
-                </Grid>
-                <Grid item className='grid gap-3' lg={4} sx={{placeSelf: 'center'}}>
-                  <Button sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', fontWeight:'600', fontSize: '20px'}}  className='w-fit' name={"My Favourites"} onClick={()=> {handleFavouriteClick()}}></Button>
-                  <Button  sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', fontWeight:'600', fontSize: '20px'}}  className='w-fit' variant={"outlined"} name={"Browse Treatments"}></Button>
-                </Grid>
+                </div>
+                
               </Grid>
-            </Card>
-          </div>
-          <UpComingBookings userInfo={userInfo?.data?.data}/>
-          <PastBookings userInfo={userInfo?.data?.data}/>
-          <PaymentCard userInfo={userInfo?.data?.data}/>
-          <Notifications userInfo={userInfo?.data?.data}/>
+              <Grid item className='grid gap-3' lg={4} sx={{placeSelf: 'center'}}>
+                <Button className='w-fit' name={"My Favourites"} onClick={()=> {handleFavouriteClick()}}></Button>
+                <Button className='w-fit' variant={"outlined"} name={"Browse Treatments"}></Button>
+              </Grid>
+            </Grid>
+          </Card>
         </div>
+        <UpComingBookings userInfo={userInfo?.data?.data}/>
+        <PastBookings userInfo={userInfo?.data?.data}/>
+        <PaymentCard userInfo={userInfo?.data?.data}/>
+        <Notifications userInfo={userInfo?.data?.data}/>
+    </div>
       }
     </div>
     
@@ -74,29 +65,3 @@ function Index() {
 }
 
 export default Index
-
-const styles = {
-  heading: {
-    color: '#4D4D4D',
-    fontSize: '36px',
-    fontWeight: 600
-  },
-  userName: {
-    color: '#4D4D4D',
-    fontSize: '36px',
-    fontWeight: 600,
-    lineHeight: '43px'
-  },
-  email: {
-    color: '#4D4D4D',
-    fontSize: '20px',
-    fontWeight: 400,
-    lineHeight: '24px'
-  },
-  phone: {
-    color: '#4D4D4D',
-    fontSize: '20px',
-    fontWeight: 400,
-    lineHeight: '24px'
-  },
-}

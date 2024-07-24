@@ -17,17 +17,14 @@ import { Dayjs } from 'dayjs';
 import endpoint from "../../../api/endpoints";
 
 const schema = yup.object().shape({
-  employeeId: yup.string(),
   employeeName: yup.string().required("Employee name is required"),
   startingDate: yup.date().nullable().required("Starting date is required"),
 });
 
 export default function AddMemberForm({ payload }) {
-  console.log("payload L ", payload)
   const {
     register,
     control,
-    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -37,24 +34,21 @@ export default function AddMemberForm({ payload }) {
       startingDate: new Date(),
     },
   });
-  const employeeId: any = payload
   const { closeDrawer } = useDrawer();
   
-  const [value, setValues] = React.useState<Dayjs | null | any>(null);
-  const [employee, setEmployee] = useState([]);
-  const [currentEmployees, setCurrentEmployees] = useState([]);
+  const [value, setValue] = React.useState<Dayjs | null>(null);
 
   const userDetails = useSelector((state: any) => state?.currentUserDetails);
   const establishmentId = userDetails?.establishmentId || "";
 
-  const handleDrawerSubmit = async (data) => {
+  const handleDrawerSubmit = (data) => {
     
 
     const payLoad = {
         "id": establishmentId,
         "employees": [
             {
-             "employeeId": employeeId ? employeeId : "",
+             "employeeId": "",
               "employeeName": data.employeeName,
               "startingDate": data.startingDate ? data.startingDate?.toLocaleDateString('en-GB') : null,
               "profileImage": "ESI00002606"
@@ -62,45 +56,11 @@ export default function AddMemberForm({ payload }) {
           ],
     }
 
-    const response = await endpoint.saveEstablishmentEmployee(payLoad);
-    // if(response?.data?.success){
-    //   
-    //   const res = endpoint.getEstablishmentDetailsById(establishmentId);
-
-    // }
+    const response = endpoint.saveEstablishmentEmployee(payLoad);
     closeDrawer();
+
   };
 
-  const getEstablishmentDetails = async () => {
-    try {
-      const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
-      if (establishmentData?.data?.success) {
-        setEmployee(establishmentData?.data?.data?.employees || []);
-      }
-    } catch (error) {
-      console.error("Error fetching establishment details:", error);
-    }
-  };
-
-  useEffect(() => {
-    getEstablishmentDetails();
-  }, []);
-
-  useEffect(()=>{
-    if(employeeId){
-      
-      setCurrentEmployees(employee?.filter(cat => cat?.employeeId === employeeId));
-    }
-  },[employee])
-
-  useEffect(() => {
-    if (currentEmployees) {
-      setValue('employeeId', currentEmployees[0]?.employeeId);
-      setValue('employeeName', currentEmployees[0]?.employeeName);
-      const startingDate: any = currentEmployees[0]?.startingDate ? new Date(currentEmployees[0]?.startingDate) : null;
-      setValue('startingDate', startingDate);
-    }   
-  }, [currentEmployees, setValue]);
 
 
   return (

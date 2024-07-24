@@ -1,8 +1,9 @@
 import { Modal, Divider, Slider, Avatar } from '@mui/material';
-import Button from "@mui/material/Button";
+import Buttons from "@mui/material/Button";
 import { Box, Grid } from '@mui/material';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Controller } from 'react-hook-form';
+import Button from "../../components/Button";
 import endpoint from '../../api/endpoints';
 import GetIcon from '../../assets/Icon/icon';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +11,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SaveAppoinment } from '../../interface/interface';
 import { convertToDateTime, convertToISO8601 } from '../../utils/TimeFormat';
 import { resetFilter } from '../../store/slices/Booking/ScheduleAppoinmentSlice';
-import { removeCheckOutDetails } from '../../store/slices/checkOutPageSlice';
 const style = {
     position: "absolute",
     top: "50%",
@@ -32,11 +32,13 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
     (state: any) => state.checkOutPage
   );
   
-  const { selectedDate, timeOfDay, startTime, endTime ,id, payAtVenue, tncAgree, promotionAgree, serviceNotes} = useSelector(
+  const { selectedDate, timeOfDay, startTime, endTime ,id} = useSelector(
     (state: any) => state.ScheduleAppoinment
   );
   
-  
+console.log("id : ", id)
+
+
   const dispatch = useDispatch();
 
   const handleOpen = () => {
@@ -50,6 +52,7 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
 
   async function saveAppointmentClick(){
 
+    
     if(activeStep===2){
 
         const modifiedStartTime = convertToDateTime(startTime, selectedDate);
@@ -69,7 +72,7 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
           "totalCost": checkOutList.checkOut[0].finalPrice,
           "appointmentServices": [],
           "paymentInfo": {
-            "payAtVenue": payAtVenue,
+            "payAtVenue": true,
             "cardStoreId": "string",
             "paymentStatus": "string",
             "paymentTxnId": "string"
@@ -79,7 +82,7 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
         const appointmentServices = checkOutList.checkOut.map(item => ({
           serviceId: item.serviceId,
           optionId: item.optionId,
-          serviceNotes: serviceNotes, 
+          serviceNotes: 'string', 
           employeeId: id, 
           serviceCost: item.finalPrice, 
           bookingStatus: 'confirmed', 
@@ -97,30 +100,20 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
         payLoad.appointmentServices = appointmentServices;
         
         
-        const appointmentBooking = await endpoint.saveAppointmentBookings(payLoad);
+        const appointmentBooking =await endpoint.saveAppointmentBookings(payLoad);
         
         setOpen((prev) => !prev);
 
         if(appointmentBooking.status === 200){
           dispatch(resetFilter())
-          dispatch(removeCheckOutDetails())
         }
       }
 
   }
 
-  useEffect(()=>{
-    if(tncAgree){
-      setDisabled(false)
-    }
-    else{
-      setDisabled(true)
-    }
-  },[tncAgree])
-
   return (
-    <>
-      <Button fullWidth disabled={disabled} className='w-full' onClick={()=>saveAppointmentClick()} sx={styles.btn} variant="contained" >Proceed</Button>
+    <div>
+    <Buttons  disabled={false} className='w-full' onClick={()=>saveAppointmentClick()} sx={{ display: 'flex', justifyContent: 'center'}} variant="contained" >Proceed</Buttons>
       <Modal
         open={open}
         onClose={handleOpen}
@@ -144,21 +137,8 @@ const AppointmentConfimed = ({establishmentId, activeStep}) => {
                 </Grid>
             </Box>
       </Modal>
-    </>
+    </div>
   )
 }
 
 export default AppointmentConfimed
-
-
-const styles = {
-  btn: {
-    padding: "10px, 16px, 10px, 16px",
-    borderRadius: '10px',
-    textTransform: 'none', 
-    fontSize: '20px',
-    fontWeight: 500,
-    display: 'flex',
-    justifyContent: 'center'
-  }
-}

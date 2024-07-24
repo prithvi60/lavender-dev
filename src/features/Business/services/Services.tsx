@@ -149,7 +149,7 @@ export const Services: React.FC = () => {
 
   const [serviceInput, setServiceInput] = useState<string | any>('');
 
-  const { openDrawer, isOpen } = useDrawer();
+  const { openDrawer } = useDrawer();
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
@@ -296,7 +296,7 @@ export const Services: React.FC = () => {
     };
 
     getEstablishmentDetails();
-  }, [establishmentId, isOpen]);
+  }, [establishmentId]);
 
   const handleDeleteService = async (categoryId: string, serviceId: string) => {
     try {
