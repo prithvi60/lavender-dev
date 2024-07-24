@@ -110,7 +110,7 @@ export function DataTable<TData, TValue>({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+            table.getRowModel().rows.map((row: any) => (
               <TableRow
                 style={{ fontWeight: '700', color: "#4D4D4D" }}
                 key={row.id}
