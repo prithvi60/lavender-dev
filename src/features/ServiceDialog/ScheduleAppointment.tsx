@@ -227,13 +227,13 @@ export default function ScheduleAppointment(props) {
 
       <div className='mt-4'>
 
-        {availableTimeSlots?.length > 0 ? Object.entries(availableTimeSlots[0]?.availableSlots).map(([timePeriod, slotsArray]) => {
+        {availableTimeSlots?.length > 0 ? Object.entries(availableTimeSlots[0]?.availableSlots).map(([timePeriod, slotsArray]: [string, any]) => {
           
           return (
             <div className='schedule-chips' key={timePeriod}>
               <p className='font-semibold capitalize'>{timePeriod}</p>
               <div className='flex items-center flex-wrap gap-2'>
-                {slotsArray?.map((slot: any, index: any) => {
+                {slotsArray.map((slot: any, index: any) => {
                   return (
                     <div className='cursor-pointer' key={index}>
                       {/* <Chip
