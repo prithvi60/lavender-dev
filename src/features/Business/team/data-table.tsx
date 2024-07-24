@@ -110,12 +110,12 @@ export function DataTable<TData, TValue>({
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row: any) => (
+            table.getRowModel().rows.map((row) => (
               <TableRow
                 style={{ fontWeight: '700', color: "#4D4D4D" }}
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                onClick={() => openDrawer("addMember", row?.original?.employeeId)}
+                onClick={() => openDrawer("addMember", row?.id)}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
