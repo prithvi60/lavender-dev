@@ -258,7 +258,7 @@ const RegisterScreen = () => {
                                 />
                             }
                             label="I Agree to terms and condition, privacy policy and terms of use"
-                            error={!!errors.accept}
+                            // error={!!errors.accept}
                         />
                         <FormHelperText error={!!errors.accept}>{errors.accept?.message}</FormHelperText>
 
