@@ -7,7 +7,6 @@ import { useDrawer } from "../../BusinessDrawerContext";
 import { addTime, getCurrentTime12HrFormat, getMonthAndDayNames, range } from "../utils";
 import { Tooltip } from "@mui/material";
 import { CustomTooltip } from "../../../../components/CustomTooltip";
-import CustomSelect from "../../../../components/ui/select";
 
 
 export default function NewAppointmentDrawer() {

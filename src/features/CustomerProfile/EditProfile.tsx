@@ -11,7 +11,7 @@ import {
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import endpoint from '../../api/endpoints';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -77,7 +77,7 @@ function EditProfile({ userInfo }) {
     });
 
     const onSubmit = async (data) => {
-        
+
         const payLoad = {
             "id": userInfo?.appUser?.id,
             "fullName": data.fullName,
@@ -102,7 +102,7 @@ function EditProfile({ userInfo }) {
         maxWidth: 400, // Maximum width for responsiveness
         bgcolor: 'background.paper',
         boxShadow: 24,
-        borderRadius: 8, 
+        borderRadius: 8,
         p: 4,
     };
 
@@ -116,138 +116,140 @@ function EditProfile({ userInfo }) {
                 aria-describedby="modal-modal-description"
             >
                 <Card sx={modalStyle}>
-                <form onSubmit={ handleSubmit((data)=>{
-                        
+                    <form onSubmit={handleSubmit((data) => {
+
                         onSubmit(data);
                     })}>
-                    <Grid container spacing={2}>
-                    
-                        <Grid item xs={12}>
-                            <Typography variant="h4" align="center" sx={{ fontFamily: 'Urbanist', fontSize: '28px', fontWeight: '600', color: '#616161', marginBottom: '8px' }}>Edit Information</Typography>
-                        </Grid>
-                        
-                        <Grid container item xs={12} spacing={2} sx={{ my: "4px" }}>
-                            <Grid item xs={4}>
-                                <Typography sx={typographyStyle}>Full Name</Typography>
-                            </Grid>
-                            <Grid item xs={8}>
-                                <Controller
-                                    name="fullName"
-                                    control={control}
-                                    defaultValue=""
-                                    render={({ field }) => (
-                                        <TextField
-                                            fullWidth
-                                            {...field}
-                                            variant="standard"
-                                            error={!!errors.fullName}
-                                            helperText={errors.fullName?.message}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                        </Grid>
+                        <Grid container spacing={2}>
 
-                        <Grid container item xs={12} spacing={2} sx={{ my: "4px" }}>
-                            <Grid item xs={4}>
-                                <Typography sx={typographyStyle}>Email</Typography>
+                            <Grid item xs={12}>
+                                <Typography variant="h4" align="center" sx={{ fontFamily: 'Urbanist', fontSize: '28px', fontWeight: '600', color: '#616161', marginBottom: '8px' }}>Edit Information</Typography>
                             </Grid>
-                            <Grid item xs={8}>
-                                <Controller
-                                    name="email"
-                                    control={control}
-                                    defaultValue=""
-                                    render={({ field }) => (
-                                        <TextField
-                                            fullWidth
-                                            {...field}
-                                            variant="standard"
-                                            error={!!errors.email}
-                                            helperText={errors.email?.message}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                        </Grid>
 
-                        <Grid container item xs={12} spacing={2} sx={{my: "4px"}}>
-                            <Grid item xs={4}>
-                                <Typography sx={typographyStyle}>Area code</Typography>
-                            </Grid>
-                            <Grid item xs={8}>
-                                <Controller
-                                    name="areaCode"
-                                    control={control}
-                                    defaultValue=""
-                                    render={({ field }) => (
-                                        <TextField
-                                            fullWidth
-                                            {...field}
-                                            variant="standard"
-                                            error={!!errors.areaCode}
-                                            helperText={errors.areaCode?.message}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                        </Grid>
-
-                        <Grid container item xs={12} spacing={2} sx={{my: "4px"}}>
-                            <Grid item xs={4}>
-                                <Typography sx={typographyStyle}>Mobile number</Typography>
-                            </Grid>
-                            <Grid item xs={8}>
-                                <Controller
-                                    name="mobileNumber"
-                                    control={control}
-                                    defaultValue=""
-                                    render={({ field }) => (
-                                        <TextField
-                                            fullWidth
-                                            {...field}
-                                            variant="standard"
-                                            error={!!errors.mobileNumber}
-                                            helperText={errors.mobileNumber?.message}
-                                        />
-                                    )}
-                                />
-                            </Grid>
-                        </Grid>
-
-                        <Grid container item xs={12} spacing={2} sx={{my: "4px"}}>
-                            <Grid item xs={4}>
-                                <Typography sx={typographyStyle}>Date of birth</Typography>
-                            </Grid>
-                            <Grid item xs={8}>
-                                <Controller
-                                    name="dateOfBirth"
-                                    control={control}
-                                    defaultValue={null}
-                                    render={({ field }) => (
-                                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                            <DatePicker
+                            <Grid container item xs={12} spacing={2} sx={{ my: "4px" }}>
+                                <Grid item xs={4}>
+                                    <Typography sx={typographyStyle}>Full Name</Typography>
+                                </Grid>
+                                <Grid item xs={8}>
+                                    <Controller
+                                        name="fullName"
+                                        control={control}
+                                        defaultValue=""
+                                        render={({ field }) => (
+                                            <TextField
+                                                fullWidth
                                                 {...field}
-                                                value={value}
-                                                renderInput={(params: any) => (
-                                                    <TextField
-                                                        {...params}
-                                                        fullWidth
-                                                        variant="standard"
-                                                        error={!!errors.dateOfBirth}
-                                                        helperText={errors.dateOfBirth?.message}
-                                                    />
-                                                )}
+                                                variant="standard"
+                                                error={!!errors.fullName}
+                                                helperText={errors.fullName?.message}
                                             />
-                                        </LocalizationProvider>
-                                    )}
-                                />
+                                        )}
+                                    />
+                                </Grid>
+                            </Grid>
+
+                            <Grid container item xs={12} spacing={2} sx={{ my: "4px" }}>
+                                <Grid item xs={4}>
+                                    <Typography sx={typographyStyle}>Email</Typography>
+                                </Grid>
+                                <Grid item xs={8}>
+                                    <Controller
+                                        name="email"
+                                        control={control}
+                                        defaultValue=""
+                                        render={({ field }) => (
+                                            <TextField
+                                                fullWidth
+                                                {...field}
+                                                variant="standard"
+                                                error={!!errors.email}
+                                                helperText={errors.email?.message}
+                                            />
+                                        )}
+                                    />
+                                </Grid>
+                            </Grid>
+
+                            <Grid container item xs={12} spacing={2} sx={{ my: "4px" }}>
+                                <Grid item xs={4}>
+                                    <Typography sx={typographyStyle}>Area code</Typography>
+                                </Grid>
+                                <Grid item xs={8}>
+                                    <Controller
+                                        name="areaCode"
+                                        control={control}
+                                        defaultValue=""
+                                        render={({ field }) => (
+                                            <TextField
+                                                fullWidth
+                                                {...field}
+                                                variant="standard"
+                                                error={!!errors.areaCode}
+                                                helperText={errors.areaCode?.message}
+                                            />
+                                        )}
+                                    />
+                                </Grid>
+                            </Grid>
+
+                            <Grid container item xs={12} spacing={2} sx={{ my: "4px" }}>
+                                <Grid item xs={4}>
+                                    <Typography sx={typographyStyle}>Mobile number</Typography>
+                                </Grid>
+                                <Grid item xs={8}>
+                                    <Controller
+                                        name="mobileNumber"
+                                        control={control}
+                                        defaultValue=""
+                                        render={({ field }) => (
+                                            <TextField
+                                                fullWidth
+                                                {...field}
+                                                variant="standard"
+                                                error={!!errors.mobileNumber}
+                                                helperText={errors.mobileNumber?.message}
+                                            />
+                                        )}
+                                    />
+                                </Grid>
+                            </Grid>
+
+                            <Grid container item xs={12} spacing={2} sx={{ my: "4px" }}>
+                                <Grid item xs={4}>
+                                    <Typography sx={typographyStyle}>Date of birth</Typography>
+                                </Grid>
+                                <Grid item xs={8}>
+                                    <Controller
+                                        name="dateOfBirth"
+                                        control={control}
+                                        defaultValue={new Date()}
+                                        render={({ field }) => (
+                                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                                <DatePicker
+                                                    {...field}
+                                                    value={value}
+                                                    onChange={(date) => field.onChange(date)}
+                                                        // renderInput={(params) => (
+                                                    //     <TextField
+                                                    //         {...params}
+                                                    //         fullWidth
+                                                    //         variant="standard"
+                                                    //         error={!!errors.dateOfBirth}
+                                                    //         helperText={errors.dateOfBirth?.message}
+                                                    //     />
+                                                    // )}
+                                                />
+
+                                            </LocalizationProvider>
+                                        )}
+                                    />
+                                </Grid>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Buttons type="submit" variant="contained" color="primary">Continue</Buttons>
                             </Grid>
                         </Grid>
-
-                        <Grid item xs={12}>
-                            <Buttons type="submit" variant="contained" color="primary">Continue</Buttons>
-                        </Grid>
-                    </Grid>
                     </form>
 
                 </Card>

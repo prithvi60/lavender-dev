@@ -1,5 +1,4 @@
 import { CardContent, Chip, Rating } from "@mui/material";
-import establishmentImg from '../../assets/establishmentImg.png';
 import Text from "../../components/Text";
 import styled from "@emotion/styled";
 import { useQuery } from "@tanstack/react-query";
@@ -47,7 +46,7 @@ export function MyFavorites() {
           <div className="favourite-cards">
             {establishmentSearchResult?.data?.data?.content?.map((card) => (
               <div className="p-6 favourite-card">
-                <img src={establishmentImg} alt="CardImage" className="card-image" />
+                <img src={"../../assets/establishmentImg.png"} alt="CardImage" className="card-image" />
                 <CardContent className='favourite-card-content'>
                     <Text variant="h5" align="left" className="card-title" sx={{color: '#4D4D4D'}} name={card?.establishmentName}/>
                     <div className="card-rating">
