@@ -69,6 +69,7 @@ interface SearchPageState {
     locationList: any;
     selectedDate: any;
     SelectedTime: any;
+    date: any;
     choseFromOptions: boolean;
   };
 }
@@ -93,6 +94,7 @@ export default function SearchResult() {
     treatmentList,
     locationList,
     selectedDate,
+    date,
     SelectedTime,
     choseFromOptions,
   } = useSelector((state: SearchPageState) => state.searchPage);
@@ -386,8 +388,8 @@ export default function SearchResult() {
           payLoad.serviceNames = treatmentList;
         }
 
-        if (selectedDate) {
-          const [startDate, endDate] = selectedDate
+        if (date) {
+          const [startDate, endDate] = date
             .split("to")
             .map((date) => date?.trim());
           if (startDate) {
@@ -411,6 +413,10 @@ export default function SearchResult() {
           if (Range) {
             payLoad.range = Range;
           }
+        } else {
+          payLoad.geoX = center.lat;
+          payLoad.geoY = center.lng;
+          payLoad.range = Range;
         }
 
         if (SelectedTime) {
@@ -450,6 +456,29 @@ export default function SearchResult() {
     }
     console.log("Map dragged to:", newCenter?.toJSON());
   };
+
+  const calculateBounds = () => {
+    if (!transformedData || transformedData.length === 0) {
+      return null; // Handle empty data case
+    }
+
+    const bounds = new window.google.maps.LatLngBounds();
+    transformedData.forEach(({ position }) => {
+      bounds.extend(position);
+    });
+    return bounds;
+  };
+
+  useEffect(() => {
+    if (map) {
+      const bounds = calculateBounds();
+      if (bounds) {
+        map.fitBounds(bounds);
+      } else {
+        map.setCenter(center);
+      }
+    }
+  }, [map, transformedData, center]);
 
   return (
     <Card
@@ -791,12 +820,12 @@ export default function SearchResult() {
                                 src={`data:image/png;base64, ${image}`}
                                 alt={name}
                                 style={{ width: "200px", height: "100px" }}
-                                className="mb-1"
+                                className="mb-1 rounded-md mt-2"
                               />
-                              <p className="text-xl text-gray-600 font-bold m-1">
+                              <h5 className=" text-gray-600 font-bold m-1 text-center">
                                 {name}
-                              </p>
-                              <p className="text-sm text-gray-900 font-medium m-1 text-center">
+                              </h5>
+                              <p className="text-sm text-black font-medium m-1 text-center">
                                 {location}
                               </p>
                             </div>

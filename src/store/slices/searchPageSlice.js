@@ -7,6 +7,7 @@ const initialState = {
   treatmentList: [],
   locationList: [],
   selectedDate: "",
+  date: "",
   SelectedTime: { from: "", to: "" },
   choseFromOptions: false,
 };
@@ -26,6 +27,10 @@ export const searchPageSlice = createSlice({
     },
     updateSearchDate: (state, action) => {
       state.selectedDate = action.payload.selectedDate;
+    },
+
+    updateDate: (state, action) => {
+      state.date = action.payload.date;
     },
     updateSearchTimeFrom: (state, action) => {
       state.SelectedTime.from = action.payload.SelectedTimeFrom;
@@ -71,6 +76,7 @@ export const {
   updateSearchSelectedBox,
   updateSearchTreatment,
   updateSearchDate,
+  updateDate,
   updateSearchTime,
   updateChooseFromOptions,
 } = searchPageSlice.actions;

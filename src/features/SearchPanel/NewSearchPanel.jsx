@@ -27,6 +27,7 @@ import { DatePicker, pickersLayoutClasses } from "@mui/x-date-pickers";
 import { useDispatch, useSelector } from "react-redux";
 import {
   closeSearchModal,
+  updateDate,
   updateSearchDate,
   updateSearchLocationList,
   updateSearchSelectedBox,
@@ -72,6 +73,7 @@ const NewSearchPanel = () => {
     selectedDate,
     SelectedTime,
     choseFromOptions,
+    date,
   } = useSelector((state) => state.searchPage);
 
   const dispatch = useDispatch();
@@ -87,30 +89,34 @@ const NewSearchPanel = () => {
     {
       label: "tomorrow",
       getValue: () => {
+        const today = dayjs();
         const tomorrow = dayjs().add(1, "day");
-        return [tomorrow.startOf("day"), tomorrow.endOf("day")];
+        return [today.startOf("day"), tomorrow.endOf("day")];
       },
     },
     {
       label: "+2days",
       getValue: () => {
-        const tomorrow = dayjs().add(2, "day");
-        return [tomorrow.startOf("day"), tomorrow.endOf("day")];
+        const today = dayjs();
+        const plusTwoDay = dayjs().add(2, "day");
+        return [today, plusTwoDay.endOf("day")];
       },
     },
     {
       label: "+3days",
       getValue: () => {
-        const tomorrow = dayjs().add(3, "day");
-        return [tomorrow.startOf("day"), tomorrow.endOf("day")];
+        const tomorrow = dayjs().add(1, "day");
+        const today = dayjs();
+        const plusThreeDay = today.endOf("day").add(3, "day");
+        return [today, plusThreeDay.endOf("day")];
       },
     },
     {
       label: "Next Week",
       getValue: () => {
         const today = dayjs();
-        const startOfNextMonth = today.endOf("month").add(1, "day");
-        return [startOfNextMonth, startOfNextMonth.endOf("month")];
+        const startOfNextWeek = today.endOf("week").add(1, "day");
+        return [startOfNextWeek, startOfNextWeek.endOf("week")];
       },
     },
     { label: "Reset", getValue: () => [null, null] },
@@ -206,10 +212,20 @@ const NewSearchPanel = () => {
   };
 
   const onChangeDate = (data) => {
-    const fromDate = data[0] ? format(new Date(data[0]), "yyyy-MM-dd") : "";
-    const toDate = data[1] ? format(new Date(data[1]), "yyyy-MM-dd") : "";
+    const fromDate = data[0] ? format(new Date(data[0]), "MMMM dd") : "";
+    const toDate = data[1] ? format(new Date(data[1]), "MMMM dd") : "";
 
-    dispatch(updateSearchDate({ selectedDate: `${fromDate} to ${toDate}` }));
+    const fromDateToPayload = data[0]
+      ? format(new Date(data[0]), "yyyy-MM-dd")
+      : "";
+    const toDateToPayload = data[1]
+      ? format(new Date(data[1]), "yyyy-MM-dd")
+      : "";
+
+    dispatch(updateSearchDate({ selectedDate: `${fromDate} ${toDate}` }));
+    dispatch(
+      updateDate({ date: `${fromDateToPayload} to ${toDateToPayload}` })
+    );
   };
 
   const [queryResult, setQueryResult] = useState(null);
@@ -220,7 +236,6 @@ const NewSearchPanel = () => {
   //const {data} = useQuery({queryKey: ['customer-da'], queryFn: () =>{ return endpoint.getEstablishemntDetails()}})
 
   const getAddressDetails = async (card) => {
-    console.log(card, "card");
     const { geoX, geoY } = card;
     if (geoX !== null && geoY !== null) {
       const geocodeResponse = await fetch(
@@ -240,8 +255,6 @@ const NewSearchPanel = () => {
     // mutation.mutate(payLoad)
     // return getRoute("Search");
 
-    console.log(locationList, "lllll");
-
     const payLoad = {
       // seviceNames: treatmentList,
       // // categoryName: ["Hair treatment"],
@@ -258,10 +271,8 @@ const NewSearchPanel = () => {
       payLoad.serviceNames = treatmentList;
     }
 
-    if (selectedDate) {
-      const [startDate, endDate] = selectedDate
-        .split("to")
-        .map((date) => date?.trim());
+    if (date) {
+      const [startDate, endDate] = date.split("to").map((date) => date?.trim());
       if (startDate) {
         payLoad.startDate = startDate;
       }
@@ -295,24 +306,36 @@ const NewSearchPanel = () => {
       }
     }
 
-    try {
-      const establishmentSearchResultResponse =
-        await endpoint.getEstablishmentSearchResults(payLoad);
-      const treatmentServicesList = establishmentSearchResultResponse.data.data;
-      console.log(treatmentServicesList);
+    if (
+      treatmentList.length > 0 ||
+      locationList.length > 0 ||
+      selectedDate !== "" ||
+      SelectedTime.from !== ""
+    ) {
+      try {
+        const establishmentSearchResultResponse =
+          await endpoint.getEstablishmentSearchResults(payLoad);
 
-      for (const card of treatmentServicesList) {
-        const location = await getAddressDetails(card);
-        card.location = location;
+        if (establishmentSearchResultResponse.data.success) {
+          const treatmentServicesList =
+            establishmentSearchResultResponse.data.data;
+
+          for (const card of treatmentServicesList) {
+            const location = await getAddressDetails(card);
+            card.location = location;
+          }
+          setTreatmentServicesList(treatmentServicesList);
+          navigate("/search", {
+            state: {
+              treatmentServicesList: treatmentServicesList,
+            },
+          });
+        }
+      } catch (e) {
+        console.log(e);
       }
-      setTreatmentServicesList(treatmentServicesList);
-      navigate("/search", {
-        state: {
-          treatmentServicesList: treatmentServicesList,
-        },
-      });
-    } catch (e) {
-      console.log(e);
+    } else {
+      alert("Please choose any one of the options");
     }
   };
 
@@ -437,8 +460,6 @@ const NewSearchPanel = () => {
   const closeFilterPannel = () => {
     dispatch(updateSearchSelectedBox({ selectedBox: "" }));
   };
-
-  console.log(locationList);
 
   return (
     <>
@@ -678,6 +699,7 @@ const NewSearchPanel = () => {
                     }}
                     // calendars={2}
                     onChange={onChangeDate}
+                    minDate={dayjs()}
                     sx={{
                       [`.${pickersLayoutClasses?.contentWrapper}`]: {
                         alignItems: "center",

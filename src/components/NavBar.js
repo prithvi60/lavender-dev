@@ -1,88 +1,109 @@
 import React, { useEffect, useState } from "react";
-import { AppBar, Avatar, Toolbar } from "@mui/material";
-import Text from "./Text";
+import { AppBar, Toolbar, Stack, Box } from "@mui/material";
+import Button from "./Button.js";
 import ButtonRouter from "./ButtonRouter";
 import { getRoute } from "../utils";
-import TextRouter from "./TextRouter";
-import NewSearchPanel from "../features/SearchPanel/NewSearchPanel";
-import NavFilter from "./NavFilter.tsx";
-import { useNavigate } from "react-router-dom";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import GetIcon from "../assets/Icon/icon.tsx";
 import PersonIcon from "@mui/icons-material/Person";
-
+import GetIcon from "../assets/Icon/icon.tsx";
+import { useNavigate } from "react-router-dom";
+import endpoint from "../api/endpoints.ts";
+import NavFilter from "./NavFilter.tsx";
+import NewSearchPanel from "../features/SearchPanel/NewSearchPanel.jsx";
 
 const Navbar = (props) => {
-  const { isSearchPage, isLoggedIn, userName } = props;
-
+  const { isSearchPage, isLoggedIn } = props;
   const [showSearchBar, setshowSearchBar] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userType, setUserType] = useState("");
 
-  const getLoginRoute = () => {
-    return navigate('/login')
-  };
-
-  function getUserRoute(){
-navigate('/userprofile')
-  };
-
-  const getAdminRoute = () => {
-    return getRoute("Admin");
-  };
-
-  const getBusinessRoute = () => {
-    return getRoute("Business");
-  };
-  const gotoLandingPage = () => {
-    return navigate("/");
-  };
+  useEffect(() => {
+    setTimeout(() => {
+      if (localStorage.getItem("Token")) {
+        const fetchCurrentUserDetails = async () => {
+          try {
+            const response = await endpoint.getCurrentUserDetails();
+            const userDetails = response?.data;
+            setUserName(userDetails?.data?.fullName);
+            setUserType(userDetails?.data?.userType);
+          } catch (error) {
+            console.error("Error fetching user details:", error);
+          }
+        };
+        fetchCurrentUserDetails();
+      }
+    }, 1000);
+  }, []);
 
   const navigate = useNavigate();
 
-  function handleLogOutBtn(){
+  const handleLogOutBtn = () => {
     localStorage.clear();
     return navigate("/");
-  }
+  };
 
   return (
     <>
       <AppBar position="fixed" className="nav-bar">
         <Toolbar>
           <GetIcon
-            className="cursor-pointer"
-            onClick={gotoLandingPage}
-            iconName="LavenderLogo"
-          />
-          <Text
-            onClick={gotoLandingPage}
-            align="left"
             className="cursor-pointer nav-bar-title flex"
-            variant="h6"
-            sx={{ flexGrow: 1 }}
-            name="Lavender"
+            align="left"
+            onClick={() => navigate("/")}
+            iconName="LavenderFullLogo"
           />
           {isSearchPage && <NavFilter setshowSearchBar={setshowSearchBar} />}
           <Stack spacing={2} direction="row">
-            {
-              isLoggedIn && <Button
-              onClick={()=>{handleLogOutBtn()}}
-              className="button-outline"
-              variant="outlined"
-            >
-              Logout
-            </Button>
-            }
-            <Button
-              href={getBusinessRoute()}
-              className="button-outline"
-              variant="outlined"
-            >
-              Business
-            </Button>
+            {isLoggedIn && (
+              <Button
+                onClick={handleLogOutBtn}
+                className="button-outline"
+                variant="outlined"
+                name="Logout"
+                sx={{
+                  width: "120px",
+                  height: "37px",
+                  fontFamily: "Urbanist",
+                  borderRadius: "10px",
+                }}
+              />
+            )}
+            {userType === "BU" && (
+              <Button
+                href={getRoute("Business")}
+                className="button-outline"
+                variant="outlined"
+                name={"Business"}
+                sx={{
+                  width: "120px",
+                  height: "37px",
+                  fontFamily: "Urbanist",
+                  borderRadius: "10px",
+                }}
+              />
+            )}
             {isLoggedIn ? (
-                <ButtonRouter name={userName} to={'/userprofile'} startIcon={<PersonIcon />} />
+              <ButtonRouter
+                sx={{
+                  width: "100%",
+                  height: "37px",
+                  fontFamily: "Urbanist",
+                  borderRadius: "10px",
+                }}
+                name={userName}
+                to="/userprofile"
+                startIcon={<PersonIcon />}
+              />
             ) : (
-                <ButtonRouter name={"Login"} to={'/login'} />
+              <ButtonRouter
+                sx={{
+                  width: "120px",
+                  height: "37px",
+                  fontFamily: "Urbanist",
+                  borderRadius: "10px",
+                }}
+                name={"Log in"}
+                to="/login"
+              />
             )}
           </Stack>
           {isSearchPage && showSearchBar && (

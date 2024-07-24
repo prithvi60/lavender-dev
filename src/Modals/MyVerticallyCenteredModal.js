@@ -100,7 +100,40 @@ const MyVerticallyCenteredModal = (props) => {
         },
 
         (error) => {
-          console.error("Error getting geolocation", error);
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              console.error(
+                "Error getting geolocation: User denied Geolocation"
+              );
+              alert(
+                "Location access is required for this feature. Please enable it in your browser settings."
+              );
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.error(
+                "Error getting geolocation: Location information is unavailable"
+              );
+              alert(
+                "Location information is currently unavailable. Please try again later."
+              );
+              break;
+            case error.TIMEOUT:
+              console.error(
+                "Error getting geolocation: The request to get user location timed out"
+              );
+              alert(
+                "The request to get your location timed out. Please try again."
+              );
+              break;
+            default:
+              console.error(
+                "Error getting geolocation: An unknown error occurred"
+              );
+              alert(
+                "An unknown error occurred while trying to access your location. Please try again."
+              );
+              break;
+          }
         }
       );
     } else {
