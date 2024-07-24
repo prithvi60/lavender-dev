@@ -18,6 +18,7 @@ import { SalonProfile } from '../features/Business/SalonProfile/SalonProfile.tsx
 import { updateUser } from '../store/slices/currentUserSlice.js';
 
 const BusinessLayoutPage = () => {
+  
   //const [isSearchPage, setIsSearchPage] = useState(true);
   const [activeField, setActiveField] = useState("Salon profile")
   const [userDetails, setUserDetails] = useState('')
@@ -66,7 +67,7 @@ const BusinessLayoutPage = () => {
       case 'Schedule':
         return <SchedulePageWrapper />;
       case 'Appointments':
-        return <AppointmentsPage/>
+        return <AppointmentsPage estId={userDetails?.data?.establishmentId}/>
       case 'Clients':
         return <BusinessClients/>
       case 'Services':
@@ -86,7 +87,7 @@ const BusinessLayoutPage = () => {
       <div className='flex flex-col h-full'>
         <BusinessHeader pageName={activeField}/>
         <div className='flex flex-row'>
-          <div className='shadow-2xl rounded-lg h-max'>
+          <div className='rounded-lg h-max'>
             <SideBar activeField={activeField} onChange={setActiveField}/>
           </div>
           <div id='render-main' className='w-full h-full' style={{overflowX:'hidden'}}>

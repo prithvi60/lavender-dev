@@ -20,7 +20,7 @@ const SearchBox = ({ name, clickHandler, isClicked }) => {
   }
   
   function handleSearchButtonClick(){
-
+    
   }
 
   return (

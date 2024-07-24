@@ -9,6 +9,10 @@ interface IScheduleAppoinment {
   id:string;
   totalPrice: string;
   totalDuration: string;
+  payAtVenue: boolean;
+  tncAgree: boolean;
+  promotionAgree: boolean;
+  serviceNotes: string;
 }
 
 const initialState: IScheduleAppoinment = {
@@ -18,7 +22,11 @@ const initialState: IScheduleAppoinment = {
   endTime: "",
   id :'',
   totalPrice:'',
-  totalDuration: ''
+  totalDuration: '',
+  payAtVenue: false,
+  tncAgree: false,
+  promotionAgree: false,
+  serviceNotes: "",
 };
 
 export const ScheduleAppoinmentSlice = createSlice({
@@ -26,7 +34,6 @@ export const ScheduleAppoinmentSlice = createSlice({
   initialState,
   reducers: {
     UpdateSelectedDate: (state, action) => {
-      
       state.selectedDate = action.payload.selectedDate;
     },
     UpdateTimeOfDayAndTime: (state, action) => {
@@ -39,13 +46,19 @@ export const ScheduleAppoinmentSlice = createSlice({
       state.totalPrice= action.payload.totalPrice;
       state.totalDuration= action.payload.totalDuration;
     },
+    UpdateTermsNConditions: (state, action) => {
+      state.payAtVenue = action.payload.payAtVenue;
+      state.tncAgree = action.payload.tncAgree;
+      state.promotionAgree = action.payload.promotionAgree;
+      state.serviceNotes = action.payload.serviceNotes;
+    },
     resetFilter: () => {
       return initialState;
     },
   },
 });
 
-export const { UpdateSelectedDate, UpdateTimeOfDayAndTime, UpdateCheckoutInfo, resetFilter } =
+export const { UpdateSelectedDate, UpdateTimeOfDayAndTime, UpdateCheckoutInfo, UpdateTermsNConditions, resetFilter } =
   ScheduleAppoinmentSlice.actions;
 
 export default ScheduleAppoinmentSlice.reducer;

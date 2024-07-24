@@ -8,6 +8,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import endpoint from '../../api/endpoints';
 import { useQuery } from '@tanstack/react-query';
+import Text from '../../components/Text';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -18,28 +19,7 @@ const StyledRating = styled(Rating)({
   },
 });
 
-export const Reviews = ({establishmentId}) => {
-  const jsonData = {
-    content: [
-      {
-        "customerName": "sam",
-        "employeeName": "harry",
-        "serviceRating": 5,
-        "reviewDate": "2024-06-20T11:45:16.923Z",
-        "publicComments": "I'm always on the lookout for a salon that values communication, and I found it here. The consultation was thorough, and the stylist listened to my concerns, resulting in a haircut that exceeded my expectations.",
-        "serviceTags": ["hair", "nail"]
-      },
-      {
-        "customerName": "sam",
-        "employeeName": "harry",
-        "serviceRating": 4,
-        "reviewDate": "2024-06-24T11:45:16.923Z",
-        "publicComments": "Another comment about the service and experience at the salon.",
-        "serviceTags": ["hair", "nail"]
-      },
-      // Add more objects as needed
-    ]
-  };
+export const Reviews = ({establishmentId}: any) => {
 
   const payload = {
     "pageNumber": 1,
@@ -56,7 +36,7 @@ export const Reviews = ({establishmentId}) => {
   });
   
   return (
-    <div className="mx-auto" style={{width: '85%'}}>
+    <div className="mx-auto" style={{width: '85%'}} id="SearchDetailReview">
       <ReviewsTable data={reviewData?.data?.data?.content} />
     </div>
   );
@@ -175,27 +155,29 @@ const ReviewsTable = ({ data }) => {
 
   return (
     <div className="w-full">
-        <div className="urbanist-font text-xl font-bold pb-2">Reviews</div>
+        <Text sx={styles.heading} name={"Reviews"} align="left"/>
         {
           data?.length > 0 ? (
             <div>
               <div className='flex items-center'>
-              <div className='text-4xl'>4.0</div>
-              <div className='text-center'>
+              <div className='text-4xl'></div>
+              <Text sx={styles.rating} name={"4.0"}/>
+              <div className='text-center' style={{paddingLeft: 2, paddingRight: 10}}>
                   <StyledRating
-                          name="customized-color"
-                          value={4}
-                          precision={0.5}
-                          readOnly
-                        />    
+                    name="customized-color"
+                    value={4}
+                    precision={0.5}
+                    readOnly
+                  /> 
+                  <Text name={'reviews'} align="left"/>   
               </div>
               <div className="flex justify-end mb-4">
-              <Typography sx={{alignContent: 'center', padding: '10px'}}>Filter</Typography>
+              {/* <Typography sx={{alignContent: 'center', padding: '10px'}}>Filter</Typography> */}
               <Select
               defaultValue=""
               onChange={handleSortChange}
               className="mr-4"
-              style={{ minWidth: '150px' }}
+              style={{ width: '220px', height: '38px' }}
               >
               <MenuItem value="highest">Highest Rating</MenuItem>
               <MenuItem value="lowest">Lowest Rating</MenuItem>
@@ -207,7 +189,7 @@ const ReviewsTable = ({ data }) => {
                   defaultValue=""
                   onChange={handleSortChange}
                   className="mr-4"
-                  style={{ minWidth: '150px' }}
+                  style={{ width: '220px', height: '38px' }}
                   >
                   <MenuItem value="highest">Highest Rating</MenuItem>
                   <MenuItem value="lowest">Lowest Rating</MenuItem>
@@ -271,3 +253,17 @@ const ReviewsTable = ({ data }) => {
   );
 };
 
+const styles={
+  heading: {
+    color: '#333333',
+    fontSize: '36px',
+    fontWeight: 600,
+    paddingBottom: 2
+  },
+  rating: {
+    color: '#4D4D4D',
+    fontSize: '45px',
+    fontWeight: 700,
+    padding: 1
+  },
+}

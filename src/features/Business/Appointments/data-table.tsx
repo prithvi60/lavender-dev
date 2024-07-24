@@ -77,6 +77,7 @@ export function DataTable<TData, TValue>({
         <div className="w-full flex flex-row justify-between items-center">
             <div className="flex m-4 justify-between items-center w-10/12">
                 <SearchInput
+                
                 placeholder={'Search by ID/Client name'}
                 //value={(table.getColumn("client")?.getFilterValue() as string) ?? ""}
                 onChange={(event) =>
@@ -84,7 +85,7 @@ export function DataTable<TData, TValue>({
                   controllers.customerName(event.target.value)
                 }
                 />
-                <Selector onSelect={() => { } } className={"w-[180px] justify-evenly"} options={fixedRangeDateOptions} placeholder={"All time"} label={undefined}/>
+                <Selector onSelect={() => { } } className={"w-[188px] justify-evenly"} options={fixedRangeDateOptions} placeholder={"All time"} label={undefined}/>
                 <div>
                   <AppointmentDateSelector 
                     startDate={filterStartDate}
@@ -93,7 +94,7 @@ export function DataTable<TData, TValue>({
                     endDateControl={setFilterEndDate}
                   />
                  </div>
-                <Button  variant="outline" size="lg">Export</Button>
+                <Button  style={{minWidth: '100px'}} variant="outline" size="lg">Export</Button>
             </div>
             <div>
                   <GetIcon onClick={    
@@ -155,3 +156,5 @@ export function DataTable<TData, TValue>({
     </div>
   )
 }
+
+

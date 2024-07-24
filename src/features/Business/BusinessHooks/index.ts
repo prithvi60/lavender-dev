@@ -4,8 +4,8 @@ import { parseAppointmentResponse } from "../Schedule/utils"
 import { useSelector } from "react-redux"
 
 export const useFetchAppointments = (payload) => {
-
-    return useQuery({queryKey: ["query-user-info"],
+    
+    return useQuery({queryKey: ["query-get-appointments"],
         queryFn: () => { return endpoint.getBusinessAppointments(payload)}, 
         refetchOnWindowFocus: false,
         // select: (data) => {

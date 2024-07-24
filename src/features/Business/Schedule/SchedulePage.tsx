@@ -39,9 +39,9 @@ function SchedulePage() {
             <Button onClick={() => openDrawer('FilterDrawer')} variant='outline' className='w-10 border-2'>
               <GetIcon iconName='FilterIcon'/>
             </Button>
-            <div className='flex border rounded w-40 ml-10'>
-              <Button onClick={() => setDurationState('Day')} className={`w-1/2 font-bold  ${durationState === 'Day' ? 'bg-primary text-white' : ''}`} variant='null'>Day</Button>
-              <Button onClick={() => setDurationState('Week')} className={`w-1/2 font-bold ${durationState === 'Week' ? 'bg-primary text-white' : ''}`} variant='null'>Week</Button>
+            <div className='flex border rounded w-60 ml-10'>
+              <Button onClick={() => setDurationState('Day')} className={`w-full font-bold  ${durationState === 'Day' ? 'bg-primary text-white' : ''}`} variant='null'>Day</Button>
+              <Button onClick={() => setDurationState('Week')} className={`w-full font-bold ${durationState === 'Week' ? 'bg-primary text-white' : ''}`} variant='null'>Week</Button>
             </div>
           </div>
 

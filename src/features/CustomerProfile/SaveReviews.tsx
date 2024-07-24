@@ -9,6 +9,9 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import GetIcon from '../../assets/Icon/icon';
 import endpoint from '../../api/endpoints';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from '../../components/Snackbar';
 
 const style = {
   position: 'absolute',
@@ -32,26 +35,6 @@ const StyledRating = styled(Rating)({
   },
 });
 
-const sampleData = {
-  "establishmentName": "Demo Salon",
-  "OptedServices": [
-    {
-      "serviceName": "Hair Color",
-      "employeeId": "EST005",
-      "employeeName": "Sam"
-    },
-    {
-      "serviceName": "Nail Color",
-      "employeeId": "EST006",
-      "employeeName": "Tom"
-    },
-    {
-      "serviceName": "Face Color",
-      "employeeId": "EST007",
-      "employeeName": "Curran"
-    }
-  ]
-};
 
 const SaveReviews = ({bookings, establishmentId}) => {
   const [open, setOpen] = useState(false);
@@ -59,7 +42,8 @@ const SaveReviews = ({bookings, establishmentId}) => {
   const [reviews, setReviews] = useState([]);
   const [rating, setRating] = useState(0);
   const [comments, setComments] = useState(new Array(bookings?.services.length).fill(''));
-
+  const navigate = useNavigate();
+  const showSnackbar = useSnackbar();
   const { control, handleSubmit } = useForm();
 
   const userDetails = useSelector((state: any) => {
@@ -120,7 +104,12 @@ const SaveReviews = ({bookings, establishmentId}) => {
       "appointmentServices": finalReviews,
     }
     //bookings?.establishmentId
-    const res = endpoint.saveAppointmentReview('EST00002507', payload);
+
+    try {
+      mutation.mutate(payload);
+  } catch (error) {
+      console.error('Mutation failed:', error);
+  }
     
     // Reset state after submission (optional)
     setReviews([]);
@@ -128,6 +117,25 @@ const SaveReviews = ({bookings, establishmentId}) => {
     setComments(new Array(bookings?.services.length).fill(''));
     setOpen(false);
   };
+
+  const mutation = useMutation({
+    mutationFn: async (payload: any) => {
+        const response = await endpoint.saveAppointmentReview(establishmentId, payload);
+        if(response?.data?.success){
+            showSnackbar('Items saved successfully.', 'success');
+            setTimeout(()=>{
+              navigate(0)
+            }, 1000)
+          }
+          else{
+            showSnackbar(response?.data?.data, 'error');
+        }
+        return response;
+    },
+    onError: (error) => {
+        alert('Edit unsuccessful: ' + error.message);
+    },
+});
 
   return (
     <div>

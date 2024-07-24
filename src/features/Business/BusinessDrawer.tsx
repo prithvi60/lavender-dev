@@ -27,7 +27,7 @@ const getDrawerComponent = (type, payload) => {
         case 'AppointmentDetails':
           return <AppointmentDrawer />
         case 'NewAppointment':
-          return <NewAppointmentDrawer />
+          return <NewAppointmentDrawer payload={payload}/>
         default:
           return <div>Default</div>;
       }
