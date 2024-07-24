@@ -112,7 +112,7 @@ export const WorkingHours = ({ userDetails, availableDays }) => {
     };
 
     const mutation = useMutation({
-        mutationFn: (payload) => endpoints.saveEstablishmentWorkingHours(payload),
+        mutationFn: (payload: any) => endpoints.saveEstablishmentWorkingHours(payload),
         onSuccess: (response) => {
             setSnackbarMessage('Items saved successfully.');
             setSnackbarOpen(true);

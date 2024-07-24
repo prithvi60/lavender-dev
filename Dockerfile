@@ -1,4 +1,4 @@
-FROM node AS build
+FROM node:18-alpine AS build
 ARG ENVIRONMENT=dev
 WORKDIR /app
 COPY package.json ./
