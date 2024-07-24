@@ -8,7 +8,6 @@ import GetIcon from '../assets/Icon/icon';
 import { StrictModeDroppable } from '../features/Business/services/Services';
 
 const EmployeeList = ({employees}) => {
-    console.log("employeeList", employees)
     return (
         <>{employees.length > 1 ?
         <Selector 
@@ -64,7 +63,6 @@ function ServiceSelector({selectedServices, setSelectedServices}) {
             payload.categories[0].services[0].options = [option]
         }
         setSelectedServices((prev) => {
-            console.log("rtt>>>",[...prev, payload])
             return [...prev, payload]
         })
     }

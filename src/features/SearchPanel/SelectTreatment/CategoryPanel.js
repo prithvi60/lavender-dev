@@ -1,72 +1,31 @@
-import React, { useEffect, useState } from "react";
-// import { categories } from "../../../constants/constants.js";
-import GetImage from "../../../assets/GetImage.tsx";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { updateSearchTreatment } from "../../../store/slices/searchPageSlice.js";
-import endpoint from "../../../api/endpoints.ts";
+import React, { useState } from 'react';
+import {categories} from '../../../constants/constants.js'
+import GetImage from '../../../assets/GetImage.tsx';
 
 const CategoryPanel = () => {
-  const { treatmentList } = useSelector((state) => state.searchPage);
-
-  const dispatch = useDispatch();
-
   const [clickedImages, setClickedImages] = useState([]);
-  const [availableCategories, setAvailableCategories] = useState([]);
 
-  console.log(clickedImages, "ok");
-
-  const handleClick = (item) => {
-    if (clickedImages.includes(item)) {
-      setClickedImages(
-        clickedImages.filter((clickedIndex) => clickedIndex !== item)
-      );
-      dispatch(
-        updateSearchTreatment({
-          treatment: treatmentList.filter((treatment) => treatment !== item),
-        })
-      );
+  const handleClick = (index) => {
+    if (clickedImages.includes(index)) {
+      setClickedImages(clickedImages.filter((clickedIndex) => clickedIndex !== index));
     } else {
-      setClickedImages([...clickedImages, item]);
-      dispatch(updateSearchTreatment({ treatment: [...treatmentList, item] }));
+      setClickedImages([...clickedImages, index]);
     }
   };
 
-  const isClicked = (name) => clickedImages.includes(name);
-
-  const getCategoriesList = async () => {
-    try {
-      const categoriesServicesResponse =
-        await endpoint.getCategoryServicesList();
-
-      setAvailableCategories(categoriesServicesResponse?.data?.data);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    getCategoriesList();
-  }, []);
-
-  const categories = availableCategories.map(
-    (category) => category.categoryName
-  );
+  const isClicked = (index) => clickedImages.includes(index);
 
   return (
-    <div className="category-grid cursor-pointer">
-      {categories.map((item, index) => (
+    <div className="category-grid">
+      {categories.map((item,index) => (
         <div
           key={index}
-          className={`category-container ${isClicked(item) ? "clicked" : ""}`}
-          onClick={() => handleClick(item)}
+          className={`category-container ${isClicked(index) ? 'clicked' : ''}`}
+          onClick={() => handleClick(index)}
         >
-          {/* <GetImage className="cursor-pointer" imageName={item} /> */}
-          <p>{item}</p>
-          {isClicked(item) && (
-            <div className="close-button" onClick={() => handleClick(item)}>
-              X
-            </div>
+        <GetImage className='cursor-pointer' imageName={item.image} />
+          {isClicked(index) && (
+            <div className="close-button" onClick={() => handleClick(index)}>X</div>
           )}
         </div>
       ))}
@@ -75,3 +34,11 @@ const CategoryPanel = () => {
 };
 
 export default CategoryPanel;
+
+const styles = {
+  header: {
+    fontSize: '18px',
+    fontWeight: 700,
+    color: '#4D4D4D'
+  }
+}

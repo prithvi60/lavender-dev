@@ -20,6 +20,7 @@ import { Controller, useForm } from 'react-hook-form'
 import * as yup from "yup";
 import Dropdown from '../Dropdown';
 import { updateUser } from '../../store/slices/currentUserSlice.js'
+import { useSnackbar } from '../Snackbar.tsx'
 
 
 const schema = yup.object().shape({
@@ -39,18 +40,22 @@ function RegisterLoginScreen({isInLoginModal}) {
       
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const showSnackbar = useSnackbar();
 
     const mutation = useMutation({
         mutationFn: (payload: any) => {
           return endpoint.getUserLoginToken(payload)
         },
         onSuccess: (response: any) => {
-          setTimeout(() => {
-            
-          },1000)
+          if(response?.data?.success){
+            showSnackbar('Login successfully', 'success');
+          }
+          else{
+            showSnackbar(response?.data?.data, 'error');
+          }
         },
         onError: (response: any) => {
-          alert('login unsuccess')
+          showSnackbar('Something went wrong', 'success');
         },
         onSettled: () => {}
           

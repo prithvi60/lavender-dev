@@ -10,6 +10,7 @@ function SwiperCalendar() {
   return (
     <div className="App">
       <DatePicker startDate={new Date()}
+        days={90}
         endDate={100}
         selectDate={new Date()}
         getSelectedDay={selectedDay}

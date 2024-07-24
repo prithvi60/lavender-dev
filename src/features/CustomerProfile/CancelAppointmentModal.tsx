@@ -1,4 +1,4 @@
-import { Card, Grid, Modal } from '@mui/material';
+import { Card, Grid, IconButton, Modal } from '@mui/material';
 import React, { useState } from 'react';
 import GetIcon from '../../assets/Icon/icon';
 import Button from '../../components/Button';
@@ -6,6 +6,9 @@ import GetImage from '../../assets/GetImage';
 import CloseIcon from '@mui/icons-material/Close';
 import endpoint from '../../api/endpoints';
 import { bookingStatus } from '../../constants/appointments';
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from '../../components/Snackbar';
 
 const modalStyle = {
     position: 'absolute',
@@ -21,7 +24,8 @@ const modalStyle = {
 
 export const CancelAppointmentModal = ({bookings}) => {
     const [isCancelOpen, setIsCancelOpen] = useState(false);
-
+    const navigate = useNavigate();
+    const showSnackbar = useSnackbar();
     function handleCancelClick() {
         setIsCancelOpen((prev) => !prev);
     }
@@ -35,12 +39,30 @@ export const CancelAppointmentModal = ({bookings}) => {
                 bookingStatus: "CANCELED"
             }]
         }
-        // const appointmentServices = bookings?.services?.map((item)=> ({
-        //     serviceId: item.serviceId,
-        //     bookingStatus: 
-        // }))
-        const res = endpoint.cancelAppointment(payload);
+
+        try {
+            mutation.mutate(payload);
+        } catch (error) {
+            console.error('Mutation failed:', error);
+        }
     }
+    
+    const mutation = useMutation({
+        mutationFn: async (payload: any) => {
+            const response = await endpoint.cancelAppointment(payload);
+            if(response?.data?.success){
+                showSnackbar('Items saved successfully.', 'success');
+                navigate(0)
+              }
+              else{
+                showSnackbar(response?.data?.data, 'error');
+            }
+            return response;
+        },
+        onError: (error) => {
+            alert('Edit unsuccessful: ' + error.message);
+        },
+    });
 
     function handleRescheduleClick(){
     }
@@ -60,7 +82,9 @@ export const CancelAppointmentModal = ({bookings}) => {
             >
                 <Card sx={modalStyle}>
                     <div className='absolute top-4 right-4'>
-                        <CloseIcon onClick={handleCancelClick} />
+                        <IconButton  onClick={() => handleCancelClick()}>
+                            <CloseIcon />
+                        </IconButton>
                     </div>
                     <Grid container sx={{ padding: '20px' }} spacing={4}>
                         <Grid item xs={12} sm={4} sx={{ order: { xs: 1, sm: 2 }, padding: '4px' }}>

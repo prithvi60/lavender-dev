@@ -7,6 +7,8 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Button from '../../components/Button';
 import { SampleData } from './SampleData'
 import { service } from '../../api/constants';
+import Text from '../../components/Text';
+import { borderRadius } from '@mui/system';
 
 function ServiceDetails(props) {
   const {isLoading, establishmentData} = props
@@ -38,7 +40,7 @@ function ServiceDetails(props) {
     {
       !isLoading && 
       <div className=''>
-        <div className='text-xl font-bold'>Services</div>
+        <Text sx={styles.heading} name={"Services"} align="left"/>
         {/* <Box sx={{ maxWidth: { xs: 320, sm: 780 }, bgcolor: 'background.paper' }}>
           <Tabs
               className='serviceTabs'
@@ -69,17 +71,18 @@ function ServiceDetails(props) {
               <ListItemButton className='serviceList' onClick={handleClick} >
                 <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
                   <div className='p-2'>
-                    <div className='text-lg font-bold'>{item.serviceName}</div>
-                    <div className='text-sm font-normal text-gray-500'>{item.startingPrice}</div>
+                    <Text sx={styles.serviceName} name={item?.serviceName} align="left"/>
+                    <Text sx={styles.duration} name={`${item?.options[0]?.duration} mins`} align="left"/>
+                    <Text sx={styles.startingPrice} name={`$${item?.startingPrice}`} align="left"/>
                     {/* <div className='text-base font-medium'>{'$'+item.startingPrice}</div> */}
                   </div>
-                  <div className='badge-primary'>Book</div>
+                  <div className='badge-primary' style={{alignSelf: 'center'}}>Book</div>
                 </div>
             </ListItemButton>
           ))
         ))}
       </List>
-        <Button variant="outlined" name={'View all'}></Button>
+        <Button sx={styles.btn} variant="outlined" name={'View all'}></Button>
         <div className='mb-2'></div>
     </div>
     }
@@ -89,3 +92,34 @@ function ServiceDetails(props) {
 }
 
 export default ServiceDetails
+
+const styles={
+  heading: {
+    color: '#333333',
+    fontSize: '36px',
+    fontWeight: 600,
+    paddingBottom: 2
+  },
+  serviceName:{
+    color: '#4D4D4D',
+    fontSize: '20px',
+    fontWeight: 600,
+    py: '2px'
+  },
+  startingPrice: {
+    color: '#4D4D4D',
+    fontSize: '18px',
+    fontWeight: 700,
+    py: '2px'
+  },
+  duration: {
+    color: '#808080',
+    fontSize: '16px',
+    fontWeight: 400,
+    py: '2px'
+  },
+  btn: {
+    padding: "10px 40px 10px 40px",
+    borderRadius: '10px',
+  }
+}

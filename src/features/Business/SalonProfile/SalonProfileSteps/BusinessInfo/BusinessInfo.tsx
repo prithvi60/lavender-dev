@@ -8,6 +8,7 @@ import endpoints from '../../../../../api/endpoints';
 import { BusinessInfoSchema } from './BusinessInfoSchema';
 import { WorkingHours } from './WorkingHours';
 import GetIcon from '../../../../../assets/Icon/icon';
+import { useSnackbar } from '../../../../../components/Snackbar';
 
 interface IBasicInfo {
   establishmentName: string;
@@ -28,7 +29,7 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
     setValue,
   } = useForm({
     resolver: yupResolver(BusinessInfoSchema),
@@ -49,8 +50,8 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
     },
   });
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState('');
+  //const navigate = useNavigate();
+  const showSnackbar = useSnackbar();
     
   // Set form values if basicInfo is available
   React.useEffect(() => {
@@ -96,10 +97,12 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
       return endpoints.saveEstablishmentProfile(payload);
     },
     onSuccess: (response) => {
-      setTimeout(() => {
-        setSnackbarMessage('Items saved successfully.');
-            setSnackbarOpen(true);
-      });
+      if(response?.data?.success){
+        showSnackbar('Items saved successfully.', 'success');
+      }
+      else{
+        showSnackbar(response?.data?.data, 'error');
+      }
     },
     onError: (error) => {
       // handle error actions if needed
@@ -108,9 +111,7 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
       // handle settled actions if needed
     },
   });
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-};
+
   return (
     <div className="w-full">
       <div className="text-5xl font-bold text-center p-4" style={{ color: '#4D4D4D' }}>
@@ -147,22 +148,32 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
                     <p className="text-red-500 font-medium">{errors.establishmentAbout.message}</p>
                   )}
                 </CardContent>
+
                 <CardContent>
-                  <Typography variant="h6" sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
-                    Extension
-                  </Typography>
-                  <Grid container spacing={1}>
+                  <Grid container spacing={2}>
+                    {/* Extension label and TextField */}
                     <Grid item xs={4}>
-                      <TextField size="small" variant="outlined" {...register('phoneExtension')} />
+                      <Typography variant="h6" sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
+                        Extension
+                      </Typography>
+                      <TextField inputProps={{ maxLength: 3 }} size="small" variant="outlined" {...register('phoneExtension')} />
                     </Grid>
+
+                    {/* Phone label and TextField */}
                     <Grid item xs={8}>
-                      <TextField size="small" variant="outlined" {...register('phoneNumber')} />
+                      <Typography variant="h6" sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
+                        Phone
+                      </Typography>
+                      <TextField inputProps={{ maxLength: 10 }} size="small" fullWidth variant="outlined" {...register('phoneNumber')} />
                     </Grid>
                   </Grid>
                   {errors.phoneNumber && (
                     <p className="text-red-500 font-medium">{errors.phoneNumber.message}</p>
                   )}
                 </CardContent>
+
+
+
                 <CardContent>
                   <Typography variant="h6" sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
                     Email ID
@@ -199,9 +210,12 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
                   {errors.zipCode && <p className="text-red-500 font-medium">{errors.zipCode.message}</p>}
                 </CardContent>
                 <CardContent>
-                  <Button fullWidth type="submit" variant="contained" sx={{ fontSize: '14px' }}>
+                  {isDirty && (
+                    <Button fullWidth type="submit" variant="contained" sx={{ fontSize: '14px' }}>
                     Save
                   </Button>
+                  )}
+                  
                 </CardContent>
               </Card>
             </Grid>
@@ -239,22 +253,7 @@ export const BusinessInfo = ({ userDetails, basicInfo, availableDays }: { userDe
           </Grid>
         </form>
       </Grid>
-      <Snackbar
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
-                
-                open={snackbarOpen}
-                autoHideDuration={2000}
-                onClose={handleCloseSnackbar}
-                message={snackbarMessage}
-                action={
-                    <IconButton size="small" aria-label="close" color="inherit" onClick={handleCloseSnackbar}>
-                        <GetIcon iconName="CloseIcon" />
-                    </IconButton>
-                }
-            />
+
     </div>
   );
 };

@@ -1,20 +1,22 @@
 import React from 'react';
 import { LANDING_PAGE } from '../../constants/constants';
 import NewSearchPanel from '../SearchPanel/NewSearchPanel';
-
+import { Box } from '@mui/material';
 import Text from '../../components/Text';
 
 const HeroSection = () => {
     return ( 
         <section className="hero-section">
             <section className="hero-content">
-                <Text className="hero-title urbanist-font " variant="h3" name={LANDING_PAGE?.TITLE}/>
+                <Text sx={styles.title} name={LANDING_PAGE?.TITLE}/>
                 <Text className="hero-title urbanist-font " variant="body1" name={LANDING_PAGE?.SUBTITLE}/>
-                {/* <SearchPanel /> */}
-                <NewSearchPanel/>
+                <Box sx={{paddingBottom: 7, paddingTop: 3, paddingLeft: 7, paddingRight: 7}}>
+                    <NewSearchPanel/>
+                </Box>
 
-                <div className='urbanist-font mt-4 leading-10 mt-12 font-bold text-3xl md:text-5xl'>Book your next salon experience </div>
-                <div className='urbanist-font mb-8 mt-2 leading-10 font-bold text-3xl md:text-5xl'>with Lavender.</div>
+                <Box sx={{display: 'flex', justifyContent: 'center'}}>
+                    <Text sx={styles.subTitle} name={"Book your next salon experience with Lavender."} />
+                </Box>
 
             </section>
         </section>
@@ -22,3 +24,22 @@ const HeroSection = () => {
 }
 
 export default HeroSection;
+
+const styles = {
+    title: {
+        fontFamily: 'Urbanist',
+        fontSize: '90px',
+        fontWeight: 500,
+        lineHeight: '108px',
+        color: '#4D4D4D'
+    },
+    subTitle: {
+        fontFamily: 'Urbanist',
+        fontSize: '45px',
+        fontWeight: 700,
+        lineHeight: '54px',
+        color: '#333333',
+        textAlign:'center',
+        paddingLeft: 0
+    },
+}

@@ -6,12 +6,16 @@ import { BookingInfoModal } from './BookingInfoModal';
 import { convertToDateOnly, convertToDayOnly, convertToMonthOnly, convertToTimeOnly, convertToYearOnly } from '../../utils/TimeFormat';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import Text from '../../components/Text';
 
 function PastBookings({ userInfo }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [bookingIndex, setBookingIndex] = useState(0);
+
     const scrollContainerRef = useRef(null);
 
-    const handleCardClick = () => {
+    const handleCardClick = (index) => {
+        setBookingIndex(index)
         setIsModalOpen(!isModalOpen);
     };
 
@@ -29,22 +33,22 @@ function PastBookings({ userInfo }) {
 
     return (
         <div className='mt-10'>
-            <div className='text-3xl font-bold py-4'>Past Bookings</div>
+            <Text sx={styles.heading} name={'Past Bookings'} align="left"></Text>
             <div style={{ overflow: 'hidden', position: 'relative' }}>
                 {userInfo?.pastBookings?.length > 0 ? (
                     <>
-                        <div ref={scrollContainerRef} style={{ display: 'flex', flexDirection: 'row', transition: '0.5s', overflowX: 'auto' }}>
+                        <div ref={scrollContainerRef} style={{ display: 'flex', flexDirection: 'row', transition: '0.5s', overflowX: 'auto', paddingBottom: 5 }}>
                             {userInfo?.pastBookings?.map((bookings, index) => (
                                 <Card
                                     key={index}
-                                    sx={{ minWidth: 500, maxWidth: 500, height: 150, borderRadius: 4, marginLeft: 2, marginRight: 2, cursor: 'pointer' }}
-                                    onClick={handleCardClick}
+                                    sx={{ minWidth: '576px', maxWidth: '576px', height: '200px', borderRadius: 4, marginLeft: 2, marginRight: 2, cursor: 'pointer' }}
+                                    onClick={()=> handleCardClick(index)}
                                 >
                                     <Grid container spacing={1}>
                                         <Grid item xs={4}>
                                             <Card
                                                 sx={{
-                                                    height: 150,
+                                                    height: '100%',
                                                     borderRadius: 4,
                                                     backgroundColor: '#EEEEFF',
                                                     color: '#1B1464',
@@ -52,19 +56,18 @@ function PastBookings({ userInfo }) {
                                                     flexDirection: 'column',
                                                     justifyContent: 'center',
                                                     alignItems: 'center',
+                                                    padding: 1
                                                 }}
                                             >
-                                                <div className='text-xl p-1'>
-                                                    {convertToMonthOnly(bookings?.startTime)} {convertToYearOnly(bookings?.startTime)}
-                                                </div>
-                                                <div className='text-5xl font-bold p-1'>{convertToDateOnly(bookings?.startTime)}</div>
-                                                <div className='text-xl p-1'>{convertToDayOnly(bookings?.startTime)}</div>
+                                                <Text sx={styles.startMonth} name={`${convertToMonthOnly(bookings?.startTime)} ${convertToYearOnly(bookings?.startTime)}`}/>
+                                                <Text sx={styles.startDate} name={convertToDateOnly(bookings?.startTime)}/>
+                                                <Text sx={styles.startDay} name={convertToDayOnly(bookings?.startTime)}/>
                                             </Card>
                                         </Grid>
                                         <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
-                                            <div className='text-xl p-1'>{bookings?.establishmentName}</div>
-                                            <div className='text-3xl font-bold p-1'>{convertToTimeOnly(bookings?.startTime)}</div>
-                                            <div className='text-xl p-1'>{bookings.services.length} services</div>
+                                            <Text sx={styles.estName} name={bookings?.establishmentName}/>
+                                            <Text sx={styles.startTime} name={convertToTimeOnly(bookings?.startTime)}/>
+                                            <Text sx={styles.services} name={`${bookings.services.length} services`}/>
                                         </Grid>
                                     </Grid>
                                 </Card>
@@ -77,13 +80,65 @@ function PastBookings({ userInfo }) {
                             <ArrowForwardIcon />
                         </IconButton>
                     </>
-                ) : (
+                ) 
+                : 
+                (
                     <EmptyBookings noAppointmentsMessage={NoPastBookings} />
                 )}
-                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} bookings={userInfo?.pastBookings[0]} establishmentId={''}/>}
+                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} bookings={userInfo?.pastBookings[bookingIndex]}/>}
             </div>
         </div>
     );
 }
 
 export default PastBookings;
+const styles = {
+    heading: {
+      color: '#4D4D4D',
+      fontSize: '36px',
+      fontWeight: 600,
+      paddingBottom: 2
+    },
+    startMonth: {
+        fontWeight: 600,
+        fontSize: '20px',
+        lineHeight: '24px',
+        color: '#1B1464',
+        padding:1
+    },
+    startDate: {
+        fontWeight: 500,
+        fontSize: '90px',
+        lineHeight: '108px',
+        color: '#1B1464',
+    },
+    startDay:{
+        fontWeight: 600,
+        fontSize: '20px',
+        lineHeight: '24px',
+        color: '#1B1464',
+        p:1
+    },
+    estName: {
+        fontWeight: 400,
+        fontSize: '20px',
+        lineHeight: '24px',
+        color: '#4D4D4D',
+        p:1,
+        maxWidth: '250px'
+    },
+    startTime: {
+        fontWeight: 600,
+        fontSize: '36px',
+        lineHeight: '43px',
+        color: '#4D4D4D',
+        p:1
+    },
+    services: {
+        fontWeight: 400,
+        fontSize: '20px',
+        lineHeight: '24px',
+        color: '#4D4D4D',
+        p:1
+    }
+  }

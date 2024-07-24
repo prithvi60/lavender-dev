@@ -19,8 +19,9 @@ const modalStyle = {
     overflow: 'hidden' // Ensure contents do not overflow
 };
 
-export const BookingInfoModal = ({ isModalOpen, bookings, establishmentId }) => {
+export const BookingInfoModal = ({ isModalOpen, bookings }) => {
 
+    const establishmentId = bookings?.services[0]?.establishmentId;
     const navigate = useNavigate();
 
     const [isOpen, setIsOpen] = useState(isModalOpen);

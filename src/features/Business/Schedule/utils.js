@@ -29,7 +29,6 @@ export const getMonday = () => {
   today.setHours(0, 0, 0, 0);
   const diff = (today.getDay() === 0 ? 6 : (today.getDay() - 1));
   const monday = today.getDate() - diff;
-  console.log("getMonday >>", monday, today.getDay(), today.getDate(), diff)
   return new Date(today.setDate(monday))
 }
 
@@ -37,7 +36,6 @@ export const getWeekEndDate = () => {
   const monday = getMonday()
   monday.setHours(23,59,0,0)
   const weekEndDate = addTime(monday, 'days', 6)
-  console.log("getWeekEndDate >", weekEndDate)
   return weekEndDate
 }
 
@@ -144,6 +142,46 @@ export function filterByDate(appointments, selectedDate) {
   });
 }
 
+export function getTimeIntervals(startTime) {
+  // Parse the input time
+  let [hours, minutes] = startTime.split(/[.:]/);
+  let period = startTime.slice(-2); // AM or PM
+
+  // Convert hours and minutes to integers
+  hours = parseInt(hours, 10);
+  minutes = parseInt(minutes, 10);
+
+  // Determine the initial hour for generating intervals
+  let initialHour = hours;
+  if (period === 'PM' && hours !== 12) {
+      initialHour += 12;
+  } else if (period === 'AM' && hours === 12) {
+      initialHour = 0;
+  }
+
+  // Array to store the time intervals
+  let intervals = [];
+
+  // Generate 4 intervals starting from the initial time
+  for (let i = 0; i < 4; i++) {
+      let hour = initialHour + Math.floor((minutes + i * 15) / 60);
+      let minute = (minutes + i * 15) % 60;
+
+      let period = (hour < 12 || hour === 24) ? 'AM' : 'PM';
+
+      if (hour === 0) {
+          hour = 12;
+      } else if (hour > 12) {
+          hour -= 12;
+      }
+
+      let timeString = `${hour.toString().padStart(2, '0')}.${minute.toString().padStart(2, '0')} ${period}`;
+      intervals.push(timeString);
+  }
+
+  return intervals;
+}
+
 //Parser Utils and constants
 
 export const appointments = [
@@ -211,7 +249,6 @@ function filterAppointmentsByDateRange(data, startDate, endDate) {
 
       if (itemDate >= startDate && endDate >= itemDate) {
         const formattedDate = formatDate(itemDate);
-        console.log("test app test", formattedDate)
           if(appointments[formattedDate]){
             appointments[formattedDate].push(item);
           }
@@ -226,15 +263,12 @@ function filterAppointmentsByDateRange(data, startDate, endDate) {
 
 export const groupAppointments = (range, appointments, currentDate, weekStartDate, weekEndDate) => {
 
-  console.log("groupAppointments >", weekEndDate)
   let filteredAppointments = []
   if(range === 'Day') {
     filteredAppointments = groupAppointmentsBy(filterAppointmentsByDate(appointments, currentDate), 'Employee') //groupAppointmentsByEmployee(filterAppointmentsByDate(appointments, currentDate))
-    console.log("groupEmployees day", filteredAppointments)
   }
   else {
     filteredAppointments = groupAppointmentsBy(appointments, 'Date') //filterAppointmentsByDateRange(appointments, weekStartDate, weekEndDate)
-    console.log("groupEmployees week", filteredAppointments)
   }
 
   return filteredAppointments
@@ -332,7 +366,6 @@ function groupAppointmentsBy(appointments, filterBy) {
     }
   });
 
-  console.log("groupAppointmentsBy >", groupedBy)
   let groupedAppointments = {};
   for (let date in groupedBy) {
       let dateGroup = groupedBy[date];
