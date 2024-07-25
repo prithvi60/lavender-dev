@@ -107,7 +107,10 @@ export default function SearchResult() {
   const [center, setCenter] = useState(null);
   const [locationName, setLocationName] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
-  const [userLocation, setUserLocation] = useState(null);
+  const [userLocation, setUserLocation] = useState({
+    latitude: locationList[0]?.center?.lat,
+    longitude: locationList[0]?.center?.lng,
+  });
 
   const { state } = useLocation();
 
@@ -123,7 +126,15 @@ export default function SearchResult() {
     location: data.location,
   });
 
-  const transformedData = markers.map(transformData);
+  const transformedData = markers
+    .filter(
+      (item) =>
+        item.geoX !== undefined &&
+        item.geoY !== undefined &&
+        typeof item.geoX === "number" &&
+        typeof item.geoY === "number"
+    )
+    .map(transformData);
 
   const payLoad = {
     // pageNumber: 0,
@@ -296,34 +307,34 @@ export default function SearchResult() {
     return getRoute("SearchDetails");
   };
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        setUserLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-      });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       setUserLocation({
+  //         latitude: position.coords.latitude,
+  //         longitude: position.coords.longitude,
+  //       });
+  //     });
+  //   }
+  // }, []);
 
   const haversineDistance = (coords1, coords2) => {
     const toRad = (x) => (x * Math.PI) / 180;
     const R = 6371;
 
     if (
-      coords1.latitude == null ||
-      coords2.latitude == null ||
-      coords1.longitude == null ||
-      coords2.longitude == null
+      coords1?.latitude == null ||
+      coords2?.latitude == null ||
+      coords1?.longitude == null ||
+      coords2?.longitude == null
     ) {
       return null;
     }
 
-    const dLat = toRad(coords2.latitude - coords1.latitude);
-    const dLon = toRad(coords2.longitude - coords1.longitude);
-    const lat1 = toRad(coords1.latitude);
-    const lat2 = toRad(coords2.latitude);
+    const dLat = toRad(coords2?.latitude - coords1?.latitude);
+    const dLon = toRad(coords2?.longitude - coords1?.longitude);
+    const lat1 = toRad(coords1?.latitude);
+    const lat2 = toRad(coords2?.latitude);
 
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
@@ -479,6 +490,8 @@ export default function SearchResult() {
       }
     }
   }, [map, transformedData, center]);
+
+  console.log(center, "oooooo");
 
   return (
     <Card
