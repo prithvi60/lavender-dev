@@ -41,7 +41,7 @@ export default function ScheduleAppointment(props) {
   const fetchAvailableSlots = async (day) => {
     const payLoad = {
       "startDate": day[0],
-      "establishmentId": estData.id,
+      "establishmentId": estData?.id,
       // "employeeId": "",
       "totalDuration": 30,
       "serviceTags": [
@@ -54,11 +54,11 @@ export default function ScheduleAppointment(props) {
   async function handleDateClick(day){
     setSelectedDateBtn(day[0]);
     appointmentTimings = await fetchAvailableSlots(day);
+
     setTimeout(()=>{
       selectedDay(day[0])
     }, 1000)
 }
-
   const selectedDay = (val) => {
     
     const date = new Date(val);

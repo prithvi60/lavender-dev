@@ -106,12 +106,12 @@ function OptionsModal({ props }) {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "90%",
+    width: "70%",
     bgcolor: "background.paper",
     border: "2px",
     boxShadow: 24,
     maxWidth: '1145px',
-    maxHeight: '628px',
+    maxHeight: '680px',
     p: 4,
   };
 
@@ -173,9 +173,9 @@ function OptionsModal({ props }) {
               <Grid xs={12}>
                 <Text sx={styles.subHeading} name={"Choose options"} align="left"/>
               </Grid>
-              <Grid xs={12} className='service-options'>
+              <Grid xs={12} className='service-options' sx={{overFlowY: 'scroll'}}>
                 {props.options.map((option) => (
-                  <Grid className='py-4 flex justify-between' key={option?.optionId}>
+                  <Grid className='py-2 flex justify-between' key={option?.optionId}>
                     <div>
                       <Text sx={styles.optName} name={option?.optionName} align="left"/>
                       <Text sx={styles.optDuration} name={`${option?.duration} mins`} align="left"/>
@@ -206,6 +206,7 @@ function OptionsModal({ props }) {
 export default OptionsModal;
 
 const styles={
+
   subHeading: {
     color: '#4D4D4D',
     fontSize: '28px',

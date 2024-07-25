@@ -139,13 +139,13 @@ function CheckoutCard(props) {
   }, [imageIdList])
 
   return (
-      <div className='urbanist-font mb-6 rounded-2xl chackout-card-container'> {/* Adjusted width to be responsive */}
+      <div className='urbanist-font my-6 rounded-2xl chackout-card-container'> {/* Adjusted width to be responsive */}
         <CardContent >
           <div className='flex justify-between gap-2 my-2 py-2 serviceCardDetail'>
             {/* <img src={} className='w-full md:w-60 h-24 mb-4 md:mb-0 rounded-2xl' alt='Logo'/> */}
             {/* <GetImage className='w-2/4' imageName='SaloonImage'/> */}
-            <img  src={imageUrls[0]} style={{ width: '400px', height: '120px', margin: '10px' }} />
-            <Text sx={styles.subHeading} name={establishmentName}/>
+            <img  src={imageUrls[0]} style={{ width: '350px', height: '120px', margin: '10px' }} />
+            <Text sx={styles.subHeading} name={establishmentName} style={{width: '200px'}}/>
           </div>
 
           <div className='py-2 overflow-auto checkout-card'>

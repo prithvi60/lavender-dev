@@ -647,15 +647,22 @@
 .serviceList{
     border-radius: 15px !important;
 }
-.gridServiceLayout{
+
+@media (max-width: 770px) {
+    .card-flex{
+        display: flex;
+        flex-direction: column;
+    }
+}
+/* .gridServiceLayout{
     display: grid;
-    grid-template-rows: min-content min-content 1fr;
+    grid-template-rows: min-content min-content 2fr;
     height: 100%;
     max-height: calc(100vh - 100px - 32px);
     .serviceGridList{
         max-height: 100%;
     }
-}
+} */
 .serviceCardDetail{
     img{
         border-radius: 20px;
