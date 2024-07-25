@@ -306,36 +306,27 @@ const NewSearchPanel = () => {
       }
     }
 
-    if (
-      treatmentList.length > 0 ||
-      locationList.length > 0 ||
-      selectedDate !== "" ||
-      SelectedTime.from !== ""
-    ) {
-      try {
-        const establishmentSearchResultResponse =
-          await endpoint.getEstablishmentSearchResults(payLoad);
+    try {
+      const establishmentSearchResultResponse =
+        await endpoint.getEstablishmentSearchResults(payLoad);
 
-        if (establishmentSearchResultResponse.data.success) {
-          const treatmentServicesList =
-            establishmentSearchResultResponse.data.data;
+      if (establishmentSearchResultResponse.data.success) {
+        const treatmentServicesList =
+          establishmentSearchResultResponse.data.data;
 
-          for (const card of treatmentServicesList) {
-            const location = await getAddressDetails(card);
-            card.location = location;
-          }
-          setTreatmentServicesList(treatmentServicesList);
-          navigate("/search", {
-            state: {
-              treatmentServicesList: treatmentServicesList,
-            },
-          });
+        for (const card of treatmentServicesList) {
+          const location = await getAddressDetails(card);
+          card.location = location;
         }
-      } catch (e) {
-        console.log(e);
+        setTreatmentServicesList(treatmentServicesList);
+        navigate("/search", {
+          state: {
+            treatmentServicesList: treatmentServicesList,
+          },
+        });
       }
-    } else {
-      alert("Please choose any one of the options");
+    } catch (e) {
+      console.log(e);
     }
   };
 
