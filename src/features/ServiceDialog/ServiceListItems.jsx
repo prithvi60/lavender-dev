@@ -7,8 +7,10 @@ import { SampleData } from './SampleData';
 import OptionsModal from './OptionsModal';
 import { Divider } from '@mui/material';
 import Text from '../../components/Text';
+import {IconButton} from '@mui/material';
+import GetIcon from '../../assets/Icon/icon';
 
-function ServiceListItems({ serviceCategories }) {
+function ServiceListItems({ serviceCategories, handleClose }) {
   const listRef = useRef(null);
   const [value, setValue] = useState(0);
   const handleTabChange = (event, newValue) => {
@@ -22,8 +24,13 @@ function ServiceListItems({ serviceCategories }) {
   };
 
   return (
-    <div className='w-full gridServiceLayout  urbanist-font'>
-      <Text sx={styles.heading} name={"Services"} align="left"/>
+    <div className='w-full urbanist-font'>
+      <div className='flex gap-3 mb-2 items-center'>
+        <IconButton onClick={handleClose}>
+            <GetIcon iconName='BackIconArrow'  />
+        </IconButton>
+        <Text sx={styles.heading} name={"Services"} align="left"/>
+      </div>
       {/* <Tabs
       className='serviceTabs'
         value={value}
@@ -36,7 +43,7 @@ function ServiceListItems({ serviceCategories }) {
         ))}
       </Tabs> */}
 
-      <List ref={listRef} className='serviceGridList' sx={{ width: '100%', maxWidth: '100%', maxHeight: 500, bgcolor: 'background.paper', overflowY: 'auto' }}>
+      <List ref={listRef} className='serviceGridList' sx={{ width: '100%', maxWidth: '100%', maxHeight: 1000, bgcolor: 'background.paper', overflowY: 'auto' }}>
         {serviceCategories?.map((item, index) => (
           <div key={index} id={`category-${index}`}>
             <Text sx={styles.subHeading} name={item?.categoryName} align="left"/>
