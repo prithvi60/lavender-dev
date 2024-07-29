@@ -8,7 +8,7 @@ import {
   Snackbar,
   IconButton,
 } from "@mui/material";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -254,6 +254,23 @@ export const BusinessInfo = ({
       }
     }
   };
+
+  useEffect(() => {
+    let timeOutId;
+
+    const handleSearchInput = () => {
+      handleSearch();
+    };
+
+    if (searchQuery && searchQuery.length >= 2) {
+      clearTimeout(timeOutId);
+      timeOutId = setTimeout(() => {
+        handleSearchInput();
+      }, 2000);
+    }
+
+    return () => clearTimeout(timeOutId);
+  }, [searchQuery]);
 
   const containerStyle = {
     width: "100%",
@@ -546,11 +563,6 @@ export const BusinessInfo = ({
                 variant="outlined"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    handleSearch();
-                  }
-                }}
               />
               <Card sx={{ width: "100%" }}>
                 {
