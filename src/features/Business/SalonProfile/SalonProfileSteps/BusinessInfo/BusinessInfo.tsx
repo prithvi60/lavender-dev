@@ -158,9 +158,8 @@ export const BusinessInfo = ({
     },
   });
 
-  const getLocationsBasedOnBasicInfo = async () => {
-    if (center) {
-      const { lat, lng } = center;
+  const getLocationsBasedOnBasicInfo = async (lat, lng) => {
+    if (lat && lng) {
       const geocodeResponse = await fetch(
         `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.REACT_APP_GOOGLE_MAP_API_KEY}`
       );
@@ -170,9 +169,8 @@ export const BusinessInfo = ({
         const location = geocodeData.results[0].formatted_address;
         setValue("location", location);
       }
-
-      setIsLoaded(true);
     }
+    setIsLoaded(true);
   };
 
   useEffect(() => {
@@ -181,7 +179,7 @@ export const BusinessInfo = ({
       const geoYNumber = parseFloat(basicInfo.geoY);
       setCenter({ lat: geoXNumber, lng: geoYNumber });
 
-      getLocationsBasedOnBasicInfo();
+      getLocationsBasedOnBasicInfo(geoXNumber, geoYNumber);
     } else {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -212,6 +210,10 @@ export const BusinessInfo = ({
       }
     }
   }, [setValue, basicInfo]);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const handleMarkerDragEnd = async (e) => {
     const lat = e.latLng.lat();
