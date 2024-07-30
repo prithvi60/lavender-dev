@@ -359,6 +359,10 @@ export const Services: React.FC = () => {
     openDrawer('addCategory', categoryId);
   }
 
+  const handleAddCategory = () =>{
+    openDrawer('addCategory');
+  }
+
   function handleAddServices(categoryId){
     openDrawer('addServices', categoryId);
   }
@@ -526,6 +530,9 @@ export const Services: React.FC = () => {
                 </Draggable>
               ))}
               {provided.placeholder}
+              <button onClick={()=> handleAddCategory()} style={{color:'#825FFF', fontSize: '20px', fontWeight: 600, paddingBottom: 30}}>
+                                Add new category [+]
+                              </button>
             </div>
           )}
         </StrictModeDroppable>

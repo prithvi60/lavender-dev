@@ -321,8 +321,10 @@ export default function AddServicesForm({payload}) {
                   render={({ field }) => (
                     <FormControl error={!!errors.duration} fullWidth>
                       <Select {...field} error={!!errors.duration} fullWidth>
-                        <MenuItem value="20">20</MenuItem>
-                        <MenuItem value="30">30</MenuItem>
+                        <MenuItem value="15">15 mins</MenuItem>
+                        <MenuItem value="30">30 mins</MenuItem>
+                        <MenuItem value="30">45 mins</MenuItem>
+                        <MenuItem value="30">60 mins</MenuItem>
                       </Select>
                       <FormHelperText>{errors.duration?.message}</FormHelperText>
                     </FormControl>
