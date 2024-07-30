@@ -15,8 +15,6 @@ import SearchDetailsPage from './pages/SearchDetailsPage'
 import { UserPage } from './pages/UserPage.tsx';
 import { MyFavorites } from './features/MyFavorites/MyFavorites.tsx';
 import { SnackbarProvider } from './components/Snackbar.tsx';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from "@stripe/stripe-js";
 
 const Admin = React.lazy(() => import('./pages/AdminPage'));
 const Places = React.lazy(() => import('./pages/Places'));
@@ -30,13 +28,11 @@ const BusinessSchedule = React.lazy(() => import('./pages/BusinessLayoutPage.js'
 // const UserDetails = React.lazy(() => import('./pages/UserPage'));
 // const SearchDetails = React.lazy(() => import('./pages/SearchDetailsPage'));
 
-const components = [Admin, Places, Bookings, Login, Register, Search, BusinessSchedule];
+const components = [Admin, Places, Bookings, Login, Register, Search, BusinessSchedule, BusinessSchedule];
 const queryClient = new QueryClient();
 
 const App = () => {
-  const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
   return (
-    <Elements stripe={stripePromise}>
       <QueryClientProvider client={queryClient}>
         <SnackbarProvider>
           <BrowserRouter>
@@ -65,7 +61,6 @@ const App = () => {
           </BrowserRouter>
         </SnackbarProvider>
       </QueryClientProvider>
-    </Elements>
   );
 }
 
