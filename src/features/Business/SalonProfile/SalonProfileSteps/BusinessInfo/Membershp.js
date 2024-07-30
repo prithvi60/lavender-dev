@@ -6,14 +6,12 @@ import Buttons from "../../../../../components/Button";
 import endpoint from "../../../../../api/endpoints";
 import { useSelector } from "react-redux";
 import {
-  Elements,
+  CardElement,
   PaymentElement,
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 
-const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
 
 const Membershp = () => {
   const userDetails = useSelector((state) => {
@@ -21,6 +19,8 @@ const Membershp = () => {
   });
 
   const navigate = useNavigate();
+  const stripe = useStripe();
+  const elements = useElements();
 
   const [membershipTypesList, setMembershipTypesList] = useState([]);
 
@@ -95,18 +95,27 @@ const Membershp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    makePayment();
   };
+
+  const makePayment = async () => {
+    if (paymentOptions.clientSecret && showCheckOutForm) {
+      await stripe.confirmCardPayment(paymentOptions.clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+        },
+      });
+    }
+  }
 
   return (
     <div className="h-screen ">
       {showCheckOutForm ? (
         <div className="overlay">
-          <Elements stripe={stripePromise} options={paymentOptions}>
-            <form className="payment-form">
-              <PaymentElement />
-              <button type="submit">Submit</button>
-            </form>
-          </Elements>
+          <form className="payment-form" onSubmit={handleSubmit}>
+            <CardElement />
+            <button type="submit">Submit</button>
+          </form>
         </div>
       ) : (
         <div className="flex justify-center items-center membership-container-height py-2 ">
@@ -118,10 +127,10 @@ const Membershp = () => {
                   membership.packageName === "Trial Package"
                     ? "flex flex-col justify-between items-center  w-[270px]  py-2 rounded-lg  border-t-4  border-t-gray-500 shadow hover:animate-spinY"
                     : membership.packageName === "Silver Package"
-                    ? "flex flex-col justify-between items-center  w-[270px]  py-2 rounded-lg  border-t-4 border-t-blue-700 shadow hover:animate-spinY"
-                    : membership.packageName === "Golden Package"
-                    ? "flex flex-col justify-between items-center w-[270px]  py-2 rounded-lg  border-t-4 border-t-yellow-600 shadow hover:animate-spinY"
-                    : "flex flex-col justify-between items-center  w-[270px]  py-2 rounded-lg  border-t-4 border-t-green-700 shadow hover:animate-spinY"
+                      ? "flex flex-col justify-between items-center  w-[270px]  py-2 rounded-lg  border-t-4 border-t-blue-700 shadow hover:animate-spinY"
+                      : membership.packageName === "Golden Package"
+                        ? "flex flex-col justify-between items-center w-[270px]  py-2 rounded-lg  border-t-4 border-t-yellow-600 shadow hover:animate-spinY"
+                        : "flex flex-col justify-between items-center  w-[270px]  py-2 rounded-lg  border-t-4 border-t-green-700 shadow hover:animate-spinY"
                 }
               >
                 <div className="flex flex-col justify-center items-center">
