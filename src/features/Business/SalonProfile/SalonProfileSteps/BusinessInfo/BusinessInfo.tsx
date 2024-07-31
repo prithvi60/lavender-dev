@@ -603,7 +603,7 @@ export const BusinessInfo = ({
                           console.log(marker);
                         }}
                         icon={{
-                          url: "google-maps.png",
+                          url: "googleMaps.png",
                           scaledSize: new google.maps.Size(35, 35),
                         }}
                       />

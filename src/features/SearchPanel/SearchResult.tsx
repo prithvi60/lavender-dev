@@ -812,7 +812,7 @@ export default function SearchResult() {
                         position={position}
                         onClick={() => handleActiveMarker(id)}
                         icon={{
-                          url: "/lavender-logo.png",
+                          url: "/lavenderLogo.png",
                           scaledSize: new window.google.maps.Size(22, 22),
                           anchor: new window.google.maps.Point(14, 38),
                         }}
@@ -851,7 +851,7 @@ export default function SearchResult() {
                   <MarkerF
                     position={center}
                     icon={{
-                      url: "/google-maps.png",
+                      url: "/googleMaps.png",
                       scaledSize: new window.google.maps.Size(40, 40),
                     }}
                     onClick={handleCurrentLocationClick}

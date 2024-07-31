@@ -69,7 +69,7 @@ export const SalonProfile = () => {
     <>
       {showPaymentSuccess ? (
         <div className="w-full h-[500px] flex flex-col justify-center items-center ">
-          <img src="/payment-done.png" alt="payment" className="w-[100px]" />
+          <img src="/paymentDone.png" alt="payment" className="w-[100px]" />
           <h4 className="text-green-600 font-semibold mt-3">Payment Done!</h4>
           {/* <p className="text-gray-700 font-medium mt-1 text-base text-center">
             Thank you for completing your secure online payment. Have a great
