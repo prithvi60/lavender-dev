@@ -64,7 +64,7 @@ const Membershp = ({ setMembershipScreen }) => {
       packageId: packageName?.packageId,
       establishmentId: userDetails?.establishmentId,
       currency: "USD",
-      paymentMode: "CARD",
+      paymentMode: "ONLINE",
     };
     try {
       const response = await endpoint.makeSubscriptionInitiate(payLoad);
