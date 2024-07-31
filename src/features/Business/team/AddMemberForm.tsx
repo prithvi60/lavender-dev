@@ -17,7 +17,9 @@ import {
   Avatar,
   Badge,
   Card,
-  CardContent
+  CardContent,
+  Grid,
+  FormHelperText
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
@@ -28,13 +30,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 import endpoint from "../../../api/endpoints";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import GetIcon from "../../../assets/Icon/icon";
 import { useMutation } from "@tanstack/react-query";
 import { useSnackbar } from "../../../components/Snackbar";
 import ImageUploading from 'react-images-uploading';
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import Text from "../../../components/Text";
 interface ImageUploadResponse {
   data: {
@@ -46,8 +48,12 @@ interface ImageUploadResponse {
 const schema = yup.object().shape({
   employeeId: yup.string(),
   employeeName: yup.string().required("Employee name is required"),
-  startingDate: yup.date().nullable().required("Starting date is required"),
-  email: yup.string().required(),
+  startingDate: yup.mixed().required('Starting date is required').test(
+    'is-dayjs',
+    'Invalid date format',
+    (value) => dayjs.isDayjs(value)
+  ),  email: yup.string().required(),
+  accessLevel: yup.string(),
   services: yup.array().of(
     yup.object().shape({
       serviceName: yup.string(),
@@ -58,21 +64,6 @@ const schema = yup.object().shape({
 });
 
 
-// const services = [
-//   {
-//     serviceName: 'test face coloring',
-//     optionName: ['Test1', 'trst2', 'test3'],
-//   },
-//   {
-//     serviceName: 'test service',
-//     optionName: ['Test1', 'trst2'],
-//   },
-//   {
-//     serviceName: 'test service 2',
-//     optionName: [],
-//   },
-// ];
-
 export default function AddMemberForm({ payload }) {
   
   console.log("payload L ", payload)
@@ -82,22 +73,26 @@ export default function AddMemberForm({ payload }) {
     control,
     watch,
     setValue,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       employeeName: '',
-      startingDate: new Date(),
+      startingDate: null,
       email: '',
+      accessLevel: '',
       profileImage: '',
       services: [],
     },
+   
   });
+  
   const employeeId: any = payload
   const { closeDrawer } = useDrawer();
   
-  const [value, setValues] = React.useState<Dayjs | null | any>(null);
+  const [values, setValues] = React.useState<null | any>(null);
   const [employee, setEmployee] = useState([]);
   const [categories, setCategories] = useState([]);
   const [services, setServices] = useState([]);
@@ -118,29 +113,26 @@ export default function AddMemberForm({ payload }) {
   const establishmentId = userDetails?.establishmentId || "";
 
   const handleDrawerSubmit = async (data) => {
+   
     
 const selectedData = data?.services?.filter(service => service?.optionName?.length > 0);
-console.log(selectedData);
     const payLoad = {
         "id": establishmentId,
         "employees": [
             {
              "employeeId": employeeId ? employeeId : "",
-              "employeeName": data.employeeName,
+              "employeeName": data?.employeeName,
               "email": data?.email,
-              "startingDate": data.startingDate ? data.startingDate?.toLocaleDateString('en-GB') : null,
-              "profileImage": imageIdList.length > 0 && imageIdList[0],
+              "startingDate": data?.startingDate ? data.startingDate.format('MM/DD/YYYY') : null,
+              "profileImage": imageIdList?.length > 0 ? imageIdList[0] : (data?.profileImage ? data?.profileImage :  ''),
               "services": selectedData,
+              "accessLevel": data?.accessLevel,
             },
           ],
     }
 
     const response = await endpoint.saveEstablishmentEmployee(payLoad);
-    // if(response?.data?.success){
-    //   
-    //   const res = endpoint.getEstablishmentDetailsById(establishmentId);
 
-    // }
     closeDrawer();
   };
 
@@ -165,7 +157,6 @@ console.log(selectedData);
         optionName: service?.options?.map(option => option?.optionName)
       }))
     );
-    console.log("filteredServices : ", filteredServices)
     setServices(filteredServices);
   },[categories])
 
@@ -181,32 +172,36 @@ console.log(selectedData);
     }
   },[employee, employeeId])
 
-  useEffect(() => {
-
-    const fetchingImage = async () => {
-      try{
-        console.log("currentEmployees[0]?.profileImage : ", currentEmployees[0]?.profileImage)
-        if(currentEmployees[0]?.profileImage){
-          const res = await fetchImage(currentEmployees[0]?.profileImage)
-          console.log('res ; ', res)
-          setImageUrls([res])
-          setLoading(false);
-        }
-      }
-      catch{
+  const fetchingImage = async () => {
+    try{
+      console.log("currentEmployees[0]?.profileImage : ", currentEmployees[0]?.profileImage)
+      if(currentEmployees[0]?.profileImage){
+        const res = await fetchImage(currentEmployees[0]?.profileImage)
+        console.log('res ; ', res)
+        setImageUrls([res])
+        setLoading(false);
       }
     }
+    catch{
+    }
+  }
+  useEffect(() => {
+
     fetchingImage();
     
-    console.log("imageUrls[0] : ", imageUrls)
+    console.log("imageUrls[0]ggg : ", imageUrls[0])
+    console.log("imageUrls[0]ggg : ", imageUrls[0])
+
     if (currentEmployees) {
       
       setValue('employeeId', currentEmployees[0]?.employeeId);
       setValue('employeeName', currentEmployees[0]?.employeeName);
       setValue('email', currentEmployees[0]?.email);
       const startingDate: any = currentEmployees[0]?.startingDate ? new Date(currentEmployees[0]?.startingDate) : null;
-      setValue('startingDate', startingDate);
-      setValue('profileImage', imageUrls[0]);
+      setValue('startingDate', dayjs(startingDate));
+      setValues(dayjs(startingDate))
+      setValue('profileImage', currentEmployees[0]?.profileImage);
+      setValue('accessLevel', currentEmployees[0]?.accessLevel);
     }   
   }, [currentEmployees]);
 
@@ -245,18 +240,6 @@ console.log(selectedData);
     service => service?.optionName?.length > 0
   );
 
-  // useEffect(()=>{
-  //   const getEstablishmentDetails = async () => {
-  //     const establishmentData  = await endpoint.getEstablishmentDetailsById(establishmentId);
-  //     if(establishmentData?.data?.success){
-  //       setPhotoId(establishmentData?.data?.data?.estImages)
-  //       setImageIdList(establishmentData?.data?.data?.estImages)
-  //     }
-  //   }
-
-  //   getEstablishmentDetails();
-    
-  // }, [])
 
   useEffect( () =>{
     const callFetchImageApi = async () =>{
@@ -374,12 +357,6 @@ console.log(selectedData);
     }
   }
 
-  console.log("categories : ", categories)
-  
-  console.log("services : ", services)
-  
-
-
   return (
     <div className="flex-col h-full">
       <form onSubmit={handleSubmit(handleDrawerSubmit)}>
@@ -393,10 +370,10 @@ console.log(selectedData);
         <div className="flex-col h-full p-4">
 
           <div className="mb-4 flex justify-center flex-col items-center">
-          <DragDropContext onDragEnd={handleDragEnd}>
             <ImageUploading
             multiple
             value={images}
+            
             onChange={onChange}
             maxNumber={maxNumber}
             dataURLKey='data_url'
@@ -404,69 +381,55 @@ console.log(selectedData);
           >
             {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
               <div className='flex justify-center '>
-                {/* <Droppable droppableId='droppable'>
-                  {(provided) => (
-                    <div {...provided.droppableProps} ref={provided.innerRef} className='flex flex-wrap justify-center'>
-                      {imageList.map((image, index) => (
-                        <Draggable key={index} draggableId={index.toString()} index={index}>
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              className='image-item'
-                              style={{ padding: '10px' }}
-                            >
-                              <Card style={{ width: '200px', height: '200px' }}>
-                                <img src={image.data_url} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                              </Card>
-                              
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                      {provided.placeholder}
-                    </div>
-                  )}
-                </Droppable> */}
+
                 <div style={{ padding: '10px' }}>
 
                   {imageUrls.length > 0 ? (
                     <>
                       {imageUrls?.map((url, index) => (
-                              // <img key={index} src={url} alt={`Image ${index}`} style={{ width: '200px', margin: '10px' }} />
-                                    <Avatar key={index} src={url} alt={`Image ${index}`} style={{ backgroundColor: '#1B1464', width: '90px', height: '90px' }} onClick={onImageUpload}
-                                        {...dragProps}>
-                                        {/* <GetIcon iconName='EditIcon' style={{borderRadius: '20px', backgroundColor: '#FF83B0'}}/> */}
-                                        <Badge
-                                          overlap="circular"
-                                          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                                          badgeContent={
-                                            <GetIcon iconName='EditWhiteIcon' style={{width: '32px', height: '32px', borderRadius: '20px', backgroundColor: '#FF83B0', display: 'flex', justifyContent: 'center', alignItem: 'center'}}/>
-                                          }
-                                        ></Badge>
-                                      </Avatar>
+                        <>
+                          <Badge
+                            sx={{cursor: 'pointer'}}
+                            onClick={onImageUpload}
+                            overlap="circular"
+                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                            badgeContent={
+                              <GetIcon iconName='EditWhiteIcon' style={{width: '32px', height: '32px', borderRadius: '20px', backgroundColor: '#FF83B0', display: 'flex', justifyContent: 'center', alignItem: 'center'}}/>
+                            }
+                          >
+                            <Avatar key={index} src={url} alt={`Image ${index}`} style={{ backgroundColor: '#1B1464', width: '90px', height: '90px' }} 
+                            {...dragProps}/>
+                          </Badge>
+                        </>
+                                  
                       ))}
                     </>
                   ) : (
-                      <Avatar src={''} style={{ backgroundColor: '#1B1464', width: '90px', height: '90px' }} onClick={onImageUpload}
-                        {...dragProps}>
+                    <>
+                      
                         {/* <GetIcon iconName='EditIcon' style={{borderRadius: '20px', backgroundColor: '#FF83B0'}}/> */}
                         <Badge
+                          sx={{cursor: 'pointer'}}
+                          onClick={onImageUpload}
                           overlap="circular"
                           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                           badgeContent={
                             <GetIcon iconName='EditWhiteIcon' style={{width: '32px', height: '32px', borderRadius: '20px', backgroundColor: '#FF83B0', display: 'flex', justifyContent: 'center', alignItem: 'center'}}/>
                           }
-                        ></Badge>
-                      </Avatar>
+                        >
+                          <Avatar src={''} style={{ backgroundColor: '#1B1464', width: '90px', height: '90px' }} 
+                          {...dragProps}></Avatar>
+
+                        </Badge>
+                      {/* </Avatar> */}
+                      
+                    </>
+                      
                   )}
-                
                 </div>
               </div>
             )}
             </ImageUploading>
-          </DragDropContext>
 
 {
         (isImageUploaded && !loading) && 
@@ -475,7 +438,6 @@ console.log(selectedData);
         
           <Button
               onClick={handleButtonClick}
-              
               sx={{}}
             >Save</Button>
         </div>
@@ -498,6 +460,8 @@ console.log(selectedData);
               Employee name
             </Typography>
             <TextField
+            sx={styles.textField}
+            defaultValue={''}
               fullWidth
               size="small"
               variant="outlined"
@@ -512,6 +476,7 @@ console.log(selectedData);
               Email ID
             </Typography>
             <TextField
+              sx={styles.textField}
               fullWidth
               size="small"
               variant="outlined"
@@ -522,23 +487,25 @@ console.log(selectedData);
           </div>
 
           <div className="mb-4">
-            <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-            Access level
-            </Typography>
-
-            <Select
-                    error={!!errors.email}
-                    fullWidth
-                  >
-                    
-                      <MenuItem >
-                        Admin
-                      </MenuItem>
-                      <MenuItem >
-                        Employee
-                      </MenuItem>
-                    
-                  </Select>
+          <Grid container spacing={1} sx={{ alignContent: "end" }}>
+                <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+                Access Level
+                </Typography>
+                <Controller
+                  name="accessLevel"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <FormControl error={!!errors.accessLevel} fullWidth>
+                      <Select {...field} error={!!errors.accessLevel} fullWidth  sx={styles.select}>
+                        <MenuItem value="Admin">Admin</MenuItem>
+                        <MenuItem value="Employee">Employee</MenuItem>
+                      </Select>
+                      <FormHelperText>{errors.accessLevel?.message}</FormHelperText>
+                    </FormControl>
+                  )}
+                />
+            </Grid>
           </div>
 
           <div className="mb-4">
@@ -548,10 +515,10 @@ console.log(selectedData);
             <Controller
               name="startingDate"
               control={control}
-              defaultValue={new Date()}
+              defaultValue ={dayjs(new Date())}
               render={({ field }) => (
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker {...field} value={value} onChange={(date) => field.onChange(date)} sx={{ width: '100%' }} />
+                  <DatePicker  sx={styles.textField} {...field} value={values} onChange={(date) => field.onChange(date)}/>
                 </LocalizationProvider>
               )}
             />
@@ -567,18 +534,9 @@ console.log(selectedData);
           </div>
 
           <div className="mb-4">
-            <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+          <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
               Services
             </Typography>
-            
-            {errors.startingDate && (
-              <Typography variant="caption" color="error" gutterBottom>
-                {errors.startingDate.message}
-              </Typography>
-            )}
-          </div>
-
-          <div className="mb-4">
             <FormGroup>
           <FormControlLabel
             control={
@@ -652,7 +610,7 @@ console.log(selectedData);
           </div>
 
           <div className="flex justify-between mt-4">
-            <Button onClick={closeDrawer} sx={styles.txt}>
+            <Button onClick={closeDrawer} sx={styles.txtBtn}>
               Cancel
             </Button>
             <Button type="submit" sx={styles.btn}>Add</Button>
@@ -677,11 +635,29 @@ const styles = {
       backgroundColor: '#5A3EBF',
     }
   },
-  txt: {
+  txtBtn: {
     color: '#825FFF',
     fontWeight: 600,
     fontSize: '16px',
     lineHeight: '24px',
     textTransform: 'none',
-  }
+  },
+  textField: {
+    width: '272px',
+    '& .MuiInputBase-root': {
+      height: '55px', // Apply height to the input root
+      borderRadius: '9px',
+    },
+    
+  },
+  select: {
+    '& .MuiInputBase-root': {
+      width: '272px !important',
+      height: '55px',
+      borderRadius: '9px',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderRadius: '9px',
+    },
+  },
 }

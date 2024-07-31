@@ -27,7 +27,7 @@ function SchedulePage() {
       <div>
         <div id='Header' className='flex justify-between m-3' >
           <div className='flex  items-center'>
-            <Button className='bg-white mr-10 font-bold' variant='outline' onClick={setCurrentDuration}>
+            <Button className='bg-white mr-10 font-bold' variant='outline' onClick={setCurrentDuration} style={{color: '#4D4D4D', fontWeight: 700, fontSize: '18px'}}>
               {durationState === 'Day' ? 'Today' : 'This Week'}
             </Button>
             <div>
@@ -40,8 +40,8 @@ function SchedulePage() {
               <GetIcon iconName='FilterIcon'/>
             </Button>
             <div className='flex border rounded w-60 ml-10'>
-              <Button onClick={() => setDurationState('Day')} className={`w-full font-bold  ${durationState === 'Day' ? 'bg-primary text-white' : ''}`} variant='null'>Day</Button>
-              <Button onClick={() => setDurationState('Week')} className={`w-full font-bold ${durationState === 'Week' ? 'bg-primary text-white' : ''}`} variant='null'>Week</Button>
+              <Button onClick={() => setDurationState('Day')} className={`w-full font-bold text-lg`} style={{backgroundColor: durationState === 'Day' ? '#825FFF' : '', color: durationState === 'Day' ? 'white' : '#616161'}} variant='null'>Day</Button>
+              <Button onClick={() => setDurationState('Week')} className={`w-full font-bold text-lg`} style={{backgroundColor: durationState === 'Week' ? '#825FFF' : '', color: durationState === 'Week' ? 'white' : '#616161'}} variant='null'>Week</Button>
             </div>
           </div>
 

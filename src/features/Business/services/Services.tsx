@@ -59,12 +59,12 @@ const OptionButton: React.FC<OptionButtonProps> = ({
   open,
   anchorRef,
 }) => (
-  <ButtonGroup variant="contained" ref={anchorRef} aria-label="Button group with a nested menu">
-    <Button style={{ borderRadius: '5px 0px 0px 5px' }} onClick={handleClick}>
+  <ButtonGroup variant="contained" ref={anchorRef} aria-label="Button group with a nested menu" sx={{borderRadius: '10px', textTransform: 'none', }}>
+    <Button style={{ borderRadius: '10px 0px 0px 10px', width: '150px', height: '44px', textTransform: 'none', fontSize: '18px', fontWeight: 600,}} onClick={handleClick}>
       {options[selectedIndex].label}
     </Button>
     <Button
-      style={{ height: '40px', borderRadius: '0px 5px 5px 0px' }}
+      style={{ height: '44px', borderRadius: '0px 10px 10px 0px',  }}
       aria-controls={open ? 'split-button-menu' : undefined}
       aria-expanded={open ? 'true' : undefined}
       aria-label="select merge strategy"
@@ -90,11 +90,12 @@ const OptionButton: React.FC<OptionButtonProps> = ({
             transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
           }}
         >
-          <Paper>
-            <ClickAwayListener onClickAway={handleToggle}>
-              <MenuList id="split-button-menu" autoFocusItem>
+          <Paper >
+            <ClickAwayListener onClickAway={handleToggle} >
+              <MenuList id="split-button-menu" autoFocusItem >
                 {options.map((option, index) => (
                   <MenuItem
+                  sx={{width: '190px !important'}}
                     key={option.value}
                     disabled={index === 2}
                     selected={index === selectedIndex}
@@ -400,10 +401,11 @@ export const Services: React.FC = () => {
 
   return (
     <div>
-      <div className="flex mx-24 my-4 justify-between w-10/12">
+      <div className="flex mx-24 my-4 justify-between w-10/12" >
         <SearchInput
           placeholder={'Search services'}
           onChange={(event: any) => setServiceInput(event.target.value)}
+          
         />
         <div>
           <OptionButton
@@ -454,7 +456,7 @@ export const Services: React.FC = () => {
                           variant="standard"
                         >
                           <div className="flex">
-                            <div className="font-bold content-center">{component.title} </div>
+                            <div className="font-bold content-center" style={{textTransform: 'none', fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}>{component.title} </div>
 
                             <IconButton onClick={()=> handleEditCategory(component.id)}>
                               <GetIcon iconName='EditIcon'/>
@@ -468,7 +470,7 @@ export const Services: React.FC = () => {
                           onClick={()=> handleDeleteCategory(component.id)}
                         >
                           <GetIcon iconName='DeleteIcon'/>
-                          <span>Delete category</span>
+                          <span style={{textTransform: 'none', fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}>Delete category</span>
                         </Button>
                       </div>
                       <StrictModeDroppable
@@ -493,19 +495,19 @@ export const Services: React.FC = () => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                   >
-                                    <div className="flex w-1/4">
+                                    <div className="flex w-1/4" style={{textTransform: 'none', fontSize: '16px', fontWeight: 400, color: '#4D4D4D'}}>
                                       <GetIcon {...provided.dragHandleProps} className='mr-4' iconName='DragIcon'/>
                                       {row.service}
                                     </div>
-                                    <div className="w-1/4">{row.time}</div>
-                                    <div className="w-1/4">{row.price}</div>
+                                    <div className="w-1/4" style={{textTransform: 'none', fontSize: '16px', fontWeight: 400, color: '#4D4D4D'}}>{row.time}</div>
+                                    <div className="w-1/4" style={{textTransform: 'none', fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}>{row.price}</div>
                                     <div className="flex items-center justify-end w-1/4">
                                       <div className="flex">
                                         {row.employees.map((employee, index) => (
                                           <GetIcon key={index} iconName='ProfileIcon' className='m-1'/>
                                         ))}
                                       </div>
-                                      <div className="ml-2">
+                                      <div className="ml-2 cursor-pointer">
                                         <GetIcon
                                           onClick={() => handleDeleteService(component.id, row.id)}
                                           iconName='DeleteIcon'
@@ -518,7 +520,7 @@ export const Services: React.FC = () => {
                             ))}
                             {provided.placeholder}
                             <div className="h-12 font-bold flex items-center justify-center bottom-0">
-                              <button onClick={()=> handleAddServices(component.id)}>
+                              <button onClick={()=> handleAddServices(component.id)} style={{textTransform: 'none', fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}>
                                 Add new service [+]
                               </button>
                             </div>
@@ -530,9 +532,9 @@ export const Services: React.FC = () => {
                 </Draggable>
               ))}
               {provided.placeholder}
-              <button onClick={()=> handleAddCategory()} style={{color:'#825FFF', fontSize: '20px', fontWeight: 600, paddingBottom: 30}}>
-                                Add new category [+]
-                              </button>
+              <div style={{textAlign: 'center', marginLeft: '200px'}}><button onClick={()=> handleAddCategory()} style={{color:'#825FFF', fontSize: '20px', fontWeight: 600, paddingBottom: 30}}>
+                Add new category [+]
+              </button></div>
             </div>
           )}
         </StrictModeDroppable>

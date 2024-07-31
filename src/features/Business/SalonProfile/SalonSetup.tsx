@@ -87,7 +87,7 @@ useEffect(()=>{
   
   return (
     <div>
-        <Buttons sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', width: '180px', height: '55.5px'}} variant= 'contained' onClick={()=>handleBtnClick()} name={'Get started'}> </Buttons>
+        <Buttons sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', width: '190px', height: '44px', fontSize: '20px', fontWeight: 600}} variant= 'contained' onClick={()=>handleBtnClick()} name={'Get started'}> </Buttons>
         <Dialog fullScreen open={isOpen} onClose={handleClose}>
         <Toolbar className="mb-4 stepper-header">
             <Box sx={{ width: '100%' }}>

@@ -37,18 +37,18 @@ export const CalenderDateSelector = () => {
         <div>
             <DropdownMenu>
                 
-                  <div className='w-72 flex justify-between font-bold border border-gray-400 border-solid rounded-lg'>
+                  <div className='w-96 flex justify-between font-bold border border-gray-400 border-solid rounded-lg'>
                     <button className='p-2 border-r border-r-gray-400 border-solid' onClick={handleLeftClick}>
                       <ChevronLeft/>
                     </button>
                       <DropdownMenuTrigger className='w-full'>
                         {
                           durationState === 'Day' ? 
-                          <div>
+                          <div style={{color: '#4D4D4D', fontWeight: 700, fontSize: '18px', paddingLeft: '10px', paddingRight: '10px'}}>
                             {getMonthAndDayNames(selectedDate)}
                           </div>
                           :
-                          <div>
+                          <div style={{color: '#4D4D4D', fontWeight: 700, fontSize: '18px', paddingLeft: '10px', paddingRight: '10px'}}>
                             {getWeekDateRangeFormat(filterWeekStartDate, filterWeekEndDate)}
                           </div>
                         }

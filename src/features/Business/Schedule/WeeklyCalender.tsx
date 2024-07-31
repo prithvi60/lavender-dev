@@ -26,19 +26,19 @@ export const WeeklyCalendar = () => {
 
   return (
     <Wrapper>
-        <HGrid  first={"60px"} cols={1}>
-          <VGrid rows={24}>
+        <HGrid  first={"60px"} cols={1} >
+          <VGrid rows={24} >
             <HourTimeline />
           </VGrid>
-          <HGrid cols={DAYS.length}>
+          <HGrid  cols={DAYS.length} className="h-full">
             {week.map((day, index) => (
-                <DayWrapper
+                <DayWrapper className="sticky !important"
                   //onDoubleClick={() => onAddEvent(addDateBy(mondayDate, index))}
                 >
                   <DayHeader currentDay={day}/>
                   
                   {range(24).map((_) => (
-                    <Hour className="flex flex-col border-r border-solid border-r-gray-400">
+                    <Hour className="flex flex-col border-r border-solid border-r-gray-400 overflow-y-auto">
                       {range(4).map((_) => (
                         <div className="border-b border-dashed border-b-[#B3B3B3] w-full h-1/4 last:border-solid"></div>
                       ))}

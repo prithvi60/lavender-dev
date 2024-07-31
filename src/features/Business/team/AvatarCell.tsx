@@ -20,7 +20,6 @@ const AvatarCell = ({ row }) => {
       const response = await endpoint.getImages(image, establishmentId);
   
       const imageUrl: string = URL.createObjectURL(response.data);
-      console.log("imageUrl : ",imageUrl)
       return imageUrl
     } catch (error) {
       

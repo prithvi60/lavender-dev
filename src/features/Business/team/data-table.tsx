@@ -89,16 +89,21 @@ export function DataTable<TData, TValue>({
     XLSX.writeFile(wb, "EmployeeList.xlsx");
   };
 
+  // Helper function to handle search input changes
+  const handleSearchInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = event.target.value;
+    // Set filter on the "client" column (change this to the appropriate column ID)
+    table.getColumn("employeeName")?.setFilterValue(searchValue);
+  };
+
   return (
     <div className="rounded-md border">
       <div className="w-full flex flex-row justify-between items-center">
         <div className="flex m-4 justify-between items-center">
           <SearchInput
             placeholder="Search services"
-            value={(table.getColumn("client")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("client")?.setFilterValue(event.target.value)
-            }
+            value={(table.getColumn("employeeName")?.getFilterValue() as string) ?? ""}
+            onChange={handleSearchInputChange} // Attach the change handler
           />
           <div style={{ paddingLeft: '10px' }}>
             <Buttons
@@ -142,7 +147,7 @@ export function DataTable<TData, TValue>({
         
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+            table.getRowModel().rows.map((row: any) => (
               <TableRow
                 style={{ fontWeight: '700', color: "#4D4D4D" }}
                 key={row.id}
