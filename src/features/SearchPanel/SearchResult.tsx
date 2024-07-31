@@ -425,8 +425,8 @@ export default function SearchResult() {
             payLoad.range = Range;
           }
         } else {
-          payLoad.geoX = center.lat;
-          payLoad.geoY = center.lng;
+          payLoad.geoX = center?.lat;
+          payLoad.geoY = center?.lng;
           payLoad.range = Range;
         }
 

@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Modal, Box } from "@mui/material";
 import GetIcon from "../../../../assets/Icon/icon";
 import { useSnackbar } from "../../../../components/Snackbar";
+import moment from "moment";
 
 const style = {
   position: "absolute",
@@ -30,7 +31,7 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
-  const [isAlreadySubscribed, setIsAlreadySubscribed] = useState(false);
+  const [subsctiptionDetails, setSubscriptionDetails] = useState<any>({});
 
   const showSnackbar = useSnackbar();
 
@@ -128,7 +129,7 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
         userDetails?.establishmentId
       );
 
-      setIsAlreadySubscribed(response.data.data);
+      setSubscriptionDetails(response.data.data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -139,8 +140,9 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
   }, []);
 
   const onClickCheckOut = () => {
-    if (isAlreadySubscribed) {
-      showSnackbar("User already have Membership");
+    if (subsctiptionDetails && subsctiptionDetails?.active) {
+      showSnackbar("Establishment already have Membership");
+      setOpen((prev) => !prev);
       // navigate("/");
     } else {
       setIsOpen(false);
@@ -176,8 +178,14 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
       )}
 
       <div className="flex justify-center">
-        <div className="flex justify-center flex-col w-72">
-          {!isPublish && (
+        <div
+          className={
+            subsctiptionDetails?.active
+              ? "flex justify-center flex-col w-80"
+              : "flex justify-center flex-col w-64"
+          }
+        >
+          {/* {!isPublish && (
             <Buttons
               disabled={isDisabled}
               fullWidth
@@ -192,7 +200,7 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
                 handlePublishClick();
               }}
             ></Buttons>
-          )}
+          )} */}
           <div className="flex justify-between ">
             <Buttons
               variant="outlined"
@@ -203,9 +211,12 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
             <Buttons
               variant="outlined"
               sx={{ borderRadius: "10px", padding: "10px " }}
-              name={"Membership"}
+              name={
+                subsctiptionDetails?.active
+                  ? "Membership Details"
+                  : "Membership"
+              }
               onClick={() => onClickCheckOut()}
-              disabled={!isPublish}
             ></Buttons>
           </div>
         </div>
@@ -228,13 +239,21 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
           >
             <GetIcon
               onClick={() => {}}
-              className="my-5 mx-16 p-1 cursor-pointer rounded-sm"
+              className="my-3 mx-16 p-1 cursor-pointer rounded-sm"
               iconName="CalendarConfirmedIcon"
             />
-            <div id="title" className="font-bold text-xl mb-3">
+
+            <div id="title" className="font-bold text-3xl mb-3 text-blue-800">
               Dear {userDetails?.fullName}
             </div>
-            <div>Your establishment has been published</div>
+
+            <p className="text-yellow-800 font-semibold text-center text-base">
+              Package Name : {subsctiptionDetails?.packageName}
+            </p>
+            <p className="text-gray-800 font-bold text-center italic">
+              Valid till :{" "}
+              {moment(subsctiptionDetails?.endDate).format("DD MMMM YYYY")}
+            </p>
           </div>
         </Box>
       </Modal>

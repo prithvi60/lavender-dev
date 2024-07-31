@@ -20,6 +20,7 @@ import GetIcon from "../../../../../assets/Icon/icon";
 import { useSnackbar } from "../../../../../components/Snackbar";
 import { GoogleMap, MarkerF, useJsApiLoader } from "@react-google-maps/api";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 interface IBasicInfo {
   establishmentName: string;
@@ -55,6 +56,8 @@ export const BusinessInfo = ({
   const { locationList } = useSelector(
     (state: SearchPageState) => state.searchPage
   );
+
+  const location = useLocation();
 
   const [center, setCenter] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -278,354 +281,360 @@ export const BusinessInfo = ({
   };
 
   return (
-    <div className="w-full">
-      <div
-        className="text-5xl font-bold text-center p-4"
-        style={{ color: "#4D4D4D" }}
-      >
-        Modify your business info
-      </div>
-      <div
-        className="text-xl font-normal text-center p-4"
-        style={{ color: "#4D4D4D" }}
-      >
-        We will show these details to clients online
-      </div>
-      <Grid container spacing={2} sx={{ paddingTop: "20px" }}>
-        <form
-          onSubmit={handleSubmit((data) => {
-            handleSaveButton(data);
-          })}
-          style={{ width: "100%" }}
+    <>
+      <div className="w-full">
+        <div
+          className="text-5xl font-bold text-center p-4"
+          style={{ color: "#4D4D4D" }}
         >
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={7}>
-              <Card sx={{ width: "100%" }}>
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontSize: "18px",
-                      fontWeight: "700",
-                      color: "#4D4D4D",
-                    }}
-                  >
-                    Salon name
-                  </Typography>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    variant="outlined"
-                    {...register("establishmentName")}
-                  />
-                  {errors.establishmentName && (
-                    <p className="text-red-500 font-medium">
-                      {errors.establishmentName.message}
-                    </p>
-                  )}
-                </CardContent>
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontSize: "18px",
-                      fontWeight: "700",
-                      color: "#4D4D4D",
-                    }}
-                  >
-                    About
-                  </Typography>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    variant="outlined"
-                    {...register("establishmentAbout")}
-                  />
-                  {errors.establishmentAbout && (
-                    <p className="text-red-500 font-medium">
-                      {errors.establishmentAbout.message}
-                    </p>
-                  )}
-                </CardContent>
-
-                <CardContent>
-                  <Grid container spacing={2}>
-                    {/* Extension label and TextField */}
-                    <Grid item xs={4}>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontSize: "18px",
-                          fontWeight: "700",
-                          color: "#4D4D4D",
-                        }}
-                      >
-                        Extension
-                      </Typography>
-                      <TextField
-                        inputProps={{ maxLength: 3 }}
-                        size="small"
-                        variant="outlined"
-                        {...register("phoneExtension")}
-                      />
-                    </Grid>
-
-                    {/* Phone label and TextField */}
-                    <Grid item xs={8}>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontSize: "18px",
-                          fontWeight: "700",
-                          color: "#4D4D4D",
-                        }}
-                      >
-                        Phone
-                      </Typography>
-                      <TextField
-                        inputProps={{ maxLength: 10 }}
-                        size="small"
-                        fullWidth
-                        variant="outlined"
-                        {...register("phoneNumber")}
-                      />
-                    </Grid>
-                  </Grid>
-                  {errors.phoneNumber && (
-                    <p className="text-red-500 font-medium">
-                      {errors.phoneNumber.message}
-                    </p>
-                  )}
-                </CardContent>
-
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontSize: "18px",
-                      fontWeight: "700",
-                      color: "#4D4D4D",
-                    }}
-                  >
-                    Email ID
-                  </Typography>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    variant="outlined"
-                    {...register("email")}
-                  />
-                  {errors.email && (
-                    <p className="text-red-500 font-medium">
-                      {errors.email.message}
-                    </p>
-                  )}
-                </CardContent>
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontSize: "18px",
-                      fontWeight: "700",
-                      color: "#4D4D4D",
-                    }}
-                  >
-                    Address
-                  </Typography>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    variant="outlined"
-                    {...register("address")}
-                  />
-                  {errors.address && (
-                    <p className="text-red-500 font-medium">
-                      {errors.address.message}
-                    </p>
-                  )}
-                </CardContent>
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontSize: "18px",
-                      fontWeight: "700",
-                      color: "#4D4D4D",
-                    }}
-                  >
-                    Location
-                  </Typography>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    variant="outlined"
-                    {...register("location")}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                  {errors.location && (
-                    <p className="text-red-500 font-medium">
-                      {errors.location.message}
-                    </p>
-                  )}
-                </CardContent>
-
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontSize: "18px",
-                      fontWeight: "700",
-                      color: "#4D4D4D",
-                    }}
-                  >
-                    City
-                  </Typography>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    variant="outlined"
-                    {...register("cityCode")}
-                  />
-                  {errors.cityCode && (
-                    <p className="text-red-500 font-medium">
-                      {errors.cityCode.message}
-                    </p>
-                  )}
-                </CardContent>
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontSize: "18px",
-                      fontWeight: "700",
-                      color: "#4D4D4D",
-                    }}
-                  >
-                    Door/Apt. no.
-                  </Typography>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    variant="outlined"
-                    {...register("doorNo")}
-                  />
-                  {errors.doorNo && (
-                    <p className="text-red-500 font-medium">
-                      {errors.doorNo.message}
-                    </p>
-                  )}
-                </CardContent>
-                <CardContent>
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontSize: "18px",
-                      fontWeight: "700",
-                      color: "#4D4D4D",
-                    }}
-                  >
-                    Zip code
-                  </Typography>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    variant="outlined"
-                    {...register("zipCode")}
-                  />
-                  {errors.zipCode && (
-                    <p className="text-red-500 font-medium">
-                      {errors.zipCode.message}
-                    </p>
-                  )}
-                </CardContent>
-                <CardContent>
-                  {isDirty && (
-                    <Button
-                      fullWidth
-                      type="submit"
-                      variant="contained"
-                      sx={{ fontSize: "14px" }}
+          Modify your business info
+        </div>
+        <div
+          className="text-xl font-normal text-center p-4"
+          style={{ color: "#4D4D4D" }}
+        >
+          We will show these details to clients online
+        </div>
+        <Grid container spacing={2} sx={{ paddingTop: "20px" }}>
+          <form
+            onSubmit={handleSubmit((data) => {
+              handleSaveButton(data);
+            })}
+            style={{ width: "100%" }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={7}>
+                <Card sx={{ width: "100%" }}>
+                  <CardContent>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#4D4D4D",
+                      }}
                     >
-                      Save
-                    </Button>
-                  )}
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={5}>
-              <TextField
-                sx={{ width: "100%", paddingBottom: "20px", color: "#B3B3B3" }}
-                type="search"
-                size="small"
-                label="Search for location"
-                variant="outlined"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <Card sx={{ width: "100%" }}>
-                {
-                  // Adjusted iframe size for responsiveness
-                }
-                {/* <iframe
+                      Salon name
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      {...register("establishmentName")}
+                    />
+                    {errors.establishmentName && (
+                      <p className="text-red-500 font-medium">
+                        {errors.establishmentName.message}
+                      </p>
+                    )}
+                  </CardContent>
+                  <CardContent>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#4D4D4D",
+                      }}
+                    >
+                      About
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      {...register("establishmentAbout")}
+                    />
+                    {errors.establishmentAbout && (
+                      <p className="text-red-500 font-medium">
+                        {errors.establishmentAbout.message}
+                      </p>
+                    )}
+                  </CardContent>
+
+                  <CardContent>
+                    <Grid container spacing={2}>
+                      {/* Extension label and TextField */}
+                      <Grid item xs={4}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontSize: "18px",
+                            fontWeight: "700",
+                            color: "#4D4D4D",
+                          }}
+                        >
+                          Extension
+                        </Typography>
+                        <TextField
+                          inputProps={{ maxLength: 3 }}
+                          size="small"
+                          variant="outlined"
+                          {...register("phoneExtension")}
+                        />
+                      </Grid>
+
+                      {/* Phone label and TextField */}
+                      <Grid item xs={8}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontSize: "18px",
+                            fontWeight: "700",
+                            color: "#4D4D4D",
+                          }}
+                        >
+                          Phone
+                        </Typography>
+                        <TextField
+                          inputProps={{ maxLength: 10 }}
+                          size="small"
+                          fullWidth
+                          variant="outlined"
+                          {...register("phoneNumber")}
+                        />
+                      </Grid>
+                    </Grid>
+                    {errors.phoneNumber && (
+                      <p className="text-red-500 font-medium">
+                        {errors.phoneNumber.message}
+                      </p>
+                    )}
+                  </CardContent>
+
+                  <CardContent>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#4D4D4D",
+                      }}
+                    >
+                      Email ID
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      {...register("email")}
+                    />
+                    {errors.email && (
+                      <p className="text-red-500 font-medium">
+                        {errors.email.message}
+                      </p>
+                    )}
+                  </CardContent>
+                  <CardContent>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#4D4D4D",
+                      }}
+                    >
+                      Address
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      {...register("address")}
+                    />
+                    {errors.address && (
+                      <p className="text-red-500 font-medium">
+                        {errors.address.message}
+                      </p>
+                    )}
+                  </CardContent>
+                  <CardContent>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#4D4D4D",
+                      }}
+                    >
+                      Location
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      {...register("location")}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                    {errors.location && (
+                      <p className="text-red-500 font-medium">
+                        {errors.location.message}
+                      </p>
+                    )}
+                  </CardContent>
+
+                  <CardContent>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#4D4D4D",
+                      }}
+                    >
+                      City
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      {...register("cityCode")}
+                    />
+                    {errors.cityCode && (
+                      <p className="text-red-500 font-medium">
+                        {errors.cityCode.message}
+                      </p>
+                    )}
+                  </CardContent>
+                  <CardContent>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#4D4D4D",
+                      }}
+                    >
+                      Door/Apt. no.
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      {...register("doorNo")}
+                    />
+                    {errors.doorNo && (
+                      <p className="text-red-500 font-medium">
+                        {errors.doorNo.message}
+                      </p>
+                    )}
+                  </CardContent>
+                  <CardContent>
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#4D4D4D",
+                      }}
+                    >
+                      Zip code
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      size="small"
+                      variant="outlined"
+                      {...register("zipCode")}
+                    />
+                    {errors.zipCode && (
+                      <p className="text-red-500 font-medium">
+                        {errors.zipCode.message}
+                      </p>
+                    )}
+                  </CardContent>
+                  <CardContent>
+                    {isDirty && (
+                      <Button
+                        fullWidth
+                        type="submit"
+                        variant="contained"
+                        sx={{ fontSize: "14px" }}
+                      >
+                        Save
+                      </Button>
+                    )}
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} sm={5}>
+                <TextField
+                  sx={{
+                    width: "100%",
+                    paddingBottom: "20px",
+                    color: "#B3B3B3",
+                  }}
+                  type="search"
+                  size="small"
+                  label="Search for location"
+                  variant="outlined"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Card sx={{ width: "100%" }}>
+                  {
+                    // Adjusted iframe size for responsiveness
+                  }
+                  {/* <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31081.53269316962!2d80.20855351621644!3d13.15031202030962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5264db59c3d4b5%3A0x9be03109019f05f!2sMadhavaram%2C%20Chennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1716260701299!5m2!1sen!2sin"
                     width="100%"
                     height="300" // Adjusted height for responsiveness
                     loading="lazy"
                   ></iframe> */}
-                {apiIsLoaded && isLoaded ? (
-                  <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    center={center || { lat: 0, lng: 0 }}
-                    zoom={10}
-                    options={{
-                      mapTypeControl: false,
-                      streetViewControl: false,
-                    }}
-                    onLoad={(map) => {
-                      mapRef.current = map;
-                    }}
-                  >
-                    <MarkerF
-                      position={center}
-                      draggable
-                      onDragEnd={handleMarkerDragEnd}
-                      onLoad={(marker) => {
-                        console.log(marker);
+                  {apiIsLoaded && isLoaded ? (
+                    <GoogleMap
+                      mapContainerStyle={containerStyle}
+                      center={center || { lat: 0, lng: 0 }}
+                      zoom={10}
+                      options={{
+                        mapTypeControl: false,
+                        streetViewControl: false,
                       }}
-                      icon={{
-                        url: "google-maps.png",
-                        scaledSize: new google.maps.Size(35, 35),
+                      onLoad={(map) => {
+                        mapRef.current = map;
                       }}
-                    />
-                  </GoogleMap>
-                ) : (
-                  <div>Loading...</div>
-                )}
-              </Card>
-              <Typography
-                variant="body1"
-                sx={{
-                  fontSize: "20px",
-                  fontWeight: "400",
-                  color: "#4D4D4D",
-                  textAlign: "center",
-                  marginTop: "20px",
-                }}
-              >
-                Drag the location pin to set the location
-              </Typography>
+                    >
+                      <MarkerF
+                        position={center}
+                        draggable
+                        onDragEnd={handleMarkerDragEnd}
+                        onLoad={(marker) => {
+                          console.log(marker);
+                        }}
+                        icon={{
+                          url: "google-maps.png",
+                          scaledSize: new google.maps.Size(35, 35),
+                        }}
+                      />
+                    </GoogleMap>
+                  ) : (
+                    <div>Loading...</div>
+                  )}
+                </Card>
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontSize: "20px",
+                    fontWeight: "400",
+                    color: "#4D4D4D",
+                    textAlign: "center",
+                    marginTop: "20px",
+                  }}
+                >
+                  Drag the location pin to set the location
+                </Typography>
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <WorkingHours
-              userDetails={userDetails}
-              availableDays={availableDays}
-            />
-          </Grid>
-        </form>
-      </Grid>
-    </div>
+            <Grid item xs={12}>
+              <WorkingHours
+                userDetails={userDetails}
+                availableDays={availableDays}
+              />
+            </Grid>
+          </form>
+        </Grid>
+      </div>
+    </>
   );
 };
