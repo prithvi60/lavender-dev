@@ -37,7 +37,7 @@ export const SnackbarProvider = ({ children }: any) => {
   return (
     <SnackbarContext.Provider value={{ showSnackbar }}>
       {children}
-      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right'}}>
+      <Snackbar open={open} autoHideDuration={2000} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}}>
         <MuiAlert
           elevation={6}
           variant="filled"

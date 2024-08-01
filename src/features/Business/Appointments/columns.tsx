@@ -14,7 +14,8 @@ export type Appointments = {
     bookedBy: string,
     teamMember: string,
     price: string | number,
-    status: string
+    status: string,
+    bookingType: string,
   }
 export const columns: ColumnDef<Appointments>[] = [
     {
@@ -89,6 +90,10 @@ export const columns: ColumnDef<Appointments>[] = [
         header: "Team Member",
       },
       {
+        accessorKey: "bookingType",
+        header: "Booking Type",
+      },
+      {
         accessorKey: "price",
         header: () => (<button onClick={() => console.log("price sort click")} className="flex items-center cursor-pointer">
             <div className="mr-1">Price</div>
@@ -102,7 +107,7 @@ export const columns: ColumnDef<Appointments>[] = [
         header: "Status",
         cell: ({ row }) => {
             const status: string = row.getValue("status")
-            return <Selector onSelect={() => { } } className={"border-2 border-primary-clr"} placeholder={status} options={bookingStatus} label={undefined}/>
+            return <Selector onSelect={() => { } } className={"border-2 border-primary-clr rounded-lg text-lg capitalize"}  placeholder={status} options={bookingStatus} label={undefined}/>
           },
       }
 ]
