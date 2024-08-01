@@ -14,16 +14,48 @@ import { Keyboard, Pagination, Navigation } from "swiper/modules";
 import GetImage from "../../assets/GetImage.tsx";
 import { Reviews } from "./Reviews.tsx";
 import { useEffect, useState } from "react";
-import { Card } from "@mui/material";
+import { Card, Modal } from "@mui/material";
 import { updateUser } from "../../store/slices/currentUserSlice.js";
 import { useDispatch } from "react-redux";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Box, Grid } from "@mui/material";
+import GetIcon from "../../assets/Icon/icon.tsx";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  bgcolor: "background.paper",
+  border: "2px",
+  boxShadow: 24,
+  p: 4,
+  borderradius: "2px",
+};
 
 function EstablishmentDetails({ estId }) {
-  const [imageIdList, setImageIdList]= useState<string | any>([]);
+  const [imageIdList, setImageIdList] = useState<string | any>([]);
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const userDetails = useSelector((state: any) => {
+    return state?.currentUserDetails;
+  });
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const customerPaymentSuccess =
+    location.pathname === "/salon/appointment-success";
 
   const dispatch = useDispatch();
+
+  const goToHomePage = () => {
+    navigate("/");
+  };
 
   const {
     data: establishmentData,
@@ -40,18 +72,20 @@ function EstablishmentDetails({ estId }) {
   const fetchImage = async (image) => {
     try {
       setLoading(true);
-      const response = await endpoint.getImages(image, establishmentData?.data?.data?.id);
+      const response = await endpoint.getImages(
+        image,
+        establishmentData?.data?.data?.id
+      );
 
       const imageUrl = URL.createObjectURL(response.data);
-      return imageUrl
+      return imageUrl;
     } catch (error) {
       setLoading(false);
     }
   };
 
-  useEffect( () =>{
-    const callFetchImageApi = async () =>{
-      
+  useEffect(() => {
+    const callFetchImageApi = async () => {
       const urls = [];
       for (const imageId of imageIdList) {
         const imageUrl = await fetchImage(imageId);
@@ -59,85 +93,143 @@ function EstablishmentDetails({ estId }) {
       }
       setImageUrls(urls);
       setLoading(false);
-    }
+    };
     if (imageIdList?.length > 0) {
       callFetchImageApi();
     }
-  }, [imageIdList])
+  }, [imageIdList]);
 
-  useEffect(()=>{
-    setImageIdList(establishmentData?.data?.data?.estImages)
-  }, [establishmentData])
+  useEffect(() => {
+    setImageIdList(establishmentData?.data?.data?.estImages);
+  }, [establishmentData]);
 
-  useEffect(()=>{
-    setTimeout(()=>{
-      if(localStorage.getItem('Token')){
+  useEffect(() => {
+    setTimeout(() => {
+      if (localStorage.getItem("Token")) {
         const fetchCurrentUserDetails = async () => {
-            try {
-              const response = await endpoint.getCurrentUserDetails(); // Call the async function to get user details
-              const userDetails = response?.data; // Assuming response.data contains the user details
-            
+          try {
+            const response = await endpoint.getCurrentUserDetails(); // Call the async function to get user details
+            const userDetails = response?.data; // Assuming response.data contains the user details
 
-              dispatch(updateUser(userDetails?.data)); // Dispatch the updateUser action with user details
-            } catch (error) {
-              console.error('Error fetching user details:', error); // Handle any errors that occur
-            }
+            dispatch(updateUser(userDetails?.data)); // Dispatch the updateUser action with user details
+          } catch (error) {
+            console.error("Error fetching user details:", error); // Handle any errors that occur
           }
-          fetchCurrentUserDetails();
+        };
+        fetchCurrentUserDetails();
       }
-    },1000)
-    
-  },[])
-  return (
-    <div className="searchDetailsContainer">
-      <HeaderDetails
-        isLoading={isLoading}
-        establishmentData={establishmentData?.data?.data}
-      />
-      {/* <ImageSlides /> */}
-      <Swiper
-        slidesPerView={3}
-        spaceBetween={30}
-        keyboard={{
-          enabled: true,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        modules={[Keyboard, Pagination, Navigation]}
-      >
-        
-              {/* <GetImage imageName="SaloonImage" /> */}
-              {loading && <p>Loading...</p>}
-              <div style={{ display: 'flex', flexWrap: 'wrap'}}>
-                {imageUrls.map((url, index) => (
-                  <SwiperSlide>
-                    <img key={index} src={url} alt={`Image ${index}`} style={{ width: '300px', height: '200px', margin: '10px' }} />
-                  </SwiperSlide>
-                ))}
-              </div>
-            
-      </Swiper>
+    }, 1000);
+  }, []);
 
-      <div className="mx-16 service-search-container">
-        <ServiceDetails
+  const handleOpen = () => {
+    setOpen((prev) => !prev);
+    navigate("/");
+  };
+
+  useEffect(() => {
+    if (customerPaymentSuccess) {
+      setOpen(true);
+    }
+  }, [customerPaymentSuccess]);
+
+  return (
+    <>
+      <Modal
+        open={open}
+        onClose={handleOpen}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style} className="rounded-3xl filter-box">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <GetIcon
+              onClick={() => {}}
+              className="my-5 mx-16 p-1 cursor-pointer rounded-sm"
+              iconName="CalendarConfirmedIcon"
+            />
+            <div id="title" className="font-bold text-2xl mb-3 text-indigo-800">
+              Dear {userDetails?.fullName}
+            </div>
+            <div className="font-semibold text-base mb-3 text-gray-800">
+              Your appointment has been confirmed
+            </div>
+          </div>
+          <Grid container spacing={2} className="filters-container">
+            <Grid item xs={12}></Grid>
+          </Grid>
+        </Box>
+      </Modal>
+      <div className="searchDetailsContainer">
+        <HeaderDetails
           isLoading={isLoading}
-          establishmentData={establishmentData?.data?.data?.categories}
+          establishmentData={establishmentData?.data?.data}
         />
-        <Availability
-          isLoading={isLoading}
-          establishmentData={establishmentData?.data?.data?.availableDays}
-          profile={establishmentData?.data?.data?.profile}
+        {/* <ImageSlides /> */}
+        <Swiper
+          slidesPerView={3}
+          spaceBetween={30}
+          keyboard={{
+            enabled: true,
+          }}
+          pagination={{
+            clickable: true,
+          }}
+          navigation={true}
+          modules={[Keyboard, Pagination, Navigation]}
+        >
+          {/* <GetImage imageName="SaloonImage" /> */}
+          {loading && <p>Loading...</p>}
+          <div style={{ display: "flex", flexWrap: "wrap" }}>
+            {imageUrls.map((url, index) => (
+              <SwiperSlide>
+                <img
+                  key={index}
+                  src={url}
+                  alt={`Image ${index}`}
+                  style={{ width: "300px", height: "200px", margin: "10px" }}
+                />
+              </SwiperSlide>
+            ))}
+          </div>
+        </Swiper>
+
+        <div className="mx-16 service-search-container">
+          <ServiceDetails
+            isLoading={isLoading}
+            establishmentData={establishmentData?.data?.data?.categories}
+          />
+          <Availability
+            isLoading={isLoading}
+            establishmentData={establishmentData?.data?.data?.availableDays}
+            profile={establishmentData?.data?.data?.profile}
+          />
+        </div>
+
+        {establishmentData?.data?.data?.id && (
+          <Reviews establishmentId={establishmentData?.data?.data?.id} />
+        )}
+
+        <About
+          establishmentEmployees={establishmentData?.data?.data?.employees}
+          establishmentAbout={
+            establishmentData?.data?.data?.profile?.establishmentAbout
+          }
+          establishmentFeatures={establishmentData?.data?.data?.features}
+          establishmentLanguages={establishmentData?.data?.data?.languages}
+          establishmentPaymentTypes={
+            establishmentData?.data?.data?.paymentTypes
+          }
+          id="SearchDetailAbout"
         />
       </div>
-      
-      {
-        establishmentData?.data?.data?.id  && <Reviews  establishmentId = {establishmentData?.data?.data?.id} />
-      }
-      
-      <About establishmentEmployees= {establishmentData?.data?.data?.employees} establishmentAbout= {establishmentData?.data?.data?.profile?.establishmentAbout} establishmentFeatures={establishmentData?.data?.data?.features} establishmentLanguages={establishmentData?.data?.data?.languages} establishmentPaymentTypes={establishmentData?.data?.data?.paymentTypes} id="SearchDetailAbout" />
-    </div>
+    </>
   );
 }
 

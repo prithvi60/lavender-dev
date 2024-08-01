@@ -68,9 +68,12 @@ export const establishmentSearchResult = "ef/getEstablishments";
 
 export const membershipTypesList = "package/list";
 
-export const subscriptionInitiate = "subscription/initiate";
+export const subscriptionInitiate = "subscription/business/membership/initiate";
 
 export const subscriptionStatus = "subscription/status";
+
+export const customerSubscriptionInitiate =
+  "subscription/customer/appointment/initiate";
 
 export function setBrowserCache(key: string, value: any) {
   window.localStorage.setItem(key, value);

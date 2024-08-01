@@ -39,6 +39,7 @@ import {
   membershipTypesList,
   subscriptionInitiate,
   subscriptionStatus,
+  customerSubscriptionInitiate,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -350,6 +351,15 @@ class Endpoint {
   async checkSubscriptionStatus(payload) {
     const response = await axiosInstance.get(
       `${BaseURL}${subscriptionStatus}/${payload}`
+    );
+
+    return response;
+  }
+
+  async makeCustomerSubscriptionInitiate(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${customerSubscriptionInitiate}`,
+      payload
     );
 
     return response;
