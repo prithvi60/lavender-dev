@@ -603,7 +603,9 @@ export const BusinessInfo = ({
                           console.log(marker);
                         }}
                         icon={{
-                          url: "googleMaps.png",
+                          // url: "googleMaps.png",
+                          url: "https://res.cloudinary.com/djoz0tmyl/image/upload/v1722526805/googleMaps_ydgvvh.png",
+
                           scaledSize: new google.maps.Size(35, 35),
                         }}
                       />
