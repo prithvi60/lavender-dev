@@ -812,7 +812,9 @@ export default function SearchResult() {
                         position={position}
                         onClick={() => handleActiveMarker(id)}
                         icon={{
-                          url: "/lavenderLogo.png",
+                          // url: "/lavenderLogo.png",
+                          url: "https://res.cloudinary.com/djoz0tmyl/image/upload/v1722526576/lavenderLogo_jrmyir.png",
+
                           scaledSize: new window.google.maps.Size(22, 22),
                           anchor: new window.google.maps.Point(14, 38),
                         }}
@@ -851,7 +853,8 @@ export default function SearchResult() {
                   <MarkerF
                     position={center}
                     icon={{
-                      url: "/googleMaps.png",
+                      // url: "/googleMaps.png",
+                      url: "https://res.cloudinary.com/djoz0tmyl/image/upload/v1722526805/googleMaps_ydgvvh.png",
                       scaledSize: new window.google.maps.Size(40, 40),
                     }}
                     onClick={handleCurrentLocationClick}

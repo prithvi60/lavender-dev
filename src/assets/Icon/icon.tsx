@@ -354,6 +354,14 @@ function GetIcon(props) {
       <path d="M4.61914 20.4043H20.0001" stroke="#B3B3B3" stroke-width="2" stroke-linecap="round"/>
       </svg>
     break;
+    case 'EditWhiteIcon':
+      IconElement = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5.11968 14.1094C5.12518 13.8516 5.23003 13.6059 5.41234 13.4236L12.798 6.03791C13.1885 5.64739 13.8217 5.64739 14.2122 6.03791L16.805 8.63064C17.1955 9.02117 17.1955 9.65433 16.805 10.0449L9.41198 17.4379C9.23403 17.6158 8.99553 17.7201 8.74406 17.73L6.10097 17.8336C5.52534 17.8562 5.04972 17.389 5.062 16.8131L5.11968 14.1094Z" fill="white"/>
+      <rect x="15.8369" y="3" width="5.66668" height="2.42858" rx="1" transform="rotate(45 15.8369 3)" fill="white"/>
+      <path d="M4.61914 20.4062H20.0001" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      
+    break;
     case 'DragIcon':
       IconElement = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M3 9L21 9" stroke="#B3B3B3" stroke-width="2" stroke-linecap="round"/>

@@ -12,10 +12,11 @@ import {
   Grid,
   FormControlLabel,
   Switch,
+  Button
 } from "@mui/material";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
-import { Button } from "../../../components/ui/button";
+// import { Button } from "../../../components/ui/button";
 import { useDrawer } from "../../../features/Business/BusinessDrawerContext";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -27,8 +28,8 @@ import { useSelector } from "react-redux";
 
 const schema = yup.object().shape({
   categoryId: yup.string(),
-  categoryName: yup.string().required(),
-  serviceTags: yup.string(),
+  categoryName: yup.string().required("Category name is required"),
+  serviceTags: yup.string().required("Service tag is required"),
 });
 
 // const categoriesApiResponseSample = {
@@ -135,11 +136,11 @@ export default function AddCategoryForm({payload}) {
           {
             categoryId 
             ?  
-            <div className="text-lg h-14 mb-2 p-4 text-white">
+            <div className="text-xl h-14 mb-2 p-4 text-white font-bold">
                 Edit new Category
             </div> 
             : 
-            <div className="text-lg h-14 mb-2 p-4 text-white">
+            <div className="text-xl h-14 mb-2 p-4 text-white font-bold">
                 Add new Category
             </div> 
           }
@@ -154,17 +155,36 @@ export default function AddCategoryForm({payload}) {
             >
               Category name
             </Typography>
-            {
+            {/* {
               categoryId 
               ?
-              <TextField fullWidth defaultValue="test" size="small" variant="outlined" {...register("categoryName")} />
+              <TextField sx={styles.textField} fullWidth defaultValue="" size="small" variant="outlined" {...register("categoryName")} />
               :
-              <TextField fullWidth defaultValue="test"  size="small" variant="outlined" {...register("categoryName")} />
+              <TextField sx={styles.textField} fullWidth defaultValue="tst"  size="small" variant="outlined" {...register("categoryName")} />
 
             }
             {errors.categoryName && (
               <p className="text-red-500 font-medium">{errors.categoryName.message}</p>
-            )}
+            )} */}
+
+              <Controller
+                name="categoryName"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <FormControl error={!!errors.categoryName} fullWidth>
+                    <TextField
+                      {...field}
+                      size="small"
+                      variant="outlined"
+                      error={!!errors.categoryName}
+                      fullWidth
+                      sx={styles.textField}
+                    />
+                    <FormHelperText>{errors.categoryName?.message}</FormHelperText>
+                  </FormControl>
+                  )}
+              />
           </div>
 
           <div className="mb-4">
@@ -184,6 +204,7 @@ export default function AddCategoryForm({payload}) {
                     {...field}
                     error={!!errors.serviceTags}
                     fullWidth
+                    sx={styles.select}
                   >
                     {serviceTagList.map((emp) => (
                       <MenuItem key={emp.value} value={emp.value}>
@@ -201,16 +222,56 @@ export default function AddCategoryForm({payload}) {
           <div className="flex justify-between mt-4">
             <Button
               onClick={closeDrawer}
-              variant="ghost"
-              style={{ color: "#825FFF" }}
+              sx={styles.txtBtn}
             >
               Cancel
             </Button>
-            <Button type="submit">Save</Button>
+            <Button type="submit" sx={styles.btn}>Save</Button>
           </div>
         </div>
         
       </form>
     </div>
   );
+}
+
+const styles = {
+  btn: {
+    color: '#FFFFFF',
+    backgroundColor: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    padding: '10px 40px 10px 40px',
+    borderRadius: '10px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#5A3EBF',
+    }
+  },
+  txtBtn: {
+    color: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    textTransform: 'none',
+  },
+  textField: {
+    width: '272px',
+    '& .MuiInputBase-root': {
+      height: '55px', // Apply height to the input root
+      borderRadius: '9px',
+    },
+    
+  },
+  select: {
+    '& .MuiInputBase-root': {
+      width: '272px !important',
+      height: '55px',
+      borderRadius: '9px',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderRadius: '9px',
+    },
+  },
 }
