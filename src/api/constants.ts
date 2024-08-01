@@ -1,4 +1,4 @@
-export const BaseURL = `http://135.181.33.90/lavender-api/`;
+export const BaseURL = `${process.env.REACT_APP_API_BASE_URL}/lavender-api/`;
 
 export const establishmentSearch = 'e/estsearch'
 
