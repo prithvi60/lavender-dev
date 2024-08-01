@@ -13,8 +13,9 @@ import {
   FormControlLabel,
   Switch,
   Checkbox,
+  Button
 } from "@mui/material";
-import { Button } from "../../../components/ui/button";
+import { Button as UiButton} from "../../../components/ui/button";
 import { useDrawer } from "../../../features/Business/BusinessDrawerContext";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -25,14 +26,15 @@ import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 
 const schema = yup.object().shape({
-  serviceName: yup.string().required(),
-  serviceDescription: yup.string().required(),
+  serviceName: yup.string().required("Service name is required"),
+  serviceDescription: yup.string().required("Service description is required"),
   employees: yup.array().min(1, "Please select at least one employees").required(),
-  gender: yup.string().required(),
-  startingPrice: yup.string().required(),
-  duration: yup.string().required(),
+  gender: yup.string().required("Gender is required"),
+  startingPrice: yup.string().required("Starting price is required"),
+  durationHours: yup.string().required("Duration hours is required"),
+  durationMinutes: yup.string().required("Duration minutes is required"),
   categoryId: yup.string().required(),
-  categoryName: yup.string(),
+  categoryName: yup.string().required("Category name is required"),
   options: yup.array().of(
     yup.object().shape({
       optionName: yup.string().required("Option name is required"),
@@ -45,6 +47,11 @@ const schema = yup.object().shape({
   ),
 });
 
+const AquaCheckbox = styled(Checkbox)(({ theme }) => ({
+  '&.Mui-checked': {
+    color: '#35AFAC', // Aqua color for tick mark
+  },
+}));
 
 export default function AddServicesForm({payload}) {
   const {
@@ -55,6 +62,10 @@ export default function AddServicesForm({payload}) {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    defaultValues: {
+      durationHours: '',
+      durationMinutes: '',
+    },
   });
 
   const [categories, setCategories] = React.useState<any[]>([]); // Update type accordingly
@@ -94,6 +105,9 @@ export default function AddServicesForm({payload}) {
   }, [establishmentId]);
   
   const handleFilterDrawerSubmit = (data) => {
+
+    const totalMinutes = parseInt(data.durationHours, 10) * 60 + parseInt(data.durationMinutes, 10);
+
     // Adjust options based on serviceName, startingPrice, and duration if options are not entered
     if (!data.options || data.options.length === 0) {
       data.options = [
@@ -103,7 +117,7 @@ export default function AddServicesForm({payload}) {
           maxPrice: null,
               discountPrice: null,
               discountPercentage: null,
-          duration: parseInt(data.duration) || 0,
+          duration: totalMinutes || 0,
         },
       ];
     }
@@ -128,7 +142,7 @@ export default function AddServicesForm({payload}) {
         gender: data.gender,
         employees: data.employees,
         startingPrice: parseFloat(data.startingPrice) || 0,
-        duration: parseInt(data.duration) || 0,
+        duration: totalMinutes || 0,
         options: data.options,
         active: true,  // Add active: true here
       }
@@ -182,7 +196,7 @@ export default function AddServicesForm({payload}) {
     <div className="flex-col h-full">
       <form onSubmit={handleSubmit(handleFilterDrawerSubmit)}>
         <div className="bg-blue-950">
-          <div className="text-lg h-14 mb-2 pt-4 pl-4 text-white">Add new service</div>
+          <div className="text-xl h-14 mb-2 pt-4 pl-4 text-white font-bold">Add new service</div>
           <div className="mb-4 bg-white" style={{ width: "70%", borderRadius: "10px", marginLeft: '10px' }}>
             <Controller
               name="categoryId"
@@ -190,7 +204,7 @@ export default function AddServicesForm({payload}) {
               defaultValue=""
               render={({ field }) => (
                 <FormControl error={!!errors.categoryId} fullWidth>
-                  <Select {...field} error={!!errors.categoryId} fullWidth>
+                  <Select {...field} error={!!errors.categoryId} fullWidth sx={styles.select}>
                     {categories?.map((item) => (
                       <MenuItem key={item.categoryId} value={item.categoryId}>
                         {item?.categoryName}
@@ -203,30 +217,60 @@ export default function AddServicesForm({payload}) {
             />
           </div>
         </div>
-        <div className="p-4">
+        <div className="px-4">
           <div className="mb-4">
             <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
               Service name
             </Typography>
-            <TextField fullWidth size="small" variant="outlined" {...register("serviceName")} />
-            {errors.serviceName && (
-              <p className="text-red-500 font-medium">{errors.serviceName.message}</p>
-            )}
+            <Controller
+                name="serviceName"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <FormControl error={!!errors.serviceName} fullWidth>
+                    <TextField
+                      {...field}
+                      size="small"
+                      variant="outlined"
+                      error={!!errors.serviceName}
+                      fullWidth
+                      sx={styles.textField}
+                    />
+                    <FormHelperText>{errors.serviceName?.message}</FormHelperText>
+                  </FormControl>
+                  )}
+              />
           </div>
 
           <div className="mb-4">
             <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
               Service description
             </Typography>
-            <TextField
-              fullWidth
-              size="small"
-              variant="outlined"
-              {...register("serviceDescription")}
-            />
-            {errors.serviceDescription && (
-              <p className="text-red-500 font-medium">{errors.serviceDescription.message}</p>
-            )}
+
+            <Controller
+                  name="serviceDescription"
+                  control={control}
+                  defaultValue=""
+                  render={({ field }) => (
+                    <FormControl error={!!errors.serviceDescription} fullWidth>
+                      <TextField
+                        {...field}
+                        variant="outlined"
+                        id="outlined-multiline-static"
+                        placeholder="Elevate your style with our precision Haircut service. "
+                        multiline
+                        rows={3}
+                        error={!!errors.serviceDescription}
+                        fullWidth
+                        sx={{width: '272px',
+                          '& .MuiInputBase-root': {
+                            borderRadius: '9px',
+                          },}}
+                      />
+                      <FormHelperText>{errors.serviceDescription?.message}</FormHelperText>
+                    </FormControl>
+                  )}
+                />
           </div>
 
           <div className="mb-4">
@@ -236,20 +280,30 @@ export default function AddServicesForm({payload}) {
               defaultValue={[]}
               render={({ field }) => (
                 <FormControl error={!!errors.employees} fullWidth>
-                  <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-                    employees
+                  <Typography sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
+                    Employees
                   </Typography>
                   <Select
                     {...field}
                     multiple
                     error={!!errors.employees}
                     fullWidth
-                    renderValue={(selected) => selected.join(", ")}
+                    renderValue={(selected) => {
+                      const selectedNames = employee
+                        .filter((emp) => selected.includes(emp.employeeId))
+                        .map((emp) => emp.employeeName)
+                        .join(', ');
+                      return selectedNames;
+                    }}
+                    sx={styles.select}
                   >
-                    {employee?.map((emp) => (
+                    {employee.map((emp) => (
                       <MenuItem key={emp.employeeId} value={emp.employeeId}>
-                        <Checkbox checked={field.value.indexOf(emp.employeeName) > -1} />
-                        {emp?.employeeName}
+                        <AquaCheckbox
+                          checked={field.value.includes(emp.employeeId)}
+                          // No need to handle change here since `field` will manage value
+                        />
+                        {emp.employeeName}
                       </MenuItem>
                     ))}
                   </Select>
@@ -269,7 +323,7 @@ export default function AddServicesForm({payload}) {
                   <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
                     Gender
                   </Typography>
-                  <Select {...field}  error={!!errors.gender} fullWidth>
+                  <Select {...field}  error={!!errors.gender} fullWidth sx={styles.select}>
                     <MenuItem value="M">Male</MenuItem>
                     <MenuItem value="F">Female</MenuItem>
                   </Select>
@@ -283,7 +337,7 @@ export default function AddServicesForm({payload}) {
 
           <div className="mb-4">
             <Grid container spacing={2}>
-              <Grid item xs={6} sx={{ alignContent: "end" }}>
+              <Grid item xs={12} sx={{ alignContent: "end" }}>
                 <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
                   Price
                 </Typography>
@@ -299,6 +353,7 @@ export default function AddServicesForm({payload}) {
                         variant="outlined"
                         error={!!errors.startingPrice}
                         fullWidth
+                        sx={styles.textField}
                       />
                       <FormHelperText>{errors.startingPrice?.message}</FormHelperText>
                     </FormControl>
@@ -310,24 +365,44 @@ export default function AddServicesForm({payload}) {
 
           <div className="mb-4">
             <Grid container spacing={2} sx={{ alignContent: "end" }}>
-              <Grid item xs={6} sx={{ alignContent: "end" }}>
+              <Grid item xs={12} sx={{ alignContent: "end" }}>
                 <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
                   Duration
                 </Typography>
-                <Controller
-                  name="duration"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <FormControl error={!!errors.duration} fullWidth>
-                      <Select {...field} error={!!errors.duration} fullWidth>
-                        <MenuItem value="20">20</MenuItem>
-                        <MenuItem value="30">30</MenuItem>
-                      </Select>
-                      <FormHelperText>{errors.duration?.message}</FormHelperText>
-                    </FormControl>
-                  )}
-                />
+                <Grid container spacing={1}>
+                  <Grid item xs={6}>
+                    <Controller
+                      name="durationHours"
+                      control={control}
+                      render={({ field }) => (
+                        <FormControl fullWidth error={!!errors.durationHours}>
+                          <Select {...field} displayEmpty sx={styles.select}>
+                            {Array.from({ length: 9 }, (_, i) => (
+                              <MenuItem key={i} value={i}>{i} hour</MenuItem>
+                            ))}
+                          </Select>
+                          <FormHelperText>{errors.durationHours?.message}</FormHelperText>
+                        </FormControl>
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Controller
+                      name="durationMinutes"
+                      control={control}
+                      render={({ field }) => (
+                        <FormControl fullWidth error={!!errors?.durationMinutes}>
+                          <Select {...field} displayEmpty sx={styles.select}>
+                            {[0, 15, 30, 45].map(min => (
+                              <MenuItem key={min} value={min}>{min} minutes</MenuItem>
+                            ))}
+                          </Select>
+                          <FormHelperText>{errors.durationMinutes?.message}</FormHelperText>
+                        </FormControl>
+                      )}
+                    />
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </div>
@@ -404,27 +479,68 @@ export default function AddServicesForm({payload}) {
               </div>
 
               <div className="mb-4">
-                <Button variant="link" onClick={() => removeOption(index)}>
+                <UiButton variant="link" onClick={() => removeOption(index)}>
                   Remove Option
-                </Button>
+                </UiButton>
               </div>
             </div>
           ))}
 
-          <div className="flex justify-center mt-4">
-            <Button variant="link" onClick={addOption}>
+          <div className="flex justify-center mt-4" >
+            <UiButton variant="link" onClick={addOption} style={{color: '#808080 !important'}}>
               Add options [+]
-            </Button>
+            </UiButton>
           </div>
 
           <div className="flex justify-between mt-4">
-            <Button onClick={closeDrawer} variant="ghost" style={{ color: "#825FFF" }}>
+            <Button onClick={closeDrawer} sx={styles.txtBtn}>
               Cancel
             </Button>
-            <Button type="submit">Save</Button>
+            <Button type="submit" sx={styles.btn}>Save</Button>
           </div>
         </div>
       </form>
     </div>
   );
+}
+
+const styles = {
+  btn: {
+    color: '#FFFFFF',
+    backgroundColor: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    padding: '10px 40px 10px 40px',
+    borderRadius: '10px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#5A3EBF',
+    }
+  },
+  txtBtn: {
+    color: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    textTransform: 'none',
+  },
+  textField: {
+    width: '272px',
+    '& .MuiInputBase-root': {
+      height: '55px', // Apply height to the input root
+      borderRadius: '9px',
+    },
+    
+  },
+  select: {
+    '& .MuiInputBase-root': {
+      width: '272px !important',
+      height: '55px',
+      borderRadius: '9px',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderRadius: '9px',
+    },
+  },
 }

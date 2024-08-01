@@ -70,6 +70,7 @@ export const Photos = ({userDetails}) => {
   };
 
   const onChange =  (imageList) => {
+    
     setImages(imageList);
     setIsImageUploaded(true);
   };
@@ -81,12 +82,30 @@ export const Photos = ({userDetails}) => {
   }, [images]); 
 
   const saveImages = async () => {
+    
     try{
-      const payload = new FormData();
-      images.forEach((image) => {
-        payload.append('file', image.file);
-      });
-      const res = mutation.mutate(payload);
+      //const payload = new FormData();
+
+      
+      for (const image of images) {
+        const payload = new FormData();
+        payload.append('file', image?.file);
+        const response = await mutation.mutateAsync(payload);
+        if (response?.data?.success) {
+          setImageIdList((prevImageIdList) => {
+            const updatedImageIdList = [...prevImageIdList, response?.data?.data];
+            return updatedImageIdList;
+          });
+        }
+      }
+      
+      
+      // images?.forEach((image) => {
+      //   payload.append('file', image?.file);
+
+      // });
+      // const res = mutation.mutate(payload);
+
       setImages([]);
     }
     catch{
@@ -101,10 +120,7 @@ export const Photos = ({userDetails}) => {
   const mutation = useMutation<ImageUploadResponse, Error, FormData>({
     mutationFn: async (payload) => {
       const response =  await endpoint.saveEstablishmentPhotos(payload, establishmentId);
-      if(response?.data?.success){
-        const updatedImageIdList = [...imageIdList, response?.data?.data];
-        setImageIdList(updatedImageIdList)
-      }
+      
       return response;
     },
     onSuccess: (response) => {
@@ -124,6 +140,7 @@ export const Photos = ({userDetails}) => {
   });
 
   const handleButtonClick = async () => {
+    
     setLoading(true);
     try {
       const urls = [];
@@ -178,7 +195,7 @@ export const Photos = ({userDetails}) => {
               <Droppable droppableId='droppable'>
                 {(provided) => (
                   <div {...provided.droppableProps} ref={provided.innerRef} className='flex flex-wrap justify-center'>
-                    {imageList.map((image, index) => (
+                    {imageList?.map((image, index) => (
                       <Draggable key={index} draggableId={index.toString()} index={index}>
                         {(provided) => (
                           <div

@@ -54,7 +54,7 @@ export default function BusinessTeam() {
 
   return (
     <div className="container mx-auto">
-      <DataTable  columns={columns} data={data} />
+      <DataTable columns={columns} data={data} />
     </div>
   )
 }

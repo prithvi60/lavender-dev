@@ -65,7 +65,7 @@ export const Appointment = ({data, elementRef, onDragStart, onDragEnd, onDrag, d
           borderRadius: '12px',
           borderWidth: '1px',
           borderColor: 'white',
-          left: `${left}%`
+          left: `${left}%`,
         }}
         >
           <CustomTooltip 

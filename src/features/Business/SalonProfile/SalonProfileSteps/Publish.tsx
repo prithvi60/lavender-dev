@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Modal, Box } from '@mui/material'
 import GetIcon from '../../../../assets/Icon/icon'
+import Text from '../../../../components/Text'
 
 const style = {
   position: "absolute",
@@ -30,6 +31,9 @@ export const Publish = ({userDetails}) => {
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
   const [isDisabled, setIsDisabled] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [employee, setEmployee] = useState([]);
+  const [errorMsg, showErrorMsg] = useState(false);
 
   const {
     data: establishmentData,
@@ -51,6 +55,9 @@ export const Publish = ({userDetails}) => {
     }
     setImageIdList(establishmentData?.data?.data?.estImages)
     setIsPublish(establishmentData?.data?.data?.published)
+    setCategories(establishmentData?.data?.data?.categories)
+    setEmployee(establishmentData?.data?.data?.employees)
+
   }, [establishmentData])
   
   const fetchImage = async (image) => {
@@ -97,8 +104,13 @@ export const Publish = ({userDetails}) => {
   }
 
   function handlePublishClick(){
-    setIsPublish(true); 
-    setOpen((prev) => !prev);
+    if(categories.length > 0 && employee.length > 0){
+      setIsPublish(true); 
+      setOpen((prev) => !prev);
+    }
+    else{
+      showErrorMsg(true)
+    }
   }
 
   const handleOpen = () => {
@@ -117,6 +129,8 @@ export const Publish = ({userDetails}) => {
     
   }, [isPublish])
 
+  console.log("establishmentData : ", establishmentData?.data?.data)
+
   return (
     <div className='w-full'>
        {loading && <p>Loading...</p>}
@@ -127,8 +141,13 @@ export const Publish = ({userDetails}) => {
         <div className='text-5xl font-bold text-center p-4' style={{color: '#4D4D4D'}}>{establishmentData?.data?.data?.profile?.establishmentName} profile is created</div>
         <div className='text-xl font-normal text-center p-4' style={{color: '#4D4D4D'}}>You can publish now to make it available for everyone</div>
 
-        <div className='flex justify-center'>
+        <div className='flex justify-center flex-col items-center'>
+        {
+          errorMsg && 
+          <Text sx={{color: 'red', width: '100%', paddingBottom: 2}} name={"Please enter Services and Employee details to publish your Establishment."}/>
+        }
         <div className='flex justify-center flex-col w-36'>
+            
             {!isPublish && 
               <Buttons disabled={isDisabled} fullWidth variant="contained" sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', marginBottom: '10px'}} name={'Publish'}  onClick={()=>{handlePublishClick()}}></Buttons>
             } 
