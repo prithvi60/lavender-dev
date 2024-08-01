@@ -113,7 +113,7 @@ export function DataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead className="h-24 border-b-2 border-t-2 border-gray-300" key={header.id} style={{fontWeight:'600',color:"#808080"}}>
+                  <TableHead className="h-24 border-b-2 border-t-2 border-gray-300" key={header.id} style={{fontWeight:'600',color:"#808080", fontSize: '20px'}}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -130,7 +130,7 @@ export function DataTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                style={{fontWeight:'700',color:"#4D4D4D"}}
+                style={{fontWeight:'700',color:"#4D4D4D", fontSize: '18px'}}
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
                 onClick={() => openDrawer("AppointmentEdit",[row])}
