@@ -20,7 +20,7 @@ import { updateUser } from '../store/slices/currentUserSlice.js';
 const BusinessLayoutPage = () => {
   
   //const [isSearchPage, setIsSearchPage] = useState(true);
-  const [activeField, setActiveField] = useState("Salon profile")
+  const [activeField, setActiveField] = useState("Schedule")
   const [userDetails, setUserDetails] = useState('')
   const dispatch = useDispatch()
   const getData = useSelector(
@@ -86,11 +86,11 @@ const BusinessLayoutPage = () => {
       <Box className='landing-page'>
       <div className='flex flex-col h-full'>
         <BusinessHeader pageName={activeField}/>
-        <div className='flex flex-row'>
+        <div className='flex flex-row '>
           <div className='rounded-lg h-max'>
             <SideBar activeField={activeField} onChange={setActiveField}/>
           </div>
-          <div id='render-main' className='w-full h-full' style={{overflowX:'hidden'}}>
+          <div id='render-main' className='w-full h-full' >
             {renderMainContent()}
           </div>
         </div> 

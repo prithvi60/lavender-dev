@@ -128,7 +128,13 @@ export const SalonSetup = ({ setMembershipScreen }) => {
           {!(activeStep >= 3) && (
             <Buttons
               disabled={disabled}
-              sx={{ borderRadius: "10px", padding: "10px 40px 10px 40px" }}
+              sx={{
+                borderRadius: "10px",
+                padding: "10px 40px 10px 40px",
+                textTransform: "none",
+                fontSize: "18px",
+                fontWeight: 600,
+              }}
               variant="contained"
               onClick={onSetActiveStep}
               name={"Proceed"}

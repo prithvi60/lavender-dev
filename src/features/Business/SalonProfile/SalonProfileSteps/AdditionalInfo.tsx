@@ -256,7 +256,7 @@ export const AdditionalInfo = ({
             {errors.paymentChips && <span>This field is required</span>}
           </div>
 
-          <div style={{ marginTop: '30px' }}>
+          <div style={{ marginTop: '30px', marginBottom: '10px' }}>
             <Typography sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
               Check the features your salon offers:
             </Typography>
@@ -283,7 +283,7 @@ export const AdditionalInfo = ({
             {errors.otherChips && <span>This field is required</span>}
           </div>
 
-          <Button type='submit' variant='contained' color='primary'>
+          <Button type='submit' variant='contained' color='primary' sx={styles.btn}>
             Save
           </Button>
         </div>
@@ -291,3 +291,20 @@ export const AdditionalInfo = ({
     </div>
   );
 };
+
+
+const styles = {
+  btn: {
+      color: '#FFFFFF',
+      backgroundColor: '#825FFF',
+      fontWeight: 600,
+      fontSize: '16px',
+      lineHeight: '24px',
+      padding: '10px 40px 10px 40px',
+      borderRadius: '10px',
+      textTransform: 'none',
+      '&:hover': {
+        backgroundColor: '#5A3EBF',
+      }
+    },
+}

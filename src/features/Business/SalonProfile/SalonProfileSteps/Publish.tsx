@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Modal, Box } from "@mui/material";
 import GetIcon from "../../../../assets/Icon/icon";
+import Text from "../../../../components/Text";
 import { useSnackbar } from "../../../../components/Snackbar";
 import moment from "moment";
 
@@ -34,6 +35,9 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
   const [subsctiptionDetails, setSubscriptionDetails] = useState<any>({});
 
   const showSnackbar = useSnackbar();
+  const [categories, setCategories] = useState([]);
+  const [employee, setEmployee] = useState([]);
+  const [errorMsg, showErrorMsg] = useState(false);
 
   const {
     data: establishmentData,
@@ -56,6 +60,8 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
     }
     setImageIdList(establishmentData?.data?.data?.estImages);
     setIsPublish(establishmentData?.data?.data?.published);
+    setCategories(establishmentData?.data?.data?.categories);
+    setEmployee(establishmentData?.data?.data?.employees);
   }, [establishmentData]);
 
   const fetchImage = async (image) => {
@@ -103,9 +109,17 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
     );
   }
 
+  // function onClickPreview(){
+  //   navigate(`/salon/${userDetails != null ? userDetails?.establishmentId : ""}`)
+  // }
+
   function handlePublishClick() {
-    setIsPublish(true);
-    setOpen((prev) => !prev);
+    if (categories.length > 0 && employee.length > 0) {
+      setIsPublish(true);
+      setOpen((prev) => !prev);
+    } else {
+      showErrorMsg(true);
+    }
   }
 
   const handleOpen = () => {
@@ -150,6 +164,8 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
     }
   };
 
+  console.log("establishmentData : ", establishmentData?.data?.data);
+
   return (
     <div className="w-full">
       {loading && <p>Loading...</p>}
@@ -176,6 +192,41 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
           You can publish now to make it available for everyone
         </div>
       )}
+
+      <div className="flex justify-center flex-col items-center">
+        {errorMsg && (
+          <Text
+            sx={{ color: "red", width: "100%", paddingBottom: 2 }}
+            name={
+              "Please enter Services and Employee details to publish your Establishment."
+            }
+          />
+        )}
+        {/* <div className="flex justify-center flex-col w-36">
+          {!isPublish && (
+            <Buttons
+              disabled={isDisabled}
+              fullWidth
+              variant="contained"
+              sx={{
+                borderRadius: "10px",
+                padding: "10px 40px 10px 40px",
+                marginBottom: "10px",
+              }}
+              name={"Publish"}
+              onClick={() => {
+                handlePublishClick();
+              }}
+            ></Buttons>
+          )}
+          <Buttons
+            variant="outlined"
+            sx={{ borderRadius: "10px", padding: "10px 40px 10px 40px" }}
+            name={"Preview"}
+            onClick={() => onClickPreview()}
+          ></Buttons>
+        </div> */}
+      </div>
 
       <div className="flex justify-center">
         <div
