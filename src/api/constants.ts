@@ -36,6 +36,8 @@ export const savePhotos = 'e/getEstablishmentImage/'
 
 export const saveImageId = 'e/saveEstablishment/images'
 
+export const saveEmpImageId = 'e/saveEmployee/images'
+
 export const additionalInformation = 'e/saveEstablishment/additional'
 
 export const addService = 'e/saveEstablishment/service'

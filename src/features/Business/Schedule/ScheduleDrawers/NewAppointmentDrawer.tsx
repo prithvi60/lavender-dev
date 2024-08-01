@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { CalendarHeaderComponent, Selector } from "../../Appointments/AppointmentControllers";
 import StatusFilter from "../../../../components/FilterButtons";
 import Divider from "@mui/material/Divider";
-import { Button } from "../../../../components/ui/button";
+// import { Button } from "../../../../components/ui/button";
+import { Button } from "@mui/material";
 import { useDrawer } from "../../BusinessDrawerContext";
 import { addTime, getCurrentTime12HrFormat, getMonthAndDayNames, getTimeIntervals, range } from "../utils";
 import { Autocomplete, Box, Card, CardContent, Grid, IconButton, List, ListItem, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
@@ -43,6 +44,7 @@ export default function NewAppointmentDrawer({payload}) {
       try {
         const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
         if (establishmentData?.data?.success) {
+          console.log('establishmentData?.data?.data?.categories : ', establishmentData?.data?.data?.categories)
           setCategories(establishmentData?.data?.data?.categories || []);
         }
       } catch (error) {
@@ -110,6 +112,13 @@ export default function NewAppointmentDrawer({payload}) {
   console.log('startTime : ',startTime)
 
   console.log('categories : ',categories)
+
+  const options = categories.flatMap(category =>
+    category.services.map(service => ({
+      ...service,
+      categoryName: category?.categoryName
+    }))
+  );
 
   return (
     <div className="flex-col h-full">
@@ -183,21 +192,43 @@ export default function NewAppointmentDrawer({payload}) {
 
 <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Autocomplete
-          options={categories.flatMap(category => category.services)}
-          getOptionLabel={(option) => option.serviceName}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Search services"
-              variant="outlined"
-              fullWidth
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
-          )}
-          onChange={handleServiceSelect}
+      <Autocomplete
+      options={options}
+      getOptionLabel={(option) => option.serviceName || ""}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          variant="outlined"
+          placeholder="Search services"
+          fullWidth
+          value={searchTerm}
+          onChange={handleSearchChange}
         />
+      )}
+      renderOption={(props, option) => (
+        <li {...props}>
+          <Box>
+            <Typography variant="subtitle1" color="red" gutterBottom>
+              {option.categoryName}
+            </Typography>
+            <Typography variant="body1" fontWeight="bold">
+              {option.serviceName}
+            </Typography>
+            {option.options && option.options.length > 0 && (
+              <Box pl={2}>
+                {option.options.map((optionItem, index) => (
+                  <Typography key={index} variant="body2">
+                    - {optionItem.optionName} (${optionItem.salePrice.toFixed(2)})
+                  </Typography>
+                ))}
+              </Box>
+            )}
+          </Box>
+        </li>
+      )}
+      onChange={handleServiceSelect}
+      groupBy={(option) => option.categoryName}  // Group by category name
+    />
       </Grid>
       {selectedServices.map(service => (
         <Grid item xs={12} key={service.serviceId}>
@@ -224,19 +255,59 @@ export default function NewAppointmentDrawer({payload}) {
         <Divider />
         
       </div>
-      <div className="my-4 mx-7">
+      <div className="my-4 mx-7 flex justify-between">
         <Button
           onClick={resetData}
-          className="mx-10"
-          variant="ghost"
-          color="#825FFF"
+          sx={styles.txtBtn}
         >
           Reset
         </Button>
-        <Button onClick={handleFilterDrawerSubmit}>
+        <Button onClick={handleFilterDrawerSubmit} sx={styles.btn}>
           Done
         </Button>
       </div>
     </div>
   );
+}
+
+
+const styles = {
+  btn: {
+    color: '#FFFFFF',
+    backgroundColor: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    padding: '10px 40px 10px 40px',
+    borderRadius: '10px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#5A3EBF',
+    }
+  },
+  txtBtn: {
+    color: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    textTransform: 'none',
+  },
+  textField: {
+    width: '272px',
+    '& .MuiInputBase-root': {
+      height: '55px', // Apply height to the input root
+      borderRadius: '9px',
+    },
+    
+  },
+  select: {
+    '& .MuiInputBase-root': {
+      width: '272px !important',
+      height: '55px',
+      borderRadius: '9px',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderRadius: '9px',
+    },
+  },
 }

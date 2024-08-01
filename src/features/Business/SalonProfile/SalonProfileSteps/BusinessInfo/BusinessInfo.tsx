@@ -521,13 +521,14 @@ export const BusinessInfo = ({
                     </p>
                   )}
                 </CardContent>
-                <CardContent>
+                <CardContent sx={{textAlign: 'center'}}>
                   {isDirty && (
                     <Button
                       fullWidth
                       type="submit"
                       variant="contained"
-                      sx={{ fontSize: "14px" }}
+                      // sx={{ fontSize: "14px" }}
+                      sx={styles.btn}
                     >
                       Save
                     </Button>
@@ -615,3 +616,21 @@ export const BusinessInfo = ({
     </div>
   );
 };
+
+
+const styles = {
+  btn: {
+    width: '70%',
+    color: '#FFFFFF',
+    backgroundColor: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    padding: '10px 40px 10px 40px',
+    borderRadius: '10px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#5A3EBF',
+    }
+  },
+}

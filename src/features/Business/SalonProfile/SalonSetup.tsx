@@ -87,7 +87,7 @@ useEffect(()=>{
   
   return (
     <div>
-        <Buttons sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', width: '180px', height: '55.5px'}} variant= 'contained' onClick={()=>handleBtnClick()} name={'Get started'}> </Buttons>
+        <Buttons sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', width: '190px', height: '44px', fontSize: '20px', fontWeight: 600}} variant= 'contained' onClick={()=>handleBtnClick()} name={'Get started'}> </Buttons>
         <Dialog fullScreen open={isOpen} onClose={handleClose}>
         <Toolbar className="mb-4 stepper-header">
             <Box sx={{ width: '100%' }}>
@@ -109,7 +109,7 @@ useEffect(()=>{
             </Box>
             {
               !(activeStep >= 3) && 
-            <Buttons disabled={disabled} sx={{borderRadius: '10px', padding: '10px 40px 10px 40px'}} variant= 'contained' onClick={onSetActiveStep} name={'Proceed'}> </Buttons>
+            <Buttons disabled={disabled} sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', textTransform: 'none', fontSize: '18px', fontWeight: 600}} variant= 'contained' onClick={onSetActiveStep} name={'Proceed'}> </Buttons>
             }
         </Toolbar>
         <div className="flex flex-wrap md:flex-nowrap w-full h-full gap-6 mg:gap-0 max-w-7xl mx-auto py-4 px-6">

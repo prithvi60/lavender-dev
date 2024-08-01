@@ -6,10 +6,11 @@ import { GetScheduleDates } from "./BusinessScheduleContext";
 import { useDrawer } from "../BusinessDrawerContext";
 import { Appointment } from "./components/Appointment";
 import { CustomTooltip } from "../../../components/CustomTooltip";
-import { Tooltip } from "@mui/material";
+import { Avatar, Tooltip } from "@mui/material";
 import {Button} from "@mui/material";
 import { useSelector } from "react-redux";
 import endpoint from "../../../api/endpoints";
+import { getBrowserCache } from "../../../api/constants";
 
 // const setDragElement = (e) => {
 //   const dragEle = e.target;
@@ -48,32 +49,38 @@ import endpoint from "../../../api/endpoints";
 
 export const DayCalendar = () => {
   const { filteredAppointments, selectedDate, employees } = GetScheduleDates()
+  const estId = getBrowserCache("EstablishmentId")
+
   // const [appointments, setAppointments] = useState(filteredAppointments)
   const [deleteIcon, showDeleteIcon] = useState(false)
   const [newAppointment, setNewAppointment] = useState('')
   const { openDrawer, isOpen } = useDrawer()
   const [employeeeName, setEmployeeName] = useState('');
-  // const [establishmentData, setEstablishmentData] = useState('')
-  // const userDetails = useSelector((state: any) => {
-  //   return state?.currentUserDetails;
-  // });
+  const [imageUrls, setImageUrls] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  // const establishmentId = userDetails?.establishmentId || "";
+  useEffect(() => {
+    const fetchImageUrls = async () => {
+      setLoading(true);
+      try {
+        const urls = {};
+        for (const employee of employees) {
+          const response = await endpoint.getImages(employee.profileImage, estId);
+          const imageUrl = URL.createObjectURL(response.data);
+          urls[employee.profileImage] = imageUrl;
+        }
+        setImageUrls(urls);
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // useEffect(() => {
-  //   const getEstablishmentDetails = async () => {
-  //     try {
-  //       const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
-  //       if (establishmentData?.data?.success) {
-  //         setEstablishmentData(establishmentData?.data?.data || []);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching establishment details:", error);
-  //     }
-  //   };
-
-  //   getEstablishmentDetails();
-  // }, [establishmentId, isOpen]);
+    if (employees && employees.length > 0) {
+      fetchImageUrls();
+    }
+  }, [employees, estId]);
 
   const dragElementRef = useRef(null);
 
@@ -147,6 +154,8 @@ export const DayCalendar = () => {
     openDrawer('NewAppointment', payload)
   }
 
+  console.log('employees : ', employees)
+
   return (
     <>
       <Wrapper>
@@ -160,7 +169,7 @@ export const DayCalendar = () => {
              */}
         
           <HGrid  first={"60px"} cols={1}>
-            <VGrid className="mb-[18px]" rows={24}>
+            <VGrid className="mb-[18px] " rows={24} >
               {range(24).map((hour) => (
                 <Hour className="border-r border-[#CCCCCC]">
                   {`${!hour ? '12' : ((hour % 12) || '12')}.00`}
@@ -171,11 +180,19 @@ export const DayCalendar = () => {
             </VGrid>
             <HGrid className='overflow-x-scroll' cols={employees?.length}>
               {employees ? 
-              employees.map((employee, index) => (
+                employees.map((employee, index) => (
                   <EmployeeWrapper>
-                    <div className="h-[120px] flex flex-col flex-grow-0 items-center justify-center shadow font-bold border-b border-b-gray-400">
-                      <GetIcon svgWidth='80' svgHeight='80' className='' iconName={'ProfileIcon'}/>
-                      <>{employee.employeeName}</>
+                    <div className="h-[120px] flex flex-col flex-grow-0 items-center justify-center  font-bold border-b border-b-gray-400">
+                      {
+                        employee?.profileImage ? (
+                          <Avatar src={imageUrls[employee.profileImage]} style={{ backgroundColor: '#1B1464', width: '80px', height: '80px' }} />
+                        )
+                        :
+                        (
+                          <GetIcon svgWidth='80' svgHeight='80' className='' iconName={'ProfileIcon'}/>
+                        )
+                      }
+                      <div style={{fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}>{employee.employeeName}</div>
                     </div>
                     {range(24).map((hour) => (
                       <Hour className="flex flex-col border-r border-solid border-r-gray-400">
@@ -183,10 +200,18 @@ export const DayCalendar = () => {
                           <div onClick={() => addNewAppointment(employee.employeeName, employee.employeeId, hour, min)} className="border-b border-dashed border-b-[#B3B3B3] w-full h-1/4 last:border-solid">
                             {newAppointment === `${employee.employeeName}-${hour}-${min}` ? 
                             <div className="w-full h-full bg-white border-2 p-1 border-[#825FFF] rounded-xl text-left">
-                                <Tooltip title={<div style={{display: 'flex', flexDirection: 'column'}}>
+                                <Tooltip title={<div style={{display: 'flex', flexDirection: 'column'}} >
                                         <Button disableRipple variant="text" sx={styles.button} onClick={() => handleAddAppointment(hour, min)}><GetIcon style={{display: 'flex', padding: 1}} iconName='CalenderIcon' text={"Add appointment"}/></Button>
                                         <Button disableRipple variant="text" sx={styles.button} onClick={() => console.log("2")}><GetIcon style={{display: 'flex', padding:1}} iconName='AccessTimeFilledIcon' text={"Block this time"}/></Button>
-                                      </div>} placement="right" arrow>
+                                      </div>} placement="right" arrow componentsProps={{
+                                                                                          tooltip: {
+                                                                                            sx: {
+                                                                                              bgcolor: "white",
+                                                                                              boxShadow: '2px 2px 5px 5px #EEEEEE',
+                                                                                            }
+                                                                                          },
+                                                                                          arrow: {sx:{color: 'white'}},
+                                                                                        }}>
                                 
                                       <div className="ml-4 font-bold">{getCurrentTime12HrFormat(hour, (min) * 15, true)}</div>
                                 </Tooltip>
@@ -249,6 +274,11 @@ export const DayCalendar = () => {
 
 const styles = {
   button: {
-    color: 'black',
+    color: '#4D4D4D',
+    fontSize: '18px',
+    fontWeight: 600,
+    textTransform: 'none',
+    display: 'flex',
+    justifyContent: 'space-between',
   }
 }

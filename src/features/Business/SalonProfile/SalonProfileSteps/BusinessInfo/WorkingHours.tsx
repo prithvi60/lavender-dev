@@ -152,7 +152,6 @@ export const WorkingHours = ({ userDetails, availableDays }) => {
                                                     <Typography sx={{ fontSize: '14px', fontWeight: '500', color: '#4D4D4D', textAlign: 'start' }}>Opens at</Typography>
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                         <TimePicker
-                                                            label="from"
                                                             value={field.opens ? dayjs(field.opens, 'HH:mm') : null}
                                                             onChange={(newValue) => handleInputChange(newValue, day, i, 'opens')}
                                                         />
@@ -162,7 +161,6 @@ export const WorkingHours = ({ userDetails, availableDays }) => {
                                                     <Typography sx={{ fontSize: '14px', fontWeight: '500', color: '#4D4D4D', textAlign: 'start' }}>Closes at</Typography>
                                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                         <TimePicker
-                                                            label="to"
                                                             value={field.closes ? dayjs(field.closes, 'HH:mm') : null}
                                                             onChange={(newValue) => handleInputChange(newValue, day, i, 'closes')}
                                                         />
@@ -186,9 +184,25 @@ export const WorkingHours = ({ userDetails, availableDays }) => {
                         </Grid>
                     ))}
                 </Grid>
-                <Button variant="contained" color="primary" onClick={handleSave} style={{ marginTop: '20px' }}>Save</Button>
+                <Button variant="contained" color="primary" onClick={handleSave} sx={styles.btn}>Save</Button>
             </Card>
 
         </div>
     );
 };
+
+const styles = {
+    btn: {
+        color: '#FFFFFF',
+        backgroundColor: '#825FFF',
+        fontWeight: 600,
+        fontSize: '16px',
+        lineHeight: '24px',
+        padding: '10px 40px 10px 40px',
+        borderRadius: '10px',
+        textTransform: 'none',
+        '&:hover': {
+          backgroundColor: '#5A3EBF',
+        }
+      },
+}

@@ -164,10 +164,10 @@ export const DayHeader = ({currentDay}) => {
   const selected = areDatesSame(new Date, date)
   return (
     <div className={`h-[120px] flex flex-col flex-grow-0 items-center justify-center font-bold border-b border-b-gray-400 ${selected ? 'bg-tertiary' : 'bg-white'}`}>
-      <div className={`flex justify-center items-center w-20 h-20 rounded-full text-4xl border border-gray-200 font-semibold bg-secondary text-[#4D4D4D]`}>
+      <div className={`flex justify-center items-center w-20 h-20 rounded-full text-4xl border border-gray-200 font-semibold text-[#4D4D4D]`} style={{backgroundColor: selected ? '#E0B8FF' : '#E6E1FF'}}>
         {date.getDate()}
       </div>
-      <div className={`mt-1 ${selected ? 'text-white' : 'text-[#4D4D4D]'}`}>{day}</div>
+      <div className={`mt-1 ${selected ? 'text-white' : 'text-[#4D4D4D]'}`} style={{fontSize: '18px', fontWeight: 700}}>{day}</div>
     </div>
   )
 }
