@@ -8,10 +8,10 @@ import { BookingResponse } from "../../../api/type"
 import { useState } from "react"
 import { getDifferenceInMinutes } from "../Schedule/utils"
 
-function getData(): Appointments[] {
-  // Fetch data from your API here. use await while calling in a async component
-  return appointments 
-}
+// function getData(): Appointments[] {
+//   // Fetch data from your API here. use await while calling in a async component
+//   return appointments 
+// }
 
 function parseAppointmentResponse(response: any) {
   
@@ -19,7 +19,7 @@ function parseAppointmentResponse(response: any) {
 
   response?.forEach((booking): any => {
     const {bookingId, customerName, startTime, endTime, serviceName,
-      employeeName, serviceCost, bookingStatus } = booking
+      employeeName, serviceCost, bookingStatus, bookingType } = booking
     const bookingTemp: Appointments = {
       id: bookingId,
       client: customerName,
@@ -30,7 +30,8 @@ function parseAppointmentResponse(response: any) {
       bookedBy: employeeName,
       teamMember: employeeName,
       price: serviceCost,
-      status: bookingStatus
+      status: bookingStatus,
+      bookingType: bookingType,
     }
     parsedResponse.push(bookingTemp)
   })
