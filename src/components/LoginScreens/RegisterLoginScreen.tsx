@@ -32,7 +32,7 @@ import * as yup from "yup";
 import Dropdown from "../Dropdown";
 import { updateUser } from "../../store/slices/currentUserSlice.js";
 import { useSnackbar } from "../Snackbar.tsx";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -59,6 +59,28 @@ function RegisterLoginScreen({ isInLoginModal }) {
   const navigate = useNavigate();
   const showSnackbar = useSnackbar();
 
+  const hangleGoogleLogin = useGoogleLogin({
+    onSuccess: async (codeResponse) => {
+      try {
+        if (codeResponse && codeResponse.access_token) {
+          await endpoint.makeOauthGoogleLogin({
+            accessToken: codeResponse.access_token
+          })
+          showSnackbar("Login successfully", "success");
+          setUserDetails(true);
+          setTimeout(() => {
+            navigate("/");
+          }, 1000)
+        } else {
+          showSnackbar("Error Login via Google", "error");
+        }
+      } catch (error) {
+      }
+    },
+    onError: (error) => showSnackbar("Error Login via Google", "error")
+
+  });
+
   const mutation = useMutation({
     mutationFn: (payload: any) => {
       return endpoint.getUserLoginToken(payload);
@@ -73,7 +95,7 @@ function RegisterLoginScreen({ isInLoginModal }) {
     onError: (response: any) => {
       showSnackbar("Something went wrong", "success");
     },
-    onSettled: () => {},
+    onSettled: () => { },
   });
 
   function getUserLoginTokenApi(data) {
@@ -175,27 +197,17 @@ function RegisterLoginScreen({ isInLoginModal }) {
               className="login-side-buttons"
               sx={{ padding: "10px" }}
             >
-              <GoogleOAuthProvider clientId="671348139606-906f7lcl8vk6l26hivc1ka0hk2teuvb1.apps.googleusercontent.com">
-                {/* <Button
-                  sx={{ color: "#4D4D4D" }}
-                  variant="outlined"
-                  fullWidth
-                  disableElevation
-                  startIcon={<Google />}
-                  className="login"
-                  name={"Continue with Google"}
-                /> */}
-
-                <GoogleLogin
-                  onSuccess={(credentialResponse) => {
-                    console.log(credentialResponse);
-                  }}
-                  onError={() => {
-                    console.log("Login Failed");
-                  }}
-                />
-              </GoogleOAuthProvider>
               <Button
+                sx={{ color: "#4D4D4D" }}
+                variant="outlined"
+                fullWidth
+                disableElevation
+                onClick={hangleGoogleLogin}
+                startIcon={<Google />}
+                className="login"
+                name={"Continue with Google"}
+              />
+              {/* <Button
                 variant="outlined"
                 sx={{ color: "#4D4D4D" }}
                 fullWidth
@@ -203,7 +215,7 @@ function RegisterLoginScreen({ isInLoginModal }) {
                 startIcon={<Facebook />}
                 className="login"
                 name={"Continue with Facebook"}
-              />
+              /> */}
             </Grid>
 
             <Grid item xs={12}>

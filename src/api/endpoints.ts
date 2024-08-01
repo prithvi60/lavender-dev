@@ -40,6 +40,7 @@ import {
   subscriptionInitiate,
   subscriptionStatus,
   customerSubscriptionInitiate,
+  oauthGoogleLogin,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -362,6 +363,15 @@ class Endpoint {
       payload
     );
 
+    return response;
+  }
+
+  async makeOauthGoogleLogin(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${oauthGoogleLogin}`,
+      payload
+    );
+    this.setTenantToken(response.data);
     return response;
   }
 }

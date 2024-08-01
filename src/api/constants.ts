@@ -77,6 +77,9 @@ export const subscriptionStatus = "subscription/status";
 export const customerSubscriptionInitiate =
   "subscription/customer/appointment/initiate";
 
+export const oauthGoogleLogin =
+  "u/oauth/google";
+
 export function setBrowserCache(key: string, value: any) {
   window.localStorage.setItem(key, value);
 }
