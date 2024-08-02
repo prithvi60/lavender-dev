@@ -267,7 +267,7 @@ const RegisterScreen = () => {
 
                                                     
                                                 <Grid item xs={12}>
-                                                    <Button type="submit" variant="contained" color="primary">
+                                                    <Button type="submit" variant="contained" color="primary" sx={styles.btn}>
                                                         Create an account
                                                     </Button>
                                                 </Grid>
@@ -311,3 +311,20 @@ const RegisterScreen = () => {
 };
 
 export default RegisterScreen;
+
+const styles = {
+    btn: {
+        width: '100%',
+        color: '#FFFFFF',
+        backgroundColor: '#825FFF',
+        fontWeight: 600,
+        fontSize: '20px',
+        lineHeight: '24px',
+        padding: '10px 40px 10px 40px',
+        borderRadius: '10px',
+        textTransform: 'none',
+        '&:hover': {
+          backgroundColor: '#5A3EBF',
+        }
+      },
+}

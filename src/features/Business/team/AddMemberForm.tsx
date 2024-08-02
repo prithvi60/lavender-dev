@@ -240,7 +240,7 @@ const selectedData = data?.services?.filter(service => service?.optionName?.leng
     setValue('services', newServices);
   };
 
-  const allSelected = services.length > 0 && watch('services')?.every(
+  const allSelected = services?.length > 0 && watch('services')?.every(
     service => service?.optionName?.length > 0
   );
 
@@ -542,7 +542,7 @@ const selectedData = data?.services?.filter(service => service?.optionName?.leng
             <FormGroup>
           <FormControlLabel
             control={
-              <Checkbox
+              <AquaCheckbox
                 checked={allSelected}
                 onChange={e => handleSelectAllChange(e.target.checked)}
               />

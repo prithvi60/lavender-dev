@@ -24,9 +24,9 @@ import { useSnackbar } from '../Snackbar.tsx'
 
 
 const schema = yup.object().shape({
-    email: yup.string().email().required(),
-    password: yup.string().required(),
-    userType: yup.string(),
+    email: yup.string().email().required("Email is a required field"),
+    password: yup.string().required("Password is a required field"),
+    userType: yup.string().required("UserType is a required field"),
   });
 
 function RegisterLoginScreen({isInLoginModal}) {
@@ -192,7 +192,9 @@ function RegisterLoginScreen({isInLoginModal}) {
                   <MenuItem value="OC">Customer</MenuItem>
                   <MenuItem value="BU">Business</MenuItem>
                 </Select>
-                <FormHelperText>{errors.usertype?.message}</FormHelperText>
+                {/* <FormHelperText>{errors.usertype?.message}</FormHelperText> */}
+                {errors.userType && <p className='text-red-500 font-medium'>{errors.userType.message}</p>}
+
               </FormControl>
             )}
           />
@@ -218,7 +220,7 @@ function RegisterLoginScreen({isInLoginModal}) {
 
                 </Grid> */}
 
-                <Button fullWidth type="submit" variant="contained" sx={{fontSize: '14px'}} name={'Continue'}></Button>
+                <Button fullWidth type="submit" variant="contained" sx={styles.btn} name={'Continue'}></Button>
 
             </form>
         </Grid>
@@ -230,3 +232,21 @@ function RegisterLoginScreen({isInLoginModal}) {
 
 
 export default RegisterLoginScreen
+
+
+const styles = {
+  btn: {
+      width: '100%',
+      color: '#FFFFFF',
+      backgroundColor: '#825FFF',
+      fontWeight: 600,
+      fontSize: '20px',
+      lineHeight: '24px',
+      padding: '10px 40px 10px 40px',
+      borderRadius: '10px',
+      textTransform: 'none',
+      '&:hover': {
+        backgroundColor: '#5A3EBF',
+      }
+    },
+}
