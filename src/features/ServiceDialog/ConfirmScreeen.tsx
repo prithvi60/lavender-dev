@@ -9,6 +9,7 @@ import GetIcon from "../../assets/Icon/icon";
 import { getBrowserCache } from "../../api/constants.ts";
 import { useDispatch } from "react-redux";
 import { UpdateTermsNConditions } from "../../store/slices/Booking/ScheduleAppoinmentSlice.ts";
+import Text from "../../components/Text.js";
 
 export default function ConfirmScreen(props) {
     const { estData, onSetActiveStep } = props;
@@ -52,9 +53,9 @@ export default function ConfirmScreen(props) {
                 <div className='font-bold text-2xl md:text-3xl'>Confirm</div>
             </div>
 
-            <span className="bg-gray-200 w-full px-6 h-fit py-4 rounded-xl w-96 gap-3 font-semibold flex items-center">
+            <span className="bg-gray-200 w-full px-6 h-fit py-4 rounded-xl w-96 gap-3 font-semibold flex items-center mt-4">
                 <GetIcon iconName='StoreIcon' />
-                Pay at Venue 
+                <Text name={"Pay at Venue"} sx={{fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}/>
                 <div className="ms-auto">
                     <Checkbox
                         className="checkBoxCommon"
@@ -67,19 +68,19 @@ export default function ConfirmScreen(props) {
             <div className="ml-6 mt-4">
                 {!isUser && 
                  <div> 
-                    <p className="font-semibold mb-4">Fill your details</p>
-                    <p className="text-sm mb-4">We recommend you to register in Lavender. By registering, you gain access to exclusive features tailored just for you. <LoginModal/></p>
+                    <p style={{marginBottom: 4, marginTop: 0, fontSize: '20px', fontWeight: 600, color: '#4D4D4D'}}>Fill your details</p>
+                    <p style={{marginBottom: 4, marginTop: 0, fontSize: '16px', fontWeight: 400, color: '#4D4D4D'}}>We recommend you to register in Lavender. By registering, you gain access to exclusive features tailored just for you. <LoginModal/></p>
 
                     <div className="flex gap-3 flex-col">
-                        <TextField fullWidth className="" id="standard-basic" label="Full Name" variant="standard" />
-                        <TextField fullWidth className="my-4" id="EmailAddress" label="Email Address" variant="standard" />
+                        <TextField fullWidth sx={{color: '#808080', fontSize: '20px', fontWeight: 400}} id="standard-basic" label="Full Name" variant="standard" />
+                        <TextField fullWidth sx={{marginTop: 4, marginBottom: 4, color: '#808080', fontSize: '20px', fontWeight: 400}} id="EmailAddress" label="Email Address" variant="standard" />
                     </div>
 
                  </div>
                 }
                 
 
-                <p className="mb-2 mt-6 text-sm">Wanna Leave Appointment notes? (optional) </p>
+                <p style={{marginBottom: 2, marginTop: 6, fontSize: '16px', fontWeight: 400, color: '#4D4D4D'}}>Wanna Leave Appointment notes? (optional) </p>
                 <TextField
                     id="outlined-multiline-static"
                     multiline
@@ -91,7 +92,7 @@ export default function ConfirmScreen(props) {
                 />
 
                 <FormControlLabel
-                    className="my-4 text-sm"
+                    sx={{marginBottom: 0, marginTop: 4, fontSize: '16px', fontWeight: 400, color: '#4D4D4D'}}
                     label="I Agree to terms and condition, privacy policy and terms of use"
                     control={<Checkbox
                         className={`checkBoxCommon ${termsError ? 'errorCheckbox' : ''}`} // Conditionally apply error style
@@ -104,6 +105,7 @@ export default function ConfirmScreen(props) {
                 />
                 {termsError && <div style={{color: 'red'}} className="errorText">Please agree to terms and conditions.</div>} {/* Display error text */}
                 <FormControlLabel
+                sx={{marginBottom: 3, marginTop: 1, fontSize: '16px', fontWeight: 400, color: '#4D4D4D'}}
                     label="Sign me up to receive marketing offers from Lavender"
                     control={<Checkbox
                         className="checkBoxCommon"
@@ -114,10 +116,10 @@ export default function ConfirmScreen(props) {
             </div>
 
             <div className="ml-6">
-                <p className="font-bold my-4">Cancellation policy</p>
-                <p className="mb-2">1. To cancel an appointment, we require a minimum of 24 hours' notice prior to the scheduled appointment time.</p>
-                <p className="mb-2">2. Failure to provide the required notice may result in a cancellation fee equivalent to 50% of the service cost.</p>
-                <p className="mb-2">3. Same-day cancellations or no-shows will be subject to a cancellation fee equal to the full cost of the scheduled service.</p>
+                <p  style={{marginBottom: 4, marginTop: 0, fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}>Cancellation policy</p>
+                <p style={{marginBottom: 2, marginTop: 0, fontSize: '16px', fontWeight: 400, color: '#808080'}}>1. To cancel an appointment, we require a minimum of 24 hours' notice prior to the scheduled appointment time.</p>
+                <p style={{marginBottom: 2, marginTop: 0, fontSize: '16px', fontWeight: 400, color: '#808080'}}>2. Failure to provide the required notice may result in a cancellation fee equivalent to 50% of the service cost.</p>
+                <p style={{marginBottom: 2, marginTop: 0, fontSize: '16px', fontWeight: 400, color: '#808080'}}>3. Same-day cancellations or no-shows will be subject to a cancellation fee equal to the full cost of the scheduled service.</p>
             </div>
         </div>
     );

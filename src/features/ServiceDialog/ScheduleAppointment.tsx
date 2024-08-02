@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { MenuButton as BaseMenuButton } from '@mui/base/MenuButton';
-import { MenuItem as BaseMenuItem, menuItemClasses } from '@mui/base/MenuItem';
+// import { MenuItem as BaseMenuItem, menuItemClasses } from '@mui/base/MenuItem';
 import { styled } from '@mui/system';
-import { Button, Divider, Grid, IconButton, Select } from '@mui/material';
+import { Button, Divider, FormControl, Grid, IconButton, InputLabel, Select, MenuItem } from '@mui/material';
 import DatePicker from '../../Packages/swiperCalendar/DatePicker.tsx'
 import GetIcon from '../../assets/Icon/icon';
 import { useQuery } from '@tanstack/react-query';
 import endpoint from '../../api/endpoints.ts';
-import { UpdateSelectedDate, UpdateTimeOfDayAndTime } from '../../store/slices/Booking/ScheduleAppoinmentSlice';
+import { UpdateEmployeeId, UpdateSelectedDate, UpdateTimeOfDayAndTime } from '../../store/slices/Booking/ScheduleAppoinmentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { TimeOfDay } from '../../api/type';
 import ReactWeeklyDayPicker from "react-weekly-day-picker";
@@ -30,6 +30,9 @@ export default function ScheduleAppointment(props) {
   const [totalDurationValue, setTotalDurationValue] = useState(0);
   const[startTimeValue, setStartTimeValue] = useState('11:59 pm');
   const[dateClicked, setDateClicked] = useState(false);
+  const [employeeList, setEmployeeList] = useState(props?.estData?.employees);
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState('');
+  const [employeeSlot, setEmployeeSlot] = useState('');
 
   let appointmentTimings;
   const dispatch = useDispatch();
@@ -133,12 +136,13 @@ export default function ScheduleAppointment(props) {
       ? selectedPaymentChips.filter((chip) => chip !== item)
       : [...selectedPaymentChips, item];
     setSelectedPaymentChips(updatedChips);
+    setEmployeeSlot(slot?.employeeId)
 
     dispatch(UpdateTimeOfDayAndTime({TimeOfDay: TimeOfDay[timePeriod],
-      startTime : calculateTime(slot.startTime),
-      endTime: slot.endTime,
-      id:slot?.employeeId
+      startTime : calculateTime(slot?.startTime),
+      endTime: slot?.endTime,
     }));
+
   };
 
   function calculateTime(newStartTime){
@@ -185,6 +189,16 @@ export default function ScheduleAppointment(props) {
     setSelectedPaymentChips(updatedChips);
   };
 
+  // Handle employee selection
+  const handleChange = (event) => {
+    setSelectedEmployeeId(event.target.value);
+  };
+
+  useEffect(()=> {
+    dispatch(UpdateEmployeeId({
+      id: selectedEmployeeId ? selectedEmployeeId : employeeSlot,
+    }))
+  })
 
   return (
 
@@ -233,7 +247,7 @@ export default function ScheduleAppointment(props) {
           
           return (
             <div className='schedule-chips' key={timePeriod}>
-              <p className='font-semibold capitalize'>{timePeriod}</p>
+              <p style={{fontSize: '20px', fontWeight: 600, color: '#4D4D4D'}}>{timePeriod}</p>
               <div className='flex items-center flex-wrap gap-2'>
                 {slotsArray?.map((slot: any, index: any) => {
                   return (
@@ -287,7 +301,7 @@ export default function ScheduleAppointment(props) {
                 iconName="SlotBoxesFilled" />
               <div id="title" className="font-bold text-xl mb-3 " style={{ color: '#4D4D4D' }}>We are fully booked</div>
               <div style={{ color: '#4D4D4D' }}>How about the next slot ?</div>
-              <Button onClick={() => { }} sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }} variant="contained" >Go to next slot</Button>
+              <Button onClick={() => { }} sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px', borderRadius: '10px', fontSize: '16px', fontWeight: 600, textTransform: 'none' }} variant="contained" >Go to next slot</Button>
             </div>
             ) 
             : 
@@ -304,25 +318,29 @@ export default function ScheduleAppointment(props) {
           </div>
         }
 
-        <Grid key={100} container item spacing={2}>
+<Grid container spacing={2} sx={{marginTop: '10px'}}>
+      <Grid item xs={3}>
+        <p style={{fontSize: '20px', fontWeight: 600, color: '#4D4D4D', }}>Service by</p>
+      </Grid>
 
-          {/* <Grid item xs={3}>
-            <p className='font-semibold capitalize'>Service by</p>
-          </Grid>
-
-          <Grid container columnSpacing={2} item xs={8}>
-            <Grid item>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={employee}
-                label="employee"
-              >
-                <MenuItem value={employee}>{employee}</MenuItem>
-              </Select>
-            </Grid>
-          </Grid> */}
-        </Grid>
+      <Grid item xs={8}>
+        <FormControl fullWidth>
+          <Select
+            id="employee-select"
+            value={selectedEmployeeId}
+            onChange={handleChange}
+            sx={{width: '300px', height: '45px'}}
+            
+          >
+            {employeeList?.map((employee) => (
+              <MenuItem key={employee?.employeeId} value={employee?.employeeId}>
+                {employee?.employeeName}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
+    </Grid>
 
        </div>
     </div>
@@ -356,29 +374,29 @@ const grey = {
   900: '#1C2025',
 };
 
-const MenuItem = styled(BaseMenuItem)(
-  ({ theme }) => `
-  list-style: none;
-  padding: 8px;
-  border-radius: 8px;
-  cursor: default;
-  user-select: none;
+// const MenuItem = styled(BaseMenuItem)(
+//   ({ theme }) => `
+//   list-style: none;
+//   padding: 8px;
+//   border-radius: 8px;
+//   cursor: default;
+//   user-select: none;
 
-  &:last-of-type {
-    border-bottom: none;
-  }
+//   &:last-of-type {
+//     border-bottom: none;
+//   }
 
-  &:focus {
-    outline: 3px solid ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
-    background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
-    color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-  }
+//   &:focus {
+//     outline: 3px solid ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
+//     background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
+//     color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
+//   }
 
-  &.${menuItemClasses.disabled} {
-    color: ${theme.palette.mode === 'dark' ? grey[700] : grey[400]};
-  }
-  `,
-);
+//   &.${menuItemClasses.disabled} {
+//     color: ${theme.palette.mode === 'dark' ? grey[700] : grey[400]};
+//   }
+//   `,
+// );
 
 
 
