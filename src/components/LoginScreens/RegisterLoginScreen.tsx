@@ -63,14 +63,21 @@ function RegisterLoginScreen({ isInLoginModal }) {
     onSuccess: async (codeResponse) => {
       try {
         if (codeResponse && codeResponse.access_token) {
-          await endpoint.makeOauthGoogleLogin({
+          const response = await endpoint.makeOauthGoogleLogin({
             accessToken: codeResponse.access_token
           })
-          showSnackbar("Login successfully", "success");
-          setUserDetails(true);
-          setTimeout(() => {
-            navigate("/");
-          }, 1000)
+          if (response.data.data) {
+            await endpoint.setTenantToken(response.data);
+            showSnackbar("Login successfully", "success");
+            setUserDetails(true);
+            setTimeout(() => {
+              navigate("/");
+            }, 1000)
+          } else {
+            setTimeout(() => {
+              navigate("/register");
+            }, 1000)
+          }
         } else {
           showSnackbar("Error Login via Google", "error");
         }

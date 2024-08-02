@@ -371,7 +371,6 @@ class Endpoint {
       `${BaseURL}${oauthGoogleLogin}`,
       payload
     );
-    this.setTenantToken(response.data);
     return response;
   }
 }
