@@ -66,7 +66,7 @@ export const columns: ColumnDef<Team>[] = [
   {
     id: "edit",
     cell: () => (
-      <Button variant="outlined" size="lg" sx={{ minWidth: '148px', minHeight: '37px' }} name={'Edit member'} />
+      <Button variant="outlined" size="lg" sx={{ width: '197px', height: '44px', padding: '10px 40px 10px 40px', borderRadius: '10px', borderColor: '#825FFF', color: '#825FFF', fontSize: '18px', fontWeight: 600 }} name={'Edit member'} />
     ),
   },
 ];

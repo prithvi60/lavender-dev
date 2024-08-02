@@ -52,7 +52,8 @@ const schema = yup.object().shape({
     'is-dayjs',
     'Invalid date format',
     (value) => dayjs.isDayjs(value)
-  ),  email: yup.string().required(),
+  ),  
+  email: yup.string().required(),
   accessLevel: yup.string(),
   services: yup.array().of(
     yup.object().shape({
@@ -64,10 +65,16 @@ const schema = yup.object().shape({
 });
 
 
+const AquaCheckbox = styled(Checkbox)(({ theme }) => ({
+  
+  '&.Mui-checked': {
+    color: '#35AFAC',
+  },
+}));
+
+
 export default function AddMemberForm({ payload }) {
   
-  console.log("payload L ", payload)
-
   const {
     register,
     control,
@@ -189,9 +196,6 @@ const selectedData = data?.services?.filter(service => service?.optionName?.leng
 
     fetchingImage();
     
-    console.log("imageUrls[0]ggg : ", imageUrls[0])
-    console.log("imageUrls[0]ggg : ", imageUrls[0])
-
     if (currentEmployees) {
       
       setValue('employeeId', currentEmployees[0]?.employeeId);
@@ -360,14 +364,12 @@ const selectedData = data?.services?.filter(service => service?.optionName?.leng
   return (
     <div className="flex-col h-full">
       <form onSubmit={handleSubmit(handleDrawerSubmit)}>
-        <div style={{ backgroundColor: '#1B1464' }}>
-          <div className="text-lg h-14 mb-2 p-4 text-white">
+        {/* Sticky Header */}
+          <div className="sticky top-0 bg-[#1B1464] text-lg h-14 mb-2 p-4 text-white" style={{zIndex:2}}>
             {payload ? "Edit new Member" : "Add new Member"}
-
           </div>
-        </div>
 
-        <div className="flex-col h-full p-4">
+        <div className="flex-col h-full p-4 overflow-y-auto">
 
           <div className="mb-4 flex justify-center flex-col items-center">
             <ImageUploading
@@ -380,7 +382,7 @@ const selectedData = data?.services?.filter(service => service?.optionName?.leng
             acceptType={['jpg', 'png', 'jpeg']} // Include jpeg in acceptType
           >
             {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
-              <div className='flex justify-center '>
+              <div className='flex justify-center'>
 
                 <div style={{ padding: '10px' }}>
 
@@ -389,7 +391,7 @@ const selectedData = data?.services?.filter(service => service?.optionName?.leng
                       {imageUrls?.map((url, index) => (
                         <>
                           <Badge
-                            sx={{cursor: 'pointer'}}
+                            sx={{cursor: 'pointer', }}
                             onClick={onImageUpload}
                             overlap="circular"
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -556,7 +558,7 @@ const selectedData = data?.services?.filter(service => service?.optionName?.leng
                       name={`services.${index}.optionName`}
                       control={control}
                       render={({ field }) => (
-                        <Checkbox
+                        <AquaCheckbox
                           checked={
                             field?.value?.length === service?.optionName?.length &&
                             service?.optionName?.length > 0
@@ -586,7 +588,7 @@ const selectedData = data?.services?.filter(service => service?.optionName?.leng
                             name={`services.${index}.optionName`}
                             control={control}
                             render={({ field }) => (
-                              <Checkbox
+                              <AquaCheckbox
                                 checked={field?.value?.includes(option)}
                                 onChange={e => {
                                   const newValue = e?.target?.checked
@@ -609,12 +611,13 @@ const selectedData = data?.services?.filter(service => service?.optionName?.leng
             </FormGroup>
           </div>
 
-          <div className="flex justify-between mt-4">
-            <Button onClick={closeDrawer} sx={styles.txtBtn}>
-              Cancel
-            </Button>
-            <Button type="submit" sx={styles.btn}>Add</Button>
-          </div>
+        </div>
+
+        <div className="sticky bottom-0 bg-white flex justify-between mt-4 p-4 border-t">
+          <Button onClick={closeDrawer} sx={styles.txtBtn}>
+            Cancel
+          </Button>
+          <Button type="submit" sx={styles.btn}>Add</Button>
         </div>
       </form>
     </div>
