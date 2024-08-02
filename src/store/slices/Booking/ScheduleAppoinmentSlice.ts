@@ -40,8 +40,12 @@ export const ScheduleAppoinmentSlice = createSlice({
       state.timeOfDay = action.payload.TimeOfDay;
       state.startTime = action.payload.startTime;
       state.endTime = action.payload.endTime;
+      
+    },
+    UpdateEmployeeId: (state, action) => {
       state.id = action.payload.id;
     },
+
     UpdateCheckoutInfo: (state, action) => {
       state.totalPrice= action.payload.totalPrice;
       state.totalDuration= action.payload.totalDuration;
@@ -58,7 +62,7 @@ export const ScheduleAppoinmentSlice = createSlice({
   },
 });
 
-export const { UpdateSelectedDate, UpdateTimeOfDayAndTime, UpdateCheckoutInfo, UpdateTermsNConditions, resetFilter } =
+export const { UpdateSelectedDate, UpdateTimeOfDayAndTime,UpdateEmployeeId, UpdateCheckoutInfo, UpdateTermsNConditions, resetFilter } =
   ScheduleAppoinmentSlice.actions;
 
 export default ScheduleAppoinmentSlice.reducer;
