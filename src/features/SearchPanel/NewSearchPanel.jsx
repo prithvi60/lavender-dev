@@ -187,6 +187,13 @@ const NewSearchPanel = () => {
     //     return;
     // }
 
+    // dispatch(
+    //   updateSearchSelectedBox({
+    //     selectedBox: name,
+    //     showOptionContainer: true,
+    //   })
+    // )
+
     if (name === "Location") {
       setModalShow(true);
     } else {
@@ -677,7 +684,7 @@ const NewSearchPanel = () => {
                 className="date-panel"
                 style={{ overflow: "auto" }}
               >
-                <div className="flex justify-end p-2 cursor-pointer text-red-600">
+                <div className="flex justify-end p-2 pb-0 cursor-pointer text-red-600">
                   <CloseIcon onClick={() => closeFilterPannel()} />
                 </div>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>

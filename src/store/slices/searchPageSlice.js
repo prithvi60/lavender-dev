@@ -25,6 +25,9 @@ export const searchPageSlice = createSlice({
     updateSearchTreatment: (state, action) => {
       state.treatmentList = action.payload.treatment;
     },
+    updateSearchLocation: (state, action) => {
+      state.locationList = action.payload.treatment;
+    },
     updateSearchDate: (state, action) => {
       state.selectedDate = action.payload.selectedDate;
     },
@@ -75,6 +78,7 @@ export const {
   reset,
   updateSearchSelectedBox,
   updateSearchTreatment,
+  updateSearchLocation,
   updateSearchDate,
   updateDate,
   updateSearchTime,

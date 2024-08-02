@@ -167,38 +167,73 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
   console.log("establishmentData : ", establishmentData?.data?.data);
 
   return (
-    <div className='w-full'>
-       {loading && <p>Loading...</p>}
-        {
-          establishmentData?.data?.data?.profile?.establishmentName ? 
-          (
-            <>
-              <div className='flex justify-center'>
-                <img  src={imageUrls[0]} style={{ width: '300px', height: '200px', margin: '10px' }} />
-              </div>
-              <div className='text-5xl font-bold text-center p-4' style={{color: '#4D4D4D'}}>{establishmentData?.data?.data?.profile?.establishmentName} profile is created</div>
-              <div className='text-xl font-normal text-center p-4' style={{color: '#4D4D4D'}}>You can publish now to make it available for everyone</div>
-            </>
-          )
-          :
-          (
-            <div className='text-xl font-bold text-center p-4' style={{color: '#4D4D4D'}}>Please create your profile and publish.</div>
-          )
-        }
-        
-        <div className='flex justify-center flex-col items-center'>
-        {
-          errorMsg && 
-          <Text sx={{color: 'red', width: '100%', paddingBottom: 2}} name={"Please enter Services and Employee details to publish your Establishment."}/>
-        }
-        <div className='flex justify-center flex-col w-36'>
-            
-            {!isPublish && 
-              <Buttons disabled={isDisabled} fullWidth variant="contained" sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', marginBottom: '10px'}} name={'Publish'}  onClick={()=>{handlePublishClick()}}></Buttons>
-            } 
-            <Buttons  variant="outlined" sx={{borderRadius: '10px', padding: '10px 40px 10px 40px'}} name={'Preview'} onClick={()=>onClickPreview()}></Buttons>
+    <div className="w-full">
+      {loading && <p>Loading...</p>}
+      {establishmentData?.data?.data?.profile?.establishmentName ? (
+        <>
+          <div className="flex justify-center">
+            <img
+              src={imageUrls[0]}
+              style={{ width: "300px", height: "200px", margin: "10px" }}
+            />
+          </div>
+          <div
+            className="text-5xl font-bold text-center p-4"
+            style={{ color: "#4D4D4D" }}
+          >
+            {establishmentData?.data?.data?.profile?.establishmentName} profile
+            is created
+          </div>
+          <div
+            className="text-xl font-normal text-center p-4"
+            style={{ color: "#4D4D4D" }}
+          >
+            You can publish now to make it available for everyone
+          </div>
+        </>
+      ) : (
+        <div
+          className="text-xl font-bold text-center p-4"
+          style={{ color: "#4D4D4D" }}
+        >
+          Please create your profile and publish.
         </div>
+      )}
+
+      <div className="flex justify-center flex-col items-center">
+        {errorMsg && (
+          <Text
+            sx={{ color: "red", width: "100%", paddingBottom: 2 }}
+            name={
+              "Please enter Services and Employee details to publish your Establishment."
+            }
+          />
+        )}
+        <div className="flex justify-center flex-col w-36">
+          {!isPublish && (
+            <Buttons
+              disabled={isDisabled}
+              fullWidth
+              variant="contained"
+              sx={{
+                borderRadius: "10px",
+                padding: "10px 40px 10px 40px",
+                marginBottom: "10px",
+              }}
+              name={"Publish"}
+              onClick={() => {
+                handlePublishClick();
+              }}
+            ></Buttons>
+          )}
+          {/* <Buttons
+            variant="outlined"
+            sx={{ borderRadius: "10px", padding: "10px 40px 10px 40px" }}
+            name={"Preview"}
+            onClick={() => onClickPreview()}
+          ></Buttons> */}
         </div>
+      </div>
 
       <div className="flex justify-center flex-col items-center">
         {errorMsg && (
