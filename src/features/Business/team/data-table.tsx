@@ -109,7 +109,7 @@ export function DataTable<TData, TValue>({
             <Buttons
               variant="outline"
               size="lg"
-              style={{ minWidth: '188px', minHeight: '37px' }}
+              style={{ width: '188px', height: '37px', color: '#4D4D4D', fontSize: '18px', fontWeight: 700 }}
               onClick={handleExport}
             >
               Export
@@ -119,7 +119,7 @@ export function DataTable<TData, TValue>({
         <div style={{ paddingRight: '10px' }}>
           <Button
             size="lg"
-            sx={{ minWidth: '148px', minHeight: '25px' }}
+            sx={{ width: '200px', height: '44px', borderRadius: '10px', padding: '10px 40px 10px 40px', fontSize: '18px', fontWeight: 600 }}
             onClick={() => openDrawer('addMember')}
             name={"Add Member"}
           />
@@ -134,7 +134,7 @@ export function DataTable<TData, TValue>({
                 <TableHead
                   className="h-24 border-b-2 border-t-2 border-gray-300"
                   key={header.id}
-                  style={{ fontWeight: '600', color: "#808080" }}
+                  style={{ fontWeight: '600', color: "#808080", fontSize: '20px' }}
                 >
                   {header.isPlaceholder
                     ? null
@@ -149,7 +149,7 @@ export function DataTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row: any) => (
               <TableRow
-                style={{ fontWeight: '700', color: "#4D4D4D" }}
+                style={{ fontWeight: '700', color: "#4D4D4D", fontSize: '18px' }}
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
                 onClick={() => openDrawer("addMember", row?.original?.employeeId)}

@@ -24,6 +24,7 @@ import endpoint from "../../../api/endpoints";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
+import { duration } from "moment";
 
 const schema = yup.object().shape({
   serviceName: yup.string().required("Service name is required"),
@@ -42,7 +43,9 @@ const schema = yup.object().shape({
       maxPrice: null,
               discountPrice: null,
               discountPercentage: null,
-      duration: yup.number().required("Option duration is required"),
+      // duration: yup.number().required("Option duration is required"),
+      durationHours: yup.string().required("Option duration hours is required"),
+      durationMinutes: yup.string().required("Option duration minutes is required"),
     })
   ),
 });
@@ -57,6 +60,7 @@ export default function AddServicesForm({payload}) {
   const {
     control,
     register,
+    watch,
     handleSubmit,
     setValue, // Added setValue from useForm
     formState: { errors },
@@ -105,8 +109,9 @@ export default function AddServicesForm({payload}) {
   }, [establishmentId]);
   
   const handleFilterDrawerSubmit = (data) => {
-
     const totalMinutes = parseInt(data.durationHours, 10) * 60 + parseInt(data.durationMinutes, 10);
+
+
 
     // Adjust options based on serviceName, startingPrice, and duration if options are not entered
     if (!data.options || data.options.length === 0) {
@@ -124,8 +129,9 @@ export default function AddServicesForm({payload}) {
 
     else {
       // Ensure all existing options have maxPrice, discountPrice, and discountPercentage fields
-      data.options = data.options.map(option => ({
+      data.options = data?.options?.map(option => ({
         ...option,
+        duration: parseInt(option?.durationHours, 10) * 60 + parseInt(option?.durationMinutes, 10),
         maxPrice: null,
         discountPrice: null,
         discountPercentage: null,
@@ -191,6 +197,21 @@ export default function AddServicesForm({payload}) {
       setValue('categoryName', currentCategories[0]?.categoryName);
     }
   }, [currentCategories, setValue]);
+
+  const [minuteOptions, setMinuteOptions] = useState([0, 15, 30, 45]);
+
+  // Watch the durationHours field to update minuteOptions
+  const durationHours = watch('durationHours');
+
+  useEffect(() => {
+    if (parseInt(durationHours) === 0) {
+      // Exclude 0 minutes if 0 hours is selected
+      setMinuteOptions([15, 30, 45]);
+    } else {
+      // Include all minute options if any other hour is selected
+      setMinuteOptions([0, 15, 30, 45]);
+    }
+  }, [durationHours]);
 
   return (
     <div className="flex-col h-full">
@@ -393,9 +414,9 @@ export default function AddServicesForm({payload}) {
                       render={({ field }) => (
                         <FormControl fullWidth error={!!errors?.durationMinutes}>
                           <Select {...field} displayEmpty sx={styles.select}>
-                            {[0, 15, 30, 45].map(min => (
-                              <MenuItem key={min} value={min}>{min} minutes</MenuItem>
-                            ))}
+                          {minuteOptions.map(min => (
+                          <MenuItem key={min} value={min}>{min} minutes</MenuItem>
+                        ))}
                           </Select>
                           <FormHelperText>{errors.durationMinutes?.message}</FormHelperText>
                         </FormControl>
@@ -417,6 +438,7 @@ export default function AddServicesForm({payload}) {
                   Option name
                 </Typography>
                 <TextField
+                sx={styles.textField}
                   fullWidth
                   size="small"
                   variant="outlined"
@@ -429,16 +451,18 @@ export default function AddServicesForm({payload}) {
 
               <div className="mb-4">
                 <Grid container spacing={2}>
-                  <Grid item xs={6}></Grid>
-                  <Grid item xs={6} sx={{ alignContent: "end" }}>
+                  <Grid item xs={12} sx={{ alignContent: "end" }}>
+                  <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+                    Price
+                  </Typography>
                     <Controller
                       name={`options.${index}.salePrice`}
                       control={control}
                       render={({ field }) => (
                         <FormControl error={!!errors?.options?.[index]?.salePrice} fullWidth>
                           <TextField
+                            sx={styles.textField}
                             {...field}
-                            label="Amount"
                             size="small"
                             variant="outlined"
                             error={!!errors?.options?.[index]?.salePrice}
@@ -454,9 +478,8 @@ export default function AddServicesForm({payload}) {
 
               <div className="mb-4">
                 <Grid container spacing={2} sx={{ alignContent: "end" }}>
-                  <Grid item xs={6}></Grid>
-                  <Grid item xs={6} sx={{ alignContent: "end" }}>
-                    <Controller
+                  <Grid item xs={12} sx={{ alignContent: "end" }}>
+                    {/* <Controller
                       name={`options.${index}.duration`}
                       control={control}
                       render={({ field }) => (
@@ -473,7 +496,45 @@ export default function AddServicesForm({payload}) {
                           <FormHelperText>{errors?.options?.[index]?.duration?.message}</FormHelperText>
                         </FormControl>
                       )}
-                    />
+                    /> */}
+                    <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+                        Duration
+                      </Typography>
+                    <Grid container spacing={1}>
+                      
+                      <Grid item xs={6}>
+                        <Controller
+                          name={`options.${index}.durationHours`}
+                          control={control}
+                          render={({ field }) => (
+                            <FormControl fullWidth error={!!errors?.options?.[index]?.durationHours}>
+                              <Select {...field} displayEmpty sx={styles.select}>
+                                {Array.from({ length: 9 }, (_, i) => (
+                                  <MenuItem key={i} value={i}>{i} hour</MenuItem>
+                                ))}
+                              </Select>
+                              <FormHelperText>{errors?.options?.[index]?.durationHours?.message}</FormHelperText>
+                            </FormControl>
+                          )}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <Controller
+                          name={`options.${index}.durationMinutes`}
+                          control={control}
+                          render={({ field }) => (
+                            <FormControl fullWidth error={!!errors?.options?.[index]?.durationMinutes}>
+                              <Select {...field} displayEmpty sx={styles.select}>
+                              {minuteOptions.map(min => (
+                              <MenuItem key={min} value={min}>{min} minutes</MenuItem>
+                            ))}
+                              </Select>
+                              <FormHelperText>{errors?.options?.[index]?.durationMinutes?.message}</FormHelperText>
+                            </FormControl>
+                          )}
+                        />
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </div>
