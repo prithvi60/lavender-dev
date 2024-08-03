@@ -36,6 +36,11 @@ import {
   treatmentServicesByLocation,
   getTreatmentServices,
   getCategoryServices,
+  membershipTypesList,
+  subscriptionInitiate,
+  subscriptionStatus,
+  customerSubscriptionInitiate,
+  oauthGoogleLogin,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -128,8 +133,6 @@ class Endpoint {
   }
 
   async saveAppointmentBookings(payload) {
-
-
     const response = await axiosInstance.post(
       `${BaseURL}${appointmentBooking}`,
       payload
@@ -146,10 +149,8 @@ class Endpoint {
       setBrowserCache("UserId", data?.data?.userId);
       if (data?.data?.establishmentId) {
         setBrowserCache("EstablishmentId", data?.data?.establishmentId);
-
       }
     }
-
   }
 
   // Business Endpoints
@@ -180,31 +181,25 @@ class Endpoint {
   }
 
   async publishEstablishment(payload) {
-    const response = await axiosInstance.post(
-      `${BaseURL}${publish}`,
-      payload
-    );
+    const response = await axiosInstance.post(`${BaseURL}${publish}`, payload);
     return response;
   }
 
   async saveEstablishmentService(payload) {
-    const response = await axiosInstance.post(
-      `${BaseURL}${service}`,
-      payload
-    );
+    const response = await axiosInstance.post(`${BaseURL}${service}`, payload);
     return response;
   }
 
   async saveEstablishmentCategory(payload) {
-    const response = await axiosInstance.post(
-      `${BaseURL}${category}`,
-      payload
-    );
+    const response = await axiosInstance.post(`${BaseURL}${category}`, payload);
     return response;
   }
 
   async getImages(payload, establishmentId) {
-    const response = await axiosInstance.get(`${BaseURL}${savePhotos}${establishmentId}/${payload}`, { responseType: 'blob' });
+    const response = await axiosInstance.get(
+      `${BaseURL}${savePhotos}${establishmentId}/${payload}`,
+      { responseType: "blob" }
+    );
     return response;
   }
 
@@ -257,10 +252,7 @@ class Endpoint {
   }
 
   async saveCardInfo(payload) {
-    const response = await axiosInstance.post(
-      `${BaseURL}${saveCard}`,
-      payload
-    );
+    const response = await axiosInstance.post(`${BaseURL}${saveCard}`, payload);
     return response;
   }
 
@@ -339,11 +331,52 @@ class Endpoint {
 
     return response;
   }
+
+  async getTypesOfMembershipResults() {
+    const response = await axiosInstance.get(
+      `${BaseURL}${membershipTypesList}`
+    );
+
+    return response;
+  }
+
+  async makeSubscriptionInitiate(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${subscriptionInitiate}`,
+      payload
+    );
+
+    return response;
+  }
+
+  async checkSubscriptionStatus(payload) {
+    const response = await axiosInstance.get(
+      `${BaseURL}${subscriptionStatus}/${payload}`
+    );
+
+    return response;
+  }
+
+  async makeCustomerSubscriptionInitiate(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${customerSubscriptionInitiate}`,
+      payload
+    );
+
+    return response;
+  }
+
+  async makeOauthGoogleLogin(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${oauthGoogleLogin}`,
+      payload
+    );
+    return response;
+  }
 }
 
 // function FormAvailableSlotsModel(response) {
 //   let keyvalue = 1;
-
 
 //   response.data.map((item) => {
 //     Object.keys(item.availableSlots).forEach((period) => {

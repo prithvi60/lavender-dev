@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import PageNotFound from './pages/PageNotFound';
-import { routes } from "./routes"; 
+import { routes } from "./routes";
 import Loader from './components/Loader';
 import './styles/global.css';
 import './styles/admin.css';
@@ -28,41 +28,39 @@ const BusinessSchedule = React.lazy(() => import('./pages/BusinessLayoutPage.js'
 // const UserDetails = React.lazy(() => import('./pages/UserPage'));
 // const SearchDetails = React.lazy(() => import('./pages/SearchDetailsPage'));
 
-const components = [Admin, Places, Bookings, Login, Register, Search, BusinessSchedule];
+const components = [Admin, Places, Bookings, Login, Register, Search, BusinessSchedule, BusinessSchedule];
 const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <SnackbarProvider>
-        <BrowserRouter>
-        <div className="app">
-          <Routes>
-            <Route path="/" exact element={<LandingPage />}/>
-            {routes?.map((route, index) => {
-              const Component = components?.[index];
-              return (<Route 
-                key={index}
-                path={route.path}
-                exact={route.exact}
-                element={
-                  <Suspense fallback={<Loader />}>
-                    <Component />
-                  </Suspense>
-                }
-              />)
-            })}
-            <Route path='/salon/:estId' element={<SearchDetailsPage />}></Route>
-            <Route path='/userprofile' element={<UserPage />}></Route>
-            <Route path='/favourites' element={<MyFavorites />}></Route>
-            <Route path="*" element={<PageNotFound />} />
-          </Routes>
-        </div>
-        </BrowserRouter>
-      </SnackbarProvider>
-    </QueryClientProvider>
-    
-    
+      <QueryClientProvider client={queryClient}>
+        <SnackbarProvider>
+          <BrowserRouter>
+            <div className="app">
+              <Routes>
+                <Route path="/" exact element={<LandingPage />} />
+                {routes?.map((route, index) => {
+                  const Component = components?.[index];
+                  return (<Route
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}
+                    element={
+                      <Suspense fallback={<Loader />}>
+                        <Component />
+                      </Suspense>
+                    }
+                  />)
+                })}
+                <Route path='/salon/:estId' element={<SearchDetailsPage />}></Route>
+                <Route path='/userprofile' element={<UserPage />}></Route>
+                <Route path='/favourites' element={<MyFavorites />}></Route>
+                <Route path="*" element={<PageNotFound />} />
+              </Routes>
+            </div>
+          </BrowserRouter>
+        </SnackbarProvider>
+      </QueryClientProvider>
   );
 }
 
