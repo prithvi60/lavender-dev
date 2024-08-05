@@ -332,7 +332,7 @@ export default function AddMemberForm({ payload }) {
         const imageUrl = await fetchImage(imageId);
         urls.push(imageUrl);
       }
-      callSaveImageIdApi(imageIdList);
+      //callSaveImageIdApi(imageIdList);
       setImageUrls(urls);
       setLoading(false);
       setIsImageUploaded(false);
@@ -342,20 +342,20 @@ export default function AddMemberForm({ payload }) {
     }
   };
 
-  const callSaveImageIdApi = async(imageId) =>{
+  // const callSaveImageIdApi = async(imageId) =>{
     
-    const payload = {
-      "id": establishmentId,
-      "estImages": imageId,
-    }
-   const response = await endpoint.saveImageId(payload);
-    if(response?.data?.success){
-      showSnackbar('Image Uploaded.', 'success');
-    }
-    else{
-      showSnackbar(response?.data?.data, 'error');
-    }
-  }
+  //   const payload = {
+  //     "id": establishmentId,
+  //     "estImages": imageId,
+  //   }
+  //  const response = await endpoint.saveImageId(payload);
+  //   if(response?.data?.success){
+  //     showSnackbar('Image Uploaded.', 'success');
+  //   }
+  //   else{
+  //     showSnackbar(response?.data?.data, 'error');
+  //   }
+  // }
 
   return (
     <div className="flex-col h-full">
