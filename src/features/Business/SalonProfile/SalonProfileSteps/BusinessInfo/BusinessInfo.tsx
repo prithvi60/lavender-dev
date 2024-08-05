@@ -544,13 +544,13 @@ export const BusinessInfo = ({
                       </p>
                     )}
                   </CardContent>
-                  <CardContent>
+                  <CardContent sx={{textAlign: 'center'}}>
                     {isDirty && (
                       <Button
                         fullWidth
                         type="submit"
                         variant="contained"
-                        sx={{ fontSize: "14px" }}
+                        sx={styles.btn}
                       >
                         Save
                       </Button>

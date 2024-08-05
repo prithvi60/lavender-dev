@@ -30,7 +30,7 @@ function Index() {
           <div className='mt-24'>
             <Box sx={{display: 'flex', paddingBottom: 2}}>
               <IconButton onClick={()=> navigate(-1)}>
-                <GetIcon iconName="BackIcon"/>
+                <GetIcon iconName="BackIconArrow"/>
               </IconButton>
               <Text sx={styles.heading} name={'User Account'} align="left"></Text>
             </Box>

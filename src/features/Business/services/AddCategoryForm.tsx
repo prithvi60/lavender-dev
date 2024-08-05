@@ -116,11 +116,9 @@ export default function AddCategoryForm({payload}) {
 
   useEffect(()=>{
     if(categoryId){
-      
-      setCurrentCategories(categories?.filter(cat => cat.categoryId === categoryId));
+      setCurrentCategories(categories?.filter(cat => cat?.categoryId === categoryId));
     }
-  },[categories])
-
+  },[categories, categoryId])
   useEffect(() => {
     if (currentCategories) {
       setValue('categoryId', currentCategories[0]?.categoryId);

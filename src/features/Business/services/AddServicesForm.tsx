@@ -189,7 +189,7 @@ export default function AddServicesForm({payload}) {
       
       setCurrentCategories(categories?.filter(cat => cat.categoryId === payload));
     }
-  },[categories])
+  },[categories, payload])
 
   useEffect(() => {
     if (payload) {

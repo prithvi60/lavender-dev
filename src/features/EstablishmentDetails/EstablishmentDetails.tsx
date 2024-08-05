@@ -217,6 +217,7 @@ function EstablishmentDetails({ estId }) {
         )}
 
         <About
+          establishmentId = {establishmentData?.data?.data?.id }
           establishmentEmployees={establishmentData?.data?.data?.employees}
           establishmentAbout={
             establishmentData?.data?.data?.profile?.establishmentAbout

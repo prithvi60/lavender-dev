@@ -58,13 +58,16 @@ function HeaderDetails(props) {
                     </div>
                 </div>
                 <div className='search-header-details'>
-                    {establishmentData?.profile?.data?.rating && <div className='text-lg font-bold px-1'>{establishmentData?.profile?.data?.rating?.ratingStar}</div>}
+                    {/* {establishmentData?.profile?.data?.rating && <div className='text-lg font-bold px-1'>{establishmentData?.profile?.data?.rating?.ratingStar}</div>} */}
+                    {/* <div className='text-lg font-bold px-1'>{"4.0"}</div> */}
                     <StyledRating
                           name="customized-color"
-                          value={establishmentData?.profile?.data?.rating?.ratingStar}
+                        //   value={establishmentData?.profile?.data?.rating?.ratingStar}
+                          value={4}
                           precision={0.5}
                           readOnly
                         />
+                    {/* <div className='text-base'>{'('+establishmentData?.profile?.data?.rating?.ratingCount+')'}</div> */}
                     <div className='text-base'>{'('+establishmentData?.profile?.data?.rating?.ratingCount+')'}</div>
                     <FavoriteIcon/>
                     <Chip label={'Opens at '+establishmentData?.profile?.data?.geoX} className='header-chip'/>

@@ -18,6 +18,8 @@ import {
   Popper,
   Grow,
   ClickAwayListener,
+  TextField,
+  styled,
 } from "@mui/material";
 import { ArrowDropDown as ArrowDropDownIcon } from "@mui/icons-material";
 import GetIcon from "../../../assets/Icon/icon";
@@ -26,6 +28,8 @@ import { useDrawer } from "../BusinessDrawerContext";
 import { useSelector } from "react-redux";
 import endpoint from "../../../api/endpoints";
 import { category } from "../../../api/constants";
+import { json } from "react-router-dom";
+import AvatarImg from "./AvatarImg";
 
 type Option = "Add services" | "Add category";
 
@@ -127,6 +131,24 @@ const initialData = {
   }[],
 };
 
+const StyledTextField = styled(TextField)({
+  // Customize styles here
+  '& .MuiOutlinedInput-root': {
+    borderRadius: '8px',
+    height: '40px',
+    width: '388px'
+  },
+  '& .MuiInputLabel-root': {
+    color: 'primary.main', // Example: Change label color
+  },
+  '& .MuiOutlinedInput-notchedOutline': {
+    borderColor: 'none', // Example: Change border color
+  },
+  '&:hover .MuiOutlinedInput-notchedOutline': {
+    borderColor: 'primary.main', // Example: Border color on hover
+  },
+});
+
 export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
   const [enabled, setEnabled] = useState(false);
   useEffect(() => {
@@ -146,7 +168,7 @@ export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
 
 export const Services: React.FC = () => {
   const [data, setData] = useState(initialData);
-  const [filteredService, setFilteredService] = useState(initialData);
+  const [orginalData, setOriginalData] = useState(initialData);
 
   const [serviceInput, setServiceInput] = useState<string | any>('');
 
@@ -156,6 +178,7 @@ export const Services: React.FC = () => {
   const anchorRef = React.useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [categories, setCategories] = React.useState<any[]>([]); // Update type accordingly
+  const [employeeData, setEmployeeData] = React.useState<any[]>([]);
 
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
@@ -290,6 +313,7 @@ export const Services: React.FC = () => {
         const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
         if (establishmentData?.data?.success) {
           setCategories(establishmentData?.data?.data?.categories || []);
+          setEmployeeData(establishmentData?.data?.data?.employees || []);
         }
       } catch (error) {
         console.error("Error fetching establishment details:", error);
@@ -339,21 +363,22 @@ export const Services: React.FC = () => {
 
   useEffect(() => {
     // Transform categories into initialData format
-    const transformedCategories = categories.map((category) => {
+    const transformedCategories = categories?.map((category) => {
       return {
-        id: category.categoryId,
-        title: category.categoryName,
-        rows: category.services.map((service) => ({
-          id: service.serviceId,
-          service: service.serviceName,
-          price: `$${service.startingPrice}`,
-          time: `${service.options[0]?.duration || 0} min`, // Assuming first option's duration
-          employees: service.employees || [],
+        id: category?.categoryId,
+        title: category?.categoryName,
+        rows: category?.services?.map((service) => ({
+          id: service?.serviceId,
+          service: service?.serviceName,
+          price: `$${service?.startingPrice}`,
+          time: `${service?.options[0]?.duration || 0} min`, // Assuming first option's duration
+          employees: service?.employees || [],
         })),
       };
     });
 
     setData({ components: transformedCategories });
+    setOriginalData({ components: transformedCategories });
   }, [categories]);
 
   const handleEditCategory = (categoryId) =>{
@@ -398,15 +423,44 @@ export const Services: React.FC = () => {
       // Show error notification if there was an exception
     }
   }
+const [searchTerm, setSearchTerm] = useState('');
+
+const handleSearch = (event) => {
+  
+  //setData(orginalData)
+  const term = event.target.value.toLowerCase();
+  setSearchTerm(term);
+
+  if (term === '') {
+    setData(orginalData);
+    return;
+  }
+
+  const filteredComponents = orginalData.components.map(component => {
+    const filteredRows = component.rows.filter(row => row.service.toLowerCase().includes(term));
+    return { ...component, rows: filteredRows };
+  }).filter(component => component.rows.length > 0);
+
+  setData({ components: filteredComponents });
+};
+
 
   return (
     <div>
       <div className="flex mx-24 my-4 justify-between w-10/12" >
-        <SearchInput
-          placeholder={'Search services'}
-          onChange={(event: any) => setServiceInput(event.target.value)}
-          
-        />
+      <StyledTextField
+        variant="outlined"
+        placeholder=" Search services"
+        fullWidth
+        margin="normal"
+        value={searchTerm}
+        onChange={handleSearch}
+        InputProps={{
+          startAdornment: (
+            <GetIcon iconName='Search'/>
+          ),
+        }}
+      />
         <div>
           <OptionButton
             selectedIndex={selectedIndex}
@@ -431,7 +485,7 @@ export const Services: React.FC = () => {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {data.components.map((component, index) => (
+              {data?.components?.map((component, index) => (
                 <Draggable
                   draggableId={component.id}
                   index={index}
@@ -458,7 +512,7 @@ export const Services: React.FC = () => {
                           <div className="flex">
                             <div className="font-bold content-center" style={{textTransform: 'none', fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}>{component.title} </div>
 
-                            <IconButton onClick={()=> handleEditCategory(component.id)}>
+                            <IconButton onClick={()=> handleEditCategory(component?.id)}>
                               <GetIcon iconName='EditIcon'/>
                             </IconButton>
                           </div>
@@ -503,8 +557,9 @@ export const Services: React.FC = () => {
                                     <div className="w-1/4" style={{textTransform: 'none', fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}>{row.price}</div>
                                     <div className="flex items-center justify-end w-1/4">
                                       <div className="flex">
-                                        {row.employees.map((employee, index) => (
-                                          <GetIcon key={index} iconName='ProfileIcon' className='m-1'/>
+                                        {row?.employees?.map((employee, index) => (
+                                          // <GetIcon key={index} iconName='ProfileIcon' className='m-1'/>
+                                          <AvatarImg row={employee} employeeData = {employeeData}/>
                                         ))}
                                       </div>
                                       <div className="ml-2 cursor-pointer">

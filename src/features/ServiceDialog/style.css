@@ -14,11 +14,19 @@
 }
 
 .rwdpPrevWeekArrow {
-    border-right: 20px solid #4D4D4D;
+    border-right: 0px solid #ffffff !important;
     left: 0;
+    background: url("../../assets/icon_arrow.png") no-repeat !important;
+    padding: 15px;
 }
 
 .rwdpNextWeekArrow {
-    border-left: 20px solid #4D4D4D;
+    border-left: 0px solid #ffffff !important;
     right: 0;
+    background: url("../../assets/nexticon_arrow.png") no-repeat !important;
+    padding: 15px;
+}
+
+.rwdpDayPickerContainer .rwdpDayBoxDesktop {
+    padding-top: 25px  !important;
 }

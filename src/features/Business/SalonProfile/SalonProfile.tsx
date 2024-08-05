@@ -89,7 +89,7 @@ export const SalonProfile = () => {
             className="px-2 py-2 border-2 rounded bg-transparent border-green-600  text-gray-600 font-semibold mt-5"
             onClick={goToBusinessPage}
           >
-            GO BACK
+            Go Back
           </button>
         </div>
       ) : (

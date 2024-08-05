@@ -93,18 +93,21 @@ const ReviewsTable = ({ data }) => {
     }
   };
 
-  const ServiceTagsCell = ({ value }) => (
-    <div className="flex flex-wrap">
-      {value?.map((tag, index) => (
-        <Chip key={index} label={tag} variant="outlined" className="m-1" />
-      ))}
-    </div>
-  );
+  // const ServiceTagsCell = ({ value }) => (
+  //   <div className="flex flex-wrap">
+  //     {value?.map((tag, index) => (
+  //       <Chip key={index} label={tag} variant="outlined" className="m-1" />
+  //     ))}
+  //   </div>
+  // );
 
   const columns = useMemo(
     () => [
       { accessor: 'reviewDate' },
-      { accessor: 'serviceTags', Cell: ServiceTagsCell },
+      { accessor: 'serviceTag', 
+        cell: ({ row }) => {
+          return <div className="flex flex-wrap"><Chip  label={row?.getValue('serviceTag')} variant="outlined" className="m-1" /></div>
+        }, },
       { accessor: 'employeeName' },
       { accessor: 'customerName' },
       { accessor: 'serviceRating' },
@@ -119,7 +122,7 @@ const ReviewsTable = ({ data }) => {
     data?.forEach(item => {
       flattened.push({
         reviewDate: calculateDaysAgo(item.reviewDate),
-        serviceTags: item.serviceTags,
+        serviceTag: item.serviceTag,
         employeeName: item.employeeName,
         customerName: item.customerName,
         serviceRating: item.serviceRating,
@@ -200,6 +203,7 @@ const ReviewsTable = ({ data }) => {
               <table {...getTableProps()} className="w-full table-auto">
                 <tbody {...getTableBodyProps()}>
                   {rows.map((row, rowIndex) => {
+                    console.log("row : ", row)
                     prepareRow(row);
                     return (
                       <React.Fragment key={rowIndex}>
@@ -207,7 +211,7 @@ const ReviewsTable = ({ data }) => {
                         {row.original.isMainRow && (
                           <tr className="mb-4">
                             <td className="w-1/4 pt-8 pb-2 px-2 text-base style={{color: '#808080'}}">{row.values.reviewDate}</td>
-                            <td className="w-3/4 p-2"><ServiceTagsCell value={row.values.serviceTags} /></td>
+                            <td className="w-3/4" style={{paddingTop: '18px'}}> <Chip label={row.values.serviceTag} variant="outlined" className="m-1" /></td>
                           </tr>
                         )}
                         {/* Render second nested row */}
