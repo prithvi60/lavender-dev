@@ -77,7 +77,7 @@ export function DataTable<TData, TValue>({
         <div className="w-full flex flex-row justify-between items-center">
             <div className="flex m-4 justify-between items-center w-10/12">
                 <SearchInput
-                
+                value={""}
                 placeholder={'Search by ID/Client name'}
                 //value={(table.getColumn("client")?.getFilterValue() as string) ?? ""}
                 onChange={(event) =>

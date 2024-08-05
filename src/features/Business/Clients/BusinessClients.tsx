@@ -84,7 +84,7 @@ export function BusinessClients() {
         /> */}
         <SearchInput
           placeholder={'Search by ID/Client name'}
-          // value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("email")?.setFilterValue(event.target.value)
           }
