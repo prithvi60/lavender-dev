@@ -66,7 +66,6 @@ const schema = yup.object().shape({
 
 
 const AquaCheckbox = styled(Checkbox)(({ theme }) => ({
-  
   '&.Mui-checked': {
     color: '#35AFAC',
   },
@@ -74,7 +73,6 @@ const AquaCheckbox = styled(Checkbox)(({ theme }) => ({
 
 
 export default function AddMemberForm({ payload }) {
-  
   const {
     register,
     control,
@@ -122,7 +120,7 @@ export default function AddMemberForm({ payload }) {
   const handleDrawerSubmit = async (data) => {
    
     
-const selectedData = data?.services?.filter(service => service?.optionName?.length > 0);
+    const selectedData = data?.services?.filter(service => service?.optionName?.length > 0);
     const payLoad = {
         "id": establishmentId,
         "employees": [
@@ -181,10 +179,8 @@ const selectedData = data?.services?.filter(service => service?.optionName?.leng
 
   const fetchingImage = async () => {
     try{
-      console.log("currentEmployees[0]?.profileImage : ", currentEmployees[0]?.profileImage)
       if(currentEmployees[0]?.profileImage){
         const res = await fetchImage(currentEmployees[0]?.profileImage)
-        console.log('res ; ', res)
         setImageUrls([res])
         setLoading(false);
       }

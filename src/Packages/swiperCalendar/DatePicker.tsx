@@ -67,7 +67,7 @@ function DatePicker(props: DatepickerProps) {
     <div className={"container"}>
       <div className={"buttonWrapper"} style={buttonzIndex}>
         <button className={"button"} style={buttonStyle} onClick={prev}>
-          <GetIcon iconName='BackIcon'/>
+          <GetIcon iconName='BackIconArrow'/>
         </button>
       </div>
       <Component

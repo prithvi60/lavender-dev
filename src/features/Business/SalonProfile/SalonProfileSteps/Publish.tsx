@@ -235,15 +235,8 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
         </div>
       </div>
 
-      <div className="flex justify-center flex-col items-center">
-        {errorMsg && (
-          <Text
-            sx={{ color: "red", width: "100%", paddingBottom: 2 }}
-            name={
-              "Please enter Services and Employee details to publish your Establishment."
-            }
-          />
-        )}
+    
+        
         {/* <div className="flex justify-center flex-col w-36">
           {!isPublish && (
             <Buttons
@@ -268,7 +261,7 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
             onClick={() => onClickPreview()}
           ></Buttons>
         </div> */}
-      </div>
+      
 
       <div className="flex justify-center">
         <div

@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
-import endpoint from '../../../api/endpoints';
+import endpoint from '../../api/endpoints';
 import { useSelector } from 'react-redux';
 
-const AvatarCell = ({ row }) => {
+const AvatarImg = ({ row, establishmentId }) => {
   const [imageUrl, setImageUrl] = useState('');
-  const userDetails = useSelector((state: any) => state?.currentUserDetails);
-  const establishmentId = userDetails?.establishmentId || "";
-  
   useEffect(() => {
     const fetchImageUrl = async () => {
-      const url = await fetchImage(row?.original?.profileImage, establishmentId);
+      const url = await fetchImage(row, establishmentId);
       setImageUrl(url);
     };
 
@@ -18,7 +15,6 @@ const AvatarCell = ({ row }) => {
   }, [row]);
 
   const fetchImage = async (image, establishmentId) => {
-  
     try {
       const response = await endpoint.getImages(image, establishmentId);
   
@@ -29,12 +25,12 @@ const AvatarCell = ({ row }) => {
     }
   };
 
+
   return (
     <div className="flex items-center">
       <Avatar src={imageUrl} style={{ backgroundColor: '#1B1464' }} />
-      <div className="ml-2">{row.original.employeeName}</div>
     </div>
   );
 };
 
-export default AvatarCell;
+export default AvatarImg;

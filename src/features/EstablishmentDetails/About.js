@@ -15,11 +15,12 @@ import Avatar from "@mui/material/Avatar";
 import PersonIcon from "@mui/icons-material/Person";
 import GetIcon from "../../assets/Icon/icon";
 import Text from '../../components/Text';
-
+import AvatarImg from "./AvatarImg";
 
 function About(props) {
-  const { establishmentEmployees, establishmentAbout, establishmentFeatures, establishmentLanguages, establishmentPaymentTypes } = props;
+  const { establishmentId, establishmentEmployees, establishmentAbout, establishmentFeatures, establishmentLanguages, establishmentPaymentTypes } = props;
 
+  console.log('establishmentEmployees : ', establishmentEmployees)
   const featureNames = [];
 
   // Check each key in the features object and add to featureNames if the value is true
@@ -45,12 +46,12 @@ function About(props) {
 
         <div className="md:flex mt-4 rounded-3xl shadow-lg border overflow-hidden">
           <div className="inline  sm:w-full w-full">
-            <div className="p-8">
+            <div className="p-4">
               <div className="text-lg font-medium urbanist-font">
                 Additional information
               </div>
               <div className="flex flex-wrap justify-between py-4">
-                <div className="urbanist-font text-lg font-semibold w-full md:w-8/12">
+                <div className="urbanist-font text-lg font-semibold w-full md:w-8/12 flex justify-between">
                   <GetIcon
                     className="flex items-center h-fit gap-3"
                     iconName="PaymentCardIcon"
@@ -61,7 +62,7 @@ function About(props) {
                   <div>
                     {establishmentPaymentTypes ? (
                       Object?.keys(establishmentPaymentTypes)?.map((item, index) => (
-                        <div key={index} className="urbanist-font font-normal text-sm py-1">
+                        <div key={index} className="urbanist-font font-normal text-sm py-1 pl-16">
                           {item}
                         </div>
                       ))
@@ -118,11 +119,9 @@ function About(props) {
               <div className="text-lg font-bold pb-4">Our team</div>
               {establishmentEmployees?.map((item) => (
                 <div className="flex py-2 gap-3 items-center">
-                  <Avatar>
-                    <img src={`/${item.imageId}`} />
-                  </Avatar>
+                  <AvatarImg row={item?.profileImage} establishmentId={establishmentId}/>
                   <div className="urbanist-font text-lg">
-                    {item.employeeName}
+                    {item?.employeeName}
                   </div>
                 </div>
               ))}
