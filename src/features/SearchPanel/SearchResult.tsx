@@ -491,7 +491,50 @@ export default function SearchResult() {
     }
   }, [map, transformedData, center]);
 
-  console.log(center, "oooooo");
+  const customServices = [
+    {
+      serviceName: "Hair Spa",
+      startingPrice: 100,
+      availabilities: [
+        {
+          date: "2024-08-07",
+          timeSlots: ["10:00 AM", "11:00 AM", "12:00 PM"],
+        },
+        {
+          date: "2024-08-08",
+          timeSlots: ["12:00 PM", "11:00 AM", "03:00 PM"],
+        },
+      ],
+    },
+    {
+      serviceName: "Hair Dye",
+      startingPrice: 150,
+      availabilities: [
+        {
+          date: "2024-08-08",
+          timeSlots: ["01:00 PM", "02:00 PM", "03:00 PM"],
+        },
+      ],
+    },
+    {
+      serviceName: "Beauty Therapy",
+      startingPrice: 200,
+      availabilities: [
+        {
+          date: "2024-08-07",
+          timeSlots: ["03:00 PM", "05:00 PM", "06:00 PM"],
+        },
+      ],
+    },
+  ];
+
+  const updatedTreatmentServicesList = state?.treatmentServicesList?.map(
+    (card) => ({
+      ...card,
+      services: card.services ? card.services : customServices,
+      rating: { ratingStar: 4.3, ratingCount: 20 },
+    })
+  );
 
   return (
     <Card
@@ -505,7 +548,7 @@ export default function SearchResult() {
           backgroundColor: "#FFFBF3",
         }}
         id="card-header-id"
-        title={`${state.treatmentServicesList?.length} venues matching your search`}
+        title={`${updatedTreatmentServicesList?.length} venues matching your search`}
         action={
           <div className="flex items-center">
             <FilterModal />
@@ -558,9 +601,9 @@ export default function SearchResult() {
         <Grid container spacing={2} style={{ width: "100vw" }}>
           <Grid item xs={12} md={isShowMap ? 6 : 12}>
             <Grid container spacing={2}>
-              {state.treatmentServicesList &&
-              state.treatmentServicesList?.length > 0 ? (
-                state.treatmentServicesList?.map((card, index) => {
+              {updatedTreatmentServicesList &&
+              updatedTreatmentServicesList?.length > 0 ? (
+                updatedTreatmentServicesList?.map((card, index) => {
                   const distance = userLocation
                     ? haversineDistance(
                         {
@@ -614,20 +657,20 @@ export default function SearchResult() {
                                   <div className="font-bold text-xl py-2 text-violet-700 ">
                                     {card?.establishmentName}
                                   </div>
-                                  {/* <div className="card-rating">
-                                  <div className="text-lg">
-                                    {card?.rating?.ratingStar}
+                                  <div className="card-rating">
+                                    <div className="text-lg">
+                                      {card?.rating?.ratingStar}
+                                    </div>
+                                    <StyledRating
+                                      name="customized-color"
+                                      value={card?.rating?.ratingStar}
+                                      precision={0.5}
+                                      readOnly
+                                    />
+                                    <div className="text-sm font-bold">
+                                      {"(" + card?.rating?.ratingCount + ")"}
+                                    </div>
                                   </div>
-                                  <StyledRating
-                                    name="customized-color"
-                                    value={card?.rating?.ratingStar}
-                                    precision={0.5}
-                                    readOnly
-                                  />
-                                  <div className="text-sm font-bold">
-                                    {"(" + card?.rating?.ratingCount + ")"}
-                                  </div>
-                                </div> */}
                                   <div className="text-sm mb-3 font-semibold">
                                     {card.geoX && card.geoY ? (
                                       <div className="flex items-center">
