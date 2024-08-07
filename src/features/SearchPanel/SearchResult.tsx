@@ -262,7 +262,7 @@ export default function SearchResult() {
   useEffect(() => {
     if (!isLoading) {
       let tempData = [...establishmentList];
-      if (FILTERR.selectedTags && FILTERR.selectedTags.length > 0) {
+      if (FILTERR.selectedTags && FILTERR.selectedTags.length > 0 && establishmentList &&establishmentList.length > 0) {
         tempData = establishmentList?.filter((item: any) =>
           item.serviceTags.some((tag) =>
             FILTERR.selectedTags.some(
@@ -531,8 +531,8 @@ export default function SearchResult() {
   const updatedTreatmentServicesList = state?.treatmentServicesList?.map(
     (card) => ({
       ...card,
-      services: card.services ? card.services : customServices,
-      rating: { ratingStar: 4.3, ratingCount: 20 },
+      services: card.services ? card.services : [],
+      rating: { ratingStar: (Math.random() * 2 + 3).toFixed(1), ratingCount: Math.floor(Math.random() * (100 - 20 + 1)) + 20 },
     })
   );
 
@@ -642,17 +642,13 @@ export default function SearchResult() {
                                   style={{ marginLeft: "20px" }}
                                 >
                                   <div className="chip-wrap">
-                                    {/* {card?.serviceTags?.map((tag, index) => (
+                                    {card?.serviceTags?.map((tag, index) => (
                                     <Chip
                                       key={index}
                                       label={tag}
                                       className="mr-2 mb-2"
                                     />
-                                  ))} */}
-                                    <Chip
-                                      label={card.categoryName}
-                                      className="mr-2 mb-2"
-                                    />
+                                  ))}
                                   </div>
                                   <div className="font-bold text-xl py-2 text-violet-700 ">
                                     {card?.establishmentName}
