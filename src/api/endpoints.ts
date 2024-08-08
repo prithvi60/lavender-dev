@@ -41,6 +41,7 @@ import {
   subscriptionStatus,
   customerSubscriptionInitiate,
   oauthGoogleLogin,
+  changePassword,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -77,6 +78,14 @@ class Endpoint {
   async userRegister(payload) {
     const response = await axiosInstance.post(
       `${BaseURL}${userRegister}`,
+      payload
+    );
+    return response;
+  }
+
+  async forgotPassword(payload) {
+    const response = await axiosInstance.post(
+      `${BaseURL}${changePassword}`,
       payload
     );
     return response;

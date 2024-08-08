@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { TextField, Checkbox, Button, FormControlLabel, MenuItem, Select, InputLabel, FormControl, FormHelperText, Box, Grid, Snackbar, IconButton, Modal, CircularProgress } from '@mui/material';
+import { TextField, Checkbox, Button, FormControlLabel, MenuItem, Select, InputLabel, FormControl, FormHelperText, Box, Grid, Snackbar, IconButton, Modal, CircularProgress, InputAdornment } from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -12,6 +12,7 @@ import { useMutation } from '@tanstack/react-query';
 import Text from '../Text';
 import { useNavigate } from 'react-router-dom';
 import GetIcon from '../../assets/Icon/icon';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const style = {
     position: "absolute",
@@ -32,7 +33,7 @@ const schema = yup.object().shape({
     email: yup.string().email('Invalid email').required('Email is required'),
     password: yup.string().required('Password is required'),
     userType: yup.string().required('User type is required'),
-    dateOfBirth: yup.date().nullable(),
+    dateOfBirth: yup.date().nullable().required("Date of Birth is required"),
     accept: yup.boolean(),
 });
 
@@ -91,7 +92,8 @@ const RegisterScreen = () => {
           setLoading(true)
         mutation.mutate(payLoad)
     };
-
+    const [showPassword, setShowPassword] = useState(false)
+    const handleClickShowPassword = () => setShowPassword(!showPassword);
 
     return (
         <div>
@@ -233,10 +235,14 @@ const RegisterScreen = () => {
                                                                 fullWidth
                                                                     {...field}
                                                                     label="Password"
-                                                                    type="password"
+                                                                    type={showPassword ? "text" : "password"}
                                                                     variant="standard"
                                                                     error={!!errors.password}
                                                                     helperText={errors.password?.message}
+                                                                    InputProps={{ endAdornment: ( <InputAdornment position="end">
+                                                                        <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword}>
+                                                                            {showPassword ? <Visibility /> : <VisibilityOff />} 
+                                                                            </IconButton></InputAdornment>),}}
                                                                 />
                                                             )}
                                                         />

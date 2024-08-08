@@ -25,6 +25,7 @@ import { SearchInput } from './AppointmentControllers';
 import { DataTablePagination } from "../../../components/DataTablePagination";
 import { useDrawer } from '../BusinessDrawerContext';
 import * as XLSX from "xlsx";
+import { Box } from "@mui/material";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -63,11 +64,11 @@ export function DataTable<TData, TValue>({
 
   const handleExport = () => {
     const wb = XLSX.utils.book_new();
-  
+
     const headers = table.getHeaderGroups()[0]?.headers
       .map(header => header?.id)
       .filter(header => header !== 'edit') || [];
-  
+
     const rows = table.getRowModel().rows.map(row => {
       const original: any = row.original;
       return {
@@ -76,15 +77,15 @@ export function DataTable<TData, TValue>({
         startingDate: original.startingDate,
       };
     });
-  
+
     if (headers.length === 0 || rows.length === 0) {
       console.error("No headers or data to export");
       return;
     }
-  
+
     const wsData = [headers, ...rows.map(row => [row.member, row.contact, row.startingDate])];
     const ws = XLSX.utils.aoa_to_sheet(wsData);
-  
+
     XLSX.utils.book_append_sheet(wb, ws, "Data");
     XLSX.writeFile(wb, "EmployeeList.xlsx");
   };
@@ -98,24 +99,24 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="rounded-md border">
-      <div className="w-full flex flex-row justify-between items-center">
-        <div className="flex m-4 justify-between items-center">
+      <Box className="w-full flex flex-row justify-between items-center" sx={{'@media (max-width: 1000px)':{display: 'flex', flexDirection: 'column !important', alignItems: 'center'}}}>
+        <Box className="flex m-4 justify-between items-center">
           <SearchInput
             placeholder="Search services"
             value={(table.getColumn("employeeName")?.getFilterValue() as string) ?? ""}
             onChange={handleSearchInputChange} // Attach the change handler
           />
-          <div style={{ paddingLeft: '10px' }}>
+          <Box sx={{ paddingLeft: '10px', '@media (max-width: 600px)': {width: '100px'} }}>
             <Buttons
               variant="outline"
-              size="lg"
+              // size="lg"
               style={{ width: '188px', height: '37px', color: '#4D4D4D', fontSize: '18px', fontWeight: 700 }}
               onClick={handleExport}
             >
-              Export
+Export
             </Buttons>
-          </div>
-        </div>
+          </Box>
+        </Box>
         <div style={{ paddingRight: '10px' }}>
           <Button
             size="lg"
@@ -124,7 +125,7 @@ export function DataTable<TData, TValue>({
             name={"Add Member"}
           />
         </div>
-      </div>
+      </Box>
 
       <Table>
         <TableHeader>
@@ -144,7 +145,7 @@ export function DataTable<TData, TValue>({
             </TableRow>
           ))}
         </TableHeader>
-        
+
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row: any) => (

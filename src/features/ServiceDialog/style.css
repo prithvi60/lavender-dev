@@ -10,7 +10,6 @@
     border-radius: 40px !important;
     color: #4D4D4D !important;
     position: relative !important;
-
 }
 
 .rwdpPrevWeekArrow {
@@ -25,8 +24,58 @@
     right: 0;
     background: url("../../assets/nexticon_arrow.png") no-repeat !important;
     padding: 15px;
+    margin-top: 2px;
+}
+
+.rwdpDayBoxDesktop .rwdp-DayCircle-today {
+    font-weight: 500;
+}
+
+.rwdp-DayCircle-unavailable-text{
+    display: none;
 }
 
 .rwdpDayPickerContainer .rwdpDayBoxDesktop {
     padding-top: 25px  !important;
+}
+
+/* Default styles for desktop */
+@media (max-width: 500px){
+    .rwdpDayPickerContainer .rwdp-DayCircle {
+        font-size: 12px !important;
+    }
+    .rwdpDayBoxDesktop .rwdp-DayCircle {
+        width: 30px !important;
+        height: 60px !important;
+    }
+}
+
+@media (max-width: 500px) {
+    .establishmentImageCls{
+        width: 300px !important;
+        height: 120px;
+    }
+}
+
+@media (max-width: 420px) {
+    .establishmentImageCls{
+        width: 290px !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .establishmentImageCls{
+        width: 270px !important;
+    }
+}
+
+@media (max-width: 380px) {
+    .establishmentImageCls{
+        width: 250px !important;
+    }
+}
+@media (max-width: 360px) {
+    .establishmentImageCls{
+        width: 220px !important;
+    }
 }

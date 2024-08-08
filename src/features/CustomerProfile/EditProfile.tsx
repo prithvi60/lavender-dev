@@ -258,7 +258,7 @@ function EditProfile({ userInfo }) {
 
                             <Grid item xs={12}>
                                 <div style={{textAlign: 'center', width: '100%'}}>
-                                    <Button type="submit" sx={styles.button} name={"Save changes" } disableRipple={true}></Button>
+                                    <Button type="submit" sx={styles.btn} name={"Save changes" } disableRipple={true}></Button>
                                 </div>
                             </Grid>
                         </Grid>
@@ -273,7 +273,18 @@ function EditProfile({ userInfo }) {
 export default EditProfile;
 
 const styles = {
-    button: {
-
-    }
+    btn: {
+      color: '#FFFFFF',
+      backgroundColor: '#825FFF',
+      fontWeight: 600,
+      fontSize: '16px',
+      lineHeight: '24px',
+      padding: '10px 40px 10px 40px',
+      borderRadius: '10px',
+      textTransform: 'none',
+      whiteSpace: 'nowrap',
+      '&:hover': {
+        backgroundColor: '#5A3EBF',
+      },
+    },
 }

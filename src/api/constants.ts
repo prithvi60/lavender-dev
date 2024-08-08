@@ -14,6 +14,8 @@ export const currentUserDetails = "u/getCurrentUserDetails";
 
 export const userRegister = "u/signUp";
 
+export const changePassword = "/u/changePd";
+
 export const updateProfile = "u/updateProfile";
 
 export const availableSlots = "a/fetchAvailableSlots";

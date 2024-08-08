@@ -164,7 +164,6 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
     }
   };
 
-  console.log("establishmentData : ", establishmentData?.data?.data);
 
   return (
     <div className="w-full">

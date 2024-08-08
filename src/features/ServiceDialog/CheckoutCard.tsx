@@ -8,6 +8,7 @@ import {
   Collapse,
   Button,
   CardHeader,
+  Box
 } from "@mui/material";
 import GetImage from "../../assets/GetImage";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -18,6 +19,8 @@ import endpoint from "../../api/endpoints";
 import AppointmentConfimed from "./AppointmentConfimed";
 import { UpdateCheckoutInfo } from "../../store/slices/Booking/ScheduleAppoinmentSlice";
 import Text from "../../components/Text";
+import { convertDateToReadAbleDate } from "../../utils/TimeFormat";
+import GetIcon from "../../assets/Icon/icon";
 
 function CheckoutCard(props) {
   const { activeStep, next, establishmentName, establishmentId } = props;
@@ -36,7 +39,9 @@ function CheckoutCard(props) {
   const [disabled, setDisabled] = useState(true);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
-
+  const [employee, setEmployee] = useState([]);
+  const [employeeName, setEmployeeName] = useState('');
+  
   useEffect(() => {
     if (checkOutList?.checkOut?.length > 0) {
       setDisabled(false);
@@ -108,6 +113,7 @@ function CheckoutCard(props) {
 
   useEffect(() => {
     setImageIdList(establishmentData?.data?.data?.estImages);
+    setEmployee(establishmentData?.data?.data?.employees)
   }, [establishmentData]);
 
   const fetchImage = async (image) => {
@@ -140,24 +146,50 @@ function CheckoutCard(props) {
     }
   }, [imageIdList]);
 
+  useEffect(()=> {
+    
+    const employeeName: any = employee?.find(item => item?.employeeId === scheduleAppoinmentList?.id)
+    //setEmployee(employeeName)
+    setEmployeeName(employeeName?.employeeName)
+  },[employee, scheduleAppoinmentList?.id])
+
   return (
     <div className="urbanist-font my-6 rounded-2xl chackout-card-container">
       {" "}
       {/* Adjusted width to be responsive */}
       <CardContent>
-        <div className="flex justify-between gap-2 my-2 py-2 serviceCardDetail">
-          {/* <img src={} className='w-full md:w-60 h-24 mb-4 md:mb-0 rounded-2xl' alt='Logo'/> */}
-          {/* <GetImage className='w-2/4' imageName='SaloonImage'/> */}
+        <Box className="flex justify-between gap-2 my-2 py-2 serviceCardDetail" sx={{'@media (max-width: 500px)': {display: 'flex', justifyContent: 'center', flexDirection: 'column'}}}>
+
           <img
+            className="establishmentImageCls"
             src={imageUrls[0]}
             style={{ width: "350px", height: "120px", margin: "10px" }}
           />
           <Text
             sx={styles.subHeading}
             name={establishmentName}
-            style={{ width: "200px" }}
+            style={{ }}
           />
-        </div>
+        </Box>
+
+        {
+          scheduleAppoinmentList?.startTime && 
+          <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+            {(activeStep != 0 && scheduleAppoinmentList?.selectedDate && (typeof scheduleAppoinmentList?.selectedDate === 'string')) && <Box sx={{display: 'flex'}}><Box><GetIcon iconName="CalendarIcon"/></Box><Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}>{convertDateToReadAbleDate(scheduleAppoinmentList?.selectedDate )}</Box></Box>}
+            <Box sx={{display: 'flex'}}>
+              <GetIcon iconName="AccessTimeFilledIcon"/>
+              <Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}>{`${scheduleAppoinmentList?.startTime}-${scheduleAppoinmentList?.endTime}`}</Box>
+            </Box>
+          </Box>
+        }
+
+        {
+          (scheduleAppoinmentList?.startTime && employeeName) &&
+          <Box sx={{display: 'flex', paddingTop: 2}}>
+            <GetIcon iconName="PersonIcon"/>
+            <Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}} >{employeeName}</Box>
+          </Box>
+        }
 
         <div className="py-2 overflow-auto checkout-card">
           {checkOutList.checkOut.map((item, index) => (
@@ -182,7 +214,7 @@ function CheckoutCard(props) {
             </div>
           ))}
         </div>
-        <Divider />
+        <Divider sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}/>
         {
           // checkOutList.checkOut.length > 0 &&
           <div className="pt-3">
@@ -242,6 +274,7 @@ const styles = {
     fontWeight: 600,
     paddingLeft: 0,
     paddingTop: 1,
+    width: "210px" 
   },
   serviceName: {
     color: "#4D4D4D",

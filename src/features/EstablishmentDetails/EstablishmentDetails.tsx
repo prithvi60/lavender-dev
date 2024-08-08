@@ -14,7 +14,7 @@ import { Keyboard, Pagination, Navigation } from "swiper/modules";
 import GetImage from "../../assets/GetImage.tsx";
 import { Reviews } from "./Reviews.tsx";
 import { useEffect, useState } from "react";
-import { Card, Modal } from "@mui/material";
+import { Card, IconButton, Modal } from "@mui/material";
 import { updateUser } from "../../store/slices/currentUserSlice.js";
 import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -173,8 +173,7 @@ function EstablishmentDetails({ estId }) {
         />
         {/* <ImageSlides /> */}
         <Swiper
-          slidesPerView={3}
-          spaceBetween={30}
+          spaceBetween={20}
           keyboard={{
             enabled: true,
           }}
@@ -183,24 +182,28 @@ function EstablishmentDetails({ estId }) {
           }}
           navigation={true}
           modules={[Keyboard, Pagination, Navigation]}
+          breakpoints={{
+            600: {slidesPerView : 1},
+            601: {slidesPerView: 3}
+          }}
         >
           {/* <GetImage imageName="SaloonImage" /> */}
           {loading && <p>Loading...</p>}
-          <div style={{ display: "flex", flexWrap: "wrap" }}>
-            {imageUrls.map((url, index) => (
+          <Box sx={{ }}>
+            {imageUrls?.map((url, index) => (
               <SwiperSlide>
                 <img
                   key={index}
                   src={url}
                   alt={`Image ${index}`}
-                  style={{ width: "300px", height: "200px", margin: "10px" }}
+                  style={{ width: "600px", height: "340px", margin: "10px", borderRadius: '20px' }}
                 />
               </SwiperSlide>
             ))}
-          </div>
+          </Box>
         </Swiper>
 
-        <div className="mx-16 service-search-container">
+        <Box className="mx-16 service-search-container" sx={{'@media (max-width: 640px)': {mx: 4}}}>
           <ServiceDetails
             isLoading={isLoading}
             establishmentData={establishmentData?.data?.data?.categories}
@@ -210,7 +213,7 @@ function EstablishmentDetails({ estId }) {
             establishmentData={establishmentData?.data?.data?.availableDays}
             profile={establishmentData?.data?.data?.profile}
           />
-        </div>
+        </Box>
 
         {establishmentData?.data?.data?.id && (
           <Reviews establishmentId={establishmentData?.data?.data?.id} />
