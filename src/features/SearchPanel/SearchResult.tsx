@@ -547,6 +547,7 @@ export default function SearchResult() {
           color: "#4D4D4D",
           backgroundColor: "#FFFBF3",
         }}
+        sx={{'@media (max-width: 700px)': {marginTop: '140px !important'}, '@media (max-width: 400px)': {marginTop: '150px !important'}}}
         id="card-header-id"
         title={`${updatedTreatmentServicesList?.length} venues matching your search`}
         action={

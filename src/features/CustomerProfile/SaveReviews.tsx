@@ -211,9 +211,9 @@ const SaveReviews = ({bookings, establishmentId}) => {
                   />
 
                   {currentStep === bookings?.services.length - 1 ? (
-                    <div style={{textAlign: 'center'}}><Button onClick={handleFinalSubmit} variant="contained">Submit</Button></div>
+                    <div style={{textAlign: 'center'}}><Button onClick={handleFinalSubmit} variant="contained" sx={styles.btn}>Submit</Button></div>
                   ) : (
-                    <div style={{textAlign: 'end'}}><Button onClick={handleSubmit(onSubmit)} variant="contained">Next</Button></div>
+                    <div style={{textAlign: 'end'}}><Button onClick={handleSubmit(onSubmit)} variant="outlined" sx={styles.btn}>Next</Button></div>
                   )}
                 </>
               )}
@@ -226,3 +226,19 @@ const SaveReviews = ({bookings, establishmentId}) => {
 };
 
 export default SaveReviews;
+
+const styles = {
+  btn: {
+    color: '#FFFFFF',
+    backgroundColor: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    padding: '10px 40px 10px 40px',
+    borderRadius: '10px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#5A3EBF',
+    }
+  },
+}

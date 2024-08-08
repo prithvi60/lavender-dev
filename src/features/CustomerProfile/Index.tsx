@@ -27,7 +27,7 @@ function Index() {
       {
         !isLoading && 
         <div className='mx-auto max-w-7xl px-6 pb-8'>
-          <div className='mt-24'>
+          <Box className='mt-24' sx={{'@media (max-width: 640px)': {marginTop: '150px !important'},}}>
             <Box sx={{display: 'flex', paddingBottom: 2}}>
               <IconButton onClick={()=> navigate(-1)}>
                 <GetIcon iconName="BackIconArrow"/>
@@ -38,12 +38,12 @@ function Index() {
             <Card sx={{backgroundColor: '#FAF5FF', borderRadius: 6, border: '1px solid #CCCCCC', boxShadow: 'none'}}>
               <Grid container spacing={1} className='p-6 md:p-10 lg:p-16'>
                 <Grid item lg={8} sx={{display: 'flex', gap: '30px', flexWrap: 'wrap'}}>
-                  <div >
+                  <Box sx={{'@media (max-width: 640px)': {},}}>
                     <Avatar sx={{ width: 239, height: 239, backgroundColor: '#1B1464' }} ><PersonIcon sx={{width: 110, height: 122}}/></Avatar>
-                  </div>
+                  </Box>
                   <div style={{alignContent: 'center'}}>
                     <div>
-                      <Text sx={styles.userName} name={userInfo?.data?.data?.appUser?.fullName} align='left'/>
+                      <Text sx={styles.userName} name={userInfo?.data?.data?.appUser?.fullName} align='left' />
                       <Text sx={styles.email} name={userInfo?.data?.data?.appUser?.emailAddress} align='left'/>
                       <Text sx={styles.phone} name={`${userInfo?.data?.data?.appUser?.mobileCountryCode} ${userInfo?.data?.data?.appUser?.mobileNumber}`} align='left'/>
                       
@@ -60,7 +60,7 @@ function Index() {
                 </Grid>
               </Grid>
             </Card>
-          </div>
+          </Box>
           <UpComingBookings userInfo={userInfo?.data?.data}/>
           <PastBookings userInfo={userInfo?.data?.data}/>
           <PaymentCard userInfo={userInfo?.data?.data}/>
@@ -85,13 +85,17 @@ const styles = {
     color: '#4D4D4D',
     fontSize: '36px',
     fontWeight: 600,
-    lineHeight: '43px'
+    lineHeight: '43px',
   },
   email: {
     color: '#4D4D4D',
     fontSize: '20px',
     fontWeight: 400,
-    lineHeight: '24px'
+    lineHeight: '24px',
+    wordBreak: 'break-word',
+    '@media (max-width: 640px)': {
+      py:1
+    }
   },
   phone: {
     color: '#4D4D4D',

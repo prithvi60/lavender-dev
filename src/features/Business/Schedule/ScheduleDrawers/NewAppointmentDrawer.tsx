@@ -44,7 +44,6 @@ export default function NewAppointmentDrawer({payload}) {
       try {
         const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
         if (establishmentData?.data?.success) {
-          console.log('establishmentData?.data?.data?.categories : ', establishmentData?.data?.data?.categories)
           setCategories(establishmentData?.data?.data?.categories || []);
         }
       } catch (error) {
@@ -109,9 +108,6 @@ export default function NewAppointmentDrawer({payload}) {
   const handleFilterDrawerSubmit = () => {
     closeDrawer()
   };
-  console.log('startTime : ',startTime)
-
-  console.log('categories : ',categories)
 
   const options = categories.flatMap(category =>
     category.services.map(service => ({

@@ -7,6 +7,7 @@ import {
   FormControl,
   Typography,
   Button,
+  Box,
 } from '@mui/material';
 import GetIcon from '../../../../assets/Icon/icon';
 import Chip from '../../../../components/Chip';
@@ -164,7 +165,7 @@ export const AdditionalInfo = ({
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div style={{ width: '50%' }}>
+        <Box sx={{ width: '50%', '@media (max-width: 600px)':{width: '100%'}}}>
           <Typography sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
             Select the language spoken by your staff
           </Typography>
@@ -286,7 +287,7 @@ export const AdditionalInfo = ({
           <Button type='submit' variant='contained' color='primary' sx={styles.btn}>
             Save
           </Button>
-        </div>
+        </Box>
       </form>
     </div>
   );

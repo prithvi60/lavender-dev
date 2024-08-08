@@ -161,7 +161,7 @@ const RecommendSection = () => {
                   <h6 className="card-image">Image not uploaded</h6>
                 )}
                 <CardContent className="card-content">
-                  <Text variant="h5" align="left" className="card-title" sx={{ color: '#4D4D4D' }} name={card?.establishmentName} />
+                  <Text variant="h5" align="left" className="card-title" sx={{ color: '#4D4D4D', whiteSpace: 'normal', overflow: 'hidden', textOverflow: 'ellipsis' }} name={card?.establishmentName} />
                   <div className="card-rating">
                     <Text sx={{ color: '#4D4D4D' }} variant="body2" align="left" name={card?.rating?.ratingStar} />
                     <StyledRating

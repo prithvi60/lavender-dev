@@ -21,6 +21,7 @@ const Places = React.lazy(() => import('./pages/Places'));
 const Bookings = React.lazy(() => import('./pages/Bookings'));
 const Login = React.lazy(() => import('./pages/LoginPage'));
 const Register = React.lazy(() => import('./pages/RegisterPage'));
+const ForgotPassword = React.lazy(() => import('./pages/ForgotPasswordPage'));
 const Search = React.lazy(() => import('./pages/SearchPage'));
 const BusinessSchedule = React.lazy(() => import('./pages/BusinessLayoutPage.js'));
 //const MyFavorites = React.lazy(() => import('./features/MyFavorites/MyFavorites'));
@@ -28,7 +29,7 @@ const BusinessSchedule = React.lazy(() => import('./pages/BusinessLayoutPage.js'
 // const UserDetails = React.lazy(() => import('./pages/UserPage'));
 // const SearchDetails = React.lazy(() => import('./pages/SearchDetailsPage'));
 
-const components = [Admin, Places, Bookings, Login, Register, Search, BusinessSchedule, BusinessSchedule];
+const components = [Admin, Places, Bookings, Login, Register, ForgotPassword, Search, BusinessSchedule, BusinessSchedule];
 const queryClient = new QueryClient();
 
 const App = () => {

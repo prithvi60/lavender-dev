@@ -51,41 +51,44 @@ const Navbar = (props) => {
             onClick={() => navigate('/')}
             iconName="LavenderFullLogo"
           />
-          {isSearchPage && <NavFilter setshowSearchBar={setshowSearchBar} />}
-          <Stack spacing={2} direction="row">
-            {isLoggedIn && (
-              <Button
-                onClick={handleLogOutBtn}
-                className="button-outline"
-                variant="outlined"
-                name="Logout"
-                sx={{ width: '120px', height: '37px', fontFamily: 'Urbanist', borderRadius: '10px' }}
-              />
-            )}
-            {userType === 'BU' && (
-              <Button
-                href={getRoute('Business')}
-                className="button-outline"
-                variant="outlined"
-                name={'Business'}
-                sx={{ width: '120px', height: '37px', fontFamily: 'Urbanist', borderRadius: '10px' }}
-              />
-            )}
-            {isLoggedIn ? (
-              <ButtonRouter
-                sx={{ width: '100%', height: '37px', fontFamily: 'Urbanist', borderRadius: '10px' }}
-                name={userName}
-                to="/userprofile"
-                startIcon={<PersonIcon />}
-              />
-            ) : (
-              <ButtonRouter
-                sx={{ width: '120px', height: '37px', fontFamily: 'Urbanist', borderRadius: '10px' }}
-                name={'Log in'}
-                to="/login"
-              />
-            )}
-          </Stack>
+          <Box sx={{display: 'flex', justifyContent: 'end', '@media (max-width: 600px)': {display: 'flex', flexDirection: 'column-reverse'}}}>
+            {isSearchPage && <Box sx={{'@media (max-width: 600px)': {alignSelf: 'center'}}}><NavFilter setshowSearchBar={setshowSearchBar} /></Box>}
+            <Stack spacing={2} direction="row" sx={{'@media (max-width: 600px)': {display: 'flex', justifyContent: 'space-between', width: '100%', padding: '10px'}}}>
+              {isLoggedIn && (
+                <Button
+                  onClick={handleLogOutBtn}
+                  className="button-outline"
+                  variant="outlined"
+                  name="Logout"
+                  sx={{ width: '120px', height: '37px', fontFamily: 'Urbanist', borderRadius: '10px' }}
+                />
+              )}
+              {userType === 'BU' && (
+                <Button
+                  href={getRoute('Business')}
+                  className="button-outline"
+                  variant="outlined"
+                  name={'Business'}
+                  sx={{ width: '120px', height: '37px', fontFamily: 'Urbanist', borderRadius: '10px' }}
+                />
+              )}
+              {isLoggedIn ? (
+                <ButtonRouter
+                  sx={{ width: '100%', height: '37px', fontFamily: 'Urbanist', borderRadius: '10px' }}
+                  name={userName}
+                  to="/userprofile"
+                  startIcon={<PersonIcon />}
+                />
+              ) : (
+                <ButtonRouter
+                  sx={{ width: '120px', height: '37px', fontFamily: 'Urbanist', borderRadius: '10px' }}
+                  name={'Log in'}
+                  to="/login"
+                />
+              )}
+            </Stack>
+          </Box>
+
           {isSearchPage && showSearchBar && (
             <div className="searched-search-panel">
               <NewSearchPanel />

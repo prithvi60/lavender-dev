@@ -42,7 +42,6 @@ const SingInSide = () => {
                         />
                     </Grid>
                 </Grid>
-                
             </Box>
 
         </>

@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import endpoint from '../../api/endpoints';
 import { useQuery } from '@tanstack/react-query';
 import Text from '../../components/Text';
+import {Box} from '@mui/material';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
@@ -36,9 +37,9 @@ export const Reviews = ({establishmentId}: any) => {
   });
   
   return (
-    <div className="mx-auto" style={{width: '85%'}} id="SearchDetailReview">
+    <Box className="mx-16" id="SearchDetailReview" sx={{width: '85%', '@media (max-width: 640px)': {mx: 4}}}>
       <ReviewsTable data={reviewData?.data?.data?.content} />
-    </div>
+    </Box>
   );
 };
 
@@ -55,13 +56,19 @@ const PublicCommentsRow = ({ publicComments }) => {
       return publicComments;
     } else {
       // Truncate to 20 words
-      const truncatedComments = publicComments.split(' ').slice(0, 20).join(' ');
+      const words = publicComments?.split(' ');
+      const truncatedComments = publicComments?.split(' ').slice(0, 20).join(' ');
+      const shouldShowSeeMoreButton = words?.length > 20;
+
       return (
         <>
           {truncatedComments}{' '}
-          <Button size="small" onClick={toggleExpand}>
+          {
+            shouldShowSeeMoreButton && <Button size="small" onClick={toggleExpand} sx={{textTransform: 'none'}}>
             See More
           </Button>
+          }
+          
         </>
       );
     }
@@ -162,53 +169,55 @@ const ReviewsTable = ({ data }) => {
         {
           data?.length > 0 ? (
             <div>
-              <div className='flex items-center'>
-              <div className='text-4xl'></div>
-              <Text sx={styles.rating} name={"4.0"}/>
-              <div className='text-center' style={{paddingLeft: 2, paddingRight: 10}}>
-                  <StyledRating
-                    name="customized-color"
-                    value={4}
-                    precision={0.5}
-                    readOnly
-                  /> 
-                  <Text name={'reviews'} align="left"/>   
-              </div>
-              <div className="flex justify-end mb-4">
-              {/* <Typography sx={{alignContent: 'center', padding: '10px'}}>Filter</Typography> */}
-              <Select
-              defaultValue=""
-              onChange={handleSortChange}
-              className="mr-4"
-              style={{ width: '220px', height: '38px' }}
-              >
-              <MenuItem value="highest">Highest Rating</MenuItem>
-              <MenuItem value="lowest">Lowest Rating</MenuItem>
-              </Select>
-              </div>
-              <div className="flex justify-end mb-4">
-                  <Typography sx={{alignContent: 'center', padding: '10px'}}>Sort by </Typography>
-                  <Select
-                  defaultValue=""
-                  onChange={handleSortChange}
-                  className="mr-4"
-                  style={{ width: '220px', height: '38px' }}
-                  >
-                  <MenuItem value="highest">Highest Rating</MenuItem>
-                  <MenuItem value="lowest">Lowest Rating</MenuItem>
-                  </Select>
-              </div>
+              <div className='flex items-center flex-wrap'>
+                <div className='text-4xl'></div>
+                <Text sx={styles.rating} name={"4.0"}/>
+                <div className='text-center' style={{paddingLeft: 2, paddingRight: 10}}>
+                    <StyledRating
+                      name="customized-color"
+                      value={4}
+                      precision={0.5}
+                      readOnly
+                      sx={{fontSize: '44px'}}
+                    /> 
+                    <Text name={'reviews'} align="left"/>   
+                </div>
+                {/* <Box sx={{display: 'flex'}}> */}
+                  <Box className="flex justify-end mb-4" sx={{'@media (max-width: 640px)': {alignSelf: 'center'}}}>
+                    <Typography sx={{alignContent: 'center', padding: '10px'}}>Service</Typography>
+                    <Select
+                    defaultValue=""
+                    onChange={handleSortChange}
+                    className="mr-4"
+                    style={{ width: '150px', height: '38px' }}
+                    >
+                    <MenuItem value="highest">Highest Rating</MenuItem>
+                    <MenuItem value="lowest">Lowest Rating</MenuItem>
+                    </Select>
+                  </Box>
+                  <Box className="flex justify-end mb-4" sx={{'@media (max-width: 640px)': {alignSelf: 'center'}}}>
+                      <Typography sx={{alignContent: 'center', padding: '10px'}}>Sort by </Typography>
+                      <Select
+                      defaultValue=""
+                      onChange={handleSortChange}
+                      className="mr-4"
+                      style={{ width: '150px', height: '38px' }}
+                      >
+                      <MenuItem value="highest">Highest Rating</MenuItem>
+                      <MenuItem value="lowest">Lowest Rating</MenuItem>
+                      </Select>
+                  </Box>
+                {/* </Box> */}
               </div>
           
               <table {...getTableProps()} className="w-full table-auto">
                 <tbody {...getTableBodyProps()}>
-                  {rows.map((row, rowIndex) => {
-                    console.log("row : ", row)
+                  {rows?.map((row, rowIndex) => {
                     prepareRow(row);
                     return (
                       <React.Fragment key={rowIndex}>
                         {/* Render first nested row */}
-                        {row.original.isMainRow && (
+                        {row?.original?.isMainRow && (
                           <tr className="mb-4">
                             <td className="w-1/4 pt-8 pb-2 px-2 text-base style={{color: '#808080'}}">{row.values.reviewDate}</td>
                             <td className="w-3/4" style={{paddingTop: '18px'}}> <Chip label={row.values.serviceTag} variant="outlined" className="m-1" /></td>

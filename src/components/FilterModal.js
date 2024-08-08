@@ -149,7 +149,7 @@ export default function FilterModal() {
             render={({ field: { onChange, value } }) => (
               <div className="mb-4 ml-6 mr-6">
                 <Slider
-                  className=''
+                  sx={{color: '#965AE5'}}
                   value={value}
                   onChange={(_, newValue) => onChange(newValue)}
                   valueLabelDisplay="auto"
@@ -178,9 +178,9 @@ export default function FilterModal() {
                       type="button"
                       className={`border border-black ${
                         value.includes(tag)
-                          ? "bg-gray-500 text-white"
+                          ? "bg-[#E6E1FF] text-black"
                           : "bg-white text-black"
-                      } rounded-md px-4 py-2 m-2 cursor-pointer`}
+                      } rounded-3xl px-4 py-2 m-2 cursor-pointer`}
                       onClick={() => onclickTag(tag, value, onChange)}
                     >
                       {tag}
@@ -198,12 +198,14 @@ export default function FilterModal() {
                     variant="outlined"
                     onClick={onClickClearFilter}
                     name="Clear All"
+                    sx={styles.btn}
                   />
                   <Button
                     name="Apply Filters"
                     onClick={() => {
                       onClickApplyFilter(getValues());
                     }}
+                    sx={styles.btn}
                   ></Button>
                 </div>
               </form>
@@ -236,3 +238,19 @@ const SortByItem = React.forwardRef((props, ref) => {
     </>
   );
 });
+
+const styles = {
+  btn: {
+    color: '#FFFFFF',
+    backgroundColor: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    padding: '10px 40px 10px 40px',
+    borderRadius: '10px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#5A3EBF',
+    }
+  },
+}

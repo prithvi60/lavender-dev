@@ -12,22 +12,18 @@ import { UpdateTermsNConditions } from "../../store/slices/Booking/ScheduleAppoi
 import Text from "../../components/Text.js";
 
 export default function ConfirmScreen(props) {
-    const { estData, onSetActiveStep } = props;
+    const {  onSetActiveStep } = props;
     const dispatch = useDispatch();
 
     // State variables for checkboxes
     const [payAtVenueChecked, setPayAtVenueChecked] = useState(false);
     const [termsAndConditionsChecked, setTermsAndConditionsChecked] = useState(false);
     const [marketingOffersChecked, setMarketingOffersChecked] = useState(false);
-    const [isUser, setIsUser] = useState(true);
+    const [isUser, setIsUser] = useState(false);
     const [appointmentNotes, setAppointmentNotes] = useState(""); // State for appointment notes
     const [termsError, setTermsError] = useState(false);
-
-    const userId = getBrowserCache("UserId");
-
-    if(!userId){
-        setIsUser(false);
-    }
+    const [userId, setUserId] = useState("")
+    //const userId = getBrowserCache("UserId") || "";
 
     useEffect(() => {
         dispatch(UpdateTermsNConditions({
@@ -39,6 +35,8 @@ export default function ConfirmScreen(props) {
     }, [payAtVenueChecked, termsAndConditionsChecked, marketingOffersChecked, appointmentNotes]);
 
     useEffect(()=>{
+        const id = getBrowserCache("UserId") || "";
+        setUserId(id)
         if (!termsAndConditionsChecked) {
             setTermsError(true); // Set error state to true if terms are not checked
         } else {
@@ -46,6 +44,12 @@ export default function ConfirmScreen(props) {
         }
     }, [])
 
+    useEffect(()=>{
+        if(userId?.length > 0){
+            setIsUser(true);
+        }
+    }, [userId])
+    
     return (
         <div className='mt-2 md:mx-16 my-10 h-full urbanist-font'>
             <div className='flex gap-1 mb-2 items-center gap-3'>

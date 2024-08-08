@@ -1,4 +1,4 @@
-import { Google, Facebook, Padding, BorderColor } from "@mui/icons-material";
+import { Google, Facebook, Padding, BorderColor, Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Grid,
   Link,
@@ -10,6 +10,8 @@ import {
   SelectChangeEvent,
   FormHelperText,
   Typography,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
 import Button from "../Button";
 // import TextField from '../TextField'
@@ -58,6 +60,8 @@ function RegisterLoginScreen({ isInLoginModal }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const showSnackbar = useSnackbar();
+  const [showPassword, setShowPassword] = useState(false)
+
 
   const hangleGoogleLogin = useGoogleLogin({
     onSuccess: async (codeResponse) => {
@@ -140,6 +144,11 @@ function RegisterLoginScreen({ isInLoginModal }) {
   function handleRegisterClick() {
     navigate("/register");
   }
+
+  function handleForgotPasswordClick() {
+    navigate("/forgotPassword");
+  }
+
   const handleUserChange = (eventevent) => {
     //setUserType();
   };
@@ -147,7 +156,7 @@ function RegisterLoginScreen({ isInLoginModal }) {
   const responseGoogle = (response) => {
     console.log(response, "goolge");
   };
-
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
   return (
     <>
       {renderRegisterModal ? (
@@ -238,7 +247,6 @@ function RegisterLoginScreen({ isInLoginModal }) {
               <TextField
                 fullWidth
                 label="Email address"
-                size="small"
                 id="outlined-basic"
                 variant="standard"
                 {...register("email")}
@@ -252,13 +260,18 @@ function RegisterLoginScreen({ isInLoginModal }) {
 
             <Grid item spacing={1} xs={12} sx={{ padding: "10px" }}>
               <TextField
+                sx={{fontSize: '16px !important'}}
                 fullWidth
                 label="Password"
-                size="small"
-                id="outlined-basic"
                 variant="standard"
+                type={showPassword ? "text" : "password"}
                 {...register("password")}
+                InputProps={{ endAdornment: ( <InputAdornment position="end">
+                  <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword}>
+                      {showPassword ? <Visibility /> : <VisibilityOff />} 
+                      </IconButton></InputAdornment>),}}
               />
+              <Box sx={{textAlign: 'start'}}><Link onClick={() => handleForgotPasswordClick()}>Forgot Password ?</Link></Box>
               {errors.password && (
                 <p className="text-red-500 font-medium">
                   {errors.password.message}
@@ -279,9 +292,10 @@ function RegisterLoginScreen({ isInLoginModal }) {
                 defaultValue=""
                 render={({ field }) => (
                   <FormControl error={!!errors.userType} fullWidth>
+                    <InputLabel>User Type</InputLabel>
                     <Select
                       {...field}
-                      label="Usertype"
+                      label="User Type"
                       error={!!errors.usertype}
                       fullWidth
                       variant="standard"

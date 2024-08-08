@@ -41,7 +41,7 @@
 }
 
 .login-container .login-landing .MuiGrid-item {
-    padding: 10px;
+    padding: 5px;
 }
 
 .login-banner {
@@ -51,7 +51,7 @@
 
 
 .login-page .login-subcontainer {
-    padding: 70px;
+    padding: 50px;
     border-radius: 20px;
     margin: 20px;
     text-align: center;

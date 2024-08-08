@@ -69,10 +69,10 @@ export const convertToISO8601 = (timeStr, date) => {
 };
 
 export function convertToDateTime(timeString, dateString) {
-  
+
   // Parse the date string "24-07-06" to get year, month, and day
   const [shortYear, month, day] = dateString.split('-').map(Number);
-  
+
   // Calculate the full year based on the short year format
   const fullYear = 2000 + shortYear;
 
@@ -82,12 +82,12 @@ export function convertToDateTime(timeString, dateString) {
   // Parse the time string "6:00 PM" to get hours and minutes
   const [time, period] = timeString.split(' ');
   let [hours, minutes] = time.split(':').map(Number);
-  
+
   // Adjust hours for PM time if necessary
   if (period === 'PM' && hours < 12) {
       hours += 12;
   }
-  
+
   // Set hours and minutes to the Date object in local time
   date.setHours(hours, minutes, 0, 0);
 
@@ -109,6 +109,7 @@ export function convertToDateMonth(date){
   const formattedDate = moment(date).format('MM/YY');
   return formattedDate;
 }
+
 export function convertToDateOnly(date){
   const dateObj = moment(date);
   return dateObj.date();
@@ -133,3 +134,33 @@ export function convertToTimeOnly(date){
   const dateObj = moment.utc(date);
   return dateObj.format('h:mm A');
 }
+
+export function convertDateToReadAbleDate(dateStr) {
+  // Define the ordinal suffixes
+  const ordinalSuffix = (day) => {
+      if (day > 3 && day < 21) return 'th'; // Covers 11th to 13th
+      switch (day % 10) {
+          case 1: return 'st';
+          case 2: return 'nd';
+          case 3: return 'rd';
+          default: return 'th';
+      }
+  };
+  
+  // Parse the date string
+  const [year, month, day] = dateStr?.split('-').map(Number);
+  
+  // Convert two-digit year to four-digit year (assuming current century)
+  const fullYear = 2000 + year; 
+  
+  // Array of month names
+  const months = ["January", "February", "March", "April", "May", "June", 
+                  "July", "August", "September", "October", "November", "December"];
+  
+  // Construct the formatted date string
+  const monthName = months[month - 1]; // month is 1-based
+  const dayWithSuffix = `${day}${ordinalSuffix(day)}`;
+  
+  return `${dayWithSuffix} ${monthName} ${fullYear}`;
+}
+

@@ -14,6 +14,7 @@ import ReactWeeklyDayPicker from "react-weekly-day-picker";
 import  './style.css'
 import { useEffect, useRef, useState } from 'react';
 import Chip from '../../components/Chip.js';
+import Text from '../../components/Text.js';
 
 
 export default function ScheduleAppointment(props) {
@@ -219,7 +220,7 @@ export default function ScheduleAppointment(props) {
           color={"black"}
         /> */}
         <ReactWeeklyDayPicker
-        ref={datePickerRef} 
+            ref={datePickerRef} 
             daysCount={7}  //How many days will be shown
             startDay={new Date()} // First day as Date Object or 22 June 2016
             selectedDays={[selectedDateBtn]} // Selected days list
@@ -249,7 +250,7 @@ export default function ScheduleAppointment(props) {
             <div className='schedule-chips' key={timePeriod}>
               <p style={{fontSize: '20px', fontWeight: 600, color: '#4D4D4D'}}>{timePeriod}</p>
               <div className='flex items-center flex-wrap gap-2'>
-                {slotsArray?.map((slot: any, index: any) => {
+                {slotsArray.length > 0 ? slotsArray?.map((slot: any, index: any) => {
                   return (
                     <div className='cursor-pointer' key={index}>
                       {/* <Chip
@@ -283,10 +284,16 @@ export default function ScheduleAppointment(props) {
 
                     </div>
                   );
-                })}
+                })
+                :
+                (
+                   <Text name={"No slots available."} sx={{fontSize: '18px', fontWeight: 500, color: '#B3B3B3'}}/>
+                  // <Chip label="No slots available."/>
+                )
+              }
               </div>
               {/* TODO */}
-              <Divider />
+              <Divider sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}/>
             </div>
           );
         })
@@ -318,7 +325,7 @@ export default function ScheduleAppointment(props) {
           </div>
         }
 
-<Grid container spacing={2} sx={{marginTop: '10px'}}>
+<Grid container spacing={2} sx={{marginTop: '10px', '@media (max-width: 600px)': {whiteSpace: 'nowrap', display: 'flex', flexDirection: 'column'},}}>
       <Grid item xs={3}>
         <p style={{fontSize: '20px', fontWeight: 600, color: '#4D4D4D', }}>Service by</p>
       </Grid>
@@ -329,7 +336,7 @@ export default function ScheduleAppointment(props) {
             id="employee-select"
             value={selectedEmployeeId}
             onChange={handleChange}
-            sx={{width: '300px', height: '45px'}}
+            sx={{width: '300px', height: '45px', borderRadius: '10px'}}
             
           >
             {employeeList?.map((employee) => (

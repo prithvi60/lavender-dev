@@ -1,14 +1,12 @@
-import { Grid, Chip, styled } from '@mui/material';
+import { Grid, Chip, styled, IconButton, Box } from '@mui/material';
 import React, { useState } from 'react'
-import { SampleData } from './SampleData';
 import Text from '../../components/Text';
 import ButtonRouter from '../../components/ButtonRouter';
 import {Rating} from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import Buttons from '@mui/material/Button';
 import ServiceDialog from '../ServiceDialog/ServiceDialog';
 import './style.css'
-import { NavLink } from 'react-router-dom';
+import GetIcon from '../../assets/Icon/icon';
 
 function HeaderDetails(props) {
     const [selectedHref, setSelectedHref] = useState('pictures')
@@ -28,14 +26,14 @@ function HeaderDetails(props) {
   return (
     <>
         {!isLoading && 
-            <div className='mx-16'>
+            <Box sx={{mx: 8, '@media (max-width: 640px)': {mx: 4}}}>
                 <div className='search-header-container'>
-                    <div className='text-3xl font-bold' id='SearchDetailPicture'>{establishmentData?.profile?.establishmentName}</div>
-                    <div className='search-detail-chips'>
+                    <Box className='text-3xl font-bold' id='SearchDetailPicture'>{establishmentData?.profile?.establishmentName}</Box>
+                    <Box className='search-detail-chips' sx={{'@media (max-width: 640px)': {marginTop: '60px !important'}, '@media (max-width: 550px)': {marginTop: '100px !important'}}}>
                         <a
                             onClick={() => setSelectedHref('pictures')}
                             href="#" className={selectedHref === 'pictures' ? "active" : ""}>
-                            <Buttons variant='outlined'>Pictures</Buttons>
+                            <Buttons sx={styles.btn} variant='outlined'>Pictures</Buttons>
                         </a>
                         <a
                         
@@ -47,15 +45,15 @@ function HeaderDetails(props) {
                         
                             onClick={() => setSelectedHref('review')}
                             href="#SearchDetailReview" className={selectedHref === 'review' ? "active" : ""}>
-                            <Buttons variant='outlined'>Review</Buttons>
+                            <Buttons sx={styles.btn} variant='outlined'>Review</Buttons>
                         </a>
                         <a
                             onClick={() => setSelectedHref('about')}
                             className={selectedHref === 'about' ? "active" : ""}
                             href="#SearchDetailAbout">
-                            <Buttons variant='outlined'>About</Buttons>
+                            <Buttons sx={styles.btn} variant='outlined'>About</Buttons>
                         </a>
-                    </div>
+                    </Box>
                 </div>
                 <div className='search-header-details'>
                     {/* {establishmentData?.profile?.data?.rating && <div className='text-lg font-bold px-1'>{establishmentData?.profile?.data?.rating?.ratingStar}</div>} */}
@@ -69,19 +67,21 @@ function HeaderDetails(props) {
                         />
                     {/* <div className='text-base'>{'('+establishmentData?.profile?.data?.rating?.ratingCount+')'}</div> */}
                     <div className='text-base'>{'('+establishmentData?.profile?.data?.rating?.ratingCount+')'}</div>
-                    <FavoriteIcon/>
-                    <Chip label={'Opens at '+establishmentData?.profile?.data?.geoX} className='header-chip'/>
-                    <Chip label={establishmentData?.profile?.cityCode} className='header-chip'/>
+                    <IconButton>
+                        <GetIcon iconName="heartFilled"/>
+                    </IconButton>
+                    <Chip label={'Opens at '+establishmentData?.profile?.data?.geoX} sx={{fontSize: '14px'}} className='header-chip'/>
+                    <Chip label={establishmentData?.profile?.cityCode} sx={{fontSize: '14px'}} className='header-chip'/>
                     <div className='search-chips-container'>
                         <Grid>
                             {/* {establishmentData?.profile?.data?.facilities?.instantBooking &&  */}
-                            <Chip className='mx-2' label={"Instant Booking"} value={"Instant Booking"}/>
+                            <Chip sx={{fontSize: '14px'}} label={"Instant Booking"} value={"Instant Booking"}/>
                             {/* {establishmentData?.profile?.data?.facilities?.freeCancellation &&  */}
-                            <Chip className='mx-2' label={"Free Cancellation"} value={"Free Cancellation"}/>
+                            <Chip sx={{fontSize: '14px'}} label={"Free Cancellation"} value={"Free Cancellation"}/>
                         </Grid>
                     </div>
                 </div>
-            </div>
+            </Box>
         }
     </>
     
@@ -90,3 +90,19 @@ function HeaderDetails(props) {
 }
 
 export default HeaderDetails
+
+const styles = {
+    btn: {
+      color: '#FFFFFF',
+      backgroundColor: '#825FFF',
+      fontWeight: 600,
+      fontSize: '16px',
+      lineHeight: '24px',
+      padding: '10px 20px 10px 20px',
+      borderRadius: '10px',
+      textTransform: 'none',
+      '&:hover': {
+        backgroundColor: '#5A3EBF',
+      }
+    },
+  }

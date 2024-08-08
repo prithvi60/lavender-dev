@@ -129,7 +129,7 @@ export const SalonSetup = ({ setMembershipScreen }) => {
             </Stepper>
           </Box>
           {!(activeStep >= 3) ? ( 
-              <Buttons disabled={disabled} sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', textTransform: 'none', fontSize: '18px', fontWeight: 600}} variant= 'contained' onClick={onSetActiveStep} name={'Proceed'}> </Buttons>)
+              <Buttons disabled={disabled} sx={{borderRadius: '10px', padding: '10px 40px 10px 40px', textTransform: 'none', fontSize: '18px', fontWeight: 600, '@media (max-width: 600px)': {padding: '10px 20px 10px 20px', fontSize: '14px'}}} variant= 'contained' onClick={onSetActiveStep} name={'Proceed'}> </Buttons>)
               : 
               (
                 <IconButton

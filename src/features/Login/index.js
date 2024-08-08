@@ -6,6 +6,7 @@ import GetIcon from '../../assets/Icon/icon';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({children}) => {
+    console.log("children : ", children)
     const { newAccount, accountCreated } = useSelector((state) => state.loginPage);
 
     const navigate = useNavigate();

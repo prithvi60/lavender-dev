@@ -142,7 +142,7 @@ function OptionsModal({ props }) {
           <div className='flex flex-wrap p-6'>
             <Grid className='w-full'>
               <Text sx={styles.serviceName} name={props?.serviceName} align="left"/>
-              <div className='flex justify-between items-end'>
+              <Box className='flex justify-between items-end' sx={{'@media (max-width: 640px)': {display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}}>
                 <div>
                   <Text sx={styles.duration} name={`${props?.serviceDuration} mins`} align="left"/>
                   <div style={styles.startingPrice}>
@@ -159,7 +159,7 @@ function OptionsModal({ props }) {
                   {selectAll ? "Deselect All" : "Select All"}
                 </Button>
                 
-              </div>
+              </Box>
             </Grid>
             <Grid className='w-full mt-4'>
               <Text sx={styles.description} name={props?.serviceDescription} align="left"/>
@@ -168,7 +168,7 @@ function OptionsModal({ props }) {
           <div className="mx-6">
             <Divider />
           </div>
-          {props.options.length > 0 &&
+          {props?.options?.length > 0 &&
             <Grid container spacing={2} sx={{ margin: "5px", padding: "10px" }}>
               <Grid xs={12}>
                 <Text sx={styles.subHeading} name={"Choose options"} align="left"/>
@@ -219,13 +219,28 @@ const styles={
     fontSize: '36px',
     fontWeight: 600,
     lineHeight: '42px',
-    py: '1px'
+    py: '1px',
+    '@media (max-width: 430px)': {
+      fontSize: '30px',
+    },
+    '@media (max-width: 385px)': {
+      fontSize: '24px',
+      fontWeight: 700,
+    }
   },
   startingPrice: {
     color: '#4D4D4D',
     fontSize: '28px',
     fontWeight: 700,
-    py: '1px'
+    py: '1px',
+    '@media (max-width: 430px)': {
+      fontSize: '26px',
+      fontWeight: 600,
+    },
+    '@media (max-width: 385px)': {
+      fontSize: '24px',
+      fontWeight: 600,
+    }
   },
   duration: {
     color: '#808080',
@@ -262,7 +277,14 @@ const styles={
     borderRadius: '10px',
     textTransform: 'none', 
     fontSize: '20px',
-    fontWeight: 500
+    fontWeight: 500,
+    '@media (max-width: 430px)': {
+      fontSize: '18px',
+    },
+    '@media (max-width: 385px)': {
+      fontSize: '14px',
+      fontWeight: 500,
+    }
   }
 }
 

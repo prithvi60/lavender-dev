@@ -15,6 +15,7 @@ import ConfirmScreen from "./ConfirmScreeen.tsx";
 import { Grid } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { removeCheckOutDetails } from "../../store/slices/checkOutPageSlice.js";
+import { resetFilter } from "../../store/slices/Booking/ScheduleAppoinmentSlice.ts";
 
 function ServiceDialog({establishmentData}) {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,12 +33,14 @@ function ServiceDialog({establishmentData}) {
   function handleClose() {
     setIsOpen(false);
     dispatch(removeCheckOutDetails());
+    dispatch(resetFilter());
+    setActiveStep(0)
   }
   
   const steps = ["Pick services", "Schedule appointment", "Confirm"];
   return (
     <>
-        <Buttons variant= 'outlined' onClick={handleBtnClick}>Services</Buttons>
+        <Buttons sx={styles.btn} variant= 'outlined' onClick={handleBtnClick}>Services</Buttons>
         <Dialog fullScreen open={isOpen} close={handleClose}>
         <Toolbar className="mb-4 stepper-header">
             <Box sx={{ width: '100%' }}>
@@ -65,7 +68,7 @@ function ServiceDialog({establishmentData}) {
 
             {activeStep === 1 && <ScheduleAppointment estData={establishmentData} onSetActiveStep={onSetActiveStep} />}
 
-            {activeStep === 2 && <ConfirmScreen estData={establishmentData} onSetActiveStep={onSetActiveStep} />}
+            {activeStep === 2 && <ConfirmScreen  onSetActiveStep={onSetActiveStep} />}
           </div>
 
           <div className="ml-4">
@@ -78,3 +81,19 @@ function ServiceDialog({establishmentData}) {
 }
 
 export default ServiceDialog
+
+const styles = {
+  btn: {
+    color: '#FFFFFF',
+    backgroundColor: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    padding: '10px 20px 10px 20px',
+    borderRadius: '10px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#5A3EBF',
+    }
+  },
+}

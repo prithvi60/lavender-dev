@@ -14,7 +14,6 @@ const CategoryPanel = () => {
   const [clickedImages, setClickedImages] = useState([]);
   const [availableCategories, setAvailableCategories] = useState([]);
 
-  console.log(clickedImages, "ok");
 
   const handleClick = (item) => {
     if (clickedImages.includes(item)) {

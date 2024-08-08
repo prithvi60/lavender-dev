@@ -25,6 +25,11 @@ export const routes = [
     exact: true
   },
   {
+    name: "ForgotPassword",
+    path: '/forgotPassword',
+    exact: true
+  },
+  {
     name: "Search",
     path: '/search',
     exact: true

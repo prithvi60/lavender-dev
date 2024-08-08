@@ -682,12 +682,13 @@ const NewSearchPanel = () => {
               <Paper
                 elevation={2}
                 className="date-panel"
-                style={{ overflow: "auto" }}
+                style={{ overflow: "auto"}}
               >
                 <div className="flex justify-end p-2 pb-0 cursor-pointer text-red-600">
                   <CloseIcon onClick={() => closeFilterPannel()} />
                 </div>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <div style={{ overflowX: 'auto' }}>
+                <LocalizationProvider dateAdapter={AdapterDayjs} >
                   <StaticDateRangePicker
                     slotProps={{
                       shortcuts: {
@@ -705,6 +706,8 @@ const NewSearchPanel = () => {
                     }}
                   />
                 </LocalizationProvider>
+                </div>
+                
               </Paper>
             </div>
           )}
@@ -730,3 +733,4 @@ const NewSearchPanel = () => {
 };
 
 export default NewSearchPanel;
+

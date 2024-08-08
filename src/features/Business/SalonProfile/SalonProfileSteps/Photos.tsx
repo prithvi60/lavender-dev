@@ -261,29 +261,33 @@ export const Photos = ({userDetails}) => {
       </div>
       
 
-      <Box sx={{display: 'flex', justifyContent: 'center', padding: 3}}>
-        <Box>
-          <Card sx={styles.cardContainer}>
-            <Box sx={{display: 'flex', justifyContent: 'center', padding: 0}}>
-              <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                <IconButton>
-                  <GetIcon iconName='Caution'/>
-                </IconButton>
-              </Box>
-              <Box>
-                <List sx={{maxWidth: '517px'}}>
-                  <ListItem>
-                    <Typography align={"left"} sx={styles.text} >Use high-resolution images to ensure your photos look great on all devices with a minimum size of <strong>800 x 600 pixels.</strong></Typography>
-                  </ListItem>
-                  <ListItem>
-                    <Typography align={"left"} sx={styles.text}>We accept <strong>JPEG & PNG</strong> file formats.</Typography>
-                  </ListItem>
-                </List>
-              </Box>
-              </Box>
-          </Card>
-        </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center', padding: 3 }}>
+      <Box>
+        <Card sx={styles.cardContainer}>
+          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'center', padding: 0 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: { xs: 2, sm: 0 } }}>
+              <IconButton>
+                <GetIcon iconName='Caution'/>
+              </IconButton>
+            </Box>
+            <Box>
+              <List sx={{ width: { xs: '100%', sm: '517px' } }}>
+                <ListItem>
+                  <Typography align={"left"} sx={styles.text}>
+                    Use high-resolution images to ensure your photos look great on all devices with a minimum size of <strong>800 x 600 pixels.</strong>
+                  </Typography>
+                </ListItem>
+                <ListItem>
+                  <Typography align={"left"} sx={styles.text}>
+                    We accept <strong>JPEG & PNG</strong> file formats.
+                  </Typography>
+                </ListItem>
+              </List>
+            </Box>
+          </Box>
+        </Card>
       </Box>
+    </Box>
       
     </div>
   );
@@ -292,14 +296,14 @@ export const Photos = ({userDetails}) => {
 const styles = {
   cardContainer: {
     backgroundColor: '#E6E1FF',
-    width: '640px',
-    height: '91px',
-    Padding: 2
+    width: { xs: '100%', sm: '640px' },
+    height: 'auto',
+    padding: 2
   },
   text: {
-    fontSize: '12px',
+    fontSize: { xs: '10px', sm: '12px' },
     fontWeight: 500,
-    lineHeight: '14.4px'
+    lineHeight: { xs: '12px', sm: '14.4px' }
   },
     buttonStyles : {
       width: '120px', 
