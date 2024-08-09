@@ -1,0 +1,19 @@
+.exportBtn {
+    @media (max-width: 630px) {
+        width: 100px !important;
+        font-size: 10px;
+        font-weight: 600;
+    }
+}
+
+.containerBox {
+    @media (max-width: 630px) {
+        width: 420px !important;
+    };
+}
+
+.containerBox {
+    @media (max-width: 530px) {
+        width: 380px !important;
+    }
+}

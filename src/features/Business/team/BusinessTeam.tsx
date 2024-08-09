@@ -6,6 +6,7 @@ import { columns } from "./columns"
 import { useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 import { useDrawer } from "../BusinessDrawerContext"
+import "./style.css";
 
 export default function BusinessTeam() {
   
@@ -53,7 +54,7 @@ export default function BusinessTeam() {
 
 
   return (
-    <div className="container mx-auto">
+    <div className="containerBox mx-auto">
       <DataTable columns={columns} data={data} />
     </div>
   )

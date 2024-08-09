@@ -35,7 +35,7 @@ export function SearchInput({onChange, value, placeholder}) {
     return (
         <Paper
         component="form"
-        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, height: '37px', '@media (max-width: 770px)': {width: 300}}}
+        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400, height: '37px', '@media (max-width: 770px)': {p: '2px 4px', width: 300}, '@media (max-width: 570px)': {p: '2px 4px', width: 200}}}
         >
         <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
             <SearchIcon />

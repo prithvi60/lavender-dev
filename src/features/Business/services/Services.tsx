@@ -10,8 +10,6 @@ import {
   ButtonGroup,
   FormControl,
   IconButton,
-  Input,
-  InputAdornment,
   MenuItem,
   MenuList,
   Paper,
@@ -20,15 +18,13 @@ import {
   ClickAwayListener,
   TextField,
   styled,
+  Box,
 } from "@mui/material";
 import { ArrowDropDown as ArrowDropDownIcon } from "@mui/icons-material";
 import GetIcon from "../../../assets/Icon/icon";
-import { SearchInput } from "../Appointments/AppointmentControllers";
 import { useDrawer } from "../BusinessDrawerContext";
 import { useSelector } from "react-redux";
 import endpoint from "../../../api/endpoints";
-import { category } from "../../../api/constants";
-import { json } from "react-router-dom";
 import AvatarImg from "./AvatarImg";
 
 type Option = "Add services" | "Add category";
@@ -63,8 +59,9 @@ const OptionButton: React.FC<OptionButtonProps> = ({
   open,
   anchorRef,
 }) => (
-  <ButtonGroup variant="contained" ref={anchorRef} aria-label="Button group with a nested menu" sx={{borderRadius: '10px', textTransform: 'none', }}>
-    <Button style={{ borderRadius: '10px 0px 0px 10px', width: '150px', height: '44px', textTransform: 'none', fontSize: '18px', fontWeight: 600,}} onClick={handleClick}>
+  <ButtonGroup variant="contained" ref={anchorRef} aria-label="Button group with a nested menu" sx={{borderRadius: '10px', textTransform: 'none','@media (max-width: 480px)':{width: '90% !important'},
+}}>
+    <Button style={{ borderRadius: '10px 0px 0px 10px', width: '150px', height: '44px', textTransform: 'none', fontSize: '18px', fontWeight: 600,}} sx={{'@media (max-width: 480px)':{fontSize: '14px !important'}}} onClick={handleClick}>
       {options[selectedIndex].label}
     </Button>
     <Button
@@ -136,7 +133,11 @@ const StyledTextField = styled(TextField)({
   '& .MuiOutlinedInput-root': {
     borderRadius: '8px',
     height: '40px',
-    width: '388px'
+    width: '388px',
+    '@media (max-width: 580px)':{width: '80% !important'},
+    '@media (max-width: 480px)':{width: '60% !important'},
+    '@media (max-width: 440px)':{width: '50% !important'},
+
   },
   '& .MuiInputLabel-root': {
     color: 'primary.main', // Example: Change label color
@@ -447,7 +448,7 @@ const handleSearch = (event) => {
 
   return (
     <div>
-      <div className="flex mx-24 my-4 justify-between w-10/12" >
+      <Box className="flex mx-24 my-4 justify-between w-10/12"  sx={{'@media (max-width: 900px)':{display: 'flex', flexDirection: 'column !important', alignItems: 'start'}}}>
       <StyledTextField
         variant="outlined"
         placeholder=" Search services"
@@ -461,7 +462,7 @@ const handleSearch = (event) => {
           ),
         }}
       />
-        <div>
+        <Box>
           <OptionButton
             selectedIndex={selectedIndex}
             handleClick={handleClick}
@@ -470,8 +471,8 @@ const handleSearch = (event) => {
             open={open}
             anchorRef={anchorRef}
           />
-        </div>
-      </div>
+        </Box>
+      </Box>
 
       <DragDropContext onDragEnd={onDragEnd}>
         <StrictModeDroppable

@@ -26,6 +26,7 @@ import { DataTablePagination } from "../../../components/DataTablePagination";
 import { useDrawer } from '../BusinessDrawerContext';
 import * as XLSX from "xlsx";
 import { Box } from "@mui/material";
+import "./style.css";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -108,12 +109,13 @@ export function DataTable<TData, TValue>({
           />
           <Box sx={{ paddingLeft: '10px', '@media (max-width: 600px)': {width: '100px'} }}>
             <Buttons
+              className="exportBtn"
               variant="outline"
               // size="lg"
               style={{ width: '188px', height: '37px', color: '#4D4D4D', fontSize: '18px', fontWeight: 700 }}
               onClick={handleExport}
             >
-Export
+              Export
             </Buttons>
           </Box>
         </Box>
@@ -171,7 +173,6 @@ Export
           )}
         </TableBody>
       </Table>
-
       <DataTablePagination table={table} pageData={undefined} />
     </div>
   );
