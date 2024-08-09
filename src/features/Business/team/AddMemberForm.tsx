@@ -57,8 +57,14 @@ const schema = yup.object().shape({
   accessLevel: yup.string(),
   services: yup.array().of(
     yup.object().shape({
-      serviceName: yup.string(),
-      optionName: yup.array().of(yup.string()),
+      categoryId: yup.string().required(), // Ensure categoryId is required
+      categoryName: yup.string().required(), // Ensure categoryName is required
+      services: yup.array().of(
+        yup.object().shape({
+          serviceId: yup.string().required(), // Ensure serviceID is required
+          serviceName: yup.string().required() // Ensure serviceName is required
+        })
+      ).required() // Ensure services array is required
     })
   ),
   profileImage: yup.string(),
@@ -111,6 +117,9 @@ export default function AddMemberForm({ payload }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isImageUploaded, setIsImageUploaded] = useState(false);
+  const [open, setOpen] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [formattedData, setFormattedData] = useState([]);
 
   const showSnackbar = useSnackbar();
 
@@ -120,7 +129,19 @@ export default function AddMemberForm({ payload }) {
   const handleDrawerSubmit = async (data) => {
    
     
-    const selectedData = data?.services?.filter(service => service?.optionName?.length > 0);
+    const selectedData = formattedData
+    .filter(category => category?.services?.some(service => service?.isSelected)) // Filter categories with selected services
+    .map(category => ({
+      categoryId: category?.categoryId, // Ensure this field matches your data structure
+      categoryName: category?.categoryName,
+      services: category?.services
+        .filter(service => service?.isSelected) // Keep only selected services
+        .map(service => ({
+          serviceId: service?.serviceId, // Ensure this field matches your data structure
+          serviceName: service?.serviceName
+        }))
+    }));
+
     const payLoad = {
         "id": establishmentId,
         "employees": [
@@ -145,7 +166,6 @@ export default function AddMemberForm({ payload }) {
     try {
       const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
       if (establishmentData?.data?.success) {
-        
         setEmployee(establishmentData?.data?.data?.employees || []);
         setCategories(establishmentData?.data?.data?.categories || []);
       }
@@ -154,16 +174,6 @@ export default function AddMemberForm({ payload }) {
     }
   };
 
-  useEffect(()=>{
-    const filteredServices = categories?.flatMap(category =>
-      category?.services?.map(service => ({
-        serviceId: service?.serviceId,
-        serviceName: service?.serviceName,
-        optionName: service?.options?.map(option => option?.optionName)
-      }))
-    );
-    setServices(filteredServices);
-  },[categories])
 
   useEffect(() => {
     getEstablishmentDetails();
@@ -193,7 +203,15 @@ export default function AddMemberForm({ payload }) {
     fetchingImage();
     
     if (currentEmployees) {
-      
+      // const formattedData = currentEmployees?.map(category => ({
+      //   categoryId: category.categoryId, // Ensure categoryId is present
+      //   categoryName: category.categoryName, // Ensure categoryName is present
+      //   services: category.services.map(service => ({
+      //     serviceID: service.serviceId, // Ensure serviceID is present
+      //     serviceName: service.serviceName // Ensure serviceName is present
+      //   }))
+      // }));
+
       setValue('employeeId', currentEmployees[0]?.employeeId);
       setValue('employeeName', currentEmployees[0]?.employeeName);
       setValue('email', currentEmployees[0]?.email);
@@ -202,43 +220,61 @@ export default function AddMemberForm({ payload }) {
       setValues(dayjs(startingDate))
       setValue('profileImage', currentEmployees[0]?.profileImage);
       setValue('accessLevel', currentEmployees[0]?.accessLevel);
+      //setValue('services', formattedData);
     }   
   }, [currentEmployees]);
 
+useEffect(() => {
+  const transformedData = categories.map(category => ({
+    ...category,
+    isOpen: false,
+    isSelected: false,
+    services: category.services.map(service => ({
+      ...service,
+      isSelected: false
+    }))
+  }));
+  setFormattedData(transformedData);
+}, [categories]);
 
-  const [open, setOpen] = React.useState(
-    services.map(() => false)
-  );
+const handleCategoryClick = (index) => {
+  setOpen(prevOpen => {
+    const newOpen = [...prevOpen];
+    newOpen[index] = !newOpen[index];
+    return newOpen;
+  });
+};
 
-  const handleClick = index => {
-    setOpen(prevOpen => {
-      const newOpen = [...prevOpen];
-      newOpen[index] = !newOpen[index];
-      return newOpen;
-    });
-  };
+const handleCategoryChange = (index, checked) => {
+  const newData = [...formattedData];
+  newData[index].isSelected = checked;
+  newData[index].services.forEach(service => {
+    service.isSelected = checked;
+  });
+  setFormattedData(newData);
+  setValue('services', newData);
+};
 
-  // const onSubmit = data => {
-  //   const selectedData = data.services.filter(service => service.optionName.length > 0);
-  //   console.log(selectedData);
-  // };
+const handleServiceChange = (categoryIndex, serviceIndex, checked) => {
+  const newData = [...formattedData];
+  newData[categoryIndex].services[serviceIndex].isSelected = checked;
+  setFormattedData(newData);
+  setValue('services', newData);
+};
 
-  const handleParentChange = (index, checked) => {
-    const newOptions = checked ? services[index].optionName : [];
-    setValue(`services.${index}.optionName`, newOptions);
-  };
-
-  const handleSelectAllChange = checked => {
-    const newServices = services.map(service => ({
-      serviceName: service.serviceName,
-      optionName: checked ? service.optionName : [],
-    }));
-    setValue('services', newServices);
-  };
-
-  const allSelected = services?.length > 0 && watch('services')?.every(
-    service => service?.optionName?.length > 0
-  );
+const handleSelectAllChange = (checked) => {
+  const newData = formattedData.map(category => ({
+    ...category,
+    isSelected: checked,
+    services: category.services.map(service => ({
+      ...service,
+      isSelected: checked
+    }))
+  }));
+  setFormattedData(newData);
+  setSelectAll(checked);
+  setValue('services', newData);
+};
 
 
   useEffect( () =>{
@@ -341,21 +377,6 @@ export default function AddMemberForm({ payload }) {
       setLoading(false);
     }
   };
-
-  // const callSaveImageIdApi = async(imageId) =>{
-    
-  //   const payload = {
-  //     "id": establishmentId,
-  //     "estImages": imageId,
-  //   }
-  //  const response = await endpoint.saveImageId(payload);
-  //   if(response?.data?.success){
-  //     showSnackbar('Image Uploaded.', 'success');
-  //   }
-  //   else{
-  //     showSnackbar(response?.data?.data, 'error');
-  //   }
-  // }
 
   return (
     <div className="flex-col h-full">
@@ -532,80 +553,58 @@ export default function AddMemberForm({ payload }) {
           </div>
 
           <div className="mb-4">
-          <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
-              Services
-            </Typography>
-            <FormGroup>
-          <FormControlLabel
-            control={
-              <AquaCheckbox
-                checked={allSelected}
-                onChange={e => handleSelectAllChange(e.target.checked)}
+      <Typography sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
+        Services
+      </Typography>
+      <FormGroup>
+        <FormControlLabel
+          control={
+            <AquaCheckbox
+              checked={selectAll}
+              onChange={e => handleSelectAllChange(e.target.checked)}
+            />
+          }
+          label="Select All"
+        />
+        {formattedData.map((category, categoryIndex) => (
+          <FormControl key={category.categoryId} component="fieldset">
+            <ListItem button onClick={() => handleCategoryClick(categoryIndex)}>
+              <FormControlLabel
+                control={
+                  <AquaCheckbox
+                    checked={category.isSelected}
+                    indeterminate={
+                      category.services.some(service => service.isSelected) &&
+                      !category.services.every(service => service.isSelected)
+                    }
+                    onChange={e => handleCategoryChange(categoryIndex, e.target.checked)}
+                  />
+                }
+                label={category.categoryName}
               />
-            }
-            label="Select All"
-          />
-          {services.map((service, index) => (
-            <FormControl key={service?.serviceName} component="fieldset">
-              <ListItem button onClick={() => handleClick(index)}>
-                <FormControlLabel
-                  control={
-                    <Controller
-                      name={`services.${index}.optionName`}
-                      control={control}
-                      render={({ field }) => (
+              {open[categoryIndex] ? <ExpandLess /> : <ExpandMore />}
+            </ListItem>
+            <Collapse in={open[categoryIndex]} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                {category.services.map((service, serviceIndex) => (
+                  <ListItem button key={service.serviceId} sx={{ pl: 4 }}>
+                    <FormControlLabel
+                      control={
                         <AquaCheckbox
-                          checked={
-                            field?.value?.length === service?.optionName?.length &&
-                            service?.optionName?.length > 0
-                          }
-                          indeterminate={
-                            field?.value?.length > 0 &&
-                            field?.value?.length < service?.optionName?.length
-                          }
-                          onChange={e =>
-                            handleParentChange(index, e.target.checked)
-                          }
+                          checked={service.isSelected}
+                          onChange={e => handleServiceChange(categoryIndex, serviceIndex, e.target.checked)}
                         />
-                      )}
+                      }
+                      label={service.serviceName}
                     />
-                  }
-                  label={service?.serviceName}
-                />
-                {open[index] ? <ExpandLess /> : <ExpandMore />}
-              </ListItem>
-              <Collapse in={open[index]} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                  {service.optionName.map(option => (
-                    <ListItem key={option} sx={{ pl: 4 }}>
-                      <FormControlLabel
-                        control={
-                          <Controller
-                            name={`services.${index}.optionName`}
-                            control={control}
-                            render={({ field }) => (
-                              <AquaCheckbox
-                                checked={field?.value?.includes(option)}
-                                onChange={e => {
-                                  const newValue = e?.target?.checked
-                                    ? [...field?.value, option]
-                                    : field?.value?.filter(val => val !== option);
-                                  field.onChange(newValue);
-                                }}
-                              />
-                            )}
-                          />
-                        }
-                        label={option}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              </Collapse>
-            </FormControl>
-          ))}
-            </FormGroup>
-          </div>
+                  </ListItem>
+                ))}
+              </List>
+            </Collapse>
+          </FormControl>
+        ))}
+      </FormGroup>
+    </div>
 
         </div>
 

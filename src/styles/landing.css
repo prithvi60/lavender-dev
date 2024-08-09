@@ -30,7 +30,22 @@
     height: auto;
     background-size: cover; /* Ensure the image covers the entire element */
     background-position: center; /* Center the image */
+}
 
+@media (max-width: 640px) {
+    .hero-section {
+        padding: 80px 20px 20px;
+    /* background-color: rgb(235, 39, 39); */
+    background-image: url('../assets/BackgroundImage/HomeScreenBg.png');
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* min-height: 100vh; */
+    height: auto;
+    background-size: cover; /* Ensure the image covers the entire element */
+    background-position: center; /* Center the image */
+    }
 }
 
 .hero-content {
@@ -293,8 +308,8 @@
 
 /* Our Recommended Picks Section */
 .recommend-section{
-    margin: 0px;
-    padding: 0px;
+    margin: 0px !important;
+    padding: 0px !important;
 }
 
 .recommend-section .carousel-slider {
