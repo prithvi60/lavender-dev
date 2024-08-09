@@ -36,7 +36,7 @@
 
   .nav-bar-title {
     font-size: 1rem;
-    padding: 0px 0px;
+    padding: 0px 0px !important;
   }
 
   .nav-bar-title.flex {
