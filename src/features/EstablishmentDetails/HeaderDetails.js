@@ -66,7 +66,7 @@ function HeaderDetails(props) {
                           readOnly
                         />
                     {/* <div className='text-base'>{'('+establishmentData?.profile?.data?.rating?.ratingCount+')'}</div> */}
-                    <div className='text-base'>{'('+establishmentData?.profile?.data?.rating?.ratingCount+')'}</div>
+                    {establishmentData?.profile?.data?.rating?.ratingCount && <div className='text-base'>{'('+establishmentData?.profile?.data?.rating?.ratingCount+')'}</div>}
                     <IconButton>
                         <GetIcon iconName="heartFilled"/>
                     </IconButton>
