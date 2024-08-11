@@ -48,6 +48,10 @@ const BusinessLayoutPage = () => {
       const response = await endpoint.getEstablishmentDetailsById(
         userDetails?.data?.establishmentId
       ); //getBrowserCache('EstablishmentId')
+
+      if (response.data.data.published == false) {
+        setActiveField("Salon profile");
+      }
       if (response.status === 200) {
         dispatch(setEstablishmentData(response.data.data));
       } else {

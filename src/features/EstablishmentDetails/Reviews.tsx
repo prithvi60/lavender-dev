@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useReducer, useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
@@ -153,14 +153,24 @@ const ReviewsTable = ({ data }) => {
     rows,
     prepareRow,
   } = useTable({ columns, data: flattenedData }, useSortBy);
-
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  const [sortedData, sorted] = useState(rows);
   const handleSortChange = (event) => {
     const sortBy = event.target.value;
     if (sortBy === 'highest') {
-      rows.sort((a, b) => b.values.serviceRating - a.values.serviceRating);
+      rows.sort((a, b) => (b.values.serviceRating || 0) - (a.values.serviceRating || 0));
     } else if (sortBy === 'lowest') {
-      rows.sort((a, b) => a.values.serviceRating - b.values.serviceRating);
+      rows.sort((a, b) => (a.values.serviceRating || 0) - (b.values.serviceRating || 0));
     }
+    sorted(rows)
+    forceUpdate();
+  };
+  const handleFilterChange = (event) => {
+    const filterBy = event.target.value;
+    console.log(sortedData)
+    sorted(rows.filter((a) => a.original.serviceTag === filterBy))
+    console.log(rows, sortedData)
+    forceUpdate();
   };
 
   return (
@@ -187,12 +197,12 @@ const ReviewsTable = ({ data }) => {
                     <Typography sx={{alignContent: 'center', padding: '10px'}}>Service</Typography>
                     <Select
                     defaultValue=""
-                    onChange={handleSortChange}
+                    onChange={handleFilterChange}
                     className="mr-4"
                     style={{ width: '150px', height: '38px' }}
                     >
-                    <MenuItem value="highest">Highest Rating</MenuItem>
-                    <MenuItem value="lowest">Lowest Rating</MenuItem>
+                    <MenuItem value="Hair styling">Hair styling</MenuItem>
+                    <MenuItem value="Nail">None</MenuItem>
                     </Select>
                   </Box>
                   <Box className="flex justify-end mb-4" sx={{'@media (max-width: 640px)': {alignSelf: 'center'}}}>
@@ -212,7 +222,8 @@ const ReviewsTable = ({ data }) => {
           
               <table {...getTableProps()} className="w-full table-auto">
                 <tbody {...getTableBodyProps()}>
-                  {rows?.map((row, rowIndex) => {
+                  {console.log(sortedData)}
+                  {sortedData?.map((row, rowIndex) => {
                     prepareRow(row);
                     return (
                       <React.Fragment key={rowIndex}>

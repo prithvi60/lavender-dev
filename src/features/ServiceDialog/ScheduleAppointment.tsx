@@ -19,6 +19,12 @@ import Text from '../../components/Text.js';
 
 export default function ScheduleAppointment(props) {
   const datePickerRef = useRef(null);
+
+  const scheduleAppoinmentList = useSelector(
+    (state: any) => state.ScheduleAppoinment
+  );
+  console.log("object is scheduleAppoinmentList", scheduleAppoinmentList);
+
   const [selectedDateBtn, setSelectedDateBtn] = useState(new Date());
   const { estData, onSetActiveStep } = props
   const [availableTimeSlots, setAvailableTimeSlots] = React.useState<any>([]);
@@ -40,7 +46,6 @@ export default function ScheduleAppointment(props) {
   const { selectedDate, timeOfDay, startTime, endTime, id, totalDuration} = useSelector(
     (state: any) => state.ScheduleAppoinment
   );
-
   // Function to fetch available slots
   const fetchAvailableSlots = async (day) => {
     const payLoad = {

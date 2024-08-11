@@ -13,12 +13,12 @@ import { useDispatch } from 'react-redux';
 import GetIcon from '../../assets/Icon/icon';
 import Text from '../../components/Text';
 
-function OptionsModal({ props }) {
+function OptionsModal({ props, selectedService }) {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState(selectedService);
+  const [selectAll, setSelectAll] = useState(selectedService.length === props.options.length);
   const [isSelectionValid, setIsSelectionValid] = useState(false); // To track if at least one option is selected
   const [isSelected, setSelected] = useState(false);
 
@@ -118,7 +118,7 @@ function OptionsModal({ props }) {
   return (
     <div>
       <IconButton onClick={() => handleOpen()}>
-        <GetIcon iconName="PlusIcon"/>
+        {selectAll ? <GetIcon iconName="SelectedIcon"/> : <GetIcon iconName="PlusIcon"/>}
       </IconButton>
       <Modal
         open={isOpen}

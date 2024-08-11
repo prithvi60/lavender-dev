@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Paper, Grid, useMediaQuery, useTheme, IconButton, Box } from '@mui/material';
 import Text from '../../components/Text';
 import GetIcon from '../../assets/Icon/icon';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate  } from 'react-router-dom';
 
 const Login = ({children}) => {
     console.log("children : ", children)
@@ -20,7 +20,7 @@ const Login = ({children}) => {
                     {!isSmallScreen && (
                         <Grid item xs={5} sx={{ position: 'relative', top: '-20px', minHeight: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                             <Grid container alignItems="center" justifyContent="center">
-                                <IconButton onClick={() => navigate('/')} sx={{ position: 'absolute', top: 0, left: 0 }}>
+                                <IconButton onClick={() =>navigate(-1)} sx={{ position: 'absolute', top: 0, left: 0 }}>
                                     <GetIcon sx={{ cursor: 'pointer' }} iconName='BackIconWhite' />
                                 </IconButton>
                             </Grid>

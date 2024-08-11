@@ -27,7 +27,6 @@ function CheckoutCard(props) {
 
   const dispatch = useDispatch();
   const checkOutList = useSelector((state: any) => state.checkOutPage);
-
   const scheduleAppoinmentList = useSelector(
     (state: any) => state.ScheduleAppoinment
   );

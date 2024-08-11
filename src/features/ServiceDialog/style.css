@@ -50,6 +50,13 @@
     }
 }
 
+@media (max-width: 1500px) {
+    .establishmentImageCls{
+        width: auto;
+        height: 120px;
+    }
+}
+
 @media (max-width: 500px) {
     .establishmentImageCls{
         width: 300px !important;

@@ -9,6 +9,7 @@ import { Divider } from '@mui/material';
 import Text from '../../components/Text';
 import {IconButton} from '@mui/material';
 import GetIcon from '../../assets/Icon/icon';
+import { useDispatch, useSelector } from "react-redux";
 
 function ServiceListItems({ serviceCategories, handleClose }) {
   const listRef = useRef(null);
@@ -22,6 +23,8 @@ function ServiceListItems({ serviceCategories, handleClose }) {
       categoryRef.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const checkOutList = useSelector((state) => state.checkOutPage);
 
   return (
     <div className='w-full urbanist-font'>
@@ -48,8 +51,14 @@ function ServiceListItems({ serviceCategories, handleClose }) {
           <div key={index} id={`category-${index}`}>
             <Text sx={styles.subHeading} name={item?.categoryName} align="left"/>
 
-            {item.services.map((service, serviceIndex) => (
-              <ListItemButton className='serviceList' sx={{ display: 'flex', justifyContent: 'space-between' }} key={serviceIndex}>
+            {item.services.map((service, serviceIndex) => {
+              const checkoutOptionIds = checkOutList?.checkOut.map(service => service.optionId);
+
+              const matchingOptions = service.options.filter(option => checkoutOptionIds.includes(option.optionId));
+
+              const selectedService = matchingOptions.map(option => option.optionId);
+              
+              return <ListItemButton className='serviceList' sx={{ display: 'flex', justifyContent: 'space-between' }} key={serviceIndex}>
                 <div className='p-2 w-4/5'>
                   <Text sx={styles.serviceName} name={service?.serviceName} align="left"/>
                   {
@@ -66,10 +75,10 @@ function ServiceListItems({ serviceCategories, handleClose }) {
                   
                 </div>
                 <div>
-                  <OptionsModal props={service} />
+                  <OptionsModal props={service} selectedService={selectedService || []} />
                 </div>
               </ListItemButton>
-            ))}
+})}
             <Divider />
           </div>
         ))}
