@@ -11,7 +11,7 @@ import {
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import endpoint from '../../api/endpoints';
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -40,7 +40,7 @@ function EditProfile({ userInfo }) {
     const { control, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
     });
-    const [value, setValue] = React.useState<Dayjs | null>(null);
+    const [value, setValue] = React.useState<Dayjs | null>(dayjs(userInfo.appUser.dob));
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const showSnackbar = useSnackbar();

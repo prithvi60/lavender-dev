@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -6,6 +6,7 @@ import { TextField, Checkbox, Button, FormControlLabel, MenuItem, Select, InputL
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import CustomDatePicker from '../DateInput';
 import { Dayjs } from 'dayjs';
 import endpoint from '../../api/endpoints';
 import { useMutation } from '@tanstack/react-query';
@@ -33,8 +34,8 @@ const schema = yup.object().shape({
     email: yup.string().email('Invalid email').required('Email is required'),
     password: yup.string().required('Password is required'),
     userType: yup.string().required('User type is required'),
-    dateOfBirth: yup.date().nullable().required("Date of Birth is required"),
-    accept: yup.boolean(),
+    dateOfBirth: yup.date().required("Date of Birth is required"),
+    accept: yup.bool().oneOf([true], 'Field must be checked'),
 });
 
 const RegisterScreen = () => {
@@ -93,7 +94,26 @@ const RegisterScreen = () => {
         mutation.mutate(payLoad)
     };
     const [showPassword, setShowPassword] = useState(false)
+    const [dobError, setDobError] = useState(false)
     const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const submitForm = () => {
+        if (document.querySelectorAll('[name="dateOfBirth"]')[0]?.value == "") {
+            setDobError(true);
+        } else {
+            setDobError(false);
+        }
+    };
+
+    useEffect(() => {
+        document.getElementById("dobContainer").addEventListener("focusout", (e)=> {
+        const a =document.getElementById("dobContainer");
+        if (!a.querySelectorAll('[name="dateOfBirth"]')[0].value) {
+            setDobError(true);
+        } else {
+            setDobError(false);
+        }
+    })
+    }, [])
 
     return (
         <div>
@@ -109,9 +129,7 @@ const RegisterScreen = () => {
                         !loading 
                         ? 
                         (
-                            <form onSubmit={handleSubmit((data)=>{
-                                                    onSubmit(data);
-                                                })}>
+                            <form onSubmit={handleSubmit((data)=>{onSubmit(data); })}>
                                                 <Grid item xs={12}>
                                                     <Controller
                                                             name="fullName"
@@ -173,23 +191,34 @@ const RegisterScreen = () => {
                                                     />
                                                 </Grid>
 
-                                                <Grid sx={{display: 'flex', padding: '10px' }} xs={12}>
-                                                    <Grid  sx={{paddingRight: '5px'}} xs={4} >
+                                                <Grid sx={{display: 'flex', padding: '10px', paddingLeft: "0px" }} xs={12}>
+
+                                                    <Grid item xs={4}>
                                                         <Controller
-                                                                name="areaCode"
-                                                                control={control}
-                                                                defaultValue=""
-                                                                render={({ field }) => (
-                                                                    <TextField
+                                                            name="areaCode"
+                                                            control={control}
+                                                            defaultValue=""
+                                                            render={({ field }) => (
+                                                                <FormControl error={!!errors.areaCode} fullWidth>
+                                                                    <InputLabel>Area Code</InputLabel>
+                                                                    <Select
                                                                     fullWidth
                                                                         {...field}
                                                                         label="Area Code"
-                                                                        variant="standard"
                                                                         error={!!errors.areaCode}
-                                                                        helperText={errors.areaCode?.message}
-                                                                    />
-                                                                )}
-                                                            />
+                                                                        variant="standard"
+                                                                        MenuProps={{ MenuListProps: { disablePadding: true } }}
+                                                                    >
+                                                                        <MenuItem value="+1">+1</MenuItem>
+                                                                        <MenuItem value="+2">+2</MenuItem>
+                                                                        <MenuItem value="+3">+3</MenuItem>
+                                                                        <MenuItem value="+4">+4</MenuItem>
+                                                                        <MenuItem value="+5">+5</MenuItem>
+                                                                    </Select>
+                                                                    <FormHelperText>{errors.areaCode?.message}</FormHelperText>
+                                                                </FormControl>
+                                                            )}
+                                                        />
                                                     </Grid>
                                                         
                                                     <Grid  xs={8}>
@@ -199,6 +228,11 @@ const RegisterScreen = () => {
                                                                 defaultValue=""
                                                                 render={({ field }) => (
                                                                     <TextField
+                                                                    inputProps={{
+                                                                        style: {
+                                                                          marginTop: 10
+                                                                        }
+                                                                     }}
                                                                     fullWidth
                                                                         {...field}
                                                                         label="Mobile Number"
@@ -211,7 +245,7 @@ const RegisterScreen = () => {
                                                     </Grid>
                                                 </Grid>
                                                 
-                                                <Grid item xs={12}>
+                                                <Grid item xs={12} id='dobContainer'>
                                                     <Controller
                                                             name="dateOfBirth"
                                                             
@@ -223,6 +257,7 @@ const RegisterScreen = () => {
                                                                 </LocalizationProvider>
                                                             )}
                                                         />
+                                                    {dobError && <p style={{color: "#d32f2f", fontSize: "0.75rem", float: "left", paddingTop: "5px", margin: "0"}}>Enter valid date</p>}
                                                 </Grid>
                                                     
                                                 <Grid item xs={12}>
@@ -249,31 +284,33 @@ const RegisterScreen = () => {
                                                 </Grid>
 
                                                 <Grid item xs={12}>
-                                                <FormControlLabel
-                                                        control={
-                                                            <Controller
-                                                                name="accept"
-                                                                control={control}
-                                                                defaultValue={false}
-                                                                render={({ field }) => (
-                                                                    <Checkbox
-                                                                        {...field}
-                                                                        color="primary"
-                                                                        inputProps={{ 'aria-label': 'Accept terms and conditions' }}
+                                                    <FormControl error={!!errors.accept} >
+                                                        <FormControlLabel
+                                                                control={
+                                                                    <Controller
+                                                                        name="accept"
+                                                                        control={control}
+                                                                        defaultValue={false}    
+                                                                        render={({ field }) => (
+                                                                            <Checkbox
+                                                                                {...field}
+                                                                                color="primary"
+                                                                                inputProps={{ 'aria-label': 'Accept terms and conditions' }}
+                                                                            />
+                                                                        )}
                                                                     />
-                                                                )}
-                                                            />
-                                                        }
-                                                        label="I Agree to terms and condition, privacy policy and terms of use"
-                                                        // error={!!errors.accept}
-                                                    />
-                                                    <FormHelperText error={!!errors.accept}>{errors.accept?.message}</FormHelperText>
+                                                                }
+                                                                label="I Agree to terms and condition, privacy policy and terms of use"
+                                                                // error={!!errors.accept}
+                                                        />
+                                                        <FormHelperText>{errors.accept?.message}</FormHelperText>
+                                                    </FormControl>
 
                                                 </Grid>
 
                                                     
                                                 <Grid item xs={12}>
-                                                    <Button type="submit" variant="contained" color="primary" sx={styles.btn}>
+                                                    <Button onClick={submitForm} type="submit" variant="contained" color="primary" sx={styles.btn}>
                                                         Create an account
                                                     </Button>
                                                 </Grid>

@@ -37,6 +37,10 @@ function ServiceDetails(props) {
     setTabValue(tag)
   }
 
+  function openServiceTab() {
+    document.getElementById("ServicesHeaderButton").click()
+  }
+
   return (
     <>
     {
@@ -80,7 +84,7 @@ function ServiceDetails(props) {
                       <Text sx={styles.startingPrice} name={`$${item?.startingPrice}`} align="left"/>
                       {/* <div className='text-base font-medium'>{'$'+item.startingPrice}</div> */}
                     </div>
-                    <div className='badge-primary' style={{alignSelf: 'center'}}>Book</div>
+                    <div onClick={openServiceTab} className='badge-primary' style={{alignSelf: 'center'}}>Book</div>
                   </div>
                 </ListItemButton>)
               }

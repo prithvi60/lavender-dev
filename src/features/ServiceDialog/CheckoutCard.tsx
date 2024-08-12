@@ -8,7 +8,8 @@ import {
   Collapse,
   Button,
   CardHeader,
-  Box
+  Box,
+  Tooltip
 } from "@mui/material";
 import GetImage from "../../assets/GetImage";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
@@ -21,7 +22,7 @@ import { UpdateCheckoutInfo } from "../../store/slices/Booking/ScheduleAppoinmen
 import Text from "../../components/Text";
 import { convertDateToReadAbleDate } from "../../utils/TimeFormat";
 import GetIcon from "../../assets/Icon/icon";
-
+import DatePicker from "../../components/DateInput";
 function CheckoutCard(props) {
   const { activeStep, next, establishmentName, establishmentId } = props;
 
@@ -47,6 +48,7 @@ function CheckoutCard(props) {
       calculateTotalPrice();
       calculateTotalDuration();
     } else {
+      setDisabled(true);
       setTotalPrice(0);
       setTotalDuration(0);
     }
@@ -61,6 +63,12 @@ function CheckoutCard(props) {
       setDisabled(false);
     }
   }, [scheduleAppoinmentList]);
+
+  useEffect(() => {
+    if (activeStep < 1 && checkOutList?.checkOut?.length > 0) {
+      setDisabled(false);
+    }
+  }, [activeStep, checkOutList]);
 
   function calculateTotalPrice() {
     let totalPriceSum = 0;
@@ -241,7 +249,9 @@ function CheckoutCard(props) {
 
             <div className="flex justify-center pt-2">
               {activeStep < 2 ? (
-                <Button
+                <Tooltip title={disabled ? "Please select to proceed" : null} arrow>
+                  <div style={{width: "100%"}}>
+                  <Button
                   disabled={disabled}
                   className="w-full"
                   onClick={() => sendDataToParent()}
@@ -249,7 +259,8 @@ function CheckoutCard(props) {
                   variant="contained"
                 >
                   Proceed
-                </Button>
+                </Button></div>
+              </Tooltip>
               ) : (
                 <AppointmentConfimed
                   establishmentId={establishmentId}

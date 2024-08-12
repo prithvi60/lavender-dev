@@ -40,7 +40,7 @@ function ServiceDialog({establishmentData}) {
   const steps = ["Pick services", "Schedule appointment", "Confirm"];
   return (
     <>
-        <Buttons sx={styles.btn} variant= 'outlined' onClick={handleBtnClick}>Services</Buttons>
+        <Buttons sx={styles.btn} variant= 'outlined' id="ServicesHeaderButton" onClick={handleBtnClick}>Services</Buttons>
         <Dialog fullScreen open={isOpen} close={handleClose}>
         <Toolbar className="mb-4 stepper-header">
             <Box sx={{ width: '100%' }}>
