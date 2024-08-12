@@ -97,7 +97,8 @@ const RegisterScreen = () => {
     const [dobError, setDobError] = useState(false)
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const submitForm = () => {
-        if (document.querySelectorAll('[name="dateOfBirth"]')[0]?.value == "") {
+        const dobInput = document.querySelectorAll('[name="dateOfBirth"]')[0] as HTMLInputElement;
+        if (dobInput?.value === "") {
             setDobError(true);
         } else {
             setDobError(false);
@@ -107,7 +108,8 @@ const RegisterScreen = () => {
     useEffect(() => {
         document.getElementById("dobContainer").addEventListener("focusout", (e)=> {
         const a =document.getElementById("dobContainer");
-        if (!a.querySelectorAll('[name="dateOfBirth"]')[0].value) {
+        const dobInput = a.querySelectorAll('[name="dateOfBirth"]')[0] as HTMLInputElement;
+        if (!dobInput.value) {
             setDobError(true);
         } else {
             setDobError(false);
