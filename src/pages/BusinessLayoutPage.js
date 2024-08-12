@@ -49,10 +49,10 @@ const BusinessLayoutPage = () => {
         userDetails?.data?.establishmentId
       ); //getBrowserCache('EstablishmentId')
 
-      if (response.data.data.published == false) {
+      if (response?.data?.data?.published == false) {
         setActiveField("Salon profile");
       }
-      if (response.status === 200) {
+      if (response?.status === 200) {
         dispatch(setEstablishmentData(response.data.data));
       } else {
         console.log("err-getEstablishmentDetailsById", response);

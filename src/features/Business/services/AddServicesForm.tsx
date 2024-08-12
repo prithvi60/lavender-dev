@@ -216,7 +216,7 @@ export default function AddServicesForm({payload}) {
   return (
     <div className="flex-col h-full">
       <form onSubmit={handleSubmit(handleFilterDrawerSubmit)}>
-        <div className="bg-blue-950">
+        <div className="sticky top-0 bg-[#1B1464] z-1">
           <div className="text-xl h-14 mb-2 pt-4 pl-4 text-white font-bold">Add new service</div>
           <div className="mb-4 bg-white" style={{ width: "70%", borderRadius: "10px", marginLeft: '10px' }}>
             <Controller
@@ -238,7 +238,8 @@ export default function AddServicesForm({payload}) {
             />
           </div>
         </div>
-        <div className="px-4">
+
+        <div className="px-4 py-2 overflow-y-auto">
           <div className="mb-4">
             <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
               Service name
@@ -552,13 +553,13 @@ export default function AddServicesForm({payload}) {
               Add options [+]
             </UiButton>
           </div>
-
-          <div className="flex justify-between mt-4">
-            <Button onClick={closeDrawer} sx={styles.txtBtn}>
-              Cancel
-            </Button>
-            <Button type="submit" sx={styles.btn}>Save</Button>
-          </div>
+        </div>
+        
+        <div className="sticky bottom-0 bg-white flex justify-between mt-4 p-4 border-t">
+          <Button onClick={closeDrawer} sx={styles.txtBtn}>
+            Cancel
+          </Button>
+          <Button type="submit" sx={styles.btn}>Save</Button>
         </div>
       </form>
     </div>

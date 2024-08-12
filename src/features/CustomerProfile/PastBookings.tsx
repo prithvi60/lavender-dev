@@ -73,7 +73,7 @@ function PastBookings({ userInfo }) {
                                                 sx={{
                                                     height: '100%',
                                                     borderRadius: 4,
-                                                    backgroundColor: '#9696cd',
+                                                    backgroundColor: '#C9C5FF',
                                                     color: '#1B1464',
                                                     display: 'flex',
                                                     flexDirection: 'column',

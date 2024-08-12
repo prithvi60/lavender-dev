@@ -40,7 +40,7 @@ function EditProfile({ userInfo }) {
     const { control, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
     });
-    const [value, setValue] = React.useState<Dayjs | null>(dayjs(userInfo.appUser.dob));
+    const [value, setValue] = React.useState<Dayjs | null>(dayjs(userInfo?.appUser?.dob));
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const showSnackbar = useSnackbar();
@@ -85,7 +85,7 @@ function EditProfile({ userInfo }) {
     });
 
     const onSubmit = async (data) => {
-        
+        debugger
         const payLoad = {
             "id": userInfo?.appUser?.id,
             "fullName": data.fullName,

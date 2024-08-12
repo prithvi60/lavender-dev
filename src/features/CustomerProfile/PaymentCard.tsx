@@ -39,7 +39,7 @@ export const PaymentCard = ({ userInfo }) => {
               </TableBody>
             </Table>
           </Grid>
-          <Grid item xs={12} md={3} sx={{ display: { xs: 'block', md: 'none' } }}>
+          <Grid item xs={12} md={3} >
             <AddNewCard />
           </Grid>
         </Grid>
