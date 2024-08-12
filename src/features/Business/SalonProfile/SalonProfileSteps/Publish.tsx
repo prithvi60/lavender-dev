@@ -24,7 +24,7 @@ const style = {
 };
 
 export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
-  const [isPublish, setIsPublish] = useState(false);
+  const [isPublish, setIsPublish] = useState<boolean>(false);
   const navigate = useNavigate();
   const [showPublish, setShowPublish] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -114,10 +114,11 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
   // }
 
   function handlePublishClick() {
-    if (categories.length > 0 && employee.length > 0) {
+    if (categories?.length > 0 && employee?.length > 0) {
       setIsPublish(true);
       setOpen((prev) => !prev);
     } else {
+      setIsPublish(false);
       showErrorMsg(true);
     }
   }

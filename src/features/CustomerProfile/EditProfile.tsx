@@ -85,7 +85,6 @@ function EditProfile({ userInfo }) {
     });
 
     const onSubmit = async (data) => {
-        debugger
         const payLoad = {
             "id": userInfo?.appUser?.id,
             "fullName": data.fullName,
