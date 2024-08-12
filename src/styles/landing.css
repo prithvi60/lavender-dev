@@ -427,7 +427,7 @@
 
         .icon-wrapper{
             padding: 6px;
-            background-color: var(--primary-clr);
+            background-color: var(--primary-clr) !important;
             border-radius: 50%;
             display: flex;
             color: #FFFFFF;

@@ -92,7 +92,8 @@ export const SalonSetup = ({ setMembershipScreen }) => {
 
   return (
     <div>
-      <Buttons
+      {isPublished ? (
+        <Buttons
         sx={{
           borderRadius: "10px",
           padding: "10px 40px 10px 40px",
@@ -100,7 +101,26 @@ export const SalonSetup = ({ setMembershipScreen }) => {
           height: "55.5px",
           color: '#FFFFFF',
           fontSize: '20px',
-          fontWeight: 600
+          fontWeight: 600,
+          whiteSpace: 'nowrap'
+        }}
+        variant="contained"
+        onClick={() => handleBtnClick()}
+        name={"Edit salon page"}
+      >
+        {" "}
+      </Buttons>
+      ) : (
+        <Buttons
+        sx={{
+          borderRadius: "10px",
+          padding: "10px 40px 10px 40px",
+          width: "190px",
+          height: "55.5px",
+          color: '#FFFFFF',
+          fontSize: '20px',
+          fontWeight: 600,
+          whiteSpace: 'nowrap'
         }}
         variant="contained"
         onClick={() => handleBtnClick()}
@@ -108,6 +128,8 @@ export const SalonSetup = ({ setMembershipScreen }) => {
       >
         {" "}
       </Buttons>
+      )}
+      
       <Dialog fullScreen open={isOpen} onClose={handleClose}>
         <Toolbar className="mb-4 stepper-header">
           <Box sx={{ width: "100%" }}>

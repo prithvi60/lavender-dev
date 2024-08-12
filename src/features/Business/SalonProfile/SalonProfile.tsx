@@ -6,19 +6,28 @@ import Membershp from "./SalonProfileSteps/BusinessInfo/Membershp";
 import { useNavigate, useLocation } from "react-router-dom";
 import endpoint from "../../../api/endpoints";
 import { useSelector } from "react-redux";
+import { PublishedSalonProfile } from "./PublishedSalonProfile";
 
 export const SalonProfile = () => {
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
   });
+
+  const establishmentId =
+    userDetails != null ? userDetails?.establishmentId : "";
+
   const location = useLocation();
+  const navigate = useNavigate();
+
   // const [isOpen, setIsOpen] = useState(false);
   // const [activeStep, setActiveStep] = useState(0);
   const [subsctiptionDetails, setSubscriptionDetails] = useState<any>({});
   const [membershipScreen, setMembershipScreen] = useState(false);
   const showPaymentSuccess = location.pathname === "/business/payment-success";
-
-  const navigate = useNavigate();
+  const [basicInfo, setBasicInfo] = useState([]);
+  const [isPublished, setIsPublished] = useState(false);
+  const [imageId, setImageId] = useState([]);
+  const [lastModified, setLastModified] = useState();
 
   // function handleBtnClick() {
   //   setIsOpen(true);
@@ -49,6 +58,20 @@ export const SalonProfile = () => {
 
   useEffect(() => {
     checkEstablishmentSubscriptionStatus();
+
+    const getEstablishmentDetails = async () => {
+      const establishmentData = await endpoint.getEstablishmentDetailsById(
+        establishmentId
+      );
+      if (establishmentData?.data?.success) {
+        setBasicInfo(establishmentData?.data?.data?.profile);
+        setIsPublished(establishmentData?.data?.data?.published);
+        setImageId(establishmentData?.data?.data?.estImages)
+        setLastModified(establishmentData?.data?.data?.lastModifiedDate)
+      }
+    };
+
+    getEstablishmentDetails();
   }, []);
 
   return (
@@ -84,7 +107,14 @@ export const SalonProfile = () => {
             <div className="flex justify-center items-center flex-col w-full h-full sm:mt-1 sm:pt-1 md:mt-16  md:pt-16 px-2">
               <Membershp setMembershipScreen={setMembershipScreen} />
             </div>
-          ) : (
+          ) : ( isPublished ? (
+            <>
+              <PublishedSalonProfile estImages={imageId} basicInfo={basicInfo} lastModified={lastModified}/>
+              <div className="mt-6 md:mt-0">
+                <SalonSetup setMembershipScreen={setMembershipScreen} />
+              </div>
+            </>
+          ):(
             <div className="flex justify-center items-center flex-col w-full h-full mt-12 pt-12 space-y-6 md:space-y-0">
               <div style={{ minHeight: "150px" }}></div>
               <Text
@@ -107,7 +137,7 @@ export const SalonProfile = () => {
                 <SalonSetup setMembershipScreen={setMembershipScreen} />
               </div>
             </div>
-          )}
+          ))}
         </>
       )}
     </>
