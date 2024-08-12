@@ -14,6 +14,7 @@ function UpComingBookings({ userInfo }) {
     const scrollContainerRef = useRef(null);
 
     const handleCardClick = (index) => {
+        console.log("click", isModalOpen)
         setBookingIndex(index)
         setIsModalOpen(!isModalOpen);
     };
@@ -30,17 +31,40 @@ function UpComingBookings({ userInfo }) {
         }
     };
 
+    const cardCount = userInfo?.upcomingBookings?.length;
+    const cardWidth = cardCount <= 2 ? '48%' : '32%';
+
+    if (userInfo?.upcomingBookings?.length > 2) {
+        styles.startMonth.fontSize = "15px";
+        styles.startDate.fontSize = "50px";
+        styles.startDate.lineHeight = "70px";
+        styles.startDay.fontSize = "15px";
+    }
+    
+      const cardStyle = {
+        flex: '0 0 auto',
+        margin: '10px',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        boxSizing: 'border-box',
+        width: cardWidth, 
+        flexDirection: 'row', 
+        transition: '0.5s', 
+        overflowX: 'auto',
+        borderRadius: 4,
+        cursor: 'pointer'
+      };
+
     return (
         <div className='mt-10'>
             <Text sx={styles.heading} name={'Upcoming Bookings'} align="left"></Text>
             <div style={{ overflow: 'hidden', position: 'relative' }}>
                 {userInfo?.upcomingBookings?.length > 0 ? (
                     <>
-                        <div ref={scrollContainerRef} style={{ display: 'flex', flexDirection: 'row', transition: '0.5s', overflowX: 'auto', paddingBottom: 5 }}>
+                        <div ref={scrollContainerRef} style={{ display: 'flex', overflowX: 'auto', padding: '10px' }}>
                             {userInfo?.upcomingBookings?.map((bookings, index) => (
                                 <Card
                                     key={index}
-                                    sx={{ minWidth: '576px', maxWidth: '576px', height: '200px', borderRadius: 4, marginLeft: 2, marginRight: 2,  cursor: 'pointer' }}
+                                    sx={cardStyle}
                                     onClick={()=> handleCardClick(index)}
                                 >
                                     <Grid container spacing={1}>
@@ -83,7 +107,7 @@ function UpComingBookings({ userInfo }) {
                 ) : (
                     <EmptyBookings noAppointmentsMessage={NoUpComingBookings} />
                 )}
-                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} bookings={userInfo?.upcomingBookings[bookingIndex]} />}
+                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} toggleModal={setIsModalOpen} bookings={userInfo?.upcomingBookings[bookingIndex]} />}
             </div>
         </div>
     );

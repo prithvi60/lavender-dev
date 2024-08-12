@@ -1,32 +1,25 @@
 import React, { useEffect, useState } from "react";
 import {
-  Grid,
   Card,
   CardContent,
-  Rating,
-  CardActions,
-  Collapse,
+
   Button,
-  CardHeader,
-  Box,
-  Tooltip
+  Box
 } from "@mui/material";
 
 import { useDispatch, useSelector } from "react-redux";
-import { Divider } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import endpoint from "../../api/endpoints";
-import AppointmentConfimed from "./AppointmentConfimed";
 import { UpdateCheckoutInfo } from "../../store/slices/Booking/ScheduleAppoinmentSlice";
 import Text from "../../components/Text";
-import { convertDateToReadAbleDate } from "../../utils/TimeFormat";
-import GetIcon from "../../assets/Icon/icon";
-import DatePicker from "../../components/DateInput";
-function CheckoutCard(props) {
+
+
+function CheckoutFooterCard(props) {
   const { activeStep, next, establishmentName, establishmentId } = props;
 
   const dispatch = useDispatch();
   const checkOutList = useSelector((state: any) => state.checkOutPage);
+
   const scheduleAppoinmentList = useSelector(
     (state: any) => state.ScheduleAppoinment
   );
@@ -40,16 +33,17 @@ function CheckoutCard(props) {
   const [totalDuration, setTotalDuration] = useState(0);
   const [employee, setEmployee] = useState([]);
   const [employeeName, setEmployeeName] = useState('');
-  
+  const [totalServices, setTotalServices] = useState(0);
   useEffect(() => {
     if (checkOutList?.checkOut?.length > 0) {
       setDisabled(false);
-      calculateTotalPrice();
-      calculateTotalDuration();
+      calculateTotals();
+      // calculateTotalPrice();
+      // calculateTotalDuration();
     } else {
-      setDisabled(true);
       setTotalPrice(0);
       setTotalDuration(0);
+      setTotalServices(0);
     }
   }, [checkOutList]);
 
@@ -62,28 +56,17 @@ function CheckoutCard(props) {
       setDisabled(false);
     }
   }, [scheduleAppoinmentList]);
-
-  useEffect(() => {
-    if (activeStep < 1 && checkOutList?.checkOut?.length > 0) {
-      setDisabled(false);
-    }
-  }, [activeStep, checkOutList]);
-
-  function calculateTotalPrice() {
-    let totalPriceSum = 0;
-    for (let item of checkOutList?.checkOut) {
-      totalPriceSum += item?.finalPrice;
-    }
-    setTotalPrice(totalPriceSum);
+  function calculateTotals() {
+  let totalPriceSum = 0;
+  let totalDurationSum = 0;
+  for (let item of checkOutList?.checkOut) {
+    totalPriceSum += item?.finalPrice;
+    totalDurationSum += item?.duration;
   }
-
-  function calculateTotalDuration() {
-    let totalDurationSum = 0;
-    for (let item of checkOutList?.checkOut) {
-      totalDurationSum += item?.duration;
-    }
-    setTotalDuration(totalDurationSum);
-  }
+  setTotalPrice(totalPriceSum);
+  setTotalDuration(totalDurationSum);
+  setTotalServices(checkOutList?.checkOut.length);
+}
 
   dispatch(
     UpdateCheckoutInfo({
@@ -160,10 +143,10 @@ function CheckoutCard(props) {
   },[employee, scheduleAppoinmentList?.id])
 
   return (
-    <div className="urbanist-font mx-4 my-6 rounded-2xl chackout-card-container h-fit">
+    <div className="urbanist-font my-6 rounded-2xl chackout-card-container">
       {" "}
       {/* Adjusted width to be responsive */}
-      <CardContent>
+      {/* <CardContent>
         <Box className="flex justify-between gap-2 my-2 py-2 serviceCardDetail" sx={{'@media (max-width: 500px)': {display: 'flex', justifyContent: 'center', flexDirection: 'column'}}}>
 
           <img
@@ -248,9 +231,7 @@ function CheckoutCard(props) {
 
             <div className="flex justify-center pt-2">
               {activeStep < 2 ? (
-                <Tooltip title={disabled ? "Please select to proceed" : null} arrow>
-                  <div style={{width: "100%"}}>
-                  <Button
+                <Button
                   disabled={disabled}
                   className="w-full"
                   onClick={() => sendDataToParent()}
@@ -258,8 +239,7 @@ function CheckoutCard(props) {
                   variant="contained"
                 >
                   Proceed
-                </Button></div>
-              </Tooltip>
+                </Button>
               ) : (
                 <AppointmentConfimed
                   establishmentId={establishmentId}
@@ -269,12 +249,36 @@ function CheckoutCard(props) {
             </div>
           </div>
         }
+      </CardContent> */}
+
+      {/* sticky footer */}
+      <Card className="fixed bottom-0 left-0 right-0 z-10 rounded-t-2xl shadow-lg">
+      <CardContent>
+        <Box className="flex justify-between items-center">
+          <Box>
+            <Text
+              name={`${totalServices} service${totalServices !== 1 ? 's' : ''} | ${totalDuration} mins`}
+            />
+            <Text
+              name={`$${totalPrice.toFixed(2)}`}
+            />
+          </Box>
+          <Button
+            disabled={disabled}
+            onClick={sendDataToParent}
+            sx={styles.btn}
+            variant="contained"
+          >
+            Proceed
+          </Button>
+        </Box>
       </CardContent>
+    </Card>
     </div>
   );
 }
 
-export default CheckoutCard;
+export default CheckoutFooterCard;
 
 const styles = {
   subHeading: {

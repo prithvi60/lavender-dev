@@ -26,7 +26,7 @@ const contentStyle = {
     overflowY: 'auto' // Allows vertical scrolling
 };
 
-export const BookingInfoModal = ({ isModalOpen, bookings }) => {
+export const BookingInfoModal = ({ isModalOpen, bookings, toggleModal }) => {
 
     const establishmentId = bookings?.services[0]?.establishmentId;
     const navigate = useNavigate();
@@ -35,6 +35,7 @@ export const BookingInfoModal = ({ isModalOpen, bookings }) => {
 
     const handleClick = () => {
         setIsOpen((prev) => !prev);
+        toggleModal(!isModalOpen);
     };
 
     function timeDifference(startTime, endTime){

@@ -14,6 +14,8 @@ function ServiceDetails(props) {
   const {isLoading, establishmentData} = props
     const [value, setValue] = React.useState(0);
     const [tabValue, setTabValue] = React.useState('');
+    const [viewAll, setViewAll] = React.useState(false);
+    let visibleService = 0;
 
   useEffect(()=>{
     if(establishmentData){
@@ -33,6 +35,10 @@ function ServiceDetails(props) {
   function handleTabChange(tag){
     
     setTabValue(tag)
+  }
+
+  function openServiceTab() {
+    document.getElementById("ServicesHeaderButton").click()
   }
 
   return (
@@ -67,22 +73,25 @@ function ServiceDetails(props) {
       <List sx={{ width: '100%', maxWidth: 760, bgcolor: 'background.paper' }}>
         {/* {establishmentData?.data?.serviceCategories?.filter(x => x?.services[0]?.serviceTags?.includes(tabValue))?.map((service)=>( */}
         {establishmentData?.map((service)=>(
-          service?.services?.map((item)=>(
-              <ListItemButton className='serviceList' onClick={handleClick} >
-                <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-                  <div className='p-2'>
-                    <Text sx={styles.serviceName} name={item?.serviceName} align="left"/>
-                    <Text sx={styles.duration} name={`${item?.options[0]?.duration} mins`} align="left"/>
-                    <Text sx={styles.startingPrice} name={`$${item?.startingPrice}`} align="left"/>
-                    {/* <div className='text-base font-medium'>{'$'+item.startingPrice}</div> */}
+          service?.services?.map((item)=>{
+              if (viewAll || visibleService < 6) {
+                visibleService++;
+                return (<ListItemButton className='serviceList' onClick={handleClick} >
+                  <div style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+                    <div className='p-2'>
+                      <Text sx={styles.serviceName} name={item?.serviceName} align="left"/>
+                      <Text sx={styles.duration} name={`${item?.options[0]?.duration} mins`} align="left"/>
+                      <Text sx={styles.startingPrice} name={`$${item?.startingPrice}`} align="left"/>
+                      {/* <div className='text-base font-medium'>{'$'+item.startingPrice}</div> */}
+                    </div>
+                    <div onClick={openServiceTab} className='badge-primary' style={{alignSelf: 'center'}}>Book</div>
                   </div>
-                  <div className='badge-primary' style={{alignSelf: 'center'}}>Book</div>
-                </div>
-            </ListItemButton>
-          ))
+                </ListItemButton>)
+              }
+        })
         ))}
       </List>
-        <Button sx={styles.btn} variant="outlined" name={'View all'}></Button>
+        <Button sx={styles.btn} variant="outlined" name={viewAll ? "Hide some" : 'View all'} onClick={() => setViewAll(!viewAll)}></Button>
         <div className='mb-2'></div>
     </div>
     }

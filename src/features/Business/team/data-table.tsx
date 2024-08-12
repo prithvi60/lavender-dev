@@ -101,7 +101,7 @@ export function DataTable<TData, TValue>({
   return (
     <div className="rounded-md border">
       <Box className="w-full flex flex-row justify-between items-center" sx={{'@media (max-width: 1000px)':{display: 'flex', flexDirection: 'column !important', alignItems: 'center'}}}>
-        <Box className="flex m-4 justify-between items-center">
+        <Box className="flex m-4 justify-between items-center flex-wrap gap-4">
           <SearchInput
             placeholder="Search services"
             value={(table.getColumn("employeeName")?.getFilterValue() as string) ?? ""}
@@ -118,15 +118,23 @@ export function DataTable<TData, TValue>({
               Export
             </Buttons>
           </Box>
-        </Box>
-        <div style={{ paddingRight: '10px' }}>
+          <Box sx={{ 
+            right: '10px',
+            position: 'absolute',
+            '@media (max-width: 600px)': {
+              position: 'static',
+              display: 'block'
+            }
+          }}>
           <Button
             size="lg"
             sx={{ width: '200px', height: '44px', borderRadius: '10px', padding: '10px 40px 10px 40px', fontSize: '18px', fontWeight: 600 }}
             onClick={() => openDrawer('addMember')}
             name={"Add Member"}
           />
-        </div>
+        </Box>
+        </Box>
+
       </Box>
 
       <Table>

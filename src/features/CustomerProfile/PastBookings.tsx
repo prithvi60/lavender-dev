@@ -31,17 +31,40 @@ function PastBookings({ userInfo }) {
         }
     };
 
+    const cardCount = userInfo?.pastBookings?.length ;
+    const cardWidth = cardCount <= 2 ? '48%' : '32%';
+
+    if (userInfo?.pastBookings?.length > 2) {
+        styles.startMonth.fontSize = "15px";
+        styles.startDate.fontSize = "50px";
+        styles.startDate.lineHeight = "70px";
+        styles.startDay.fontSize = "15px";
+    }
+    
+      const cardStyle = {
+        flex: '0 0 auto',
+        margin: '10px',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        boxSizing: 'border-box',
+        width: cardWidth, 
+        flexDirection: 'row', 
+        transition: '0.5s', 
+        overflowX: 'auto',
+        borderRadius: 4,
+        cursor: 'pointer'
+      };
+
     return (
         <div className='mt-10'>
             <Text sx={styles.heading} name={'Past Bookings'} align="left"></Text>
             <div style={{ overflow: 'hidden', position: 'relative' }}>
                 {userInfo?.pastBookings?.length > 0 ? (
                     <>
-                        <div ref={scrollContainerRef} style={{ display: 'flex', flexDirection: 'row', transition: '0.5s', overflowX: 'auto', paddingBottom: 5 }}>
+                        <div ref={scrollContainerRef} style={{ display: 'flex', overflowX: 'auto', padding: '10px' }}>
                             {userInfo?.pastBookings?.map((bookings, index) => (
                                 <Card
                                     key={index}
-                                    sx={{ minWidth: '576px', maxWidth: '576px', height: '200px', borderRadius: 4, marginLeft: 2, marginRight: 2, cursor: 'pointer' }}
+                                    sx={cardStyle}
                                     onClick={()=> handleCardClick(index)}
                                 >
                                     <Grid container spacing={1}>
@@ -50,7 +73,7 @@ function PastBookings({ userInfo }) {
                                                 sx={{
                                                     height: '100%',
                                                     borderRadius: 4,
-                                                    backgroundColor: '#EEEEFF',
+                                                    backgroundColor: '#C9C5FF',
                                                     color: '#1B1464',
                                                     display: 'flex',
                                                     flexDirection: 'column',
@@ -85,7 +108,7 @@ function PastBookings({ userInfo }) {
                 (
                     <EmptyBookings noAppointmentsMessage={NoPastBookings} />
                 )}
-                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} bookings={userInfo?.pastBookings[bookingIndex]}/>}
+                {isModalOpen && <BookingInfoModal isModalOpen={isModalOpen} toggleModal={setIsModalOpen} bookings={userInfo?.pastBookings[bookingIndex]}/>}
             </div>
         </div>
     );
@@ -94,7 +117,7 @@ function PastBookings({ userInfo }) {
 export default PastBookings;
 const styles = {
     heading: {
-      color: '#4D4D4D',
+      color: '#1B1464',
       fontSize: '36px',
       fontWeight: 600,
       paddingBottom: 2
@@ -120,10 +143,10 @@ const styles = {
         p:1
     },
     estName: {
-        fontWeight: 400,
+        fontWeight: "600 !important",
         fontSize: '20px',
         lineHeight: '24px',
-        color: '#4D4D4D',
+        color: '#1B1464',
         p:1,
         maxWidth: '250px'
     },
@@ -131,14 +154,14 @@ const styles = {
         fontWeight: 600,
         fontSize: '36px',
         lineHeight: '43px',
-        color: '#4D4D4D',
+        color: '#1B1464',
         p:1
     },
     services: {
         fontWeight: 400,
         fontSize: '20px',
         lineHeight: '24px',
-        color: '#4D4D4D',
+        color: '#1B1464',
         p:1
     }
   }

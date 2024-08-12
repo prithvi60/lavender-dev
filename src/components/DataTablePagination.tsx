@@ -33,13 +33,13 @@ export function DataTablePagination<TData>({
   
   
   return (
-    <Box className="flex items-center justify-between p-3" sx={{'@media (max-width: 580px)':{display: 'flex', flexDirection: 'column'}}}>
-      <Box className="flex-1 text-sm text-muted-foreground">
+    <Box className="flex items-center justify-between p-3 " sx={{'@media (max-width: 580px)':{display: 'flex', flexDirection: 'column'}}}>
+      <Box className="flex-1 text-sm text-muted-foreground w-full flex-start mb-2 md:mb-0">
         Showing {"_"} to {"_"} of {pageData?.totalElements} entries
       </Box>
-      <Box className="flex items-center space-x-6 lg:space-x-8">
-        <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
+      <Box className="flex items-center space-x-2 lg:space-x-8 md:flex-row">
+        <div className="flex items-center md:space-x-2">
+          <div className="text-xs md:text-sm font-medium">Rows per page</div>
           <Select
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
@@ -71,7 +71,7 @@ export function DataTablePagination<TData>({
           >
             <ChevronLeft width={17} height={17} className={`text-white ${!table.getCanPreviousPage() ? 'bg-gray-500' : 'bg-blue-950'} rounded-full`}/>
           </button>
-          <div>
+          <div className="flex w-full justify-center">
             <Pagination page={currentPage} color="secondary" count={table.getPageCount()} variant="outlined" shape="rounded" hideNextButton hidePrevButton onChange={handlePageChange}/>
           </div>
 

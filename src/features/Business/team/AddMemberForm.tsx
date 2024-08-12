@@ -382,7 +382,7 @@ const handleSelectAllChange = (checked) => {
     <div className="flex-col h-full">
       <form onSubmit={handleSubmit(handleDrawerSubmit)}>
         {/* Sticky Header */}
-          <div className="sticky top-0 bg-[#1B1464] text-lg h-14 mb-2 p-4 text-white" style={{zIndex:2}}>
+          <div className="sticky top-0 bg-[#1B1464] text-xl h-14 mb-2 p-4 text-white font-bold" style={{zIndex:2}}>
             {payload ? "Edit new Member" : "Add new Member"}
           </div>
 
@@ -553,58 +553,58 @@ const handleSelectAllChange = (checked) => {
           </div>
 
           <div className="mb-4">
-      <Typography sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
-        Services
-      </Typography>
-      <FormGroup>
-        <FormControlLabel
-          control={
-            <AquaCheckbox
-              checked={selectAll}
-              onChange={e => handleSelectAllChange(e.target.checked)}
-            />
-          }
-          label="Select All"
-        />
-        {formattedData.map((category, categoryIndex) => (
-          <FormControl key={category.categoryId} component="fieldset">
-            <ListItem button onClick={() => handleCategoryClick(categoryIndex)}>
+            <Typography sx={{ fontSize: '18px', fontWeight: '700', color: '#4D4D4D' }}>
+              Services
+            </Typography>
+            <FormGroup>
               <FormControlLabel
                 control={
                   <AquaCheckbox
-                    checked={category.isSelected}
-                    indeterminate={
-                      category.services.some(service => service.isSelected) &&
-                      !category.services.every(service => service.isSelected)
-                    }
-                    onChange={e => handleCategoryChange(categoryIndex, e.target.checked)}
+                    checked={selectAll}
+                    onChange={e => handleSelectAllChange(e.target.checked)}
                   />
                 }
-                label={category.categoryName}
+                label="Select All"
               />
-              {open[categoryIndex] ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Collapse in={open[categoryIndex]} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                {category.services.map((service, serviceIndex) => (
-                  <ListItem button key={service.serviceId} sx={{ pl: 4 }}>
+              {formattedData.map((category, categoryIndex) => (
+                <FormControl key={category.categoryId} component="fieldset">
+                  <ListItem button onClick={() => handleCategoryClick(categoryIndex)}>
                     <FormControlLabel
                       control={
                         <AquaCheckbox
-                          checked={service.isSelected}
-                          onChange={e => handleServiceChange(categoryIndex, serviceIndex, e.target.checked)}
+                          checked={category.isSelected}
+                          indeterminate={
+                            category.services.some(service => service.isSelected) &&
+                            !category.services.every(service => service.isSelected)
+                          }
+                          onChange={e => handleCategoryChange(categoryIndex, e.target.checked)}
                         />
                       }
-                      label={service.serviceName}
+                      label={category.categoryName}
                     />
+                    {open[categoryIndex] ? <ExpandLess /> : <ExpandMore />}
                   </ListItem>
-                ))}
-              </List>
-            </Collapse>
-          </FormControl>
-        ))}
-      </FormGroup>
-    </div>
+                  <Collapse in={open[categoryIndex]} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                      {category.services.map((service, serviceIndex) => (
+                        <ListItem button key={service.serviceId} sx={{ pl: 4 }}>
+                          <FormControlLabel
+                            control={
+                              <AquaCheckbox
+                                checked={service.isSelected}
+                                onChange={e => handleServiceChange(categoryIndex, serviceIndex, e.target.checked)}
+                              />
+                            }
+                            label={service.serviceName}
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Collapse>
+                </FormControl>
+              ))}
+            </FormGroup>
+          </div>
 
         </div>
 

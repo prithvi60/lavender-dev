@@ -45,6 +45,9 @@ code {
       background-color: var(--primary-clr) !important;
       color: #FFFFFF !important;
     }
+    &.Mui-disabled{
+      background-color: rgb(143 134 176) !important;
+    }
   }
   &.MuiButton-outlined{
     &.MuiButton-colorPrimary{

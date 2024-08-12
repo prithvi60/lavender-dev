@@ -142,6 +142,7 @@ const RecommendSection = () => {
         return imageUrls[i][imgId];
       }
     }
+    if (!imgId) return "/6d7555506d13d8f197f157219f9cf957.png"
     return null;
   }
 
@@ -154,11 +155,12 @@ const RecommendSection = () => {
         <Slider {...settings} className="home-slider">
           {establishmentSearchResult?.data?.data?.content?.map((card) => (
             <div key={card?.id}>
-              <div className="mx-2 md:mx-5 max-w-lg p-6 shadow-lg rounded-xl">
+              <div className="mx-2 md:mx-5 max-w-lg p-6 shadow-lg rounded-xl">  
                 {getImages(card?.estImages[0]) ? (
                   <img src={getImages(card?.estImages[0])} alt="CardImage" className="card-image" />
                 ) : (
-                  <h6 className="card-image">Image not uploaded</h6>
+                  <img src='/fb6f3c230cb846e25247.gif' className='card-image-loader' />
+                  // <h6 className="card-image">Image not uploaded</h6>
                 )}
                 <CardContent className="card-content">
                   <Text variant="h5" align="left" className="card-title" sx={{ color: '#4D4D4D', whiteSpace: 'normal', overflow: 'hidden', textOverflow: 'ellipsis' }} name={card?.establishmentName} />

@@ -94,16 +94,16 @@ export default function AddCategoryForm({payload}) {
       ]
     }
     const response = endpoint.saveEstablishmentCategory(payLoad);
-    closeDrawer();
     
     getEstablishmentDetails();
+    closeDrawer();
   };
 
   const getEstablishmentDetails = async () => {
     try {
       const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
       if (establishmentData?.data?.success) {
-        setCategories(establishmentData?.data?.data?.categories || []);
+        setCategories([...establishmentData?.data?.data?.categories] || []);
       }
     } catch (error) {
       console.error("Error fetching establishment details:", error);

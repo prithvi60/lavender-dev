@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Box, Card, CardContent, IconButton, List, ListItem, ListItemText, Typography } from '@mui/material';
+import  { useEffect, useState } from 'react';
+import { Box, Card, CardContent, IconButton, List, ListItem, Typography } from '@mui/material';
 import GetIcon from '../../../../assets/Icon/icon';
 import ImageUploading from 'react-images-uploading';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import endpoint from '../../../../api/endpoints';
 import { useSnackbar } from '../../../../components/Snackbar';
 import Text from '../../../../components/Text';
@@ -301,9 +301,9 @@ const styles = {
     padding: 2
   },
   text: {
-    fontSize: { xs: '10px', sm: '12px' },
+    fontSize: { xs: '18px',  },
     fontWeight: 500,
-    lineHeight: { xs: '12px', sm: '14.4px' }
+    lineHeight: { xs: '18px', }
   },
     buttonStyles : {
       width: '120px', 

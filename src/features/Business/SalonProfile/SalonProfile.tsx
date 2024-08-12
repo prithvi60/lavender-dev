@@ -1,49 +1,35 @@
-import {
-  Dialog,
-  Toolbar,
-  Box,
-  Stepper,
-  Step,
-  StepLabel,
-  IconButton,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
-import CheckoutCard from "../../ServiceDialog/CheckoutCard";
-import ConfirmScreen from "../../ServiceDialog/ConfirmScreeen";
-import ScheduleAppointment from "../../ServiceDialog/ScheduleAppointment";
-import ServiceListItems from "../../ServiceDialog/ServiceListItems";
-import Buttons from "../../../components/Button";
+
+import  { useEffect, useState } from "react";
 import { SalonSetup } from "./SalonSetup";
 import Text from "../../../components/Text";
 import Membershp from "./SalonProfileSteps/BusinessInfo/Membershp";
 import { useNavigate, useLocation } from "react-router-dom";
 import endpoint from "../../../api/endpoints";
 import { useSelector } from "react-redux";
-import moment from "moment";
 
 export const SalonProfile = () => {
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
   });
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeStep, setActiveStep] = useState(0);
-  const [membershipScreen, setMembershipScreen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
+  // const [activeStep, setActiveStep] = useState(0);
   const [subsctiptionDetails, setSubscriptionDetails] = useState<any>({});
+  const [membershipScreen, setMembershipScreen] = useState(false);
   const showPaymentSuccess = location.pathname === "/business/payment-success";
 
   const navigate = useNavigate();
 
-  function handleBtnClick() {
-    setIsOpen(true);
-  }
-  function onSetActiveStep(value) {
-    setActiveStep(value);
-  }
+  // function handleBtnClick() {
+  //   setIsOpen(true);
+  // }
+  // function onSetActiveStep(value) {
+  //   setActiveStep(value);
+  // }
 
-  function handleClose() {
-    setIsOpen(false);
-  }
+  // function handleClose() {
+  //   setIsOpen(false);
+  // }
 
   const goToBusinessPage = () => {
     navigate("/business");
@@ -99,19 +85,27 @@ export const SalonProfile = () => {
               <Membershp setMembershipScreen={setMembershipScreen} />
             </div>
           ) : (
-            <div className="flex justify-center items-center flex-col w-full h-full mt-12 pt-12">
+            <div className="flex justify-center items-center flex-col w-full h-full mt-12 pt-12 space-y-6 md:space-y-0">
               <div style={{ minHeight: "150px" }}></div>
               <Text
-                sx={style.header}
+                sx={{
+                  ...style.header,
+                  marginBottom: { xs: '24px', md: '0' }
+                }}
                 name={"Setup your online Salon profile with Lavender"}
               />
               <Text
-                sx={style.subHeader}
+                sx={{
+                  ...style.subHeader,
+                  marginBottom: { xs: '24px', md: '0' }
+                }}
                 name={
                   "You have successfully completed the lavender business setup for your salon. Now you can use our platform to manage our businesses"
                 }
               />
-              <SalonSetup setMembershipScreen={setMembershipScreen} />
+              <div className="mt-6 md:mt-0">
+                <SalonSetup setMembershipScreen={setMembershipScreen} />
+              </div>
             </div>
           )}
         </>
@@ -122,19 +116,21 @@ export const SalonProfile = () => {
 
 const style = {
   header: {
-    fontSize: "45px",
+    fontSize: { xs: "32px", sm: "38px", md: "45px" },
     fontWeight: 700,
     color: "#4D4D4D",
-    lineHeight: "54px",
-    padding: 1,
-    maxWidth: "746px",
+    lineHeight: { xs: "40px", sm: "48px", md: "54px" },
+    padding: { xs: 2, sm: 1 },
+    maxWidth: "100%",
+    textAlign: { xs: "center", md: "left" },
   },
   subHeader: {
-    fontSize: "20px",
+    fontSize: { xs: "16px", sm: "18px", md: "20px" },
     fontWeight: 400,
     color: "#808080",
-    lineHeight: "24px",
-    padding: "8px 8px 20px 8px",
-    maxWidth: "746px",
+    lineHeight: { xs: "20px", sm: "22px", md: "24px" },
+    padding: { xs: "8px 20px 20px", sm: "8px 12px 20px 12px" },
+    maxWidth: "100%",
+    textAlign: { xs: "center", md: "left" },
   },
 };

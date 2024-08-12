@@ -41,7 +41,7 @@ export default function BusinessTeam() {
     try {
       const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
       if (establishmentData?.data?.success) {
-        setEmloyeeData(establishmentData?.data?.data?.employees || []);
+        setEmloyeeData([...establishmentData?.data?.data?.employees] || []);
       }
     } catch (error) {
       console.error("Error fetching establishment details:", error);
@@ -55,7 +55,7 @@ export default function BusinessTeam() {
 
   return (
     <div className="containerBox mx-auto">
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={employeeData} />
     </div>
   )
 }

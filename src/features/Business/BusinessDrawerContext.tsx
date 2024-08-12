@@ -22,6 +22,7 @@ export const DrawerProvider = ({ children }) => {
   const closeDrawer = () => {
     setIsOpen(false);
     setContent(null);
+    setPayload(null);
 
   };
 
@@ -30,7 +31,7 @@ export const DrawerProvider = ({ children }) => {
         <SwipeableDrawer
             anchor={'right'}
             open={isOpen}
-            onClose={() => setIsOpen(false)}
+            onClose={closeDrawer}
             onOpen={() => setIsOpen(true)}
         >
             <BusinessDrawer type={content} payload={payload}/>

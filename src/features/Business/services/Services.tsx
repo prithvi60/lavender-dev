@@ -59,15 +59,34 @@ const OptionButton: React.FC<OptionButtonProps> = ({
   open,
   anchorRef,
 }) => (
-  <ButtonGroup variant="contained" ref={anchorRef} aria-label="Button group with a nested menu" sx={{borderRadius: '10px', textTransform: 'none','@media (max-width: 480px)':{width: '90% !important'},
-}}>
-    <Button style={{ borderRadius: '10px 0px 0px 10px', width: '150px', height: '44px', textTransform: 'none', fontSize: '18px', fontWeight: 600,}} sx={{'@media (max-width: 480px)':{fontSize: '14px !important'}}} onClick={handleClick}>
+  <ButtonGroup
+    variant="contained"
+    ref={anchorRef}
+    aria-label="Button group with a nested menu"
+    sx={{
+      borderRadius: "10px",
+      textTransform: "none",
+      "@media (max-width: 480px)": { width: "90% !important" },
+    }}
+  >
+    <Button
+      style={{
+        borderRadius: "10px 0px 0px 10px",
+        width: "150px",
+        height: "44px",
+        textTransform: "none",
+        fontSize: "18px",
+        fontWeight: 600,
+      }}
+      sx={{ "@media (max-width: 480px)": { fontSize: "14px !important" } }}
+      onClick={handleClick}
+    >
       {options[selectedIndex].label}
     </Button>
     <Button
-      style={{ height: '44px', borderRadius: '0px 10px 10px 0px',  }}
-      aria-controls={open ? 'split-button-menu' : undefined}
-      aria-expanded={open ? 'true' : undefined}
+      style={{ height: "44px", borderRadius: "0px 10px 10px 0px" }}
+      aria-controls={open ? "split-button-menu" : undefined}
+      aria-expanded={open ? "true" : undefined}
       aria-label="select merge strategy"
       aria-haspopup="menu"
       onClick={handleToggle}
@@ -88,15 +107,16 @@ const OptionButton: React.FC<OptionButtonProps> = ({
         <Grow
           {...TransitionProps}
           style={{
-            transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
+            transformOrigin:
+              placement === "bottom" ? "center top" : "center bottom",
           }}
         >
-          <Paper >
-            <ClickAwayListener onClickAway={handleToggle} >
-              <MenuList id="split-button-menu" autoFocusItem >
+          <Paper>
+            <ClickAwayListener onClickAway={handleToggle}>
+              <MenuList id="split-button-menu" autoFocusItem>
                 {options.map((option, index) => (
                   <MenuItem
-                  sx={{width: '190px !important'}}
+                    sx={{ width: "190px !important" }}
                     key={option.value}
                     disabled={index === 2}
                     selected={index === selectedIndex}
@@ -130,23 +150,22 @@ const initialData = {
 
 const StyledTextField = styled(TextField)({
   // Customize styles here
-  '& .MuiOutlinedInput-root': {
-    borderRadius: '8px',
-    height: '40px',
-    width: '388px',
-    '@media (max-width: 580px)':{width: '80% !important'},
-    '@media (max-width: 480px)':{width: '60% !important'},
-    '@media (max-width: 440px)':{width: '50% !important'},
-
+  "& .MuiOutlinedInput-root": {
+    borderRadius: "8px",
+    height: "40px",
+    width: "388px",
+    "@media (max-width: 580px)": { width: "80% !important" },
+    "@media (max-width: 480px)": { width: "60% !important" },
+    "@media (max-width: 440px)": { width: "50% !important" },
   },
-  '& .MuiInputLabel-root': {
-    color: 'primary.main', // Example: Change label color
+  "& .MuiInputLabel-root": {
+    color: "primary.main", // Example: Change label color
   },
-  '& .MuiOutlinedInput-notchedOutline': {
-    borderColor: 'none', // Example: Change border color
+  "& .MuiOutlinedInput-notchedOutline": {
+    borderColor: "none", // Example: Change border color
   },
-  '&:hover .MuiOutlinedInput-notchedOutline': {
-    borderColor: 'primary.main', // Example: Border color on hover
+  "&:hover .MuiOutlinedInput-notchedOutline": {
+    borderColor: "primary.main", // Example: Border color on hover
   },
 });
 
@@ -171,7 +190,7 @@ export const Services: React.FC = () => {
   const [data, setData] = useState(initialData);
   const [orginalData, setOriginalData] = useState(initialData);
 
-  const [serviceInput, setServiceInput] = useState<string | any>('');
+  const [serviceInput, setServiceInput] = useState<string | any>("");
 
   const { openDrawer, isOpen } = useDrawer();
 
@@ -188,16 +207,16 @@ export const Services: React.FC = () => {
   const establishmentId = userDetails?.establishmentId || "";
 
   const handleClick = () => {
-    if (options[selectedIndex].value === 'Add services') {
-      openDrawer('addServices');
+    if (options[selectedIndex].value === "Add services") {
+      openDrawer("addServices");
     } else {
-      openDrawer('addCategory');
+      openDrawer("addCategory");
     }
   };
 
   const handleMenuItemClick = (
     event: React.MouseEvent<HTMLLIElement, MouseEvent>,
-    index: number,
+    index: number
   ) => {
     setSelectedIndex(index);
     setOpen(false);
@@ -311,7 +330,9 @@ export const Services: React.FC = () => {
   useEffect(() => {
     const getEstablishmentDetails = async () => {
       try {
-        const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
+        const establishmentData = await endpoint.getEstablishmentDetailsById(
+          establishmentId
+        );
         if (establishmentData?.data?.success) {
           setCategories(establishmentData?.data?.data?.categories || []);
           setEmployeeData(establishmentData?.data?.data?.employees || []);
@@ -335,7 +356,7 @@ export const Services: React.FC = () => {
           },
         ],
       });
-  
+
       if (response.data.success) {
         // Update categories state to reflect the deletion
         const updatedCategories = categories.map((category) => {
@@ -347,10 +368,10 @@ export const Services: React.FC = () => {
           }
           return category;
         });
-  
+
         // Update state with the new categories array
         setCategories(updatedCategories);
-  
+
         // Show notification for successful deletion
       } else {
         // Show error notification if deletion was not successful
@@ -360,7 +381,6 @@ export const Services: React.FC = () => {
       // Show error notification if there was an exception
     }
   };
-  
 
   useEffect(() => {
     // Transform categories into initialData format
@@ -382,16 +402,16 @@ export const Services: React.FC = () => {
     setOriginalData({ components: transformedCategories });
   }, [categories]);
 
-  const handleEditCategory = (categoryId) =>{
-    openDrawer('addCategory', categoryId);
-  }
+  const handleEditCategory = (categoryId) => {
+    openDrawer("addCategory", categoryId);
+  };
 
-  const handleAddCategory = () =>{
-    openDrawer('addCategory');
-  }
+  const handleAddCategory = () => {
+    openDrawer("addCategory");
+  };
 
-  function handleAddServices(categoryId){
-    openDrawer('addServices', categoryId);
+  function handleAddServices(categoryId) {
+    openDrawer("addServices", categoryId);
   }
 
   async function handleDeleteCategory(categoryId) {
@@ -404,17 +424,16 @@ export const Services: React.FC = () => {
           },
         ],
       });
-  
+
       if (response.data.success) {
-        
         // Update categories state to reflect the deletion
         const updatedCategories = categories?.filter(
           (cat) => cat.categoryId !== categoryId
         );
-  
+
         // Update state with the new categories array
         setCategories(updatedCategories);
-  
+
         // Show notification for successful deletion
       } else {
         // Show error notification if deletion was not successful
@@ -424,45 +443,68 @@ export const Services: React.FC = () => {
       // Show error notification if there was an exception
     }
   }
-const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
-const handleSearch = (event) => {
-  
-  //setData(orginalData)
-  const term = event.target.value.toLowerCase();
-  setSearchTerm(term);
+  const handleSearch = (event) => {
+    //setData(orginalData)
+    const term = event.target.value.toLowerCase();
+    setSearchTerm(term);
 
-  if (term === '') {
-    setData(orginalData);
-    return;
-  }
+    if (term === "") {
+      setData(orginalData);
+      return;
+    }
 
-  const filteredComponents = orginalData.components.map(component => {
-    const filteredRows = component.rows.filter(row => row.service.toLowerCase().includes(term));
-    return { ...component, rows: filteredRows };
-  }).filter(component => component.rows.length > 0);
+    const filteredComponents = orginalData.components
+      .map((component) => {
+        const filteredRows = component.rows.filter((row) =>
+          row.service.toLowerCase().includes(term)
+        );
+        return { ...component, rows: filteredRows };
+      })
+      .filter((component) => component.rows.length > 0);
 
-  setData({ components: filteredComponents });
-};
-
+    setData({ components: filteredComponents });
+  };
 
   return (
-    <div>
-      <Box className="flex mx-24 my-4 justify-between w-10/12"  sx={{'@media (max-width: 900px)':{display: 'flex', flexDirection: 'column !important', alignItems: 'start'}}}>
-      <StyledTextField
-        variant="outlined"
-        placeholder=" Search services"
-        fullWidth
-        margin="normal"
-        value={searchTerm}
-        onChange={handleSearch}
-        InputProps={{
-          startAdornment: (
-            <GetIcon iconName='Search'/>
-          ),
+    <div className="md:mx-32 mt-8">
+      <Box
+        className="flex md:w-full md:justify-between md:ml-2"
+        sx={{
+          "@media (max-width: 900px)": {
+            display: "flex",
+            flexDirection: "column !important",
+            alignItems: "center",
+          },
         }}
-      />
-        <Box>
+      >
+        <StyledTextField
+          variant="outlined"
+          placeholder=" Search services"
+          fullWidth
+          margin="normal"
+          value={searchTerm}
+          onChange={handleSearch}
+          InputProps={{
+            startAdornment: <GetIcon iconName="Search" />,
+          }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            '@media (min-width: 900px)': {
+              width: "auto"
+            }
+          }}
+        />
+        <Box sx={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center',
+          '@media (min-width: 900px)': {
+            marginRight: "4%"
+          }
+        }}>
           <OptionButton
             selectedIndex={selectedIndex}
             handleClick={handleClick}
@@ -482,7 +524,7 @@ const handleSearch = (event) => {
         >
           {(provided) => (
             <div
-              className="flex flex-col justify-items-center w-5/6"
+              className="flex flex-col justify-items-center w-full"
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
@@ -494,7 +536,7 @@ const handleSearch = (event) => {
                 >
                   {(provided) => (
                     <div
-                      className="my-4 mx-24 rounded-lg shadow-xl w-full"
+                      className="my-4 px-8 mx-2 md:mx-12 rounded-lg shadow-xl "
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                     >
@@ -505,27 +547,48 @@ const handleSearch = (event) => {
                         <FormControl
                           sx={{
                             m: 1,
-                            width: "18ch",
+                            width: { xs: "25%", md:"20ch" },
                             fontWeight: "700",
                           }}
                           variant="standard"
                         >
                           <div className="flex">
-                            <div className="font-bold content-center" style={{textTransform: 'none', fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}>{component.title} </div>
+                            <div
+                              className="font-bold content-center"
+                              style={{
+                                textTransform: "none",
+                                fontSize: "18px",
+                                fontWeight: 700,
+                                color: "#4D4D4D",
+                              }}
+                            >
+                              {component.title}{" "}
+                            </div>
 
-                            <IconButton onClick={()=> handleEditCategory(component?.id)}>
-                              <GetIcon iconName='EditIcon'/>
+                            <IconButton
+                              onClick={() => handleEditCategory(component?.id)}
+                            >
+                              <GetIcon iconName="EditIcon" />
                             </IconButton>
                           </div>
-
                         </FormControl>
-                        <GetIcon className='mb-3 mr-4' iconName='DragIcon'/>
+                        <GetIcon className="mb-3 mr-4" iconName="DragIcon" />
                         <Button
                           className="flex justify-between items-center font-bold mr-5"
-                          onClick={()=> handleDeleteCategory(component.id)}
+                          onClick={() => handleDeleteCategory(component.id)}
                         >
-                          <GetIcon iconName='DeleteIcon'/>
-                          <span style={{textTransform: 'none', fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}>Delete category</span>
+                          <GetIcon iconName="DeleteIcon" />
+                          <span
+                            style={{
+                              textTransform: "none",
+                              fontSize: "18px",
+                              fontWeight: 700,
+                              color: "#4D4D4D",
+                            }}
+                            className="hidden md:block"
+                          >
+                            Delete category
+                          </span>
                         </Button>
                       </div>
                       <StrictModeDroppable
@@ -550,23 +613,65 @@ const handleSearch = (event) => {
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
                                   >
-                                    <div className="flex w-1/4" style={{textTransform: 'none', fontSize: '16px', fontWeight: 400, color: '#4D4D4D'}}>
-                                      <GetIcon {...provided.dragHandleProps} className='mr-4' iconName='DragIcon'/>
+                                    <div
+                                      className="flex w-1/4"
+                                      style={{
+                                        textTransform: "none",
+                                        fontSize: "16px",
+                                        fontWeight: 400,
+                                        color: "#4D4D4D",
+                                      }}
+                                    >
+                                      <GetIcon
+                                        {...provided.dragHandleProps}
+                                        className="mr-4"
+                                        iconName="DragIcon"
+                                      />
                                       {row.service}
                                     </div>
-                                    <div className="w-1/4" style={{textTransform: 'none', fontSize: '16px', fontWeight: 400, color: '#4D4D4D'}}>{row.time}</div>
-                                    <div className="w-1/4" style={{textTransform: 'none', fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}>{row.price}</div>
+                                    <div
+                                      className="w-1/4"
+                                      style={{
+                                        textTransform: "none",
+                                        fontSize: "16px",
+                                        fontWeight: 400,
+                                        color: "#4D4D4D",
+                                      }}
+                                    >
+                                      {row.time}
+                                    </div>
+                                    <div
+                                      className="w-1/4"
+                                      style={{
+                                        textTransform: "none",
+                                        fontSize: "18px",
+                                        fontWeight: 700,
+                                        color: "#4D4D4D",
+                                      }}
+                                    >
+                                      {row.price}
+                                    </div>
                                     <div className="flex items-center justify-end w-1/4">
                                       <div className="flex">
-                                        {row?.employees?.map((employee, index) => (
-                                          // <GetIcon key={index} iconName='ProfileIcon' className='m-1'/>
-                                          <AvatarImg row={employee} employeeData = {employeeData}/>
-                                        ))}
+                                        {row?.employees?.map(
+                                          (employee, index) => (
+                                            // <GetIcon key={index} iconName='ProfileIcon' className='m-1'/>
+                                            <AvatarImg
+                                              row={employee}
+                                              employeeData={employeeData}
+                                            />
+                                          )
+                                        )}
                                       </div>
                                       <div className="ml-2 cursor-pointer">
                                         <GetIcon
-                                          onClick={() => handleDeleteService(component.id, row.id)}
-                                          iconName='DeleteIcon'
+                                          onClick={() =>
+                                            handleDeleteService(
+                                              component.id,
+                                              row.id
+                                            )
+                                          }
+                                          iconName="DeleteIcon"
                                         />
                                       </div>
                                     </div>
@@ -576,7 +681,15 @@ const handleSearch = (event) => {
                             ))}
                             {provided.placeholder}
                             <div className="h-12 font-bold flex items-center justify-center bottom-0">
-                              <button onClick={()=> handleAddServices(component.id)} style={{textTransform: 'none', fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}>
+                              <button
+                                onClick={() => handleAddServices(component.id)}
+                                style={{
+                                  textTransform: "none",
+                                  fontSize: "18px",
+                                  fontWeight: 700,
+                                  color: "#4D4D4D",
+                                }}
+                              >
                                 Add new service [+]
                               </button>
                             </div>
@@ -588,9 +701,19 @@ const handleSearch = (event) => {
                 </Draggable>
               ))}
               {provided.placeholder}
-              <div style={{textAlign: 'center', marginLeft: '200px'}}><button onClick={()=> handleAddCategory()} style={{color:'#825FFF', fontSize: '20px', fontWeight: 600, paddingBottom: 30}}>
-                Add new category [+]
-              </button></div>
+              <div style={{ textAlign: "center", display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
+                <button
+                  onClick={() => handleAddCategory()}
+                  style={{
+                    color: "#825FFF",
+                    fontSize: "20px",
+                    fontWeight: 600,
+                    paddingBottom: 30,
+                  }}
+                >
+                  Add new category [+]
+                </button>
+              </div>
             </div>
           )}
         </StrictModeDroppable>

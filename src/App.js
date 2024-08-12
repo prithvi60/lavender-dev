@@ -1,4 +1,5 @@
-import React, { Suspense } from 'react';
+import React from 'react';
+import  { Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import PageNotFound from './pages/PageNotFound';

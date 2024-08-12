@@ -4,7 +4,7 @@ import { publish } from "../../../../api/constants";
 import endpoint from "../../../../api/endpoints";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Modal, Box } from "@mui/material";
+import { Modal, Box, Tooltip } from "@mui/material";
 import GetIcon from "../../../../assets/Icon/icon";
 import Text from "../../../../components/Text";
 import { useSnackbar } from "../../../../components/Snackbar";
@@ -24,7 +24,7 @@ const style = {
 };
 
 export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
-  const [isPublish, setIsPublish] = useState(false);
+  const [isPublish, setIsPublish] = useState<boolean>(false);
   const navigate = useNavigate();
   const [showPublish, setShowPublish] = useState(false);
   const [open, setOpen] = React.useState(false);
@@ -114,10 +114,11 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
   // }
 
   function handlePublishClick() {
-    if (categories.length > 0 && employee.length > 0) {
+    if (categories?.length > 0 && employee?.length > 0) {
       setIsPublish(true);
       setOpen((prev) => !prev);
     } else {
+      setIsPublish(false);
       showErrorMsg(true);
     }
   }
@@ -180,15 +181,17 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
             className="text-5xl font-bold text-center p-4"
             style={{ color: "#4D4D4D" }}
           >
-            {establishmentData?.data?.data?.profile?.establishmentName} profile
-            is created
+            {establishmentData?.data?.data?.profile?.establishmentName} {!isPublish ? ("profile is created") : ("has been updated")}
           </div>
-          <div
+          {
+            !isPublish && <div
             className="text-xl font-normal text-center p-4"
             style={{ color: "#4D4D4D" }}
           >
             You can publish now to make it available for everyone
           </div>
+          }
+          
         </>
       ) : (
         <div
@@ -209,22 +212,35 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
           />
         )}
         <div className="flex justify-center flex-col w-36">
-          {!isPublish && (
-            <Buttons
+          {!isPublish && (subsctiptionDetails ? (
+            <Box sx={{paddingY: 1}}><Buttons
               disabled={isDisabled}
               fullWidth
               variant="contained"
-              sx={{
-                borderRadius: "10px",
-                padding: "10px 40px 10px 40px",
-                marginBottom: "10px",
-              }}
+              sx={styles.btn}
               name={"Publish"}
               onClick={() => {
                 handlePublishClick();
               }}
-            ></Buttons>
-          )}
+            ></Buttons></Box>
+          ) : (
+            <>
+              <Tooltip title={isDisabled ? "Please choose membership to publish." : null} arrow placement="right">
+                <Box sx={{paddingY: 1}}>
+                  <Buttons
+                  disabled={isDisabled}
+                  fullWidth
+                  variant="contained"
+                  sx={styles.btn}
+                  name={"Publish"}
+                  onClick={() => {
+                    handlePublishClick();
+                  }}
+                ></Buttons>
+                </Box> 
+              </Tooltip>
+            </>
+          ))}
           {/* <Buttons
             variant="outlined"
             sx={{ borderRadius: "10px", padding: "10px 40px 10px 40px" }}
@@ -287,22 +303,23 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
             ></Buttons>
           )} */}
           <div className="flex justify-between ">
+            <Box sx={{paddingX: 1}}>
             <Buttons
               variant="outlined"
-              sx={{ borderRadius: "10px", padding: "10px 40px 10px 40px" }}
+              sx={styles.btn}
               name={"Preview"}
               onClick={() => onClickPreview()}
-            ></Buttons>
-            <Buttons
+            ></Buttons></Box>
+            <Box sx={{paddingX: 1}}><Buttons
               variant="outlined"
-              sx={{ borderRadius: "10px", padding: "10px " }}
+              sx={styles.btn}
               name={
                 subsctiptionDetails?.active
                   ? "Membership Details"
                   : "Membership"
               }
               onClick={() => onClickCheckOut()}
-            ></Buttons>
+            ></Buttons></Box>
           </div>
         </div>
       </div>
@@ -345,3 +362,20 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
     </div>
   );
 };
+
+
+const styles = {
+  btn: {
+    color: '#FFFFFF',
+    backgroundColor: '#825FFF',
+    fontWeight: 600,
+    fontSize: '20px',
+    padding: '10px 40px 10px 40px',
+    borderRadius: '10px',
+    whiteSpace: 'nowrap',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#5A3EBF',
+    }
+  },
+}

@@ -331,6 +331,11 @@
     border-radius: 16px;
 }
 
+.card-image-loader {
+    height: 150px;
+    margin: auto;
+}
+
 .recommend-section .card-content:last-child {
     padding: 10px 0px;
 }

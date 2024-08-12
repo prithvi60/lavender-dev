@@ -1,4 +1,5 @@
 import * as React from 'react';
+import GetIcon from "../assets/Icon/icon.tsx";
 
 import {
   Controller,
@@ -109,89 +110,92 @@ export default function FilterModal() {
         <TuneRoundedIcon className="text-black" />
       </Buttons>
       <Modal
-  open={open}
-  onClose={handleOpen}
-  aria-labelledby="modal-modal-title"
-  aria-describedby="modal-modal-description"
->
-  <Box sx={style} className="rounded-3xl filter-box">
-    <div id="title" className="font-bold text-xl mb-3">
-      Filters
-    </div>
-    <Grid container spacing={2} className='filters-container'>
-      <Grid item xs={12}>
-        <div className="font-bold mb-2">Sort by</div>
-        <form>
-          <Controller
-            name="SortBy"
-            control={control}
-            render={({ field }) => (
-              <div className="space-y-3">
-                {sortByListItem?.map((item, index) => {
-                  return (
-                    <SortByItem
-                      {...field}
-                      key={index}
-                      labelName={item}
-                    ></SortByItem>
-                  );
-                })}
-              </div>
-            )}
-          />
-          <br></br>
-          <Divider></Divider>
-          <div className="font-bold mb-2 mt-3">Price</div>
-          <Controller
-            name="price"
-            className='ml-4 mr-4'
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <div className="mb-4 ml-6 mr-6">
-                <Slider
-                  sx={{color: '#965AE5'}}
-                  value={value}
-                  onChange={(_, newValue) => onChange(newValue)}
-                  valueLabelDisplay="auto"
-                  getAriaLabel={() => "price range"}
-                  disableSwap
-                />
-                <div className="flex justify-between items-center">
-                  <span>${value[0]}</span>
-                  <span>${value[1]}</span>
-                </div>
-              </div>
-            )}
-          />
-
-          <Divider />
-          <div className="mt-2 mb-2">
-            <Controller
-              name="selectedTags"
-              control={control}
-              defaultValue={["kids"]}
-              render={({ field: { onChange, value } }) => (
-                <div>
-                  {predefinedTags.map((tag) => (
-                    <button
-                      key={tag}
-                      type="button"
-                      className={`border border-black ${
-                        value.includes(tag)
-                          ? "bg-[#E6E1FF] text-black"
-                          : "bg-white text-black"
-                      } rounded-3xl px-4 py-2 m-2 cursor-pointer`}
-                      onClick={() => onclickTag(tag, value, onChange)}
-                    >
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-              )}
-            />
+        open={open}
+        onClose={handleOpen}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style} className="rounded-3xl filter-box">
+          <div className="flex justify-between items-center mb-3">
+            <div id="title" className="font-bold text-xl">
+              Filters
+            </div>
+            <GetIcon iconName="CloseIcon" onClick={handleOpen} className="cursor-pointer" />
           </div>
+          <Grid container spacing={2} className='filters-container'>
+            <Grid item xs={12}>
+              <div className="font-bold mb-2">Sort by</div>
+              <form>
+                <Controller
+                  name="SortBy"
+                  control={control}
+                  render={({ field }) => (
+                    <div className="space-y-3">
+                      {sortByListItem?.map((item, index) => {
+                        return (
+                          <SortByItem
+                            {...field}
+                            key={index}
+                            labelName={item}
+                          ></SortByItem>
+                        );
+                      })}
+                    </div>
+                  )}
+                />
+                <br></br>
+                <Divider></Divider>
+                <div className="font-bold mb-2 mt-3">Price</div>
+                <Controller
+                  name="price"
+                  className='ml-4 mr-4'
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <div className="mb-4 ml-6 mr-6">
+                      <Slider
+                        sx={{color: '#965AE5'}}
+                        value={value}
+                        onChange={(_, newValue) => onChange(newValue)}
+                        valueLabelDisplay="auto"
+                        getAriaLabel={() => "price range"}
+                        disableSwap
+                      />
+                      <div className="flex justify-between items-center">
+                        <span>${value[0]}</span>
+                        <span>${value[1]}</span>
+                      </div>
+                    </div>
+                  )}
+                />
 
-          <Divider />
+                <Divider />
+                <div className="mt-2 mb-2">
+                  <Controller
+                    name="selectedTags"
+                    control={control}
+                    defaultValue={["kids"]}
+                    render={({ field: { onChange, value } }) => (
+                      <div>
+                        {predefinedTags.map((tag) => (
+                          <button
+                            key={tag}
+                            type="button"
+                            className={`border border-black ${
+                              value.includes(tag)
+                                ? "bg-[#E6E1FF] text-black"
+                                : "bg-white text-black"
+                            } rounded-3xl px-4 py-2 m-2 cursor-pointer`}
+                            onClick={() => onclickTag(tag, value, onChange)}
+                          >
+                            {tag}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  />
+                </div>
+
+                <Divider />
 
                 <div className="space-x-4 mt-3">
                   <Button
