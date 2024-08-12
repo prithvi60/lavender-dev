@@ -222,7 +222,6 @@ const ReviewsTable = ({ data }) => {
           
               <table {...getTableProps()} className="w-full table-auto">
                 <tbody {...getTableBodyProps()}>
-                  {console.log(sortedData)}
                   {sortedData?.map((row, rowIndex) => {
                     prepareRow(row);
                     return (

@@ -7,11 +7,7 @@ import {
   StepLabel,
   IconButton,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import CheckoutCard from "../../ServiceDialog/CheckoutCard";
-import ConfirmScreen from "../../ServiceDialog/ConfirmScreeen";
-import ScheduleAppointment from "../../ServiceDialog/ScheduleAppointment";
-import ServiceListItems from "../../ServiceDialog/ServiceListItems";
+import  { useEffect, useState } from "react";
 import Buttons from "../../../components/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import { BusinessInfo } from "./SalonProfileSteps/BusinessInfo/BusinessInfo";
@@ -21,7 +17,6 @@ import { Publish } from "./SalonProfileSteps/Publish";
 import GetIcon from "../../../assets/Icon/icon";
 import { useSelector } from "react-redux";
 import endpoint from "../../../api/endpoints";
-import Membershp from "./SalonProfileSteps/BusinessInfo/Membershp";
 
 export const SalonSetup = ({ setMembershipScreen }) => {
   const [isOpen, setIsOpen] = useState(false);

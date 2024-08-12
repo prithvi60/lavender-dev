@@ -8,18 +8,22 @@ import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import CheckoutCard from "./CheckoutCard";
+import CheckoutCard from "./CheckoutCard.tsx";
 import ServiceListItems from "./ServiceListItems";
 import ScheduleAppointment from "./ScheduleAppointment.tsx";
 import ConfirmScreen from "./ConfirmScreeen.tsx";
-import { Grid } from "@mui/material";
+import {  useMediaQuery } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { removeCheckOutDetails } from "../../store/slices/checkOutPageSlice.js";
 import { resetFilter } from "../../store/slices/Booking/ScheduleAppoinmentSlice.ts";
+import CheckoutFooterCard from "./CheckoutFooterCard.tsx";
+
 
 function ServiceDialog({establishmentData}) {
+  console.log("establishmentData : ", establishmentData)
   const [isOpen, setIsOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
+  const isMobile = useMediaQuery('(max-width:600px)');
 
   const dispatch = useDispatch();
 
@@ -61,7 +65,7 @@ function ServiceDialog({establishmentData}) {
               <CloseIcon />
             </IconButton>
         </Toolbar>
-        <div className="flex h-full max-w-7xl mx-auto py-10 px-6 card-flex">
+        <div className="flex h-full md:max-w-7xl mx-auto py-10 md:px-6 card-flex">
           <div className="w-full md:pr-8">
 
             {activeStep === 0 && <ServiceListItems serviceCategories={establishmentData?.categories} handleClose={handleClose}/>}
@@ -70,10 +74,23 @@ function ServiceDialog({establishmentData}) {
 
             {activeStep === 2 && <ConfirmScreen  onSetActiveStep={onSetActiveStep} />}
           </div>
-
-          <div className="ml-4">
-            <CheckoutCard activeStep={activeStep} next={onSetActiveStep} establishmentName = {establishmentData?.profile?.establishmentName} establishmentId = {establishmentData?.id}/>
-          </div>
+          {!isMobile ? (
+            <CheckoutCard
+              activeStep={activeStep}
+              next={onSetActiveStep}
+              establishmentName={establishmentData?.profile?.establishmentName}
+              establishmentId={establishmentData?.id}
+            />
+          ) : (
+            <div className="ml-4">
+              <CheckoutFooterCard
+                activeStep={activeStep}
+                next={onSetActiveStep}
+                establishmentName={establishmentData?.profile?.establishmentName}
+                establishmentId={establishmentData?.id}
+              />
+            </div>
+          )}
         </div>
       </Dialog>
     </>

@@ -1,24 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import { AppBar, Toolbar, Stack, Box } from '@mui/material';
-import Button from './Button.js';
-import ButtonRouter from './ButtonRouter';
-import { getRoute } from '../utils';
-import PersonIcon from '@mui/icons-material/Person';
-import GetIcon from '../assets/Icon/icon.tsx';
-import { useNavigate } from 'react-router-dom';
-import endpoint from '../api/endpoints.ts';
-import NavFilter from './NavFilter.tsx';
-import NewSearchPanel from '../features/SearchPanel/NewSearchPanel.jsx';
+import React, { useEffect, useState } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Stack,
+  Box,
+  Menu,
+  MenuItem,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import Button from "./Button.js";
+import ButtonRouter from "./ButtonRouter";
+import { getRoute } from "../utils";
+import GetIcon from "../assets/Icon/icon.tsx";
+import { useNavigate } from "react-router-dom";
+import endpoint from "../api/endpoints.ts";
+import NavFilter from "./NavFilter.tsx";
+import NewSearchPanel from "../features/SearchPanel/NewSearchPanel.jsx";
 
 const Navbar = (props) => {
   const { isSearchPage, isLoggedIn } = props;
   const [showSearchBar, setshowSearchBar] = useState(false);
-  const [userName, setUserName] = useState('');
-  const [userType, setUserType] = useState('');
+  const [userName, setUserName] = useState("");
+  const [userType, setUserType] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     setTimeout(() => {
-      if (localStorage.getItem('Token')) {
+      if (localStorage.getItem("Token")) {
         const fetchCurrentUserDetails = async () => {
           try {
             const response = await endpoint.getCurrentUserDetails();
@@ -26,7 +38,7 @@ const Navbar = (props) => {
             setUserName(userDetails?.data?.fullName);
             setUserType(userDetails?.data?.userType);
           } catch (error) {
-            console.error('Error fetching user details:', error);
+            console.error("Error fetching user details:", error);
           }
         };
         fetchCurrentUserDetails();
@@ -38,65 +50,161 @@ const Navbar = (props) => {
 
   const handleLogOutBtn = () => {
     localStorage.clear();
-    return navigate('/');
+    return navigate("/");
+  };
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   return (
     <>
       <AppBar position="fixed" className="nav-bar">
         <Toolbar>
-          <GetIcon
-            className="cursor-pointer nav-bar-title flex"
-            align="left"
-            onClick={() => navigate('/')}
-            iconName="LavenderFullLogo"
-          />
-          <Box sx={{display: 'flex', justifyContent: 'end', '@media (max-width: 600px)': {display: 'flex', flexDirection: 'column-reverse'}}}>
-            {isSearchPage && <Box sx={{'@media (max-width: 600px)': {alignSelf: 'center'}}}><NavFilter setshowSearchBar={setshowSearchBar} /></Box>}
-            <Stack spacing={2} direction="row" sx={{'@media (max-width: 600px)': {display: 'flex', justifyContent: 'space-between', width: '100%', padding: '10px'}}}>
-              {isLoggedIn && (
-                <Button
-                  onClick={handleLogOutBtn}
-                  className="button-outline"
-                  variant="outlined"
-                  name="Logout"
-                  sx={{ width: '120px', height: '37px', fontFamily: 'Urbanist', borderRadius: '10px' }}
-                />
-              )}
-              {userType === 'BU' && (
-                <Button
-                  href={getRoute('Business')}
-                  className="button-outline"
-                  variant="outlined"
-                  name={'Business'}
-                  sx={{ width: '120px', height: '37px', fontFamily: 'Urbanist', borderRadius: '10px' }}
-                />
-              )}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "end",
+              width: "100%",
+              flexGrow: 1,
+              "@media (max-width: 600px)": {
+                flexDirection: "row",
+                alignItems: "stretch",
+              },
+            }}
+          >
+            <GetIcon
+              className="cursor-pointer nav-bar-title absolute left-4 top-4"
+              align="left"
+              onClick={() => navigate("/")}
+              iconName="LavenderFullLogo"
+            />
+            {isSearchPage && (
+              <Box
+                sx={{
+                  width: "100%",
+                  marginLeft: "200px",
+                  marginRight: "40px",
+                  "@media (max-width: 600px)": {
+                    marginTop: "10%",
+                    width: "fit-content",
+                    marginRight: "-2%",
+                  },
+                }}
+              >
+                <NavFilter setshowSearchBar={setshowSearchBar} />
+              </Box>
+            )}
+            <Stack
+              spacing={2}
+              direction="row"
+        
+            >
               {isLoggedIn ? (
-                <ButtonRouter
-                  sx={{ width: '100%', height: '37px', fontFamily: 'Urbanist', borderRadius: '10px' }}
-                  name={userName}
-                  to="/userprofile"
-                  startIcon={<PersonIcon />}
-                />
+                <>
+                  {isMobile ? (
+                    <GetIcon
+                      iconName="MenuIcon"
+                      onClick={handleMenuOpen}
+                      className="cursor-pointer absolute top-4 right-4"
+                    />
+                  ) : (
+                    <>
+                      <Button
+                        onClick={handleLogOutBtn}
+                        className="button-outline"
+                        variant="outlined"
+                        name="Logout"
+                        sx={{
+                          width: "120px",
+                          height: "37px",
+                          fontFamily: "Urbanist",
+                          borderRadius: "10px",
+                        }}
+                      />
+                      <ButtonRouter
+                        sx={{
+                          width: "120px",
+                          height: "37px",
+                          fontFamily: "Urbanist",
+                          borderRadius: "10px",
+                          whiteSpace: 'nowrap'
+                        }}
+                        name={userName}
+                        to="/userprofile"
+                      />
+                    </>
+                  )}
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleMenuClose}
+                  >
+                    <MenuItem
+                      onClick={() => {
+                        handleMenuClose();
+                        navigate("/userprofile");
+                      }}
+                    >
+                      {userName}'s profile
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleMenuClose();
+                        navigate("/settings");
+                      }}
+                    >
+                      Settings
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        handleMenuClose();
+                        handleLogOutBtn();
+                      }}
+                    >
+                      Sign out
+                    </MenuItem>
+                  </Menu>
+                </>
               ) : (
                 <ButtonRouter
-                  sx={{ width: '120px', height: '37px', fontFamily: 'Urbanist', borderRadius: '10px' }}
-                  name={'Log in'}
+                  sx={{
+                    width: "120px",
+                    height: "37px",
+                    fontFamily: "Urbanist",
+                    borderRadius: "10px",
+                  }}
+                  name={"Log in"}
                   to="/login"
+                />
+              )}
+              {userType === "BU" && (
+                <Button
+                  href={getRoute("Business")}
+                  className="button-outline"
+                  variant="outlined"
+                  name={"Business"}
+                  sx={{
+                    width: "120px",
+                    height: "37px",
+                    fontFamily: "Urbanist",
+                    borderRadius: "10px",
+                  }}
                 />
               )}
             </Stack>
           </Box>
-
-          {isSearchPage && showSearchBar && (
-            <div className="searched-search-panel">
-              <NewSearchPanel />
-            </div>
-          )}
         </Toolbar>
       </AppBar>
-      {isSearchPage && showSearchBar && <div className="search-overlay"></div>}
+      {isSearchPage && showSearchBar && (
+        <div className="searched-search-panel mt-[100px]">
+          <NewSearchPanel />
+        </div>
+      )}
     </>
   );
 };

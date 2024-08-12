@@ -39,6 +39,7 @@
     .search-header-container{
         display: flex;
         flex-direction: column-reverse;
+    
     }
 }
 
@@ -178,4 +179,12 @@ button.outline-button{
 .swiper-button-prev {
     color: transparent !important;
     background: url("../../assets/icon_arrow.png") no-repeat !important;
+}
+@media (max-width: 640px) {
+  .swiper {
+    padding: 0 !important;
+  }
+  .search-detail-chips {
+    gap: 0px !important;
+  } 
 }

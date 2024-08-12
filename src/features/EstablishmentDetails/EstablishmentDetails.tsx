@@ -11,10 +11,9 @@ import "swiper/css/navigation";
 import "./style.css";
 
 import { Keyboard, Pagination, Navigation } from "swiper/modules";
-import GetImage from "../../assets/GetImage.tsx";
 import { Reviews } from "./Reviews.tsx";
 import { useEffect, useState } from "react";
-import { Card, IconButton, Modal } from "@mui/material";
+import { Modal, useMediaQuery } from "@mui/material";
 import { updateUser } from "../../store/slices/currentUserSlice.js";
 import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -35,7 +34,9 @@ const style = {
   borderradius: "2px",
 };
 
+
 function EstablishmentDetails({ estId }) {
+  const isMobile = useMediaQuery('(max-width:600px)');
   const [imageIdList, setImageIdList] = useState<string | any>([]);
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
@@ -167,43 +168,57 @@ function EstablishmentDetails({ estId }) {
         </Box>
       </Modal>
       <div className="searchDetailsContainer">
-        <HeaderDetails
-          isLoading={isLoading}
-          establishmentData={establishmentData?.data?.data}
-        />
+        <Grid container>
+          <Grid item xs={12} order={{ xs: 1, md: 2 }}>
+            <Swiper
+              spaceBetween={20}
+              keyboard={{
+                enabled: true,
+              }}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={true}
+              modules={[Keyboard, Pagination, Navigation]}
+              breakpoints={{
+                600: { slidesPerView: 1 },
+                601: { slidesPerView: 3 },
+              }}
+            >
+              {/* <GetImage imageName="SaloonImage" /> */}
+              {loading && <p>Loading...</p>}
+              <Box sx={{}}>
+                {imageUrls?.map((url, index) => (
+                  <SwiperSlide>
+                    <img
+                      key={index}
+                      src={url}
+                      alt={`Images ${index}`}
+                      style={{
+                        width: "600px",
+                        height: "340px",
+                        borderRadius: isMobile ? '0' : '20px',
+                      }}
+                   
+                    />
+                  </SwiperSlide>
+                ))}
+              </Box>
+            </Swiper>
+          </Grid>
+          <Grid item xs={12} order={{ xs: 2, md: 1 }}>
+            <HeaderDetails
+              isLoading={isLoading}
+              establishmentData={establishmentData?.data?.data}
+            />
+          </Grid>
+        </Grid>
         {/* <ImageSlides /> */}
-        <Swiper
-          spaceBetween={20}
-          keyboard={{
-            enabled: true,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          navigation={true}
-          modules={[Keyboard, Pagination, Navigation]}
-          breakpoints={{
-            600: {slidesPerView : 1},
-            601: {slidesPerView: 3}
-          }}
-        >
-          {/* <GetImage imageName="SaloonImage" /> */}
-          {loading && <p>Loading...</p>}
-          <Box sx={{ }}>
-            {imageUrls?.map((url, index) => (
-              <SwiperSlide>
-                <img
-                  key={index}
-                  src={url}
-                  alt={`Image ${index}`}
-                  style={{ width: "600px", height: "340px", margin: "10px", borderRadius: '20px' }}
-                />
-              </SwiperSlide>
-            ))}
-          </Box>
-        </Swiper>
 
-        <Box className="mx-16 service-search-container" sx={{'@media (max-width: 640px)': {mx: 4}}}>
+        <Box
+          className="mx-16 service-search-container"
+          sx={{ "@media (max-width: 640px)": { mx: 4 } }}
+        >
           <ServiceDetails
             isLoading={isLoading}
             establishmentData={establishmentData?.data?.data?.categories}
@@ -220,7 +235,7 @@ function EstablishmentDetails({ estId }) {
         )}
 
         <About
-          establishmentId = {establishmentData?.data?.data?.id }
+          establishmentId={establishmentData?.data?.data?.id}
           establishmentEmployees={establishmentData?.data?.data?.employees}
           establishmentAbout={
             establishmentData?.data?.data?.profile?.establishmentAbout

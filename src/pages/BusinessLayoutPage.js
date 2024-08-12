@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-//import Navbar from '../components/NavBar';
 import { Box } from "@mui/material";
 import SideBar from "../components/SideBar.tsx";
 import AppointmentsPage from "../features/Business/Appointments/AppointmentsTable.tsx";
@@ -10,32 +9,34 @@ import { Services } from "../features/Business/services/Services.tsx";
 import BusinessTeam from "../features/Business/team/BusinessTeam.tsx";
 import SchedulePageWrapper from "../features/Business/Schedule/SchedulePage.tsx";
 import endpoint from "../api/endpoints.ts";
-import { getBrowserCache } from "../api/constants.ts";
-import { useQuery } from "@tanstack/react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { setEstablishmentData } from "../store/slices/businessSlice.js";
 import { SalonProfile } from "../features/Business/SalonProfile/SalonProfile.tsx";
 import { updateUser } from "../store/slices/currentUserSlice.js";
+import { useTheme } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 
 const BusinessLayoutPage = () => {
-  //const [isSearchPage, setIsSearchPage] = useState(true);
   const [activeField, setActiveField] = useState("Schedule");
   const [userDetails, setUserDetails] = useState("");
+  // opens Sidebar menu on mobile
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const dispatch = useDispatch();
   const getData = useSelector((state) => state.businessSlice);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     setTimeout(() => {
       if (localStorage.getItem("Token")) {
         const fetchCurrentUserDetails = async () => {
           try {
-            const response = await endpoint.getCurrentUserDetails(); // Call the async function to get user details
-            const userDetails = response?.data; // Assuming response.data contains the user details
+            const response = await endpoint.getCurrentUserDetails();
+            const userDetails = response?.data;
             setUserDetails(userDetails);
-
-            dispatch(updateUser(userDetails?.data)); // Dispatch the updateUser action with user details
+            dispatch(updateUser(userDetails?.data));
           } catch (error) {
-            console.error("Error fetching user details:", error); // Handle any errors that occur
+            console.error("Error fetching user details:", error);
           }
         };
         fetchCurrentUserDetails();
@@ -47,12 +48,11 @@ const BusinessLayoutPage = () => {
     const getEstablishmentDetails = async () => {
       const response = await endpoint.getEstablishmentDetailsById(
         userDetails?.data?.establishmentId
-      ); //getBrowserCache('EstablishmentId')
-
-      if (response?.data?.data?.published == false) {
+      );
+      if (response.data.data.published == false) {
         setActiveField("Salon profile");
       }
-      if (response?.status === 200) {
+      if (response.status === 200) {
         dispatch(setEstablishmentData(response.data.data));
       } else {
         console.log("err-getEstablishmentDetailsById", response);
@@ -61,6 +61,10 @@ const BusinessLayoutPage = () => {
 
     getEstablishmentDetails();
   }, [userDetails]);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   const renderMainContent = () => {
     switch (activeField) {
@@ -82,16 +86,24 @@ const BusinessLayoutPage = () => {
         return <div>Default</div>;
     }
   };
-  //TODO: try Route,Switch to handle rendering main content
+
   return (
     <DrawerProvider>
       <Box className="landing-page">
         <div className="flex flex-col h-full">
-          <BusinessHeader pageName={activeField} />
+          <BusinessHeader pageName={activeField} toggleSidebar={toggleSidebar} />
           <div className="flex flex-row ">
-            <div className="rounded-lg h-max">
-              <SideBar activeField={activeField} onChange={setActiveField} />
-            </div>
+            {(!isMobile || sidebarOpen) && (
+              <div className={`rounded-lg  z-10 bg-white'  sticky top-0`}>
+                <SideBar
+                  activeField={activeField}
+                  onChange={(field) => {
+                    setActiveField(field);
+                    if (isMobile) setSidebarOpen(false);
+                  }}
+                />
+              </div>
+            )}
             <div id="render-main" className="w-full h-full">
               {renderMainContent()}
             </div>

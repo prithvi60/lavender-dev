@@ -15,6 +15,7 @@ import {
   CardHeader,
   styled,
   Typography,
+  Box,
 } from "@mui/material";
 import FilterModal from "../../components/FilterModal";
 import { useSelector } from "react-redux";
@@ -24,23 +25,18 @@ import TextRouter from "../../components/TextRouter";
 import { useQuery } from "@tanstack/react-query";
 import endpoint from "../../api/endpoints.ts";
 import "./style.css";
-import GetImage from "../../assets/GetImage.tsx";
-import GetIcon from "../../assets/Icon/icon.tsx";
-import { MarginOutlined } from "@mui/icons-material";
 import { useLocation } from "react-router-dom";
-import CsvDownloadButton from "react-json-to-csv";
 import { GiPathDistance } from "react-icons/gi";
 import { FaStore } from "react-icons/fa";
 
 import {
   GoogleMap,
   InfoWindowF,
-  Marker,
   MarkerF,
   useJsApiLoader,
 } from "@react-google-maps/api";
-import { MdDownload } from "react-icons/md";
-import axios from "axios";
+// import { MdDownload } from "react-icons/md";
+// import axios from "axios";
 
 const markers = [
   {
@@ -262,7 +258,12 @@ export default function SearchResult() {
   useEffect(() => {
     if (!isLoading) {
       let tempData = [...establishmentList];
-      if (FILTERR.selectedTags && FILTERR.selectedTags.length > 0 && establishmentList &&establishmentList.length > 0) {
+      if (
+        FILTERR.selectedTags &&
+        FILTERR.selectedTags.length > 0 &&
+        establishmentList &&
+        establishmentList.length > 0
+      ) {
         tempData = establishmentList?.filter((item: any) =>
           item.serviceTags.some((tag) =>
             FILTERR.selectedTags.some(
@@ -532,7 +533,10 @@ export default function SearchResult() {
     (card) => ({
       ...card,
       services: card.services ? card.services : [],
-      rating: { ratingStar: (Math.random() * 2 + 3).toFixed(1), ratingCount: Math.floor(Math.random() * (100 - 20 + 1)) + 20 },
+      rating: {
+        ratingStar: (Math.random() * 2 + 3).toFixed(1),
+        ratingCount: Math.floor(Math.random() * (100 - 20 + 1)) + 20,
+      },
     })
   );
 
@@ -547,60 +551,170 @@ export default function SearchResult() {
           color: "#4D4D4D",
           backgroundColor: "#FFFBF3",
         }}
-        sx={{'@media (max-width: 700px)': {marginTop: '140px !important'}, '@media (max-width: 400px)': {marginTop: '150px !important'}}}
+        sx={{
+          padding: "0 16px",
+          "@media (max-width: 700px)": {
+            marginTop: "140px !important",
+            "& .MuiCardHeader-content": {
+              overflow: "hidden",
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              flex: "0 1 auto",
+            },
+            "& .MuiCardHeader-title": {
+              fontSize: "0.9rem",
+            },
+          },
+          "@media (max-width: 400px)": {
+            marginTop: "150px !important",
+            "& .MuiCardHeader-title": {
+              fontSize: "0.8rem",
+            },
+          },
+        }}
         id="card-header-id"
         title={`${updatedTreatmentServicesList?.length} venues matching your search`}
         action={
-          <div className="flex items-center">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexShrink: 0,
+              "@media (max-width: 700px)": {
+                flexDirection: "row",
+                justifyContent: "flex-end",
+              },
+            }}
+          >
             <FilterModal />
             <div
-              className="cursor-pointer font-semibold mr-6"
+              className="cursor-pointer font-semibold ml-2"
               onClick={handleMapClick}
             >
               Show Map
             </div>
-            {/* <div className="mr-1">
-              <CsvDownloadButton
-                data={processDataForCSV(state.treatmentServicesList)}
-                filename="Result_list.csv"
-                style={{
-                  background: "transparent",
-                  border: "1px solid #3333cc",
-                  borderRadius: "5px",
-                  display: "flex",
-                  alignItems: "center",
-                  cursor: "pointer",
-                  color: "#3333cc",
-                  fontSize: "15px",
-                  fontWeight: "500",
-                  padding: "6px 15px",
-                  textDecoration: "none",
-                }}
-                headers={[
-                  "Establishment ID",
-                  "Establishment Name",
-                  "Latitude",
-                  "Longitude",
-                  "Day",
-                  "Opening Time",
-                  "ClosingTime",
-                  "Service Name",
-                  "Area Code",
-                  "Category Name",
-                  "Location",
-                ]}
-                delimiter={","}
-              >
-                <MdDownload size={15} className="mr-1" /> Results
-              </CsvDownloadButton>
-            </div> */}
-          </div>
+          </Box>
         }
       />
       <hr />
       <div className="search-result-container">
         <Grid container spacing={2} style={{ width: "100vw" }}>
-          <Grid item xs={12} md={isShowMap ? 6 : 12}>
+          <Grid item xs={12} order={{ xs: 1, md: 2 }} md={isShowMap ? 6 : 12}>
+            <div className="flex justify-center mb-4">
+              {apiIsLoaded && isLoaded ? (
+                <GoogleMap
+                  mapContainerStyle={{
+                    width: "95%",
+                    height: "400px",
+                    borderRadius: "10px",
+                    pointerEvents: "auto",
+                    touchAction: "pan-y",
+                  }}
+                  onLoad={(mapInstance) => setMap(mapInstance)}
+                  center={center}
+                  zoom={14}
+                  onClick={() => setActiveMarker(null)}
+                  options={{
+                    mapTypeControl: false,
+                    streetViewControl: false,
+                    fullscreenControl: false,
+                    styles: [
+                      {
+                        featureType: "poi",
+                        elementType: "labels",
+                        stylers: [{ visibility: "off" }],
+                      },
+                      {
+                        featureType: "road",
+                        elementType: "labels.icon",
+                        stylers: [{ visibility: "off" }],
+                      },
+                      {
+                        featureType: "transit",
+                        stylers: [{ visibility: "off" }],
+                      },
+                    ],
+                  }}
+                  ref={mapRef}
+                  onZoomChanged={handleZoomChanged}
+                >
+                  {transformedData.map(
+                    ({ id, name, position, image, location }) => (
+                      <MarkerF
+                        key={id}
+                        position={position}
+                        onClick={() => handleActiveMarker(id)}
+                        icon={{
+                          url: "https://res.cloudinary.com/djoz0tmyl/image/upload/v1722526576/lavenderLogo_jrmyir.png",
+                          scaledSize: new window.google.maps.Size(22, 22),
+                          anchor: new window.google.maps.Point(14, 38),
+                        }}
+                      >
+                        {activeMarker === id ? (
+                          <InfoWindowF
+                            onCloseClick={() => setActiveMarker(null)}
+                          >
+                            <div
+                              style={{
+                                width: "250px",
+                                paddingTop: "5px",
+                                paddingBottom: "5px",
+                              }}
+                              className="flex flex-col  items-center"
+                            >
+                              <img
+                                src={`data:image/png;base64, ${image}`}
+                                alt={name}
+                                style={{ width: "200px", height: "100px" }}
+                                className="mb-1 rounded-md mt-2"
+                              />
+                              <h5 className=" text-gray-600 font-bold m-1 text-center">
+                                {name}
+                              </h5>
+                              <p className="text-sm text-black font-medium m-1 text-center">
+                                {location}
+                              </p>
+                            </div>
+                          </InfoWindowF>
+                        ) : null}
+                      </MarkerF>
+                    )
+                  )}
+
+                  <MarkerF
+                    position={center}
+                    icon={{
+                      url: "https://res.cloudinary.com/djoz0tmyl/image/upload/v1722526805/googleMaps_ydgvvh.png",
+                      scaledSize: new window.google.maps.Size(40, 40),
+                    }}
+                    onClick={handleCurrentLocationClick}
+                  >
+                    {activeCurrentLocation ? (
+                      <InfoWindowF
+                        onCloseClick={() => setActiveCurrentLocation(false)}
+                      >
+                        <div
+                          style={{
+                            width: "200px",
+                            paddingTop: "5px",
+                            paddingBottom: "5px",
+                            textAlign: "center",
+                          }}
+                        >
+                          <p className="text-base text-gray-600 font-semibold">
+                            {locationName}
+                          </p>
+                        </div>
+                      </InfoWindowF>
+                    ) : null}
+                  </MarkerF>
+                </GoogleMap>
+              ) : (
+                <div>Loading...</div>
+              )}
+            </div>
+          </Grid>
+          <Grid item xs={12} order={{ xs: 2, md: 1 }} md={isShowMap ? 6 : 0}>
             <Grid container spacing={2}>
               {updatedTreatmentServicesList &&
               updatedTreatmentServicesList?.length > 0 ? (
@@ -644,12 +758,12 @@ export default function SearchResult() {
                                 >
                                   <div className="chip-wrap">
                                     {card?.serviceTags?.map((tag, index) => (
-                                    <Chip
-                                      key={index}
-                                      label={tag}
-                                      className="mr-2 mb-2"
-                                    />
-                                  ))}
+                                      <Chip
+                                        key={index}
+                                        label={tag}
+                                        className="mr-2 mb-2"
+                                      />
+                                    ))}
                                   </div>
                                   <div className="font-bold text-xl py-2 text-violet-700 ">
                                     {card?.establishmentName}
@@ -780,7 +894,6 @@ export default function SearchResult() {
                           </div>
                           <CardActions
                             className="card-footer-action "
-                            style={{ borderRadius: "0px 0px 20px 20px" }}
                           >
                             <StoreMallDirectoryOutlinedIcon />
                             <TextRouter
@@ -801,128 +914,6 @@ export default function SearchResult() {
                 </Grid>
               )}
             </Grid>
-          </Grid>
-          <Grid item xs={12} md={isShowMap ? 6 : 0}>
-            {/* <div className="iframe-container">
-              {isShowMap && (
-                <iframe
-                  title="Google Map"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31081.53269316962!2d80.20855351621644!3d13.15031202030962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5264db59c3d4b5%3A0x9be03109019f05f!2sMadhavaram%2C%20Chennai%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1716260701299!5m2!1sen!2sin"
-                  width="100%"
-                  height="450"
-                  // allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                ></iframe>
-              )}
-            </div> */}
-            <div className="flex justify-center">
-              {apiIsLoaded && isLoaded ? (
-                <GoogleMap
-                  mapContainerStyle={containerStyle}
-                  onLoad={(mapInstance) => setMap(mapInstance)}
-                  center={center}
-                  zoom={1}
-                  onClick={() => setActiveMarker(null)}
-                  options={{
-                    mapTypeControl: false,
-                    streetViewControl: false,
-                  }}
-                  ref={mapRef}
-                  onZoomChanged={handleZoomChanged}
-                  // onDragEnd={() => handleDragEnd(map)}
-                  // onLoad={onLoad}
-                  // onUnmount={onUnmount}
-
-                  // onLoad={(map) => {
-                  //   map.addListener("zoom_changed", () =>
-                  //     handleZoomChanged(map)
-                  //   );
-                  //   map.addListener("dragend", () => handleDragEnd(map));
-                  // }}
-                  // onUnmount={(map) => {
-                  //   google.maps.event.clearListeners(map, "zoom_changed");
-                  //   google.maps.event.clearListeners(map, "dragend");
-                  // }}
-                >
-                  {transformedData.map(
-                    ({ id, name, position, image, location }) => (
-                      <MarkerF
-                        key={id}
-                        position={position}
-                        onClick={() => handleActiveMarker(id)}
-                        icon={{
-                          // url: "/lavenderLogo.png",
-                          url: "https://res.cloudinary.com/djoz0tmyl/image/upload/v1722526576/lavenderLogo_jrmyir.png",
-
-                          scaledSize: new window.google.maps.Size(22, 22),
-                          anchor: new window.google.maps.Point(14, 38),
-                        }}
-                      >
-                        {activeMarker === id ? (
-                          <InfoWindowF
-                            onCloseClick={() => setActiveMarker(null)}
-                          >
-                            <div
-                              style={{
-                                width: "250px",
-                                paddingTop: "5px",
-                                paddingBottom: "5px",
-                              }}
-                              className="flex flex-col  items-center"
-                            >
-                              <img
-                                src={`data:image/png;base64, ${image}`}
-                                alt={name}
-                                style={{ width: "200px", height: "100px" }}
-                                className="mb-1 rounded-md mt-2"
-                              />
-                              <h5 className=" text-gray-600 font-bold m-1 text-center">
-                                {name}
-                              </h5>
-                              <p className="text-sm text-black font-medium m-1 text-center">
-                                {location}
-                              </p>
-                            </div>
-                          </InfoWindowF>
-                        ) : null}
-                      </MarkerF>
-                    )
-                  )}
-
-                  <MarkerF
-                    position={center}
-                    icon={{
-                      // url: "/googleMaps.png",
-                      url: "https://res.cloudinary.com/djoz0tmyl/image/upload/v1722526805/googleMaps_ydgvvh.png",
-                      scaledSize: new window.google.maps.Size(40, 40),
-                    }}
-                    onClick={handleCurrentLocationClick}
-                  >
-                    {activeCurrentLocation ? (
-                      <InfoWindowF
-                        onCloseClick={() => setActiveCurrentLocation(false)}
-                      >
-                        <div
-                          style={{
-                            width: "200px",
-                            paddingTop: "5px",
-                            paddingBottom: "5px",
-                            textAlign: "center",
-                          }}
-                        >
-                          <p className="text-base text-gray-600 font-semibold">
-                            {locationName}
-                          </p>
-                        </div>
-                      </InfoWindowF>
-                    ) : null}
-                  </MarkerF>
-                </GoogleMap>
-              ) : (
-                <div>Loading...</div>
-              )}
-            </div>
           </Grid>
         </Grid>
       </div>
