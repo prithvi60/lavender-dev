@@ -127,7 +127,7 @@ function OptionsModal({ props, selectedService }) {
     <div>
       <IconButton onClick={() => handleOpen()}>
         {selectAll ? <GetIcon iconName="SelectedIcon"/> : <GetIcon iconName="PlusIcon"/>}
-        <GetIcon iconName="PlusIcon" />
+        {/* <GetIcon iconName="PlusIcon" /> */}
       </IconButton>
       <Modal
         open={isOpen}

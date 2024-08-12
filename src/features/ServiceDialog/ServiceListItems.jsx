@@ -68,14 +68,14 @@ function ServiceListItems({ serviceCategories, handleClose }) {
             />
 
             {item?.services?.map((service, serviceIndex) => {
-              debugger
-              console.log("service : ", service)
-              const checkoutOptionIds = checkOutList?.checkOut?.map(service => service.optionId);
+              
+              const checkoutOptionIds = checkOutList?.checkOut?.map(service => service?.optionId);
 
-              const matchingOptions = service?.options.filter(option => checkoutOptionIds.includes(option.optionId));
+              const matchingOptions = service?.options?.filter(option => checkoutOptionIds?.includes(option?.optionId));
 
-              const selectedService = matchingOptions?.map(option => option.optionId);
+              const selectedService = matchingOptions?.map(option => option?.optionId);
 
+              return (
               <ListItemButton
                 className="serviceList"
                 sx={{
@@ -141,6 +141,7 @@ function ServiceListItems({ serviceCategories, handleClose }) {
                   </div>
                 )}
               </ListItemButton>
+              )
 })}
             <Divider />
           </div>

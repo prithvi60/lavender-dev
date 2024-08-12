@@ -20,7 +20,6 @@ import CheckoutFooterCard from "./CheckoutFooterCard.tsx";
 
 
 function ServiceDialog({establishmentData}) {
-  console.log("establishmentData : ", establishmentData)
   const [isOpen, setIsOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const isMobile = useMediaQuery('(max-width:600px)');
