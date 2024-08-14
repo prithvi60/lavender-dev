@@ -96,26 +96,57 @@ const RegisterScreen = () => {
     const [showPassword, setShowPassword] = useState(false)
     const [dobError, setDobError] = useState(false)
     const handleClickShowPassword = () => setShowPassword(!showPassword);
+   // const submitForm = () => {
+    //     if (document.querySelectorAll('[name="dateOfBirth"]')[0]?.value == "") {
+    //         setDobError(true);
+    //     } else {
+    //         setDobError(false);
+    //     }
+    // };
+
     const submitForm = () => {
-        const dobInput = document.querySelectorAll('[name="dateOfBirth"]')[0] as HTMLInputElement;
-        if (dobInput?.value === "") {
+        const dateOfBirthElement = document.querySelector('[name="dateOfBirth"]') as HTMLInputElement | null;
+    
+        if (dateOfBirthElement && dateOfBirthElement.value === "") {
             setDobError(true);
         } else {
             setDobError(false);
         }
     };
 
+    // useEffect(() => {
+    //     document.getElementById("dobContainer").addEventListener("focusout", (e)=> {
+    //     const a =document.getElementById("dobContainer");
+    //     if (!a.querySelectorAll('[name="dateOfBirth"]')[0].value) {
+    //         setDobError(true);
+    //     } else {
+    //         setDobError(false);
+    //     }
+    // })
+    // }, [])
+
     useEffect(() => {
-        document.getElementById("dobContainer").addEventListener("focusout", (e)=> {
-        const a =document.getElementById("dobContainer");
-        const dobInput = a.querySelectorAll('[name="dateOfBirth"]')[0] as HTMLInputElement;
-        if (!dobInput.value) {
-            setDobError(true);
-        } else {
-            setDobError(false);
+        const dobContainer = document.getElementById("dobContainer");
+    
+        if (dobContainer) {
+            dobContainer.addEventListener("focusout", (e) => {
+                const inputElement = dobContainer.querySelector('[name="dateOfBirth"]') as HTMLInputElement | null;
+    
+                if (inputElement && !inputElement.value) {
+                    setDobError(true);
+                } else {
+                    setDobError(false);
+                }
+            });
         }
-    })
-    }, [])
+    
+        // Optionally, you might want to clean up the event listener
+        return () => {
+            if (dobContainer) {
+                dobContainer.removeEventListener("focusout", () => {});
+            }
+        };
+    }, []);
 
     return (
         <div>
@@ -341,10 +372,10 @@ const RegisterScreen = () => {
                       <GetIcon onClick={    
                           () => {
                           }}
-                          className='my-5 mx-16 p-1 cursor-pointer rounded-sm' 
+                          className='p-1 mx-16 my-5 rounded-sm cursor-pointer' 
                           iconName="Success"/>
-                      <div id="title" className="font-bold text-2xl mb-3">{message} </div>
-                      <div className="font-bold text-lg mb-3">Please login to explore further.</div>
+                      <div id="title" className="mb-3 text-2xl font-bold">{message} </div>
+                      <div className="mb-3 text-lg font-bold">Please login to explore further.</div>
                       <Button variant='contained' onClick={()=>{navigate('/login')}}>Login</Button>
                   </div>
               </Box>

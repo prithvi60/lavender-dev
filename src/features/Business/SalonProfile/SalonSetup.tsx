@@ -160,7 +160,7 @@ export const SalonSetup = ({ setMembershipScreen }) => {
               )
             }
         </Toolbar>
-        <div className="flex flex-wrap md:flex-nowrap w-full h-full gap-6 mg:gap-0 max-w-7xl mx-auto py-4 px-6">
+        <div className="flex flex-wrap w-full h-full gap-6 px-6 py-4 mx-auto md:flex-nowrap mg:gap-0 max-w-7xl">
           <div className="w-full md:p-8">
             {activeStep === 0 && (
               <BusinessInfo

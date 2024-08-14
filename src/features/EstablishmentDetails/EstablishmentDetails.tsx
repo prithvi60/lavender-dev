@@ -13,7 +13,7 @@ import "./style.css";
 import { Keyboard, Pagination, Navigation } from "swiper/modules";
 import { Reviews } from "./Reviews.tsx";
 import { useEffect, useState } from "react";
-import { Modal, useMediaQuery } from "@mui/material";
+import { Modal, Skeleton, useMediaQuery } from "@mui/material";
 import { updateUser } from "../../store/slices/currentUserSlice.js";
 import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -34,9 +34,8 @@ const style = {
   borderradius: "2px",
 };
 
-
 function EstablishmentDetails({ estId }) {
-  const isMobile = useMediaQuery('(max-width:600px)');
+  const isMobile = useMediaQuery("(max-width:600px)");
   const [imageIdList, setImageIdList] = useState<string | any>([]);
   const [loading, setLoading] = useState(false);
   const [imageUrls, setImageUrls] = useState([]);
@@ -152,13 +151,13 @@ function EstablishmentDetails({ estId }) {
           >
             <GetIcon
               onClick={() => {}}
-              className="my-5 mx-16 p-1 cursor-pointer rounded-sm"
+              className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
               iconName="CalendarConfirmedIcon"
             />
-            <div id="title" className="font-bold text-2xl mb-3 text-indigo-800">
+            <div id="title" className="mb-3 text-2xl font-bold text-indigo-800">
               Dear {userDetails?.fullName}
             </div>
-            <div className="font-semibold text-base mb-3 text-gray-800">
+            <div className="mb-3 text-base font-semibold text-gray-800">
               Your appointment has been confirmed
             </div>
           </div>
@@ -170,43 +169,53 @@ function EstablishmentDetails({ estId }) {
       <div className="searchDetailsContainer">
         <Grid container>
           <Grid item xs={12} order={{ xs: 1, md: 2 }}>
-            <Swiper
-              spaceBetween={20}
-              keyboard={{
-                enabled: true,
-              }}
-              pagination={{
-                clickable: true,
-              }}
-              navigation={true}
-              modules={[Keyboard, Pagination, Navigation]}
-              breakpoints={{
-                600: { slidesPerView: 1 },
-                601: { slidesPerView: 3 },
-              }}
-            >
-              {/* <GetImage imageName="SaloonImage" /> */}
-              {loading && <p>Loading...</p>}
-              <Box sx={{}}>
-                {imageUrls?.map((url, index) => (
-                  <SwiperSlide>
-                    <img
-                      key={index}
-                      src={url}
-                      alt={`Images ${index}`}
-                      style={{
-                        width: "600px",
-                        height: "340px",
-                        borderRadius: isMobile ? '0' : '20px',
-                      }}
-                   
-                    />
-                  </SwiperSlide>
-                ))}
-              </Box>
-            </Swiper>
+            {loading ? (
+              // <SwiperSlide>
+              <Skeleton
+                // key={index}
+                variant="rectangular"
+                width={"100%"}
+                height={340}
+              />
+            ) : (
+              // </SwiperSlide>
+              <Swiper
+                spaceBetween={20}
+                keyboard={{
+                  enabled: true,
+                }}
+                pagination={{
+                  clickable: true,
+                }}
+                navigation={true}
+                modules={[Keyboard, Pagination, Navigation]}
+                breakpoints={{
+                  600: { slidesPerView: 1 },
+                  601: { slidesPerView: 3 },
+                }}
+              >
+                {/* <GetImage imageName="SaloonImage" /> */}
+
+                <Box sx={{}}>
+                  {imageUrls?.map((url, index) => (
+                    <SwiperSlide>
+                      <img
+                        key={index}
+                        src={url}
+                        alt={`Images ${index}`}
+                        style={{
+                          width: "600px",
+                          height: "340px",
+                          borderRadius: isMobile ? "0" : "20px",
+                        }}
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Box>
+              </Swiper>
+            )}
           </Grid>
-          <Grid item xs={12} order={{ xs: 2, md: 1 }}>
+          <Grid item xs={12} order={{ xs: 2, lg: 1 }}>
             <HeaderDetails
               isLoading={isLoading}
               establishmentData={establishmentData?.data?.data}

@@ -28,6 +28,7 @@ export function MyFavorites() {
     latitude: null,
     longitude: null,
   });
+  // const [establishmentSearchResult, setEstablishmentSearchResult] = useState<any>([]);
 
   const StyledRating = styled(Rating)({
     "& .MuiRating-iconFilled": {
@@ -55,8 +56,12 @@ export function MyFavorites() {
   // results are not coming from the api endpoint in this query like Search page
   const { isLoading, data: establishmentSearchResult } = useQuery({
     queryKey: ["custom-data"],
-    queryFn: () => endpoint.getEstablishmentSearch(payLoad),
+    queryFn: () => endpoint.getEstablishmentSearchResults(payLoad)
   });
+
+  // useEffect(()=>{
+  //   setEstablishmentSearchResult(establishmentData)
+  // },[establishmentData])
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -107,6 +112,7 @@ export function MyFavorites() {
     const adjustedClose = new Date(close.getTime() - timeZoneOffset);
     return currentTime >= adjustedOpen && currentTime <= adjustedClose;
   };
+  console.log("updatedTreatmentServicesList", establishmentSearchResult)
 
   return (
     <div className="bg-[#F2F2F2] ">
@@ -118,13 +124,13 @@ export function MyFavorites() {
           className="font-bold"
           name={"My Favourites"}
           align="left"
-          fontSize="24px"
+          sx={{fontSize: '36px', fontWeight: 600, color: '#000000'}}
         ></Text>
       </Box>
       <div className="">
-        {establishmentSearchResult?.data?.data?.content?.length > 0 ? (
+        {establishmentSearchResult?.data?.data?.length > 0 ? (
           <Grid container style={{ width: "100vw" }}>
-            {establishmentSearchResult.data.data.content.map((card) => {
+            {establishmentSearchResult?.data?.data?.map((card) => {
               const distance = userLocation
                 ? haversineDistance(
                     {
@@ -141,7 +147,7 @@ export function MyFavorites() {
                   xs={12}
                   sm={6}
                   md={4}
-                  key={card.establishmentId}
+                  key={card?.establishmentId}
                   sx={{
                     paddingLeft: "60px !important",
                     paddingBottom:"20px !important",
@@ -158,13 +164,13 @@ export function MyFavorites() {
                         <div className="card-container flex flex-col">
                           <div
                             className="card-header"
-                            style={{ padding: "20px" }}
+                            style={{ padding: "10px" }}
                           >
-                            {card.estImage ? (
+                            {card?.estImage ? (
                               <img
-                                src={`data:image/png;base64, ${card.estImage}`}
+                                src={`data:image/png;base64, ${card?.estImage}`}
                                 alt="saloon"
-                                className="w-full rounded-lg"
+                                className="w-full rounded-lg h-44"
                               />
                             ) : (
                               <img
@@ -177,16 +183,8 @@ export function MyFavorites() {
                               className="card-header-details"
                               style={{ marginLeft: "20px" }}
                             >
-                              <div className="chip-wrap">
-                                {card?.serviceTags?.map((tag, index) => (
-                                  <Chip
-                                    key={index}
-                                    label={tag}
-                                    className="mr-2 mb-2"
-                                  />
-                                ))}
-                              </div>
-                              <div className="font-bold text-xl py-2 text-violet-700 ">
+                              
+                              <div className="font-bold text-xl py-2 text-[#4D4D4D]">
                                 {card?.establishmentName}
                               </div>
                               <div className="card-rating">
@@ -215,7 +213,7 @@ export function MyFavorites() {
                                   </div>
                                 ) : null}
                               </div>
-                              {distance ? (
+                              {/* {distance ? (
                                 <div className="text-sm mb-3 text-slate-600 font-semibold flex items-center">
                                   <GiPathDistance
                                     className="mr-2"
@@ -227,7 +225,7 @@ export function MyFavorites() {
                                     {distance} km
                                   </span>
                                 </div>
-                              ) : null}
+                              ) : null} */}
                               {!isWithinTimeRange(
                                 card?.openTime,
                                 card?.closeTime
@@ -246,74 +244,26 @@ export function MyFavorites() {
                                   Closes at {card?.closeTime}
                                 </div>
                               )}
-                              <IconButton className="absolute top-2 right-2">
+                              <div className="chip-wrap mt-2">
+                                {card?.serviceTags?.map((tag, index) => (
+                                  <Chip
+                                    key={index}
+                                    label={tag}
+                                    className="mr-2 mb-2"
+                                  />
+                                ))}
+                              </div>
+                              {/* <IconButton className="absolute top-2 right-2">
                                 <FavoriteIcon color="error" />
-                              </IconButton>
+                              </IconButton> */}
                             </div>
                           </div>
-                          <Grid container style={{ padding: "20px" }}>
-                            {card?.services?.map((service, index) => (
-                              <Grid item xs={12} key={index}>
-                                <div className="card-body-details">
-                                  <div className="card-body-title">
-                                    <div className="font-semibold">
-                                      {service?.serviceName}
-                                    </div>
-                                    <div>from ${service?.startingPrice}</div>
-                                  </div>
-                                  <div
-                                    className="card-slick-container"
-                                    style={{ marginLeft: "20px" }}
-                                  >
-                                    <div
-                                      style={{
-                                        overflowX: "auto",
-                                        display: "flex",
-                                      }}
-                                    >
-                                      {service?.availabilities?.map(
-                                        (availability, index) => (
-                                          <div
-                                            key={index}
-                                            className="availability-container"
-                                          >
-                                            <div className="time-slots-container">
-                                              {availability?.timeSlots?.map(
-                                                (timeSlot, idx) => (
-                                                  <Chip
-                                                    key={idx}
-                                                    label={timeSlot}
-                                                    variant="outlined"
-                                                    onClick={() => {}}
-                                                    className="time-slot-chip"
-                                                  />
-                                                )
-                                              )}
-                                            </div>
-                                            <Typography
-                                              sx={{
-                                                color: "#B3B3B3",
-                                                fontSize: "12px",
-                                                fontWeight: "500",
-                                                paddingLeft: "5px",
-                                              }}
-                                            >
-                                              {availability?.date}
-                                            </Typography>
-                                          </div>
-                                        )
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-                              </Grid>
-                            ))}
-                          </Grid>
+                          
                         </div>
                       </div>
                       <CardActions
                         className="card-footer-action "
-                        style={{ borderRadius: "0px 0px 20px 20px" }}
+                        style={{ borderRadius: "0px 0px 20px 20px", display: 'flex', justifyContent: 'center' }}
                       >
                         <StoreMallDirectoryOutlinedIcon />
                         <TextRouter
@@ -328,13 +278,25 @@ export function MyFavorites() {
             })}
           </Grid>
         ) : (
-          <div className="flex flex-col gap-6 justify-center items-center">
-            <h2 className="text-3xl font-semibold text-[#4D4D4D] text-center">
-              You don't have any favourites
-            </h2>
-            <p className="text-lg text-[#333333] max-w-xs text-center">
-              How about checkout through our wide range of services ?
-            </p>
+          <div className="flex flex-col items-center justify-center h-[86vh] xl:h-[87vh] w-full gap-2 p-[60px]">
+          <img
+            // src="../../../public/favorite.png"
+            src={require("../../assets/BackgroundImage/favorite.png")}
+            alt="favorite image"
+            className="object-contain object-center w-80"
+          />
+          <h2 className="text-3xl font-semibold text-[#4D4D4D] text-center">
+            You don't have any favourites
+          </h2>
+          <p className="text-lg text-[#333333] max-w-xs text-center">
+            How about checkout through our wide range of services ?
+          </p>
+          <button
+            type="button"
+            className={` rounded-md px-4 py-2 bg-[#825FFF] text-white cursor-pointer capitalize`}
+          >
+            browser templates
+          </button>
           </div>
         )}
       </div>

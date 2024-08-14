@@ -15,7 +15,7 @@ const NavFilter = ({ setshowSearchBar }) => {
   return (
     <Box
       id="navdiv"
-      className="filtered-panel ml-auto cursor-pointer"
+      className="cursor-pointer filtered-panel w-max mx-auto"
       onClick={() => onClickHandle()}
       sx={{'@media (max-width: 600px)': {width: '100%'}}}
     >

@@ -12,7 +12,7 @@ import {
 import * as yup from 'yup';
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Divider } from "@mui/material";
+import { Chip, Divider, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Slider from "@mui/material/Slider";
@@ -106,8 +106,43 @@ export default function FilterModal() {
 
   return (
     <div>
-      <Buttons onClick={handleOpen}>
+      <Buttons onClick={handleOpen} sx={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center',
+        '@media (max-width: 600px)': {
+          marginTop: '4px',
+        },
+      }}>
         <TuneRoundedIcon className="text-black" />
+                    <Box
+                sx={{
+                  position: "relative",
+                  display: "inline-flex",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="body2" sx={{ marginRight: "8px",marginLeft: "8px",color: '#000000' }}>
+                  Filter
+                </Typography>
+                <Chip
+                  label={2}
+                  size="small"
+                  color="primary"
+                  sx={{
+                    position: "absolute",
+                    top: "-8px",
+                    right: "-12px",
+                    height: "20px",
+                    fontSize: "0.75rem",
+                    fontWeight: "bold",
+                    backgroundColor: "red",
+                    "& .MuiChip-label": {
+                      padding: "0 6px",
+                    },
+                  }}
+                />
+              </Box>
       </Buttons>
       <Modal
         open={open}

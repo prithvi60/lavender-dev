@@ -472,7 +472,7 @@ const NewSearchPanel = () => {
         treatmentServicesList={treatmentServicesList}
       />
 
-      <div className="w-full">
+      <div className="w-full relative">
         <div className="search-panel">
           {/* <Form> */}
 
@@ -660,7 +660,7 @@ const NewSearchPanel = () => {
           </div>
 
           {selectedBox === "Treatment" && showOptionContainer && (
-            <div className="home-filter-panel">
+            <div className="home-filter-panel absolute top-full left-0 right-0 z-10">
               <Paper elevation={2} className="treatment-panel">
                 <SelectTreatment />
               </Paper>
@@ -668,7 +668,7 @@ const NewSearchPanel = () => {
           )}
 
           {selectedBox === "Location" && showOptionContainer && (
-            <div className="home-filter-panel three-column">
+            <div className="home-filter-panel three-column absolute top-full left-0 right-0 z-10">
               <div></div>
               <Paper elevation={2} className="treatment-panel">
                 <SelectLocation />
@@ -677,7 +677,7 @@ const NewSearchPanel = () => {
           )}
 
           {selectedBox === "Date" && showOptionContainer && (
-            <div className="home-filter-panel two-column">
+            <div className="home-filter-panel two-column absolute top-full left-0 right-0 z-10">
               <div></div>
               <Paper
                 elevation={2}
@@ -713,7 +713,7 @@ const NewSearchPanel = () => {
           )}
 
           {selectedBox === "Time" && showOptionContainer && (
-            <div className="home-filter-panel one-column">
+            <div className="home-filter-panel one-column absolute top-full left-0 right-0 z-10">
               <div></div>
               <Paper
                 elevation={2}

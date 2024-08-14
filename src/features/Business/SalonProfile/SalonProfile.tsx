@@ -1,5 +1,4 @@
-
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SalonSetup } from "./SalonSetup";
 import Text from "../../../components/Text";
 import Membershp from "./SalonProfileSteps/BusinessInfo/Membershp";
@@ -7,6 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import endpoint from "../../../api/endpoints";
 import { useSelector } from "react-redux";
 import { PublishedSalonProfile } from "./PublishedSalonProfile";
+import Buttons from "../../../components/Button";
 
 export const SalonProfile = () => {
   const userDetails = useSelector((state: any) => {
@@ -66,8 +66,8 @@ export const SalonProfile = () => {
       if (establishmentData?.data?.success) {
         setBasicInfo(establishmentData?.data?.data?.profile);
         setIsPublished(establishmentData?.data?.data?.published);
-        setImageId(establishmentData?.data?.data?.estImages)
-        setLastModified(establishmentData?.data?.data?.lastModifiedDate)
+        setImageId(establishmentData?.data?.data?.estImages);
+        setLastModified(establishmentData?.data?.data?.lastModifiedDate);
       }
     };
 
@@ -84,18 +84,18 @@ export const SalonProfile = () => {
             alt="payment"
             className="w-[100px]"
           />
-          <h4 className="text-green-600 font-semibold mt-3">Payment Done!</h4>
-          {/* <p className="text-gray-700 font-medium mt-1 text-base text-center">
+          <h4 className="mt-3 font-semibold text-green-600">Payment Done!</h4>
+          {/* <p className="mt-1 text-base font-medium text-center text-gray-700">
             Thank you for completing your secure online payment. Have a great
             day!
           </p> */}
 
-          <p className="text-yellow-700 font-semibold text-center text-xl mt-3">
+          <p className="mt-3 text-xl font-semibold text-center text-yellow-700">
             Your establishment has been published!
           </p>
 
           <button
-            className="px-2 py-2 border-2 rounded bg-transparent border-green-600  text-gray-600 font-semibold mt-5"
+            className="px-2 py-2 mt-5 font-semibold text-gray-600 bg-transparent border-2 border-green-600 rounded"
             onClick={goToBusinessPage}
           >
             Go Back
@@ -104,30 +104,37 @@ export const SalonProfile = () => {
       ) : (
         <>
           {membershipScreen ? (
-            <div className="flex justify-center items-center flex-col w-full h-full sm:mt-1 sm:pt-1 md:mt-16  md:pt-16 px-2">
+            <div className="flex flex-col items-center justify-center w-full h-full px-2 sm:mt-1 sm:pt-1 md:mt-16 md:pt-16">
               <Membershp setMembershipScreen={setMembershipScreen} />
             </div>
-          ) : ( isPublished ? (
-            <>
-              <PublishedSalonProfile estImages={imageId} basicInfo={basicInfo} lastModified={lastModified}/>
-              <div className="mt-6 md:mt-0">
+          ) : isPublished ? (
+            <div className="m-10 space-y-3.5">
+              <PublishedSalonProfile
+                estImages={imageId}
+                basicInfo={basicInfo}
+                lastModified={lastModified}
+              />
+              <div className="space-y-3.5 w-full text-center">
                 <SalonSetup setMembershipScreen={setMembershipScreen} />
+                <button className="border-2 border-[#825FFF] text-[24px] text-[#825FFF] px-16 py-1.5 rounded-lg capitalize">
+                  unlist
+                </button>
               </div>
-            </>
-          ):(
-            <div className="flex justify-center items-center flex-col w-full h-full mt-12 pt-12 space-y-6 md:space-y-0">
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center w-full h-full pt-12 mt-12 space-y-6 md:space-y-0">
               <div style={{ minHeight: "150px" }}></div>
               <Text
                 sx={{
                   ...style.header,
-                  marginBottom: { xs: '24px', md: '0' }
+                  marginBottom: { xs: "24px", md: "0" },
                 }}
                 name={"Setup your online Salon profile with Lavender"}
               />
               <Text
                 sx={{
                   ...style.subHeader,
-                  marginBottom: { xs: '24px', md: '0' }
+                  marginBottom: { xs: "24px", md: "0" },
                 }}
                 name={
                   "You have successfully completed the lavender business setup for your salon. Now you can use our platform to manage our businesses"
@@ -137,7 +144,7 @@ export const SalonProfile = () => {
                 <SalonSetup setMembershipScreen={setMembershipScreen} />
               </div>
             </div>
-          ))}
+          )}
         </>
       )}
     </>

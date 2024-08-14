@@ -2,17 +2,28 @@ import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
-
   Button,
-  Box
+  Box,
+  Typography,
+  IconButton,
+  Divider,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Slide,
+  Skeleton
 } from "@mui/material";
-
+import CloseIcon from "@mui/icons-material/Close";
+import Text from "../../components/Text";
 import { useDispatch, useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import endpoint from "../../api/endpoints";
 import { UpdateCheckoutInfo } from "../../store/slices/Booking/ScheduleAppoinmentSlice";
-import Text from "../../components/Text";
+import GetIcon from "../../assets/Icon/icon";
 
+const Transition = React.forwardRef(function Transition(props: any, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 function CheckoutFooterCard(props) {
   const { activeStep, next, establishmentName, establishmentId } = props;
@@ -25,7 +36,7 @@ function CheckoutFooterCard(props) {
   );
 
   const [imageIdList, setImageIdList] = useState<string | any>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [imageUrls, setImageUrls] = useState([]);
 
   const [disabled, setDisabled] = useState(true);
@@ -34,12 +45,17 @@ function CheckoutFooterCard(props) {
   const [employee, setEmployee] = useState([]);
   const [employeeName, setEmployeeName] = useState('');
   const [totalServices, setTotalServices] = useState(0);
+
+  const [openModal, setOpenModal] = useState(false);
+  const isMobile = window.innerWidth <= 768;
+
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
   useEffect(() => {
     if (checkOutList?.checkOut?.length > 0) {
       setDisabled(false);
       calculateTotals();
-      // calculateTotalPrice();
-      // calculateTotalDuration();
     } else {
       setTotalPrice(0);
       setTotalDuration(0);
@@ -56,17 +72,18 @@ function CheckoutFooterCard(props) {
       setDisabled(false);
     }
   }, [scheduleAppoinmentList]);
+
   function calculateTotals() {
-  let totalPriceSum = 0;
-  let totalDurationSum = 0;
-  for (let item of checkOutList?.checkOut) {
-    totalPriceSum += item?.finalPrice;
-    totalDurationSum += item?.duration;
+    let totalPriceSum = 0;
+    let totalDurationSum = 0;
+    for (let item of checkOutList?.checkOut) {
+      totalPriceSum += item?.finalPrice;
+      totalDurationSum += item?.duration;
+    }
+    setTotalPrice(totalPriceSum);
+    setTotalDuration(totalDurationSum);
+    setTotalServices(checkOutList?.checkOut.length);
   }
-  setTotalPrice(totalPriceSum);
-  setTotalDuration(totalDurationSum);
-  setTotalServices(checkOutList?.checkOut.length);
-}
 
   dispatch(
     UpdateCheckoutInfo({
@@ -85,7 +102,8 @@ function CheckoutFooterCard(props) {
   };
 
   function sendDataToParent() {
-    next((prevActiveStep) => prevActiveStep + 1); // Invoke the callback function with data
+    next((prevActiveStep) => prevActiveStep + 1);
+    handleCloseModal()
   }
 
   const {
@@ -135,145 +153,194 @@ function CheckoutFooterCard(props) {
     }
   }, [imageIdList]);
 
-  useEffect(()=> {
-    
+  useEffect(() => {
     const employeeName: any = employee?.find(item => item?.employeeId === scheduleAppoinmentList?.id)
-    //setEmployee(employeeName)
     setEmployeeName(employeeName?.employeeName)
-  },[employee, scheduleAppoinmentList?.id])
+  }, [employee, scheduleAppoinmentList?.id])
 
   return (
     <div className="urbanist-font my-6 rounded-2xl chackout-card-container">
-      {" "}
-      {/* Adjusted width to be responsive */}
-      {/* <CardContent>
-        <Box className="flex justify-between gap-2 my-2 py-2 serviceCardDetail" sx={{'@media (max-width: 500px)': {display: 'flex', justifyContent: 'center', flexDirection: 'column'}}}>
+      <Card 
+        className="fixed bottom-0 left-0 right-0 z-10 rounded-t-2xl shadow-lg"
+        onClick={handleOpenModal}
+        sx={{ cursor: 'pointer' }}
+      >
+        <CardContent>
+          <Box className="flex justify-between items-center">
+            <Box>
+              <Text
+                name={`${totalServices} service${totalServices !== 1 ? 's' : ''} | ${totalDuration} mins`}
+              />
+              <Text
+                name={`$${totalPrice.toFixed(2)}`}
+              />
+            </Box>
+            <Button
+              disabled={disabled}
+              onClick={(e) => {
+                e.stopPropagation();
+                sendDataToParent();
+              }}
+              sx={styles.btn}
+              variant="contained"
+            >
+              Proceed
+            </Button>
+          </Box>
+        </CardContent>
+      </Card>
 
-          <img
-            className="establishmentImageCls"
-            src={imageUrls[0]}
-            style={{ width: "350px", height: "120px", margin: "10px" }}
-          />
+      <Dialog
+        open={openModal}
+        onClose={handleCloseModal}
+        fullScreen={isMobile}
+        TransitionComponent={Transition}
+        PaperProps={{
+          style: isMobile
+            ? {
+                margin: 0,
+                height: "70%",
+                maxHeight: "70%",
+                position: "absolute",
+                bottom: 0,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+              }
+            : {},
+        }}
+      >
+        <DialogTitle sx={{mb:2}}>
+         
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseModal}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+            padding: 2,
+          }}
+        >
+          <Box sx={{ width: '100%', height: 200, mb: 2 }}>
+            {loading ? (
+              <Skeleton 
+                variant="rectangular" 
+                width="100%" 
+                height={200} 
+                animation="wave"
+                sx={{ borderRadius: '8px' }}
+              />
+            ) : (
+              <img
+                className=""
+                src={imageUrls[0]}
+                style={{ 
+                  width: "100vw", 
+                  height: "200px", 
+                  objectFit: "cover", 
+                  borderRadius: "8px" 
+                }}
+                alt={establishmentName}
+              />
+            )}
+          </Box>
           <Text
             sx={styles.subHeading}
             name={establishmentName}
-            style={{ }}
           />
-        </Box>
-
-        {
-          scheduleAppoinmentList?.startTime && 
-          <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-            {(activeStep != 0 && scheduleAppoinmentList?.selectedDate && (typeof scheduleAppoinmentList?.selectedDate === 'string')) && <Box sx={{display: 'flex'}}><Box><GetIcon iconName="CalendarIcon"/></Box><Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}>{convertDateToReadAbleDate(scheduleAppoinmentList?.selectedDate )}</Box></Box>}
-            <Box sx={{display: 'flex'}}>
-              <GetIcon iconName="AccessTimeFilledIcon"/>
-              <Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}>{`${scheduleAppoinmentList?.startTime}-${scheduleAppoinmentList?.endTime}`}</Box>
+          
+          {scheduleAppoinmentList?.startTime && (
+            <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 2}}>
+              {(activeStep != 0 && scheduleAppoinmentList?.selectedDate && (typeof scheduleAppoinmentList?.selectedDate === 'string')) && <Box sx={{display: 'flex'}}><Box><GetIcon iconName="CalendarIcon"/></Box><Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}>{convertDateToReadAbleDate(scheduleAppoinmentList?.selectedDate )}</Box></Box>}
+              <Box sx={{display: 'flex'}}>
+                <GetIcon iconName="AccessTimeFilledIcon"/>
+                <Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}>{`${scheduleAppoinmentList?.startTime}-${scheduleAppoinmentList?.endTime}`}</Box>
+              </Box>
             </Box>
-          </Box>
-        }
+          )}
 
-        {
-          (scheduleAppoinmentList?.startTime && employeeName) &&
-          <Box sx={{display: 'flex', paddingTop: 2}}>
-            <GetIcon iconName="PersonIcon"/>
-            <Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}} >{employeeName}</Box>
-          </Box>
-        }
+          {(scheduleAppoinmentList?.startTime && employeeName) && (
+            <Box sx={{display: 'flex', mt: 2}}>
+              <GetIcon iconName="PersonIcon"/>
+              <Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}} >{employeeName}</Box>
+            </Box>
+          )}
 
-        <div className="py-2 overflow-auto checkout-card">
-          {checkOutList.checkOut.map((item, index) => (
-            <div className="py-2">
-              <div className="flex justify-between py-1" key={index}>
+          <Divider sx={{ my: 2 }} />
+
+          <Box sx={{ flexGrow: 1, overflowY: "auto" }}>
+            {checkOutList.checkOut.map((item, index) => (
+              <Box key={index} sx={{ mb: 2 }}>
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Text
+                    sx={styles.serviceName}
+                    name={item?.serviceName}
+                  />
+                  <Text
+                    sx={styles.startingPrice}
+                    name={`$${item.finalPrice}`}
+                  />
+                </Box>
                 <Text
-                  sx={styles.serviceName}
-                  name={item?.serviceName}
-                  align="left"
+                  sx={styles.duration}
+                  name={`${item.duration} mins`}
                 />
-                <Text
-                  sx={styles.startingPrice}
-                  name={`$${item.finalPrice}`}
-                  align="right"
-                />
-              </div>
-              <Text
-                sx={styles.duration}
-                name={`${item.duration} mins`}
-                align="left"
-              />
-            </div>
-          ))}
-        </div>
-        <Divider sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}/>
-        {
-          // checkOutList.checkOut.length > 0 &&
-          <div className="pt-3">
-            <div className="flex justify-between">
-              <div className="text-lg font-bold">Total</div>
-              <Text
-                sx={{ fontSize: "20px", fontWeight: 600, color: "#000000" }}
-                name={`$${totalPrice}`}
-                align="right"
-              />
-            </div>
+              </Box>
+            ))}
+          </Box>
 
-            <div
-              className="text-sm font-normal pb-2"
-              style={{ color: "#808080" }}
-            >
+          <Divider sx={{ my: 2 }} />
+
+          <Box sx={{ mt: 2 }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography variant="h6">Total</Typography>
+              <Typography variant="h6">${totalPrice.toFixed(2)}</Typography>
+            </Box>
+            <Typography variant="body2" color="text.secondary">
               excluding Tax
-            </div>
-            <div
-              className="text-sm font-normal pb-2"
-              style={{ color: "#808080" }}
-            >
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
               {totalDuration} mins
-            </div>
-
-            <div className="flex justify-center pt-2">
-              {activeStep < 2 ? (
-                <Button
-                  disabled={disabled}
-                  className="w-full"
-                  onClick={() => sendDataToParent()}
-                  sx={styles.btn}
-                  variant="contained"
-                >
-                  Proceed
-                </Button>
-              ) : (
-                <AppointmentConfimed
-                  establishmentId={establishmentId}
-                  activeStep={activeStep}
-                />
-              )}
-            </div>
-          </div>
-        }
-      </CardContent> */}
-
-      {/* sticky footer */}
-      <Card className="fixed bottom-0 left-0 right-0 z-10 rounded-t-2xl shadow-lg">
-      <CardContent>
-        <Box className="flex justify-between items-center">
-          <Box>
-            <Text
-              name={`${totalServices} service${totalServices !== 1 ? 's' : ''} | ${totalDuration} mins`}
-            />
-            <Text
-              name={`$${totalPrice.toFixed(2)}`}
-            />
+            </Typography>
           </Box>
+        </DialogContent>
+        <Box
+          sx={{
+            position: "sticky",
+            bottom: 0,
+            backgroundColor: "background.paper",
+            padding: 2,
+            borderTop: "1px solid rgba(0, 0, 0, 0.12)",
+          }}
+        >
           <Button
-            disabled={disabled}
-            onClick={sendDataToParent}
-            sx={styles.btn}
             variant="contained"
+            onClick={sendDataToParent}
+            disabled={disabled}
+            fullWidth
+            sx={{
+              backgroundColor: "#8B5CF6",
+              "&:hover": {
+                backgroundColor: "#7C3AED",
+              },
+              borderRadius: "8px",
+              textTransform: "none",
+            }}
           >
             Proceed
           </Button>
         </Box>
-      </CardContent>
-    </Card>
+      </Dialog>
     </div>
   );
 }
