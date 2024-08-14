@@ -718,7 +718,7 @@ const NewSearchPanel = () => {
               <Paper
                 elevation={2}
                 className="time-panel"
-                style={{ overflow: "auto" }}
+                // style={{ overflow: "auto" }}
               >
                 <SelectTimePicker />{" "}
                 {/* Pass form controller to SelectTimePicker */}
@@ -733,4 +733,3 @@ const NewSearchPanel = () => {
 };
 
 export default NewSearchPanel;
-

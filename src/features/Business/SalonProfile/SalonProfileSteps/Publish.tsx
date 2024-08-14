@@ -4,7 +4,7 @@ import { publish } from "../../../../api/constants";
 import endpoint from "../../../../api/endpoints";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { Modal, Box, Tooltip } from "@mui/material";
+import { Modal, Box, Tooltip, Skeleton } from "@mui/material";
 import GetIcon from "../../../../assets/Icon/icon";
 import Text from "../../../../components/Text";
 import { useSnackbar } from "../../../../components/Snackbar";
@@ -168,15 +168,19 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
 
   return (
     <div className="w-full">
-      {loading && <p>Loading...</p>}
+      {loading ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+          <Skeleton variant="rectangular" width={300} height={200} sx={{ borderRadius: '20px' }} />
+        </Box>
+      ) : null}
       {establishmentData?.data?.data?.profile?.establishmentName ? (
         <>
-          <div className="flex justify-center">
+     {!loading &&     <div className="flex justify-center">
             <img
               src={imageUrls[0]}
-              style={{ width: "300px", height: "200px", margin: "10px" }}
+              style={{ width: "300px", height: "200px", margin: "10px", borderRadius: '20px' }}
             />
-          </div>
+          </div>}
           <div
             className="text-5xl font-bold text-center p-4"
             style={{ color: "#4D4D4D" }}
@@ -282,8 +286,8 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
         <div
           className={
             subsctiptionDetails?.active
-              ? "flex justify-center flex-col w-80"
-              : "flex justify-center flex-col w-64"
+              ? "flex justify-center flex-col"
+              : "flex justify-center flex-col "
           }
         >
           {/* {!isPublish && (

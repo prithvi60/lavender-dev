@@ -239,7 +239,7 @@ function CheckoutFooterCard(props) {
                 width="100%" 
                 height={200} 
                 animation="wave"
-                sx={{ borderRadius: '8px' }}
+                sx={{ borderRadius: "20px" }}
               />
             ) : (
               <img

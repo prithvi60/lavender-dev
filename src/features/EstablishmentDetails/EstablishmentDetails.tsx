@@ -170,13 +170,42 @@ function EstablishmentDetails({ estId }) {
         <Grid container>
           <Grid item xs={12} order={{ xs: 1, md: 2 }}>
             {loading ? (
-              // <SwiperSlide>
-              <Skeleton
-                // key={index}
-                variant="rectangular"
-                width={"100%"}
-                height={340}
-              />
+              !isMobile ? (
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    gap: 2,
+                    marginTop: "20px",
+                  }}
+                >
+                  <Skeleton
+                    variant="rectangular"
+                    width="32%"
+                    height={340}
+                    sx={{ borderRadius: "20px" }}
+                  />
+                  <Skeleton
+                    variant="rectangular"
+                    width="32%"
+                    height={340}
+                    sx={{ borderRadius: "20px" }}
+                  />
+                  <Skeleton
+                    variant="rectangular"
+                    width="32%"
+                    height={340}
+                    sx={{ borderRadius: "20px" }}
+                  />
+                </Box>
+              ) : (
+                <Skeleton
+                  variant="rectangular"
+                  width="100%"
+                  height={340}
+                  sx={{ borderRadius: "20px" }}
+                />
+              )
             ) : (
               // </SwiperSlide>
               <Swiper

@@ -93,7 +93,13 @@ export const SalonSetup = ({ setMembershipScreen }) => {
   return (
     <div>
       {isPublished ? (
-        <Box>
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center',
+          gap: 4, 
+          marginTop: { xs: "1rem", sm: "2rem" } 
+        }}>
         <Buttons
         sx={{
           borderRadius: "10px",

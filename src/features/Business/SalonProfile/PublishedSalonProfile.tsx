@@ -56,9 +56,20 @@ export const PublishedSalonProfile = ({
     <>
       {loading ? (
         // <Skeleton variant="rectangular" width={"200px"} height={"150"} />
-        <p className="flex items-center justify-center w-full h-[30vh] text-xl capitalize animate-pulse">
-          loading...
-        </p>
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' ,
+          marginTop: "8rem",
+
+        }}>
+          {[...Array(5)].map((_, index) => (
+            <Skeleton
+              key={index}
+              variant="rectangular"
+              width={200}
+              height={140}
+              sx={{ borderRadius: '20px' }}
+            />
+          ))}
+        </Box>
       ) : (
         <Box>
           <Box>
@@ -69,6 +80,9 @@ export const PublishedSalonProfile = ({
                 gap: "10px",
                 justifyContent: "center",
                 alignItems: "center",
+                marginLeft: "14%",
+                marginRight: "14%",
+                marginTop: "8rem",
               }}
             >
               {
@@ -89,19 +103,26 @@ export const PublishedSalonProfile = ({
                   style={{
                     width: "200px",
                     height: "140px",
-                    borderRadius: isMobile ? "0" : "20px",
+                    borderRadius:  "20px",
                   }}
                 />
               ))}
             </Box>
           </Box>
-          <Box sx={{ marginTop: "10px" }}>
-            <Text name={basicInfo?.establishmentName} />
-            <Text name={basicInfo?.cityCode} />
+          <Box sx={{ marginTop: "5rem", marginBottom: "20px" }}>
+            <Text 
+              name={basicInfo?.establishmentName} 
+              sx={{ fontSize: '45px', fontWeight: 'bold', marginBottom: '8px' }}
+            />
+            <Text 
+              name={basicInfo?.cityCode} 
+              sx={{ fontSize: '20px', color: '#666', marginBottom: '8px' }}
+            />
             <Text
               name={`Last updated on ${
                 lastModified ? convertDateToReadAbleDate(lastModified) : ""
               }`}
+              sx={{ fontSize: '16px', color: '#888' }}
             />
           </Box>
         </Box>

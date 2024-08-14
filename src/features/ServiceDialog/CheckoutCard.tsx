@@ -177,7 +177,9 @@ function CheckoutCard(props) {
           }}
         >
           {loading ? (
-            <Skeleton variant="rectangular" width={"100%"} height={"120px"} className="m-0.5 rounded-lg min-w-32" />
+            <Skeleton variant="rectangular" width={"100%"} height={"120px"} className="m-0.5 rounded-lg min-w-32"
+            sx={{ borderRadius: "20px" }}
+            />
           ) : (
             <img
               className="establishmentImageCls"

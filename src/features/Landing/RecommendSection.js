@@ -192,6 +192,7 @@ const RecommendSection = () => {
                     variant="rectangular"
                     width={"100%"}
                     height={150}
+                    sx={{ borderRadius: "20px" }}
                   />
                   // <h6 className="card-image">Image not uploaded</h6>
                 )}

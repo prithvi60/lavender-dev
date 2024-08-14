@@ -120,12 +120,15 @@ export const SalonProfile = () => {
               </div>
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center w-full h-full pt-12 mt-12 space-y-6 md:space-y-0">
+            <div className="flex flex-col items-center justify-center w-full h-full pt-12 md:mt-12 space-y-6 md:space-y-0">
               <div style={{ minHeight: "150px" }}></div>
               <Text
                 sx={{
                   ...style.header,
                   marginBottom: { xs: "24px", md: "0" },
+                  marginLeft: { xs: "0", md: "10%" },
+                  marginRight: { xs: "0", md: "10%" },
+                  textAlign: "center",
                 }}
                 name={"Setup your online Salon profile with Lavender"}
               />
@@ -133,6 +136,10 @@ export const SalonProfile = () => {
                 sx={{
                   ...style.subHeader,
                   marginBottom: { xs: "24px", md: "0" },
+                  marginLeft: { xs: "0", md: "10%" },
+                  marginRight: { xs: "0", md: "10%" },
+                  textAlign: "center",
+
                 }}
                 name={
                   "You have successfully completed the lavender business setup for your salon. Now you can use our platform to manage our businesses"
