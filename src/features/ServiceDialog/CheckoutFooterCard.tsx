@@ -20,6 +20,7 @@ import { useQuery } from "@tanstack/react-query";
 import endpoint from "../../api/endpoints";
 import { UpdateCheckoutInfo } from "../../store/slices/Booking/ScheduleAppoinmentSlice";
 import GetIcon from "../../assets/Icon/icon";
+import { convertDateToReadAbleDate } from "../../utils/TimeFormat";
 
 const Transition = React.forwardRef(function Transition(props: any, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

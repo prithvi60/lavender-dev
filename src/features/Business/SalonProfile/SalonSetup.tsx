@@ -93,6 +93,7 @@ export const SalonSetup = ({ setMembershipScreen }) => {
   return (
     <div>
       {isPublished ? (
+        <Box>
         <Buttons
         sx={{
           borderRadius: "10px",
@@ -110,6 +111,24 @@ export const SalonSetup = ({ setMembershipScreen }) => {
       >
         {" "}
       </Buttons>
+      <Buttons
+        sx={{
+          borderRadius: "10px",
+          padding: "10px 40px 10px 40px",
+          width: "190px",
+          height: "55.5px",
+          color: '#FFFFFF',
+          fontSize: '20px',
+          fontWeight: 600,
+          whiteSpace: 'nowrap'
+        }}
+        variant="outlined"
+        onClick={() => handleBtnClick()}
+        name={"Unlist"}
+      >
+        {" "}
+      </Buttons>
+      </Box>
       ) : (
         <Buttons
         sx={{

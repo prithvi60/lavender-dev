@@ -71,12 +71,16 @@ export const PublishedSalonProfile = ({
                 alignItems: "center",
               }}
             >
-              <p
+              {
+                imageUrls?.length > 5 && 
+                <p
                 className="w-full text-lg text-right underline capitalize cursor-pointer underline-offset-4"
-                onClick={() => setMore(imageUrls.length - 1)}
+                onClick={() => setMore(imageUrls?.length + 1)}
               >
                 2+ more
               </p>
+              }
+              
               {imageUrls?.slice(0, more).map((url, index) => (
                 <img
                   key={index}

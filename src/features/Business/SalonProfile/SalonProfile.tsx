@@ -114,11 +114,9 @@ export const SalonProfile = () => {
                 basicInfo={basicInfo}
                 lastModified={lastModified}
               />
+              
               <div className="space-y-3.5 w-full text-center">
                 <SalonSetup setMembershipScreen={setMembershipScreen} />
-                <button className="border-2 border-[#825FFF] text-[24px] text-[#825FFF] px-16 py-1.5 rounded-lg capitalize">
-                  unlist
-                </button>
               </div>
             </div>
           ) : (
