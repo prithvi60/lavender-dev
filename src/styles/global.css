@@ -80,6 +80,7 @@
     height: 100%;
     width: 100%;
     padding: 10px 25px;
+    cursor: pointer;
   }
 
   .search-box.selected {
@@ -99,7 +100,7 @@
     display: grid;
     text-align: left;
     margin-left: 15px;
-
+    cursor: pointer;
     & p {
       text-align: left;
     }
@@ -117,14 +118,16 @@
   }
 
   .search-box-title .name-top {
-    font-size: 0.875rem;
-    color: #8c8c8c;
+    font-size: 20px;
+    font-weight: 400;
+    color: #808080;
   }
 
   .search-box-title .name-bottom {
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 20px;
+    font-weight: 600;
     cursor: pointer;
+    color: '#4D4D4D'
   }
 
   /* Text Area */
@@ -157,7 +160,7 @@
 .text,
 .chip.MuiChip-root,
 .checkbox.MuiCheckbox-root.Mui-checked {
-  color: #47294c;
+  color: #545454;
 }
 
 .text.bold {
@@ -179,7 +182,7 @@
 }
 
 .chip.delete {
-  color: #4d4d4d;
+  color: #4D4D4D;
   background-color: #e6e1ff;
 }
 

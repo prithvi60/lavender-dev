@@ -39,7 +39,16 @@ function Index() {
               <Grid container spacing={1} className='p-6 md:p-10 lg:p-16'>
                 <Grid item lg={8} sx={{display: 'flex', gap: '30px', flexWrap: 'wrap'}}>
                   <Box sx={{'@media (max-width: 640px)': {},}}>
-                    <Avatar sx={{ width: 239, height: 239, backgroundColor: '#1B1464' }} ><PersonIcon sx={{width: 110, height: 122}}/></Avatar>
+                    <Avatar sx={{ 
+                      width: { xs: 160, sm: 239 }, 
+                      height: { xs: 160, sm: 239 }, 
+                      backgroundColor: '#1B1464' 
+                    }} >
+                      <PersonIcon sx={{
+                        width: { xs: 80, sm: 110 }, 
+                        height: { xs: 88, sm: 122 }
+                      }}/>
+                    </Avatar>
                   </Box>
                   <div style={{alignContent: 'center'}}>
                     <div>

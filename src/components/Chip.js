@@ -1,5 +1,6 @@
 import React from 'react';
 import { Chip as MuiChip } from '@mui/material';
+import GetIcon from '../assets/Icon/icon';
 
 const Chip = props => {
     const {variant, label, className, type, onClick, onDelete, ...rest} = props;
@@ -22,6 +23,7 @@ const Chip = props => {
                     label={label}
                     className={`chip ${className ?? ""}`}
                     onDelete={onDelete}
+                    deleteIcon={<GetIcon iconName="CloseIcon"/>}
                     {...rest}
                 />
             )

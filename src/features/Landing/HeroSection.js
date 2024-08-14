@@ -1,7 +1,7 @@
 import React from 'react';
 import { LANDING_PAGE } from '../../constants/constants';
 import NewSearchPanel from '../SearchPanel/NewSearchPanel';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Text from '../../components/Text';
 
 const HeroSection = () => {
@@ -15,7 +15,11 @@ const HeroSection = () => {
                 </Box>
 
                 <Box sx={{display: 'flex', justifyContent: 'center'}}>
-                    <Text sx={styles.subTitle} name={"Book your next salon experience with Lavender."} />
+                    <Typography sx={styles.subTitle} className="hero-subtitle">
+                        Book your next salon experience
+                        <br />
+                        with Lavender
+                    </Typography>
                 </Box>
 
             </section>

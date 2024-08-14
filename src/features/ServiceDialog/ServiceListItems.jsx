@@ -29,7 +29,7 @@ function ServiceListItems({ serviceCategories, handleClose }) {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <div className="w-full urbanist-font">
+    <div className="w-full urbanist-font md:mx-24">
       <div className={`flex gap-1 mb-2 items-center ${isMobile ? 'justify-center' : 'justify-start'}`}>
         <IconButton onClick={handleClose}>
           <GetIcon iconName="BackIconArrow" />
@@ -57,6 +57,8 @@ function ServiceListItems({ serviceCategories, handleClose }) {
           maxHeight: 1000,
           bgcolor: "background.paper",
           overflowY: "auto",
+          marginLeft: { xs: 0, md: '24px' },
+          marginRight: { xs: 0, md: '24px' },
         }}
       >
         {serviceCategories?.map((item, index) => (

@@ -1,11 +1,4 @@
-import {
-  Grid,
-  Chip,
-  styled,
-  IconButton,
-  Box,
-  Rating,
-} from "@mui/material";
+import { Grid, Chip, styled, IconButton, Box, Rating } from "@mui/material";
 import React, { useState } from "react";
 import Text from "../../components/Text";
 import Buttons from "@mui/material/Button";
@@ -32,16 +25,74 @@ function HeaderDetails(props) {
         <>
           <Box sx={{ mx: 8, "@media (max-width: 640px)": { mx: 4 } }}>
             {/* New section for image, title, review, and establishment name */}
-            <Box sx={{ mt:4, mb: {xs: 1, md: 2} }}>
-              <Box className="text-3xl font-bold" id="SearchDetailPicture">
+            <Box sx={{ mt: 4, mb: { xs: 1, md: 2 } }}>
+              <Box
+                className="text-3xl font-bold min-[1200px]:hidden block"
+                id="SearchDetailPicture"
+              >
                 {establishmentData?.profile?.establishmentName}
               </Box>
-      
             </Box>
+            <div className="hidden min-[1200px]:flex justify-between min-[1200px]:gap-3">
+              <Box sx={{ mt: 4, mb: { xs: 1, md: 2 } }}>
+                <Box className="text-3xl font-bold" id="SearchDetailPicture">
+                  {establishmentData?.profile?.establishmentName}
+                </Box>
+              </Box>
+              <div className="hidden search-header-container min-[1200px]:block">
+                <Box
+                  className="items-center search-detail-chips"
+                  // sx={{'@media (max-width: 640px)': {marginTop: '0px !important'}, '@media (max-width: 550px)': {marginTop: '100px !important'}}}
+                >
+                  <a
+                    onClick={() => setSelectedHref("pictures")}
+                    href="#"
+                    className={`${selectedHref === "pictures" ? "active" : ""}`}
+                  >
+                    <Buttons sx={styles.btn} variant="outlined">
+                      Pictures
+                    </Buttons>
+                  </a>
+                  <a
+                    onClick={() => setSelectedHref("service")}
+                    href="#SearchDetailService"
+                    className={selectedHref === "service" ? "active" : ""}
+                  >
+                    {/* <Buttons sx={styles.btn} variant="outlined"> */}
+                    <ServiceDialog establishmentData={establishmentData} />
+                    {/* </Buttons> */}
+                  </a>
+                  <a
+                    onClick={() => setSelectedHref("review")}
+                    href="#SearchDetailReview"
+                    className={selectedHref === "review" ? "active " : ""}
+                  >
+                    <Buttons sx={styles.btn} variant="outlined">
+                      Review
+                    </Buttons>
+                  </a>
+                  <a
+                    onClick={() => setSelectedHref("about")}
+                    className={selectedHref === "about" ? "active" : ""}
+                    href="#SearchDetailAbout"
+                  >
+                    <Buttons sx={styles.btn} variant="outlined">
+                      About
+                    </Buttons>
+                  </a>
+                </Box>
+              </div>
+            </div>
 
             {/*  REVIEW SECTION */}
-            <div className=" md:flex">
-            <Box sx={{ display: "flex", alignItems: "center", mb: {xs: 2, md: 0} }}>
+            <div className="block min-[1200px]:flex">
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  mb: { xs: 2, md: 0 },
+                }}
+              >
                 <StyledRating
                   name="read-only"
                   value={
@@ -58,76 +109,80 @@ function HeaderDetails(props) {
                 </Text>
               </Box>
 
-            <div className="search-header-details" style={{ padding:0 }}>
-              <IconButton>
-                <GetIcon iconName="heartFilled" />
-              </IconButton>
-              <Chip
-                label={"Opens at " + establishmentData?.profile?.data?.geoX}
-                sx={{ fontSize: "14px" }}
-                className="header-chip"
-              />
-              <Chip
-                label={establishmentData?.profile?.cityCode}
-                sx={{ fontSize: "14px" }}
-                className="header-chip"
-              />
-              <div className="search-chips-container">
-                <Grid>
-                  <Chip
-                    sx={{ fontSize: "14px" }}
-                    label={"Instant Booking"}
-                    value={"Instant Booking"}
-                  />
-                  <Chip
-                    sx={{ fontSize: "14px" }}
-                    label={"Free Cancellation"}
-                    value={"Free Cancellation"}
-                  />
-                </Grid>
+              <div className="search-header-details" style={{ padding: 0 }}>
+                <IconButton>
+                  <GetIcon iconName="heartFilled" />
+                </IconButton>
+                <Chip
+                  label={"Opens at " + establishmentData?.profile?.data?.geoX}
+                  sx={{ fontSize: "14px" }}
+                  className="header-chip"
+                />
+                <Chip
+                  label={establishmentData?.profile?.cityCode}
+                  sx={{ fontSize: "14px" }}
+                  className="header-chip"
+                />
+                <div className="search-chips-container">
+                  <Grid>
+                    <Chip
+                      sx={{ fontSize: "14px" }}
+                      label={"Instant Booking"}
+                      value={"Instant Booking"}
+                    />
+                    <Chip
+                      sx={{ fontSize: "14px" }}
+                      label={"Free Cancellation"}
+                      value={"Free Cancellation"}
+                    />
+                  </Grid>
+                </div>
               </div>
-            </div>
-            <div className="search-header-container mt-4 md:mt-0 md:absolute top-4 right-12">
-              <Box
-                className="search-detail-chips "
-                // sx={{'@media (max-width: 640px)': {marginTop: '0px !important'}, '@media (max-width: 550px)': {marginTop: '100px !important'}}}  
-              >
-                <a
-                  onClick={() => setSelectedHref("pictures")}
-                  href="#"
-                  className={selectedHref === "pictures" ? "active" : ""}
+
+              <div className="search-header-container  min-[1200px]:!hidden">
+                <Box
+                  className="search-detail-chips"
+                  // sx={{
+                  //   "@media (min-width: 1201px)": { display: "block" },
+                  //   "@media (max-width: 1200px)": { display: "hidden" },
+                  // }}
                 >
-                  <Buttons sx={styles.btn} variant="outlined">
-                    Pictures
-                  </Buttons>
-                </a>
-                <a
-                  onClick={() => setSelectedHref("service")}
-                  href="#SearchDetailService"
-                  className={selectedHref === "service" ? "active" : ""}
-                >
-                  <ServiceDialog establishmentData={establishmentData} />
-                </a>
-                <a
-                  onClick={() => setSelectedHref("review")}
-                  href="#SearchDetailReview"
-                  className={selectedHref === "review" ? "active" : ""}
-                >
-                  <Buttons sx={styles.btn} variant="outlined">
-                    Review
-                  </Buttons>
-                </a>
-                <a
-                  onClick={() => setSelectedHref("about")}
-                  className={selectedHref === "about" ? "active" : ""}
-                  href="#SearchDetailAbout"
-                >
-                  <Buttons sx={styles.btn} variant="outlined">
-                    About
-                  </Buttons>
-                </a>
-              </Box>
-            </div>
+                  <a
+                    onClick={() => setSelectedHref("pictures")}
+                    href="#"
+                    className={selectedHref === "pictures" ? "active" : ""}
+                  >
+                    <Buttons sx={styles.btn} variant="outlined">
+                      Pictures
+                    </Buttons>
+                  </a>
+                  <a
+                    onClick={() => setSelectedHref("service")}
+                    href="#SearchDetailService"
+                    className={selectedHref === "service" ? "active" : ""}
+                  >
+                    <ServiceDialog establishmentData={establishmentData} />
+                  </a>
+                  <a
+                    onClick={() => setSelectedHref("review")}
+                    href="#SearchDetailReview"
+                    className={selectedHref === "review" ? "active" : ""}
+                  >
+                    <Buttons sx={styles.btn} variant="outlined">
+                      Review
+                    </Buttons>
+                  </a>
+                  <a
+                    onClick={() => setSelectedHref("about")}
+                    className={selectedHref === "about" ? "active" : ""}
+                    href="#SearchDetailAbout"
+                  >
+                    <Buttons sx={styles.btn} variant="outlined">
+                      About
+                    </Buttons>
+                  </a>
+                </Box>
+              </div>
             </div>
           </Box>
         </>

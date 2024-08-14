@@ -1,5 +1,5 @@
 import  { useEffect, useState } from 'react';
-import { Box, Card, CardContent, IconButton, List, ListItem, Typography } from '@mui/material';
+import { Box, Card, CardContent, IconButton, List, ListItem, Typography, Skeleton } from '@mui/material';
 import GetIcon from '../../../../assets/Icon/icon';
 import ImageUploading from 'react-images-uploading';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
@@ -205,8 +205,8 @@ export const Photos = ({userDetails}) => {
                             className='image-item'
                             style={{ padding: '10px' }}
                           >
-                            <Card style={{ width: '200px', height: '200px' }}>
-                              <img src={image.data_url} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <Card style={{ width: '200px', height: '200px',}}>
+                              <img src={image.data_url} alt='' style={{ width: '100%', height: '100%', objectFit: 'cover',borderRadius: '20px'  }} />
                             </Card>
                             <div className='image-item__btn-wrapper'>
                               <button onClick={() => onImageRemove(index)}>Remove</button>
@@ -251,13 +251,26 @@ export const Photos = ({userDetails}) => {
 
       <div>
       <br />
-      {loading && <p>Loading...</p>}
+      {loading ? (
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+          {[...Array(5)].map((_, index) => (
+            <Skeleton
+              key={index}
+              variant="rectangular"
+              width={200}
+              height={200}
+              sx={{ borderRadius: '20px' }}
+            />
+          ))}
+        </Box>
+      ) : (
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '10px' }}>
+          {imageUrls.map((url, index) => (
+            <img key={index} src={url} alt={`Image ${index}`} style={{ width: '200px', height: '200px', objectFit: 'cover', borderRadius: '20px' }} />
+          ))}
+        </div>
+      )}
       {error && <p>Error: {error.message}</p>}
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-        {imageUrls.map((url, index) => (
-          <img key={index} src={url} alt={`Image ${index}`} style={{ width: '200px', margin: '10px' }} />
-        ))}
-      </div>
       </div>
       
 

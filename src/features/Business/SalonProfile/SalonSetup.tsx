@@ -92,6 +92,31 @@ export const SalonSetup = ({ setMembershipScreen }) => {
 
   return (
     <div>
+      {isPublished ? (
+        <Box sx={{ 
+          display: 'flex', 
+          flexDirection: 'column', 
+          alignItems: 'center',
+          gap: 4, 
+          marginTop: { xs: "1rem", sm: "2rem" } 
+        }}>
+        <Buttons
+        sx={{
+          borderRadius: "10px",
+          padding: "10px 40px 10px 40px",
+          width: "190px",
+          height: "55.5px",
+          color: '#FFFFFF',
+          fontSize: '20px',
+          fontWeight: 600,
+          whiteSpace: 'nowrap'
+        }}
+        variant="contained"
+        onClick={() => handleBtnClick()}
+        name={"Edit salon page"}
+      >
+        {" "}
+      </Buttons>
       <Buttons
         sx={{
           borderRadius: "10px",
@@ -100,7 +125,27 @@ export const SalonSetup = ({ setMembershipScreen }) => {
           height: "55.5px",
           color: '#FFFFFF',
           fontSize: '20px',
-          fontWeight: 600
+          fontWeight: 600,
+          whiteSpace: 'nowrap'
+        }}
+        variant="outlined"
+        onClick={() => handleBtnClick()}
+        name={"Unlist"}
+      >
+        {" "}
+      </Buttons>
+      </Box>
+      ) : (
+        <Buttons
+        sx={{
+          borderRadius: "10px",
+          padding: "10px 40px 10px 40px",
+          width: "190px",
+          height: "55.5px",
+          color: '#FFFFFF',
+          fontSize: '20px',
+          fontWeight: 600,
+          whiteSpace: 'nowrap'
         }}
         variant="contained"
         onClick={() => handleBtnClick()}
@@ -108,6 +153,8 @@ export const SalonSetup = ({ setMembershipScreen }) => {
       >
         {" "}
       </Buttons>
+      )}
+      
       <Dialog fullScreen open={isOpen} onClose={handleClose}>
         <Toolbar className="mb-4 stepper-header">
           <Box sx={{ width: "100%" }}>
@@ -138,7 +185,7 @@ export const SalonSetup = ({ setMembershipScreen }) => {
               )
             }
         </Toolbar>
-        <div className="flex flex-wrap md:flex-nowrap w-full h-full gap-6 mg:gap-0 max-w-7xl mx-auto py-4 px-6">
+        <div className="flex flex-wrap w-full h-full gap-6 px-6 py-4 mx-auto md:flex-nowrap mg:gap-0 max-w-7xl">
           <div className="w-full md:p-8">
             {activeStep === 0 && (
               <BusinessInfo

@@ -9,7 +9,8 @@ import {
   Button,
   CardHeader,
   Box,
-  Tooltip
+  Tooltip,
+  Skeleton,
 } from "@mui/material";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -39,8 +40,8 @@ function CheckoutCard(props) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
   const [employee, setEmployee] = useState([]);
-  const [employeeName, setEmployeeName] = useState('');
-  
+  const [employeeName, setEmployeeName] = useState("");
+
   useEffect(() => {
     if (checkOutList?.checkOut?.length > 0) {
       setDisabled(false);
@@ -119,7 +120,7 @@ function CheckoutCard(props) {
 
   useEffect(() => {
     setImageIdList(establishmentData?.data?.data?.estImages);
-    setEmployee(establishmentData?.data?.data?.employees)
+    setEmployee(establishmentData?.data?.data?.employees);
   }, [establishmentData]);
 
   const fetchImage = async (image) => {
@@ -152,50 +153,96 @@ function CheckoutCard(props) {
     }
   }, [imageIdList]);
 
-  useEffect(()=> {
-    
-    const employeeName: any = employee?.find(item => item?.employeeId === scheduleAppoinmentList?.id)
+  useEffect(() => {
+    const employeeName: any = employee?.find(
+      (item) => item?.employeeId === scheduleAppoinmentList?.id
+    );
     //setEmployee(employeeName)
-    setEmployeeName(employeeName?.employeeName)
-  },[employee, scheduleAppoinmentList?.id])
+    setEmployeeName(employeeName?.employeeName);
+  }, [employee, scheduleAppoinmentList?.id]);
 
   return (
-    <div className="urbanist-font mx-4 my-6 rounded-2xl chackout-card-container h-fit">
+    <div className="mx-4 my-6 urbanist-font rounded-2xl chackout-card-container h-fit">
       {" "}
       {/* Adjusted width to be responsive */}
       <CardContent>
-        <Box className="flex justify-between gap-2 my-2 py-2 serviceCardDetail" sx={{'@media (max-width: 500px)': {display: 'flex', justifyContent: 'center', flexDirection: 'column'}}}>
+        <Box
+          className="flex justify-between gap-2 py-2 my-2 serviceCardDetail"
+          sx={{
+            "@media (max-width: 500px)": {
+              display: "flex",
+              justifyContent: "center",
+              flexDirection: "column",
+            },
+          }}
+        >
+          {loading ? (
+            <Skeleton variant="rectangular" width={"100%"} height={"120px"} className="m-0.5 rounded-lg min-w-32"
+            sx={{ borderRadius: "20px" }}
+            />
+          ) : (
+            <img
+              className="establishmentImageCls"
+              src={imageUrls[0]}
+              style={{ width: "350px", height: "120px", margin: "10px" }}
+            />
+          )}
 
-          <img
-            className="establishmentImageCls"
-            src={imageUrls[0]}
-            style={{ width: "350px", height: "120px", margin: "10px" }}
-          />
-          <Text
-            sx={styles.subHeading}
-            name={establishmentName}
-            style={{ }}
-          />
+          <Text sx={styles.subHeading} name={establishmentName} style={{}} />
         </Box>
 
-        {
-          scheduleAppoinmentList?.startTime && 
-          <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-            {(activeStep != 0 && scheduleAppoinmentList?.selectedDate && (typeof scheduleAppoinmentList?.selectedDate === 'string')) && <Box sx={{display: 'flex'}}><Box><GetIcon iconName="CalendarIcon"/></Box><Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}>{convertDateToReadAbleDate(scheduleAppoinmentList?.selectedDate )}</Box></Box>}
-            <Box sx={{display: 'flex'}}>
-              <GetIcon iconName="AccessTimeFilledIcon"/>
-              <Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}>{`${scheduleAppoinmentList?.startTime}-${scheduleAppoinmentList?.endTime}`}</Box>
+        {scheduleAppoinmentList?.startTime && (
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            {activeStep != 0 &&
+              scheduleAppoinmentList?.selectedDate &&
+              typeof scheduleAppoinmentList?.selectedDate === "string" && (
+                <Box sx={{ display: "flex" }}>
+                  <Box>
+                    <GetIcon iconName="CalendarIcon" />
+                  </Box>
+                  <Box
+                    sx={{
+                      paddingLeft: 1,
+                      color: "#4D4D4D",
+                      fontSize: "16px",
+                      fontWeight: 400,
+                    }}
+                  >
+                    {convertDateToReadAbleDate(
+                      scheduleAppoinmentList?.selectedDate
+                    )}
+                  </Box>
+                </Box>
+              )}
+            <Box sx={{ display: "flex" }}>
+              <GetIcon iconName="AccessTimeFilledIcon" />
+              <Box
+                sx={{
+                  paddingLeft: 1,
+                  color: "#4D4D4D",
+                  fontSize: "16px",
+                  fontWeight: 400,
+                }}
+              >{`${scheduleAppoinmentList?.startTime}-${scheduleAppoinmentList?.endTime}`}</Box>
             </Box>
           </Box>
-        }
+        )}
 
-        {
-          (scheduleAppoinmentList?.startTime && employeeName) &&
-          <Box sx={{display: 'flex', paddingTop: 2}}>
-            <GetIcon iconName="PersonIcon"/>
-            <Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}} >{employeeName}</Box>
+        {scheduleAppoinmentList?.startTime && employeeName && (
+          <Box sx={{ display: "flex", paddingTop: 2 }}>
+            <GetIcon iconName="PersonIcon" />
+            <Box
+              sx={{
+                paddingLeft: 1,
+                color: "#4D4D4D",
+                fontSize: "16px",
+                fontWeight: 400,
+              }}
+            >
+              {employeeName}
+            </Box>
           </Box>
-        }
+        )}
 
         <div className="py-2 overflow-auto checkout-card">
           {checkOutList.checkOut.map((item, index) => (
@@ -220,7 +267,7 @@ function CheckoutCard(props) {
             </div>
           ))}
         </div>
-        <Divider sx={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}/>
+        <Divider sx={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }} />
         {
           // checkOutList.checkOut.length > 0 &&
           <div className="pt-3">
@@ -234,13 +281,13 @@ function CheckoutCard(props) {
             </div>
 
             <div
-              className="text-sm font-normal pb-2"
+              className="pb-2 text-sm font-normal"
               style={{ color: "#808080" }}
             >
               excluding Tax
             </div>
             <div
-              className="text-sm font-normal pb-2"
+              className="pb-2 text-sm font-normal"
               style={{ color: "#808080" }}
             >
               {totalDuration} mins
@@ -248,18 +295,22 @@ function CheckoutCard(props) {
 
             <div className="flex justify-center pt-2">
               {activeStep < 2 ? (
-                <Tooltip title={disabled ? "Please select to proceed" : null} arrow>
-                  <div style={{width: "100%"}}>
-                  <Button
-                  disabled={disabled}
-                  className="w-full"
-                  onClick={() => sendDataToParent()}
-                  sx={styles.btn}
-                  variant="contained"
+                <Tooltip
+                  title={disabled ? "Please select to proceed" : null}
+                  arrow
                 >
-                  Proceed
-                </Button></div>
-              </Tooltip>
+                  <div style={{ width: "100%" }}>
+                    <Button
+                      disabled={disabled}
+                      className="w-full"
+                      onClick={() => sendDataToParent()}
+                      sx={styles.btn}
+                      variant="contained"
+                    >
+                      Proceed
+                    </Button>
+                  </div>
+                </Tooltip>
               ) : (
                 <AppointmentConfimed
                   establishmentId={establishmentId}
@@ -283,7 +334,7 @@ const styles = {
     fontWeight: 600,
     paddingLeft: 0,
     paddingTop: 1,
-    width: "210px" 
+    width: "210px",
   },
   serviceName: {
     color: "#4D4D4D",

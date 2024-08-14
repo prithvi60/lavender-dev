@@ -11,22 +11,23 @@ const modalStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '90%', // Set the modal to 90% width of the viewport
-    maxWidth: 900, // Maximum width for larger screens
-    height: '90%',
+    width: '90%',
+    maxWidth: 900,
+    maxHeight: '90%',
     boxShadow: 24,
     borderRadius: 8,
-    overflow: 'hidden' // Ensure contents do not overflow
+    overflow: 'hidden'
 };
 
 const contentStyle = {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
-    overflowY: 'auto' // Allows vertical scrolling
+    height: 'auto',
+    maxHeight: '90vh',
+    overflowY: 'auto'
 };
 
-export const BookingInfoModal = ({ isModalOpen, bookings, toggleModal }) => {
+export const BookingInfoModal = ({ isModalOpen, bookings, toggleModal,userflow }) => {
 
     const establishmentId = bookings?.services[0]?.establishmentId;
     const navigate = useNavigate();
@@ -66,7 +67,7 @@ export const BookingInfoModal = ({ isModalOpen, bookings, toggleModal }) => {
             >
                 <Card sx={modalStyle}>
                     <Box sx={contentStyle}>
-                        <Grid container spacing={2}>
+                        <Grid container spacing={2} sx={{ minHeight: '100%' }}>
                             <Grid item xs={12} sm={8} md={8} lg={8} sx={{padding: '40px 24px 40px 40px !important'}}>
                                 <div>
                                     <Grid container spacing={1} sx={{ marginBottom: '20px' }}>

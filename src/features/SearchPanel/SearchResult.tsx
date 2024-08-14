@@ -16,6 +16,8 @@ import {
   styled,
   Typography,
   Box,
+  Button,
+  Switch,
 } from "@mui/material";
 import FilterModal from "../../components/FilterModal";
 import { useSelector } from "react-redux";
@@ -547,52 +549,101 @@ export default function SearchResult() {
     >
       <CardHeader
         style={{
-          marginTop: "60px",
+          marginTop: "70px",
           color: "#4D4D4D",
           backgroundColor: "#FFFBF3",
+          padding: "12px 4%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          height: "4.4rem", 
+          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06)",
+          "@media (max-width: 700px)": {
+            height: "4rem",
+            padding: "12px 8%",
+          },
         }}
         sx={{
-          padding: "0 16px",
           "@media (max-width: 700px)": {
-            marginTop: "140px !important",
+            marginTop: "100px !important",
+            alignItems: "flex-start",
             "& .MuiCardHeader-content": {
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-              textOverflow: "ellipsis",
-              flex: "0 1 auto",
-            },
-            "& .MuiCardHeader-title": {
-              fontSize: "0.9rem",
+              marginBottom: "8px",
             },
           },
           "@media (max-width: 400px)": {
             marginTop: "150px !important",
-            "& .MuiCardHeader-title": {
-              fontSize: "0.8rem",
-            },
           },
         }}
-        id="card-header-id"
-        title={`${updatedTreatmentServicesList?.length} venues matching your search`}
+        title={
+          <Typography
+            variant="h6"
+            sx={{
+              fontSize: "1.2rem",
+              "@media (max-width: 700px)": {
+                fontSize: "1rem",
+              },
+              "@media (max-width: 400px)": {
+                fontSize: "0.9rem",
+              },
+            }}
+          >
+            {`${updatedTreatmentServicesList?.length} venues matching your search`}
+          </Typography>
+        }
         action={
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              flexShrink: 0,
-              "@media (max-width: 700px)": {
-                flexDirection: "row",
-                justifyContent: "flex-end",
-              },
+              marginTop: "3%",
             }}
+            className="flex justify-center"
           >
             <FilterModal />
-            <div
-              className="cursor-pointer font-semibold ml-2"
-              onClick={handleMapClick}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                marginLeft: "16px",
+                "@media (max-width: 700px)": {
+                  width: "100%",
+                  justifyContent: "center",
+                  marginLeft: 0,
+                },
+              }}
             >
-              Show Map
-            </div>
+  
+            </Box>
+            <Typography
+              variant="body2"
+              sx={{
+                marginLeft: "16px",
+                "@media (max-width: 700px)": {
+                  display: "none",
+                },
+              }}
+            >
+              Map mode
+            </Typography>
+            <Switch
+            className='toggle-ui'
+              checked={isShowMap}
+              onChange={handleMapClick}
+              color="success"
+              sx={{
+                marginLeft: "16px",
+                "& .MuiSwitch-switchBase.Mui-checked": {
+                  color: "#4caf50",
+                },
+                "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                  backgroundColor: "#4caf50",
+                },
+                "@media (max-width: 700px)": {
+                  display: "none",
+                }
+              }}
+            />
           </Box>
         }
       />
@@ -892,9 +943,7 @@ export default function SearchResult() {
                               </Grid>
                             </div>
                           </div>
-                          <CardActions
-                            className="card-footer-action "
-                          >
+                          <CardActions className="card-footer-action ">
                             <StoreMallDirectoryOutlinedIcon />
                             <TextRouter
                               name={"Saloon Details"}

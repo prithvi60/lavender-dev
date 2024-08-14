@@ -472,7 +472,7 @@ const NewSearchPanel = () => {
         treatmentServicesList={treatmentServicesList}
       />
 
-      <div className="w-full">
+      <div className="w-full relative">
         <div className="search-panel">
           {/* <Form> */}
 
@@ -488,13 +488,13 @@ const NewSearchPanel = () => {
                     selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
                   }`}
                 >
-                  <div className="search-box-title-icon">
+                  <div className="search-box-title-icon" onClick={() => handleBoxClick("Treatment")}>
                     <GetIcon iconName="TreatmentHeartIcon" />
-                    <div className="search-box-title">
+                    <div className="search-box-title" >
                       {treatmentList && treatmentList.length > 0 ? (
                         <Text
+                          sx={{fontSize: '20px', fontWeight: 400, color: '#616161'}}
                           className="cursor-pointer"
-                          onClick={() => handleBoxClick("Treatment")}
                           name={treatmentList.toString().replaceAll(",", ", ")}
                         ></Text>
                       ) : (
@@ -530,13 +530,13 @@ const NewSearchPanel = () => {
                     selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
                   }`}
                 >
-                  <div className="search-box-title-icon">
+                  <div className="search-box-title-icon" onClick={() => handleBoxClick("Location")}>
                     <GetIcon iconName="LocationIcon" />
-                    <div className="search-box-title">
+                    <div className="search-box-title" >
                       {locationList && locationList.length > 0 ? (
                         <Text
                           className="cursor-pointer"
-                          onClick={() => handleBoxClick("Location")}
+                          sx={{fontSize: '20px', fontWeight: 400, color: '#616161'}}
                           name={locationList[0]?.location
                             ?.toString()
                             .replaceAll(",", ", ")}
@@ -572,13 +572,13 @@ const NewSearchPanel = () => {
                     selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
                   }`}
                 >
-                  <div className="search-box-title-icon">
+                  <div className="search-box-title-icon"  onClick={() => handleBoxClick("Date")}>
                     <GetIcon iconName="CalendarIcon" />
                     <div className="search-box-title">
                       {selectedDate ? (
                         <Text
+                        sx={{fontSize: '20px', fontWeight: 400, color: '#616161'}}
                           className="cursor-pointer"
-                          onClick={() => handleBoxClick("Date")}
                           name={selectedDate}
                         ></Text>
                       ) : (
@@ -608,14 +608,14 @@ const NewSearchPanel = () => {
                 className={`grid-items ${selectedBox === "Time" && "active"}`}
               >
                 <Box className="search-box addtl-button MuiBox-root css-0">
-                  <div className="search-box-title-icon">
+                  <div className="search-box-title-icon" onClick={() => handleBoxClick("Time")}>
                     <GetIcon iconName="AccessTimeFilledIcon" />
                     <div className="search-box-title">
                       {SelectedTime &&
                       (SelectedTime.from || SelectedTime.to) ? (
                         <Text
+                        sx={{fontSize: '20px', fontWeight: 400, color: '#616161'}}
                           className="cursor-pointer"
-                          onClick={() => handleBoxClick("Time")}
                           // name={
                           //   !choseFromOptions
                           //     ? `${convertTo_HH_AM(
@@ -623,7 +623,7 @@ const NewSearchPanel = () => {
                           //       )} - ${convertTo_HH_AM(SelectedTime?.to)}`
                           //     : `${SelectedTime?.from} - ${SelectedTime?.to}`
                           // }
-                          name={`${SelectedTime?.from} - ${SelectedTime?.to}`}
+                          name={SelectedTime?.to ? (`${SelectedTime?.from} - ${SelectedTime?.to}`) : (`${SelectedTime?.from}`)}
                         ></Text>
                       ) : (
                         <>
@@ -660,7 +660,7 @@ const NewSearchPanel = () => {
           </div>
 
           {selectedBox === "Treatment" && showOptionContainer && (
-            <div className="home-filter-panel">
+            <div className="home-filter-panel absolute top-full left-0 right-0 z-10">
               <Paper elevation={2} className="treatment-panel">
                 <SelectTreatment />
               </Paper>
@@ -668,7 +668,7 @@ const NewSearchPanel = () => {
           )}
 
           {selectedBox === "Location" && showOptionContainer && (
-            <div className="home-filter-panel three-column">
+            <div className="home-filter-panel three-column absolute top-full left-0 right-0 z-10">
               <div></div>
               <Paper elevation={2} className="treatment-panel">
                 <SelectLocation />
@@ -677,14 +677,14 @@ const NewSearchPanel = () => {
           )}
 
           {selectedBox === "Date" && showOptionContainer && (
-            <div className="home-filter-panel two-column">
+            <div className="home-filter-panel two-column absolute top-full left-0 right-0 z-10">
               <div></div>
               <Paper
                 elevation={2}
                 className="date-panel"
                 style={{ overflow: "auto"}}
               >
-                <div className="flex justify-end p-2 pb-0 cursor-pointer text-red-600">
+                <div className="flex justify-end p-2 pb-0 cursor-pointer">
                   <CloseIcon onClick={() => closeFilterPannel()} />
                 </div>
                 <div style={{ overflowX: 'auto' }}>
@@ -713,12 +713,12 @@ const NewSearchPanel = () => {
           )}
 
           {selectedBox === "Time" && showOptionContainer && (
-            <div className="home-filter-panel one-column">
+            <div className="home-filter-panel one-column absolute top-full left-0 right-0 z-10">
               <div></div>
               <Paper
                 elevation={2}
                 className="time-panel"
-                style={{ overflow: "auto" }}
+                // style={{ overflow: "auto" }}
               >
                 <SelectTimePicker />{" "}
                 {/* Pass form controller to SelectTimePicker */}
@@ -733,4 +733,3 @@ const NewSearchPanel = () => {
 };
 
 export default NewSearchPanel;
-

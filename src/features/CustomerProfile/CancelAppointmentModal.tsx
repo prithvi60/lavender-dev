@@ -69,7 +69,7 @@ export const CancelAppointmentModal = ({bookings}) => {
 
     return (
         <div>
-            <div className='flex items-center justify-end p-5' style={{ cursor: 'pointer' }} onClick={handleCancelClick}>
+            <div className='flex items-center justify-end py-5 md:p-5' style={{ cursor: 'pointer' }} onClick={handleCancelClick}>
                 <GetIcon iconName='CancelIcon' />
                 <div className='pl-1'>Cancel</div>
             </div>

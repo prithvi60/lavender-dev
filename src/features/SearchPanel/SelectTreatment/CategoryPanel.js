@@ -59,6 +59,7 @@ const CategoryPanel = () => {
           key={index}
           className={`category-container ${isClicked(item) ? "clicked" : ""}`}
           onClick={() => handleClick(item)}
+          style={{fontSize: '16px', fontWeight: 400, color: '#545454',}}
         >
           {/* <GetImage className="cursor-pointer" imageName={item} /> */}
           <p>{item}</p>

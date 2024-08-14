@@ -70,7 +70,7 @@ const TreatmentPanel = () => {
       <Text
         variant="body1"
         align="left"
-        className="bold"
+        sx={{fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}
         name="Choose your Treatments"
       />
       <div className="treatment-grid">
@@ -84,6 +84,7 @@ const TreatmentPanel = () => {
                     className="delete"
                     label={tag}
                     onDelete={() => handleTagRemove(tag)}
+                    sx={{fontSize: '16px', fontWeight: 400, color: '#4D4D4D', backgroundColor: '#E6E1FF', borderRadius: '12px', padding: '8px 16px 8px 16px'}}
                   />
                 </Grid>
               );
@@ -98,6 +99,7 @@ const TreatmentPanel = () => {
                   type={"clickable"}
                   label={tag}
                   onClick={() => handleTagSelect(tag)}
+                  sx={{fontSize: '16px', fontWeight: 400, color: '#545454', backgroundColor: '#F2F2F2', borderRadius: '12px', padding: '8px 16px 8px 16px'}}
                 />
               </Grid>
             ))}

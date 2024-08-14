@@ -95,6 +95,9 @@ export const AddNewCard = () => {
         <>
             <Card 
                 sx={{
+                    backgroundImage: 'url(/cardbg.png)', 
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
                     backgroundColor: '#C9C5FF', 
                     width: '100%', 
                     height: '100%', 

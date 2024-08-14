@@ -128,9 +128,10 @@
         margin: auto;
         padding-top: 15px;
         display: grid;
-        z-index: 1;
-        position: relative;
+        z-index: 50;
         width: 100%;
+        position: absolute;
+        top: 10vh !important; 
 
         &.one-column{
             grid-template-columns: 3fr 1fr;
@@ -189,6 +190,9 @@
             &.three-column{
                 grid-template-columns: 1fr;
             }
+        }
+        @media (max-width: 600px) {
+            top: 40vh !important; 
         }
     }
 }
@@ -427,7 +431,7 @@
 
         .icon-wrapper{
             padding: 6px;
-            background-color: var(--primary-clr);
+            background-color: var(--primary-clr) !important;
             border-radius: 50%;
             display: flex;
             color: #FFFFFF;

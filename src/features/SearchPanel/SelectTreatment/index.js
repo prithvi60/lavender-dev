@@ -12,7 +12,7 @@ const SelectTreatment = () => {
           <TreatmentPanel />
         </Grid>
         <Grid item xs={5} md={5} lg={5} className="grid">
-            <Text variant="body1" className="bold" align="left" name="Categories"/>
+            <Text variant="body1" sx={{fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}} align="left" name="Categories"/>
             <CategoryPanel />
         </Grid>
       </Grid>
