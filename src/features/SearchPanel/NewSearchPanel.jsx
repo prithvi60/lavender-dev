@@ -767,6 +767,7 @@ const NewSearchPanel = () => {
                     <Box
                       sx={{
                         padding: "24px",
+                        paddingTop: "6px",
                         paddingRight: "8px",
                         borderBottom: "1px solid #e0e0e0",
                       }}

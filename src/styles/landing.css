@@ -193,7 +193,7 @@
             }
         }
         @media (max-width: 600px) {
-            top: 40vh !important; 
+            top: -35vh !important; 
         }
     }
 }
