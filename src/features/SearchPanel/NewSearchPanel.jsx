@@ -75,7 +75,6 @@ const ShortcutButton = styled(Button)(({ theme, selected }) => ({
   },
 }));
 
-
 const NewSearchPanel = () => {
   const [isTreatmentOpen, setIsTreatmentOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
@@ -484,7 +483,7 @@ const NewSearchPanel = () => {
   useEffect(() => {
     handleShortcutClick(shortcutsItems[0]); // Set "Flexible" as default
   }, []);
-  
+
   return (
     <>
       <MyVerticallyCenteredModal
@@ -739,14 +738,17 @@ const NewSearchPanel = () => {
           )}
 
           {selectedBox === "Date" && showOptionContainer && (
-            <div className="home-filter-panel" style={{ display: "flex", justifyContent: "flex-end" }}> 
+            <div
+              className="home-filter-panel"
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
               <Paper
                 elevation={2}
                 className="date-panel"
-                style={{ 
-                  overflow: "auto", 
-                  width: "100%", 
-                  maxWidth: "max-content"
+                style={{
+                  overflow: "auto",
+                  width: "100%",
+                  maxWidth: "max-content",
                 }}
                 ref={datePanelRef}
               >
@@ -760,7 +762,7 @@ const NewSearchPanel = () => {
                       borderRadius: "12px",
                       overflow: "hidden",
                       display: "flex",
-                      flexDirection: {xs:"column",sm:"row"},
+                      flexDirection: { xs: "column", sm: "row" },
                       width: "100%",
                     }}
                   >
@@ -939,6 +941,23 @@ const NewSearchPanel = () => {
               </Paper>
             </div>
           )}
+          <Typography
+            sx={{
+              ...styles.subTitle,
+              position: "absolute",
+              top: { xs: "50vh", sm: "18vh" },
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontSize: { xs: "34px", sm: "45px" },
+              lineHeight: { xs: "30px", sm: "54px" },
+              width: "100%",
+            }}
+            className="hero-subtitle"
+          >
+            Book your next salon experience
+            <br />
+            with Lavender
+          </Typography>
         </div>
       </div>
     </>
@@ -946,3 +965,12 @@ const NewSearchPanel = () => {
 };
 
 export default NewSearchPanel;
+const styles = {
+  subTitle: {
+    fontFamily: "Urbanist",
+    fontWeight: 700,
+    color: "#333333",
+    textAlign: "center",
+    paddingLeft: 0,
+  },
+};
