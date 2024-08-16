@@ -17,6 +17,8 @@ import { Publish } from "./SalonProfileSteps/Publish";
 import GetIcon from "../../../assets/Icon/icon";
 import { useSelector } from "react-redux";
 import endpoint from "../../../api/endpoints";
+import BusinessTeam from "../team/BusinessTeam";
+import { Services } from "../services/Services";
 
 export const SalonSetup = ({ setMembershipScreen }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,12 +77,6 @@ export const SalonSetup = ({ setMembershipScreen }) => {
 
     getEstablishmentDetails();
   }, [isOpen]);
-
-  useEffect(() => {
-    if (isPublished) {
-      handleBtnClick();
-    }
-  }, [isPublished]);
 
   useEffect(() => {
     if (activeStep >= 3) {
@@ -206,13 +202,14 @@ export const SalonSetup = ({ setMembershipScreen }) => {
               />
             )}
 
-            {activeStep === 3 && (
+            {(activeStep === 3) && (
               <Publish
                 userDetails={userDetails}
                 setIsOpen={setIsOpen}
                 setMembershipScreen={setMembershipScreen}
               />
             )}
+            
           </div>
         </div>
       </Dialog>

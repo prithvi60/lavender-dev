@@ -173,12 +173,16 @@ button.outline-button{
 
 .swiper-button-next {
     color: transparent !important;
-    background: url("../../assets/nexticon_arrow.png") no-repeat !important;
+    background: url("../../assets/icon_arrow_next.png") no-repeat !important;
 }
 
 .swiper-button-prev {
     color: transparent !important;
-    background: url("../../assets/icon_arrow.png") no-repeat !important;
+    background: url("../../assets/icon_arrow_prev.png") no-repeat !important;
+}
+
+.swiper-pagination-bullet-active{
+    background-color: var(--primary-clr) !important;
 }
 @media (max-width: 640px) {
   .swiper {

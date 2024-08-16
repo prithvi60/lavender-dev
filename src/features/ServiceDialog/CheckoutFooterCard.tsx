@@ -289,12 +289,12 @@ function CheckoutFooterCard(props) {
                   />
                   <Text
                     sx={styles.startingPrice}
-                    name={`$${item.finalPrice}`}
+                    name={`$${item?.finalPrice}`}
                   />
                 </Box>
                 <Text
                   sx={styles.duration}
-                  name={`${item.duration} mins`}
+                  name={`${item?.duration} mins`}
                 />
               </Box>
             ))}
