@@ -8,6 +8,8 @@ import {
   Paper,
   Select,
   TextField,
+  Button,
+  Typography,
 } from "@mui/material";
 import Text from "../../components/Text.js";
 import SelectTreatment from "./SelectTreatment.js";
@@ -19,10 +21,13 @@ import {
   AccessTime,
   ContentCut,
   DateRange,
+  KeyboardArrowLeftOutlined,
+  KeyboardArrowRightOutlined,
   LocationOn,
   Search,
 } from "@mui/icons-material";
 import dayjs from "dayjs";
+import { PickersDay } from "@mui/x-date-pickers/PickersDay";
 import { DatePicker, pickersLayoutClasses } from "@mui/x-date-pickers";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -49,6 +54,36 @@ import { CiSearch } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import { format } from "date-fns";
+import { styled } from "@mui/material/styles";
+
+import updateLocale from "dayjs/plugin/updateLocale";
+dayjs.extend(updateLocale);
+dayjs.updateLocale("en", {
+  weekStart: 1,
+});
+// Custom styled components
+const ShortcutButton = styled(Button)(({ theme, selected }) => ({
+  borderRadius: "16px",
+  padding: "4px 6px",
+  marginRight: "8px",
+  marginBottom: "8px",
+  textTransform: "none",
+  backgroundColor: selected ? "#E6E1FF" : "#f0f0f0",
+  color: theme.palette.text.primary,
+  "&:hover": {
+    backgroundColor: selected ? theme.palette.primary.dark : "#E6E1FF",
+  },
+}));
+
+const CustomPickersDay = styled(PickersDay)(({ theme, isSelected }) => ({
+  ...(isSelected && {
+    backgroundColor: "#E6E1FF !important",
+    color: theme.palette.primary.main,
+    "&:hover, &:focus": {
+      backgroundColor: "#E6E1FF",
+    },
+  }),
+}));
 
 const NewSearchPanel = () => {
   const [isTreatmentOpen, setIsTreatmentOpen] = useState(false);
@@ -78,37 +113,44 @@ const NewSearchPanel = () => {
 
   const dispatch = useDispatch();
 
+  const datePanelRef = useRef(null);
+  const treatmentPanelRef = useRef(null);
+  const timePanelRef = useRef(null);
+
   const shortcutsItems = [
+    {
+      label: "Flexible",
+      getValue: () => "",
+    },
     {
       label: "Today",
       getValue: () => {
         const today = dayjs();
-        return [today.startOf("day"), today.endOf("day")];
+        return `${today.format("MMMM DD")} - ${today.format("MMMM DD")}`;
       },
     },
     {
-      label: "tomorrow",
+      label: "Tomorrow",
       getValue: () => {
         const today = dayjs();
-        const tomorrow = dayjs().add(1, "day");
-        return [today.startOf("day"), tomorrow.endOf("day")];
+        const tomorrow = today.add(1, "day");
+        return `${tomorrow.format("MMMM DD")} - ${tomorrow.format("MMMM DD")}`;
       },
     },
     {
-      label: "+2days",
+      label: "+2 Days",
       getValue: () => {
         const today = dayjs();
-        const plusTwoDay = dayjs().add(2, "day");
-        return [today, plusTwoDay.endOf("day")];
+        const plusTwoDay = today.add(2, "day");
+        return `${today.format("MMMM DD")} - ${plusTwoDay.format("MMMM DD")}`;
       },
     },
     {
-      label: "+3days",
+      label: "+3 Days",
       getValue: () => {
-        const tomorrow = dayjs().add(1, "day");
         const today = dayjs();
-        const plusThreeDay = today.endOf("day").add(3, "day");
-        return [today, plusThreeDay.endOf("day")];
+        const plusThreeDay = today.add(3, "day");
+        return `${today.format("MMMM DD")} - ${plusThreeDay.format("MMMM DD")}`;
       },
     },
     {
@@ -116,10 +158,13 @@ const NewSearchPanel = () => {
       getValue: () => {
         const today = dayjs();
         const startOfNextWeek = today.endOf("week").add(1, "day");
-        return [startOfNextWeek, startOfNextWeek.endOf("week")];
+        const endOfNextWeek = startOfNextWeek.endOf("week");
+        return `${startOfNextWeek.format("MMMM DD")} - ${endOfNextWeek.format(
+          "MMMM DD"
+        )}`;
       },
     },
-    { label: "Reset", getValue: () => [null, null] },
+    { label: "Reset", getValue: () => "" },
   ];
 
   const gridRef = useRef < HTMLDivElement > null; // Explicitly specify the type of gridRef
@@ -137,20 +182,7 @@ const NewSearchPanel = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [dispatch]);
-
-  // const onChangeDate = (data) => {
-
-  //   const fromDate =
-  //     data[0]?.format("MMM DD") === undefined ? "" : data[0]?.format("MMM DD");
-  //   const toDate =
-  //     data[1]?.format("MMM DD") === undefined ? "" : data[1]?.format("MMM DD");
-
-  //   dispatch(updateSearchDate({ selectedDate: `${fromDate} - ${toDate}` }));
-  // };
-
-  // const onChangeDate = (data) => {
-  //   dispatch(updateSearchDate({ selectedDate: data.target.value }));
-  // };
+  const [activeShortcut, setActiveShortcut] = useState(null);
 
   const onChangeTime = (data) => {
     const startTime = data.target.value;
@@ -168,32 +200,6 @@ const NewSearchPanel = () => {
   };
 
   const handleBoxClick = (name) => {
-    // switch (name) {
-    //   case "Treatment":
-    //     setIsTreatmentOpen(true);
-    //     break;
-    //   case "Location":
-    //     setModalShow(true);
-    //     break;
-    //   case "Date":
-    //     setDatePickerOpen(true);
-    //     break;
-
-    //   case "Time":
-    //     setTimePickerOpen(true);
-    //     break;
-
-    //   default:
-    //     return;
-    // }
-
-    // dispatch(
-    //   updateSearchSelectedBox({
-    //     selectedBox: name,
-    //     showOptionContainer: true,
-    //   })
-    // )
-
     if (name === "Location") {
       setModalShow(true);
     } else {
@@ -204,15 +210,7 @@ const NewSearchPanel = () => {
         })
       );
     }
-
-    // Update form values on box click
-    // dispatch(updateSearchSelectedBox({ selectedBox: name, showOptionContainer: true }))
   };
-  //  const mutation = useMutation({
-  //     mutationFn : (payLoad) => {
-  //       return useQuery([], ()=>{endpoint.getSearchCustomers(payLoad)})
-  //     },
-  //   })
 
   const handleDateChange = (newDate) => {
     setDatePickerOpen(false);
@@ -239,9 +237,6 @@ const NewSearchPanel = () => {
   const payLoad = {};
   useEffect(() => {}, []);
 
-  //const {isLoading, isRefetching, data: customersData} = useQuery({queryKey: ['customer-data'], queryFn: () =>{ return endpoint.getSearchCustomers(payLoad)}})
-  //const {data} = useQuery({queryKey: ['customer-da'], queryFn: () =>{ return endpoint.getEstablishemntDetails()}})
-
   const getAddressDetails = async (card) => {
     const { geoX, geoY } = card;
     if (geoX !== null && geoY !== null) {
@@ -259,20 +254,7 @@ const NewSearchPanel = () => {
   };
 
   const handleSearchIconClick = async () => {
-    // mutation.mutate(payLoad)
-    // return getRoute("Search");
-
-    const payLoad = {
-      // seviceNames: treatmentList,
-      // // categoryName: ["Hair treatment"],
-      // startDate: selectedDate.split("to")[0]?.trim(),
-      // endDate: selectedDate.split("to")[1]?.trim(),
-      // geoX: locationList[0]?.center?.lat,
-      // geoY: locationList[0]?.center?.lng,
-      // range: locationList[0]?.range,
-      // startTime: SelectedTime?.from,
-      // endTime: SelectedTime?.to,
-    };
+    const payLoad = {};
 
     if (treatmentList && treatmentList.length > 0) {
       payLoad.serviceNames = treatmentList;
@@ -355,8 +337,6 @@ const NewSearchPanel = () => {
   };
 
   const getTreatementBasedGeoLocation = async () => {
-    // setModalShow(true);
-    // setFilterType("Treatement");
     if (treatmentValue.length >= 3) {
       const payLoad = {
         serviceName: treatmentValue,
@@ -392,8 +372,6 @@ const NewSearchPanel = () => {
   };
 
   const getDateBasedGeoLocation = async () => {
-    // setModalShow(true);
-    // setFilterType("Date");
     if (treatmentDate) {
       const payLoad = {
         date: treatmentDate,
@@ -425,8 +403,6 @@ const NewSearchPanel = () => {
   };
 
   const getTimeBasedGeoLocation = async () => {
-    // setModalShow(true);
-    // setFilterType("Time");
     if (treatmentTime.from) {
       const payLoad = {
         startTime: treatmentTime.from,
@@ -459,6 +435,101 @@ const NewSearchPanel = () => {
     dispatch(updateSearchSelectedBox({ selectedBox: "" }));
   };
 
+  const [selectedShortcut, setSelectedShortcut] = useState("Flexible");
+  const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
+
+  const handleShortcutClick = (shortcut) => {
+    const selectedDate = shortcut.getValue();
+    dispatch(updateSearchDate({ selectedDate }));
+
+    if (selectedDate) {
+      const [start, end] = selectedDate.split(" - ");
+      const startDate = dayjs(start, "MMMM DD");
+      const endDate = dayjs(end, "MMMM DD");
+      dispatch(
+        updateDate({
+          date: `${startDate.format("YYYY-MM-DD")} to ${endDate.format(
+            "YYYY-MM-DD"
+          )}`,
+        })
+      );
+      setSelectedDateRange([startDate, endDate]);
+    } else {
+      dispatch(updateDate({ date: "" }));
+      setSelectedDateRange([null, null]);
+    }
+
+    setSelectedShortcut(shortcut.label);
+  };
+
+  const handleDateRangeChange = (newValue) => {
+    onChangeDate(newValue);
+    setSelectedDateRange(newValue);
+    setSelectedShortcut("Flexible");
+  };
+
+  // Outside click
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        (datePanelRef.current &&
+          !datePanelRef.current.contains(event.target)) ||
+        (treatmentPanelRef.current &&
+          !treatmentPanelRef.current.contains(event.target)) ||
+        (timePanelRef.current && !timePanelRef.current.contains(event.target))
+      ) {
+        closeFilterPannel();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // DatePicker shortcuts and customstyling componenet
+  // Use an effect to set the initial state
+  useEffect(() => {
+    handleShortcutClick(shortcutsItems[0]); // Set "Flexible" as default
+  }, []);
+
+  const CustomPickersStyled = styled(PickersDay)(
+    ({ theme, isSelected, isInRange }) => ({
+      ...(isSelected && {
+        backgroundColor: "#E6E1FF !important",
+        color: "#000000",
+        "&:hover, &:focus": {
+          backgroundColor: "#E6E1FF",
+        },
+      }),
+      ...(isInRange && {
+        backgroundColor: "#F3F0FF !important",
+        color: "#000000",
+        "&:hover, &:focus": {
+          backgroundColor: "#F3F0FF",
+        },
+      }),
+    })
+  );
+
+  const CustomPickersDay = (props) => {
+    const { day, selected, isStartOfRange, isEndOfRange, isInRange, ...other } =
+      props;
+    const validDay = dayjs.isDayjs(day) ? day : dayjs(day);
+
+    return (
+      <CustomPickersStyled
+        {...other}
+        day={validDay}
+        selected={selected || isStartOfRange || isEndOfRange}
+        isSelected={selected || isStartOfRange || isEndOfRange}
+        isInRange={isInRange}
+      >
+        {validDay.date()}
+      </CustomPickersStyled>
+    );
+  };
   return (
     <>
       <MyVerticallyCenteredModal
@@ -488,12 +559,19 @@ const NewSearchPanel = () => {
                     selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
                   }`}
                 >
-                  <div className="search-box-title-icon" onClick={() => handleBoxClick("Treatment")}>
+                  <div
+                    className="search-box-title-icon"
+                    onClick={() => handleBoxClick("Treatment")}
+                  >
                     <GetIcon iconName="TreatmentHeartIcon" />
-                    <div className="search-box-title" >
+                    <div className="search-box-title">
                       {treatmentList && treatmentList.length > 0 ? (
                         <Text
-                          sx={{fontSize: '20px', fontWeight: 400, color: '#616161'}}
+                          sx={{
+                            fontSize: "20px",
+                            fontWeight: 400,
+                            color: "#616161",
+                          }}
                           className="cursor-pointer"
                           name={treatmentList.toString().replaceAll(",", ", ")}
                         ></Text>
@@ -530,13 +608,20 @@ const NewSearchPanel = () => {
                     selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
                   }`}
                 >
-                  <div className="search-box-title-icon" onClick={() => handleBoxClick("Location")}>
+                  <div
+                    className="search-box-title-icon"
+                    onClick={() => handleBoxClick("Location")}
+                  >
                     <GetIcon iconName="LocationIcon" />
-                    <div className="search-box-title" >
+                    <div className="search-box-title">
                       {locationList && locationList.length > 0 ? (
                         <Text
                           className="cursor-pointer"
-                          sx={{fontSize: '20px', fontWeight: 400, color: '#616161'}}
+                          sx={{
+                            fontSize: "20px",
+                            fontWeight: 400,
+                            color: "#616161",
+                          }}
                           name={locationList[0]?.location
                             ?.toString()
                             .replaceAll(",", ", ")}
@@ -572,12 +657,19 @@ const NewSearchPanel = () => {
                     selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
                   }`}
                 >
-                  <div className="search-box-title-icon"  onClick={() => handleBoxClick("Date")}>
+                  <div
+                    className="search-box-title-icon"
+                    onClick={() => handleBoxClick("Date")}
+                  >
                     <GetIcon iconName="CalendarIcon" />
                     <div className="search-box-title">
                       {selectedDate ? (
                         <Text
-                        sx={{fontSize: '20px', fontWeight: 400, color: '#616161'}}
+                          sx={{
+                            fontSize: "20px",
+                            fontWeight: 400,
+                            color: "#616161",
+                          }}
                           className="cursor-pointer"
                           name={selectedDate}
                         ></Text>
@@ -608,13 +700,20 @@ const NewSearchPanel = () => {
                 className={`grid-items ${selectedBox === "Time" && "active"}`}
               >
                 <Box className="search-box addtl-button MuiBox-root css-0">
-                  <div className="search-box-title-icon" onClick={() => handleBoxClick("Time")}>
+                  <div
+                    className="search-box-title-icon"
+                    onClick={() => handleBoxClick("Time")}
+                  >
                     <GetIcon iconName="AccessTimeFilledIcon" />
                     <div className="search-box-title">
                       {SelectedTime &&
                       (SelectedTime.from || SelectedTime.to) ? (
                         <Text
-                        sx={{fontSize: '20px', fontWeight: 400, color: '#616161'}}
+                          sx={{
+                            fontSize: "20px",
+                            fontWeight: 400,
+                            color: "#616161",
+                          }}
                           className="cursor-pointer"
                           // name={
                           //   !choseFromOptions
@@ -623,7 +722,11 @@ const NewSearchPanel = () => {
                           //       )} - ${convertTo_HH_AM(SelectedTime?.to)}`
                           //     : `${SelectedTime?.from} - ${SelectedTime?.to}`
                           // }
-                          name={SelectedTime?.to ? (`${SelectedTime?.from} - ${SelectedTime?.to}`) : (`${SelectedTime?.from}`)}
+                          name={
+                            SelectedTime?.to
+                              ? `${SelectedTime?.from} - ${SelectedTime?.to}`
+                              : `${SelectedTime?.from}`
+                          }
                         ></Text>
                       ) : (
                         <>
@@ -660,15 +763,19 @@ const NewSearchPanel = () => {
           </div>
 
           {selectedBox === "Treatment" && showOptionContainer && (
-            <div className="home-filter-panel absolute top-full left-0 right-0 z-10">
-              <Paper elevation={2} className="treatment-panel">
+            <div className="home-filter-panel">
+              <Paper
+                elevation={2}
+                className="treatment-panel"
+                ref={treatmentPanelRef}
+              >
                 <SelectTreatment />
               </Paper>
             </div>
           )}
 
           {selectedBox === "Location" && showOptionContainer && (
-            <div className="home-filter-panel three-column absolute top-full left-0 right-0 z-10">
+            <div className="home-filter-panel three-column ">
               <div></div>
               <Paper elevation={2} className="treatment-panel">
                 <SelectLocation />
@@ -677,55 +784,201 @@ const NewSearchPanel = () => {
           )}
 
           {selectedBox === "Date" && showOptionContainer && (
-            <div className="home-filter-panel two-column absolute top-full left-0 right-0 z-10">
+            <div className="home-filter-panel three-column">
               <div></div>
               <Paper
                 elevation={2}
                 className="date-panel"
-                style={{ overflow: "auto"}}
+                style={{ overflow: "auto" }}
+                ref={datePanelRef}
               >
-                <div className="flex justify-end p-2 pb-0 cursor-pointer">
+                <div className="flex justify-end p-2 pb-0 cursor-pointer text-black">
                   <CloseIcon onClick={() => closeFilterPannel()} />
                 </div>
-                <div style={{ overflowX: 'auto' }}>
-                <LocalizationProvider dateAdapter={AdapterDayjs} >
-                  <StaticDateRangePicker
-                    slotProps={{
-                      shortcuts: {
-                        items: shortcutsItems,
-                      },
-                      actionBar: { actions: [] },
-                    }}
-                    // calendars={2}
-                    onChange={onChangeDate}
-                    minDate={dayjs()}
+                <div>
+                  <Box
                     sx={{
-                      [`.${pickersLayoutClasses?.contentWrapper}`]: {
-                        alignItems: "center",
-                      },
+                      bgcolor: "background.paper",
+                      borderRadius: "12px",
+                      overflow: "hidden",
+                      display: "flex",
+                      flexDirection: { xs: "column", sm: "row" },
                     }}
-                  />
-                </LocalizationProvider>
+                  >
+                    <Box sx={{ padding: '24px', borderBottom: "1px solid #e0e0e0" ,
+
+                    }}>
+                      <Typography
+                        variant="h6"
+                        gutterBottom
+                        sx={{ marginBottom: "10%", textAlign: "left" }}
+                      >
+                        Choose your convenient date
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(2, 1fr)",
+                          gap: "8px",
+                        }}
+                      >
+                        {shortcutsItems.map((shortcut) => (
+                          <ShortcutButton
+                            key={shortcut.label}
+                            selected={selectedShortcut === shortcut.label}
+                            onClick={() => handleShortcutClick(shortcut)}
+                          >
+                            {shortcut.label}
+                          </ShortcutButton>
+                        ))}
+                      </Box>
+                    </Box>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <StaticDateRangePicker
+                        value={selectedDateRange}
+                        onChange={handleDateRangeChange}
+                        slotProps={{
+                          actionBar: { actions: [] },
+                        }}
+                        // onChange={(newValue) => {
+                        //   onChangeDate(newValue);
+                        //   setSelectedShortcut("Flexible"); // Reset to Flexible when user interacts with date picker
+                        // }}
+                        minDate={dayjs()}
+                        displayStaticWrapperAs="desktop"
+                        calendars={1}
+                        slots={{
+                          day: CustomPickersDay,
+                          calendarHeader: ({ currentMonth, onMonthChange }) => (
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                padding: "0 16px",
+                                marginBottom: "12px",
+                              }}
+                            >
+                              <IconButton
+                                onClick={() =>
+                                  onMonthChange(
+                                    dayjs(currentMonth).subtract(1, "month")
+                                  )
+                                }
+                              >
+                                {/* <GetIcon iconName="BackIcon" /> */}
+                                <KeyboardArrowLeftOutlined
+                                  sx={{
+                                    backgroundColor: "#1a237e",
+                                    color: "white",
+                                    borderRadius: "50%",
+                                    padding: "4px",
+                                  }}
+                                />
+                              </IconButton>
+                              <Typography variant="h6">
+                                {dayjs(currentMonth).format("MMMM YYYY")}
+                              </Typography>
+                              <IconButton
+                                onClick={() =>
+                                  onMonthChange(
+                                    dayjs(currentMonth).add(1, "month")
+                                  )
+                                }
+                              >
+                                {/* <GetIcon iconName="BackIcon" />
+                                 */}
+                                <KeyboardArrowRightOutlined
+                                  sx={{
+                                    backgroundColor: "#1a237e",
+                                    color: "white",
+                                    borderRadius: "50%",
+                                    padding: "4px",
+                                  }}
+                                />
+                              </IconButton>
+                            </div>
+                          ),
+                        }}
+                        sx={{
+                          "& .MuiDateRangeCalendar-root": {
+                            "& > *:first-child": {
+                              display: "none",
+                            },
+                          },
+                          "& .MuiPickersCalendarHeader-root": {
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            paddingLeft: 2,
+                            paddingRight: 2,
+                            paddingTop: 1,
+                            paddingBottom: 1,
+                            borderBottom: "1px solid #e0e0e0",
+                            marginBottom: "10px",
+                          },
+                          "& .MuiDateRangePickerDay-rangeIntervalDayHighlight":
+                            {
+                              backgroundColor: "#F3F0FF",
+                            },
+                          "& .MuiDateRangePickerDay-rangeIntervalDayHighlightStart, & .MuiDateRangePickerDay-rangeIntervalDayHighlightEnd":
+                            {
+                              backgroundColor: "#E6E1FF",
+                              "&::before": {
+                                backgroundColor: "#E6E1FF",
+                              },
+                            },
+                          "& .MuiDayCalendar-header": {
+                            borderBottom: "1px solid #e0e0e0",
+                            paddingBottom: "8px",
+                            marginBottom: "8px",
+                            marginLeft: "5%",
+                            marginRight: "5%",
+                          },
+                          "& .MuiPickersCalendarHeader-label": {
+                            fontWeight: "bold",
+                            order: 2,
+                            flex: 1,
+                            textAlign: "center",
+                          },
+                          "& .MuiPickersArrowSwitcher-root": {
+                            order: 1,
+                          },
+                          "& .MuiDayPickersDay-root": {
+                            width: 36,
+                            height: 36,
+                            fontSize: "0.875rem",
+                            margin: "0 2px",
+                          },
+                        }}
+                        componentsProps={{
+                          leftArrowButton: {
+                            children: <GetIcon iconName="ForwardIcon" />,
+                          },
+                          rightArrowButton: {
+                            children: <GetIcon iconName="BackIcon" />,
+                          },
+                        }}
+                      />
+                    </LocalizationProvider>
+                  </Box>
                 </div>
-                
               </Paper>
             </div>
           )}
-
           {selectedBox === "Time" && showOptionContainer && (
             <div className="home-filter-panel one-column absolute top-full left-0 right-0 z-10">
               <div></div>
               <Paper
                 elevation={2}
                 className="time-panel"
+                ref={timePanelRef}
                 // style={{ overflow: "auto" }}
               >
                 <SelectTimePicker />{" "}
-                {/* Pass form controller to SelectTimePicker */}
               </Paper>
             </div>
           )}
-          {/* </Form> */}
         </div>
       </div>
     </>
