@@ -56,6 +56,7 @@
     align-content: center;
     text-align: center;
     padding: 30px;
+    justify-items: center;
 }
 
 .hero-section .hero-content .text.hero-title {
@@ -130,8 +131,8 @@
         display: grid;
         z-index: 50;
         width: 100%;
-        position: absolute;
-        top: 10vh !important; 
+        /* position: absolute; */
+        /* top: 100px;  */
 
         &.one-column{
             grid-template-columns: 3fr 1fr;
