@@ -39,7 +39,7 @@ const HeroSection = () => {
             sx={{ ...styles.subTitle, 
                 // position: "absolute" 
                 position:"absolute",
-                bottom:{xs:"0px",sm:"25vh"}
+                bottom:{xs:"0px",sm:"20vh"}
             }}
             className="hero-subtitle"
           >

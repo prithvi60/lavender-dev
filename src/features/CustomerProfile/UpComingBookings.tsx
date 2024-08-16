@@ -33,7 +33,7 @@ function UpComingBookings({ userInfo }) {
     };
 
     const cardCount = userInfo?.upcomingBookings?.length;
-    const cardWidth = cardCount <= 2 ? '48%' : '32%';
+    const cardWidth = cardCount <= 2 ? '48%' : '50%';
 
     const cardStyle = {
         flex: '0 0 auto',
@@ -58,14 +58,28 @@ function UpComingBookings({ userInfo }) {
                             flexDirection: isMobile ? 'column' : 'row',
                             overflowX: isMobile ? 'hidden' : 'auto', 
                             overflowY: isMobile ? 'auto' : 'visible',
-                            padding: '10px' 
+                            padding: '10px' ,
+                            justifyContent: 'space-between',
+                            scrollbarWidth: 'thin',
+                            // @ts-ignore
+                            '&::-webkit-scrollbar': {
+                                width: '3px',
+                                height: '3px',
+                            },
+                            '&::-webkit-scrollbar-thumb': {
+                                backgroundColor: '#888',
+                                borderRadius: '3px',
+                            },
+                            '&::-webkit-scrollbar-track': {
+                                backgroundColor: '#f1f1f1',
+                            },
                         }}>
                             {userInfo?.upcomingBookings?.map((bookings, index) => (
                                 <React.Fragment key={index}>
                                     <Card
                                         sx={{
                                             ...cardStyle,
-                                            padding: 0,
+                                            // padding: 0,
                                             boxShadow: isMobile ? 'none' : '0 2px 4px rgba(0, 0, 0, 0.1)',
                                         }}
                                         onClick={() => handleCardClick(index)}
@@ -105,7 +119,7 @@ function UpComingBookings({ userInfo }) {
                                             </>
                                         ) : (
                                             <Grid container spacing={1}>
-                                                <Grid item xs={4}>
+                                                <Grid item xs={6}>
                                                     <Card
                                                         sx={{
                                                             height: '100%',
@@ -116,7 +130,7 @@ function UpComingBookings({ userInfo }) {
                                                             flexDirection: 'column',
                                                             justifyContent: 'center',
                                                             alignItems: 'center',
-                                                            padding: 1
+                                                            padding: 1,
                                                         }}
                                                     >
                                                         <Text sx={styles.startMonth} name={`${convertToMonthOnly(bookings?.startTime)} ${convertToYearOnly(bookings?.startTime)}`}/>
@@ -124,7 +138,7 @@ function UpComingBookings({ userInfo }) {
                                                         <Text sx={styles.startDay} name={convertToDayOnly(bookings?.startTime)}/>
                                                     </Card>
                                                 </Grid>
-                                                <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start', paddingLeft: '24px !important' }}>
+                                                <Grid item xs={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start', paddingLeft: '24px !important' }}>
                                                     <Text sx={styles.estName} name={bookings?.establishmentName}/>
                                                     <Text sx={styles.startTime} name={convertToTimeOnly(bookings?.startTime)}/>
                                                     <Text sx={styles.services} name={`${bookings.services.length} services`}/>

@@ -234,33 +234,7 @@ export default function ScheduleAppointment(props) {
         </IconButton>
         <div className="text-3xl font-bold">Schedule</div>
       </div>
-{/* 
-      <div className="mb-4">
 
-        <ReactWeeklyDayPicker
-          ref={datePickerRef}
-          daysCount={7} //How many days will be shown
-          startDay={new Date()} // First day as Date Object or 22 June 2016
-          selectedDays={[selectedDateBtn]} // Selected days list
-          multipleDaySelect={false} //enables multiple day selection
-          selectDay={function (day) {
-            handleDateClick(day);
-            setDateClicked(true);
-          }}
-          unselectDay={function (day) {}}
-          onPrevClick={function (startDay, selectedDays) {}} // called with the new startDay
-          onNextClick={function (startDay, selectedDays) {}} // called with the new startDay
-          unselectable={false} // if true allows to unselect a date once it has been selected. Only works when multipleDaySelect={false}
-          format={"YYYY-MM-DD"} //format of dates that handled in selectDay and unselectDay functions
-          firstLineFormat={"ddd"} // format for the first line of the day button
-          secondLineFormat={"MMM D"} // format for the second line of the day button
-          firstLineMobileFormat={"dddd"} // format for the first line of the day button mobile
-          secondLineMobileFormat={"MMMM D, Y"} // format for the second line of the day button mobile
-          beforeToday={false} // all dates before today set as unavailable (default:true)
-          todayText={"today"} // replacing today text (default : - TODAY -)
-          unavailableText={""} // replacing unavailable text (default: unavailable )
-        />
-      </div> */}
       <div className="mb-4">
         <CustomWeeklyDatePicker onDateSelect={handleDateSelect} />
       </div>
@@ -280,7 +254,22 @@ export default function ScheduleAppointment(props) {
                   >
                     {timePeriod}
                   </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-rows-2 gap-x-5 gap-y-2.5 lg:gap-3 !overflow-x-auto md:grid-rows-3 w-full">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-rows-2  gap-y-2.5 lg:gap-3 !overflow-x-auto md:grid-rows-3 w-full"
+                    style={{
+                      scrollbarWidth: 'thin',
+                      // @ts-ignore
+                      '&::-webkit-scrollbar': {
+                        height: '4px',
+                      },
+                      '&::-webkit-scrollbar-thumb': {
+                        backgroundColor: '#888',
+                        borderRadius: '2px',
+                      },
+                      '&::-webkit-scrollbar-track': {
+                        backgroundColor: '#f1f1f1',
+                      },
+                    }}
+                  >
                     {slotsArray.length > 0 ? (
                       slotsArray?.map((slot: any, index: any) => {
                         return (
@@ -321,7 +310,7 @@ export default function ScheduleAppointment(props) {
                                 handleChipClick(timePeriod, slot, index)
                               }
                               style={{
-                                margin: "0px 15px",
+                                margin: "0px",
                                 backgroundColor: selectedPaymentChips.includes(
                                   `${slot.startTime} - ${slot.endTime}`
                                 )
@@ -471,7 +460,7 @@ export default function ScheduleAppointment(props) {
 const styles = {
   customWeeklyPicker: {
     width: '100%',
-    maxWidth: '500px',
+    maxWidth: '800px',
     marginLeft: '5%',
   },
   monthYear: {
@@ -508,8 +497,8 @@ const styles = {
     marginBottom: '5px',
   },
   dayNumber: {
-    width: '36px',
-    height: '36px',
+    width: '48px',
+    height: '48px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',

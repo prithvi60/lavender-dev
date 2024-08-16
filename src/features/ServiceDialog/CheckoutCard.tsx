@@ -177,7 +177,7 @@ function CheckoutCard(props) {
               alt=""
               className="establishmentImageCls max-w-52 h-28"
               src={imageUrls[0]}
-              // style={{ width: "350px", height: "120px", margin: "10px" }}
+              style={{ width: "350px", height: "120px", margin: "10px" }}
             />
           )}
 
