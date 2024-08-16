@@ -71,7 +71,7 @@ export const CancelAppointmentModal = ({bookings}) => {
         <div>
             <div className='flex items-center justify-end py-5 md:p-5' style={{ cursor: 'pointer' }} onClick={handleCancelClick}>
                 <GetIcon iconName='CancelIcon' />
-                <div className='pl-1'>Cancel</div>
+                <div className='pl-1 text-[#4D4D4D] text-base'>Cancel</div>
             </div>
             <Modal
                 open={isCancelOpen}
@@ -92,10 +92,10 @@ export const CancelAppointmentModal = ({bookings}) => {
                         </Grid>
                         <Grid item xs={12} sm={8} sx={{ order: { xs: 2, sm: 1 } }}>
                             <div>
-                                <div className='text-4xl font-bold py-3' style={{ color: '#333333' }}>Are you sure you want to cancel your appointment?</div>
-                                <div className='text-lg font-normal py-3' style={{ color: '#333333' }}>Should your plans change, we encourage you to explore rescheduling for a more suitable time.</div>
+                                <div className='py-3 text-4xl font-bold' style={{ color: '#333333' }}>Are you sure you want to cancel your appointment?</div>
+                                <div className='py-3 text-lg font-normal' style={{ color: '#333333' }}>Should your plans change, we encourage you to explore rescheduling for a more suitable time.</div>
                             </div>
-                            <div className='pt-12 pb-4 flex justify-start sm:justify-between'>
+                            <div className='flex justify-start pt-12 pb-4 sm:justify-between'>
                                 <div className='p-4'><Button sx={styles.btn} variant='outlined' name={'Yes, Cancel'} onClick={()=>{handleCancelApptClick("SER00002514")}}/></div>
                                 <div className='p-4'><Button sx={styles.btn} name={'Reschedule'} onClick={()=> {handleRescheduleClick()}}/></div>
                             </div>
