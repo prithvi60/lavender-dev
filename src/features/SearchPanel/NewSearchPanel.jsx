@@ -55,13 +55,13 @@ import { useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import { format } from "date-fns";
 import { styled } from "@mui/material/styles";
-
+//  Change date picker forma
 import updateLocale from "dayjs/plugin/updateLocale";
 dayjs.extend(updateLocale);
 dayjs.updateLocale("en", {
   weekStart: 1,
 });
-// Custom styled components
+// Custom shortcut
 const ShortcutButton = styled(Button)(({ theme, selected }) => ({
   borderRadius: "16px",
   padding: "4px 6px",
@@ -71,18 +71,8 @@ const ShortcutButton = styled(Button)(({ theme, selected }) => ({
   backgroundColor: selected ? "#E6E1FF" : "#f0f0f0",
   color: theme.palette.text.primary,
   "&:hover": {
-    backgroundColor: selected ? theme.palette.primary.dark : "#E6E1FF",
+    backgroundColor: "#E6E1FF",
   },
-}));
-
-const CustomPickersDay = styled(PickersDay)(({ theme, isSelected }) => ({
-  ...(isSelected && {
-    backgroundColor: "#E6E1FF !important",
-    color: theme.palette.primary.main,
-    "&:hover, &:focus": {
-      backgroundColor: "#E6E1FF",
-    },
-  }),
 }));
 
 const NewSearchPanel = () => {
@@ -494,42 +484,6 @@ const NewSearchPanel = () => {
     handleShortcutClick(shortcutsItems[0]); // Set "Flexible" as default
   }, []);
 
-  const CustomPickersStyled = styled(PickersDay)(
-    ({ theme, isSelected, isInRange }) => ({
-      ...(isSelected && {
-        backgroundColor: "#E6E1FF !important",
-        color: "#000000",
-        "&:hover, &:focus": {
-          backgroundColor: "#E6E1FF",
-        },
-      }),
-      ...(isInRange && {
-        backgroundColor: "#F3F0FF !important",
-        color: "#000000",
-        "&:hover, &:focus": {
-          backgroundColor: "#F3F0FF",
-        },
-      }),
-    })
-  );
-
-  const CustomPickersDay = (props) => {
-    const { day, selected, isStartOfRange, isEndOfRange, isInRange, ...other } =
-      props;
-    const validDay = dayjs.isDayjs(day) ? day : dayjs(day);
-
-    return (
-      <CustomPickersStyled
-        {...other}
-        day={validDay}
-        selected={selected || isStartOfRange || isEndOfRange}
-        isSelected={selected || isStartOfRange || isEndOfRange}
-        isInRange={isInRange}
-      >
-        {validDay.date()}
-      </CustomPickersStyled>
-    );
-  };
   return (
     <>
       <MyVerticallyCenteredModal
@@ -784,12 +738,18 @@ const NewSearchPanel = () => {
           )}
 
           {selectedBox === "Date" && showOptionContainer && (
-            <div className="home-filter-panel three-column">
-              <div></div>
+            <div
+              className="home-filter-panel"
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
               <Paper
                 elevation={2}
                 className="date-panel"
-                style={{ overflow: "auto" }}
+                style={{
+                  overflow: "auto",
+                  width: "100%",
+                  maxWidth: "max-content",
+                }}
                 ref={datePanelRef}
               >
                 <div className="flex justify-end p-2 pb-0 cursor-pointer text-black">
@@ -803,11 +763,17 @@ const NewSearchPanel = () => {
                       overflow: "hidden",
                       display: "flex",
                       flexDirection: { xs: "column", sm: "row" },
+                      width: "100%",
                     }}
                   >
-                    <Box sx={{ padding: '24px', borderBottom: "1px solid #e0e0e0" ,
-
-                    }}>
+                    <Box
+                      sx={{
+                        padding: "24px",
+                        paddingTop: "6px",
+                        paddingRight: "8px",
+                        borderBottom: "1px solid #e0e0e0",
+                      }}
+                    >
                       <Typography
                         variant="h6"
                         gutterBottom
@@ -840,15 +806,10 @@ const NewSearchPanel = () => {
                         slotProps={{
                           actionBar: { actions: [] },
                         }}
-                        // onChange={(newValue) => {
-                        //   onChangeDate(newValue);
-                        //   setSelectedShortcut("Flexible"); // Reset to Flexible when user interacts with date picker
-                        // }}
                         minDate={dayjs()}
                         displayStaticWrapperAs="desktop"
                         calendars={1}
                         slots={{
-                          day: CustomPickersDay,
                           calendarHeader: ({ currentMonth, onMonthChange }) => (
                             <div
                               style={{
@@ -866,7 +827,6 @@ const NewSearchPanel = () => {
                                   )
                                 }
                               >
-                                {/* <GetIcon iconName="BackIcon" /> */}
                                 <KeyboardArrowLeftOutlined
                                   sx={{
                                     backgroundColor: "#1a237e",
@@ -886,8 +846,6 @@ const NewSearchPanel = () => {
                                   )
                                 }
                               >
-                                {/* <GetIcon iconName="BackIcon" />
-                                 */}
                                 <KeyboardArrowRightOutlined
                                   sx={{
                                     backgroundColor: "#1a237e",
@@ -901,6 +859,12 @@ const NewSearchPanel = () => {
                           ),
                         }}
                         sx={{
+                          "& .MuiDateRangeCalendar-root": {
+                            "& > *:first-child": {
+                              display: "none",
+                            },
+                            // maxWidth: "300px",
+                          },
                           "& .MuiPickersCalendarHeader-root": {
                             display: "flex",
                             alignItems: "center",
@@ -923,6 +887,9 @@ const NewSearchPanel = () => {
                                 backgroundColor: "#E6E1FF",
                               },
                             },
+                          "& .MuiDateRangePickerDay-day.Mui-selected": {
+                            backgroundColor: "#825FFF !important",
+                          },
                           "& .MuiDayCalendar-header": {
                             borderBottom: "1px solid #e0e0e0",
                             paddingBottom: "8px",
@@ -974,6 +941,23 @@ const NewSearchPanel = () => {
               </Paper>
             </div>
           )}
+          <Typography
+            sx={{
+              ...styles.subTitle,
+              position: "absolute",
+              top: { xs: "50vh", sm: "18vh" },
+              left: "50%",
+              transform: "translateX(-50%)",
+              fontSize: { xs: "34px", sm: "45px" },
+              lineHeight: { xs: "30px", sm: "54px" },
+              width: "100%",
+            }}
+            className="hero-subtitle"
+          >
+            Book your next salon experience
+            <br />
+            with Lavender
+          </Typography>
         </div>
       </div>
     </>
@@ -981,3 +965,12 @@ const NewSearchPanel = () => {
 };
 
 export default NewSearchPanel;
+const styles = {
+  subTitle: {
+    fontFamily: "Urbanist",
+    fontWeight: 700,
+    color: "#333333",
+    textAlign: "center",
+    paddingLeft: 0,
+  },
+};

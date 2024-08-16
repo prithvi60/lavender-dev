@@ -1,17 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Grid,
-  Card,
-  CardContent,
-  Rating,
-  CardActions,
-  Collapse,
-  Button,
-  CardHeader,
-  Box,
-  Tooltip,
-  Skeleton,
-} from "@mui/material";
+import { Button, Box, Tooltip, Skeleton } from "@mui/material";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Divider } from "@mui/material";
@@ -162,12 +150,12 @@ function CheckoutCard(props) {
   }, [employee, scheduleAppoinmentList?.id]);
 
   return (
-    <div className="mx-4 my-6 urbanist-font rounded-2xl chackout-card-container h-fit">
+    <div className="my-6 urbanist-font rounded-2xl chackout-card-container h-fit">
       {" "}
       {/* Adjusted width to be responsive */}
-      <CardContent>
+      <div className="px-3 py-2 rounded-md shadow-sm min-w-80">
         <Box
-          className="flex justify-between gap-2 py-2 my-2 serviceCardDetail"
+          className="flex justify-between w-full gap-2 pb-2 my-2 serviceCardDetail"
           sx={{
             "@media (max-width: 500px)": {
               display: "flex",
@@ -177,26 +165,37 @@ function CheckoutCard(props) {
           }}
         >
           {loading ? (
-            <Skeleton variant="rectangular" width={"100%"} height={"120px"} className="m-0.5 rounded-lg min-w-32"
-            sx={{ borderRadius: "20px" }}
+            <Skeleton
+              variant="rectangular"
+              width={"100%"}
+              height={"120px"}
+              className="m-0.5 rounded-lg max-w-52 h-28"
+              sx={{ borderRadius: "20px" }}
             />
           ) : (
             <img
-              className="establishmentImageCls"
+              alt=""
+              className="establishmentImageCls max-w-52 h-28"
               src={imageUrls[0]}
               style={{ width: "350px", height: "120px", margin: "10px" }}
             />
           )}
 
-          <Text sx={styles.subHeading} name={establishmentName} style={{}} />
+          {/* <Text sx={styles.subHeading} name={establishmentName} className="w-full" /> */}
+          <Box className="w-full p-1.5" sx={{color: '#4D4D4D', fontSize: '20px', fontWeight: 600}}>
+            {establishmentName}
+          </Box>
         </Box>
 
         {scheduleAppoinmentList?.startTime && (
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            {activeStep != 0 &&
+          <Box
+            sx={{ display: "flex",  }}
+            className="px-1 basis-full md:basis-4/5"
+          >
+            {activeStep !== 0 &&
               scheduleAppoinmentList?.selectedDate &&
               typeof scheduleAppoinmentList?.selectedDate === "string" && (
-                <Box sx={{ display: "flex" }}>
+                <Box sx={{ display: "flex", paddingRight: 2 }}>
                   <Box>
                     <GetIcon iconName="CalendarIcon" />
                   </Box>
@@ -293,7 +292,7 @@ function CheckoutCard(props) {
               {totalDuration} mins
             </div>
 
-            <div className="flex justify-center pt-2">
+            <div className="flex justify-center py-2">
               {activeStep < 2 ? (
                 <Tooltip
                   title={disabled ? "Please select to proceed" : null}
@@ -320,7 +319,7 @@ function CheckoutCard(props) {
             </div>
           </div>
         }
-      </CardContent>
+      </div>
     </div>
   );
 }
@@ -332,9 +331,9 @@ const styles = {
     color: "#4D4D4D",
     fontSize: "20px",
     fontWeight: 600,
-    paddingLeft: 0,
-    paddingTop: 1,
-    width: "210px",
+    // paddingLeft: 0,
+    // paddingTop: 1,
+    // width: "210px",
   },
   serviceName: {
     color: "#4D4D4D",

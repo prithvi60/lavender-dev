@@ -58,9 +58,10 @@ function HeaderDetails(props) {
                     href="#SearchDetailService"
                     className={selectedHref === "service" ? "active" : ""}
                   >
-                    {/* <Buttons sx={styles.btn} variant="outlined"> */}
-                    <ServiceDialog establishmentData={establishmentData} />
-                    {/* </Buttons> */}
+                    <Buttons sx={styles.btn} variant="outlined"> services
+                    </Buttons>
+                    {/* <ServiceDialog establishmentData={establishmentData} /> */}
+
                   </a>
                   <a
                     onClick={() => setSelectedHref("review")}

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import endpoint from "../../../api/endpoints";
 import { useSelector } from "react-redux";
 import Text from "../../../components/Text";
-import { convertDateToReadAbleDate, convertToReadAbleDate } from "../../../utils/TimeFormat";
+import { convertToReadAbleDate } from "../../../utils/TimeFormat";
 
 export const PublishedSalonProfile = ({
   basicInfo,

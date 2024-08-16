@@ -53,7 +53,7 @@ const CategoryPanel = () => {
   );
 
   return (
-    <div className="category-grid cursor-pointer">
+    <div className="category-grid cursor-pointer overflow-y-auto md:overflow-y-visible max-h-[200px] md:max-h-none">
       {categories.map((item, index) => (
         <div
           key={index}

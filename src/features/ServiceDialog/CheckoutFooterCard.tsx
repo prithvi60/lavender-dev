@@ -11,7 +11,7 @@ import {
   DialogTitle,
   DialogContent,
   Slide,
-  Skeleton
+  Skeleton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Text from "../../components/Text";
@@ -44,7 +44,7 @@ function CheckoutFooterCard(props) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
   const [employee, setEmployee] = useState([]);
-  const [employeeName, setEmployeeName] = useState('');
+  const [employeeName, setEmployeeName] = useState("");
   const [totalServices, setTotalServices] = useState(0);
 
   const [openModal, setOpenModal] = useState(false);
@@ -104,7 +104,7 @@ function CheckoutFooterCard(props) {
 
   function sendDataToParent() {
     next((prevActiveStep) => prevActiveStep + 1);
-    handleCloseModal()
+    handleCloseModal();
   }
 
   const {
@@ -121,7 +121,7 @@ function CheckoutFooterCard(props) {
 
   useEffect(() => {
     setImageIdList(establishmentData?.data?.data?.estImages);
-    setEmployee(establishmentData?.data?.data?.employees)
+    setEmployee(establishmentData?.data?.data?.employees);
   }, [establishmentData]);
 
   const fetchImage = async (image) => {
@@ -155,25 +155,32 @@ function CheckoutFooterCard(props) {
   }, [imageIdList]);
 
   useEffect(() => {
-    const employeeName: any = employee?.find(item => item?.employeeId === scheduleAppoinmentList?.id)
-    setEmployeeName(employeeName?.employeeName)
-  }, [employee, scheduleAppoinmentList?.id])
+    const employeeName: any = employee?.find(
+      (item) => item?.employeeId === scheduleAppoinmentList?.id
+    );
+    setEmployeeName(employeeName?.employeeName);
+  }, [employee, scheduleAppoinmentList?.id]);
 
   return (
-    <div className="urbanist-font my-6 rounded-2xl chackout-card-container">
-      <Card 
-        className="fixed bottom-0 left-0 right-0 z-10 rounded-t-2xl shadow-lg"
+    <div className="my-6 urbanist-font rounded-2xl chackout-card-container">
+      <Card
+        className="fixed bottom-0 left-0 right-0 z-10 shadow-lg rounded-t-2xl"
         onClick={handleOpenModal}
-        sx={{ cursor: 'pointer' }}
+        sx={{ cursor: "pointer" }}
       >
         <CardContent>
-          <Box className="flex justify-between items-center">
+          <Box className="flex items-center justify-between">
             <Box>
               <Text
-                name={`${totalServices} service${totalServices !== 1 ? 's' : ''} | ${totalDuration} mins`}
+                name={`${totalServices} service${
+                  totalServices !== 1 ? "s" : ""
+                } | ${totalDuration} mins`}
               />
               <Text
                 name={`$${totalPrice.toFixed(2)}`}
+                align="left"
+                // style={{ fontWeight: 600 }}
+                className="!font-bold"
               />
             </Box>
             <Button
@@ -210,8 +217,7 @@ function CheckoutFooterCard(props) {
             : {},
         }}
       >
-        <DialogTitle sx={{mb:2}}>
-         
+        <DialogTitle sx={{ mb: 2 }}>
           <IconButton
             aria-label="close"
             onClick={handleCloseModal}
@@ -232,48 +238,85 @@ function CheckoutFooterCard(props) {
             padding: 2,
           }}
         >
-          <Box sx={{ width: '100%', height: 200, mb: 2 }}>
+          <Box sx={{ width: "100%", height: 200, mb: 2 }}>
             {loading ? (
-              <Skeleton 
-                variant="rectangular" 
-                width="100%" 
-                height={200} 
+              <Skeleton
+                variant="rectangular"
+                width="100%"
+                height={200}
                 animation="wave"
                 sx={{ borderRadius: "20px" }}
               />
             ) : (
               <img
-                className=""
+                className="max-w-52 max-h-64"
                 src={imageUrls[0]}
-                style={{ 
-                  width: "100vw", 
-                  height: "200px", 
-                  objectFit: "cover", 
-                  borderRadius: "8px" 
+                style={{
+                  // width: "100vw",
+                  // height: "200px",
+                  objectFit: "cover",
+                  borderRadius: "8px",
                 }}
                 alt={establishmentName}
+          
               />
             )}
           </Box>
-          <Text
-            sx={styles.subHeading}
-            name={establishmentName}
-          />
-          
+          {/* <Text sx={styles.subHeading} name={establishmentName} /> */}
+          <h4 className="w-max p-1.5 font-bold text-lg">{establishmentName}</h4>
+
           {scheduleAppoinmentList?.startTime && (
-            <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 2}}>
-              {(activeStep != 0 && scheduleAppoinmentList?.selectedDate && (typeof scheduleAppoinmentList?.selectedDate === 'string')) && <Box sx={{display: 'flex'}}><Box><GetIcon iconName="CalendarIcon"/></Box><Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}>{convertDateToReadAbleDate(scheduleAppoinmentList?.selectedDate )}</Box></Box>}
-              <Box sx={{display: 'flex'}}>
-                <GetIcon iconName="AccessTimeFilledIcon"/>
-                <Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}>{`${scheduleAppoinmentList?.startTime}-${scheduleAppoinmentList?.endTime}`}</Box>
+            <Box
+              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
+            >
+              {activeStep != 0 &&
+                scheduleAppoinmentList?.selectedDate &&
+                typeof scheduleAppoinmentList?.selectedDate === "string" && (
+                  <Box sx={{ display: "flex" }}>
+                    <Box>
+                      <GetIcon iconName="CalendarIcon" />
+                    </Box>
+                    <Box
+                      sx={{
+                        paddingLeft: 1,
+                        color: "#4D4D4D",
+                        fontSize: "16px",
+                        fontWeight: 400,
+                      }}
+                    >
+                      {convertDateToReadAbleDate(
+                        scheduleAppoinmentList?.selectedDate
+                      )}
+                    </Box>
+                  </Box>
+                )}
+              <Box sx={{ display: "flex" }}>
+                <GetIcon iconName="AccessTimeFilledIcon" />
+                <Box
+                  sx={{
+                    paddingLeft: 1,
+                    color: "#4D4D4D",
+                    fontSize: "16px",
+                    fontWeight: 400,
+                  }}
+                >{`${scheduleAppoinmentList?.startTime}-${scheduleAppoinmentList?.endTime}`}</Box>
               </Box>
             </Box>
           )}
 
-          {(scheduleAppoinmentList?.startTime && employeeName) && (
-            <Box sx={{display: 'flex', mt: 2}}>
-              <GetIcon iconName="PersonIcon"/>
-              <Box sx={{paddingLeft: 1, color: '#4D4D4D', fontSize: '16px', fontWeight: 400}} >{employeeName}</Box>
+          {scheduleAppoinmentList?.startTime && employeeName && (
+            <Box sx={{ display: "flex", mt: 2 }}>
+              <GetIcon iconName="PersonIcon" />
+              <Box
+                sx={{
+                  paddingLeft: 1,
+                  color: "#4D4D4D",
+                  fontSize: "16px",
+                  fontWeight: 400,
+                }}
+              >
+                {employeeName}
+              </Box>
             </Box>
           )}
 
@@ -283,19 +326,13 @@ function CheckoutFooterCard(props) {
             {checkOutList.checkOut.map((item, index) => (
               <Box key={index} sx={{ mb: 2 }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                  <Text
-                    sx={styles.serviceName}
-                    name={item?.serviceName}
-                  />
+                  <Text sx={styles.serviceName} name={item?.serviceName} />
                   <Text
                     sx={styles.startingPrice}
-                    name={`$${item?.finalPrice}`}
+                    name={`$${item.finalPrice}`}
                   />
                 </Box>
-                <Text
-                  sx={styles.duration}
-                  name={`${item?.duration} mins`}
-                />
+                <Text sx={styles.duration} name={`${item.duration} mins`} />
               </Box>
             ))}
           </Box>
@@ -355,7 +392,7 @@ const styles = {
     fontWeight: 600,
     paddingLeft: 0,
     paddingTop: 1,
-    width: "210px" 
+    width: "210px",
   },
   serviceName: {
     color: "#4D4D4D",

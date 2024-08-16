@@ -260,6 +260,7 @@ function EstablishmentDetails({ estId }) {
           <ServiceDetails
             isLoading={isLoading}
             establishmentData={establishmentData?.data?.data?.categories}
+            
           />
           <Availability
             isLoading={isLoading}

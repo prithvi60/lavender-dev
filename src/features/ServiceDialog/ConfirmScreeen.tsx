@@ -51,13 +51,13 @@ export default function ConfirmScreen(props) {
     }, [userId])
     
     return (
-        <div className='mt-2 md:mx-16 my-10 h-full urbanist-font'>
-            <div className='flex gap-1 mb-2 items-center gap-3'>
+        <div className='h-full my-10 mt-2 md:mx-16 urbanist-font'>
+            <div className='flex items-center gap-1 gap-3 mb-2'>
                 <IconButton onClick={() => onSetActiveStep(1)}><GetIcon iconName='BackIconArrow'/></IconButton>
-                <div className='font-bold text-2xl md:text-3xl'>Confirm</div>
+                <div className='text-2xl font-bold md:text-3xl'>Confirm</div>
             </div>
 
-            <span className="bg-gray-200 w-full px-6 h-fit py-4 rounded-xl w-96 gap-3 font-semibold flex items-center mt-4">
+            <span className="flex items-center w-full gap-3 px-6 py-4 mt-4 font-semibold bg-gray-200 h-fit rounded-xl w-96">
                 <GetIcon iconName='StoreIcon' />
                 <Text name={"Pay at Venue"} sx={{fontSize: '18px', fontWeight: 700, color: '#4D4D4D'}}/>
                 <div className="ms-auto">
@@ -69,13 +69,13 @@ export default function ConfirmScreen(props) {
                 </div>
             </span>
 
-            <div className="ml-6 mt-4">
+            <div className="mt-4">
                 {!isUser && 
                  <div> 
                     <p style={{marginBottom: 4, marginTop: 0, fontSize: '20px', fontWeight: 600, color: '#4D4D4D'}}>Fill your details</p>
                     <p style={{marginBottom: 4, marginTop: 0, fontSize: '16px', fontWeight: 400, color: '#4D4D4D'}}>We recommend you to register in Lavender. By registering, you gain access to exclusive features tailored just for you. <LoginModal/></p>
 
-                    <div className="flex gap-3 flex-col">
+                    <div className="flex flex-col gap-3">
                         <TextField fullWidth sx={{color: '#808080', fontSize: '20px', fontWeight: 400}} id="standard-basic" label="Full Name" variant="standard" />
                         <TextField fullWidth sx={{marginTop: 4, marginBottom: 4, color: '#808080', fontSize: '20px', fontWeight: 400}} id="EmailAddress" label="Email Address" variant="standard" />
                     </div>

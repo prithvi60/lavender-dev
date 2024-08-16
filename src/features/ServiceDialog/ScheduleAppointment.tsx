@@ -12,7 +12,6 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import DatePicker from "../../Packages/swiperCalendar/DatePicker.tsx";
 import GetIcon from "../../assets/Icon/icon";
 import { useQuery } from "@tanstack/react-query";
 import endpoint from "../../api/endpoints.ts";
@@ -23,11 +22,13 @@ import {
 } from "../../store/slices/Booking/ScheduleAppoinmentSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { TimeOfDay } from "../../api/type";
-import ReactWeeklyDayPicker from "react-weekly-day-picker";
 import "./style.css";
 import { useEffect, useRef, useState } from "react";
 import Chip from "../../components/Chip.js";
 import Text from "../../components/Text.js";
+import { format, addDays, isSameDay, startOfWeek, isAfter, isSameMonth, isBefore, startOfToday } from "date-fns";
+import { KeyboardArrowLeftOutlined, KeyboardArrowRightOutlined } from "@mui/icons-material";
+
 
 export default function ScheduleAppointment(props) {
   const datePickerRef = useRef(null);
@@ -52,11 +53,19 @@ export default function ScheduleAppointment(props) {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState("Any Employee");
   const [employeeSlot, setEmployeeSlot] = useState("");
 
+  
+  const handleDateSelect = (date) => {
+    if (date !== selectedDateBtn) {
+      console.log("Date selected:", date);
+      setSelectedDateBtn(date);
+      handleDateClick([date]);
+      setDateClicked(true);
+    }
+  };
   let appointmentTimings;
   const dispatch = useDispatch();
-  const { selectedDate, timeOfDay, startTime, endTime, id, totalDuration} = useSelector(
-    (state: any) => state.ScheduleAppoinment
-  );
+  const { selectedDate, timeOfDay, startTime, endTime, id, totalDuration } =
+    useSelector((state: any) => state.ScheduleAppoinment);
 
   // Function to fetch available slots
   const fetchAvailableSlots = async (day) => {
@@ -111,9 +120,7 @@ export default function ScheduleAppointment(props) {
       })
     );
   };
-  useEffect(() => {
-    handleDateClick(new Date().toISOString());
-  }, []);
+
 
   const [selectedPaymentChips, setSelectedPaymentChips] = useState([]);
 
@@ -219,47 +226,19 @@ export default function ScheduleAppointment(props) {
   });
 
   return (
-    <div className="mt-2 md:mx-16 my-10">
-      <div className="flex gap-3 items-center">
+    <div className="my-10 mt-2 md:mx-16">
+      <div className="flex items-center gap-3">
         <IconButton onClick={() => onSetActiveStep(0)}>
           <GetIcon iconName="BackIconArrow" />
         </IconButton>
-        <div className="font-bold text-3xl">Schedule</div>
+        <div className="text-3xl font-bold">Schedule</div>
       </div>
 
       <div className="mb-4">
-        {/* <DatePicker getSelectedDay={selectedDay}
-          endDate={30}
-          selectDate={selectedDate}
-          labelFormat={"MMMM"}
-          color={"black"}
-        /> */}
-        <ReactWeeklyDayPicker
-          ref={datePickerRef}
-          daysCount={7} //How many days will be shown
-          startDay={new Date()} // First day as Date Object or 22 June 2016
-          selectedDays={[selectedDateBtn]} // Selected days list
-          multipleDaySelect={false} //enables multiple day selection
-          selectDay={function (day) {
-            handleDateClick(day);
-            setDateClicked(true);
-          }}
-          unselectDay={function (day) {}}
-          onPrevClick={function (startDay, selectedDays) {}} // called with the new startDay
-          onNextClick={function (startDay, selectedDays) {}} // called with the new startDay
-          unselectable={false} // if true allows to unselect a date once it has been selected. Only works when multipleDaySelect={false}
-          format={"YYYY-MM-DD"} //format of dates that handled in selectDay and unselectDay functions
-          firstLineFormat={"ddd"} // format for the first line of the day button
-          secondLineFormat={"MMM D"} // format for the second line of the day button
-          firstLineMobileFormat={"dddd"} // format for the first line of the day button mobile
-          secondLineMobileFormat={"MMMM D, Y"} // format for the second line of the day button mobile
-          beforeToday={false} // all dates before today set as unavailable (default:true)
-          todayText={"today"} // replacing today text (default : - TODAY -)
-          unavailableText={""} // replacing unavailable text (default: unavailable )
-        />
+        <CustomWeeklyDatePicker onDateSelect={handleDateSelect} />
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 overflow-hidden mb-4">
         {availableTimeSlots?.length > 0 ? (
           Object.entries(availableTimeSlots[0]?.availableSlots).map(
             ([timePeriod, slotsArray]: any) => {
@@ -274,12 +253,27 @@ export default function ScheduleAppointment(props) {
                   >
                     {timePeriod}
                   </p>
-                  <div className="flex items-center flex-wrap gap-2 max-w-[40vw] md:max-w-[15vw] overflow-x-auto">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-rows-2  gap-y-2.5 lg:gap-3 !overflow-x-auto md:grid-rows-3 w-full"
+                    style={{
+                      scrollbarWidth: 'thin',
+                      // @ts-ignore
+                      '&::-webkit-scrollbar': {
+                        height: '4px',
+                      },
+                      '&::-webkit-scrollbar-thumb': {
+                        backgroundColor: '#888',
+                        borderRadius: '2px',
+                      },
+                      '&::-webkit-scrollbar-track': {
+                        backgroundColor: '#f1f1f1',
+                      },
+                    }}
+                  >
                     {slotsArray.length > 0 ? (
                       slotsArray?.map((slot: any, index: any) => {
                         return (
                           <div
-                            className="cursor-pointer"
+                            className="cursor-pointer w-max"
                             key={index}
                             style={{ flexShrink: 0 }}
                           >
@@ -315,7 +309,7 @@ export default function ScheduleAppointment(props) {
                                 handleChipClick(timePeriod, slot, index)
                               }
                               style={{
-                                margin: "5px",
+                                margin: "0px",
                                 backgroundColor: selectedPaymentChips.includes(
                                   `${slot.startTime} - ${slot.endTime}`
                                 )
@@ -337,6 +331,7 @@ export default function ScheduleAppointment(props) {
                           fontSize: "18px",
                           fontWeight: 500,
                           color: "#B3B3B3",
+                          whiteSpace: 'nowrap'
                         }}
                       />
                     )}
@@ -361,12 +356,12 @@ export default function ScheduleAppointment(props) {
               >
                 <GetIcon
                   onClick={() => {}}
-                  className="my-5 mx-16 p-1 cursor-pointer rounded-sm"
+                  className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
                   iconName="SlotBoxesFilled"
                 />
                 <div
                   id="title"
-                  className="font-bold text-xl mb-3 "
+                  className="mb-3 text-xl font-bold "
                   style={{ color: "#4D4D4D" }}
                 >
                   We are fully booked
@@ -402,12 +397,12 @@ export default function ScheduleAppointment(props) {
               >
                 <GetIcon
                   onClick={() => {}}
-                  className="my-5 mx-16 p-1 cursor-pointer rounded-sm"
+                  className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
                   iconName="SlotBoxesFilled"
                 />
                 <div
                   id="title"
-                  className="font-bold text-xl mb-3 "
+                  className="mb-3 text-xl font-bold "
                   style={{ color: "#4D4D4D" }}
                 >
                   Select a date to book your slot
@@ -426,7 +421,7 @@ export default function ScheduleAppointment(props) {
               whiteSpace: "nowrap",
               display: "flex",
               flexDirection: "column",
-              paddingBottom: {xs:"120px", md:"250px"},
+              paddingBottom: { xs: "120px", md: "250px", },
             },
           }}
         >
@@ -465,52 +460,150 @@ export default function ScheduleAppointment(props) {
   );
 }
 
-const blue = {
-  50: "#F0F7FF",
-  100: "#C2E0FF",
-  200: "#99CCF3",
-  300: "#66B2FF",
-  400: "#3399FF",
-  500: "#007FFF",
-  600: "#0072E6",
-  700: "#0059B3",
-  800: "#004C99",
-  900: "#003A75",
+
+const styles = {
+  customWeeklyPicker: {
+    width: '100%',
+    maxWidth: '800px',
+    marginLeft: '5%',
+  },
+  monthYear: {
+    textAlign: 'center' as const,
+    fontSize: '18px',
+    marginBottom: '10px',
+    color: '#333',
+  },
+  weekContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  navButton: {
+    background: 'none',
+    border: 'none',
+    fontSize: '24px',
+    color: '#6200ee',
+    cursor: 'pointer',
+  },
+  daysContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  dayColumn: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+  },
+  dayName: {
+    fontSize: '16px',
+    color: '#666',
+    marginBottom: '5px',
+  },
+  dayNumber: {
+    width: '48px',
+    height: '48px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '50%',
+    cursor: 'pointer',
+    fontSize: '14px',
+    color: 'black',
+    border: '1px solid #B3B3B3',
+  },
+  
+  dayNumberCurrentSelected: {
+    backgroundColor: '#E6E1FF',
+    border: 'none',
+
+  },
+  dayNumberSelected: {
+    backgroundColor: '#E6E1FF',
+    color: 'black',
+    border: 'none',
+  },
+    dayNumberPast: {
+    color: '#ccc',
+    backgroundColor: '#f5f5f5',
+    cursor: 'not-allowed',
+    border: 'none',
+
+  },
 };
 
-const grey = {
-  50: "#F3F6F9",
-  100: "#E5EAF2",
-  200: "#DAE2ED",
-  300: "#C7D0DD",
-  400: "#B0B8C4",
-  500: "#9DA8B7",
-  600: "#6B7A90",
-  700: "#434D5B",
-  800: "#303740",
-  900: "#1C2025",
+
+
+const CustomWeeklyDatePicker = ({ onDateSelect }) => {
+  const [weekStart, setWeekStart] = useState(startOfToday());
+  const [selectedDate, setSelectedDate] = useState(startOfToday());
+
+  const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+
+  useEffect(() => {
+    onDateSelect(startOfToday());
+  }, []);
+
+  const handleDateClick = (date) => {
+    const formattedDate = format(date, 'yyyy-MM-dd');
+    // console.log("date,", formattedDate)
+    if (!isBefore(date, startOfToday())) {
+      setSelectedDate(date);
+      onDateSelect(formattedDate);
+    }
+  };
+
+  const handlePrevWeek = () => {
+    setWeekStart(addDays(weekStart, -7));
+  };
+
+  const handleNextWeek = () => {
+    setWeekStart(addDays(weekStart, 7));
+  };
+
+  return (
+    <div style={styles.customWeeklyPicker}>
+      <div style={styles.monthYear}>{format(weekStart, "MMMM yyyy")}</div>
+      <div style={styles.weekContainer}>
+        <IconButton onClick={handlePrevWeek} style={{ marginRight: '10px',marginTop:"5%" }}>
+          <KeyboardArrowLeftOutlined
+            sx={{
+              backgroundColor: "#1a237e",
+              color: "white",
+              borderRadius: "50%",
+              padding: "4px",
+            }}
+          />
+        </IconButton>
+        <div style={styles.daysContainer}>
+          {days.map((day, index) => (
+            <div key={index} style={styles.dayColumn}>
+              <div style={styles.dayName}>{format(day, 'EEE')}</div>
+              <div
+                style={{
+                  ...styles.dayNumber,
+                  ...(isBefore(day, startOfToday()) ? styles.dayNumberPast : {}),
+                  ...(isSameDay(day, selectedDate) && isSameDay(day, startOfToday()) ? styles.dayNumberCurrentSelected : {}),
+                  ...(isSameDay(day, selectedDate) && !isSameDay(day, startOfToday()) ? styles.dayNumberSelected : {}),
+                }}
+                onClick={() => handleDateClick(day)}
+              >
+                {format(day, 'd')}
+              </div>
+            </div>
+          ))}
+        </div>
+        <IconButton onClick={handleNextWeek} style={{ marginLeft: '10px',marginTop:"5%" }}>
+          <KeyboardArrowRightOutlined
+            sx={{
+              backgroundColor: "#1a237e",
+              color: "white",
+              borderRadius: "50%",
+              padding: "4px",
+            }}
+          />
+        </IconButton>
+      </div>
+    </div>
+  );
 };
-
-// const MenuItem = styled(BaseMenuItem)(
-//   ({ theme }) => `
-//   list-style: none;
-//   padding: 8px;
-//   border-radius: 8px;
-//   cursor: default;
-//   user-select: none;
-
-//   &:last-of-type {
-//     border-bottom: none;
-//   }
-
-//   &:focus {
-//     outline: 3px solid ${theme.palette.mode === 'dark' ? blue[600] : blue[200]};
-//     background-color: ${theme.palette.mode === 'dark' ? grey[800] : grey[100]};
-//     color: ${theme.palette.mode === 'dark' ? grey[300] : grey[900]};
-//   }
-
-//   &.${menuItemClasses.disabled} {
-//     color: ${theme.palette.mode === 'dark' ? grey[700] : grey[400]};
-//   }
-//   `,
-// );
