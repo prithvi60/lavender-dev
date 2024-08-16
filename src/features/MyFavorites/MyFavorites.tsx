@@ -56,7 +56,7 @@ export function MyFavorites() {
   // results are not coming from the api endpoint in this query like Search page
   const { isLoading, data: establishmentSearchResult } = useQuery({
     queryKey: ["custom-data"],
-    queryFn: () => endpoint.getEstablishmentSearchResults(payLoad)
+    queryFn: () => endpoint.getEstablishmentSearchResults(payLoad),
   });
 
   // useEffect(()=>{
@@ -112,7 +112,7 @@ export function MyFavorites() {
     const adjustedClose = new Date(close.getTime() - timeZoneOffset);
     return currentTime >= adjustedOpen && currentTime <= adjustedClose;
   };
-  console.log("updatedTreatmentServicesList", establishmentSearchResult)
+  // console.log("updatedTreatmentServicesList", establishmentSearchResult);
 
   return (
     <div className="bg-[#F2F2F2] ">
@@ -124,7 +124,7 @@ export function MyFavorites() {
           className="font-bold"
           name={"My Favourites"}
           align="left"
-          sx={{fontSize: '36px', fontWeight: 600, color: '#000000'}}
+          sx={{ fontSize: "36px", fontWeight: 600, color: "#000000" }}
         ></Text>
       </Box>
       <div className="">
@@ -149,71 +149,76 @@ export function MyFavorites() {
                   md={4}
                   key={card?.establishmentId}
                   sx={{
-                    paddingLeft: "60px !important",
-                    paddingBottom:"20px !important",
-                    padding: "60px",
+                    "@media (min-width: 600px)": {
+                      paddingLeft: "60px !important",
+                      paddingBottom: "20px !important",
+                      padding: "60px",
+                    },
                     display: "flex",
                     justifyContent: "center",
+                    "@media (max-width: 600px)": {
+                      padding: "20px",
+                    },
                   }}
                 >
-                  <Card
-                    sx={{ width: "100%", height: "100%", borderRadius: "20px" }}
+                  <div
+                    // sx={{ width: "100%", height: "100%", borderRadius: "20px" }}
+                    className="flex flex-col items-center justify-between w-full h-auto gap-5 min-[600px]:p-4 bg-white rounded-xl"
                   >
-                    <CardContent>
-                      <div className="card-wrap-container">
-                        <div className="flex flex-col card-container">
-                          <div
-                            className="card-header"
-                            style={{ padding: "10px" }}
-                          >
-                            {card?.estImage ? (
-                              <img
-                                src={`data:image/png;base64, ${card?.estImage}`}
-                                alt="saloon"
-                                className="w-full rounded-lg h-44"
-                              />
-                            ) : (
-                              <img
-                                src="/saloon-image.png"
-                                alt="saloon"
-                                className="w-full rounded-lg"
-                              />
-                            )}
-                            <div
-                              className="card-header-details"
-                              style={{ marginLeft: "20px" }}
-                            >
-                              
-                              <div className="font-bold text-xl py-2 text-[#4D4D4D]">
-                                {card?.establishmentName}
-                              </div>
-                              <div className="card-rating">
-                                <div className="text-lg">
-                                  {card?.rating?.ratingStar}
-                                </div>
-                                <StyledRating
-                                  name="customized-color"
-                                  value={card?.rating?.ratingStar}
-                                  precision={0.5}
-                                  readOnly
+                    {/* <CardContent> */}
+                    {/* <div className="card-wrap-container"> */}
+                    <div className="flex flex-col w-full">
+                      <div
+                        className="flex flex-col gap-3"
+                        // style={{ padding: "10px" }}
+                      >
+                        {card?.estImage ? (
+                          <img
+                            src={`data:image/png;base64, ${card?.estImage}`}
+                            alt="saloon"
+                            className="w-full rounded-t-lg min-[600px]:rounded-lg h-44"
+                          />
+                        ) : (
+                          <img
+                            src="/saloon-image.png"
+                            alt="saloon"
+                            className="w-full rounded-t-lg min-[600px]:rounded-lg h-44"
+                          />
+                        )}
+                        <div
+                          className="card-header-details max-[600px]:px-4  max-[600px]:py-2"
+                          // style={{ marginLeft: "20px" }}
+                        >
+                          <div className="font-bold text-xl py-2 text-[#4D4D4D]">
+                            {card?.establishmentName}
+                          </div>
+                          <div className="card-rating">
+                            <div className="text-lg">
+                              {card?.rating?.ratingStar}
+                            </div>
+                            <StyledRating
+                              name="customized-color"
+                              value={card?.rating?.ratingStar}
+                              precision={0.5}
+                              readOnly
+                            />
+                            <div className="text-sm font-bold">
+                              {"(" + card?.rating?.ratingCount + ")"}
+                            </div>
+                          </div>
+                          <div className="mb-3 text-sm font-semibold">
+                            {card.geoX && card.geoY ? (
+                              <div className="flex items-center">
+                                <FaStore
+                                  size={17}
+                                  color="#484848"
+                                  className="mr-1"
                                 />
-                                <div className="text-sm font-bold">
-                                  {"(" + card?.rating?.ratingCount + ")"}
-                                </div>
+                                <span>{`Address : ${card.location}`}</span>
                               </div>
-                              <div className="mb-3 text-sm font-semibold">
-                                {card.geoX && card.geoY ? (
-                                  <div className="flex items-center">
-                                    <FaStore
-                                      size={17}
-                                      color="#484848"
-                                      className="mr-1"
-                                    />
-                                    <span>{`Address : ${card.location}`}</span>
-                                  </div>
-                                ) : null}
-                              </div>
-                              {/* {distance ? (
+                            ) : null}
+                          </div>
+                          {/* {distance ? (
                                 <div className="flex items-center mb-3 text-sm font-semibold text-slate-600">
                                   <GiPathDistance
                                     className="mr-2"
@@ -226,77 +231,73 @@ export function MyFavorites() {
                                   </span>
                                 </div>
                               ) : null} */}
-                              {!isWithinTimeRange(
-                                card?.openTime,
-                                card?.closeTime
-                              ) ? (
-                                <div className="text-sm font-medium text-blue-700">
-                                  <span className="font-semibold text-red-600">
-                                    Closed -
-                                  </span>{" "}
-                                  Opens at {card?.openTime}
-                                </div>
-                              ) : (
-                                <div className="text-sm font-medium text-red-600 ">
-                                  <span className="font-semibold text-blue-700">
-                                    Opened -
-                                  </span>{" "}
-                                  Closes at {card?.closeTime}
-                                </div>
-                              )}
-                              <div className="mt-2 chip-wrap">
-                                {card?.serviceTags?.map((tag, index) => (
-                                  <Chip
-                                    key={index}
-                                    label={tag}
-                                    className="mb-2 mr-2"
-                                  />
-                                ))}
-                              </div>
-                              {/* <IconButton className="absolute top-2 right-2">
+                          {!isWithinTimeRange(
+                            card?.openTime,
+                            card?.closeTime
+                          ) ? (
+                            <div className="text-sm font-medium text-blue-700">
+                              <span className="font-semibold text-red-600">
+                                Closed -
+                              </span>{" "}
+                              Opens at {card?.openTime}
+                            </div>
+                          ) : (
+                            <div className="text-sm font-medium text-red-600 ">
+                              <span className="font-semibold text-blue-700">
+                                Opened -
+                              </span>{" "}
+                              Closes at {card?.closeTime}
+                            </div>
+                          )}
+                          <div className="mt-2 chip-wrap">
+                            {card?.serviceTags?.map((tag, index) => (
+                              <Chip
+                                key={index}
+                                label={tag}
+                                className="mb-2 mr-2"
+                              />
+                            ))}
+                          </div>
+                          {/* <IconButton className="absolute top-2 right-2">
                                 <FavoriteIcon color="error" />
                               </IconButton> */}
-                            </div>
-                          </div>
-                          
                         </div>
                       </div>
-                      <CardActions
-                        className="card-footer-action "
-                        style={{ borderRadius: "0px 0px 20px 20px", display: 'flex', justifyContent: 'center' }}
-                      >
-                        <StoreMallDirectoryOutlinedIcon />
-                        <TextRouter
-                          name={"Saloon Details"}
-                          to={`/salon/${card?.establishmentId}`}
-                        />
-                      </CardActions>
-                    </CardContent>
-                  </Card>
+                    </div>
+                    {/* </div> */}
+                    {/* </CardContent> */}
+                    <div className="max-[600px]:flex justify-center items-center gap-0.5 max-[600px]:py-2 hidden ">
+                      <StoreMallDirectoryOutlinedIcon />
+                      <TextRouter
+                        name={"Saloon Details"}
+                        to={`/salon/${card?.establishmentId}`}
+                      />
+                    </div>
+                  </div>
                 </Grid>
               );
             })}
           </Grid>
         ) : (
           <div className="flex flex-col items-center justify-center h-[86vh] xl:h-[87vh] w-full gap-2 p-[60px]">
-          <img
-            // src="../../../public/favorite.png"
-            src={require("../../assets/BackgroundImage/favorite.png")}
-            alt="favorite"
-            className="object-contain object-center w-80"
-          />
-          <h2 className="text-3xl font-semibold text-[#4D4D4D] text-center">
-            You don't have any favourites
-          </h2>
-          <p className="text-lg text-[#333333] max-w-xs text-center">
-            How about checkout through our wide range of services ?
-          </p>
-          <button
-            type="button"
-            className={` rounded-md px-4 py-2 bg-[#825FFF] text-white cursor-pointer capitalize`}
-          >
-            browser templates
-          </button>
+            <img
+              // src="../../../public/favorite.png"
+              src={require("../../assets/BackgroundImage/favorite.png")}
+              alt="favorite"
+              className="object-contain object-center w-80"
+            />
+            <h2 className="text-3xl font-semibold text-[#4D4D4D] text-center">
+              You don't have any favourites
+            </h2>
+            <p className="text-lg text-[#333333] max-w-xs text-center">
+              How about checkout through our wide range of services ?
+            </p>
+            <button
+              type="button"
+              className={` rounded-md px-4 py-2 bg-[#825FFF] text-white cursor-pointer capitalize`}
+            >
+              browser templates
+            </button>
           </div>
         )}
       </div>
