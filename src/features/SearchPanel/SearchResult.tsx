@@ -546,7 +546,7 @@ export default function SearchResult() {
     <>
       <div
         style={{
-          marginTop: "70px",
+          // marginTop: "64px",
           color: "#4D4D4D",
           backgroundColor: "#FFFBF3",
           padding: "12px 4%",
@@ -554,8 +554,10 @@ export default function SearchResult() {
           alignItems: "center",
           justifyContent: "space-between",
           height: "4.4rem",
-          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+          boxShadow:
+            "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
         }}
+        className="sticky left-0 md:top-16 md:mt-16 w-full z-10 top-[118px] mt-[118px]"
       >
         <Typography
           variant="h6"
@@ -590,8 +592,7 @@ export default function SearchResult() {
                 marginLeft: 0,
               },
             }}
-          >
-          </Box>
+          ></Box>
           <Typography
             variant="body2"
             sx={{
@@ -604,7 +605,7 @@ export default function SearchResult() {
             Map mode
           </Typography>
           <Switch
-            className='toggle-ui'
+            className="toggle-ui"
             checked={isShowMap}
             onChange={handleMapClick}
             color="success"
@@ -618,7 +619,7 @@ export default function SearchResult() {
               },
               "@media (max-width: 700px)": {
                 display: "none",
-              }
+              },
             }}
           />
         </Box>
@@ -630,7 +631,7 @@ export default function SearchResult() {
         <div className="search-result-container">
           <Grid container spacing={2} style={{ width: "100vw" }}>
             <Grid item xs={12} order={{ xs: 1, md: 2 }} md={isShowMap ? 6 : 12}>
-              <div className="flex justify-center mb-4">
+              <div className="flex justify-center my-4">
                 {apiIsLoaded && isLoaded ? (
                   <GoogleMap
                     mapContainerStyle={{
@@ -690,18 +691,18 @@ export default function SearchResult() {
                                   paddingTop: "5px",
                                   paddingBottom: "5px",
                                 }}
-                                className="flex flex-col  items-center"
+                                className="flex flex-col items-center"
                               >
                                 <img
                                   src={`data:image/png;base64, ${image}`}
                                   alt={name}
                                   style={{ width: "200px", height: "100px" }}
-                                  className="mb-1 rounded-md mt-2"
+                                  className="mt-2 mb-1 rounded-md"
                                 />
-                                <h5 className=" text-gray-600 font-bold m-1 text-center">
+                                <h5 className="m-1 font-bold text-center text-gray-600 ">
                                   {name}
                                 </h5>
-                                <p className="text-sm text-black font-medium m-1 text-center">
+                                <p className="m-1 text-sm font-medium text-center text-black">
                                   {location}
                                 </p>
                               </div>
@@ -731,7 +732,7 @@ export default function SearchResult() {
                               textAlign: "center",
                             }}
                           >
-                            <p className="text-base text-gray-600 font-semibold">
+                            <p className="text-base font-semibold text-gray-600">
                               {locationName}
                             </p>
                           </div>
@@ -745,7 +746,7 @@ export default function SearchResult() {
               </div>
             </Grid>
             <Grid item xs={12} order={{ xs: 2, md: 1 }} md={isShowMap ? 6 : 0}>
-              <Grid container spacing={2}>
+              <Grid container spacing={2} sx={{ zIndex: 0 }}>
                 {updatedTreatmentServicesList &&
                 updatedTreatmentServicesList?.length > 0 ? (
                   updatedTreatmentServicesList?.map((card, index) => {
@@ -791,11 +792,11 @@ export default function SearchResult() {
                                         <Chip
                                           key={index}
                                           label={tag}
-                                          className="mr-2 mb-2"
+                                          className="mb-2 mr-2"
                                         />
                                       ))}
                                     </div>
-                                    <div className="font-bold text-xl py-2 text-violet-700 ">
+                                    <div className="py-2 text-xl font-bold text-violet-700 ">
                                       {card?.establishmentName}
                                     </div>
                                     <div className="card-rating">
@@ -812,7 +813,7 @@ export default function SearchResult() {
                                         {"(" + card?.rating?.ratingCount + ")"}
                                       </div>
                                     </div>
-                                    <div className="text-sm mb-3 font-semibold">
+                                    <div className="mb-3 text-sm font-semibold">
                                       {card.geoX && card.geoY ? (
                                         <div className="flex items-center">
                                           <FaStore
@@ -826,7 +827,7 @@ export default function SearchResult() {
                                       ) : null}
                                     </div>
                                     {distance ? (
-                                      <div className="text-sm mb-3 text-slate-600 font-semibold flex items-center">
+                                      <div className="flex items-center mb-3 text-sm font-semibold text-slate-600">
                                         <GiPathDistance
                                           className="mr-2"
                                           size={25}
@@ -842,15 +843,15 @@ export default function SearchResult() {
                                       card?.openTime,
                                       card?.closeTime
                                     ) ? (
-                                      <div className="text-sm text-blue-700 font-medium">
-                                        <span className="text-red-600 font-semibold">
+                                      <div className="text-sm font-medium text-blue-700">
+                                        <span className="font-semibold text-red-600">
                                           Closed -
                                         </span>{" "}
                                         Opens at {card?.openTime}
                                       </div>
                                     ) : (
-                                      <div className=" text-sm text-red-600 font-medium">
-                                        <span className="text-blue-700 font-semibold">
+                                      <div className="text-sm font-medium text-red-600 ">
+                                        <span className="font-semibold text-blue-700">
                                           Opened -
                                         </span>{" "}
                                         Closes at {card?.closeTime}
