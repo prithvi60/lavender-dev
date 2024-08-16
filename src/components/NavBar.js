@@ -63,14 +63,16 @@ const Navbar = (props) => {
 
   return (
     <>
-      <AppBar position="fixed" className="nav-bar">
+      <AppBar position="fixed" className="nav-bar !shadow-sm">
         <Toolbar>
           <Box
             sx={{
               display: "flex",
-              justifyContent: "end",
+              justifyContent: "space-between",
+              alignItems: "center",
               width: "100%",
               flexGrow: 1,
+              padding: "5px 0px",
               "@media (max-width: 600px)": {
                 flexDirection: "row",
                 alignItems: "stretch",
@@ -78,39 +80,37 @@ const Navbar = (props) => {
             }}
           >
             <GetIcon
-              className="cursor-pointer nav-bar-title absolute left-4 top-4"
+              className="cursor-pointer nav-bar-title"
               align="left"
               onClick={() => navigate("/")}
               iconName="LavenderFullLogo"
             />
+            <Box>
             {isSearchPage && (
               <Box
                 sx={{
                   width: "100%",
-                  marginLeft: "200px",
-                  marginRight: "40px",
-                  "@media (max-width: 600px)": {
-                    marginTop: "10%",
-                    width: "fit-content",
-                    marginRight: "-2%",
-                  },
+                  // marginLeft: "200px",
+                  // "@media (max-width: 600px)": {
+                  //   marginTop: "10%",
+                  //   width: "fit-content",
+                  //   marginRight: "-2%",
+                  // },
                 }}
+                className="hidden md:block"
               >
                 <NavFilter setshowSearchBar={setshowSearchBar} />
               </Box>
             )}
-            <Stack
-              spacing={2}
-              direction="row"
-        
-            >
+            </Box>
+            <Stack spacing={2} direction="row">
               {isLoggedIn ? (
                 <>
                   {isMobile ? (
                     <GetIcon
                       iconName="MenuIcon"
                       onClick={handleMenuOpen}
-                      className="cursor-pointer absolute top-4 right-4"
+                      className="block cursor-pointer"
                     />
                   ) : (
                     <>
@@ -132,7 +132,7 @@ const Navbar = (props) => {
                           height: "37px",
                           fontFamily: "Urbanist",
                           borderRadius: "10px",
-                          whiteSpace: 'nowrap'
+                          whiteSpace: "nowrap",
                         }}
                         name={userName}
                         to="/userprofile"
@@ -198,8 +198,27 @@ const Navbar = (props) => {
               )}
             </Stack>
           </Box>
+          <Box className={"md:hidden w-full flex justify-end my-1"}>
+            {isSearchPage && (
+              <Box
+                sx={{
+                  width: "max-content",
+                  // marginLeft: "200px",
+                  // marginRight: "40px",
+                  // "@media (max-width: 600px)": {
+                  //   marginTop: "10%",
+                  //   width: "fit-content",
+                  //   marginRight: "-2%",
+                  // },
+                }}
+              >
+                <NavFilter setshowSearchBar={setshowSearchBar} />
+              </Box>
+            )}
+          </Box>
         </Toolbar>
       </AppBar>
+
       {isSearchPage && showSearchBar && (
         <div className="searched-search-panel mt-[100px]">
           <NewSearchPanel />

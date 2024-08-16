@@ -157,10 +157,12 @@
 
 /* Checkbox, Text */
 .icon,
-.text,
-.chip.MuiChip-root,
 .checkbox.MuiCheckbox-root.Mui-checked {
   color: #545454;
+}
+
+.chip.MuiChip-root {
+  color: #545454 !important;
 }
 
 .text.bold {
@@ -182,8 +184,8 @@
 }
 
 .chip.delete {
-  color: #4D4D4D;
-  background-color: #e6e1ff;
+  color: #4D4D4D !important;
+  background-color: #e6e1ff !important;
 }
 
 /* Loader */

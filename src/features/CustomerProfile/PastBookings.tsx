@@ -1,4 +1,11 @@
-import { Card, Grid, IconButton, useMediaQuery, useTheme, Divider } from "@mui/material";
+import {
+  Card,
+  Grid,
+  IconButton,
+  useMediaQuery,
+  useTheme,
+  Divider,
+} from "@mui/material";
 import React, { useRef, useState } from "react";
 import EmptyBookings from "./EmptyBookings";
 import { NoPastBookings } from "./Constant";
@@ -20,7 +27,7 @@ function PastBookings({ userInfo }) {
 
   const scrollContainerRef = useRef(null);
   const theme = useTheme();
-  const isMobile = useMediaQuery('(max-width:900px)');
+  const isMobile = useMediaQuery("(max-width:900px)");
 
   const handleCardClick = (index) => {
     setBookingIndex(index);
@@ -69,6 +76,19 @@ function PastBookings({ userInfo }) {
                 overflowX: isMobile ? "hidden" : "auto",
                 overflowY: isMobile ? "auto" : "visible",
                 padding: "10px",
+                scrollbarWidth: 'thin',
+                // @ts-ignore
+                '&::-webkit-scrollbar': {
+                    width: '3px',
+                    height: '3px',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: '#888',
+                    borderRadius: '3px',
+                },
+                '&::-webkit-scrollbar-track': {
+                    backgroundColor: '#f1f1f1',
+                },
               }}
             >
               {userInfo?.pastBookings?.map((bookings, index) => (
@@ -77,38 +97,58 @@ function PastBookings({ userInfo }) {
                     sx={{
                       ...cardStyle,
                       padding: 0,
-                      boxShadow: isMobile ? 'none' : cardStyle.boxShadow,
+                      boxShadow: isMobile ? "none" : cardStyle.boxShadow,
                     }}
                     onClick={() => handleCardClick(index)}
                   >
                     {isMobile ? (
                       <>
-                        <div style={{
-                          backgroundColor: '#EEEEFF',
-                          padding: '16px',
-                          borderTopLeftRadius: '4px',
-                          borderTopRightRadius: '4px',
-                        }}>
+                        <div
+                          style={{
+                            backgroundColor: "#EEEEFF",
+                            padding: "16px",
+                            borderTopLeftRadius: "4px",
+                            borderTopRightRadius: "4px",
+                          }}
+                        >
                           <Text
-                            sx={{...styles.mobileDate}}
-                            name={`${convertToDateOnly(bookings?.startTime)} ${convertToMonthOnly(bookings?.startTime)} ${convertToYearOnly(bookings?.startTime)}, ${convertToDayOnly(bookings?.startTime)}`}
+                            sx={{ ...styles.mobileDate }}
+                            name={`${convertToDateOnly(
+                              bookings?.startTime
+                            )} ${convertToMonthOnly(
+                              bookings?.startTime
+                            )} ${convertToYearOnly(
+                              bookings?.startTime
+                            )}, ${convertToDayOnly(bookings?.startTime)}`}
                           />
                         </div>
-                        <Grid container spacing={0} sx={{ padding: '16px' }}>
-                          <Grid item xs={3} sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Grid container spacing={0} sx={{ padding: "16px" }}>
+                          <Grid
+                            item
+                            xs={3}
+                            sx={{ display: "flex", alignItems: "center" }}
+                          >
                             <Text
-                              sx={{...styles.mobileTime}}
+                              sx={{ ...styles.mobileTime }}
                               name={convertToTimeOnly(bookings?.startTime)}
                             />
                           </Grid>
-                          <Divider orientation="vertical" flexItem sx={{ mr: '-1px' }} />
+                          <Divider
+                            orientation="vertical"
+                            flexItem
+                            sx={{ mr: "-1px" }}
+                          />
                           <Grid item xs={9} sx={{ pl: 2 }}>
                             <Text
-                              sx={{...styles.estName, fontSize: '16px'}}
+                              sx={{ ...styles.estName, fontSize: "16px" }}
                               name={bookings?.establishmentName}
                             />
                             <Text
-                              sx={{...styles.services, fontSize: '14px', color: '#666'}}
+                              sx={{
+                                ...styles.services,
+                                fontSize: "14px",
+                                color: "#666",
+                              }}
                               name={`${bookings.services.length} services`}
                             />
                           </Grid>
@@ -131,17 +171,27 @@ function PastBookings({ userInfo }) {
                             }}
                           >
                             <Text
-                              sx={{...styles.startMonth, fontSize: isMobile ? "12px" : "15px"}}
+                              sx={{
+                                ...styles.startMonth,
+                                fontSize: isMobile ? "12px" : "15px",
+                              }}
                               name={`${convertToMonthOnly(
                                 bookings?.startTime
                               )} ${convertToYearOnly(bookings?.startTime)}`}
                             />
                             <Text
-                              sx={{...styles.startDate, fontSize: isMobile ? "36px" : "50px", lineHeight: isMobile ? "40px" : "70px"}}
+                              sx={{
+                                ...styles.startDate,
+                                fontSize: isMobile ? "16px" : "36px",
+                                lineHeight: isMobile ? "19.2px" : "44px",
+                              }}
                               name={convertToDateOnly(bookings?.startTime)}
                             />
                             <Text
-                              sx={{...styles.startDay, fontSize: isMobile ? "12px" : "15px"}}
+                              sx={{
+                                ...styles.startDay,
+                                fontSize: isMobile ? "12px" : "12px",
+                              }}
                               name={convertToDayOnly(bookings?.startTime)}
                             />
                           </Card>
@@ -154,19 +204,28 @@ function PastBookings({ userInfo }) {
                             flexDirection: "column",
                             justifyContent: "center",
                             alignItems: "start",
-                            paddingLeft: '24px !important'
+                            paddingLeft: "24px !important",
                           }}
                         >
                           <Text
-                            sx={{...styles.estName, fontSize: isMobile ? "16px" : "20px"}}
+                            sx={{
+                              ...styles.estName,
+                              fontSize: isMobile ? "14px" : "15px",
+                            }}
                             name={bookings?.establishmentName}
                           />
                           <Text
-                            sx={{...styles.startTime, fontSize: isMobile ? "24px" : "36px"}}
+                            sx={{
+                              ...styles.startTime,
+                              fontSize: isMobile ? "20px" : "28px",
+                            }}
                             name={convertToTimeOnly(bookings?.startTime)}
                           />
                           <Text
-                            sx={{...styles.services, fontSize: isMobile ? "14px" : "20px"}}
+                            sx={{
+                              ...styles.services,
+                              fontSize: isMobile ? "16px" : "12px",
+                            }}
                             name={`${bookings.services.length} services`}
                           />
                         </Grid>
@@ -241,31 +300,31 @@ const styles = {
   heading: {
     color: "#1B1464",
     fontSize: "36px",
-    fontWeight: 600,
+    fontWeight: 700,
     paddingBottom: 2,
   },
   startMonth: {
-    fontWeight: 600,
+    fontWeight: 700,
     fontSize: "20px",
     lineHeight: "24px",
     color: "#1B1464",
     padding: 1,
   },
   startDate: {
-    fontWeight: 500,
+    fontWeight: 700,
     fontSize: "90px",
     lineHeight: "108px",
     color: "#1B1464",
   },
   startDay: {
-    fontWeight: 600,
+    fontWeight: 700,
     fontSize: "20px",
     lineHeight: "24px",
     color: "#1B1464",
     p: 1,
   },
   estName: {
-    fontWeight: "600 !important",
+    fontWeight: "700 !important",
     fontSize: "20px",
     lineHeight: "24px",
     color: "#1B1464",
@@ -273,27 +332,27 @@ const styles = {
     maxWidth: "250px",
   },
   startTime: {
-    fontWeight: 600,
+    fontWeight: 700,
     fontSize: "36px",
     lineHeight: "43px",
     color: "#1B1464",
     p: 1,
   },
   services: {
-    fontWeight: 400,
+    fontWeight: 600,
     fontSize: "20px",
     lineHeight: "24px",
     color: "#1B1464",
     p: 1,
   },
   mobileDate: {
-    fontWeight: 600,
-    fontSize: '16px',
-    color: '#1B1464',
+    fontWeight: 700,
+    fontSize: "16px",
+    color: "#1B1464",
   },
   mobileTime: {
-    fontWeight: 600,
-    fontSize: '24px',
-    color: '#4D4D4D',
+    fontWeight: 700,
+    fontSize: "24px",
+    color: "#4D4D4D",
   },
 };

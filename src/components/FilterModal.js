@@ -122,7 +122,7 @@ export default function FilterModal() {
                   alignItems: "center",
                 }}
               >
-                <Typography variant="body2" sx={{ marginRight: "8px",marginLeft: "8px",color: '#000000' }}>
+                <Typography variant="body2" sx={{ marginRight: "8px",marginLeft: "8px",color: '#4D4D4D', textTransform: 'none', fontSize: '20px', fontWeight: 600 }}>
                   Filter
                 </Typography>
                 <Chip

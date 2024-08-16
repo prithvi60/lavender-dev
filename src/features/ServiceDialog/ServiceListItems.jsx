@@ -1,10 +1,10 @@
-import React, {useState, useRef} from 'react'
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import { Divider } from '@mui/material';
-import Text from '../../components/Text';
-import {IconButton} from '@mui/material';
-import GetIcon from '../../assets/Icon/icon';
+import React, { useState, useRef } from "react";
+import List from "@mui/material/List";
+import ListItemButton from "@mui/material/ListItemButton";
+import { Divider } from "@mui/material";
+import Text from "../../components/Text";
+import { IconButton } from "@mui/material";
+import GetIcon from "../../assets/Icon/icon";
 import { useDispatch, useSelector } from "react-redux";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
@@ -23,14 +23,14 @@ function ServiceListItems({ serviceCategories, handleClose }) {
       categoryRef.scrollIntoView({ behavior: "smooth" });
     }
   };
-  
+
   const checkOutList = useSelector((state) => state.checkOutPage);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <div className="w-full urbanist-font md:mx-24">
-      <div className={`flex gap-1 mb-2 items-center ${isMobile ? 'justify-center' : 'justify-start'}`}>
+      <div className={`flex gap-1 mb-2 items-center`}>
         <IconButton onClick={handleClose}>
           <GetIcon iconName="BackIconArrow" />
         </IconButton>
@@ -52,13 +52,18 @@ function ServiceListItems({ serviceCategories, handleClose }) {
         ref={listRef}
         className="serviceGridList"
         sx={{
-          width: "100%",
-          maxWidth: "100%",
+          "@media (max-width: 768px)": {
+            width: "100%",
+          },
+          // maxWidth: "100%",
           maxHeight: 1000,
           bgcolor: "background.paper",
           overflowY: "auto",
-          marginLeft: { xs: 0, md: '24px' },
-          marginRight: { xs: 0, md: '24px' },
+          marginLeft: { xs: 0, md: "36px" },
+          marginRight: { xs: 0, md: "38px" },
+          "@media (min-width: 768px)": {
+            width: "90%",
+          },
         }}
       >
         {serviceCategories?.map((item, index) => (
@@ -67,84 +72,97 @@ function ServiceListItems({ serviceCategories, handleClose }) {
               sx={styles.subHeading}
               name={item?.categoryName}
               align="left"
+              className=" md:!px-6"
             />
 
             {item?.services?.map((service, serviceIndex) => {
-              
-              const checkoutOptionIds = checkOutList?.checkOut?.map(service => service?.optionId);
+              const checkoutOptionIds = checkOutList?.checkOut?.map(
+                (service) => service?.optionId
+              );
 
-              const matchingOptions = service?.options?.filter(option => checkoutOptionIds?.includes(option?.optionId));
+              const matchingOptions = service?.options?.filter((option) =>
+                checkoutOptionIds?.includes(option?.optionId)
+              );
 
-              const selectedService = matchingOptions?.map(option => option?.optionId);
+              const selectedService = matchingOptions?.map(
+                (option) => option?.optionId
+              );
 
               return (
-              <ListItemButton
-                className="serviceList"
-                sx={{
-                  display: "flex",
-                  justifyContent: isMobile ? "flex-start" : "space-between",
-                  alignItems: "flex-start",
-                  padding: isMobile ? "32px" : "16px",
-                  position: "relative",
-                  width: isMobile ? "100vw" : "100%",
-                  maxWidth: isMobile ? "100%" : "100%",
-                }}
-                key={serviceIndex}
-              >
-                <div className={""}>
-                  <Text
-                    sx={styles.serviceName}
-                    name={service?.serviceName}
-                    align="left"
-                  />
-                  {service?.options?.length > 0 && (
+                <ListItemButton
+                  className="serviceList"
+                  sx={{
+                    display: "flex",
+                    justifyContent: isMobile ? "flex-start" : "space-between",
+                    alignItems: "flex-start",
+                    // padding: isMobile ? "42px" : "16px",
+                    position: "relative",
+                    width: isMobile ? "100vw" : "100%",
+                    maxWidth: isMobile ? "100%" : "100%",
+                  }}
+                  key={serviceIndex}
+                >
+                  <div className="py-3 md:px-[20px]">
                     <Text
-                      sx={styles.duration}
-                      name={`${service?.options[0]?.duration} mins`}
+                      sx={styles.serviceName}
+                      name={service?.serviceName}
                       align="left"
                     />
-                  )}
-                  <Text
-                    sx={{
-                      ...styles.description,
-                      overflowWrap: 'break-word',
-                      wordWrap: 'break-word',
-                      hyphens: 'auto',
-                      maxWidth: '600px'
-                    }}
-                    name={service?.serviceDescription}
-                    align="left"
-                  />
-
-                  <div className="text-base">
-                    {service?.options?.length > 0 ? (
-                      <span style={{ color: "#808080" }}>
-                        from:{" "}
-                        <span
-                          className="font-bold"
-                          style={{ color: "#4D4D4D", fontWeight: 700 }}
-                        >
-                          ${service.startingPrice}
-                        </span>
-                      </span>
-                    ) : (
-                      "$" +
-                      <span className="font-bold">$service.finalPrice</span>
+                    {service?.options?.length > 0 && (
+                      <Text
+                        sx={styles.duration}
+                        name={`${service?.options[0]?.duration} mins`}
+                        align="left"
+                      />
                     )}
+                    <Text
+                      sx={{
+                        ...styles.description,
+                        overflowWrap: "break-word",
+                        wordWrap: "break-word",
+                        hyphens: "auto",
+                        maxWidth: "600px",
+                      }}
+                      name={service?.serviceDescription}
+                      align="left"
+                    />
+
+                    <div className="text-base">
+                      {service?.options?.length > 0 ? (
+                        <span style={{ color: "#808080" }}>
+                          from:{" "}
+                          <span
+                            className="font-bold"
+                            style={{ color: "#4D4D4D", fontWeight: 700 }}
+                          >
+                            ${service.startingPrice}
+                          </span>
+                        </span>
+                      ) : (
+                        "$" +
+                        <span className="font-bold">$service.finalPrice</span>
+                      )}
+                    </div>
                   </div>
-                </div>
-                {isMobile ? (
-                  <div style={{ position: "absolute", right: 16, top: 36 }}>
-                    <OptionsModalListView props={service} isMobile={isMobile} />
-                  </div>
-                ) : (
-                  <div>
-                    <OptionsModal props={service} isMobile={isMobile} selectedService={selectedService || []}/>
-                  </div>
-                )}
-              </ListItemButton>
-              )
-})}
+                  {isMobile ? (
+                    <div style={{ position: "absolute", right: 16, top: 36 }}>
+                      <OptionsModalListView
+                        props={service}
+                        isMobile={isMobile}
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <OptionsModal
+                        props={service}
+                        isMobile={isMobile}
+                        selectedService={selectedService || []}
+                      />
+                    </div>
+                  )}
+                </ListItemButton>
+              );
+            })}
             <Divider />
           </div>
         ))}
@@ -165,8 +183,8 @@ const styles = {
     color: "#4D4D4D",
     fontSize: "28px",
     fontWeight: 700,
-    paddingLeft: 4,
-    paddingTop: 1,
+    // paddingLeft: 4,
+    // paddingTop: 1,
   },
   serviceName: {
     color: "#4D4D4D",

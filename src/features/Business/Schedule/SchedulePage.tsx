@@ -25,7 +25,13 @@ function SchedulePage() {
 
   return (
       <div>
-        <div id='Header' className='flex justify-between m-3' >
+        <div id='Header' className='flex justify-between m-3 
+        overflow-x-auto' 
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: '#888 #f1f1f1',
+        }}
+        >
           <div className='flex  items-center'>
             <Button className='bg-white mr-10 font-bold' variant='outline' onClick={setCurrentDuration} style={{color: '#4D4D4D', fontWeight: 700, fontSize: '18px'}}>
               {durationState === 'Day' ? 'Today' : 'This Week'}
@@ -46,7 +52,7 @@ function SchedulePage() {
           </div>
 
         </div>
-        <div >
+        <div className='overflow-x-auto'>
           {durationState === 'Day' ? <DayCalendar/> : 
           <WeeklyCalendar/>
           }

@@ -1,4 +1,4 @@
-import { Modal, Divider, Slider, Avatar } from "@mui/material";
+import { Modal, Divider, Slider, Avatar, Skeleton } from "@mui/material";
 import Button from "@mui/material/Button";
 import { Box, Grid } from "@mui/material";
 import React, { useEffect } from "react";
@@ -141,6 +141,7 @@ const AppointmentConfimed = ({ establishmentId, activeStep }) => {
         onClose={handleOpen}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        disableAutoFocus={true}
       >
         <Box sx={style} className="rounded-3xl filter-box">
           <div
@@ -156,9 +157,18 @@ const AppointmentConfimed = ({ establishmentId, activeStep }) => {
               className="my-5 mx-16 p-1 cursor-pointer rounded-sm"
               iconName="CalendarConfirmedIcon"
             />
-            <div id="title" className="font-bold text-xl mb-3">
-              Dear {userDetails?.fullName}
-            </div>
+            {
+              userDetails?.fullName ? (
+              <div id="title" className="font-bold text-xl mb-3">
+                Dear {userDetails?.fullName}
+              </div>
+              )
+              :  
+              (
+                <Skeleton animation="wave" />
+              )
+            }
+            
             <div>Your appointment has been confirmed</div>
           </div>
           <Grid container spacing={2} className="filters-container">
