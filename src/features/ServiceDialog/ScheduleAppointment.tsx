@@ -55,9 +55,8 @@ export default function ScheduleAppointment(props) {
 
   let appointmentTimings;
   const dispatch = useDispatch();
-  const { selectedDate, timeOfDay, startTime, endTime, id, totalDuration} = useSelector(
-    (state: any) => state.ScheduleAppoinment
-  );
+  const { selectedDate, timeOfDay, startTime, endTime, id, totalDuration } =
+    useSelector((state: any) => state.ScheduleAppoinment);
 
   // Function to fetch available slots
   const fetchAvailableSlots = async (day) => {
@@ -220,12 +219,12 @@ export default function ScheduleAppointment(props) {
   });
 
   return (
-    <div className="mt-2 md:mx-16 my-10">
-      <div className="flex gap-3 items-center">
+    <div className="my-10 mt-2 md:mx-16">
+      <div className="flex items-center gap-3">
         <IconButton onClick={() => onSetActiveStep(0)}>
           <GetIcon iconName="BackIconArrow" />
         </IconButton>
-        <div className="font-bold text-3xl">Schedule</div>
+        <div className="text-3xl font-bold">Schedule</div>
       </div>
 
       <div className="mb-4">
@@ -260,7 +259,7 @@ export default function ScheduleAppointment(props) {
         />
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 overflow-hidden">
         {availableTimeSlots?.length > 0 ? (
           Object.entries(availableTimeSlots[0]?.availableSlots).map(
             ([timePeriod, slotsArray]: any) => {
@@ -275,12 +274,12 @@ export default function ScheduleAppointment(props) {
                   >
                     {timePeriod}
                   </p>
-                  <div className="flex items-center flex-wrap gap-2 max-w-[40vw] md:max-w-[15vw] overflow-x-auto">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-rows-2 gap-x-5 gap-y-2.5 lg:gap-3 !overflow-x-auto md:grid-rows-3 w-full">
                     {slotsArray.length > 0 ? (
                       slotsArray?.map((slot: any, index: any) => {
                         return (
                           <div
-                            className="cursor-pointer"
+                            className="cursor-pointer w-max"
                             key={index}
                             style={{ flexShrink: 0 }}
                           >
@@ -316,7 +315,7 @@ export default function ScheduleAppointment(props) {
                                 handleChipClick(timePeriod, slot, index)
                               }
                               style={{
-                                margin: "5px",
+                                margin: "0px 15px",
                                 backgroundColor: selectedPaymentChips.includes(
                                   `${slot.startTime} - ${slot.endTime}`
                                 )
@@ -362,12 +361,12 @@ export default function ScheduleAppointment(props) {
               >
                 <GetIcon
                   onClick={() => {}}
-                  className="my-5 mx-16 p-1 cursor-pointer rounded-sm"
+                  className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
                   iconName="SlotBoxesFilled"
                 />
                 <div
                   id="title"
-                  className="font-bold text-xl mb-3 "
+                  className="mb-3 text-xl font-bold "
                   style={{ color: "#4D4D4D" }}
                 >
                   We are fully booked
@@ -403,12 +402,12 @@ export default function ScheduleAppointment(props) {
               >
                 <GetIcon
                   onClick={() => {}}
-                  className="my-5 mx-16 p-1 cursor-pointer rounded-sm"
+                  className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
                   iconName="SlotBoxesFilled"
                 />
                 <div
                   id="title"
-                  className="font-bold text-xl mb-3 "
+                  className="mb-3 text-xl font-bold "
                   style={{ color: "#4D4D4D" }}
                 >
                   Select a date to book your slot
@@ -427,7 +426,7 @@ export default function ScheduleAppointment(props) {
               whiteSpace: "nowrap",
               display: "flex",
               flexDirection: "column",
-              paddingBottom: {xs:"120px", md:"250px"},
+              paddingBottom: { xs: "120px", md: "250px" },
             },
           }}
         >

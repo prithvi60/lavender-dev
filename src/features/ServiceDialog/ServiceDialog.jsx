@@ -71,10 +71,19 @@ function ServiceDialog({ establishmentData }) {
           </IconButton>
         </Toolbar>
         <div
-          className="flex h-full md:max-w-7xl py-10 md:!px-6 card-flex"
-          style={{ padding: "0px 18px" }}
+          className="flex justify-between h-full gap-3 mx-2 xl:gap-5 md:max-w-7xl card-flex"
+          style={{ padding: "24px 30px" }}
         >
-          <div className="w-full md:pr-8">
+          <Box
+            sx={{
+              "@media (max-width: 1023px)": {
+                width: "100%",
+              },
+              "@media (min-width: 1024px)": {
+                width: "65%",
+              },
+            }}
+          >
             {activeStep === 0 && (
               <ServiceListItems
                 serviceCategories={establishmentData?.categories}
@@ -92,16 +101,38 @@ function ServiceDialog({ establishmentData }) {
             {activeStep === 2 && (
               <ConfirmScreen onSetActiveStep={onSetActiveStep} />
             )}
-          </div>
+          </Box>
           {!isMobile ? (
-            <CheckoutCard
-              activeStep={activeStep}
-              next={onSetActiveStep}
-              establishmentName={establishmentData?.profile?.establishmentName}
-              establishmentId={establishmentData?.id}
-            />
+            <Box
+              sx={{
+                "@media (max-width: 1023px)": {
+                  width: "100%",
+                },
+                "@media (min-width: 1024px)": {
+                  width: "35%",
+                },
+              }}
+            >
+              <CheckoutCard
+                activeStep={activeStep}
+                next={onSetActiveStep}
+                establishmentName={
+                  establishmentData?.profile?.establishmentName
+                }
+                establishmentId={establishmentData?.id}
+              />
+            </Box>
           ) : (
-            <div className="ml-4">
+            <Box
+              sx={{
+                "@media (max-width: 1023px)": {
+                  width: "100%",
+                },
+                "@media (min-width: 1024px)": {
+                  width: "35%",
+                },
+              }}
+            >
               <CheckoutFooterCard
                 activeStep={activeStep}
                 next={onSetActiveStep}
@@ -110,7 +141,7 @@ function ServiceDialog({ establishmentData }) {
                 }
                 establishmentId={establishmentData?.id}
               />
-            </div>
+            </Box>
           )}
         </div>
       </Dialog>

@@ -116,7 +116,7 @@ export function MyFavorites() {
 
   return (
     <div className="bg-[#F2F2F2] ">
-      <Box className="py-12 px-16 flex gap-2 pb-2">
+      <Box className="flex gap-2 px-16 py-12 pb-2">
         <IconButton onClick={() => navigate(-1)}>
           <GetIcon iconName="BackIconArrow" />
         </IconButton>
@@ -161,7 +161,7 @@ export function MyFavorites() {
                   >
                     <CardContent>
                       <div className="card-wrap-container">
-                        <div className="card-container flex flex-col">
+                        <div className="flex flex-col card-container">
                           <div
                             className="card-header"
                             style={{ padding: "10px" }}
@@ -201,7 +201,7 @@ export function MyFavorites() {
                                   {"(" + card?.rating?.ratingCount + ")"}
                                 </div>
                               </div>
-                              <div className="text-sm mb-3 font-semibold">
+                              <div className="mb-3 text-sm font-semibold">
                                 {card.geoX && card.geoY ? (
                                   <div className="flex items-center">
                                     <FaStore
@@ -214,7 +214,7 @@ export function MyFavorites() {
                                 ) : null}
                               </div>
                               {/* {distance ? (
-                                <div className="text-sm mb-3 text-slate-600 font-semibold flex items-center">
+                                <div className="flex items-center mb-3 text-sm font-semibold text-slate-600">
                                   <GiPathDistance
                                     className="mr-2"
                                     size={25}
@@ -230,26 +230,26 @@ export function MyFavorites() {
                                 card?.openTime,
                                 card?.closeTime
                               ) ? (
-                                <div className="text-sm text-blue-700 font-medium">
-                                  <span className="text-red-600 font-semibold">
+                                <div className="text-sm font-medium text-blue-700">
+                                  <span className="font-semibold text-red-600">
                                     Closed -
                                   </span>{" "}
                                   Opens at {card?.openTime}
                                 </div>
                               ) : (
-                                <div className=" text-sm text-red-600 font-medium">
-                                  <span className="text-blue-700 font-semibold">
+                                <div className="text-sm font-medium text-red-600 ">
+                                  <span className="font-semibold text-blue-700">
                                     Opened -
                                   </span>{" "}
                                   Closes at {card?.closeTime}
                                 </div>
                               )}
-                              <div className="chip-wrap mt-2">
+                              <div className="mt-2 chip-wrap">
                                 {card?.serviceTags?.map((tag, index) => (
                                   <Chip
                                     key={index}
                                     label={tag}
-                                    className="mr-2 mb-2"
+                                    className="mb-2 mr-2"
                                   />
                                 ))}
                               </div>
@@ -282,7 +282,7 @@ export function MyFavorites() {
           <img
             // src="../../../public/favorite.png"
             src={require("../../assets/BackgroundImage/favorite.png")}
-            alt="favorite image"
+            alt="favorite"
             className="object-contain object-center w-80"
           />
           <h2 className="text-3xl font-semibold text-[#4D4D4D] text-center">

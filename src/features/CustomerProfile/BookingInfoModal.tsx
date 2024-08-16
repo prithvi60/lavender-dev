@@ -73,15 +73,15 @@ export const BookingInfoModal = ({ isModalOpen, bookings, toggleModal,userflow }
                                     <Grid container spacing={1} sx={{ marginBottom: '20px' }}>
                                         <Grid item xs={12} sm={6} md={4}>
                                             <Card sx={{ height: '100%', width: '100%', padding: '', borderRadius: 4, backgroundColor: '#EEEEFF', color: '#1B1464', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                                <div className="text-xl p-1">{convertToMonthOnly(bookings?.startTime)} {convertToYearOnly(bookings?.startTime)}</div>
-                                                <div className='text-5xl font-bold p-1'>{convertToDateOnly(bookings?.startTime)}</div>
-                                                <div className="text-xl p-1">{convertToDayOnly(bookings?.startTime)}</div>
-                                                <div className="text-2xl font-bold p-1">{convertToTimeOnly(bookings?.startTime)}</div>
+                                                <div className="p-1 text-xl">{convertToMonthOnly(bookings?.startTime)} {convertToYearOnly(bookings?.startTime)}</div>
+                                                <div className='p-1 text-5xl font-bold'>{convertToDateOnly(bookings?.startTime)}</div>
+                                                <div className="p-1 text-xl">{convertToDayOnly(bookings?.startTime)}</div>
+                                                <div className="p-1 text-2xl font-bold">{convertToTimeOnly(bookings?.startTime)}</div>
                                             </Card>
                                         </Grid>
                                         <Grid item xs={12} sm={6} md={8} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'start' }}>
-                                            <div className="text-4xl font-semibold p-1" style={{ color: '#4D4D4D' }}>{bookings?.establishmentName}</div>
-                                            <div className="text-2xl font-bold p-1" style={{ color: '#808080' }}>{bookings?.establishmentLocation}</div>
+                                            <div className="p-1 text-4xl font-semibold" style={{ color: '#4D4D4D' }}>{bookings?.establishmentName}</div>
+                                            <div className="text-[28px] font-bold p-1" style={{ color: '#808080' }}>{bookings?.establishmentLocation}</div>
                                         </Grid>
                                     </Grid>
                                 </div>
@@ -89,11 +89,11 @@ export const BookingInfoModal = ({ isModalOpen, bookings, toggleModal,userflow }
                                     <div>
                                         {
                                             bookings?.services?.map((service, index) => (
-                                                <div key={index} className='flex justify-between items-center w-full py-2'>
+                                                <div key={index} className='flex items-center justify-between w-full py-2'>
                                                     <div style={{ color: '#4D4D4D', fontSize: '20px', fontWeight: '600' }}>{service?.serviceName}</div>
                                                     <div className='flex items-center'>
                                                         <div style={{ color: '#4D4D4D', fontSize: '20px', fontWeight: '600' }}>{timeDifference(service?.startTime, service?.endTime)} mins</div>
-                                                        <div className="text-md text-center pl-2">{service?.bookingStatus}</div>
+                                                        <div className="pl-2 text-center text-md">{service?.bookingStatus}</div>
                                                         {
                                                             service?.bookingStatus !== 'CANCELED' && <CancelAppointmentModal bookings={service}/> 
                                                         }
@@ -120,7 +120,7 @@ export const BookingInfoModal = ({ isModalOpen, bookings, toggleModal,userflow }
                                 </div>
                             </Grid>
                             <Grid item xs={12} sm={4} md={4} lg={4} sx={{ backgroundColor: '#EEEEFF' }}>
-                                <div style={{ height: '100%', width: '100%' }} className='flex flex-col justify-center items-center'>
+                                <div style={{ height: '100%', width: '100%' }} className='flex flex-col items-center justify-center'>
                                     <div className='flex items-center p-5'>
                                         <GetIcon iconName='LocationIcon' />
                                         <div className='pl-4'>Directions</div>

@@ -137,11 +137,11 @@ function PastBookings({ userInfo }) {
                               )} ${convertToYearOnly(bookings?.startTime)}`}
                             />
                             <Text
-                              sx={{...styles.startDate, fontSize: isMobile ? "36px" : "50px", lineHeight: isMobile ? "40px" : "70px"}}
+                              sx={{...styles.startDate, fontSize: isMobile ? "16px" : "36px", lineHeight: isMobile ? "19.2px" : "44px"}}
                               name={convertToDateOnly(bookings?.startTime)}
                             />
                             <Text
-                              sx={{...styles.startDay, fontSize: isMobile ? "12px" : "15px"}}
+                              sx={{...styles.startDay, fontSize: isMobile ? "12px" : "12px"}}
                               name={convertToDayOnly(bookings?.startTime)}
                             />
                           </Card>
@@ -158,15 +158,15 @@ function PastBookings({ userInfo }) {
                           }}
                         >
                           <Text
-                            sx={{...styles.estName, fontSize: isMobile ? "16px" : "20px"}}
+                            sx={{...styles.estName, fontSize: isMobile ? "14px" : "15px"}}
                             name={bookings?.establishmentName}
                           />
                           <Text
-                            sx={{...styles.startTime, fontSize: isMobile ? "24px" : "36px"}}
+                            sx={{...styles.startTime, fontSize: isMobile ? "20px" : "28px"}}
                             name={convertToTimeOnly(bookings?.startTime)}
                           />
                           <Text
-                            sx={{...styles.services, fontSize: isMobile ? "14px" : "20px"}}
+                            sx={{...styles.services, fontSize: isMobile ? "16px" : "12px"}}
                             name={`${bookings.services.length} services`}
                           />
                         </Grid>
@@ -241,31 +241,31 @@ const styles = {
   heading: {
     color: "#1B1464",
     fontSize: "36px",
-    fontWeight: 600,
+    fontWeight: 700,
     paddingBottom: 2,
   },
   startMonth: {
-    fontWeight: 600,
+    fontWeight: 700,
     fontSize: "20px",
     lineHeight: "24px",
     color: "#1B1464",
     padding: 1,
   },
   startDate: {
-    fontWeight: 500,
+    fontWeight: 700,
     fontSize: "90px",
     lineHeight: "108px",
     color: "#1B1464",
   },
   startDay: {
-    fontWeight: 600,
+    fontWeight: 700,
     fontSize: "20px",
     lineHeight: "24px",
     color: "#1B1464",
     p: 1,
   },
   estName: {
-    fontWeight: "600 !important",
+    fontWeight: "700 !important",
     fontSize: "20px",
     lineHeight: "24px",
     color: "#1B1464",
@@ -273,26 +273,26 @@ const styles = {
     maxWidth: "250px",
   },
   startTime: {
-    fontWeight: 600,
+    fontWeight: 700,
     fontSize: "36px",
     lineHeight: "43px",
     color: "#1B1464",
     p: 1,
   },
   services: {
-    fontWeight: 400,
+    fontWeight: 600,
     fontSize: "20px",
     lineHeight: "24px",
     color: "#1B1464",
     p: 1,
   },
   mobileDate: {
-    fontWeight: 600,
+    fontWeight: 700,
     fontSize: '16px',
     color: '#1B1464',
   },
   mobileTime: {
-    fontWeight: 600,
+    fontWeight: 700,
     fontSize: '24px',
     color: '#4D4D4D',
   },
