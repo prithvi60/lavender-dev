@@ -139,9 +139,9 @@ const SaveReviews = ({bookings, establishmentId}) => {
 
   return (
     <div>
-      <div className='flex items-center p-5 cursor-pointer' onClick={()=>{handleOpen()}}>
+      <div className='flex items-center px-2.5 cursor-pointer' onClick={()=>{handleOpen()}}>
         <GetIcon iconName='CalendarIcon' />
-        <div className='pl-4'>Add review</div>
+        <div className='pl-4 text-base'>Add review</div>
       </div>
       {/* <Button className='w-full' onClick={handleOpen} sx={{ display: 'flex', justifyContent: 'center' }} variant="contained">
         Add reviews
@@ -156,24 +156,24 @@ const SaveReviews = ({bookings, establishmentId}) => {
         <Box sx={style} className="filter-box">
           <Grid container spacing={2} className='filters-container'>
             <Grid item xs={12}>
-              <div className="font-semibold text-xl mb-3" style={{ color: '#616161', textAlign: 'center' }}>
+              <div className="mb-3 text-xl font-semibold" style={{ color: '#616161', textAlign: 'center' }}>
                 Hey {fullName}
               </div>
 
-              <div className="font-bold text-2xl mb-3" style={{ color: '#616161', textAlign: 'center' }}>
+              <div className="mb-3 text-2xl font-bold" style={{ color: '#616161', textAlign: 'center' }}>
               Would you like to review your experience ?
               </div>
 
-              <div className="font-semibold text-xl mb-3" style={{ color: '#616161', textAlign: 'start' }}>
+              <div className="mb-3 text-xl font-semibold" style={{ color: '#616161', textAlign: 'start' }}>
                 {bookings?.establishmentName}
               </div>
               {currentStep < bookings?.services?.length && (
                 <>
-                  {/* <div className="font-semibold text-xl mb-3" style={{ color: '#616161', textAlign: 'center' }}>
+                  {/* <div className="mb-3 text-xl font-semibold" style={{ color: '#616161', textAlign: 'center' }}>
                     {bookings?.services[currentStep].serviceName}
                   </div> */}
 
-                  <div className="font-semibold text-l mb-3" style={{ color: '#616161', textAlign: 'start' }}>
+                  <div className="mb-3 font-semibold text-l" style={{ color: '#616161', textAlign: 'start' }}>
                   {bookings?.services[currentStep].serviceName} serviced by {bookings?.services[currentStep].employeeName}
                   </div>
                   
