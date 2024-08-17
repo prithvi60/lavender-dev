@@ -15,6 +15,7 @@ import {
   Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import CheckIcon from '@mui/icons-material/Check';
 // import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import {
@@ -199,13 +200,39 @@ function OptionsModalListView({ props, isMobile }) {
                 button
                 onClick={() => handleOptionToggle(option.optionId)}
               >
-                <Checkbox
-                  edge="start"
-                  checked={selectedOptions.includes(option.optionId)}
-                  tabIndex={-1}
-                  disableRipple
-                  sx={{ "&.Mui-checked": { color: "green" } }}
+         <Checkbox
+              edge="start"
+              checked={selectedOptions.includes(option.optionId)}
+              tabIndex={-1}
+              disableRipple
+              icon={
+                <Box 
+                  sx={{ 
+                    width: 20, 
+                    height: 20, 
+                    border: '2px solid #bdbdbd', 
+                    borderRadius: '4px',
+                    backgroundColor: 'white'
+                  }} 
                 />
+              }
+              checkedIcon={
+                <Box
+                  sx={{
+                    width: 20,
+                    height: 20,
+                    border: '2px solid #bdbdbd',
+                    borderRadius: '4px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'white',
+                  }}
+                >
+                  <CheckIcon sx={{ color: '#4caf50', fontSize: 16 }} />
+                </Box>
+              }
+            />
                 <ListItemText
                   primary={option.optionName}
                   secondary={`${option.duration} mins - from $${option.salePrice}`}
