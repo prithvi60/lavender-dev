@@ -600,6 +600,9 @@ export default function SearchResult() {
               "@media (max-width: 700px)": {
                 display: "none",
               },
+              fontSize: "20px",
+              fontWeight: "400",
+              color: "#4D4D4D",
             }}
           >
             Map mode
@@ -621,7 +624,6 @@ export default function SearchResult() {
                 display: "none",
               },
             }}
-
           />
         </Box>
       </div>
@@ -666,7 +668,6 @@ export default function SearchResult() {
                           stylers: [{ visibility: "off" }],
                         },
                       ],
-
                     }}
                     ref={mapRef}
                     onZoomChanged={handleZoomChanged}
