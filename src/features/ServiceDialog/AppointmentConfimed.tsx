@@ -154,12 +154,12 @@ const AppointmentConfimed = ({ establishmentId, activeStep }) => {
           >
             <GetIcon
               onClick={() => {}}
-              className="my-5 mx-16 p-1 cursor-pointer rounded-sm"
+              className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
               iconName="CalendarConfirmedIcon"
             />
             {
               userDetails?.fullName ? (
-              <div id="title" className="font-bold text-xl mb-3">
+              <div id="title" className="mb-3 text-xl font-bold">
                 Dear {userDetails?.fullName}
               </div>
               )

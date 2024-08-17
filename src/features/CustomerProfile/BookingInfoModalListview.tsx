@@ -61,10 +61,13 @@ export const BookingInfoModalListView = ({
   bookings,
   toggleModal,
   userflow,
+  // disable
 }) => {
   const [isOpen, setIsOpen] = useState(isModalOpen);
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width:600px)");
+  console.log(userflow);
+  
 
   const establishmentId = bookings?.services[0]?.establishmentId;
 
@@ -222,7 +225,8 @@ export const BookingInfoModalListView = ({
                   establishmentId={establishmentId}
                 />
               )}
-              <CancelAppointmentModal bookings={bookings?.services[0]} />
+              <CancelAppointmentModal userFlow={userflow} bookings={bookings?.services[0]}
+              />
             </Box>
           </Box>
         </Card>

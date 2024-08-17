@@ -43,7 +43,7 @@ export const Reviews = ({establishmentId}: any) => {
   },[reviewData])
 
   return (
-    <Box className="mx-16" id="SearchDetailReview" sx={{width: '85%', '@media (max-width: 640px)': {mx: 4}}}>
+    <Box className="mx-16 scroll-mt-32 md:scroll-mt-20" id="SearchDetailReview" sx={{width: '85%', '@media (max-width: 640px)': {mx: 4}}}>
       {
         rData?.content?.length > 0 && <ReviewsTable data={rData?.content} />
       }
@@ -197,7 +197,7 @@ useEffect(()=>{
         {
           data?.length > 0 ? (
             <div>
-              <div className='flex items-center flex-wrap'>
+              <div className='flex flex-wrap items-center'>
                 <div className='text-4xl'></div>
                 <Text sx={styles.rating} name={"4.0"}/>
                 <div className='text-center' style={{paddingLeft: 2, paddingRight: 10}}>
@@ -245,7 +245,7 @@ useEffect(()=>{
                 {/* </Box> */}
               </div>
           
-              <table {...getTableProps()} className="w-full table-auto">
+              <table {...getTableProps()} className="w-full table-auto md:w-[90%]">
                 <tbody {...getTableBodyProps()}>
                   {sortedData?.map((row, rowIndex) => {
                     prepareRow(row);
@@ -255,14 +255,14 @@ useEffect(()=>{
                         {row?.original?.isMainRow && (
                           <tr className="mb-4">
                             <td className="w-1/4 pt-8 pb-2 px-2 text-base style={{color: '#808080'}}">{row.values.reviewDate}</td>
-                            <td className="w-3/4" style={{paddingTop: '18px'}}> <Chip label={row?.values?.serviceTag} variant="outlined" className="m-1" sx={{backgroundColor: '#E6E6E6', color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}/></td>
+                            <td className="w-full text-end" style={{paddingTop: '18px'}}> <Chip label={row?.values?.serviceTag} variant="outlined" className="m-1" sx={{backgroundColor: '#E6E6E6', color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}/></td>
                           </tr>
                         )}
                         {/* Render second nested row */}
                         {row.original.isMainRow && (
                           <tr>
                             <td className="w-1/4 p-2 text-xl font-semibold" style={{color: '#4D4D4D'}}>{row.values.customerName}</td>
-                            <td className="w-1/4 p-2 text-base" style={{color: '#808080'}}>{"Serviced by "}{row.values.employeeName}</td>
+                            <td className="w-full p-2 text-base text-end" style={{color: '#808080'}}>{"Serviced by "}{row.values.employeeName}</td>
                           </tr>
                         )}
                         {/* Render third nested row */}

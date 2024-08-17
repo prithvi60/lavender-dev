@@ -64,7 +64,10 @@ function PastBookings({ userInfo }) {
 
   return (
     <div className="mt-10">
-      <Text sx={styles.heading} name={"Past Bookings"} align="left"></Text>
+      {/* <Text sx={styles.heading} name={"Past Bookings"} align="left"></Text> */}
+      <h4 className="text-[#4D4D4D] text-[18px] md:text-[36px] text-bold pb-2">
+        {"Past Bookings"}
+      </h4>
       <div style={{ overflow: "hidden", position: "relative" }}>
         {userInfo?.pastBookings?.length > 0 ? (
           <>
@@ -76,18 +79,18 @@ function PastBookings({ userInfo }) {
                 overflowX: isMobile ? "hidden" : "auto",
                 overflowY: isMobile ? "auto" : "visible",
                 padding: "10px",
-                scrollbarWidth: 'thin',
+                scrollbarWidth: "thin",
                 // @ts-ignore
-                '&::-webkit-scrollbar': {
-                    width: '3px',
-                    height: '3px',
+                "&::-webkit-scrollbar": {
+                  width: "3px",
+                  height: "3px",
                 },
-                '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: '#888',
-                    borderRadius: '3px',
+                "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: "#888",
+                  borderRadius: "3px",
                 },
-                '&::-webkit-scrollbar-track': {
-                    backgroundColor: '#f1f1f1',
+                "&::-webkit-scrollbar-track": {
+                  backgroundColor: "#f1f1f1",
                 },
               }}
             >
@@ -98,6 +101,7 @@ function PastBookings({ userInfo }) {
                       ...cardStyle,
                       padding: 0,
                       boxShadow: isMobile ? "none" : cardStyle.boxShadow,
+                      border: "1px solid #d3d3d3"
                     }}
                     onClick={() => handleCardClick(index)}
                   >
@@ -125,12 +129,25 @@ function PastBookings({ userInfo }) {
                         <Grid container spacing={0} sx={{ padding: "16px" }}>
                           <Grid
                             item
-                            xs={3}
-                            sx={{ display: "flex", alignItems: "center" }}
+                            xs={5}
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              flexDirection: "column",
+                            }}
                           >
                             <Text
                               sx={{ ...styles.mobileTime }}
                               name={convertToTimeOnly(bookings?.startTime)}
+                            />
+                            <Text
+                              sx={{
+                                ...styles.services,
+                                fontSize: "16px",
+                                color: "#666",
+                                fontWeight: 400,
+                              }}
+                              name={`${bookings.services.length} services`}
                             />
                           </Grid>
                           <Divider
@@ -138,18 +155,14 @@ function PastBookings({ userInfo }) {
                             flexItem
                             sx={{ mr: "-1px" }}
                           />
-                          <Grid item xs={9} sx={{ pl: 2 }}>
-                            <Text
-                              sx={{ ...styles.estName, fontSize: "16px" }}
-                              name={bookings?.establishmentName}
-                            />
+                          <Grid item xs={7}>
                             <Text
                               sx={{
-                                ...styles.services,
-                                fontSize: "14px",
-                                color: "#666",
+                                ...styles.estName,
+                                fontSize: "16px",
+                                fontWeight: 400,
                               }}
-                              name={`${bookings.services.length} services`}
+                              name={bookings?.establishmentName}
                             />
                           </Grid>
                         </Grid>
@@ -211,6 +224,7 @@ function PastBookings({ userInfo }) {
                             sx={{
                               ...styles.estName,
                               fontSize: isMobile ? "14px" : "15px",
+                              fontWeight: 700,
                             }}
                             name={bookings?.establishmentName}
                           />
@@ -225,6 +239,7 @@ function PastBookings({ userInfo }) {
                             sx={{
                               ...styles.services,
                               fontSize: isMobile ? "16px" : "12px",
+                              fontWeight: 600,
                             }}
                             name={`${bookings.services.length} services`}
                           />
@@ -277,6 +292,7 @@ function PastBookings({ userInfo }) {
                 isModalOpen={isModalOpen}
                 toggleModal={setIsModalOpen}
                 bookings={userInfo?.pastBookings[bookingIndex]}
+                // disable={userInfo?.pastBookings}
                 userflow={"past"}
               />
             ) : (
@@ -284,6 +300,7 @@ function PastBookings({ userInfo }) {
                 isModalOpen={isModalOpen}
                 toggleModal={setIsModalOpen}
                 bookings={userInfo?.pastBookings[bookingIndex]}
+                // disable={userInfo?.pastBookings}
                 userflow={"past"}
               />
             )}
@@ -324,7 +341,6 @@ const styles = {
     p: 1,
   },
   estName: {
-    fontWeight: "700 !important",
     fontSize: "20px",
     lineHeight: "24px",
     color: "#1B1464",
@@ -339,7 +355,6 @@ const styles = {
     p: 1,
   },
   services: {
-    fontWeight: 600,
     fontSize: "20px",
     lineHeight: "24px",
     color: "#1B1464",
@@ -352,7 +367,7 @@ const styles = {
   },
   mobileTime: {
     fontWeight: 700,
-    fontSize: "24px",
+    fontSize: "28px",
     color: "#4D4D4D",
   },
 };

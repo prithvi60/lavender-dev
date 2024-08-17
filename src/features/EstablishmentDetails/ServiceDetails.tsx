@@ -45,7 +45,7 @@ function ServiceDetails(props) {
     <>
     {
       !isLoading && 
-      <div className='' id="SearchDetailService">
+      <div className='scroll-mt-32 md:scroll-mt-20' id="SearchDetailService">
         <Text sx={styles.heading} name={"Services"} align="left"/>
         {/* <Box sx={{ maxWidth: { xs: 320, sm: 780 }, bgcolor: 'background.paper' }}>
           <Tabs

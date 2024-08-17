@@ -37,6 +37,7 @@ export const BookingInfoModal = ({
   isModalOpen,
   bookings,
   toggleModal,
+  // disable,
   userflow,
 }) => {
   const establishmentId = bookings?.services[0]?.establishmentId;
@@ -181,7 +182,7 @@ export const BookingInfoModal = ({
                             {service?.bookingStatus}
                           </div>
                           {service?.bookingStatus !== "CANCELED" && (
-                            <CancelAppointmentModal bookings={service} />
+                            <CancelAppointmentModal userFlow={userflow} bookings={service} />
                           )}
                         </div>
                       </div>
