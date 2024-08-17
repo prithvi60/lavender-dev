@@ -164,3 +164,17 @@ export function convertDateToReadAbleDate(dateStr) {
   return `${dayWithSuffix} ${monthName} ${fullYear}`;
 }
 
+export function convertToReadAbleDate(dateString){
+  // Create a Date object from the ISO date string
+  const date = new Date(dateString);
+
+  // Define options for formatting the date
+  const options: any = { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+  };
+
+  // Use Intl.DateTimeFormat to format the date according to the options
+  return new Intl.DateTimeFormat('en-US', options).format(date);
+}

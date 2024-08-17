@@ -36,7 +36,6 @@ export default function ScheduleAppointment(props) {
   const scheduleAppoinmentList = useSelector(
     (state: any) => state.ScheduleAppoinment
   );
-  console.log("object is scheduleAppoinmentList", scheduleAppoinmentList);
 
   const [selectedDateBtn, setSelectedDateBtn] = useState(new Date());
   const { estData, onSetActiveStep } = props;
@@ -51,7 +50,7 @@ export default function ScheduleAppointment(props) {
   const [startTimeValue, setStartTimeValue] = useState("11:59 pm");
   const [dateClicked, setDateClicked] = useState(false);
   const [employeeList, setEmployeeList] = useState(props?.estData?.employees);
-  const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState("Any Employee");
   const [employeeSlot, setEmployeeSlot] = useState("");
 
   
@@ -221,7 +220,7 @@ export default function ScheduleAppointment(props) {
   useEffect(() => {
     dispatch(
       UpdateEmployeeId({
-        id: selectedEmployeeId ? selectedEmployeeId : employeeSlot,
+        id: selectedEmployeeId !== "Any Employee" ? selectedEmployeeId : employeeSlot,
       })
     );
   });
@@ -239,7 +238,9 @@ export default function ScheduleAppointment(props) {
         <CustomWeeklyDatePicker onDateSelect={handleDateSelect} />
       </div>
 
+
       <div className="mt-4 overflow-hidden">
+
         {availableTimeSlots?.length > 0 ? (
           Object.entries(availableTimeSlots[0]?.availableSlots).map(
             ([timePeriod, slotsArray]: any) => {
@@ -332,6 +333,7 @@ export default function ScheduleAppointment(props) {
                           fontSize: "18px",
                           fontWeight: 500,
                           color: "#B3B3B3",
+                          whiteSpace: 'nowrap'
                         }}
                       />
                     )}
@@ -421,7 +423,9 @@ export default function ScheduleAppointment(props) {
               whiteSpace: "nowrap",
               display: "flex",
               flexDirection: "column",
-              paddingBottom: { xs: "120px", md: "250px" },
+
+              paddingBottom: { xs: "120px", md: "250px", },
+
             },
           }}
         >
@@ -438,7 +442,11 @@ export default function ScheduleAppointment(props) {
                 value={selectedEmployeeId}
                 onChange={handleChange}
                 sx={{ width: "300px", height: "45px", borderRadius: "10px" }}
+                defaultValue="Any Employee"
               >
+                <MenuItem value="Any Employee">
+                  Any Employee
+                </MenuItem>
                 {employeeList?.map((employee) => (
                   <MenuItem
                     key={employee?.employeeId}

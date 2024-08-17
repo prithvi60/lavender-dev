@@ -621,6 +621,7 @@ export default function SearchResult() {
                 display: "none",
               },
             }}
+
           />
         </Box>
       </div>
@@ -665,6 +666,7 @@ export default function SearchResult() {
                           stylers: [{ visibility: "off" }],
                         },
                       ],
+
                     }}
                     ref={mapRef}
                     onZoomChanged={handleZoomChanged}

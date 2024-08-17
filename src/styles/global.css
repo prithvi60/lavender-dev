@@ -118,16 +118,16 @@
   }
 
   .search-box-title .name-top {
-    font-size: 20px;
-    font-weight: 400;
-    color: #808080;
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    color: #808080 !important;
   }
 
   .search-box-title .name-bottom {
-    font-size: 20px;
-    font-weight: 600;
-    cursor: pointer;
-    color: '#4D4D4D'
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    color: #4D4D4D !important;
   }
 
   /* Text Area */
@@ -157,10 +157,12 @@
 
 /* Checkbox, Text */
 .icon,
-.text,
-.chip.MuiChip-root,
 .checkbox.MuiCheckbox-root.Mui-checked {
   color: #545454;
+}
+
+.chip.MuiChip-root {
+  color: #545454 !important;
 }
 
 .text.bold {
@@ -182,8 +184,8 @@
 }
 
 .chip.delete {
-  color: #4D4D4D;
-  background-color: #e6e1ff;
+  color: #4D4D4D !important;
+  background-color: #e6e1ff !important;
 }
 
 /* Loader */

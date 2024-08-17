@@ -182,20 +182,24 @@ function CheckoutCard(props) {
           )}
 
           {/* <Text sx={styles.subHeading} name={establishmentName} className="w-full" /> */}
-          <h4 className="w-full p-1.5 font-bold text-lg">
+
+          <Box className="w-full p-1.5" sx={{color: '#4D4D4D', fontSize: '20px', fontWeight: 600}}>
             {establishmentName}
-          </h4>
+          </Box>
+
         </Box>
 
         {scheduleAppoinmentList?.startTime && (
           <Box
-            sx={{ display: "flex", justifyContent: "space-between" }}
-            className="px-5 basis-full md:basis-4/5"
+
+            sx={{ display: "flex",  }}
+            className="px-1 basis-full md:basis-4/5"
+
           >
             {activeStep !== 0 &&
               scheduleAppoinmentList?.selectedDate &&
               typeof scheduleAppoinmentList?.selectedDate === "string" && (
-                <Box sx={{ display: "flex" }}>
+                <Box sx={{ display: "flex", paddingRight: 2 }}>
                   <Box>
                     <GetIcon iconName="CalendarIcon" />
                   </Box>

@@ -45,7 +45,7 @@ function ServiceDetails(props) {
     <>
     {
       !isLoading && 
-      <div className=''>
+      <div className='' id="SearchDetailService">
         <Text sx={styles.heading} name={"Services"} align="left"/>
         {/* <Box sx={{ maxWidth: { xs: 320, sm: 780 }, bgcolor: 'background.paper' }}>
           <Tabs
@@ -91,7 +91,10 @@ function ServiceDetails(props) {
         })
         ))}
       </List>
+      {
+        visibleService > 5 && 
         <Button sx={styles.btn} variant="outlined" name={viewAll ? "Hide some" : 'View all'} onClick={() => setViewAll(!viewAll)}></Button>
+      }
         <div className='mb-2'></div>
     </div>
     }
