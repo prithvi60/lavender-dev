@@ -25,6 +25,7 @@ import Chip from "../../components/Chip.js";
 import Text from "../../components/Text.js";
 import { format, addDays, isSameDay, startOfWeek, isAfter, isSameMonth, isBefore, startOfToday } from "date-fns";
 import { KeyboardArrowLeftOutlined, KeyboardArrowRightOutlined } from "@mui/icons-material";
+import AppointmentConfimed from "./AppointmentConfimed.tsx";
 
 
 export default function ScheduleAppointment(props) {

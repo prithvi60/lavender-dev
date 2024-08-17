@@ -36,21 +36,21 @@ function About(props) {
 
   const additionalInfos = ["Payment methods", "Languages", "Accessibility"];
   return (
-    <Box className="mx-16 my-10 md:w-8/12 sm:w-full" id="SearchDetailAbout" sx={{width: '85%', '@media (max-width: 640px)': {mx: 4}}}>
+    <Box className="mx-16 my-10 scroll-mt-32 md:scroll-mt-20 md:w-8/12 sm:w-full" id="SearchDetailAbout" sx={{width: '85%', '@media (max-width: 640px)': {mx: 4}}}>
       <div className="max-w-2xl">
         <Text sx={styles.heading} name={"About"} align="left"/>
-        <div className="urbanist-font text-lg font-normal">
+        <div className="text-lg font-normal urbanist-font">
           {establishmentAbout}
         </div>
 
-        <div className="md:flex mt-4 rounded-3xl shadow-lg border overflow-hidden">
-          <div className="sm:w-full w-full">
+        <div className="mt-4 overflow-hidden border shadow-lg md:flex rounded-3xl">
+          <div className="w-full sm:w-full">
             <div className="p-4">
               <div className="text-lg font-bold urbanist-font">
                 Additional information
               </div>
               <div className="flex flex-wrap justify-between py-4">
-                <Box className=" flex mr-16" sx={{'@media (max-width: 640px)': {flexDirection: 'column'}}}>
+                <Box className="flex mr-16 " sx={{'@media (max-width: 640px)': {flexDirection: 'column'}}}>
                   <Box sx={{display: 'flex'}}>
                     <GetIcon
                       className="flex items-center"
@@ -58,11 +58,11 @@ function About(props) {
                     />
                     <Text name={"Payment method"} sx={styles.paymentText} />
                   </Box>
-                  <div className="w-full md:w-4/12 pl-8 md:pl-0">
+                  <div className="w-full pl-8 md:w-4/12 md:pl-0">
                     <div>
                       {establishmentPaymentTypes ? (
                         Object?.keys(establishmentPaymentTypes)?.map((item, index) => (
-                          <Box key={index} className="urbanist-font font-normal text-sm py-1 pl-16" sx={{'@media (max-width: 640px)': {paddingLeft: 0}}}>
+                          <Box key={index} className="py-1 pl-16 text-sm font-normal urbanist-font" sx={{'@media (max-width: 640px)': {paddingLeft: 0}}}>
                             {item}
                           </Box>
                         ))
@@ -79,14 +79,14 @@ function About(props) {
                 <Box className="flex " sx={{'@media (max-width: 640px)': {flexDirection: 'column'}}}>
                   <Box sx={{display: 'flex'}}>
                     <GetIcon
-                        className="flex items-center gap-3 h-fit urbanist-font text-lg font-semibold w-full md:w-8/12"
+                        className="flex items-center w-full gap-3 text-lg font-semibold h-fit urbanist-font md:w-8/12"
                         iconName="LanguageIcon"
                       />
                     <Text name={"Languages"} sx={styles.text}/>
                   </Box>
-                  <div className="w-full md:w-4/12 pl-8 md:pl-0">
+                  <div className="w-full pl-8 md:w-4/12 md:pl-0">
                     {establishmentLanguages?.map((item) => (
-                      <div className="urbanist-font font-normal text-sm py-1">
+                      <div className="py-1 text-sm font-normal urbanist-font">
                         {item}
                       </div>
                     ))}
@@ -102,11 +102,11 @@ function About(props) {
                     </GetIcon>
                     <Text name={"Accessibility"} sx={styles.textA}/>
                   </Box>
-                  <div className="w-full md:w-4/12 pl-8 md:pl-0">
+                  <div className="w-full pl-8 md:w-4/12 md:pl-0">
                     <div>
                       {establishmentFeatures ? (
                         Object?.keys(establishmentFeatures)?.map((item, index) => (
-                          <div key={index} className="urbanist-font font-normal text-sm py-1">
+                          <div key={index} className="py-1 text-sm font-normal urbanist-font">
                             {item}
                           </div>
                         ))
@@ -120,13 +120,13 @@ function About(props) {
             </div>
           </div>
 
-          <div className="custom-bg-light  sm:w-full w-full">
+          <div className="w-full custom-bg-light sm:w-full">
             <div className="p-8">
-              <div className="text-lg font-bold pb-4">Our team</div>
+              <div className="pb-4 text-lg font-bold">Our team</div>
               {establishmentEmployees?.map((item) => (
-                <div className="flex py-2 gap-3 items-center">
+                <div className="flex items-center gap-3 py-2">
                   <AvatarImg row={item?.profileImage} establishmentId={establishmentId}/>
-                  <div className="urbanist-font text-lg">
+                  <div className="text-lg urbanist-font">
                     {item?.employeeName}
                   </div>
                 </div>

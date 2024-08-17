@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import endpoint from "../../../api/endpoints";
 import { useSelector } from "react-redux";
 import Text from "../../../components/Text";
-import { convertDateToReadAbleDate } from "../../../utils/TimeFormat";
+import { convertToReadAbleDate } from "../../../utils/TimeFormat";
 
 export const PublishedSalonProfile = ({
   basicInfo,
@@ -112,17 +112,17 @@ export const PublishedSalonProfile = ({
           <Box sx={{ marginTop: "5rem", marginBottom: "20px" }}>
             <Text 
               name={basicInfo?.establishmentName} 
-              sx={{ fontSize: '45px', fontWeight: 'bold', marginBottom: '8px' }}
+              sx={{ fontSize: '45px', fontWeight: 700, marginBottom: '8px', color: '#4D4D4D' }}
             />
             <Text 
               name={basicInfo?.cityCode} 
-              sx={{ fontSize: '20px', color: '#666', marginBottom: '8px' }}
+              sx={{ fontSize: '20px', color: '#808080', fontWeight: 400, marginBottom: '8px' }}
             />
             <Text
               name={`Last updated on ${
-                lastModified ? convertDateToReadAbleDate(lastModified) : ""
+                lastModified ? convertToReadAbleDate(lastModified) : ""
               }`}
-              sx={{ fontSize: '16px', color: '#888' }}
+              sx={{ fontSize: '16px', color: '#616161', fontWeight: 400 }}
             />
           </Box>
         </Box>

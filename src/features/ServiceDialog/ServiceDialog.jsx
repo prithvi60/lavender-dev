@@ -50,7 +50,7 @@ function ServiceDialog({ establishmentData }) {
       >
         Services
       </Buttons>
-      <Dialog fullScreen open={isOpen} close={handleClose}>
+      <Dialog id="ServicesHeaderButton" fullScreen open={isOpen} close={handleClose}>
         <Toolbar className="mb-4 stepper-header">
           <Box sx={{ width: "100%" }}>
             <Stepper activeStep={activeStep} alternativeLabel>

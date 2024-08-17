@@ -24,13 +24,14 @@ const modalStyle = {
 
 export const CancelAppointmentModal = ({
   bookings,
+  userFlow,
   // disable,
 }) => {
   const [isCancelOpen, setIsCancelOpen] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const navigate = useNavigate();
   const showSnackbar = useSnackbar();
-  // console.log(disable);
+  console.log(userFlow);
 
   function handleCancelClick() {
     setIsCancelOpen((prev) => !prev);
@@ -76,17 +77,24 @@ export const CancelAppointmentModal = ({
     <div>
       <div
         aria-disabled="true"
-        className={`flex items-center justify-end px-1.5 py-5 md:p-51 ${
-          isDisabled
-            ? "!opacity-50 cursor-default"
-            : "!opacity-100 cursor-pointer"
-        }`}
+        className={`flex items-center justify-end px-1.5 py-5 md:p-51`}
         onClick={handleCancelClick}
       >
-        <GetIcon iconName="CancelIcon" />
-        <div className="pl-1 text-[#4D4D4D] text-base">Cancel</div>
+        {userFlow === "past" ? (
+          <GetIcon iconName="DisableCancelIcon" />
+        ) : (
+          <GetIcon iconName="CancelIcon" />
+        )}
+
+        <div
+          className={`pl-1 text-[#4D4D4D] text-base ${
+            userFlow === "past" ? "text-[#B3B3B3]" : "text-black cursor-pointer"
+          }`}
+        >
+          Cancel
+        </div>
       </div>
-      {!isDisabled && (
+      {userFlow === "upcoming" && (
         <Modal
           open={isCancelOpen}
           onClose={handleCancelClick}

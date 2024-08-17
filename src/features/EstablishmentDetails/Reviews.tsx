@@ -1,4 +1,4 @@
-import React, { useMemo, useReducer, useState } from 'react';
+import React, { useEffect, useMemo, useReducer, useState } from 'react';
 import { useTable, useSortBy } from 'react-table';
 import Chip from '@mui/material/Chip';
 import Button from '@mui/material/Button';
@@ -22,6 +22,8 @@ const StyledRating = styled(Rating)({
 
 export const Reviews = ({establishmentId}: any) => {
 
+  const [rData, setRData] = useState<any>([]);
+
   const payload = {
     "pageNumber": 1,
     "pageSize": 1,
@@ -35,10 +37,16 @@ export const Reviews = ({establishmentId}: any) => {
       return endpoint.getAppointmentReview(establishmentId, payload)
     },
   });
-  
+
+  useEffect(()=>{
+    setRData(reviewData?.data?.data)
+  },[reviewData])
+
   return (
-    <Box className="mx-16" id="SearchDetailReview" sx={{width: '85%', '@media (max-width: 640px)': {mx: 4}}}>
-      <ReviewsTable data={reviewData?.data?.data?.content} />
+    <Box className="mx-16 scroll-mt-32 md:scroll-mt-20" id="SearchDetailReview" sx={{width: '85%', '@media (max-width: 640px)': {mx: 4}}}>
+      {
+        rData?.content?.length > 0 && <ReviewsTable data={rData?.content} />
+      }
     </Box>
   );
 };
@@ -64,7 +72,7 @@ const PublicCommentsRow = ({ publicComments }) => {
         <>
           {truncatedComments}{' '}
           {
-            shouldShowSeeMoreButton && <Button size="small" onClick={toggleExpand} sx={{textTransform: 'none'}}>
+            shouldShowSeeMoreButton && <Button size="small" onClick={toggleExpand} sx={{textTransform: 'none', color: '#4D4D4D', fontSize: '20px', fontWeight: 600}}>
             See More
           </Button>
           }
@@ -85,6 +93,7 @@ const PublicCommentsRow = ({ publicComments }) => {
 
 const ReviewsTable = ({ data }) => {
   // Define columns and data
+  const [serviceTags, setServiceTags] = useState<any>([]);
 
   const calculateDaysAgo = (dateString) => {
     const currentDate = new Date();
@@ -155,24 +164,33 @@ const ReviewsTable = ({ data }) => {
   } = useTable({ columns, data: flattenedData }, useSortBy);
   const [, forceUpdate] = useReducer(x => x + 1, 0);
   const [sortedData, sorted] = useState(rows);
+
   const handleSortChange = (event) => {
-    const sortBy = event.target.value;
+    const sortBy = event?.target?.value;
     if (sortBy === 'highest') {
-      rows.sort((a, b) => (b.values.serviceRating || 0) - (a.values.serviceRating || 0));
+      rows.sort((a, b) => (b?.values?.serviceRating || 0) - (a?.values?.serviceRating || 0));
     } else if (sortBy === 'lowest') {
-      rows.sort((a, b) => (a.values.serviceRating || 0) - (b.values.serviceRating || 0));
+      rows.sort((a, b) => (a?.values?.serviceRating || 0) - (b?.values?.serviceRating || 0));
     }
     sorted(rows)
     forceUpdate();
   };
+
   const handleFilterChange = (event) => {
-    const filterBy = event.target.value;
-    console.log(sortedData)
-    sorted(rows.filter((a) => a.original.serviceTag === filterBy))
-    console.log(rows, sortedData)
+    const filterBy = event?.target?.value;
+    filterBy === "All services" ? sorted(rows) : sorted(rows?.filter((a) => a?.original?.serviceTag === filterBy))
     forceUpdate();
   };
 
+
+useEffect(()=>{
+  // Extract unique service tags
+  const tagsSet = new Set<string>();
+  data?.forEach(review => tagsSet?.add(review?.serviceTag));
+
+  // Update state with unique service tags
+  setServiceTags(Array.from(tagsSet));
+},[data])
   return (
     <div className="w-full">
         <Text sx={styles.heading} name={"Reviews"} align="left"/>
@@ -194,25 +212,32 @@ const ReviewsTable = ({ data }) => {
                 </div>
                 {/* <Box sx={{display: 'flex'}}> */}
                   <Box className="flex justify-end mb-4" sx={{'@media (max-width: 640px)': {alignSelf: 'center'}}}>
-                    <Typography sx={{alignContent: 'center', padding: '10px'}}>Service</Typography>
+                    {/* <Typography sx={{alignContent: 'center', padding: '10px'}}>Service</Typography> */}
                     <Select
-                    defaultValue=""
+                    defaultValue="All services"
                     onChange={handleFilterChange}
                     className="mr-4"
-                    style={{ width: '150px', height: '38px' }}
+                    style={{ width: '150px', height: '38px', fontSize: '18px', fontWeight: 700, color: '#4C4C4C' }}
                     >
-                    <MenuItem value="Hair styling">Hair styling</MenuItem>
-                    <MenuItem value="Nail">None</MenuItem>
+                      <MenuItem value="All services">All services</MenuItem>
+                      {
+                        serviceTags?.map((serviceTag) => (
+                          <MenuItem value={serviceTag}>{serviceTag}</MenuItem>
+                        ))
+                      }
+                    {/* <MenuItem value="Hair styling">Hair styling</MenuItem>
+                    <MenuItem value="Nail">None</MenuItem> */}
                     </Select>
                   </Box>
                   <Box className="flex justify-end mb-4" sx={{'@media (max-width: 640px)': {alignSelf: 'center'}}}>
-                      <Typography sx={{alignContent: 'center', padding: '10px'}}>Sort by </Typography>
+                      {/* <Typography sx={{alignContent: 'center', padding: '10px'}}>Sort by </Typography> */}
                       <Select
-                      defaultValue=""
+                      defaultValue="Sort by"
                       onChange={handleSortChange}
                       className="mr-4"
-                      style={{ width: '150px', height: '38px' }}
+                      style={{ width: '150px', height: '38px', fontSize: '18px', fontWeight: 700, color: '#4C4C4C' }}
                       >
+                      <MenuItem value="Sort by">Sort by</MenuItem>
                       <MenuItem value="highest">Highest Rating</MenuItem>
                       <MenuItem value="lowest">Lowest Rating</MenuItem>
                       </Select>
@@ -230,7 +255,7 @@ const ReviewsTable = ({ data }) => {
                         {row?.original?.isMainRow && (
                           <tr className="mb-4">
                             <td className="w-1/4 pt-8 pb-2 px-2 text-base style={{color: '#808080'}}">{row.values.reviewDate}</td>
-                            <td className="w-full text-end" style={{paddingTop: '18px'}}> <Chip label={row.values.serviceTag} variant="outlined" className="m-1" /></td>
+                            <td className="w-full text-end" style={{paddingTop: '18px'}}> <Chip label={row?.values?.serviceTag} variant="outlined" className="m-1" sx={{backgroundColor: '#E6E6E6', color: '#4D4D4D', fontSize: '16px', fontWeight: 400}}/></td>
                           </tr>
                         )}
                         {/* Render second nested row */}

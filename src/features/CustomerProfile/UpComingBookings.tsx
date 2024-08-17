@@ -45,8 +45,10 @@ function UpComingBookings({ userInfo }) {
     }
   };
 
-  const cardCount = userInfo?.upcomingBookings?.length;
-  const cardWidth = cardCount <= 2 ? "48%" : "50%";
+    const cardCount = userInfo?.upcomingBookings?.length;
+
+    const cardWidth = cardCount <= 2 ? '48%' : '50%';
+
 
   const cardStyle = {
     flex: "0 0 auto",
