@@ -238,7 +238,9 @@ export default function ScheduleAppointment(props) {
         <CustomWeeklyDatePicker onDateSelect={handleDateSelect} />
       </div>
 
-      <div className="mt-4 overflow-hidden mb-4">
+
+      <div className="mt-4 overflow-hidden">
+
         {availableTimeSlots?.length > 0 ? (
           Object.entries(availableTimeSlots[0]?.availableSlots).map(
             ([timePeriod, slotsArray]: any) => {
@@ -421,7 +423,9 @@ export default function ScheduleAppointment(props) {
               whiteSpace: "nowrap",
               display: "flex",
               flexDirection: "column",
+
               paddingBottom: { xs: "120px", md: "250px", },
+
             },
           }}
         >

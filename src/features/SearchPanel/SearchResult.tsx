@@ -537,438 +537,418 @@ export default function SearchResult() {
       services: card.services ? card.services : [],
       rating: {
         ratingStar: (Math.random() * 2 + 3).toFixed(1),
-        ratingCount: Math.floor(Math.random() * (100 - 20 + 1)) + 20,
+        ratingCount: Math.floor(Math.random() * (100 - 10) + 10),
       },
     })
   );
 
   return (
-    <Card
-      className="search-page-container"
-      sx={{ width: "100%", height: "100%" }}
-    >
-      <CardHeader
+    <>
+      <div
         style={{
-          marginTop: "70px",
+          // marginTop: "64px",
           color: "#4D4D4D",
           backgroundColor: "#FFFBF3",
           padding: "12px 4%",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          height: "4.4rem", 
-          boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06)",
-          "@media (max-width: 700px)": {
-            height: "4rem",
-            padding: "12px 8%",
-          },
+          height: "4.4rem",
+          boxShadow:
+            "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
         }}
-        sx={{
-          "@media (max-width: 700px)": {
-            marginTop: "100px !important",
-            alignItems: "flex-start",
-            "& .MuiCardHeader-content": {
-              marginBottom: "8px",
+        className="sticky left-0 md:top-16 md:mt-16 w-full z-10 top-[118px] mt-[118px]"
+      >
+        <Typography
+          variant="h6"
+          sx={{
+            fontSize: "1.2rem",
+            "@media (max-width: 700px)": {
+              fontSize: "1rem",
             },
-          },
-          "@media (max-width: 400px)": {
-            marginTop: "150px !important",
-          },
-        }}
-        title={
-          <Typography
-            variant="h6"
-            sx={{
-              fontSize: "1.2rem",
-              "@media (max-width: 700px)": {
-                fontSize: "1rem",
-              },
-              "@media (max-width: 400px)": {
-                fontSize: "0.9rem",
-              },
-            }}
-          >
-            {`${updatedTreatmentServicesList?.length} venues matching your search`}
-          </Typography>
-        }
-        action={
+            "@media (max-width: 400px)": {
+              fontSize: "0.9rem",
+            },
+          }}
+        >
+          {`${updatedTreatmentServicesList?.length} venues matching your search`}
+        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+          className="flex justify-center"
+        >
+          <FilterModal />
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              marginTop: "3%",
+              marginLeft: "16px",
+              "@media (max-width: 700px)": {
+                width: "100%",
+                justifyContent: "center",
+                marginLeft: 0,
+              },
             }}
-            className="flex justify-center"
+          ></Box>
+          <Typography
+            variant="body2"
+            sx={{
+              marginLeft: "16px",
+              "@media (max-width: 700px)": {
+                display: "none",
+              },
+            }}
           >
-            <FilterModal />
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                marginLeft: "16px",
-                "@media (max-width: 700px)": {
-                  width: "100%",
-                  justifyContent: "center",
-                  marginLeft: 0,
-                },
-              }}
-            >
-  
-            </Box>
-            <Typography
-              variant="body2"
-              sx={{
-                marginLeft: "16px",
-                "@media (max-width: 700px)": {
-                  display: "none",
-                },
-                fontSize: '20px',
-                fontWeight: 400,
-                color: '#4D4D4D'
-              }}
-            >
-              Map mode
-            </Typography>
-            <Switch
-            className='toggle-ui'
-              checked={isShowMap}
-              onChange={handleMapClick}
-              color="success"
-              sx={{
-                marginLeft: "16px",
-                "& .MuiSwitch-switchBase.Mui-checked": {
-                  color: "#4caf50",
-                },
-                "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-                  backgroundColor: "#4caf50",
-                },
-                "@media (max-width: 700px)": {
-                  display: "none",
-                }
-              }}
-            />
-          </Box>
-        }
-      />
-      <hr />
-      <div className="search-result-container">
-        <Grid container spacing={2} style={{ width: "100vw" }}>
-          <Grid item xs={12} order={{ xs: 1, md: 2 }} md={isShowMap ? 6 : 12}>
-            <div className="flex justify-center mb-4">
-              {apiIsLoaded && isLoaded ? (
-                <GoogleMap
-                  mapContainerStyle={{
-                    width: "95%",
-                    height: "400px",
-                    borderRadius: "10px",
-                    pointerEvents: "auto",
-                    touchAction: "pan-y",
-                  }}
-                  onLoad={(mapInstance) => setMap(mapInstance)}
-                  center={center}
-                  zoom={14}
-                  onClick={() => setActiveMarker(null)}
-                  options={{
-                    mapTypeControl: false,
-                    streetViewControl: false,
-                    fullscreenControl: false,
-                    styles: [
-                      {
-                        featureType: "poi",
-                        elementType: "labels",
-                        stylers: [{ visibility: "off" }],
-                      },
-                      {
-                        featureType: "road",
-                        elementType: "labels.icon",
-                        stylers: [{ visibility: "off" }],
-                      },
-                      {
-                        featureType: "transit",
-                        stylers: [{ visibility: "off" }],
-                      },
-                    ],
-                  }}
-                  ref={mapRef}
-                  onZoomChanged={handleZoomChanged}
-                >
-                  {transformedData.map(
-                    ({ id, name, position, image, location }) => (
-                      <MarkerF
-                        key={id}
-                        position={position}
-                        onClick={() => handleActiveMarker(id)}
-                        icon={{
-                          url: "https://res.cloudinary.com/djoz0tmyl/image/upload/v1722526576/lavenderLogo_jrmyir.png",
-                          scaledSize: new window.google.maps.Size(22, 22),
-                          anchor: new window.google.maps.Point(14, 38),
-                        }}
-                      >
-                        {activeMarker === id ? (
-                          <InfoWindowF
-                            onCloseClick={() => setActiveMarker(null)}
-                          >
-                            <div
-                              style={{
-                                width: "250px",
-                                paddingTop: "5px",
-                                paddingBottom: "5px",
-                              }}
-                              className="flex flex-col  items-center"
-                            >
-                              <img
-                                src={`data:image/png;base64, ${image}`}
-                                alt={name}
-                                style={{ width: "200px", height: "100px" }}
-                                className="mb-1 rounded-md mt-2"
-                              />
-                              <h5 className=" text-gray-600 font-bold m-1 text-center">
-                                {name}
-                              </h5>
-                              <p className="text-sm text-black font-medium m-1 text-center">
-                                {location}
-                              </p>
-                            </div>
-                          </InfoWindowF>
-                        ) : null}
-                      </MarkerF>
-                    )
-                  )}
+            Map mode
+          </Typography>
+          <Switch
+            className="toggle-ui"
+            checked={isShowMap}
+            onChange={handleMapClick}
+            color="success"
+            sx={{
+              marginLeft: "16px",
+              "& .MuiSwitch-switchBase.Mui-checked": {
+                color: "#4caf50",
+              },
+              "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                backgroundColor: "#4caf50",
+              },
+              "@media (max-width: 700px)": {
+                display: "none",
+              },
+            }}
 
-                  <MarkerF
-                    position={center}
-                    icon={{
-                      url: "https://res.cloudinary.com/djoz0tmyl/image/upload/v1722526805/googleMaps_ydgvvh.png",
-                      scaledSize: new window.google.maps.Size(40, 40),
+          />
+        </Box>
+      </div>
+      <Card
+        className="search-page-container"
+        sx={{ width: "100%", height: "100%" }}
+      >
+        <div className="search-result-container">
+          <Grid container spacing={2} style={{ width: "100vw" }}>
+            <Grid item xs={12} order={{ xs: 1, md: 2 }} md={isShowMap ? 6 : 12}>
+              <div className="flex justify-center my-4">
+                {apiIsLoaded && isLoaded ? (
+                  <GoogleMap
+                    mapContainerStyle={{
+                      width: "95%",
+                      height: "400px",
+                      borderRadius: "10px",
+                      pointerEvents: "auto",
+                      touchAction: "pan-y",
                     }}
-                    onClick={handleCurrentLocationClick}
+                    onLoad={(mapInstance) => setMap(mapInstance)}
+                    center={center}
+                    zoom={14}
+                    onClick={() => setActiveMarker(null)}
+                    options={{
+                      mapTypeControl: false,
+                      streetViewControl: false,
+                      fullscreenControl: false,
+                      styles: [
+                        {
+                          featureType: "poi",
+                          elementType: "labels",
+                          stylers: [{ visibility: "off" }],
+                        },
+                        {
+                          featureType: "road",
+                          elementType: "labels.icon",
+                          stylers: [{ visibility: "off" }],
+                        },
+                        {
+                          featureType: "transit",
+                          stylers: [{ visibility: "off" }],
+                        },
+                      ],
+
+                    }}
+                    ref={mapRef}
+                    onZoomChanged={handleZoomChanged}
                   >
-                    {activeCurrentLocation ? (
-                      <InfoWindowF
-                        onCloseClick={() => setActiveCurrentLocation(false)}
-                      >
-                        <div
-                          style={{
-                            width: "200px",
-                            paddingTop: "5px",
-                            paddingBottom: "5px",
-                            textAlign: "center",
+                    {transformedData.map(
+                      ({ id, name, position, image, location }) => (
+                        <MarkerF
+                          key={id}
+                          position={position}
+                          onClick={() => handleActiveMarker(id)}
+                          icon={{
+                            url: "https://res.cloudinary.com/djoz0tmyl/image/upload/v1722526576/lavenderLogo_jrmyir.png",
+                            scaledSize: new window.google.maps.Size(22, 22),
+                            anchor: new window.google.maps.Point(14, 38),
                           }}
                         >
-                          <p className="text-base text-gray-600 font-semibold">
-                            {locationName}
-                          </p>
-                        </div>
-                      </InfoWindowF>
-                    ) : null}
-                  </MarkerF>
-                </GoogleMap>
-              ) : (
-                <div>Loading...</div>
-              )}
-            </div>
-          </Grid>
-          <Grid item xs={12} order={{ xs: 2, md: 1 }} md={isShowMap ? 6 : 0}>
-            <Grid container spacing={2}>
-              {updatedTreatmentServicesList &&
-              updatedTreatmentServicesList?.length > 0 ? (
-                updatedTreatmentServicesList?.map((card, index) => {
-                  const distance = userLocation
-                    ? haversineDistance(
-                        {
-                          latitude: userLocation.latitude,
-                          longitude: userLocation.longitude,
-                        },
-                        { latitude: card.geoX, longitude: card.geoY }
-                      )?.toFixed(2)
-                    : null;
-
-                  return (
-                    <Grid item xs={12} key={card?.establishmentId}>
-                      <Card sx={{ width: "100%", height: "100%" }}>
-                        <CardContent>
-                          <div className="card-wrap-container">
-                            <div className="card-container">
+                          {activeMarker === id ? (
+                            <InfoWindowF
+                              onCloseClick={() => setActiveMarker(null)}
+                            >
                               <div
-                                className="card-header"
-                                style={{ padding: "20px" }}
+                                style={{
+                                  width: "250px",
+                                  paddingTop: "5px",
+                                  paddingBottom: "5px",
+                                }}
+                                className="flex flex-col items-center"
                               >
-                                {card.estImage ? (
-                                  <img
-                                    src={`data:image/png;base64, ${card.estImage}`}
-                                    alt="saloon"
-                                    className="w-full rounded-lg"
-                                  />
-                                ) : (
-                                  <img
-                                    src="/saloon-image.png"
-                                    alt="saloon"
-                                    className="w-full rounded-lg"
-                                  />
-                                )}
-                                <div
-                                  className="card-header-details"
-                                  style={{ marginLeft: "20px" }}
-                                >
-                                  <div className="chip-wrap">
-                                    {card?.serviceTags?.map((tag, index) => (
-                                      <Chip
-                                        key={index}
-                                        label={tag}
-                                        className="mr-2 mb-2"
-                                      />
-                                    ))}
-                                  </div>
-                                  <div className="font-bold text-xl py-2 text-violet-700 ">
-                                    {card?.establishmentName}
-                                  </div>
-                                  <div className="card-rating">
-                                    <div className="text-lg">
-                                      {card?.rating?.ratingStar}
-                                    </div>
-                                    <StyledRating
-                                      name="customized-color"
-                                      value={card?.rating?.ratingStar}
-                                      precision={0.5}
-                                      readOnly
-                                    />
-                                    <div className="text-sm font-bold">
-                                      {"(" + card?.rating?.ratingCount + ")"}
-                                    </div>
-                                  </div>
-                                  <div className="text-sm mb-3 font-semibold">
-                                    {card.geoX && card.geoY ? (
-                                      <div className="flex items-center">
-                                        <FaStore
-                                          size={17}
-                                          color="#484848"
-                                          className="mr-1"
-                                        />
+                                <img
+                                  src={`data:image/png;base64, ${image}`}
+                                  alt={name}
+                                  style={{ width: "200px", height: "100px" }}
+                                  className="mt-2 mb-1 rounded-md"
+                                />
+                                <h5 className="m-1 font-bold text-center text-gray-600 ">
+                                  {name}
+                                </h5>
+                                <p className="m-1 text-sm font-medium text-center text-black">
+                                  {location}
+                                </p>
+                              </div>
+                            </InfoWindowF>
+                          ) : null}
+                        </MarkerF>
+                      )
+                    )}
 
-                                        <span>{`Address : ${card.location}`}</span>
+                    <MarkerF
+                      position={center}
+                      icon={{
+                        url: "https://res.cloudinary.com/djoz0tmyl/image/upload/v1722526805/googleMaps_ydgvvh.png",
+                        scaledSize: new window.google.maps.Size(40, 40),
+                      }}
+                      onClick={handleCurrentLocationClick}
+                    >
+                      {activeCurrentLocation ? (
+                        <InfoWindowF
+                          onCloseClick={() => setActiveCurrentLocation(false)}
+                        >
+                          <div
+                            style={{
+                              width: "200px",
+                              paddingTop: "5px",
+                              paddingBottom: "5px",
+                              textAlign: "center",
+                            }}
+                          >
+                            <p className="text-base font-semibold text-gray-600">
+                              {locationName}
+                            </p>
+                          </div>
+                        </InfoWindowF>
+                      ) : null}
+                    </MarkerF>
+                  </GoogleMap>
+                ) : (
+                  <div>Loading...</div>
+                )}
+              </div>
+            </Grid>
+            <Grid item xs={12} order={{ xs: 2, md: 1 }} md={isShowMap ? 6 : 0}>
+              <Grid container spacing={2} sx={{ zIndex: 0 }}>
+                {updatedTreatmentServicesList &&
+                updatedTreatmentServicesList?.length > 0 ? (
+                  updatedTreatmentServicesList?.map((card, index) => {
+                    const distance = userLocation
+                      ? haversineDistance(
+                          {
+                            latitude: userLocation.latitude,
+                            longitude: userLocation.longitude,
+                          },
+                          { latitude: card.geoX, longitude: card.geoY }
+                        )?.toFixed(2)
+                      : null;
+
+                    return (
+                      <Grid item xs={12} key={card?.establishmentId}>
+                        <Card sx={{ width: "100%", height: "100%" }}>
+                          <CardContent>
+                            <div className="card-wrap-container">
+                              <div className="card-container">
+                                <div
+                                  className="card-header"
+                                  style={{ padding: "20px" }}
+                                >
+                                  {card.estImage ? (
+                                    <img
+                                      src={`data:image/png;base64, ${card.estImage}`}
+                                      alt="saloon"
+                                      className="w-full rounded-lg"
+                                    />
+                                  ) : (
+                                    <img
+                                      src="/saloon-image.png"
+                                      alt="saloon"
+                                      className="w-full rounded-lg"
+                                    />
+                                  )}
+                                  <div
+                                    className="card-header-details"
+                                    style={{ marginLeft: "20px" }}
+                                  >
+                                    <div className="chip-wrap">
+                                      {card?.serviceTags?.map((tag, index) => (
+                                        <Chip
+                                          key={index}
+                                          label={tag}
+                                          className="mb-2 mr-2"
+                                        />
+                                      ))}
+                                    </div>
+                                    <div className="py-2 text-xl font-bold text-violet-700 ">
+                                      {card?.establishmentName}
+                                    </div>
+                                    <div className="card-rating">
+                                      <div className="text-lg">
+                                        {card?.rating?.ratingStar}
+                                      </div>
+                                      <StyledRating
+                                        name="customized-color"
+                                        value={card?.rating?.ratingStar}
+                                        precision={0.5}
+                                        readOnly
+                                      />
+                                      <div className="text-sm font-bold">
+                                        {"(" + card?.rating?.ratingCount + ")"}
+                                      </div>
+                                    </div>
+                                    <div className="mb-3 text-sm font-semibold">
+                                      {card.geoX && card.geoY ? (
+                                        <div className="flex items-center">
+                                          <FaStore
+                                            size={17}
+                                            color="#484848"
+                                            className="mr-1"
+                                          />
+
+                                          <span>{`Address : ${card.location}`}</span>
+                                        </div>
+                                      ) : null}
+                                    </div>
+                                    {distance ? (
+                                      <div className="flex items-center mb-3 text-sm font-semibold text-slate-600">
+                                        <GiPathDistance
+                                          className="mr-2"
+                                          size={25}
+                                          color="red"
+                                        />
+                                        <span>
+                                          Distance from your current location :{" "}
+                                          {distance} km
+                                        </span>
                                       </div>
                                     ) : null}
+                                    {!isWithinTimeRange(
+                                      card?.openTime,
+                                      card?.closeTime
+                                    ) ? (
+                                      <div className="text-sm font-medium text-blue-700">
+                                        <span className="font-semibold text-red-600">
+                                          Closed -
+                                        </span>{" "}
+                                        Opens at {card?.openTime}
+                                      </div>
+                                    ) : (
+                                      <div className="text-sm font-medium text-red-600 ">
+                                        <span className="font-semibold text-blue-700">
+                                          Opened -
+                                        </span>{" "}
+                                        Closes at {card?.closeTime}
+                                      </div>
+                                    )}
                                   </div>
-                                  {distance ? (
-                                    <div className="text-sm mb-3 text-slate-600 font-semibold flex items-center">
-                                      <GiPathDistance
-                                        className="mr-2"
-                                        size={25}
-                                        color="red"
-                                      />
-                                      <span>
-                                        Distance from your current location :{" "}
-                                        {distance} km
-                                      </span>
-                                    </div>
-                                  ) : null}
-                                  {!isWithinTimeRange(
-                                    card?.openTime,
-                                    card?.closeTime
-                                  ) ? (
-                                    <div className="text-sm text-blue-700 font-medium">
-                                      <span className="text-red-600 font-semibold">
-                                        Closed -
-                                      </span>{" "}
-                                      Opens at {card?.openTime}
-                                    </div>
-                                  ) : (
-                                    <div className=" text-sm text-red-600 font-medium">
-                                      <span className="text-blue-700 font-semibold">
-                                        Opened -
-                                      </span>{" "}
-                                      Closes at {card?.closeTime}
-                                    </div>
-                                  )}
                                 </div>
-                              </div>
-                              <Grid container style={{ padding: "20px" }}>
-                                {card?.services?.map((service, index) => (
-                                  <Grid item xs={12} key={index}>
-                                    <div className="card-body-details">
-                                      <div className="card-body-title">
-                                        <div className="font-semibold">
-                                          {service?.serviceName}
+                                <Grid container style={{ padding: "20px" }}>
+                                  {card?.services?.map((service, index) => (
+                                    <Grid item xs={12} key={index}>
+                                      <div className="card-body-details">
+                                        <div className="card-body-title">
+                                          <div className="font-semibold">
+                                            {service?.serviceName}
+                                          </div>
+                                          <div>
+                                            from ${service?.startingPrice}
+                                          </div>
                                         </div>
-                                        <div>
-                                          from ${service?.startingPrice}
-                                        </div>
-                                      </div>
-                                      <div
-                                        className="card-slick-container"
-                                        style={{ marginLeft: "20px" }}
-                                      >
                                         <div
-                                          style={{
-                                            overflowX: "auto",
-                                            display: "flex",
-                                          }}
+                                          className="card-slick-container"
+                                          style={{ marginLeft: "20px" }}
                                         >
-                                          {service?.availabilities?.map(
-                                            (availability, index) => (
-                                              <div
-                                                key={index}
-                                                className="availability-container"
-                                              >
-                                                <div className="time-slots-container">
-                                                  {availability?.timeSlots?.map(
-                                                    (timeSlot, idx) => (
-                                                      <Chip
-                                                        key={idx}
-                                                        label={timeSlot}
-                                                        variant="outlined"
-                                                        onClick={() =>
-                                                          handleClick()
-                                                        }
-                                                        className="time-slot-chip"
-                                                      />
-                                                    )
-                                                  )}
-                                                </div>
-                                                <Typography
-                                                  sx={{
-                                                    color: "#B3B3B3",
-                                                    fontSize: "12px",
-                                                    fontWeight: "500",
-                                                    paddingLeft: "5px",
-                                                  }}
+                                          <div
+                                            style={{
+                                              overflowX: "auto",
+                                              display: "flex",
+                                            }}
+                                          >
+                                            {service?.availabilities?.map(
+                                              (availability, index) => (
+                                                <div
+                                                  key={index}
+                                                  className="availability-container"
                                                 >
-                                                  {availability?.date}
-                                                </Typography>
-                                              </div>
-                                            )
-                                          )}
+                                                  <div className="time-slots-container">
+                                                    {availability?.timeSlots?.map(
+                                                      (timeSlot, idx) => (
+                                                        <Chip
+                                                          key={idx}
+                                                          label={timeSlot}
+                                                          variant="outlined"
+                                                          onClick={() =>
+                                                            handleClick()
+                                                          }
+                                                          className="time-slot-chip"
+                                                        />
+                                                      )
+                                                    )}
+                                                  </div>
+                                                  <Typography
+                                                    sx={{
+                                                      color: "#B3B3B3",
+                                                      fontSize: "12px",
+                                                      fontWeight: "500",
+                                                      paddingLeft: "5px",
+                                                    }}
+                                                  >
+                                                    {availability?.date}
+                                                  </Typography>
+                                                </div>
+                                              )
+                                            )}
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
-                                  </Grid>
-                                ))}
-                              </Grid>
+                                    </Grid>
+                                  ))}
+                                </Grid>
+                              </div>
                             </div>
-                          </div>
-                          <CardActions className="card-footer-action ">
-                            <StoreMallDirectoryOutlinedIcon />
-                            <TextRouter
-                              name={"Saloon Details"}
-                              to={`/salon/${card?.establishmentId}`}
-                            />
-                          </CardActions>
-                        </CardContent>
-                      </Card>
-                    </Grid>
-                  );
-                })
-              ) : (
-                <Grid item xs={12}>
-                  <Typography variant="h5" align="center" gutterBottom>
-                    No result found
-                  </Typography>
-                </Grid>
-              )}
+                            <CardActions className="card-footer-action ">
+                              <StoreMallDirectoryOutlinedIcon />
+                              <TextRouter
+                                name={"Saloon Details"}
+                                to={`/salon/${card?.establishmentId}`}
+                              />
+                            </CardActions>
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    );
+                  })
+                ) : (
+                  <Grid item xs={12}>
+                    <Typography variant="h5" align="center" gutterBottom>
+                      No result found
+                    </Typography>
+                  </Grid>
+                )}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </div>
-    </Card>
+        </div>
+      </Card>
+    </>
   );
 }

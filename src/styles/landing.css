@@ -67,8 +67,10 @@
 
 /* Search Panel */
 .search-panel {
+
     width: 100%;
     padding: 0px !important;
+
 
   .grid-container {
     display: grid;
@@ -428,6 +430,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       padding: 0 10px;
+
     }
 
     .icon-wrapper {
@@ -442,6 +445,7 @@
         height: 20px;
       }
     }
+
     &:last-child {
       border: none;
     }
@@ -547,6 +551,7 @@
     .prev-arrow,
     .next-arrow {
       color: unset;
+
     }
   }
 }
@@ -568,6 +573,7 @@
     .MuiSwitch-thumb {
       background-color: #ffffff !important;
     }
+
     & ~ .MuiSwitch-track {
       background-color: #35afac !important;
       opacity: 1 !important;
