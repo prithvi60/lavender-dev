@@ -22,10 +22,16 @@ const modalStyle = {
   overflow: "hidden", // Ensure contents do not overflow
 };
 
-export const CancelAppointmentModal = ({ bookings }) => {
+export const CancelAppointmentModal = ({
+  bookings,
+  // disable,
+}) => {
   const [isCancelOpen, setIsCancelOpen] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const navigate = useNavigate();
   const showSnackbar = useSnackbar();
+  // console.log(disable);
+
   function handleCancelClick() {
     setIsCancelOpen((prev) => !prev);
   }
@@ -69,60 +75,108 @@ export const CancelAppointmentModal = ({ bookings }) => {
   return (
     <div>
       <div
-        className="flex items-center justify-end py-5 md:p-5"
-        style={{ cursor: "pointer" }}
+        aria-disabled="true"
+        className={`flex items-center justify-end px-1.5 py-5 md:p-51 ${
+          isDisabled
+            ? "!opacity-50 cursor-default"
+            : "!opacity-100 cursor-pointer"
+        }`}
         onClick={handleCancelClick}
       >
         <GetIcon iconName="CancelIcon" />
         <div className="pl-1 text-[#4D4D4D] text-base">Cancel</div>
       </div>
-      <Modal
-        open={isCancelOpen}
-        onClose={handleCancelClick}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        disableAutoFocus={true}
-      >
-        <Card
-          sx={modalStyle}
-          className="w-full min-[600px]:w-[90%] min-[600px]:max-w-[700px] h-fit mt-28 min-[600px]:w-auto min-[600px]:mt-0"
+      {!isDisabled && (
+        <Modal
+          open={isCancelOpen}
+          onClose={handleCancelClick}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          disableAutoFocus={true}
         >
-          <div className="absolute top-4 right-4">
-            <IconButton onClick={() => handleCancelClick()}>
-              <CloseIcon />
-            </IconButton>
-          </div>
-          <Grid
-            container
-            sx={{ padding: "20px" }}
-            spacing={4}
-            className="min-[600px]:block max-[600px]:!hidden"
+          <Card
+            sx={modalStyle}
+            className="w-full min-[600px]:w-[90%] min-[600px]:max-w-[700px] h-fit mt-28 max-[600px]:w-auto min-[600px]:mt-0"
           >
+            <div className="absolute top-4 right-4">
+              <IconButton onClick={() => handleCancelClick()}>
+                <CloseIcon />
+              </IconButton>
+            </div>
             <Grid
-              item
-              xs={12}
-              sm={4}
-              sx={{ order: { xs: 1, sm: 2 }, padding: "4px" }}
+              container
+              sx={{ padding: "20px" }}
+              spacing={4}
+              className="min-[600px]:block max-[600px]:!hidden"
             >
-              <GetImage imageName="IllustrateDog" />
+              <Grid
+                item
+                xs={12}
+                sm={4}
+                sx={{ order: { xs: 1, sm: 2 }, padding: "4px" }}
+              >
+                <GetImage imageName="IllustrateDog" />
+              </Grid>
+              <Grid item xs={12} sm={8} sx={{ order: { xs: 2, sm: 1 } }}>
+                <div>
+                  <div
+                    className="py-3 text-4xl font-bold"
+                    style={{ color: "#333333" }}
+                  >
+                    Are you sure you want to cancel your appointment?
+                  </div>
+                  <div
+                    className="py-3 text-lg font-normal"
+                    style={{ color: "#333333" }}
+                  >
+                    Should your plans change, we encourage you to explore
+                    rescheduling for a more suitable time.
+                  </div>
+                </div>
+                <div className="flex justify-start pt-12 pb-4 sm:justify-between">
+                  <div className="p-4">
+                    <Button
+                      sx={styles.btn}
+                      variant="outlined"
+                      name={"Yes, Cancel"}
+                      onClick={() => {
+                        handleCancelApptClick("SER00002514");
+                      }}
+                    />
+                  </div>
+                  <div className="p-4">
+                    <Button
+                      sx={styles.btn}
+                      name={"Reschedule"}
+                      onClick={() => {
+                        handleRescheduleClick();
+                      }}
+                    />
+                  </div>
+                </div>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={8} sx={{ order: { xs: 2, sm: 1 } }}>
-              <div>
-                <div
-                  className="py-3 text-4xl font-bold"
-                  style={{ color: "#333333" }}
-                >
-                  Are you sure you want to cancel your appointment?
-                </div>
-                <div
-                  className="py-3 text-lg font-normal"
-                  style={{ color: "#333333" }}
-                >
-                  Should your plans change, we encourage you to explore
-                  rescheduling for a more suitable time.
-                </div>
-              </div>
-              <div className="flex justify-start pt-12 pb-4 sm:justify-between">
+            <div className="flex min-[600px]:hidden flex-col items-center justify-between p-4 mt-6 w-full">
+              <h5
+                className="py-3 text-2xl font-bold text-center"
+                style={{ color: "#333333" }}
+              >
+                Are you sure you want to cancel your appointment?
+              </h5>
+              {/* <GetImage imageName="IllustrateDog" /> */}
+              <img
+                alt="illustration"
+                src={require("../../assets/BackgroundImage/illustration_dog_2.png")}
+                className="w-32 h-36"
+              />
+              <p
+                className="py-3 text-base font-normal text-center"
+                style={{ color: "#333333" }}
+              >
+                Should your plans change, we encourage you to explore
+                rescheduling for a more suitable time.
+              </p>
+              <div className="flex justify-start pb-2 md:pt-12 md:pb-4 sm:justify-between">
                 <div className="p-4">
                   <Button
                     sx={styles.btn}
@@ -143,52 +197,10 @@ export const CancelAppointmentModal = ({ bookings }) => {
                   />
                 </div>
               </div>
-            </Grid>
-          </Grid>
-          <div className="flex min-[600px]:hidden flex-col items-center justify-between p-4 mt-6 w-full">
-            <h5
-              className="py-3 text-2xl font-bold text-center"
-              style={{ color: "#333333" }}
-            >
-              Are you sure you want to cancel your appointment?
-            </h5>
-            {/* <GetImage imageName="IllustrateDog" /> */}
-            <img
-              alt="illustration"
-              src={require("../../assets/BackgroundImage/illustration_dog_2.png")}
-              className="w-32 h-36"
-            />
-            <p
-              className="py-3 text-base font-normal text-center"
-              style={{ color: "#333333" }}
-            >
-              Should your plans change, we encourage you to explore rescheduling
-              for a more suitable time.
-            </p>
-            <div className="flex justify-start pb-2 md:pt-12 md:pb-4 sm:justify-between">
-              <div className="p-4">
-                <Button
-                  sx={styles.btn}
-                  variant="outlined"
-                  name={"Yes, Cancel"}
-                  onClick={() => {
-                    handleCancelApptClick("SER00002514");
-                  }}
-                />
-              </div>
-              <div className="p-4">
-                <Button
-                  sx={styles.btn}
-                  name={"Reschedule"}
-                  onClick={() => {
-                    handleRescheduleClick();
-                  }}
-                />
-              </div>
             </div>
-          </div>
-        </Card>
-      </Modal>
+          </Card>
+        </Modal>
+      )}
     </div>
   );
 };

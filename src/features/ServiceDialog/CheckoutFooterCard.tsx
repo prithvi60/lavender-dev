@@ -249,7 +249,7 @@ function CheckoutFooterCard(props) {
               />
             ) : (
               <img
-                className="max-w-52 max-h-64"
+                className="w-full h-44 md:max-w-52 md:max-h-64"
                 src={imageUrls[0]}
                 style={{
                   // width: "100vw",
@@ -258,7 +258,6 @@ function CheckoutFooterCard(props) {
                   borderRadius: "8px",
                 }}
                 alt={establishmentName}
-          
               />
             )}
           </Box>

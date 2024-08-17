@@ -150,7 +150,7 @@ function CheckoutCard(props) {
   }, [employee, scheduleAppoinmentList?.id]);
 
   return (
-    <div className="my-6 urbanist-font rounded-2xl chackout-card-container h-fit">
+    <div className="my-6 md:mr-5 urbanist-font rounded-2xl chackout-card-container h-fit">
       {" "}
       {/* Adjusted width to be responsive */}
       <div className="px-3 py-2 rounded-md shadow-sm min-w-80">
@@ -182,7 +182,7 @@ function CheckoutCard(props) {
           )}
 
           {/* <Text sx={styles.subHeading} name={establishmentName} className="w-full" /> */}
-          <h4 className="w-full p-1.5 font-bold text-lg">
+          <h4 className="w-full p-1.5 mt-3 font-bold text-lg">
             {establishmentName}
           </h4>
         </Box>

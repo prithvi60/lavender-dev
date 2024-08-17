@@ -37,6 +37,7 @@ export const BookingInfoModal = ({
   isModalOpen,
   bookings,
   toggleModal,
+  // disable,
   userflow,
 }) => {
   const establishmentId = bookings?.services[0]?.establishmentId;

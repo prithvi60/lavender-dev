@@ -2,11 +2,12 @@ import React from "react";
 import { Search } from "@mui/icons-material";
 import { useSelector } from "react-redux";
 import { convertTo_HH_AM } from "../utils/TimeFormat.ts";
-import {Box} from '@mui/material';
+import { Box } from "@mui/material";
 
 const NavFilter = ({ setshowSearchBar }) => {
   const { treatmentList, locationList, selectedDate, SelectedTime } =
     useSelector((state: any) => state.searchPage);
+  console.log(SelectedTime);
 
   const onClickHandle = () => {
     setshowSearchBar((prev) => !prev);
@@ -15,9 +16,9 @@ const NavFilter = ({ setshowSearchBar }) => {
   return (
     <Box
       id="navdiv"
-      className="cursor-pointer filtered-panel w-max mx-auto"
+      className="mx-auto cursor-pointer filtered-panel w-max"
       onClick={() => onClickHandle()}
-      sx={{'@media (max-width: 600px)': {width: '100%'}}}
+      sx={{ "@media (max-width: 600px)": { width: "100%" } }}
     >
       <div className="filtered-items">
         <p className="m-0">{treatmentList?.toString().replaceAll(",", ", ")}</p>
@@ -31,7 +32,11 @@ const NavFilter = ({ setshowSearchBar }) => {
         <p className="m-0">{selectedDate}</p>
       </div>
       <div className="filtered-items">
-        <p className="m-0">{`${SelectedTime?.from} - ${SelectedTime?.to}`}</p>{" "}
+        {SelectedTime.from === "" && SelectedTime.to === "" ? (
+          ""
+        ) : (
+          <p className="m-0">{`${SelectedTime?.from} - ${SelectedTime?.to}`}</p>
+        )}
         <div className="icon-wrapper">
           <Search />
         </div>
@@ -41,3 +46,5 @@ const NavFilter = ({ setshowSearchBar }) => {
 };
 
 export default NavFilter;
+
+// {`${SelectedTime?.from} - ${SelectedTime?.to}`}

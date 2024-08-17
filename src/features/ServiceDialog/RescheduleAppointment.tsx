@@ -23,11 +23,22 @@ import "./style.css";
 import { useEffect, useRef, useState } from "react";
 import Chip from "../../components/Chip.js";
 import Text from "../../components/Text.js";
-import { format, addDays, isSameDay, startOfWeek, isAfter, isSameMonth, isBefore, startOfToday } from "date-fns";
-import { KeyboardArrowLeftOutlined, KeyboardArrowRightOutlined } from "@mui/icons-material";
+import {
+  format,
+  addDays,
+  isSameDay,
+  startOfWeek,
+  isAfter,
+  isSameMonth,
+  isBefore,
+  startOfToday,
+} from "date-fns";
+import {
+  KeyboardArrowLeftOutlined,
+  KeyboardArrowRightOutlined,
+} from "@mui/icons-material";
 
-
-export default function ScheduleAppointment(props) {
+export default function RescheduleAppointment(props) {
   const datePickerRef = useRef(null);
 
   const scheduleAppoinmentList = useSelector(
@@ -51,7 +62,6 @@ export default function ScheduleAppointment(props) {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
   const [employeeSlot, setEmployeeSlot] = useState("");
 
-  
   const handleDateSelect = (date) => {
     if (date !== selectedDateBtn) {
       // console.log("Date selected:", date);
@@ -118,7 +128,6 @@ export default function ScheduleAppointment(props) {
       })
     );
   };
-
 
   const [selectedPaymentChips, setSelectedPaymentChips] = useState([]);
 
@@ -229,7 +238,7 @@ export default function ScheduleAppointment(props) {
         <IconButton onClick={() => onSetActiveStep(0)}>
           <GetIcon iconName="BackIconArrow" />
         </IconButton>
-        <div className="text-3xl font-bold">Schedule</div>
+        <div className="text-3xl font-bold">Reschedule</div>
       </div>
 
       <div className="mb-4">
@@ -251,19 +260,20 @@ export default function ScheduleAppointment(props) {
                   >
                     {timePeriod}
                   </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-rows-2  gap-y-2.5 lg:gap-3 !overflow-x-auto md:grid-rows-3 w-full"
+                  <div
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-rows-2  gap-y-2.5 lg:gap-3 !overflow-x-auto md:grid-rows-3 w-full"
                     style={{
-                      scrollbarWidth: 'thin',
+                      scrollbarWidth: "thin",
                       // @ts-ignore
-                      '&::-webkit-scrollbar': {
-                        height: '4px',
+                      "&::-webkit-scrollbar": {
+                        height: "4px",
                       },
-                      '&::-webkit-scrollbar-thumb': {
-                        backgroundColor: '#888',
-                        borderRadius: '2px',
+                      "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: "#888",
+                        borderRadius: "2px",
                       },
-                      '&::-webkit-scrollbar-track': {
-                        backgroundColor: '#f1f1f1',
+                      "&::-webkit-scrollbar-track": {
+                        backgroundColor: "#f1f1f1",
                       },
                     }}
                   >
@@ -453,79 +463,74 @@ export default function ScheduleAppointment(props) {
   );
 }
 
-
 const styles = {
   customWeeklyPicker: {
-    width: '100%',
-    maxWidth: '800px',
-    // marginLeft: '5%',
+    width: "100%",
+    maxWidth: "800px",
+    marginLeft: "5%",
   },
   monthYear: {
-    textAlign: 'center' as const,
-    fontSize: '18px',
-    marginBottom: '10px',
-    color: '#333',
+    textAlign: "center" as const,
+    fontSize: "18px",
+    marginBottom: "10px",
+    color: "#333",
   },
   weekContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   navButton: {
-    background: 'none',
-    border: 'none',
-    fontSize: '24px',
-    color: '#6200ee',
-    cursor: 'pointer',
+    background: "none",
+    border: "none",
+    fontSize: "24px",
+    color: "#6200ee",
+    cursor: "pointer",
   },
   daysContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
+    display: "flex",
+    justifyContent: "space-between",
+    width: "100%",
   },
   dayColumn: {
-    display: 'flex',
-    flexDirection: 'column' as const,
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column" as const,
+    alignItems: "center",
   },
   dayName: {
-    fontSize: '16px',
-    color: '#666',
-    marginBottom: '5px',
+    fontSize: "16px",
+    color: "#666",
+    marginBottom: "5px",
   },
   dayNumber: {
-    // width: '48px',
-    // height: '48px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: '50%',
-    cursor: 'pointer',
-    fontSize: '14px',
-    color: 'black',
-    border: '1px solid #B3B3B3',
+    width: "48px",
+    height: "48px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: "50%",
+    cursor: "pointer",
+    fontSize: "14px",
+    color: "black",
+    border: "1px solid #B3B3B3",
   },
-  
-  dayNumberCurrentSelected: {
-    backgroundColor: '#E6E1FF',
-    border: 'none',
 
+  dayNumberCurrentSelected: {
+    backgroundColor: "#E6E1FF",
+    border: "none",
   },
   dayNumberSelected: {
-    backgroundColor: '#E6E1FF',
-    color: 'black',
-    border: 'none',
+    backgroundColor: "#E6E1FF",
+    color: "black",
+    border: "none",
   },
-    dayNumberPast: {
-    color: '#ccc',
-    backgroundColor: '#f5f5f5',
-    cursor: 'not-allowed',
-    border: 'none',
-
+  dayNumberPast: {
+    color: "#ccc",
+    backgroundColor: "#f5f5f5",
+    cursor: "not-allowed",
+    border: "none",
   },
 };
-
-
 
 const CustomWeeklyDatePicker = ({ onDateSelect }) => {
   const [weekStart, setWeekStart] = useState(startOfToday());
@@ -538,7 +543,7 @@ const CustomWeeklyDatePicker = ({ onDateSelect }) => {
   }, []);
 
   const handleDateClick = (date) => {
-    const formattedDate = format(date, 'yyyy-MM-dd');
+    const formattedDate = format(date, "yyyy-MM-dd");
     // console.log("date,", formattedDate)
     if (!isBefore(date, startOfToday())) {
       setSelectedDate(date);
@@ -558,7 +563,10 @@ const CustomWeeklyDatePicker = ({ onDateSelect }) => {
     <div style={styles.customWeeklyPicker}>
       <div style={styles.monthYear}>{format(weekStart, "MMMM yyyy")}</div>
       <div style={styles.weekContainer}>
-        <IconButton onClick={handlePrevWeek} style={{ marginRight: '10px',marginTop:"5%" }}>
+        <IconButton
+          onClick={handlePrevWeek}
+          style={{ marginRight: "10px", marginTop: "5%" }}
+        >
           <KeyboardArrowLeftOutlined
             sx={{
               backgroundColor: "#1a237e",
@@ -571,23 +579,33 @@ const CustomWeeklyDatePicker = ({ onDateSelect }) => {
         <div style={styles.daysContainer}>
           {days.map((day, index) => (
             <div key={index} style={styles.dayColumn}>
-              <div className="text-[#666] text-sm md:text-base mb-1.5">{format(day, 'EEE')}</div>
+              <div style={styles.dayName}>{format(day, "EEE")}</div>
               <div
                 style={{
                   ...styles.dayNumber,
-                  ...(isBefore(day, startOfToday()) ? styles.dayNumberPast : {}),
-                  ...(isSameDay(day, selectedDate) && isSameDay(day, startOfToday()) ? styles.dayNumberCurrentSelected : {}),
-                  ...(isSameDay(day, selectedDate) && !isSameDay(day, startOfToday()) ? styles.dayNumberSelected : {}),
+                  ...(isBefore(day, startOfToday())
+                    ? styles.dayNumberPast
+                    : {}),
+                  ...(isSameDay(day, selectedDate) &&
+                  isSameDay(day, startOfToday())
+                    ? styles.dayNumberCurrentSelected
+                    : {}),
+                  ...(isSameDay(day, selectedDate) &&
+                  !isSameDay(day, startOfToday())
+                    ? styles.dayNumberSelected
+                    : {}),
                 }}
-                className="w-[35px] h-[35px] md:w-[48px] md:h-[48px]"
                 onClick={() => handleDateClick(day)}
               >
-                {format(day, 'd')}
+                {format(day, "d")}
               </div>
             </div>
           ))}
         </div>
-        <IconButton onClick={handleNextWeek} style={{ marginLeft: '10px',marginTop:"5%" }}>
+        <IconButton
+          onClick={handleNextWeek}
+          style={{ marginLeft: "10px", marginTop: "5%" }}
+        >
           <KeyboardArrowRightOutlined
             sx={{
               backgroundColor: "#1a237e",

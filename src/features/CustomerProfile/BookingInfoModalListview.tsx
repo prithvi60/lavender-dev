@@ -61,6 +61,7 @@ export const BookingInfoModalListView = ({
   bookings,
   toggleModal,
   userflow,
+  // disable
 }) => {
   const [isOpen, setIsOpen] = useState(isModalOpen);
   const navigate = useNavigate();
@@ -222,7 +223,8 @@ export const BookingInfoModalListView = ({
                   establishmentId={establishmentId}
                 />
               )}
-              <CancelAppointmentModal bookings={bookings?.services[0]} />
+              <CancelAppointmentModal bookings={bookings?.services[0]}
+              />
             </Box>
           </Box>
         </Card>
