@@ -78,7 +78,7 @@ function OptionsModalListView({ props, isMobile, onServiceClick }) {
             optionId: option.optionId,
             serviceName: option.optionName,
             finalPrice: option.salePrice,
-            serviceDuration: option.duration,
+            duration: option.duration || 0, // Ensure duration is always included, default to 0 if not available
           }));
         }
         return [...prev, optionId];

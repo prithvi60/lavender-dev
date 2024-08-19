@@ -11,34 +11,33 @@ import Text from "../../components/Text";
 import { convertDateToReadAbleDate } from "../../utils/TimeFormat";
 import GetIcon from "../../assets/Icon/icon";
 import DatePicker from "../../components/DateInput";
+
 function CheckoutCard(props) {
   const { activeStep, next, establishmentName, establishmentId } = props;
 
   const dispatch = useDispatch();
   const checkOutList = useSelector((state: any) => state.checkOutPage);
-  const scheduleAppoinmentList = useSelector(
-    (state: any) => state.ScheduleAppoinment
-  );
-
+  const scheduleAppoinmentList = useSelector((state: any) => state.ScheduleAppoinment);
+console.log("checkOutList",checkOutList)
   const [imageIdList, setImageIdList] = useState<string | any>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [imageUrls, setImageUrls] = useState([]);
 
   const [disabled, setDisabled] = useState(true);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
+  const [totalServices, setTotalServices] = useState(0);
   const [employee, setEmployee] = useState([]);
   const [employeeName, setEmployeeName] = useState("");
 
   useEffect(() => {
     if (checkOutList?.checkOut?.length > 0) {
       setDisabled(false);
-      calculateTotalPrice();
-      calculateTotalDuration();
+      calculateTotals();
     } else {
-      setDisabled(true);
       setTotalPrice(0);
       setTotalDuration(0);
+      setTotalServices(0);
     }
   }, [checkOutList]);
 
@@ -47,31 +46,21 @@ function CheckoutCard(props) {
   }, [activeStep]);
 
   useEffect(() => {
-    if (activeStep >= 1 && scheduleAppoinmentList?.startTime) {
-      setDisabled(false);
-    }
-  }, [scheduleAppoinmentList]);
-
-  useEffect(() => {
     if (activeStep < 1 && checkOutList?.checkOut?.length > 0) {
       setDisabled(false);
     }
   }, [activeStep, checkOutList]);
 
-  function calculateTotalPrice() {
+  function calculateTotals() {
     let totalPriceSum = 0;
-    for (let item of checkOutList?.checkOut) {
-      totalPriceSum += item?.finalPrice;
-    }
-    setTotalPrice(totalPriceSum);
-  }
-
-  function calculateTotalDuration() {
     let totalDurationSum = 0;
     for (let item of checkOutList?.checkOut) {
-      totalDurationSum += item?.duration;
+      totalPriceSum += parseFloat(item?.finalPrice) || 0;
+      totalDurationSum += parseInt(item?.serviceDuration) || 0;
     }
+    setTotalPrice(totalPriceSum);
     setTotalDuration(totalDurationSum);
+    setTotalServices(checkOutList?.checkOut.length);
   }
 
   dispatch(
@@ -81,6 +70,10 @@ function CheckoutCard(props) {
     })
   );
 
+  function sendDataToParent() {
+    next((prevActiveStep) => prevActiveStep + 1);
+  }
+
   const btnStyle = {
     margin: 0,
     position: "absolute",
@@ -89,65 +82,6 @@ function CheckoutCard(props) {
     mstransform: "translate(-50%, -50%)",
     transform: "translate(-50%, -50%)",
   };
-
-  function sendDataToParent() {
-    next((prevActiveStep) => prevActiveStep + 1); // Invoke the callback function with data
-  }
-
-  const {
-    data: establishmentData,
-    isLoading: isLoading,
-    error: userDataError,
-    refetch: refetchUserData,
-  } = useQuery({
-    queryKey: ["query-establishment-details"],
-    queryFn: () => {
-      return endpoint.getEstablishmentDetailsById(establishmentId);
-    },
-  });
-
-  useEffect(() => {
-    setImageIdList(establishmentData?.data?.data?.estImages);
-    setEmployee(establishmentData?.data?.data?.employees);
-  }, [establishmentData]);
-
-  const fetchImage = async (image) => {
-    try {
-      setLoading(true);
-      const response = await endpoint.getImages(
-        image,
-        establishmentData?.data?.data?.id
-      );
-
-      const imageUrl = URL.createObjectURL(response.data);
-      return imageUrl;
-    } catch (error) {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const callFetchImageApi = async () => {
-      const urls = [];
-      for (const imageId of imageIdList) {
-        const imageUrl = await fetchImage(imageId);
-        urls.push(imageUrl);
-      }
-      setImageUrls(urls);
-      setLoading(false);
-    };
-    if (imageIdList?.length > 0) {
-      callFetchImageApi();
-    }
-  }, [imageIdList]);
-
-  useEffect(() => {
-    const employeeName: any = employee?.find(
-      (item) => item?.employeeId === scheduleAppoinmentList?.id
-    );
-    //setEmployee(employeeName)
-    setEmployeeName(employeeName?.employeeName);
-  }, [employee, scheduleAppoinmentList?.id]);
 
   return (
     <div className="my-6 md:mr-5 urbanist-font rounded-2xl chackout-card-container h-fit">
@@ -264,7 +198,7 @@ function CheckoutCard(props) {
               </div>
               <Text
                 sx={styles.duration}
-                name={`${item.duration} mins`}
+                name={`${item.serviceDuration} mins`}
                 align="left"
               />
             </div>
