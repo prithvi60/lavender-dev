@@ -111,7 +111,7 @@ export default function ScheduleAppointment(props) {
   };
 
   const createHandleMenuClick = (menuItem: string) => {
-    return () => {};
+    return () => { };
   };
 
   const handleClick = (timePeriod, slot, index) => {
@@ -130,13 +130,12 @@ export default function ScheduleAppointment(props) {
 
   const [selectedPaymentChips, setSelectedPaymentChips] = useState([]);
 
-  useEffect(() => {}, [totalDuration, totalDurationValue]);
+  useEffect(() => { }, [totalDuration, totalDurationValue]);
 
   const handleChipClick = (timePeriod, slot, index) => {
     const currentDate = new Date();
-    const currentDateValue = `${currentDate.getFullYear()}/${
-      currentDate.getMonth() + 1
-    }/${currentDate.getDate()}`;
+    const currentDateValue = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1
+      }/${currentDate.getDate()}`;
     // Parse time strings into Date objects
     const startTime: any = new Date(`${currentDateValue} ${slot.startTime}`);
     const endTime: any = new Date(`${currentDateValue} ${slot.endTime}`);
@@ -290,7 +289,7 @@ export default function ScheduleAppointment(props) {
                               disabled={
                                 isDisabled &&
                                 (timePeriodValue?.includes(timePeriod) &&
-                                indexValue?.includes(index)
+                                  indexValue?.includes(index)
                                   ? false
                                   : true)
                               }
@@ -363,7 +362,7 @@ export default function ScheduleAppointment(props) {
                 }}
               >
                 <GetIcon
-                  onClick={() => {}}
+                  onClick={() => { }}
                   className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
                   iconName="SlotBoxesFilled"
                 />
@@ -404,7 +403,7 @@ export default function ScheduleAppointment(props) {
                 }}
               >
                 <GetIcon
-                  onClick={() => {}}
+                  onClick={() => { }}
                   className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
                   iconName="SlotBoxesFilled"
                 />
@@ -446,6 +445,7 @@ export default function ScheduleAppointment(props) {
                 value={selectedEmployeeId}
                 onChange={handleChange}
                 sx={{ width: "300px", height: "45px", borderRadius: "10px" }}
+                className=" focus:!outline-2 focus:!outline-amber-500"
               >
                 {employeeList?.map((employee) => (
                   <MenuItem
@@ -516,7 +516,7 @@ const styles = {
     color: 'black',
     border: '1px solid #B3B3B3',
   },
-  
+
   dayNumberCurrentSelected: {
     backgroundColor: '#E6E1FF',
     border: 'none',
@@ -527,7 +527,7 @@ const styles = {
     color: 'black',
     border: 'none',
   },
-    dayNumberPast: {
+  dayNumberPast: {
     color: '#ccc',
     backgroundColor: '#f5f5f5',
     cursor: 'not-allowed',
@@ -576,7 +576,7 @@ const CustomWeeklyDatePicker = ({ onDateSelect ,externalSelectedDate}) => {
     <div style={styles.customWeeklyPicker}>
       <div style={styles.monthYear}>{format(weekStart, "MMMM yyyy")}</div>
       <div style={styles.weekContainer}>
-        <IconButton onClick={handlePrevWeek} style={{ marginRight: '10px',marginTop:"5%" }}>
+        <IconButton onClick={handlePrevWeek} style={{ marginRight: '10px', marginTop: "5%" }}>
           <KeyboardArrowLeftOutlined
             sx={{
               backgroundColor: "#1a237e",
@@ -605,7 +605,7 @@ const CustomWeeklyDatePicker = ({ onDateSelect ,externalSelectedDate}) => {
             </div>
           ))}
         </div>
-        <IconButton onClick={handleNextWeek} style={{ marginLeft: '10px',marginTop:"5%" }}>
+        <IconButton onClick={handleNextWeek} style={{ marginLeft: '10px', marginTop: "5%" }}>
           <KeyboardArrowRightOutlined
             sx={{
               backgroundColor: "#1a237e",
