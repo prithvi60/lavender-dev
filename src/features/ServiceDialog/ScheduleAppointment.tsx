@@ -444,8 +444,21 @@ export default function ScheduleAppointment(props) {
                 id="employee-select"
                 value={selectedEmployeeId}
                 onChange={handleChange}
-                sx={{ width: "300px", height: "45px", borderRadius: "10px" }}
-                className=" focus:!outline-2 focus:!outline-amber-500"
+                sx={{
+                  width: "300px",
+                  height: "45px",
+                  borderRadius: "10px",
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'rgba(0, 0, 0, 0.23)',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#825FFF',
+                    borderWidth: 2,
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#825FFF',
+                  },
+                }}
               >
                 {employeeList?.map((employee) => (
                   <MenuItem
