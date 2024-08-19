@@ -66,12 +66,26 @@ function OptionsModalListView({ props, isMobile, onServiceClick }) {
   };
 
   const handleOptionToggle = (optionId) => {
-    setSelectedOptions((prev) =>
-      prev.includes(optionId)
-        ? prev.filter((id) => id !== optionId)
-        : [...prev, optionId]
-    );
+    setSelectedOptions((prev) => {
+      if (prev.includes(optionId)) {
+        dispatch(resetCheckOut({ serviceId: props.serviceId, optionId }));
+        return prev.filter((id) => id !== optionId);
+      } else {
+        const option = props.options.find(opt => opt.optionId === optionId);
+        if (option) {
+          dispatch(updateCheckOut({
+            serviceId: props.serviceId,
+            optionId: option.optionId,
+            serviceName: option.optionName,
+            finalPrice: option.salePrice,
+            serviceDuration: option.duration,
+          }));
+        }
+        return [...prev, optionId];
+      }
+    });
   };
+  
 
   const updateReduxStore = () => {
     const deselectedOptions = props.options

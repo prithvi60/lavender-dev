@@ -1,4 +1,3 @@
-import { duration } from '@mui/material';
 import { createSlice } from '@reduxjs/toolkit';
 
 
@@ -10,19 +9,19 @@ const checkOutPageSlice = createSlice({
     initialState,
     reducers: {
         updateCheckOut: (state, action) => {
-            let serviceDetails =  {
-                serviceId: action.payload.serviceId,
-                optionId: action.payload.optionId,
-                serviceName: action.payload.serviceName,
-                finalPrice: action.payload.finalPrice,
-                duration: action.payload.serviceDuration,
-                };
-            state.checkOut.push(serviceDetails)
+            const { serviceId, optionId } = action.payload;
+            const existingIndex = state.checkOut.findIndex(
+                item => item.serviceId === serviceId && item.optionId === optionId
+            );
+            if (existingIndex === -1) {
+                state.checkOut.push(action.payload);
+            }
         },
         resetCheckOut: (state, action) => {
             const { serviceId, optionId } = action.payload;
-            // Filter out the item to be removed
-            state.checkOut = state.checkOut.filter(item => !(item.serviceId === serviceId && item.optionId === optionId));
+            state.checkOut = state.checkOut.filter(
+                item => !(item.serviceId === serviceId && item.optionId === optionId)
+            );
         },
         removeCheckOutDetails: () => {
             return initialState;
