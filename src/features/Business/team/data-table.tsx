@@ -33,6 +33,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
+
 export function DataTable<TData, TValue>({
   columns,
   data,
@@ -41,6 +42,13 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+// console.log(data);
+
+const pageData = {
+  number: 0,
+  numberOfElements: data.length,
+  totalElements : data.length
+}
 
   const table = useReactTable({
     data,
@@ -181,7 +189,7 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      <DataTablePagination table={table} pageData={undefined} />
+      <DataTablePagination table={table} pageData={pageData} />
     </div>
   );
 }
