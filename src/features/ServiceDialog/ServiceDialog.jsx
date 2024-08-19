@@ -71,7 +71,7 @@ function ServiceDialog({ establishmentData }) {
           </IconButton>
         </Toolbar>
         <div
-          className="flex justify-between h-full gap-3 mx-2 xl:gap-5 md:max-w-7xl card-flex p-[15px] md:px-[24px] md:py-[30px]"
+          className="flex justify-between h-full gap-3 mx-2 xl:gap-5 md:max-w-7xl card-flex p-[15px] md:px-[24px] md:py-[30px] overflow-hidden"
           // style={{ padding: "24px 30px" }}
         >
           <Box

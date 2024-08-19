@@ -36,7 +36,6 @@ export default function ScheduleAppointment(props) {
   );
   // console.log("object is scheduleAppoinmentList", scheduleAppoinmentList);
 
-  const [selectedDateBtn, setSelectedDateBtn] = useState(new Date());
   const { estData, onSetActiveStep } = props;
   const [availableTimeSlots, setAvailableTimeSlots] = React.useState<any>([]);
   const [clickedChipIndices, setClickedChipIndices] = React.useState(null);
@@ -53,6 +52,14 @@ export default function ScheduleAppointment(props) {
   const [employeeSlot, setEmployeeSlot] = useState("");
 
   
+  const [selectedDateBtn, setSelectedDateBtn] = useState(new Date());
+
+  const handleGoToNextSlot = () => {
+    const nextDay = addDays(selectedDateBtn, 1);
+    setSelectedDateBtn(nextDay);
+    handleDateSelect(nextDay);
+  };
+
   const handleDateSelect = (date) => {
     if (date !== selectedDateBtn) {
       // console.log("Date selected:", date);
@@ -234,7 +241,10 @@ export default function ScheduleAppointment(props) {
       </div>
 
       <div className="mb-4">
-        <CustomWeeklyDatePicker onDateSelect={handleDateSelect} />
+      <CustomWeeklyDatePicker 
+          onDateSelect={handleDateSelect} 
+          externalSelectedDate={selectedDateBtn}
+        />
       </div>
 
       <div className="mt-4 overflow-hidden">
@@ -342,7 +352,7 @@ export default function ScheduleAppointment(props) {
           )
         ) : (
           <div>
-            {dateClicked ? (
+            {dateClicked && availableTimeSlots?.length === 0  ? (
               <div
                 style={{
                   display: "flex",
@@ -368,7 +378,7 @@ export default function ScheduleAppointment(props) {
                   How about the next slot ?
                 </div>
                 <Button
-                  onClick={() => {}}
+                         onClick={handleGoToNextSlot}
                   sx={{
                     display: "flex",
                     justifyContent: "center",
@@ -528,15 +538,22 @@ const styles = {
 
 
 
-const CustomWeeklyDatePicker = ({ onDateSelect }) => {
-  const [weekStart, setWeekStart] = useState(startOfToday());
-  const [selectedDate, setSelectedDate] = useState(startOfToday());
+const CustomWeeklyDatePicker = ({ onDateSelect ,externalSelectedDate}) => {
+  const [weekStart, setWeekStart] = useState(() => startOfWeek(startOfToday(), { weekStartsOn: 1 }));
+  const [selectedDate, setSelectedDate] = useState(externalSelectedDate || startOfToday());
 
   const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
   useEffect(() => {
     onDateSelect(startOfToday());
   }, []);
+
+  useEffect(() => {
+    if (externalSelectedDate) {
+      setSelectedDate(externalSelectedDate);
+      setWeekStart(startOfWeek(externalSelectedDate, { weekStartsOn: 1 }));
+    }
+  }, [externalSelectedDate]);
 
   const handleDateClick = (date) => {
     const formattedDate = format(date, 'yyyy-MM-dd');

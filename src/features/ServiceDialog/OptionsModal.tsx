@@ -15,24 +15,27 @@ import { useDispatch } from "react-redux";
 import GetIcon from "../../assets/Icon/icon";
 import Text from "../../components/Text";
 
-function OptionsModal({ props, selectedService }) {
+function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(selectedService);
   const [selectAll, setSelectAll] = useState(selectedService.length === props.options.length);
-  const [isSelectionValid, setIsSelectionValid] = useState(false); // To track if at least one option is selected
-  const [isSelected, setSelected] = useState(false);
 
+
+  
   useEffect(() => {
-    // Check if selectedOptions has changed from initial state or is not empty
-    if (isSelected) {
-      setSelected(true);
-    }
-  }, [isSelected, isSelectionValid]);
+    updateReduxStore();
+    setSelectAll(selectedOptions.length === props.options.length);
+  }, [selectedOptions]);
+
 
   const handleOpen = () => {
-    setIsOpen(true);
+    if (props.options.length === 1) {
+      onServiceClick();
+    } else {
+      setIsOpen(true);
+    }
   };
 
   const handleClose = () => {
@@ -40,40 +43,24 @@ function OptionsModal({ props, selectedService }) {
   };
 
   const handleSelectAll = () => {
-    if (!selectAll) {
-      // Select all options
-      const selected = props.options.map((option) => option.optionId);
-      setSelectedOptions(selected);
-      setSelectAll(true);
-      setSelected(true);
-    } else {
-      // Deselect all options
+    if (selectedOptions.length === props.options.length) {
       setSelectedOptions([]);
-      setSelectAll(false);
-      setSelected(true);
-    }
-  };
-
-  const handleOptionSelect = (optionId) => {
-    let updatedSelection = [...selectedOptions];
-    if (updatedSelection.includes(optionId)) {
-      // Deselect option
-      updatedSelection = updatedSelection.filter((id) => id !== optionId);
     } else {
-      // Select option
-      updatedSelection.push(optionId);
+      setSelectedOptions(props.options.map((option) => option.optionId));
     }
-    setSelectedOptions(updatedSelection);
-    setSelected(true);
   };
-
-  const handleSaveSelection = () => {
-    // Filter out deselected options
+  const handleOptionSelect = (optionId) => {
+    setSelectedOptions((prev) =>
+      prev.includes(optionId)
+        ? prev.filter((id) => id !== optionId)
+        : [...prev, optionId]
+    );
+  };
+  const updateReduxStore = () => {
     const deselectedOptions = props.options
       .filter((option) => !selectedOptions.includes(option.optionId))
       .map((option) => option.optionId);
 
-    // Update Redux store based on selectedOptions
     selectedOptions.forEach((optionId) => {
       const selectedOption = props.options.find(
         (option) => option.optionId === optionId
@@ -91,22 +78,14 @@ function OptionsModal({ props, selectedService }) {
       }
     });
 
-    // Remove deselected options from Redux store
     deselectedOptions.forEach((optionId) => {
-      const deselectedOption = props.options.find(
-        (option) => option.optionId === optionId
+      dispatch(
+        resetCheckOut({
+          serviceId: props.serviceId,
+          optionId: optionId,
+        })
       );
-      if (deselectedOption) {
-        dispatch(
-          resetCheckOut({
-            serviceId: props.serviceId,
-            optionId: deselectedOption.optionId,
-          })
-        );
-      }
     });
-
-    setIsOpen(false);
   };
 
   const style = {
@@ -256,17 +235,6 @@ function OptionsModal({ props, selectedService }) {
               </Grid>
             </Grid>
           )}
-          <div className="flex justify-end mt-4 mx-6">
-            {isSelected && (
-              <Button
-                sx={styles.btn}
-                variant="contained"
-                onClick={handleSaveSelection}
-              >
-                Save Selection
-              </Button>
-            )}
-          </div>
         </Box>
       </Modal>
     </div>

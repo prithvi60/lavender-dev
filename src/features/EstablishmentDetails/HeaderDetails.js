@@ -167,7 +167,7 @@ function HeaderDetails(props) {
                       {" "}
                       services
                     </Buttons>
-                    {/* <ServiceDialog establishmentData={establishmentData} /> */}
+                    <ServiceDialog establishmentData={establishmentData} />
                   </a>
                   <a
                     onClick={() => setSelectedHref("review")}
