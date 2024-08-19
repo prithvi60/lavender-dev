@@ -19,6 +19,7 @@ import {
   Button,
   Switch,
 } from "@mui/material";
+import { Chip as Chips}  from "@mui/material";
 import FilterModal from "../../components/FilterModal";
 import { useSelector } from "react-redux";
 import StoreMallDirectoryOutlinedIcon from "@mui/icons-material/StoreMallDirectoryOutlined";
@@ -27,7 +28,7 @@ import TextRouter from "../../components/TextRouter";
 import { useQuery } from "@tanstack/react-query";
 import endpoint from "../../api/endpoints.ts";
 import "./style.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { GiPathDistance } from "react-icons/gi";
 import { FaStore } from "react-icons/fa";
 
@@ -37,6 +38,8 @@ import {
   MarkerF,
   useJsApiLoader,
 } from "@react-google-maps/api";
+import { updatequickBook } from "../../store/slices/quickbookSlice.js";
+import { useDispatch } from "react-redux";
 // import { MdDownload } from "react-icons/md";
 // import axios from "axios";
 
@@ -111,6 +114,7 @@ export default function SearchResult() {
   });
 
   const { state } = useLocation();
+  const navigate = useNavigate();
 
   const [markers, setMarkers] = useState(state.treatmentServicesList);
 
@@ -162,6 +166,8 @@ export default function SearchResult() {
     queryKey: ["custom-data"],
     queryFn: () => endpoint.getEstablishmentSearch(payLoad),
   });
+
+  const dispatch = useDispatch();
 
   const establishmentList = useMemo(() => {
     return !isLoading ? establishmentSearchResult?.data?.data?.content : null;
@@ -300,7 +306,18 @@ export default function SearchResult() {
     },
   });
 
-  function handleClick() {}
+  const handleClick = (timeSlot, date, estId, serviceName, serviceId) => {
+
+    dispatch(
+      updatequickBook({
+         selectDate: date,
+         selectedTime: timeSlot,
+         selectedServiceId: serviceId,
+         selectedServiceName: serviceName
+      })
+    );
+    navigate(`/salon/${estId}/service`);
+  }
 
   function handleMapClick() {
     setIsShowMap((prev) => !prev);
@@ -547,7 +564,7 @@ export default function SearchResult() {
       className="search-page-container"
       sx={{ 
         width: "100%", 
-        height: { xs: "120px", sm: "calc(100vh - 70px)" },
+        height: { xs: "calc(100vh - 120px)", sm: "calc(100vh - 70px)" },
         marginTop: { xs: "120px", sm: "70px" },
         display: "flex", 
         flexDirection: "column" 
@@ -818,6 +835,7 @@ export default function SearchResult() {
                                         key={index}
                                         label={tag}
                                         className="mr-2 mb-2"
+                                        sx={{fontSize: '12px', color: '#4D4D4D', fontWeight: 500}}
                                       />
                                     ))}
                                   </div>
@@ -888,11 +906,11 @@ export default function SearchResult() {
                                 {card?.services?.map((service, index) => (
                                   <Grid item xs={12} key={index}>
                                     <div className="card-body-details">
-                                      <div className="card-body-title">
-                                        <div className="font-semibold">
+                                      <div className="card-body-title pb-2">
+                                        <div className="font-semibold text-[#4D4D4D] text-xl pb-1">
                                           {service?.serviceName}
                                         </div>
-                                        <div>
+                                        <div className="font-normal text-[#808080] text-base">
                                           from ${service?.startingPrice}
                                         </div>
                                       </div>
@@ -912,17 +930,16 @@ export default function SearchResult() {
                                                 key={index}
                                                 className="availability-container"
                                               >
-                                                <div className="time-slots-container">
+                                                <div className="time-slots-container p-1">
                                                   {availability?.timeSlots?.map(
                                                     (timeSlot, idx) => (
-                                                      <Chip
+                                                      <Chips
                                                         key={idx}
                                                         label={timeSlot}
                                                         variant="outlined"
-                                                        onClick={() =>
-                                                          handleClick()
-                                                        }
+                                                        onClick={()=>handleClick(timeSlot, availability?.date, card?.establishmentId, service?.serviceName, service?.serviceId)}
                                                         className="time-slot-chip"
+                                                        sx={{color: '#808080', fontSize: '16px', fontWeight: 400, borderRadius: '16px', padding: '8px 16px 8px 16px', cursor: 'pointer'}}
                                                       />
                                                     )
                                                   )}
@@ -930,9 +947,9 @@ export default function SearchResult() {
                                                 <Typography
                                                   sx={{
                                                     color: "#B3B3B3",
-                                                    fontSize: "12px",
-                                                    fontWeight: "500",
-                                                    paddingLeft: "5px",
+                                                    fontSize: "14px",
+                                                    fontWeight: 400,
+                                                    paddingLeft: 2,
                                                   }}
                                                 >
                                                   {availability?.date}
@@ -951,7 +968,7 @@ export default function SearchResult() {
                           <CardActions className="card-footer-action ">
                             <StoreMallDirectoryOutlinedIcon />
                             <TextRouter
-                              name={"Saloon Details"}
+                              name={"Salon Details"}
                               to={`/salon/${card?.establishmentId}`}
                             />
                           </CardActions>

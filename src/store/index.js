@@ -11,6 +11,7 @@ import currentUserSlice from './slices/currentUserSlice';
 import checkOutPageSlice from './slices/checkOutPageSlice';
 import ScheduleAppoinmentSlice from './slices/Booking/ScheduleAppoinmentSlice';
 import businessSlice from './slices/businessSlice';
+import quickbookSlice from './slices/quickbookSlice';
 
 const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ const store = configureStore({
     checkOutPage: checkOutPageSlice,
     ScheduleAppoinment: ScheduleAppoinmentSlice,
     businessEstablishment: businessSlice,
+    quickBook: quickbookSlice,
   },
 });
 

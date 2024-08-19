@@ -16,6 +16,7 @@ import SearchDetailsPage from './pages/SearchDetailsPage'
 import { UserPage } from './pages/UserPage.tsx';
 import { MyFavorites } from './features/MyFavorites/MyFavorites.tsx';
 import { SnackbarProvider } from './components/Snackbar.tsx';
+import ServiceDialog from './features/ServiceDialog/ServiceDialog.jsx';
 
 const Admin = React.lazy(() => import('./pages/AdminPage'));
 const Places = React.lazy(() => import('./pages/Places'));
@@ -57,6 +58,7 @@ const App = () => {
                 <Route path='/salon/:estId' element={<SearchDetailsPage />}></Route>
                 <Route path='/userprofile' element={<UserPage />}></Route>
                 <Route path='/favourites' element={<MyFavorites />}></Route>
+                <Route path='/salon/:estId/service' element={<ServiceDialog />}></Route>
                 <Route path="*" element={<PageNotFound />} />
               </Routes>
             </div>

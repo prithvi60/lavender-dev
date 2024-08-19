@@ -51,7 +51,6 @@ export default function BusinessTeam() {
   useEffect(() => {
     getEstablishmentDetails();
   }, [establishmentId, isOpen]);
-console.log("emp", employeeData);
 
 
   return (

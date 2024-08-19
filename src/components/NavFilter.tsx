@@ -7,7 +7,6 @@ import { Box } from "@mui/material";
 const NavFilter = ({ setshowSearchBar }) => {
   const { treatmentList, locationList, selectedDate, SelectedTime } =
     useSelector((state: any) => state.searchPage);
-  console.log(SelectedTime);
 
   const onClickHandle = () => {
     setshowSearchBar((prev) => !prev);
