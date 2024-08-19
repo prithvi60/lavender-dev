@@ -10,7 +10,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import OptionsModal from "./OptionsModal";
 import OptionsModalListView from "./OptionsModalListView";
-
+import { updateCheckOut } from "../../store/slices/checkOutPageSlice";
 function ServiceListItems({ serviceCategories, handleClose }) {
   const listRef = useRef(null);
   const [value, setValue] = useState(0);
@@ -27,7 +27,22 @@ function ServiceListItems({ serviceCategories, handleClose }) {
   const checkOutList = useSelector((state) => state.checkOutPage);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const dispatch = useDispatch();
 
+  const handleServiceClick = (service) => {
+    if (service.options.length === 1) {
+      const option = service.options[0];
+      dispatch(
+        updateCheckOut({
+          serviceId: service.serviceId,
+          optionId: option.optionId,
+          serviceName: option.optionName,
+          finalPrice: option.salePrice,
+          serviceDuration: option.duration,
+        })
+      );
+    } 
+  };
   return (
     <div className="w-full urbanist-font md:mx-24">
       <div className={`flex gap-1 mb-2 items-center`}>
@@ -55,14 +70,23 @@ function ServiceListItems({ serviceCategories, handleClose }) {
           "@media (max-width: 768px)": {
             width: "100%",
           },
-          // maxWidth: "100%",
-          maxHeight: 1000,
+          maxHeight: { xs: "calc(100vh - 300px)", sm: "calc(100vh - 0px)" },
           bgcolor: "background.paper",
           overflowY: "auto",
           marginLeft: { xs: 0, md: "36px" },
           marginRight: { xs: 0, md: "38px" },
           "@media (min-width: 768px)": {
             width: "90%",
+          },
+          "&::-webkit-scrollbar": {
+            width: "8px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgba(0,0,0,.2)",
+            borderRadius: "4px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "rgba(0,0,0,.1)",
           },
         }}
       >
@@ -145,21 +169,23 @@ function ServiceListItems({ serviceCategories, handleClose }) {
                     </div>
                   </div>
                   {isMobile ? (
-                    <div style={{ position: "absolute", right: 16, top: 36 }}>
-                      <OptionsModalListView
-                        props={service}
-                        isMobile={isMobile}
-                      />
-                    </div>
-                  ) : (
-                    <div>
-                      <OptionsModal
-                        props={service}
-                        isMobile={isMobile}
-                        selectedService={selectedService || []}
-                      />
-                    </div>
-                  )}
+  <div style={{ position: "absolute", right: 16, top: 36 }}>
+    <OptionsModalListView
+      props={service}
+      isMobile={isMobile}
+      onServiceClick={() => handleServiceClick(service)}
+    />
+  </div>
+) : (
+  <div>
+    <OptionsModal
+      props={service}
+      isMobile={isMobile}
+      selectedService={selectedService || []}
+      onServiceClick={() => handleServiceClick(service)}
+    />
+  </div>
+)}
                 </ListItemButton>
               );
             })}

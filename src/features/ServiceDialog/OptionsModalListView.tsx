@@ -15,7 +15,7 @@ import {
   Divider,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import CheckIcon from '@mui/icons-material/Check';
+import CheckIcon from "@mui/icons-material/Check";
 // import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from "react-redux";
 import {
@@ -26,23 +26,31 @@ import GetIcon from "../../assets/Icon/icon";
 const Transition = React.forwardRef(function Transition(props: any, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-function OptionsModalListView({ props, isMobile }) {
+function OptionsModalListView({ props, isMobile, onServiceClick }) {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
-  const [isSelectionValid, setIsSelectionValid] = useState(false);
   const [isSelected, setSelected] = useState(false);
 
+  // useEffect(() => {
+  //   if (isSelected) {
+  //     setSelected(true);
+  //   }
+  // }, [isSelected, isSelectionValid]);
+
   useEffect(() => {
-    if (isSelected) {
-      setSelected(true);
-    }
-  }, [isSelected, isSelectionValid]);
+    updateReduxStore();
+    setSelectAll(selectedOptions.length === props.options.length);
+  }, [selectedOptions]);
 
   const handleOpen = () => {
-    setIsOpen(true);
+    if (props.options.length === 1) {
+      onServiceClick();
+    } else {
+      setIsOpen(true);
+    }
   };
 
   const handleClose = () => {
@@ -50,15 +58,10 @@ function OptionsModalListView({ props, isMobile }) {
   };
 
   const handleSelectAll = () => {
-    if (!selectAll) {
-      const selected = props.options.map((option) => option.optionId);
-      setSelectedOptions(selected);
-      setSelectAll(true);
-      setSelected(true);
-    } else {
+    if (selectedOptions.length === props.options.length) {
       setSelectedOptions([]);
-      setSelectAll(false);
-      setSelected(true);
+    } else {
+      setSelectedOptions(props.options.map((option) => option.optionId));
     }
   };
 
@@ -68,10 +71,9 @@ function OptionsModalListView({ props, isMobile }) {
         ? prev.filter((id) => id !== optionId)
         : [...prev, optionId]
     );
-    setSelected(true);
   };
 
-  const handleSaveSelection = () => {
+  const updateReduxStore = () => {
     const deselectedOptions = props.options
       .filter((option) => !selectedOptions.includes(option.optionId))
       .map((option) => option.optionId);
@@ -94,20 +96,13 @@ function OptionsModalListView({ props, isMobile }) {
     });
 
     deselectedOptions.forEach((optionId) => {
-      const deselectedOption = props.options.find(
-        (option) => option.optionId === optionId
+      dispatch(
+        resetCheckOut({
+          serviceId: props.serviceId,
+          optionId: optionId,
+        })
       );
-      if (deselectedOption) {
-        dispatch(
-          resetCheckOut({
-            serviceId: props.serviceId,
-            optionId: deselectedOption.optionId,
-          })
-        );
-      }
     });
-
-    setIsOpen(false);
   };
 
   return (
@@ -200,39 +195,39 @@ function OptionsModalListView({ props, isMobile }) {
                 button
                 onClick={() => handleOptionToggle(option.optionId)}
               >
-         <Checkbox
-              edge="start"
-              checked={selectedOptions.includes(option.optionId)}
-              tabIndex={-1}
-              disableRipple
-              icon={
-                <Box 
-                  sx={{ 
-                    width: 20, 
-                    height: 20, 
-                    border: '2px solid #bdbdbd', 
-                    borderRadius: '4px',
-                    backgroundColor: 'white'
-                  }} 
+                <Checkbox
+                  edge="start"
+                  checked={selectedOptions.includes(option.optionId)}
+                  tabIndex={-1}
+                  disableRipple
+                  icon={
+                    <Box
+                      sx={{
+                        width: 20,
+                        height: 20,
+                        border: "2px solid #bdbdbd",
+                        borderRadius: "4px",
+                        backgroundColor: "white",
+                      }}
+                    />
+                  }
+                  checkedIcon={
+                    <Box
+                      sx={{
+                        width: 20,
+                        height: 20,
+                        border: "2px solid #bdbdbd",
+                        borderRadius: "4px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "white",
+                      }}
+                    >
+                      <CheckIcon sx={{ color: "#4caf50", fontSize: 16 }} />
+                    </Box>
+                  }
                 />
-              }
-              checkedIcon={
-                <Box
-                  sx={{
-                    width: 20,
-                    height: 20,
-                    border: '2px solid #bdbdbd',
-                    borderRadius: '4px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: 'white',
-                  }}
-                >
-                  <CheckIcon sx={{ color: '#4caf50', fontSize: 16 }} />
-                </Box>
-              }
-            />
                 <ListItemText
                   primary={option.optionName}
                   secondary={`${option.duration} mins - from $${option.salePrice}`}
@@ -250,58 +245,23 @@ function OptionsModalListView({ props, isMobile }) {
             borderTop: "1px solid rgba(0, 0, 0, 0.12)",
           }}
         >
-          {isMobile ? (
-            <Box
-              sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}
-            >
-              <Button
-                variant={selectAll ? "contained" : "outlined"}
-                startIcon={<GetIcon iconName="PlusIcon" />}
-                onClick={handleSelectAll}
-                disabled={!props.options?.length}
-                sx={{
-                  flex: 1,
-                  borderRadius: "8px",
-                  textTransform: "none",
-                }}
-              >
-                {selectAll ? "Deselect All" : "Select All"}
-              </Button>
-              <Button
-                variant="contained"
-                onClick={handleSaveSelection}
-                disabled={!isSelected}
-                sx={{
-                  flex: 1,
-                  backgroundColor: "#8B5CF6",
-                  "&:hover": {
-                    backgroundColor: "#7C3AED",
-                  },
-                  borderRadius: "8px",
-                  textTransform: "none",
-                }}
-              >
-                Save Selection
-              </Button>
-            </Box>
-          ) : (
+          <Box
+            sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}
+          >
             <Button
-              variant="contained"
-              onClick={handleSaveSelection}
-              disabled={!isSelected}
-              fullWidth
+              variant={selectAll ? "contained" : "outlined"}
+              startIcon={<GetIcon iconName="PlusIcon" />}
+              onClick={handleSelectAll}
+              disabled={!props.options?.length}
               sx={{
-                backgroundColor: "#8B5CF6",
-                "&:hover": {
-                  backgroundColor: "#7C3AED",
-                },
+                flex: 1,
                 borderRadius: "8px",
                 textTransform: "none",
               }}
             >
-              Save Selection
+              {selectAll ? "Deselect All" : "Select All"}
             </Button>
-          )}
+          </Box>
         </Box>
       </Dialog>
     </>

@@ -13,6 +13,7 @@ interface IScheduleAppoinment {
   tncAgree: boolean;
   promotionAgree: boolean;
   serviceNotes: string;
+  selectedTimeSlot: string;
 }
 
 const initialState: IScheduleAppoinment = {
@@ -27,6 +28,7 @@ const initialState: IScheduleAppoinment = {
   tncAgree: false,
   promotionAgree: false,
   serviceNotes: "",
+  selectedTimeSlot: null,
 };
 
 export const ScheduleAppoinmentSlice = createSlice({
@@ -58,6 +60,12 @@ export const ScheduleAppoinmentSlice = createSlice({
     },
     resetFilter: () => {
       return initialState;
+    },
+    setSelectedDate: (state, action) => {
+      state.selectedDate = action.payload;
+    },
+    setSelectedTimeSlot: (state, action) => {
+      state.selectedTimeSlot = action.payload;
     },
   },
 });
