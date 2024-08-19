@@ -68,7 +68,7 @@ function PastBookings({ userInfo }) {
       <h4 className="text-[#4D4D4D] text-[18px] md:text-[36px] text-bold pb-2">
         {"Past Bookings"}
       </h4>
-      <div style={{ overflow: "hidden", position: "relative" }}>
+      <div style={{ position: "relative", zIndex: 0 }}>
         {userInfo?.pastBookings?.length > 0 ? (
           <>
             <div
@@ -259,11 +259,12 @@ function PastBookings({ userInfo }) {
                   onClick={scrollLeft}
                   style={{
                     position: "absolute",
-                    left: 0,
+                    // left: 0,
                     top: "50%",
                     transform: "translateY(-50%)",
-                    zIndex: 1,
+                    zIndex: 10,
                   }}
+                  className="-left-6 xl:-left-14"
                 >
                   <GetIcon iconName="BackIconArrow" />
                 </IconButton>
@@ -271,11 +272,12 @@ function PastBookings({ userInfo }) {
                   onClick={scrollRight}
                   style={{
                     position: "absolute",
-                    right: 0,
+                    // right: 0,
                     top: "50%",
                     transform: "translateY(-50%)",
-                    zIndex: 1,
+                    zIndex: 10,
                   }}
+                  className="-right-6 xl:-right-14"
                 >
                   <GetIcon iconName="RightArrowIcon" />
                 </IconButton>

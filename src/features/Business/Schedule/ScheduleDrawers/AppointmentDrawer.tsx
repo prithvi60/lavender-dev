@@ -53,8 +53,8 @@ export default function AppointmentDrawer() {
     closeDrawer()
   };
   return (
-    <div className="flex-col h-full">
-      <div className="flex-col text-lg text-center p-4 mb-2 bg-blue-950">
+    <div className="flex flex-col h-full relative">
+      <div className="flex flex-col text-lg text-center p-4 mb-2 bg-[#1B1464]">
         <CustomTooltip
           placement="bottom" style={{ opacity: 1 }}
           title={
@@ -88,11 +88,8 @@ export default function AppointmentDrawer() {
         </div>
 
       </div>
-      {/* <div className="mx-5 my-3">
-        <ClientSearchFilter data={dataObj} client={selectedClient} handler={setSelectedClient}/>
-      </div> */}
 
-      <div className="flex-col mx-3">
+      <div className="block mx-3 overflow-y-auto">
         {/* <SelectSeparator className='bg-black'/> */}
         <div className="mb-3">
           <ClientSearchFilter data={dataObj} client={selectedClient} handler={setSelectedClient}/>
@@ -115,10 +112,10 @@ export default function AppointmentDrawer() {
 
       </div>
 
-      <div className="absolute bottom-4 mx-7 bg-gray-800">
+      <div className="absolute bottom-0 flex justify-center gap-5 w-full bg-white p-3.5">
         <Button
           onClick={resetData}
-          className="mx-10"
+          className="bg-transparent border-2 border-[#825FFF]"
           variant="ghost"
           color="#825FFF"
         >

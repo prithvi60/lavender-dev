@@ -284,7 +284,7 @@ function ServiceSelector({selectedServices, setSelectedServices}) {
             {categories.map((category) => (
                 <div>
                     <DropdownMenuLabel>
-                        <div className='flex items-center text-nowrap text-[#825FFF]'>{category.categoryName}
+                        <div className='flex flex-col items-center text-nowrap text-[#825FFF]'>{category.categoryName}
                         <div className='w-full h-px ml-1 bg-slate-400'></div>
                         </div>
                     </DropdownMenuLabel>

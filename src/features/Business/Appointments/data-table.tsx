@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "../../../components/ui/table"
-import {AppointmentDateSelector, SearchInput, Selector } from './AppointmentControllers'
+import { AppointmentDateSelector, SearchInput, Selector } from './AppointmentControllers'
 import { fixedRangeDateOptions } from "../../../constants/appointments"
 import { DataTablePagination } from "../../../components/DataTablePagination"
 import { Button } from "../../../components/ui/button"
@@ -70,56 +70,55 @@ export function DataTable<TData, TValue>({
 
   const { openDrawer } = useDrawer();
 
-  const [ filterStartDate , setFilterStartDate] = useState(new Date())
-  const [ filterEndDate , setFilterEndDate] = useState('')
+  const [filterStartDate, setFilterStartDate] = useState(new Date())
+  const [filterEndDate, setFilterEndDate] = useState('')
   return (
     <div className="rounded-md border">
-        <div className="w-full flex flex-row justify-between items-center">
-            <div className="flex m-4 justify-between items-center w-10/12">
-                <SearchInput
-                value={""}
-                placeholder={'Search by ID/Client name'}
-                //value={(table.getColumn("client")?.getFilterValue() as string) ?? ""}
-                onChange={(event) =>
-                  //table.getColumn("client")?.setFilterValue(event.target.value)
-                  controllers.customerName(event.target.value)
-                }
-                />
-                <Selector onSelect={() => { } } className={"w-[188px] justify-evenly"} options={fixedRangeDateOptions} placeholder={"All time"} label={undefined}/>
-                <div>
-                  <AppointmentDateSelector 
-                    startDate={filterStartDate}
-                    endDate={filterEndDate}
-                    startDateControl={setFilterStartDate}
-                    endDateControl={setFilterEndDate}
-                  />
-                 </div>
-                <Button  style={{minWidth: '100px'}} variant="outline" size="lg">Export</Button>
-            </div>
-            <div>
-                  <GetIcon onClick={    
-                    () => {
-                    openDrawer("FilterDrawer")
-                    }}
-                    className='my-5 mx-16 border-2 border-gray-400 p-1 cursor-pointer rounded-sm' 
-                    iconName="FilterIcon"/>
-                </div>
+      <div className="w-full flex flex-row justify-between items-center overflow-x-auto">
+        <div className="flex m-4 gap-3.5 items-center w-full overflow-x-auto">
+          <SearchInput
+            value={""}
+            placeholder={'Search by ID/Client name'}
+            //value={(table.getColumn("client")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              //table.getColumn("client")?.setFilterValue(event.target.value)
+              controllers.customerName(event.target.value)
+            }
+          />
+          <Selector onSelect={() => { }} className={"w-[188px] justify-evenly"} options={fixedRangeDateOptions} placeholder={"All time"} label={undefined} />
+          <div>
+            <AppointmentDateSelector
+              startDate={filterStartDate}
+              endDate={filterEndDate}
+              startDateControl={setFilterStartDate}
+              endDateControl={setFilterEndDate}
+            />
+          </div>
+          <Button style={{ minWidth: '100px' }} variant="outline" size="lg">Export</Button>
         </div>
-        
-      <Table>
+        <div>
+          <GetIcon onClick={
+            () => {
+              openDrawer("FilterDrawer")
+            }}
+            className='mr-2 border-2 border-gray-400 p-1 cursor-pointer rounded-sm'
+            iconName="FilterIcon" />
+        </div>
+      </div>
 
+      <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead className="h-24 border-b-2 border-t-2 border-gray-300" key={header.id} style={{fontWeight:'600',color:"#808080", fontSize: '20px'}}>
+                  <TableHead className="h-24 border-b-2 border-t-2 border-gray-300" key={header.id} style={{ fontWeight: '600', color: "#808080", fontSize: '20px' }}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </TableHead>
                 )
               })}
@@ -130,10 +129,10 @@ export function DataTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                style={{fontWeight:'700',color:"#4D4D4D", fontSize: '18px'}}
+                style={{ fontWeight: '700', color: "#4D4D4D", fontSize: '18px' }}
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                onClick={() => openDrawer("AppointmentEdit",[row])}
+                onClick={() => openDrawer("AppointmentEdit", [row])}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -151,7 +150,7 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      <DataTablePagination table={table} pageData={pageData}/>
+      <DataTablePagination table={table} pageData={pageData} />
 
     </div>
   )

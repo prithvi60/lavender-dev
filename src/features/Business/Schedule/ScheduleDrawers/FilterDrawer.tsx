@@ -24,9 +24,9 @@ export default function FilterDrawer() {
     closeDrawer()
   };
   return (
-    <div className="flex-col h-full">
-        <div className="text-lg h-14 p-4 mb-2 text-white bg-blue-950">Filters</div>
-      <div className="flex-col mx-7">
+    <div className="flex flex-col justify-between h-full relative">
+        <div className="text-lg h-14 p-4 mb-2 sticky w-full top-0 right-0 text-white bg-[#1B1464]">Filters</div>
+      <div className="flex-1 mx-7">
         {/* <SelectSeparator className='bg-black'/> */}
         <Selector
           onSelect={setSelectedTeamMember}
@@ -52,7 +52,7 @@ export default function FilterDrawer() {
           />
         </div>
       </div>
-      <div className="absolute bottom-4 mx-7">
+      <div className="mx-7">
         <Button
           onClick={resetFilter}
           className="mx-10"

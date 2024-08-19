@@ -46,6 +46,8 @@ export function SearchInput({ value, onChange, placeholder }) {
         alignItems: "center",
         width: "35%",
         height: "37px",
+        boxShadow : "none",
+        border: "1px solid #DEE2E6"
       }}
     >
       <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
@@ -54,7 +56,7 @@ export function SearchInput({ value, onChange, placeholder }) {
       <InputBase
         size="medium"
         value={value}
-        sx={{ ml: 1, flex: 1 }}
+        sx={{ ml: 1, flex: 1, fontWeight: "600",minWidth:"135px",overflow:"hidden" }}
         placeholder={placeholder}
         inputProps={{ "aria-label": placeholder }}
         onChange={onChange}

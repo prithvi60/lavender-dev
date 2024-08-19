@@ -41,7 +41,7 @@ import Text from "../../../components/Text";
 interface ImageUploadResponse {
   data: {
     success: boolean;
-    data: string; 
+    data: string;
   };
 }
 
@@ -52,7 +52,7 @@ const schema = yup.object().shape({
     'is-dayjs',
     'Invalid date format',
     (value) => dayjs.isDayjs(value)
-  ),  
+  ),
   email: yup.string().required(),
   accessLevel: yup.string(),
   services: yup.array().of(
@@ -97,12 +97,12 @@ export default function AddMemberForm({ payload }) {
       profileImage: '',
       services: [],
     },
-   
+
   });
-  
+
   const employeeId: any = payload
   const { closeDrawer } = useDrawer();
-  
+
   const [values, setValues] = React.useState<null | any>(null);
   const [employee, setEmployee] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -127,34 +127,34 @@ export default function AddMemberForm({ payload }) {
   const establishmentId = userDetails?.establishmentId || "";
 
   const handleDrawerSubmit = async (data) => {
-   
-    
+
+
     const selectedData = formattedData
-    .filter(category => category?.services?.some(service => service?.isSelected)) // Filter categories with selected services
-    .map(category => ({
-      categoryId: category?.categoryId, // Ensure this field matches your data structure
-      categoryName: category?.categoryName,
-      services: category?.services
-        .filter(service => service?.isSelected) // Keep only selected services
-        .map(service => ({
-          serviceId: service?.serviceId, // Ensure this field matches your data structure
-          serviceName: service?.serviceName
-        }))
-    }));
+      .filter(category => category?.services?.some(service => service?.isSelected)) // Filter categories with selected services
+      .map(category => ({
+        categoryId: category?.categoryId, // Ensure this field matches your data structure
+        categoryName: category?.categoryName,
+        services: category?.services
+          .filter(service => service?.isSelected) // Keep only selected services
+          .map(service => ({
+            serviceId: service?.serviceId, // Ensure this field matches your data structure
+            serviceName: service?.serviceName
+          }))
+      }));
 
     const payLoad = {
-        "id": establishmentId,
-        "employees": [
-            {
-             "employeeId": employeeId ? employeeId : "",
-              "employeeName": data?.employeeName,
-              "email": data?.email,
-              "startingDate": data?.startingDate ? data.startingDate.format('MM/DD/YYYY') : null,
-              "profileImage": imageIdList?.length > 0 ? imageIdList[0] : (data?.profileImage ? data?.profileImage :  ''),
-              "services": selectedData,
-              "accessLevel": data?.accessLevel,
-            },
-          ],
+      "id": establishmentId,
+      "employees": [
+        {
+          "employeeId": employeeId ? employeeId : "",
+          "employeeName": data?.employeeName,
+          "email": data?.email,
+          "startingDate": data?.startingDate ? data.startingDate.format('MM/DD/YYYY') : null,
+          "profileImage": imageIdList?.length > 0 ? imageIdList[0] : (data?.profileImage ? data?.profileImage : ''),
+          "services": selectedData,
+          "accessLevel": data?.accessLevel,
+        },
+      ],
     }
 
     const response = await endpoint.saveEstablishmentEmployee(payLoad);
@@ -179,29 +179,29 @@ export default function AddMemberForm({ payload }) {
     getEstablishmentDetails();
   }, []);
 
-  useEffect(()=>{
-    
-    if(employeeId){
-      
+  useEffect(() => {
+
+    if (employeeId) {
+
       setCurrentEmployees(employee?.filter(cat => cat?.employeeId === employeeId));
     }
-  },[employee, employeeId])
+  }, [employee, employeeId])
 
   const fetchingImage = async () => {
-    try{
-      if(currentEmployees[0]?.profileImage){
+    try {
+      if (currentEmployees[0]?.profileImage) {
         const res = await fetchImage(currentEmployees[0]?.profileImage)
         setImageUrls([res])
         setLoading(false);
       }
     }
-    catch{
+    catch {
     }
   }
   useEffect(() => {
 
     fetchingImage();
-    
+
     if (currentEmployees) {
       // const formattedData = currentEmployees?.map(category => ({
       //   categoryId: category.categoryId, // Ensure categoryId is present
@@ -221,64 +221,64 @@ export default function AddMemberForm({ payload }) {
       setValue('profileImage', currentEmployees[0]?.profileImage);
       setValue('accessLevel', currentEmployees[0]?.accessLevel);
       //setValue('services', formattedData);
-    }   
+    }
   }, [currentEmployees]);
 
-useEffect(() => {
-  const transformedData = categories.map(category => ({
-    ...category,
-    isOpen: false,
-    isSelected: false,
-    services: category.services.map(service => ({
-      ...service,
-      isSelected: false
-    }))
-  }));
-  setFormattedData(transformedData);
-}, [categories]);
+  useEffect(() => {
+    const transformedData = categories.map(category => ({
+      ...category,
+      isOpen: false,
+      isSelected: false,
+      services: category.services.map(service => ({
+        ...service,
+        isSelected: false
+      }))
+    }));
+    setFormattedData(transformedData);
+  }, [categories]);
 
-const handleCategoryClick = (index) => {
-  setOpen(prevOpen => {
-    const newOpen = [...prevOpen];
-    newOpen[index] = !newOpen[index];
-    return newOpen;
-  });
-};
+  const handleCategoryClick = (index) => {
+    setOpen(prevOpen => {
+      const newOpen = [...prevOpen];
+      newOpen[index] = !newOpen[index];
+      return newOpen;
+    });
+  };
 
-const handleCategoryChange = (index, checked) => {
-  const newData = [...formattedData];
-  newData[index].isSelected = checked;
-  newData[index].services.forEach(service => {
-    service.isSelected = checked;
-  });
-  setFormattedData(newData);
-  setValue('services', newData);
-};
+  const handleCategoryChange = (index, checked) => {
+    const newData = [...formattedData];
+    newData[index].isSelected = checked;
+    newData[index].services.forEach(service => {
+      service.isSelected = checked;
+    });
+    setFormattedData(newData);
+    setValue('services', newData);
+  };
 
-const handleServiceChange = (categoryIndex, serviceIndex, checked) => {
-  const newData = [...formattedData];
-  newData[categoryIndex].services[serviceIndex].isSelected = checked;
-  setFormattedData(newData);
-  setValue('services', newData);
-};
+  const handleServiceChange = (categoryIndex, serviceIndex, checked) => {
+    const newData = [...formattedData];
+    newData[categoryIndex].services[serviceIndex].isSelected = checked;
+    setFormattedData(newData);
+    setValue('services', newData);
+  };
 
-const handleSelectAllChange = (checked) => {
-  const newData = formattedData.map(category => ({
-    ...category,
-    isSelected: checked,
-    services: category.services.map(service => ({
-      ...service,
-      isSelected: checked
-    }))
-  }));
-  setFormattedData(newData);
-  setSelectAll(checked);
-  setValue('services', newData);
-};
+  const handleSelectAllChange = (checked) => {
+    const newData = formattedData.map(category => ({
+      ...category,
+      isSelected: checked,
+      services: category.services.map(service => ({
+        ...service,
+        isSelected: checked
+      }))
+    }));
+    setFormattedData(newData);
+    setSelectAll(checked);
+    setValue('services', newData);
+  };
 
 
-  useEffect( () =>{
-    const callFetchImageApi = async () =>{
+  useEffect(() => {
+    const callFetchImageApi = async () => {
       const urls = [];
       for (const imageId of photosId) {
         const imageUrl = await fetchImage(imageId);
@@ -293,7 +293,7 @@ const handleSelectAllChange = (checked) => {
   }, [photosId])
 
   const fetchImage = async (image) => {
-    
+
     try {
       setLoading(true);
       const response = await endpoint.getImages(image, establishmentId);
@@ -306,7 +306,7 @@ const handleSelectAllChange = (checked) => {
     }
   };
 
-  const onChange =  (imageList) => {
+  const onChange = (imageList) => {
     setImages(imageList);
     setIsImageUploaded(true);
   };
@@ -315,10 +315,10 @@ const handleSelectAllChange = (checked) => {
     if (images.length > 0) {
       saveImages();
     }
-  }, [images]); 
+  }, [images]);
 
   const saveImages = async () => {
-    try{
+    try {
       const payload = new FormData();
       images.forEach((image) => {
         payload.append('file', image.file);
@@ -326,7 +326,7 @@ const handleSelectAllChange = (checked) => {
       const res = mutation.mutate(payload);
       setImages([]);
     }
-    catch{
+    catch {
 
     }
   };
@@ -337,8 +337,8 @@ const handleSelectAllChange = (checked) => {
 
   const mutation = useMutation<ImageUploadResponse, Error, FormData>({
     mutationFn: async (payload) => {
-      const response =  await endpoint.saveEstablishmentPhotos(payload, establishmentId);
-      if(response?.data?.success){
+      const response = await endpoint.saveEstablishmentPhotos(payload, establishmentId);
+      if (response?.data?.success) {
         const updatedImageIdList = [response?.data?.data];
         setImageIdList(updatedImageIdList)
       }
@@ -382,96 +382,96 @@ const handleSelectAllChange = (checked) => {
     <div className="flex-col h-full">
       <form onSubmit={handleSubmit(handleDrawerSubmit)}>
         {/* Sticky Header */}
-          <div className="sticky top-0 bg-[#1B1464] text-xl h-14 mb-2 p-4 text-white font-bold" style={{zIndex:2}}>
-            {payload ? "Edit new Member" : "Add new Member"}
-          </div>
+        <div className="sticky top-0 bg-[#1B1464] text-xl h-14 mb-2 px-4 py-3 text-white font-bold" style={{ zIndex: 2 }}>
+          {payload ? "Edit new Member" : "Add new Member"}
+        </div>
 
         <div className="flex-col h-full p-4 overflow-y-auto">
 
           <div className="mb-4 flex justify-center flex-col items-center">
             <ImageUploading
-            multiple
-            value={images}
-            
-            onChange={onChange}
-            maxNumber={maxNumber}
-            dataURLKey='data_url'
-            acceptType={['jpg', 'png', 'jpeg']} // Include jpeg in acceptType
-          >
-            {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
-              <div className='flex justify-center'>
+              multiple
+              value={images}
 
-                <div style={{ padding: '10px' }}>
+              onChange={onChange}
+              maxNumber={maxNumber}
+              dataURLKey='data_url'
+              acceptType={['jpg', 'png', 'jpeg']} // Include jpeg in acceptType
+            >
+              {({ imageList, onImageUpload, onImageRemoveAll, onImageUpdate, onImageRemove, isDragging, dragProps }) => (
+                <div className='flex justify-center'>
 
-                  {imageUrls.length > 0 ? (
-                    <>
-                      {imageUrls?.map((url, index) => (
-                        <>
-                          <Badge
-                            sx={{cursor: 'pointer', }}
-                            onClick={onImageUpload}
-                            overlap="circular"
-                            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                            badgeContent={
-                              <GetIcon iconName='EditWhiteIcon' style={{width: '32px', height: '32px', borderRadius: '20px', backgroundColor: '#FF83B0', display: 'flex', justifyContent: 'center', alignItem: 'center'}}/>
-                            }
-                          >
-                            <Avatar key={index} src={url} alt={`Image ${index}`} style={{ backgroundColor: '#1B1464', width: '90px', height: '90px' }} 
-                            {...dragProps}/>
-                          </Badge>
-                        </>
-                                  
-                      ))}
-                    </>
-                  ) : (
-                    <>
-                      
+                  <div style={{ padding: '10px' }}>
+
+                    {imageUrls.length > 0 ? (
+                      <>
+                        {imageUrls?.map((url, index) => (
+                          <>
+                            <Badge
+                              sx={{ cursor: 'pointer', }}
+                              onClick={onImageUpload}
+                              overlap="circular"
+                              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                              badgeContent={
+                                <GetIcon iconName='EditWhiteIcon' style={{ width: '32px', height: '32px', borderRadius: '20px', backgroundColor: '#FF83B0', display: 'flex', justifyContent: 'center', alignItem: 'center' }} />
+                              }
+                            >
+                              <Avatar key={index} src={url} alt={`Image ${index}`} style={{ backgroundColor: '#1B1464', width: '90px', height: '90px' }}
+                                {...dragProps} />
+                            </Badge>
+                          </>
+
+                        ))}
+                      </>
+                    ) : (
+                      <>
+
                         {/* <GetIcon iconName='EditIcon' style={{borderRadius: '20px', backgroundColor: '#FF83B0'}}/> */}
                         <Badge
-                          sx={{cursor: 'pointer'}}
+                          sx={{ cursor: 'pointer' }}
                           onClick={onImageUpload}
                           overlap="circular"
                           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                           badgeContent={
-                            <GetIcon iconName='EditWhiteIcon' style={{width: '32px', height: '32px', borderRadius: '20px', backgroundColor: '#FF83B0', display: 'flex', justifyContent: 'center', alignItem: 'center'}}/>
+                            <GetIcon iconName='EditWhiteIcon' style={{ width: '32px', height: '32px', borderRadius: '20px', backgroundColor: '#FF83B0', display: 'flex', justifyContent: 'center', alignItem: 'center' }} />
                           }
                         >
-                          <Avatar src={''} style={{ backgroundColor: '#1B1464', width: '90px', height: '90px' }} 
-                          {...dragProps}></Avatar>
+                          <Avatar src={''} style={{ backgroundColor: '#1B1464', width: '90px', height: '90px' }}
+                            {...dragProps}></Avatar>
 
                         </Badge>
-                      {/* </Avatar> */}
-                      
-                    </>
-                      
-                  )}
+                        {/* </Avatar> */}
+
+                      </>
+
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             </ImageUploading>
 
-{
-        (isImageUploaded && !loading) && 
-        <div className='flex flex-col justify-center items-center '>
-          <Text name={"Photo is uploaded. Please save it."} sx={{p: 1}}/>
-        
-          <Button
-              onClick={handleButtonClick}
-              sx={{}}
-            >Save</Button>
-        </div>
-      }
+            {
+              (isImageUploaded && !loading) &&
+              <div className='flex flex-col justify-center items-center '>
+                <Text name={"Photo is uploaded. Please save it."} sx={{ p: 1 }} />
 
-      <div>
-      <br />
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
-      {/* <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <Button
+                  onClick={handleButtonClick}
+                  sx={{}}
+                >Save</Button>
+              </div>
+            }
+
+            <div>
+              <br />
+              {loading && <p>Loading...</p>}
+              {error && <p>Error: {error.message}</p>}
+              {/* <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {imageUrls.map((url, index) => (
           <img key={index} src={url} alt={`Image ${index}`} style={{ width: '200px', margin: '10px' }} />
         ))}
       </div> */}
-      </div>
+            </div>
           </div>
 
           <div className="mb-4">
@@ -479,8 +479,8 @@ const handleSelectAllChange = (checked) => {
               Employee name
             </Typography>
             <TextField
-            sx={styles.textField}
-            defaultValue={''}
+              sx={styles.textField}
+              defaultValue={''}
               fullWidth
               size="small"
               variant="outlined"
@@ -506,24 +506,24 @@ const handleSelectAllChange = (checked) => {
           </div>
 
           <div className="mb-4">
-          <Grid container spacing={1} sx={{ alignContent: "end" }}>
-                <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+            <Grid container spacing={1} sx={{ alignContent: "end" }}>
+              <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
                 Access Level
-                </Typography>
-                <Controller
-                  name="accessLevel"
-                  control={control}
-                  defaultValue=""
-                  render={({ field }) => (
-                    <FormControl error={!!errors.accessLevel} fullWidth>
-                      <Select {...field} error={!!errors.accessLevel} fullWidth  sx={styles.select}>
-                        <MenuItem value="Admin">Admin</MenuItem>
-                        <MenuItem value="Employee">Employee</MenuItem>
-                      </Select>
-                      <FormHelperText>{errors.accessLevel?.message}</FormHelperText>
-                    </FormControl>
-                  )}
-                />
+              </Typography>
+              <Controller
+                name="accessLevel"
+                control={control}
+                defaultValue=""
+                render={({ field }) => (
+                  <FormControl error={!!errors.accessLevel} fullWidth>
+                    <Select {...field} error={!!errors.accessLevel} fullWidth sx={styles.select}>
+                      <MenuItem value="Admin">Admin</MenuItem>
+                      <MenuItem value="Employee">Employee</MenuItem>
+                    </Select>
+                    <FormHelperText>{errors.accessLevel?.message}</FormHelperText>
+                  </FormControl>
+                )}
+              />
             </Grid>
           </div>
 
@@ -534,10 +534,10 @@ const handleSelectAllChange = (checked) => {
             <Controller
               name="startingDate"
               control={control}
-              defaultValue ={dayjs(new Date())}
+              defaultValue={dayjs(new Date())}
               render={({ field }) => (
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker  sx={styles.textField} {...field} value={values} onChange={(date) => field.onChange(date)}/>
+                  <DatePicker sx={styles.textField} {...field} value={values} onChange={(date) => field.onChange(date)} />
                 </LocalizationProvider>
               )}
             />
@@ -549,7 +549,7 @@ const handleSelectAllChange = (checked) => {
           </div>
 
           <div className="mb-4">
-            <Divider sx={{borderColor: 'black'}}/>
+            <Divider sx={{ borderColor: 'black' }} />
           </div>
 
           <div className="mb-4">
@@ -646,7 +646,7 @@ const styles = {
       height: '55px', // Apply height to the input root
       borderRadius: '9px',
     },
-    
+
   },
   select: {
     '& .MuiInputBase-root': {

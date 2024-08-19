@@ -104,7 +104,7 @@ const BusinessLayoutPage = () => {
                 />
               </div>
             )}
-            <div id="render-main" className="w-full h-full">
+            <div id="render-main" className="w-full overflow-hidden">
               {renderMainContent()}
             </div>
           </div>

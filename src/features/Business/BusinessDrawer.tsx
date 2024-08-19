@@ -34,7 +34,7 @@ const getDrawerComponent = (type, payload) => {
 }
 function BusinessDrawer({type, payload}: BusinessDrawerProps) {
   return (
-    <div className='w-80'>
+    <div className='w-80 h-full'>
         {getDrawerComponent(type, payload)}
     </div>
   )

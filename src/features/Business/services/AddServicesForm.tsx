@@ -216,9 +216,9 @@ export default function AddServicesForm({payload}) {
   return (
     <div className="flex-col h-full">
       <form onSubmit={handleSubmit(handleFilterDrawerSubmit)}>
-        <div className="sticky top-0 bg-[#1B1464] z-1">
+        <div className="sticky top-0 bg-[#1B1464] z-1 flex flex-col gap-2 py-3">
           <div className="text-xl h-14 mb-2 pt-4 pl-4 text-white font-bold">Add new service</div>
-          <div className="mb-4 bg-white" style={{ width: "70%", borderRadius: "10px", marginLeft: '10px' }}>
+          <div className="bg-white" style={{ width: "70%", borderRadius: "10px", marginLeft: '10px' }}>
             <Controller
               name="categoryId"
               control={control}

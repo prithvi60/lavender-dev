@@ -3,8 +3,14 @@ import { LANDING_PAGE } from "../../constants/constants";
 import NewSearchPanel from "../SearchPanel/NewSearchPanel";
 import { Box } from "@mui/material";
 import Text from "../../components/Text";
+import { useLocation } from "react-router-dom";
+
 
 const HeroSection = () => {
+  const location = useLocation()
+  const pathname = location.pathname;
+  // console.log(pathname);
+  
   return (
     <section className="hero-section" style={{ paddingBottom: "150px" }}>
       <section className="hero-content">
@@ -14,7 +20,7 @@ const HeroSection = () => {
           variant="body1"
           name={LANDING_PAGE?.SUBTITLE}
         />
-  
+
         <Box
           sx={{
             paddingBottom: 7,
@@ -23,7 +29,7 @@ const HeroSection = () => {
             paddingRight: 7,
           }}
         >
-          <NewSearchPanel />
+          <NewSearchPanel pathname={pathname} />
         </Box>
       </section>
     </section>
@@ -40,5 +46,4 @@ const styles = {
     lineHeight: "108px",
     color: "#4D4D4D",
   },
-
 };
