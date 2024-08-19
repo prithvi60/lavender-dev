@@ -66,8 +66,8 @@ export const BookingInfoModalListView = ({
   const [isOpen, setIsOpen] = useState(isModalOpen);
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width:600px)");
-  console.log(userflow);
-  
+  // console.log(userflow);
+
 
   const establishmentId = bookings?.services[0]?.establishmentId;
 
@@ -204,15 +204,15 @@ export const BookingInfoModalListView = ({
                     display: "flex",
                     justifyContent: "space-around",
                     alignItems: "center",
-                    color: "#4D4D4D",
+                    // color: "#4D4D4D",
                   }}
                 >
                   <Button
                     className="!mb-0 !w-max"
-                    startIcon={<GetIcon iconName="CalendarIcon" />}
+                    startIcon={userflow !== "past" ? (<GetIcon iconName="CalendarIcon" />) : (<GetIcon iconName="DisableCalendarIcon" />)}
                     onClick={handleClickReschedule}
                   >
-                    <h6 className="text-[#4D4D4D] text-base !mb-0">
+                    <h6 className={` text-base !mb-0 ${userflow !== "past" ? "text-[#4D4D4D]" : "text-[#B3B3B3]"}`}>
                       {" "}
                       Reschedule
                     </h6>
