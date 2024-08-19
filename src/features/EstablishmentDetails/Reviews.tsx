@@ -168,11 +168,11 @@ const ReviewsTable = ({ data }) => {
   const handleSortChange = (event) => {
     const sortBy = event?.target?.value;
     if (sortBy === 'highest') {
-      rows.sort((a, b) => (b?.values?.serviceRating || 0) - (a?.values?.serviceRating || 0));
+      sortedData.sort((a, b) => (b?.values?.serviceRating || 0) - (a?.values?.serviceRating || 0));
     } else if (sortBy === 'lowest') {
-      rows.sort((a, b) => (a?.values?.serviceRating || 0) - (b?.values?.serviceRating || 0));
+      sortedData.sort((a, b) => (a?.values?.serviceRating || 0) - (b?.values?.serviceRating || 0));
     }
-    sorted(rows)
+    sorted(sortedData)
     forceUpdate();
   };
 
@@ -230,14 +230,14 @@ useEffect(()=>{
                     </Select>
                   </Box>
                   <Box className="flex justify-end mb-4" sx={{'@media (max-width: 640px)': {alignSelf: 'center'}}}>
-                      {/* <Typography sx={{alignContent: 'center', padding: '10px'}}>Sort by </Typography> */}
+                      <Typography sx={{alignContent: 'center', padding: '10px'}}>Sort by </Typography>
                       <Select
-                      defaultValue="Sort by"
+                      defaultValue="highest"
                       onChange={handleSortChange}
                       className="mr-4"
                       style={{ width: '150px', height: '38px', fontSize: '18px', fontWeight: 700, color: '#4C4C4C' }}
                       >
-                      <MenuItem value="Sort by">Sort by</MenuItem>
+                      {/* <MenuItem value="Sort by">Sort by</MenuItem> */}
                       <MenuItem value="highest">Highest Rating</MenuItem>
                       <MenuItem value="lowest">Lowest Rating</MenuItem>
                       </Select>

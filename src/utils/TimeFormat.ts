@@ -92,9 +92,9 @@ export function convertToDateTime(timeString, dateString) {
   date.setHours(hours, minutes, 0, 0);
 
   // Get UTC components
-  const yearUTC = date.getUTCFullYear();
-  const monthUTC = String(date.getUTCMonth() + 1).padStart(2, '0');
-  const dayUTC = String(date.getUTCDate()).padStart(2, '0');
+  const yearUTC = date.getFullYear();
+  const monthUTC = String(date.getMonth() + 1).padStart(2, '0');
+  const dayUTC = String(date.getDate()).padStart(2, '0');
   const hoursUTC = String(date.getHours()).padStart(2, '0');
   const minutesUTC = String(date.getMinutes()).padStart(2, '0');
 

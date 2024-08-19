@@ -821,7 +821,7 @@ export default function SearchResult() {
                                       />
                                     ))}
                                   </div>
-                                  <div className="font-bold text-xl py-2 text-violet-700 ">
+                                  <div className="font-bold text-[28px] py-2 text-[#4D4D4D] ">
                                     {card?.establishmentName}
                                   </div>
                                   <div className="card-rating">
