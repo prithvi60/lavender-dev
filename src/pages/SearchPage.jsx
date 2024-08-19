@@ -16,6 +16,13 @@ function SearchPage() {
   },[userDetails])
   return (
     <Box className='landing-page'>
+      <style>
+        {`
+          body {
+            overflow-y: hidden;
+          }
+        `}
+      </style>
         <Navbar isSearchPage={isSearchPage} isLoggedIn={isLoggedIn}/>
         <SearchResult />
     </Box>
