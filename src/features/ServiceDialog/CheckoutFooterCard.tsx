@@ -21,6 +21,7 @@ import endpoint from "../../api/endpoints";
 import { UpdateCheckoutInfo } from "../../store/slices/Booking/ScheduleAppoinmentSlice";
 import GetIcon from "../../assets/Icon/icon";
 import { convertDateToReadAbleDate } from "../../utils/TimeFormat";
+import AppointmentConfimed from "./AppointmentConfimed";
 
 const Transition = React.forwardRef(function Transition(props: any, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -183,6 +184,7 @@ function CheckoutFooterCard(props) {
                 className="!font-bold"
               />
             </Box>
+            {activeStep < 2 ? (
             <Button
               disabled={disabled}
               onClick={(e) => {
@@ -192,8 +194,14 @@ function CheckoutFooterCard(props) {
               sx={styles.btn}
               variant="contained"
             >
-              Proceed
-            </Button>
+             Proceed
+            </Button> )
+            : (
+              <AppointmentConfimed
+                  establishmentId={establishmentId}
+                  activeStep={activeStep}
+                />
+            )}
           </Box>
         </CardContent>
       </Card>
