@@ -94,7 +94,7 @@ const BusinessLayoutPage = () => {
           <BusinessHeader pageName={activeField} toggleSidebar={toggleSidebar} />
           <div className="flex flex-row ">
             {(!isMobile || sidebarOpen) && (
-              <div className={`rounded-lg  z-10 bg-white'  sticky top-0`}>
+              <div className={`rounded-lg  z-10 bg-white  sticky top-0`}>
                 <SideBar
                   activeField={activeField}
                   onChange={(field) => {
@@ -104,7 +104,7 @@ const BusinessLayoutPage = () => {
                 />
               </div>
             )}
-            <div id="render-main" className="w-full h-full">
+            <div id="render-main" className="w-full overflow-hidden">
               {renderMainContent()}
             </div>
           </div>

@@ -115,6 +115,7 @@ function ServiceDialog() {
             {activeStep === 1 && (
               <ScheduleAppointment
                 estData={establishmentData}
+                time={"schedule"}
                 onSetActiveStep={onSetActiveStep}
               />
             )}
@@ -142,6 +143,7 @@ function ServiceDialog() {
                 // }
                 establishmentData={establishmentData}
                 establishmentId={establishmentData?.id}
+                time={"schedule"}
               />
             </Box>
           ) : (
@@ -162,6 +164,7 @@ function ServiceDialog() {
                   establishmentData?.profile?.establishmentName
                 }
                 establishmentId={establishmentData?.id}
+                time={"schedule"}
               />
             </Box>
           )}

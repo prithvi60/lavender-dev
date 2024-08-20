@@ -9,16 +9,16 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import GetIcon from "../../assets/Icon/icon";
+import GetIcon from "../../assets/Icon/icon.tsx";
 import { useQuery } from "@tanstack/react-query";
 import endpoint from "../../api/endpoints.ts";
 import {
   UpdateEmployeeId,
   UpdateSelectedDate,
   UpdateTimeOfDayAndTime,
-} from "../../store/slices/Booking/ScheduleAppoinmentSlice";
+} from "../../store/slices/Booking/ScheduleAppoinmentSlice.ts";
 import { useDispatch, useSelector } from "react-redux";
-import { TimeOfDay } from "../../api/type";
+import { TimeOfDay } from "../../api/type.ts";
 import "./style.css";
 import { useEffect, useRef, useState } from "react";
 import Chip from "../../components/Chip.js";
@@ -46,11 +46,12 @@ export default function RescheduleAppointment(props) {
   );
   // console.log("object is scheduleAppoinmentList", scheduleAppoinmentList);
 
+
   const [selectedDateBtn, setSelectedDateBtn] = useState(new Date());
   const { estData, onSetActiveStep } = props;
   const [availableTimeSlots, setAvailableTimeSlots] = React.useState<any>([]);
   const [clickedChipIndices, setClickedChipIndices] = React.useState(null);
-
+  console.log(estData);
   const [employee, setEmployee] = React.useState([""]);
   const [isDisabled, setIsDisabled] = React.useState(false);
   const [timePeriodValue, setTimePeriodValue] = React.useState([]);
@@ -113,7 +114,7 @@ export default function RescheduleAppointment(props) {
   };
 
   const createHandleMenuClick = (menuItem: string) => {
-    return () => {};
+    return () => { };
   };
 
   const handleClick = (timePeriod, slot, index) => {
@@ -131,13 +132,12 @@ export default function RescheduleAppointment(props) {
 
   const [selectedPaymentChips, setSelectedPaymentChips] = useState([]);
 
-  useEffect(() => {}, [totalDuration, totalDurationValue]);
+  useEffect(() => { }, [totalDuration, totalDurationValue]);
 
   const handleChipClick = (timePeriod, slot, index) => {
     const currentDate = new Date();
-    const currentDateValue = `${currentDate.getFullYear()}/${
-      currentDate.getMonth() + 1
-    }/${currentDate.getDate()}`;
+    const currentDateValue = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1
+      }/${currentDate.getDate()}`;
     // Parse time strings into Date objects
     const startTime: any = new Date(`${currentDateValue} ${slot.startTime}`);
     const endTime: any = new Date(`${currentDateValue} ${slot.endTime}`);
@@ -233,11 +233,12 @@ export default function RescheduleAppointment(props) {
   });
 
   return (
-    <div className="my-10 mt-2 md:mx-16">
-      <div className="flex items-center gap-3">
-        <IconButton onClick={() => onSetActiveStep(0)}>
+    <div className="my-10 mt-2 md:mx-16" >
+      {/* className="my-10 mt-2 md:mr-16 w-full md:w-3/5 px-6 lg:w-[70%]" */}
+      <div className="flex items-center gap-3 ml-2 sm:ml-0">
+        {/* <IconButton onClick={() => onSetActiveStep(0)}>
           <GetIcon iconName="BackIconArrow" />
-        </IconButton>
+        </IconButton> */}
         <div className="text-3xl font-bold">Reschedule</div>
       </div>
 
@@ -245,7 +246,7 @@ export default function RescheduleAppointment(props) {
         <CustomWeeklyDatePicker onDateSelect={handleDateSelect} />
       </div>
 
-      <div className="mt-4 overflow-hidden">
+      <div className="mt-4 overflow-hidden ml-8">
         {availableTimeSlots?.length > 0 ? (
           Object.entries(availableTimeSlots[0]?.availableSlots).map(
             ([timePeriod, slotsArray]: any) => {
@@ -289,7 +290,7 @@ export default function RescheduleAppointment(props) {
                               disabled={
                                 isDisabled &&
                                 (timePeriodValue?.includes(timePeriod) &&
-                                indexValue?.includes(index)
+                                  indexValue?.includes(index)
                                   ? false
                                   : true)
                               }
@@ -362,7 +363,7 @@ export default function RescheduleAppointment(props) {
                 }}
               >
                 <GetIcon
-                  onClick={() => {}}
+                  onClick={() => { }}
                   className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
                   iconName="SlotBoxesFilled"
                 />
@@ -377,7 +378,7 @@ export default function RescheduleAppointment(props) {
                   How about the next slot ?
                 </div>
                 <Button
-                  onClick={() => {}}
+                  onClick={() => { }}
                   sx={{
                     display: "flex",
                     justifyContent: "center",
@@ -403,7 +404,7 @@ export default function RescheduleAppointment(props) {
                 }}
               >
                 <GetIcon
-                  onClick={() => {}}
+                  onClick={() => { }}
                   className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
                   iconName="SlotBoxesFilled"
                 />
@@ -587,11 +588,11 @@ const CustomWeeklyDatePicker = ({ onDateSelect }) => {
                     ? styles.dayNumberPast
                     : {}),
                   ...(isSameDay(day, selectedDate) &&
-                  isSameDay(day, startOfToday())
+                    isSameDay(day, startOfToday())
                     ? styles.dayNumberCurrentSelected
                     : {}),
                   ...(isSameDay(day, selectedDate) &&
-                  !isSameDay(day, startOfToday())
+                    !isSameDay(day, startOfToday())
                     ? styles.dayNumberSelected
                     : {}),
                 }}

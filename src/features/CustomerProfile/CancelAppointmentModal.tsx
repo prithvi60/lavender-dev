@@ -31,7 +31,7 @@ export const CancelAppointmentModal = ({
   const [isDisabled, setIsDisabled] = useState(true);
   const navigate = useNavigate();
   const showSnackbar = useSnackbar();
-  console.log(userFlow);
+  // console.log(userFlow);
 
   function handleCancelClick() {
     setIsCancelOpen((prev) => !prev);
@@ -88,7 +88,7 @@ export const CancelAppointmentModal = ({
 
         <div
           className={`pl-1 text-[#4D4D4D] text-base ${
-            userFlow === "past" ? "text-[#B3B3B3]" : "text-black cursor-pointer"
+            userFlow === "past" ? "text-[#B3B3B3]" : "text-black"
           }`}
         >
           Cancel

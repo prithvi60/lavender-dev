@@ -45,9 +45,9 @@ function UpComingBookings({ userInfo }) {
     }
   };
 
-    const cardCount = userInfo?.upcomingBookings?.length;
+  const cardCount = userInfo?.upcomingBookings?.length;
 
-    const cardWidth = cardCount <= 2 ? '48%' : '50%';
+  const cardWidth = cardCount <= 2 ? '48%' : '50%';
 
 
   const cardStyle = {
@@ -67,7 +67,7 @@ function UpComingBookings({ userInfo }) {
       <h4 className="text-[#4D4D4D] text-[18px] md:text-[36px] text-bold pb-2">
         {"Upcoming Bookings"}
       </h4>
-      <div style={{ overflow: "hidden", position: "relative" }}>
+      <div style={{ position: "relative", zIndex: 0 }}>
         {userInfo?.upcomingBookings?.length > 0 ? (
           <>
             <div
@@ -169,7 +169,7 @@ function UpComingBookings({ userInfo }) {
                       </>
                     ) : (
                       <Grid container spacing={1}>
-                        <Grid item xs={6}>
+                        <Grid item xs={4}>
                           <Card
                             sx={{
                               height: "100%",
@@ -201,13 +201,14 @@ function UpComingBookings({ userInfo }) {
                         </Grid>
                         <Grid
                           item
-                          xs={6}
+                          xs={8}
                           sx={{
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "center",
                             alignItems: "start",
                             paddingLeft: "24px !important",
+                            width: "85%"
                           }}
                         >
                           <Text
@@ -238,11 +239,12 @@ function UpComingBookings({ userInfo }) {
                   onClick={scrollLeft}
                   style={{
                     position: "absolute",
-                    left: 0,
+                    // left: "-25px",
                     top: "50%",
                     transform: "translateY(-50%)",
-                    zIndex: 1,
+                    zIndex: 10,
                   }}
+                  className="-left-6 xl:-left-14"
                 >
                   <GetIcon iconName="BackIconArrow" />
                 </IconButton>
@@ -250,11 +252,12 @@ function UpComingBookings({ userInfo }) {
                   onClick={scrollRight}
                   style={{
                     position: "absolute",
-                    right: 0,
+                    // right: "-25px",
                     top: "50%",
                     transform: "translateY(-50%)",
-                    zIndex: 1,
+                    zIndex: 10,
                   }}
+                  className="-right-6 xl:-right-14"
                 >
                   <GetIcon iconName="RightArrowIcon" />
                 </IconButton>

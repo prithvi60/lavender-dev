@@ -42,13 +42,13 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-// console.log(data);
+  // console.log(data);
 
-const pageData = {
-  number: 0,
-  numberOfElements: data.length,
-  totalElements : data.length
-}
+  const pageData = {
+    number: 0,
+    numberOfElements: data.length,
+    totalElements: data.length
+  }
 
   const table = useReactTable({
     data,
@@ -108,14 +108,14 @@ const pageData = {
 
   return (
     <div className="rounded-md border">
-      <Box className="w-full flex flex-row justify-between items-center" sx={{'@media (max-width: 1000px)':{display: 'flex', flexDirection: 'column !important', alignItems: 'center'}}}>
-        <Box className="flex m-4 justify-between items-center flex-wrap gap-4">
+      <Box className="w-full py-2.5 flex flex-col  md:flex-row justify-between items-center ">
+        <Box className="flex m-4 py-2 items-center gap-4 overflow-auto">
           <SearchInput
             placeholder="Search services"
             value={(table.getColumn("employeeName")?.getFilterValue() as string) ?? ""}
             onChange={handleSearchInputChange} // Attach the change handler
           />
-          <Box sx={{ paddingLeft: '10px', '@media (max-width: 600px)': {width: '100px'} }}>
+          <Box sx={{ paddingLeft: '10px', '@media (max-width: 600px)': { width: '100px' } }}>
             <Buttons
               className="exportBtn"
               variant="outline"
@@ -126,14 +126,8 @@ const pageData = {
               Export
             </Buttons>
           </Box>
-          <Box sx={{ 
-            right: '10px',
-            position: 'absolute',
-            '@media (max-width: 600px)': {
-              position: 'static',
-              display: 'block'
-            }
-          }}>
+        </Box>
+        <Box>
           <Button
             size="lg"
             sx={{ width: '200px', height: '44px', borderRadius: '10px', padding: '10px 40px 10px 40px', fontSize: '18px', fontWeight: 600 }}
@@ -141,8 +135,6 @@ const pageData = {
             name={"Add Member"}
           />
         </Box>
-        </Box>
-
       </Box>
 
       <Table>

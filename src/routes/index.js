@@ -1,52 +1,52 @@
 export const routes = [
   {
     name: "Admin",
-    path: '/admin',
-    exact: true
+    path: "/admin",
+    exact: true,
   },
   {
     name: "Bookings",
-    path: '/admin/bookings',
-    exact: true
+    path: "/admin/bookings",
+    exact: true,
   },
   {
     name: "Places",
-    path: '/places',
-    exact: true
+    path: "/places",
+    exact: true,
   },
   {
     name: "Login",
-    path: '/login',
-    exact: true
+    path: "/login",
+    exact: true,
   },
   {
     name: "Register",
-    path: '/register',
-    exact: true
+    path: "/register",
+    exact: true,
   },
   {
     name: "ForgotPassword",
-    path: '/forgotPassword',
-    exact: true
+    path: "/forgotPassword",
+    exact: true,
   },
   {
     name: "Search",
-    path: '/search',
-    exact: true
+    path: "/search",
+    exact: true,
   },
   {
     name: "Business",
-    path: '/business/payment-success',
-    exact: true
+    path: "/business/payment-success",
+    exact: true,
   },
   {
     name: "Business",
-    path: '/business',
-    exact: true
+    path: "/business",
+    exact: true,
   },
   {
     name: "SearchDetails",
-    path: '/searchdetails',
-    exact: true
+    path: "/searchdetails",
+    exact: true,
   }
 ];

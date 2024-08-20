@@ -6,7 +6,7 @@ import { Selector } from './Appointments/AppointmentControllers'
 function AppointmentEdit() {
   return (
     <div className="flex-col h-full">
-        <div className="text-lg h-14 p-4 mb-2 text-white bg-blue-950">Filters</div>
+        <div className="text-lg h-14 p-4 mb-2 text-white bg-[#1B1464]">Filters</div>
       <div className="flex-col mx-7">
         {/* <SelectSeparator className='bg-black'/> */}
         <Selector

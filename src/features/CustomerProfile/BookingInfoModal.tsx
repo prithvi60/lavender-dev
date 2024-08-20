@@ -64,9 +64,10 @@ export const BookingInfoModal = ({
   }
 
   function handleClickReschedule() {
-    navigate(`/salon/${establishmentId}#SearchDetailService`, {
-      replace: true,
-    });
+    userflow !== "past" &&
+      (navigate(`/salon/${establishmentId}/reschedule`, {
+        replace: true,
+      }))
   }
 
   return (
@@ -246,7 +247,7 @@ export const BookingInfoModal = ({
                 >
                   <div className="flex items-center p-5 ">
                     <GetIcon iconName="LocationIcon" />
-                    <div className="pl-4 text-[#4D4D4D] text-base">Directions</div>
+                    <div className="pl-4 text-[#4D4D4D] text-base cursor-pointer">Directions</div>
                   </div>
                   <div
                     className="flex items-center p-5"
@@ -254,8 +255,8 @@ export const BookingInfoModal = ({
                       handleClickReschedule();
                     }}
                   >
-                    <GetIcon iconName="CalendarIcon" />
-                    <div className="pl-4 text-[#4D4D4D] text-base">Reschedule</div>
+                    {userflow !== "past" ? (<GetIcon iconName="CalendarIcon" />) : (<GetIcon iconName="DisableCalendarIcon" />)}
+                    <div className={`pl-4 text-base ${userflow !== "past" ? "text-[#4D4D4D] cursor-pointer" : "text-[#B3B3B3]"}`}>Reschedule</div>
                   </div>
                   <SaveReviews
                     bookings={bookings}

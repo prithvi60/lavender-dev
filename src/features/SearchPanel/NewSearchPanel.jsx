@@ -75,7 +75,7 @@ const ShortcutButton = styled(Button)(({ theme, selected }) => ({
   },
 }));
 
-const NewSearchPanel = () => {
+const NewSearchPanel = ({ pathname }) => {
   const [isTreatmentOpen, setIsTreatmentOpen] = useState(false);
   const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [modalShow, setModalShow] = React.useState(false);
@@ -225,7 +225,7 @@ const NewSearchPanel = () => {
 
   const [queryResult, setQueryResult] = useState(null);
   const payLoad = {};
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const getAddressDetails = async (card) => {
     const { geoX, geoY } = card;
@@ -504,14 +504,12 @@ const NewSearchPanel = () => {
           <div className="grid-container">
             <>
               <div
-                className={`grid-items ${
-                  selectedBox === "Treatment" && "active"
-                }`}
+                className={`grid-items ${selectedBox === "Treatment" && "active"
+                  }`}
               >
                 <Box
-                  className={`search-box ${false ? "selected" : ""} ${
-                    selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
-                  }`}
+                  className={`search-box ${false ? "selected" : ""} ${selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
+                    }`}
                 >
                   <div
                     className="search-box-title-icon"
@@ -553,14 +551,12 @@ const NewSearchPanel = () => {
               </div>
 
               <div
-                className={`grid-items ${
-                  selectedBox === "Location" && "active"
-                }`}
+                className={`grid-items ${selectedBox === "Location" && "active"
+                  }`}
               >
                 <Box
-                  className={`search-box ${false ? "selected" : ""} ${
-                    selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
-                  }`}
+                  className={`search-box ${false ? "selected" : ""} ${selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
+                    }`}
                 >
                   <div
                     className="search-box-title-icon"
@@ -607,9 +603,8 @@ const NewSearchPanel = () => {
                 className={`grid-items ${selectedBox === "Date" && "active"}`}
               >
                 <Box
-                  className={`search-box ${false ? "selected" : ""} ${
-                    selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
-                  }`}
+                  className={`search-box ${false ? "selected" : ""} ${selectedBox?.toLowerCase() === "time" ? "addtl-button" : ""
+                    }`}
                 >
                   <div
                     className="search-box-title-icon"
@@ -661,7 +656,7 @@ const NewSearchPanel = () => {
                     <GetIcon iconName="AccessTimeFilledIcon" />
                     <div className="search-box-title">
                       {SelectedTime &&
-                      (SelectedTime.from || SelectedTime.to) ? (
+                        (SelectedTime.from || SelectedTime.to) ? (
                         <Text
                           sx={{
                             fontSize: "20px",
@@ -877,16 +872,16 @@ const NewSearchPanel = () => {
                             marginBottom: "10px",
                           },
                           "& .MuiDateRangePickerDay-rangeIntervalDayHighlight":
-                            {
-                              backgroundColor: "#F3F0FF",
-                            },
+                          {
+                            backgroundColor: "#F3F0FF",
+                          },
                           "& .MuiDateRangePickerDay-rangeIntervalDayHighlightStart, & .MuiDateRangePickerDay-rangeIntervalDayHighlightEnd":
-                            {
+                          {
+                            backgroundColor: "#E6E1FF",
+                            "&::before": {
                               backgroundColor: "#E6E1FF",
-                              "&::before": {
-                                backgroundColor: "#E6E1FF",
-                              },
                             },
+                          },
                           "& .MuiDateRangePickerDay-day.Mui-selected": {
                             backgroundColor: "#825FFF !important",
                           },
@@ -935,13 +930,13 @@ const NewSearchPanel = () => {
                 elevation={2}
                 className="time-panel"
                 ref={timePanelRef}
-                // style={{ overflow: "auto" }}
+              // style={{ overflow: "auto" }}
               >
                 <SelectTimePicker />{" "}
               </Paper>
             </div>
           )}
-          <Typography
+          {pathname === "/" && (<Typography
             sx={{
               ...styles.subTitle,
               position: "absolute",
@@ -957,7 +952,8 @@ const NewSearchPanel = () => {
             Book your next salon experience
             <br />
             with Lavender
-          </Typography>
+          </Typography>)}
+
         </div>
       </div>
     </>
