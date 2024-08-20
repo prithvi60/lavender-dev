@@ -13,12 +13,12 @@ import GetIcon from "../../assets/Icon/icon";
 import DatePicker from "../../components/DateInput";
 
 function CheckoutCard(props) {
-  const { activeStep, next, establishmentName, establishmentId } = props;
+  const { activeStep, next, establishmentName, establishmentId, time } = props;
 
   const dispatch = useDispatch();
   const checkOutList = useSelector((state: any) => state.checkOutPage);
   const scheduleAppoinmentList = useSelector((state: any) => state.ScheduleAppoinment);
-console.log("checkOutList",checkOutList)
+  // console.log("checkOutList", checkOutList)
   const [imageIdList, setImageIdList] = useState<string | any>([]);
   const [loading, setLoading] = useState(true);
   const [imageUrls, setImageUrls] = useState([]);
@@ -126,7 +126,7 @@ console.log("checkOutList",checkOutList)
         {scheduleAppoinmentList?.startTime && (
           <Box
 
-            sx={{ display: "flex",  }}
+            sx={{ display: "flex", }}
             className="px-1 basis-full md:basis-4/5"
 
           >
@@ -245,6 +245,7 @@ console.log("checkOutList",checkOutList)
                       variant="contained"
                     >
                       Proceed
+                      {/* {time === "schedule" ? "Proceed" : "Reschedule"} */}
                     </Button>
                   </div>
                 </Tooltip>

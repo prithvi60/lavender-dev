@@ -65,7 +65,7 @@ export const BookingInfoModal = ({
 
   function handleClickReschedule() {
     userflow !== "past" &&
-      (navigate(`/salon/${establishmentId}#SearchDetailService`, {
+      (navigate(`/salon/${establishmentId}/reschedule`, {
         replace: true,
       }))
   }

@@ -9,16 +9,16 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import GetIcon from "../../assets/Icon/icon";
+import GetIcon from "../../assets/Icon/icon.tsx";
 import { useQuery } from "@tanstack/react-query";
 import endpoint from "../../api/endpoints.ts";
 import {
   UpdateEmployeeId,
   UpdateSelectedDate,
   UpdateTimeOfDayAndTime,
-} from "../../store/slices/Booking/ScheduleAppoinmentSlice";
+} from "../../store/slices/Booking/ScheduleAppoinmentSlice.ts";
 import { useDispatch, useSelector } from "react-redux";
-import { TimeOfDay } from "../../api/type";
+import { TimeOfDay } from "../../api/type.ts";
 import "./style.css";
 import { useEffect, useRef, useState } from "react";
 import Chip from "../../components/Chip.js";
@@ -38,7 +38,7 @@ import {
   KeyboardArrowRightOutlined,
 } from "@mui/icons-material";
 
-function RescheduleAppointment(props) {
+export default function RescheduleAppointment(props) {
   const datePickerRef = useRef(null);
 
   const scheduleAppoinmentList = useSelector(
@@ -46,11 +46,12 @@ function RescheduleAppointment(props) {
   );
   // console.log("object is scheduleAppoinmentList", scheduleAppoinmentList);
 
+
   const [selectedDateBtn, setSelectedDateBtn] = useState(new Date());
   const { estData, onSetActiveStep } = props;
   const [availableTimeSlots, setAvailableTimeSlots] = React.useState<any>([]);
   const [clickedChipIndices, setClickedChipIndices] = React.useState(null);
-
+  console.log(estData);
   const [employee, setEmployee] = React.useState([""]);
   const [isDisabled, setIsDisabled] = React.useState(false);
   const [timePeriodValue, setTimePeriodValue] = React.useState([]);
@@ -232,11 +233,11 @@ function RescheduleAppointment(props) {
   });
 
   return (
-    <div className="my-10 mt-2 md:mx-16">
+    <div className="my-10 mt-2 md:mr-16 w-full md:w-3/5 px-6 lg:w-[70%]">
       <div className="flex items-center gap-3">
-        <IconButton onClick={() => onSetActiveStep(0)}>
+        {/* <IconButton onClick={() => onSetActiveStep(0)}>
           <GetIcon iconName="BackIconArrow" />
-        </IconButton>
+        </IconButton> */}
         <div className="text-3xl font-bold">Reschedule</div>
       </div>
 
@@ -244,7 +245,7 @@ function RescheduleAppointment(props) {
         <CustomWeeklyDatePicker onDateSelect={handleDateSelect} />
       </div>
 
-      <div className="mt-4 overflow-hidden">
+      <div className="mt-4 overflow-hidden ml-8">
         {availableTimeSlots?.length > 0 ? (
           Object.entries(availableTimeSlots[0]?.availableSlots).map(
             ([timePeriod, slotsArray]: any) => {
@@ -461,7 +462,6 @@ function RescheduleAppointment(props) {
     </div>
   );
 }
-export default RescheduleAppointment;
 
 const styles = {
   customWeeklyPicker: {

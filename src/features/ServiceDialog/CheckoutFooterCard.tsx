@@ -22,13 +22,17 @@ import { UpdateCheckoutInfo } from "../../store/slices/Booking/ScheduleAppoinmen
 import GetIcon from "../../assets/Icon/icon";
 import { convertDateToReadAbleDate } from "../../utils/TimeFormat";
 import AppointmentConfimed from "./AppointmentConfimed";
+import { useLocation } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props: any, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function CheckoutFooterCard(props) {
-  const { activeStep, next, establishmentName, establishmentId } = props;
+  const { activeStep, next, establishmentName, establishmentId, time } = props;
+  // const path = useLocation()
+  // console.log(path);
+  console.log(time);
 
   const dispatch = useDispatch();
   const checkOutList = useSelector((state: any) => state.checkOutPage);
@@ -173,9 +177,8 @@ function CheckoutFooterCard(props) {
           <Box className="flex items-center justify-between">
             <Box>
               <Text
-                name={`${totalServices} service${
-                  totalServices !== 1 ? "s" : ""
-                } | ${totalDuration} mins`}
+                name={`${totalServices} service${totalServices !== 1 ? "s" : ""
+                  } | ${totalDuration} mins`}
               />
               <Text
                 name={`$${totalPrice.toFixed(2)}`}
@@ -185,23 +188,23 @@ function CheckoutFooterCard(props) {
               />
             </Box>
             {activeStep < 2 ? (
-            <Button
-              disabled={disabled}
-              onClick={(e) => {
-                e.stopPropagation();
-                sendDataToParent();
-              }}
-              sx={styles.btn}
-              variant="contained"
-            >
-             Proceed
-            </Button> )
-            : (
-              <AppointmentConfimed
+              <Button
+                disabled={disabled}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  sendDataToParent();
+                }}
+                sx={styles.btn}
+                variant="contained"
+              >
+                Proceed
+              </Button>)
+              : (
+                <AppointmentConfimed
                   establishmentId={establishmentId}
                   activeStep={activeStep}
                 />
-            )}
+              )}
           </Box>
         </CardContent>
       </Card>
@@ -214,14 +217,14 @@ function CheckoutFooterCard(props) {
         PaperProps={{
           style: isMobile
             ? {
-                margin: 0,
-                height: "70%",
-                maxHeight: "70%",
-                position: "absolute",
-                bottom: 0,
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-              }
+              margin: 0,
+              height: "70%",
+              maxHeight: "70%",
+              position: "absolute",
+              bottom: 0,
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+            }
             : {},
         }}
       >
@@ -368,7 +371,24 @@ function CheckoutFooterCard(props) {
             borderTop: "1px solid rgba(0, 0, 0, 0.12)",
           }}
         >
-          <Button
+          {time === "schedule" ? (
+            <Button
+              variant="contained"
+              onClick={sendDataToParent}
+              disabled={disabled}
+              fullWidth
+              sx={{
+                backgroundColor: "#8B5CF6",
+                "&:hover": {
+                  backgroundColor: "#7C3AED",
+                },
+                borderRadius: "8px",
+                textTransform: "none",
+              }}
+            >
+              Proceed
+            </Button>
+          ) : (<Button
             variant="contained"
             onClick={sendDataToParent}
             disabled={disabled}
@@ -382,8 +402,9 @@ function CheckoutFooterCard(props) {
               textTransform: "none",
             }}
           >
-            Proceed
-          </Button>
+            Reschedule
+          </Button>)}
+
         </Box>
       </Dialog>
     </div>

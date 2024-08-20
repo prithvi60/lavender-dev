@@ -85,7 +85,7 @@ export const BookingInfoModalListView = ({
   }
 
   function handleClickReschedule() {
-    navigate(`/salon/${establishmentId}#SearchDetailService`, {
+    navigate(`/salon/${establishmentId}/reschedule`, {
       replace: true,
     });
   }
