@@ -9,6 +9,7 @@ import { SampleData } from './SampleData'
 import { service } from '../../api/constants';
 import Text from '../../components/Text';
 import { borderRadius } from '@mui/system';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function ServiceDetails(props) {
   const {isLoading, establishmentData} = props
@@ -17,12 +18,15 @@ function ServiceDetails(props) {
     const [viewAll, setViewAll] = React.useState(false);
     let visibleService = 0;
 
-  useEffect(()=>{
-    if(establishmentData){
-      setTabValue(establishmentData[0]?.serviceTag|| '')
+    const navigate = useNavigate();
+    const { estId } = useParams();
 
-    }
-  },[establishmentData, isLoading])
+    useEffect(()=>{
+      if(establishmentData){
+        setTabValue(establishmentData[0]?.serviceTag|| '')
+      }
+    },[establishmentData, isLoading])
+
   
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -38,7 +42,8 @@ function ServiceDetails(props) {
   }
 
   function openServiceTab() {
-    document.getElementById("ServicesHeaderButton").click()
+    //document.getElementById("ServicesHeaderButton").click()
+    navigate(`/salon/${estId}/service`)
   }
 
   return (

@@ -10,7 +10,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import OptionsModal from "./OptionsModal";
 import OptionsModalListView from "./OptionsModalListView";
-import { updateCheckOut } from "../../store/slices/checkOutPageSlice";
+import { updateCheckOut,resetCheckOut } from "../../store/slices/checkOutPageSlice";
+
 function ServiceListItems({ serviceCategories, handleClose }) {
   const listRef = useRef(null);
   const [value, setValue] = useState(0);
@@ -32,16 +33,28 @@ function ServiceListItems({ serviceCategories, handleClose }) {
   const handleServiceClick = (service) => {
     if (service.options.length === 1) {
       const option = service.options[0];
-      dispatch(
-        updateCheckOut({
-          serviceId: service.serviceId,
-          optionId: option.optionId,
-          serviceName: option.optionName,
-          finalPrice: option.salePrice,
-          serviceDuration: option.duration,
-        })
+      const isAlreadySelected = checkOutList.checkOut.some(
+        (item) => item.optionId === option.optionId
       );
-    } 
+      if (isAlreadySelected) {
+        dispatch(
+          resetCheckOut({
+            serviceId: service.serviceId,
+            optionId: option.optionId,
+          })
+        );
+      } else {
+        dispatch(
+          updateCheckOut({
+            serviceId: service.serviceId,
+            optionId: option.optionId,
+            serviceName: option.optionName,
+            finalPrice: option.salePrice,
+            serviceDuration: option.duration,
+          })
+        );
+      }
+    }
   };
   return (
     <div className="w-full urbanist-font md:mx-24">
@@ -178,12 +191,24 @@ function ServiceListItems({ serviceCategories, handleClose }) {
   </div>
 ) : (
   <div>
-    <OptionsModal
-      props={service}
-      isMobile={isMobile}
-      selectedService={selectedService || []}
-      onServiceClick={() => handleServiceClick(service)}
-    />
+    {service.options.length === 1 ? (
+      <IconButton onClick={() => handleServiceClick(service)}>
+        {checkOutList.checkOut.some(
+          (item) => item.optionId === service.options[0].optionId
+        ) ? (
+          <GetIcon iconName="SelectedIcon" />
+        ) : (
+          <GetIcon iconName="PlusIcon" />
+        )}
+      </IconButton>
+    ) : (
+      <OptionsModal
+        props={service}
+        isMobile={isMobile}
+        selectedService={selectedService || []}
+        onServiceClick={() => handleServiceClick(service)}
+      />
+    )}
   </div>
 )}
                 </ListItemButton>
