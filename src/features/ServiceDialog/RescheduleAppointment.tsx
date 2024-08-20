@@ -38,7 +38,7 @@ import {
   KeyboardArrowRightOutlined,
 } from "@mui/icons-material";
 
-export default function RescheduleAppointment(props) {
+function RescheduleAppointment(props) {
   const datePickerRef = useRef(null);
 
   const scheduleAppoinmentList = useSelector(
@@ -113,7 +113,7 @@ export default function RescheduleAppointment(props) {
   };
 
   const createHandleMenuClick = (menuItem: string) => {
-    return () => {};
+    return () => { };
   };
 
   const handleClick = (timePeriod, slot, index) => {
@@ -131,13 +131,12 @@ export default function RescheduleAppointment(props) {
 
   const [selectedPaymentChips, setSelectedPaymentChips] = useState([]);
 
-  useEffect(() => {}, [totalDuration, totalDurationValue]);
+  useEffect(() => { }, [totalDuration, totalDurationValue]);
 
   const handleChipClick = (timePeriod, slot, index) => {
     const currentDate = new Date();
-    const currentDateValue = `${currentDate.getFullYear()}/${
-      currentDate.getMonth() + 1
-    }/${currentDate.getDate()}`;
+    const currentDateValue = `${currentDate.getFullYear()}/${currentDate.getMonth() + 1
+      }/${currentDate.getDate()}`;
     // Parse time strings into Date objects
     const startTime: any = new Date(`${currentDateValue} ${slot.startTime}`);
     const endTime: any = new Date(`${currentDateValue} ${slot.endTime}`);
@@ -289,7 +288,7 @@ export default function RescheduleAppointment(props) {
                               disabled={
                                 isDisabled &&
                                 (timePeriodValue?.includes(timePeriod) &&
-                                indexValue?.includes(index)
+                                  indexValue?.includes(index)
                                   ? false
                                   : true)
                               }
@@ -362,7 +361,7 @@ export default function RescheduleAppointment(props) {
                 }}
               >
                 <GetIcon
-                  onClick={() => {}}
+                  onClick={() => { }}
                   className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
                   iconName="SlotBoxesFilled"
                 />
@@ -377,7 +376,7 @@ export default function RescheduleAppointment(props) {
                   How about the next slot ?
                 </div>
                 <Button
-                  onClick={() => {}}
+                  onClick={() => { }}
                   sx={{
                     display: "flex",
                     justifyContent: "center",
@@ -403,7 +402,7 @@ export default function RescheduleAppointment(props) {
                 }}
               >
                 <GetIcon
-                  onClick={() => {}}
+                  onClick={() => { }}
                   className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
                   iconName="SlotBoxesFilled"
                 />
@@ -462,6 +461,7 @@ export default function RescheduleAppointment(props) {
     </div>
   );
 }
+export default RescheduleAppointment;
 
 const styles = {
   customWeeklyPicker: {
@@ -587,11 +587,11 @@ const CustomWeeklyDatePicker = ({ onDateSelect }) => {
                     ? styles.dayNumberPast
                     : {}),
                   ...(isSameDay(day, selectedDate) &&
-                  isSameDay(day, startOfToday())
+                    isSameDay(day, startOfToday())
                     ? styles.dayNumberCurrentSelected
                     : {}),
                   ...(isSameDay(day, selectedDate) &&
-                  !isSameDay(day, startOfToday())
+                    !isSameDay(day, startOfToday())
                     ? styles.dayNumberSelected
                     : {}),
                 }}

@@ -89,7 +89,7 @@ export default function AppointmentDrawer() {
 
       </div>
 
-      <div className="block mx-3 overflow-y-auto">
+      <div className="block mx-3">
         {/* <SelectSeparator className='bg-black'/> */}
         <div className="mb-3">
           <ClientSearchFilter data={dataObj} client={selectedClient} handler={setSelectedClient}/>
@@ -97,7 +97,7 @@ export default function AppointmentDrawer() {
 
         <Divider />
 
-        <div className="my-3">
+        <div className="mb-3">
           <ServiceSelector selectedServices={selectedServices} setSelectedServices={setSelectedServices}/>
         </div>
         

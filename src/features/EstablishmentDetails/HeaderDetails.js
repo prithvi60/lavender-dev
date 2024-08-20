@@ -163,7 +163,7 @@ function HeaderDetails(props) {
                     href="#SearchDetailService"
                     className={selectedHref === "service" ? "active" : ""}
                   >
-                    {/* <Buttons sx={styles.btn} variant="outlined">
+                    <Buttons sx={styles.btn} variant="outlined">
                       services
                     </Buttons>
                     {/* <ServiceDialog /> */}
