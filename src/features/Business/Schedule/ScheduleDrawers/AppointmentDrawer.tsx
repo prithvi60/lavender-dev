@@ -97,7 +97,7 @@ export default function AppointmentDrawer() {
 
         <Divider />
 
-        <div className="mb-3">
+        <div className="my-3">
           <ServiceSelector selectedServices={selectedServices} setSelectedServices={setSelectedServices}/>
         </div>
         

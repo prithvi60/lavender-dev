@@ -305,7 +305,7 @@ export const BusinessInfo = ({
             <Grid container spacing={2}>
               <Grid item xs={12} sm={7}>
                 <Card sx={{ width: "100%" }}>
-                  <CardContent>
+                  <CardContent id="id_1">
                     <Typography
                       variant="h6"
                       sx={{
@@ -313,6 +313,7 @@ export const BusinessInfo = ({
                         fontWeight: "700",
                         color: "#4D4D4D",
                       }}
+
                     >
                       Salon name
                     </Typography>
@@ -336,6 +337,7 @@ export const BusinessInfo = ({
                         fontWeight: "700",
                         color: "#4D4D4D",
                       }}
+
                     >
                       About
                     </Typography>
@@ -402,7 +404,7 @@ export const BusinessInfo = ({
                     )}
                   </CardContent>
 
-                  <CardContent>
+                  <CardContent id="id_3">
                     <Typography
                       variant="h6"
                       sx={{
@@ -410,6 +412,7 @@ export const BusinessInfo = ({
                         fontWeight: "700",
                         color: "#4D4D4D",
                       }}
+
                     >
                       Email ID
                     </Typography>
@@ -544,7 +547,7 @@ export const BusinessInfo = ({
                       </p>
                     )}
                   </CardContent>
-                  <CardContent sx={{textAlign: 'center'}}>
+                  <CardContent sx={{ textAlign: 'center' }}>
                     {isDirty && (
                       <Button
                         fullWidth
@@ -570,6 +573,7 @@ export const BusinessInfo = ({
                   label="Search for location"
                   variant="outlined"
                   value={searchQuery}
+                  id="id_2"
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <Card sx={{ width: "100%" }}>
