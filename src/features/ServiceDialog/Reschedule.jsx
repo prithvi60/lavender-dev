@@ -26,7 +26,7 @@ const Reschedule = () => {
         getEstablishmentDetails();
     }, [])
 
-    console.log(establishmentData);
+    // console.log(establishmentData);
     
 
     return (

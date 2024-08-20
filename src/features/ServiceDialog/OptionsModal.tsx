@@ -21,8 +21,6 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(selectedService);
   const [selectAll, setSelectAll] = useState(selectedService.length === props.options.length);
-
-
   
   useEffect(() => {
     updateReduxStore();
@@ -43,26 +41,26 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
   };
 
   const handleSelectAll = () => {
-    if (selectedOptions.length === props.options.length) {
+    if (selectedOptions?.length === props?.options?.length) {
       setSelectedOptions([]);
     } else {
-      setSelectedOptions(props.options.map((option) => option.optionId));
+      setSelectedOptions(props?.options?.map((option) => option?.optionId));
     }
   };
   const handleOptionSelect = (optionId) => {
     setSelectedOptions((prev) => {
       if (prev.includes(optionId)) {
-        dispatch(resetCheckOut({ serviceId: props.serviceId, optionId }));
+        dispatch(resetCheckOut({ serviceId: props?.serviceId, optionId }));
         return prev.filter((id) => id !== optionId);
       } else {
-        const option = props.options.find(opt => opt.optionId === optionId);
+        const option = props?.options.find(opt => opt?.optionId === optionId);
         if (option) {
           dispatch(updateCheckOut({
             serviceId: props.serviceId,
             optionId: option.optionId,
             serviceName: option.optionName,
             finalPrice: option.salePrice,
-            duration: option.duration || 0, // Ensure duration is always included, default to 0 if not available
+            serviceDuration: option.duration || 0, // Ensure duration is always included, default to 0 if not available
           }));
         }
         return [...prev, optionId];
@@ -71,13 +69,13 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
   };
   
   const updateReduxStore = () => {
-    const deselectedOptions = props.options
+    const deselectedOptions = props?.options
       .filter((option) => !selectedOptions.includes(option.optionId))
       .map((option) => option.optionId);
 
-    selectedOptions.forEach((optionId) => {
-      const selectedOption = props.options.find(
-        (option) => option.optionId === optionId
+    selectedOptions?.forEach((optionId) => {
+      const selectedOption = props?.options?.find(
+        (option) => option?.optionId === optionId
       );
       if (selectedOption) {
         dispatch(

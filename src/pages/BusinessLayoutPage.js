@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 import SideBar from "../components/SideBar.tsx";
 import AppointmentsPage from "../features/Business/Appointments/AppointmentsTable.tsx";
@@ -15,89 +15,65 @@ import { SalonProfile } from "../features/Business/SalonProfile/SalonProfile.tsx
 import { updateUser } from "../store/slices/currentUserSlice.js";
 import { useTheme } from "@mui/material";
 import { useMediaQuery } from "@mui/material";
-import { useFetchAppointments } from "../features/Business/BusinessHooks/index.ts";
 
 const BusinessLayoutPage = () => {
   const [activeField, setActiveField] = useState("Schedule");
-  const [userDetails, setUserDetails] = useState(null);
+  const [userDetails, setUserDetails] = useState("");
+  // opens Sidebar menu on mobile
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const dispatch = useDispatch();
   const getData = useSelector((state) => state.businessSlice);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const fetchCurrentUserDetails = useCallback(async () => {
-    try {
-      const response = await endpoint.getCurrentUserDetails();
-      const userDetails = response?.data;
-      setUserDetails(userDetails);
-      dispatch(updateUser(userDetails?.data));
-    } catch (error) {
-      console.error("Error fetching user details:", error);
-    }
-  }, [dispatch]);
-
   useEffect(() => {
-    if (localStorage.getItem("Token")) {
-      fetchCurrentUserDetails();
-    }
-  }, [fetchCurrentUserDetails]);
-
-  const estId = userDetails?.data?.establishmentId || "";
-  const payload = {
-    pageNumber: 0,
-    pageSize: 10,
-    establishmentId: estId,
-    fromCost: 0,
-    toCost: 1000,
-  };
-
-  const { isLoading, data: appointmentsData, refetch } = useFetchAppointments(payload);
-
-  useEffect(() => {
-    if (estId) {
-      refetch();
-    }
-  }, [estId, refetch]);
+    setTimeout(() => {
+      if (localStorage.getItem("Token")) {
+        const fetchCurrentUserDetails = async () => {
+          try {
+            const response = await endpoint.getCurrentUserDetails();
+            const userDetails = response?.data;
+            setUserDetails(userDetails);
+            dispatch(updateUser(userDetails?.data));
+          } catch (error) {
+            console.error("Error fetching user details:", error);
+          }
+        };
+        fetchCurrentUserDetails();
+      }
+    }, [1000]);
+  }, []);
 
   useEffect(() => {
     const getEstablishmentDetails = async () => {
-      if (userDetails?.data?.establishmentId) {
-        try {
-          const response = await endpoint.getEstablishmentDetailsById(
-            userDetails.data.establishmentId
-          );
-          if (response.data.data.published === false) {
-            setActiveField("Salon profile");
-          }
-          if (response.status === 200) {
-            dispatch(setEstablishmentData(response.data.data));
-          }
-        } catch (error) {
-          console.error("Error fetching establishment details:", error);
-        }
+      const response = await endpoint.getEstablishmentDetailsById(
+        userDetails?.data?.establishmentId
+      );
+      if (response.data.data.published == false) {
+        setActiveField("Salon profile");
+      }
+      if (response.status === 200) {
+        dispatch(setEstablishmentData(response.data.data));
+      } else {
+        console.log("err-getEstablishmentDetailsById", response);
       }
     };
 
     getEstablishmentDetails();
-  }, [userDetails, dispatch]);
+  }, [userDetails]);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
   const renderMainContent = () => {
-    if (isLoading) {
-      return <div>Loading...</div>;
-    }
-
     switch (activeField) {
       case "Home":
         return <div>Home</div>;
       case "Schedule":
-        return <SchedulePageWrapper appointmentsData={appointmentsData} />;
+        return <SchedulePageWrapper />;
       case "Appointments":
-        return <AppointmentsPage estId={estId} appointmentsData={appointmentsData} />;
+        return <AppointmentsPage estId={userDetails?.data?.establishmentId} />;
       case "Clients":
         return <BusinessClients />;
       case "Services":

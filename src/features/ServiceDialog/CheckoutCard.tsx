@@ -12,13 +12,13 @@ import { convertDateToReadAbleDate } from "../../utils/TimeFormat";
 import GetIcon from "../../assets/Icon/icon";
 import DatePicker from "../../components/DateInput";
 
-function CheckoutCard(props) {
-  const { activeStep, next, establishmentName, establishmentId, time } = props;
-
+function CheckoutCard(props: any) {
+  const { activeStep, next, establishmentData, establishmentId, time } = props;
+  const establishmentName = establishmentData?.profile?.establishmentName;
   const dispatch = useDispatch();
   const checkOutList = useSelector((state: any) => state.checkOutPage);
   const scheduleAppoinmentList = useSelector((state: any) => state.ScheduleAppoinment);
-  // console.log("checkOutList", checkOutList)
+console.log("checkOutList",checkOutList)
   const [imageIdList, setImageIdList] = useState<string | any>([]);
   const [loading, setLoading] = useState(true);
   const [imageUrls, setImageUrls] = useState([]);
@@ -29,7 +29,7 @@ function CheckoutCard(props) {
   const [totalServices, setTotalServices] = useState(0);
   const [employee, setEmployee] = useState([]);
   const [employeeName, setEmployeeName] = useState("");
-
+console.log("uemployee :::", employee)
   useEffect(() => {
     if (checkOutList?.checkOut?.length > 0) {
       setDisabled(false);
@@ -44,6 +44,12 @@ function CheckoutCard(props) {
   useEffect(() => {
     if (activeStep >= 1) setDisabled(true);
   }, [activeStep]);
+
+  useEffect(() => {
+    if (activeStep >= 1 && scheduleAppoinmentList?.startTime) {
+      setDisabled(false);
+    }
+  }, [scheduleAppoinmentList]);
 
   useEffect(() => {
     if (activeStep < 1 && checkOutList?.checkOut?.length > 0) {
@@ -73,6 +79,64 @@ function CheckoutCard(props) {
   function sendDataToParent() {
     next((prevActiveStep) => prevActiveStep + 1);
   }
+
+  // const {
+  //   data: establishmentData,
+  //   isLoading: isLoading,
+  //   error: userDataError,
+  //   refetch: refetchUserData,
+  // } = useQuery({
+  //   queryKey: ["query-establishment-details"],
+  //   queryFn: () => {
+  //     return endpoint.getEstablishmentDetailsById(establishmentId);
+  //   },
+  // });
+
+  useEffect(() => {
+    setImageIdList(establishmentData?.data?.data?.estImages);
+    setEmployee(establishmentData?.data?.data?.employees);
+  }, [establishmentData]);
+
+  const fetchImage = async (image) => {
+    try {
+      setLoading(true);
+      const response = await endpoint.getImages(
+        image,
+        establishmentData?.data?.data?.id
+      );
+
+      const imageUrl = URL.createObjectURL(response.data);
+      return imageUrl;
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const callFetchImageApi = async () => {
+      const urls = [];
+      for (const imageId of imageIdList) {
+        const imageUrl = await fetchImage(imageId);
+        urls.push(imageUrl);
+      }
+      setImageUrls(urls);
+      setLoading(false);
+    };
+    if (imageIdList?.length > 0) {
+      callFetchImageApi();
+    }
+  }, [imageIdList]);
+
+  useEffect(() => {
+    console.log("employee : ", employee)
+
+    const employeeName: any = employee?.find(
+      (item) => item?.employeeId === scheduleAppoinmentList?.id
+    );
+    //setEmployee(employeeName)
+    console.log("emp : ", employeeName)
+    setEmployeeName(employeeName?.employeeName);
+  }, [employee, scheduleAppoinmentList?.id]);
 
   const btnStyle = {
     margin: 0,

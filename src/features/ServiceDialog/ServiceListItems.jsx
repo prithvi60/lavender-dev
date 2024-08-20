@@ -33,14 +33,14 @@ function ServiceListItems({ serviceCategories, handleClose }) {
   const handleServiceClick = (service) => {
     if (service.options.length === 1) {
       const option = service.options[0];
-      const isAlreadySelected = checkOutList.checkOut.some(
-        (item) => item.optionId === option.optionId
+      const isAlreadySelected = checkOutList?.checkOut?.some(
+        (item) => item?.optionId === option?.optionId
       );
       if (isAlreadySelected) {
         dispatch(
           resetCheckOut({
-            serviceId: service.serviceId,
-            optionId: option.optionId,
+            serviceId: service?.serviceId,
+            optionId: option?.optionId,
           })
         );
       } else {

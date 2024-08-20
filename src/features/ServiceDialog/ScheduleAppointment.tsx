@@ -48,7 +48,7 @@ export default function ScheduleAppointment(props) {
   const [startTimeValue, setStartTimeValue] = useState("11:59 pm");
   const [dateClicked, setDateClicked] = useState(false);
   const [employeeList, setEmployeeList] = useState(props?.estData?.employees);
-  const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState("Any Employee");
   const [employeeSlot, setEmployeeSlot] = useState("");
 
   
@@ -62,7 +62,6 @@ export default function ScheduleAppointment(props) {
 
   const handleDateSelect = (date) => {
     if (date !== selectedDateBtn) {
-      // console.log("Date selected:", date);
       setSelectedDateBtn(date);
       handleDateClick([date]);
       setDateClicked(true);
@@ -225,7 +224,7 @@ export default function ScheduleAppointment(props) {
   useEffect(() => {
     dispatch(
       UpdateEmployeeId({
-        id: selectedEmployeeId ? selectedEmployeeId : employeeSlot,
+        id: selectedEmployeeId !== "Any Employee" ? selectedEmployeeId : employeeSlot,
       })
     );
   });
@@ -444,6 +443,7 @@ export default function ScheduleAppointment(props) {
                 id="employee-select"
                 value={selectedEmployeeId}
                 onChange={handleChange}
+                defaultValue="Any Employee"
                 sx={{
                   width: "300px",
                   height: "45px",
@@ -460,6 +460,9 @@ export default function ScheduleAppointment(props) {
                   },
                 }}
               >
+              <MenuItem value="Any Employee">
+                  Any Employee
+                </MenuItem>
                 {employeeList?.map((employee) => (
                   <MenuItem
                     key={employee?.employeeId}

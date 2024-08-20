@@ -60,7 +60,7 @@ function HeaderDetails(props) {
                   >
                     <Buttons sx={styles.btn} variant="outlined">
                       {" "}
-                      services
+                      Services
                     </Buttons>
                     {/* <ServiceDialog establishmentData={establishmentData} /> */}
                   </a>
@@ -164,7 +164,7 @@ function HeaderDetails(props) {
                     className={selectedHref === "service" ? "active" : ""}
                   >
                     <Buttons sx={styles.btn} variant="outlined">
-                      services
+                      Services
                     </Buttons>
                     {/* <ServiceDialog /> */}
                   </a>
