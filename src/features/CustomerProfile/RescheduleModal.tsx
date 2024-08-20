@@ -9,7 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "../../components/Snackbar";
 
-export const CancelAppointmentModal = ({
+export const RescheduleModal = ({
   bookings,
   userFlow,
   estsId
@@ -88,16 +88,16 @@ export const CancelAppointmentModal = ({
         onClick={handleCancelClick}
       >
         {userFlow === "past" ? (
-          <GetIcon iconName="DisableCancelIcon" />
+          <GetIcon iconName="DisableCalendarIcon" />
         ) : (
-          <GetIcon iconName="CancelIcon" />
+            <GetIcon iconName="CalendarIcon" />
         )}
 
         <div
-          className={`pl-1 text-[#4D4D4D] text-base ${userFlow === "past" ? "text-[#B3B3B3]" : "text-black cursor-pointer"
+          className={`pl-1 text-[#4D4D4D] text-base uppercase ${userFlow !== "past" ? "text-[#4D4D4D] cursor-pointer" : "text-[#B3B3B3]"
             }`}
         >
-          Cancel
+          Reschedule
         </div>
       </div>
       {userFlow === "upcoming" && (

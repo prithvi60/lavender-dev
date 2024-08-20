@@ -274,13 +274,13 @@ function ServiceSelector({ selectedServices, setSelectedServices }) {
                 <div className='p-2 font-bold'>Service</div>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <div className='rounded-lg mb-3.5 flex justify-between w-full p-3 border border-input bg-background hover:bg-accent hover:text-accent-foreground'>
+                        <div className='rounded-lg flex justify-between w-full p-3 border border-input bg-background hover:bg-accent hover:text-accent-foreground'>
                             {/* <div className='font-bold'>Service</div> */}
                             <div className='text-slate-500'>{'Add a new service'}</div>
                             <SearchIcon />
                         </div>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className='w-72 shadow-md rounded-md bg-white p-3.5  overflow-y-scroll no-scrollbar max-h-48 lg:max-h-64'>
+                    <DropdownMenuContent className='w-72 z-[1200] shadow-md rounded-md bg-white p-3.5 overflow-y-scroll no-scrollbar max-h-48 lg:max-h-56'>
                         {categories.map((category) => (
                             <div className='mb-5'>
                                 <DropdownMenuLabel>
@@ -318,7 +318,7 @@ function ServiceSelector({ selectedServices, setSelectedServices }) {
                             <div
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                className='overflow-y-auto w-full h-full max-h-40 md:max-h-[200px] xl:max-h-80'
+                                className='overflow-y-auto w-full h-full max-h-40 md:max-h-[200px] xl:max-h-64 mt-1'
                             >
                                 {selectedServices?.map((service, index) => (
                                     <Draggable key={service.categories[0].services[0].options[0].optionId}

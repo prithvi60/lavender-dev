@@ -11,6 +11,7 @@ import GetIcon from "../../assets/Icon/icon";
 import { CancelAppointmentModal } from "./CancelAppointmentModal";
 import { useNavigate } from "react-router-dom";
 import SaveReviews from "./SaveReviews";
+import { RescheduleModal } from "./RescheduleModal";
 
 const modalStyle = {
   position: "absolute",
@@ -183,7 +184,7 @@ export const BookingInfoModal = ({
                             {service?.bookingStatus}
                           </div>
                           {service?.bookingStatus !== "CANCELED" && (
-                            <CancelAppointmentModal userFlow={userflow} bookings={service} />
+                            <CancelAppointmentModal estsId={establishmentId} userFlow={userflow} bookings={service} />
                           )}
                         </div>
                       </div>
@@ -249,7 +250,7 @@ export const BookingInfoModal = ({
                     <GetIcon iconName="LocationIcon" />
                     <div className="pl-4 text-[#4D4D4D] text-base cursor-pointer">Directions</div>
                   </div>
-                  <div
+                  {/* <div
                     className="flex items-center p-5"
                     onClick={() => {
                       handleClickReschedule();
@@ -257,7 +258,8 @@ export const BookingInfoModal = ({
                   >
                     {userflow !== "past" ? (<GetIcon iconName="CalendarIcon" />) : (<GetIcon iconName="DisableCalendarIcon" />)}
                     <div className={`pl-4 text-base ${userflow !== "past" ? "text-[#4D4D4D] cursor-pointer" : "text-[#B3B3B3]"}`}>Reschedule</div>
-                  </div>
+                  </div> */}
+                  <RescheduleModal estsId={establishmentId} userFlow={userflow} bookings={""} />
                   <SaveReviews
                     bookings={bookings}
                     establishmentId={establishmentId}

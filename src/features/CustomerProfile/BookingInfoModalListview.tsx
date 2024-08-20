@@ -22,6 +22,7 @@ import GetIcon from "../../assets/Icon/icon";
 import { CancelAppointmentModal } from "./CancelAppointmentModal";
 import { useNavigate } from "react-router-dom";
 import SaveReviews from "./SaveReviews";
+import { RescheduleModal } from "./RescheduleModal";
 
 const modalStyle = {
   position: "absolute",
@@ -99,7 +100,7 @@ export const BookingInfoModalListView = ({
     width: isMobile ? "100%" : "90%",
     height: isMobile ? "70%" : "auto",
     maxWidth: isMobile ? "100%" : 400,
-    maxHeight: isMobile ? "70%" : "90vh",
+    maxHeight: isMobile ? "70%" : "95vh",
     bgcolor: "background.paper",
     boxShadow: 24,
     borderRadius: isMobile ? "20px 20px 0 0" : 4,
@@ -198,7 +199,7 @@ export const BookingInfoModalListView = ({
               >
                 <h6 className="text-[#4D4D4D] text-base !mb-0">Directions</h6>
               </Button>
-              {userflow !== "past" && (
+              {/* {userflow !== "past" && (
                 <Box
                   sx={{
                     display: "flex",
@@ -218,14 +219,16 @@ export const BookingInfoModalListView = ({
                     </h6>
                   </Button>
                 </Box>
-              )}
+              )} */}
+              {userflow !== "past" && (<RescheduleModal estsId={establishmentId} userFlow={userflow} bookings={""} />)}
+
               {userflow === "past" && (
                 <SaveReviews
                   bookings={bookings}
                   establishmentId={establishmentId}
                 />
               )}
-              <CancelAppointmentModal userFlow={userflow} bookings={bookings?.services[0]}
+              <CancelAppointmentModal estsId={establishmentId} userFlow={userflow} bookings={bookings?.services[0]}
               />
             </Box>
           </Box>
