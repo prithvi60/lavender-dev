@@ -13,16 +13,16 @@ import endpoint from "../../../../api/endpoints";
 import { useSelector } from "react-redux";
 import { DeleteRounded } from "@mui/icons-material";
 
-const clients = [{key: 1, value: [{ name: 'vamsi'}, {phNumber: '999999122'}, {mailId: 'vamsitest@gamil.com'}]}, 
-{key: 2, value: [{ name: 'mark'}, {phNumber: '999999122'}, {mailId: 'amrktest@gamil.com'}]},
-{key: 3, value: [{ name: 'andy'}, {phNumber: '999999122'}, {mailId: 'andytest@gamil.com'}]},
+const clients = [{ key: 1, value: [{ name: 'vamsi' }, { phNumber: '999999122' }, { mailId: 'vamsitest@gamil.com' }] },
+{ key: 2, value: [{ name: 'mark' }, { phNumber: '999999122' }, { mailId: 'amrktest@gamil.com' }] },
+{ key: 3, value: [{ name: 'andy' }, { phNumber: '999999122' }, { mailId: 'andytest@gamil.com' }] },
 ]
 
-export default function NewAppointmentDrawer({payload}) {
-  
+export default function NewAppointmentDrawer({ payload }) {
+
   const { closeDrawer } = useDrawer();
-  const {date, client, employee, service, status, price, start } = payload
-  
+  const { date, client, employee, service, status, price, start } = payload
+
   const [selectedTeamMember, setSelectedTeamMember] = useState(employee);
   const [selectedClient, setClient] = useState(client || '');
   const [occuranceState, setOccuranceState] = useState("Doesn't repeat")
@@ -31,7 +31,7 @@ export default function NewAppointmentDrawer({payload}) {
   const [selectedBookingStatusFilters, setSelectedBookingStatusFilters] = useState([]);
   const [timeInterval, setTimeInterval] = useState(getTimeIntervals(start))
   const [categories, setCategories] = React.useState<any[]>([]);
-  
+
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
   });
@@ -70,7 +70,7 @@ export default function NewAppointmentDrawer({payload}) {
   const handleDeleteService = (serviceId) => {
     setSelectedServices(selectedServices.filter(service => service.serviceId !== serviceId));
   };
-   // Filter categories and services based on search term
+  // Filter categories and services based on search term
   //  const filteredCategories = categories.filter(category =>
   //   category.services.some(service =>
   //     service.serviceName.toLowerCase().includes(searchTerm.toLowerCase())
@@ -87,12 +87,12 @@ export default function NewAppointmentDrawer({payload}) {
   //     .map(service => service.serviceName)
   // }));
 
-  
+
   const resetData = () => {
     setSelectedTeamMember("");
     setClient("");
     setSelectedBookingStatusFilters([]);
-    setSelectedDate(new Date(2024, 2,21))
+    setSelectedDate(new Date(2024, 2, 21))
   };
 
   useEffect(() => {
@@ -101,7 +101,7 @@ export default function NewAppointmentDrawer({payload}) {
     return () => {
       //resetData()
     }
-  },[payload])
+  }, [payload])
 
   const serviceTagList = ['serv1', 'serv2']
 
@@ -118,41 +118,41 @@ export default function NewAppointmentDrawer({payload}) {
 
   return (
     <div className="flex-col h-full">
-        <div className="flex-col text-lg text-center p-4 mb-2 bg-blue-950">
-            <CustomTooltip 
-              placement="bottom" style={{ opacity: 1 }} 
-              title={
-                <div className='shadow-xl'>
-                  <CalendarHeaderComponent date={selectedDate} onChange={setSelectedDate} />
-                </div>
-              } 
-              children={
-                <div className="text-white">
-                  {getMonthAndDayNames(selectedDate)}
-                </div>} 
-              maxW={"95%"} arrowColor={""}
-            />
-            
-            <div className="flex flex-row justify-around mt-3">
-                <Selector
-                  onSelect={setStartTime}
-                  placeholder={start}
-                  options={timeInterval}
-                  // options={range(5).map((i,index) => 
-                  //   getCurrentTime12HrFormat(parseInt(startTime.split(':')[0]), index * 15)
-                  // )}
-                  className={" mb-4 shadow-lg rounded"}
-                />
-                {/* <CustomSelect/> */}
-                <Selector
-                  onSelect={setOccuranceState}
-                  placeholder={occuranceState}
-                  options={["Doesn't repeat", "Every day", "Every week", "Every month"]}
-                  className={" mb-4 shadow-lg rounded"}
-                />
+      <div className="flex-col text-lg text-center p-4 mb-2 bg-blue-950">
+        <CustomTooltip
+          placement="bottom" style={{ opacity: 1 }}
+          title={
+            <div className='shadow-xl'>
+              <CalendarHeaderComponent date={selectedDate} onChange={setSelectedDate} />
             </div>
-            
+          }
+          children={
+            <div className="text-white">
+              {getMonthAndDayNames(selectedDate)}
+            </div>}
+          maxW={"95%"} arrowColor={""}
+        />
+
+        <div className="flex flex-row justify-around mt-3">
+          <Selector
+            onSelect={setStartTime}
+            placeholder={start}
+            options={timeInterval}
+            // options={range(5).map((i,index) => 
+            //   getCurrentTime12HrFormat(parseInt(startTime.split(':')[0]), index * 15)
+            // )}
+            className={" mb-4 shadow-lg rounded"}
+          />
+          {/* <CustomSelect/> */}
+          <Selector
+            onSelect={setOccuranceState}
+            placeholder={occuranceState}
+            options={["Doesn't repeat", "Every day", "Every week", "Every month"]}
+            className={" mb-4 shadow-lg rounded"}
+          />
         </div>
+
+      </div>
       <div className="flex-col mx-7">
         {/* <SelectSeparator className='bg-black'/> */}
         <Selector
@@ -167,11 +167,11 @@ export default function NewAppointmentDrawer({payload}) {
         </div>
         <Divider />
 
-        <Card sx={{backgroundColor: '#E6E1FF', marginTop: '10px', marginBottom: '10px'}}>
+        <Card sx={{ backgroundColor: '#E6E1FF', marginTop: '10px', marginBottom: '10px' }}>
           <CardContent>
             <Box>
-              <Text align="left" sx={{color: '#4D4D4D', fontSize: '18px', fontWeight: 700}} name={"Walkin"}/>
-              <Text align="left" sx={{color: '#808080', fontSize: '16px', fontWeight: 400}} name={"Default"}/>
+              <Text align="left" sx={{ color: '#4D4D4D', fontSize: '18px', fontWeight: 700 }} name={"Walkin"} />
+              <Text align="left" sx={{ color: '#808080', fontSize: '16px', fontWeight: 400 }} name={"Default"} />
             </Box>
           </CardContent>
         </Card>
@@ -186,72 +186,72 @@ export default function NewAppointmentDrawer({payload}) {
           label={"Service"}
         /> */}
 
-<Grid container spacing={2}>
-      <Grid item xs={12}>
-      <Autocomplete
-      options={options}
-      getOptionLabel={(option) => option.serviceName || ""}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          variant="outlined"
-          placeholder="Search services"
-          fullWidth
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-      )}
-      renderOption={(props, option) => (
-        <li {...props}>
-          <Box>
-            <Typography variant="subtitle1" color="red" gutterBottom>
-              {option.categoryName}
-            </Typography>
-            <Typography variant="body1" fontWeight="bold">
-              {option.serviceName}
-            </Typography>
-            {option.options && option.options.length > 0 && (
-              <Box pl={2}>
-                {option.options.map((optionItem, index) => (
-                  <Typography key={index} variant="body2">
-                    - {optionItem.optionName} (${optionItem.salePrice.toFixed(2)})
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Autocomplete
+              options={options}
+              getOptionLabel={(option) => option.serviceName || ""}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  placeholder="Search services"
+                  fullWidth
+                  value={searchTerm}
+                  onChange={handleSearchChange}
+                />
+              )}
+              renderOption={(props, option) => (
+                <li {...props}>
+                  <Box>
+                    <Typography variant="subtitle1" color="red" gutterBottom>
+                      {option.categoryName}
+                    </Typography>
+                    <Typography variant="body1" fontWeight="bold">
+                      {option.serviceName}
+                    </Typography>
+                    {option.options && option.options.length > 0 && (
+                      <Box pl={2}>
+                        {option.options.map((optionItem, index) => (
+                          <Typography key={index} variant="body2">
+                            - {optionItem.optionName} (${optionItem.salePrice.toFixed(2)})
+                          </Typography>
+                        ))}
+                      </Box>
+                    )}
+                  </Box>
+                </li>
+              )}
+              onChange={handleServiceSelect}
+              groupBy={(option) => option.categoryName}  // Group by category name
+            />
+          </Grid>
+          {selectedServices.map(service => (
+            <Grid item xs={12} key={service.serviceId} className="max-h-40 h-full  overflow-y-auto">
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    {service.serviceName}
                   </Typography>
-                ))}
-              </Box>
-            )}
-          </Box>
-        </li>
-      )}
-      onChange={handleServiceSelect}
-      groupBy={(option) => option.categoryName}  // Group by category name
-    />
-      </Grid>
-      {selectedServices.map(service => (
-        <Grid item xs={12} key={service.serviceId}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" gutterBottom>
-                {service.serviceName}
-              </Typography>
-              <Typography variant="body1" gutterBottom>
-                Duration: {service.options.length > 0 ? `${service.options[0].duration} mins` : 'Not specified'}
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                Employee: {service.employees.length > 0 ? service.employees[0] : 'Not assigned'}
-              </Typography>
-              <IconButton onClick={() => handleDeleteService(service.serviceId)}>
-                <DeleteRounded />
-              </IconButton>
-            </CardContent>
-          </Card>
+                  <Typography variant="body1" gutterBottom>
+                    Duration: {service.options.length > 0 ? `${service.options[0].duration} mins` : 'Not specified'}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary">
+                    Employee: {service.employees.length > 0 ? service.employees[0] : 'Not assigned'}
+                  </Typography>
+                  <IconButton onClick={() => handleDeleteService(service.serviceId)}>
+                    <DeleteRounded />
+                  </IconButton>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
         </Grid>
-      ))}
-    </Grid>
 
         <Divider />
-        
+
       </div>
-      <div className="my-4 mx-7 flex justify-between">
+      <div className="absolute bottom-0 flex justify-center gap-5 w-full bg-white p-3.5">
         <Button
           onClick={resetData}
           sx={styles.txtBtn}
@@ -294,7 +294,7 @@ const styles = {
       height: '55px', // Apply height to the input root
       borderRadius: '9px',
     },
-    
+
   },
   select: {
     '& .MuiInputBase-root': {
