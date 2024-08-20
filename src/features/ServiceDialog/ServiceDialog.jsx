@@ -137,9 +137,10 @@ function ServiceDialog() {
               <CheckoutCard
                 activeStep={activeStep}
                 next={onSetActiveStep}
-                establishmentName={
-                  establishmentData?.profile?.establishmentName
-                }
+                // establishmentName={
+                //   establishmentData?.profile?.establishmentName
+                // }
+                establishmentData={establishmentData}
                 establishmentId={establishmentData?.id}
               />
             </Box>
