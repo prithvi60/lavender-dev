@@ -15,6 +15,7 @@ import DatePicker from "../../components/DateInput";
 function CheckoutCard(props: any) {
   const { activeStep, next, establishmentData, establishmentId, time } = props;
   const establishmentName = establishmentData?.profile?.establishmentName;
+  
   const dispatch = useDispatch();
   const checkOutList = useSelector((state: any) => state.checkOutPage);
   const scheduleAppoinmentList = useSelector((state: any) => state.ScheduleAppoinment);
@@ -128,13 +129,13 @@ console.log("uemployee :::", employee)
   }, [imageIdList]);
 
   useEffect(() => {
-    console.log("employee : ", employee)
+    // console.log("employee : ", employee)
 
     const employeeName: any = employee?.find(
       (item) => item?.employeeId === scheduleAppoinmentList?.id
     );
     //setEmployee(employeeName)
-    console.log("emp : ", employeeName)
+    // console.log("emp : ", employeeName)
     setEmployeeName(employeeName?.employeeName);
   }, [employee, scheduleAppoinmentList?.id]);
 
@@ -148,7 +149,7 @@ console.log("uemployee :::", employee)
   };
 
   return (
-    <div className="my-6 md:mr-5 urbanist-font rounded-2xl chackout-card-container h-fit">
+    <div className="my-6 ml-5 md:ml-0 md:mr-5 urbanist-font rounded-2xl chackout-card-container h-fit">
       {" "}
       {/* Adjusted width to be responsive */}
       <div className="px-3 py-2 rounded-md shadow-sm min-w-80">
@@ -309,7 +310,6 @@ console.log("uemployee :::", employee)
                       variant="contained"
                     >
                       Proceed
-                      {/* {time === "schedule" ? "Proceed" : "Reschedule"} */}
                     </Button>
                   </div>
                 </Tooltip>
@@ -317,6 +317,7 @@ console.log("uemployee :::", employee)
                 <AppointmentConfimed
                   establishmentId={establishmentId}
                   activeStep={activeStep}
+                  time={time}
                 />
               )}
             </div>

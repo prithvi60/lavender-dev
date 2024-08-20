@@ -24,7 +24,7 @@ const style = {
   borderradius: "2px",
 };
 
-const AppointmentConfimed = ({ establishmentId, activeStep }) => {
+const AppointmentConfimed = ({ establishmentId, activeStep, time }) => {
   const [open, setOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
   const navigate = useNavigate();
@@ -126,7 +126,16 @@ const AppointmentConfimed = ({ establishmentId, activeStep }) => {
 
   return (
     <>
-      <Button
+      {time === "reschedule" ? (<Button
+        fullWidth
+        disabled={disabled}
+        className="w-full"
+        onClick={() => saveAppointmentClick()}
+        sx={styles.btn}
+        variant="contained"
+      >
+        Reschedule
+      </Button>) : (<Button
         fullWidth
         disabled={disabled}
         className="w-full"
@@ -135,7 +144,8 @@ const AppointmentConfimed = ({ establishmentId, activeStep }) => {
         variant="contained"
       >
         Proceed
-      </Button>
+      </Button>)}
+
       <Modal
         open={open}
         onClose={handleOpen}
@@ -153,22 +163,22 @@ const AppointmentConfimed = ({ establishmentId, activeStep }) => {
             }}
           >
             <GetIcon
-              onClick={() => {}}
+              onClick={() => { }}
               className="p-1 mx-16 my-5 rounded-sm cursor-pointer"
               iconName="CalendarConfirmedIcon"
             />
             {
               userDetails?.fullName ? (
-              <div id="title" className="mb-3 text-xl font-bold">
-                Dear {userDetails?.fullName}
-              </div>
+                <div id="title" className="mb-3 text-xl font-bold">
+                  Dear {userDetails?.fullName}
+                </div>
               )
-              :  
-              (
-                <Skeleton animation="wave" />
-              )
+                :
+                (
+                  <Skeleton animation="wave" />
+                )
             }
-            
+
             <div>Your appointment has been confirmed</div>
           </div>
           <Grid container spacing={2} className="filters-container">

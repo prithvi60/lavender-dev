@@ -233,8 +233,9 @@ export default function RescheduleAppointment(props) {
   });
 
   return (
-    <div className="my-10 mt-2 md:mr-16 w-full md:w-3/5 px-6 lg:w-[70%]">
-      <div className="flex items-center gap-3">
+    <div className="my-10 mt-2 md:mx-16" >
+      {/* className="my-10 mt-2 md:mr-16 w-full md:w-3/5 px-6 lg:w-[70%]" */}
+      <div className="flex items-center gap-3 ml-2 sm:ml-0">
         {/* <IconButton onClick={() => onSetActiveStep(0)}>
           <GetIcon iconName="BackIconArrow" />
         </IconButton> */}

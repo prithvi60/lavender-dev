@@ -203,6 +203,7 @@ function CheckoutFooterCard(props) {
                 <AppointmentConfimed
                   establishmentId={establishmentId}
                   activeStep={activeStep}
+                  time={time}
                 />
               )}
           </Box>
@@ -371,24 +372,7 @@ function CheckoutFooterCard(props) {
             borderTop: "1px solid rgba(0, 0, 0, 0.12)",
           }}
         >
-          {time === "schedule" ? (
-            <Button
-              variant="contained"
-              onClick={sendDataToParent}
-              disabled={disabled}
-              fullWidth
-              sx={{
-                backgroundColor: "#8B5CF6",
-                "&:hover": {
-                  backgroundColor: "#7C3AED",
-                },
-                borderRadius: "8px",
-                textTransform: "none",
-              }}
-            >
-              Proceed
-            </Button>
-          ) : (<Button
+          <Button
             variant="contained"
             onClick={sendDataToParent}
             disabled={disabled}
@@ -402,9 +386,8 @@ function CheckoutFooterCard(props) {
               textTransform: "none",
             }}
           >
-            Reschedule
-          </Button>)}
-
+            Proceed
+          </Button>
         </Box>
       </Dialog>
     </div>
