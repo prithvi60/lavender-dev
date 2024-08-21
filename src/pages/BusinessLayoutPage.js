@@ -15,6 +15,7 @@ import { SalonProfile } from "../features/Business/SalonProfile/SalonProfile.tsx
 import { updateUser } from "../store/slices/currentUserSlice.js";
 import { useTheme } from "@mui/material";
 import { useMediaQuery } from "@mui/material";
+import { FilterProvider } from "../features/Business/FilterContext.tsx";
 
 const BusinessLayoutPage = () => {
   const [activeField, setActiveField] = useState("Schedule");
@@ -24,7 +25,7 @@ const BusinessLayoutPage = () => {
   const dispatch = useDispatch();
   const getData = useSelector((state) => state.businessSlice);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     setTimeout(() => {
@@ -89,27 +90,30 @@ const BusinessLayoutPage = () => {
 
   return (
     <DrawerProvider>
-      <Box className="landing-page">
-        <div className="flex flex-col h-full">
-          <BusinessHeader pageName={activeField} toggleSidebar={toggleSidebar} />
-          <div className="flex flex-row ">
-            {(!isMobile || sidebarOpen) && (
-              <div className={`rounded-lg  z-10 bg-white  sticky top-0`}>
-                <SideBar
-                  activeField={activeField}
-                  onChange={(field) => {
-                    setActiveField(field);
-                    if (isMobile) setSidebarOpen(false);
-                  }}
-                />
+        <Box className="landing-page">
+          <div className="flex flex-col h-full">
+            <BusinessHeader
+              pageName={activeField}
+              toggleSidebar={toggleSidebar}
+            />
+            <div className="flex flex-row ">
+              {(!isMobile || sidebarOpen) && (
+                <div className={`rounded-lg  z-10 bg-white  sticky top-0`}>
+                  <SideBar
+                    activeField={activeField}
+                    onChange={(field) => {
+                      setActiveField(field);
+                      if (isMobile) setSidebarOpen(false);
+                    }}
+                  />
+                </div>
+              )}
+              <div id="render-main" className="w-full overflow-hidden">
+                {renderMainContent()}
               </div>
-            )}
-            <div id="render-main" className="w-full overflow-hidden">
-              {renderMainContent()}
             </div>
           </div>
-        </div>
-      </Box>
+        </Box>
     </DrawerProvider>
   );
 };

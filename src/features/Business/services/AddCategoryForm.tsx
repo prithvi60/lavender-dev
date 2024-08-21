@@ -81,7 +81,7 @@ export default function AddCategoryForm({payload}) {
 
   const { closeDrawer } = useDrawer();
 
-  const handleDrawerSubmit = (data) => {
+  const handleDrawerSubmit = async(data) => {
     const payLoad = {
       "id": establishmentId,
       "categories": [
@@ -93,10 +93,18 @@ export default function AddCategoryForm({payload}) {
         }
       ]
     }
-    const response = endpoint.saveEstablishmentCategory(payLoad);
+    // const response = await endpoint.saveEstablishmentCategory(payLoad); 
     
-    getEstablishmentDetails();
-    closeDrawer();
+    // await getEstablishmentDetails();
+    // closeDrawer();
+    endpoint.saveEstablishmentCategory(payLoad)
+    .then(response => {
+      getEstablishmentDetails(); // Call this after the save operation
+      closeDrawer();
+    })
+    .catch(error => {
+      console.error("Error saving category:", error); // Handle any errors
+    });
   };
 
   const getEstablishmentDetails = async () => {

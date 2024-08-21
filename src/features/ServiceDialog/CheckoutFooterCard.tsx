@@ -84,7 +84,7 @@ function CheckoutFooterCard(props) {
     let totalDurationSum = 0;
     for (let item of checkOutList?.checkOut) {
       totalPriceSum += item?.finalPrice;
-      totalDurationSum += item?.duration;
+      totalDurationSum += item?.serviceDuration;
     }
     setTotalPrice(totalPriceSum);
     setTotalDuration(totalDurationSum);
@@ -343,7 +343,7 @@ function CheckoutFooterCard(props) {
                     name={`$${item.finalPrice}`}
                   />
                 </Box>
-                <Text sx={styles.duration} name={`${item.duration} mins`} />
+                <Text sx={styles.duration} name={`${item.serviceDuration} mins`} />
               </Box>
             ))}
           </Box>
