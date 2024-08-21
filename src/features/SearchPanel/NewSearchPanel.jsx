@@ -497,7 +497,7 @@ const NewSearchPanel = ({ pathname }) => {
         treatmentServicesList={treatmentServicesList}
       />
 
-      <div className="w-full relative">
+      <div className="w-full  relative">
         <div className="search-panel">
           {/* <Form> */}
 
@@ -936,25 +936,25 @@ const NewSearchPanel = ({ pathname }) => {
               </Paper>
             </div>
           )}
-          {pathname === "/" && (<Typography
-            sx={{
-              ...styles.subTitle,
-              position: "absolute",
-              top: { xs: "50vh", sm: "18vh" },
-              left: "50%",
-              transform: "translateX(-50%)",
-              fontSize: { xs: "34px", sm: "45px" },
-              lineHeight: { xs: "30px", sm: "54px" },
-              width: "100%",
-            }}
-            className="hero-subtitle"
-          >
-            Book your next salon experience
-            <br />
-            with Lavender
-          </Typography>)}
 
         </div>
+        {pathname === "/" && (<Typography
+          sx={{
+            ...styles.subTitle,
+            position: "absolute",
+            top: { xs: "50vh", sm: "18vh" },
+            left: "50%",
+            transform: "translateX(-50%)",
+            fontSize: { xs: "34px", sm: "45px" },
+            lineHeight: { xs: "30px", sm: "54px" },
+            width: "100%",
+          }}
+          className="hero-subtitle"
+        >
+          Book your next salon experience
+          <br />
+          with Lavender
+        </Typography>)}
       </div>
     </>
   );

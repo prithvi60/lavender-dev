@@ -1,15 +1,9 @@
-import * as React from 'react';
+import * as React from "react";
 import GetIcon from "../assets/Icon/icon.tsx";
 
-import {
-  Controller,
-  useForm,
-} from 'react-hook-form';
-import {
-  useDispatch,
-  useSelector,
-} from 'react-redux';
-import * as yup from 'yup';
+import { Controller, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import * as yup from "yup";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Chip, Divider, Typography } from "@mui/material";
@@ -106,43 +100,56 @@ export default function FilterModal() {
 
   return (
     <div>
-      <Buttons onClick={handleOpen} sx={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        '@media (max-width: 600px)': {
-          marginTop: '4px',
-        },
-      }}>
+      <Buttons
+        onClick={handleOpen}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          "@media (max-width: 600px)": {
+            marginTop: "4px",
+          },
+        }}
+      >
         <TuneRoundedIcon className="text-black" />
-                    <Box
-                sx={{
-                  position: "relative",
-                  display: "inline-flex",
-                  alignItems: "center",
-                }}
-              >
-                <Typography variant="body2" sx={{ marginRight: "8px",marginLeft: "8px",color: '#4D4D4D', textTransform: 'none', fontSize: '20px', fontWeight: 600 }}>
-                  Filter
-                </Typography>
-                <Chip
-                  label={2}
-                  size="small"
-                  color="primary"
-                  sx={{
-                    position: "absolute",
-                    top: "-8px",
-                    right: "-12px",
-                    height: "20px",
-                    fontSize: "0.75rem",
-                    fontWeight: "bold",
-                    backgroundColor: "red",
-                    "& .MuiChip-label": {
-                      padding: "0 6px",
-                    },
-                  }}
-                />
-              </Box>
+        <Box
+          sx={{
+            position: "relative",
+            display: "inline-flex",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{
+              marginRight: "8px",
+              marginLeft: "8px",
+              color: "#4D4D4D",
+              textTransform: "none",
+              fontSize: "20px",
+              fontWeight: 600,
+            }}
+          >
+            Filter
+          </Typography>
+          <Chip
+            label={2}
+            size="small"
+            color="primary"
+            sx={{
+              position: "absolute",
+              top: "-8px",
+              right: "-12px",
+              height: "20px",
+              fontSize: "0.75rem",
+              fontWeight: "bold",
+              backgroundColor: "red",
+              "& .MuiChip-label": {
+                padding: "0 6px",
+              },
+            }}
+          />
+        </Box>
       </Buttons>
       <Modal
         open={open}
@@ -150,14 +157,18 @@ export default function FilterModal() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} className="rounded-3xl filter-box">
+        <Box sx={style} className="rounded-3xl filter-box p-4 md:p-6">
           <div className="flex justify-between items-center mb-3">
             <div id="title" className="font-bold text-xl">
               Filters
             </div>
-            <GetIcon iconName="CloseIcon" onClick={handleOpen} className="cursor-pointer" />
+            <GetIcon
+              iconName="CloseIcon"
+              onClick={handleOpen}
+              className="cursor-pointer"
+            />
           </div>
-          <Grid container spacing={2} className='filters-container'>
+          <Grid container spacing={2} className="filters-container">
             <Grid item xs={12}>
               <div className="font-bold mb-2">Sort by</div>
               <form>
@@ -183,12 +194,12 @@ export default function FilterModal() {
                 <div className="font-bold mb-2 mt-3">Price</div>
                 <Controller
                   name="price"
-                  className='ml-4 mr-4'
+                  className="ml-4 mr-4"
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <div className="mb-4 ml-6 mr-6">
                       <Slider
-                        sx={{color: '#965AE5'}}
+                        sx={{ color: "#965AE5" }}
                         value={value}
                         onChange={(_, newValue) => onChange(newValue)}
                         valueLabelDisplay="auto"
@@ -280,16 +291,16 @@ const SortByItem = React.forwardRef((props, ref) => {
 
 const styles = {
   btn: {
-    color: '#FFFFFF',
-    backgroundColor: '#825FFF',
+    color: "#FFFFFF",
+    backgroundColor: "#825FFF",
     fontWeight: 600,
-    fontSize: '16px',
-    lineHeight: '24px',
-    padding: '10px 40px 10px 40px',
-    borderRadius: '10px',
-    textTransform: 'none',
-    '&:hover': {
-      backgroundColor: '#5A3EBF',
-    }
+    fontSize: "16px",
+    lineHeight: "24px",
+    padding: "10px 40px 10px 40px",
+    borderRadius: "10px",
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: "#5A3EBF",
+    },
   },
-}
+};

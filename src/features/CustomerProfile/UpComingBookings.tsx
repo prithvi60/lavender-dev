@@ -52,7 +52,7 @@ function UpComingBookings({ userInfo }) {
 
   const cardStyle = {
     flex: "0 0 auto",
-    margin: "10px",
+    // margin: "10px",
     boxSizing: "border-box",
     width: isMobile ? "100%" : cardWidth,
     flexDirection: "row",
@@ -77,7 +77,8 @@ function UpComingBookings({ userInfo }) {
                 flexDirection: isMobile ? "column" : "row",
                 overflowX: isMobile ? "hidden" : "auto",
                 overflowY: isMobile ? "auto" : "visible",
-                padding: "10px",
+                // padding: "10px",
+                gap: "15px",
                 justifyContent: "space-between",
                 scrollbarWidth: "thin",
                 // @ts-ignore
@@ -227,9 +228,9 @@ function UpComingBookings({ userInfo }) {
                       </Grid>
                     )}
                   </Card>
-                  {isMobile && index < userInfo.upcomingBookings.length - 1 && (
+                  {/* {isMobile && index < userInfo.upcomingBookings.length - 1 && (
                     <Divider sx={{ my: 2 }} />
-                  )}
+                  )} */}
                 </React.Fragment>
               ))}
             </div>

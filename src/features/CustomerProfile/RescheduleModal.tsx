@@ -94,7 +94,7 @@ export const RescheduleModal = ({
         )}
 
         <div
-          className={`pl-1 text-[#4D4D4D] text-base uppercase ${userFlow !== "past" ? "text-[#4D4D4D] cursor-pointer" : "text-[#B3B3B3]"
+          className={`pl-1 text-[#4D4D4D] text-base max-[600px]:capitalize min-[601px]:uppercase ${userFlow !== "past" ? "text-[#4D4D4D] cursor-pointer" : "text-[#B3B3B3]"
             }`}
         >
           Reschedule

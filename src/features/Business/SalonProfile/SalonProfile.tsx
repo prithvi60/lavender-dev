@@ -114,7 +114,7 @@ export const SalonProfile = () => {
                 basicInfo={basicInfo}
                 lastModified={lastModified}
               />
-              
+
               <div className="space-y-3.5 w-full text-center">
                 <SalonSetup setMembershipScreen={setMembershipScreen} />
               </div>
@@ -145,8 +145,26 @@ export const SalonProfile = () => {
                   "You have successfully completed the lavender business setup for your salon. Now you can use our platform to manage our businesses"
                 }
               />
-              <div className="mt-6 md:mt-0">
+              <div className="mt-6 md:mt-0 block">
                 <SalonSetup setMembershipScreen={setMembershipScreen} />
+                <Buttons
+                  sx={{
+                    borderRadius: "10px",
+                    padding: "10px 40px 10px 40px",
+                    width: "190px",
+                    height: "55.5px",
+                    color: '#FFFFFF',
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap',
+                    margin: "10px 0px"
+                  }}
+                  variant="contained"
+                  onClick={() => navigate(`/business/getStarted`)}
+                  name={"Get Started New"}
+                >
+                  {" "}
+                </Buttons>
               </div>
             </div>
           )}

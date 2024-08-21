@@ -591,9 +591,9 @@ export default function SearchResult() {
         sx={{
           "@media (max-width: 700px)": {
             alignItems: "flex-start",
-            "& .MuiCardHeader-content": {
-              marginBottom: "8px",
-            },
+            // "& .MuiCardHeader-content": {
+            //   marginBottom: "8px",
+            // },
           },
         }}
         title={
@@ -671,7 +671,7 @@ export default function SearchResult() {
       <hr />
       <div style={{ overflowY: "auto", flexGrow: 1 }}>
       <div className="search-result-container">
-        <Grid container spacing={2} style={{ width: "100%" }}>
+        <Grid container spacing={2}>
           <Grid item xs={12} order={{ xs: 1, md: 2 }} md={isShowMap ? 6 : 12}>
             <div className="flex justify-center mb-4">
               {apiIsLoaded && isLoaded ? (
@@ -804,7 +804,7 @@ export default function SearchResult() {
 
                   return (
                     <Grid item xs={12} key={card?.establishmentId}>
-                      <Card sx={{ width: "100%", height: "100%" }}>
+                      <Card sx={{ width: "100%", height: "100%"}} className="shadow-none">
                         <CardContent>
                           <div className="card-wrap-container">
                             <div className="card-container">
@@ -826,8 +826,8 @@ export default function SearchResult() {
                                   />
                                 )}
                                 <div
-                                  className="card-header-details"
-                                  style={{ marginLeft: "20px" }}
+                                  className="card-header-details md:ml-[20px]"
+                                  // style={{ marginLeft: "20px" }}
                                 >
                                   <div className="chip-wrap">
                                     {card?.serviceTags?.map((tag, index) => (
@@ -965,7 +965,7 @@ export default function SearchResult() {
                               </Grid>
                             </div>
                           </div>
-                          <CardActions className="card-footer-action ">
+                          <CardActions className="card-footer-action rounded-b-[20px] shadow-md">
                             <StoreMallDirectoryOutlinedIcon />
                             <TextRouter
                               name={"Salon Details"}
