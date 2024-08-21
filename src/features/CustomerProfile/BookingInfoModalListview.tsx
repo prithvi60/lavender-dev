@@ -197,7 +197,7 @@ export const BookingInfoModalListView = ({
                 className="!mb-0 !w-max"
                 startIcon={<GetIcon iconName="LocationIcon" />}
               >
-                <h6 className="text-[#4D4D4D] text-base !mb-0">Directions</h6>
+                <h6 className="text-[#4D4D4D] text-base !mb-0 max-[600px]:!capitalize min-[601px]:!uppercase">Directions</h6>
               </Button>
               {/* {userflow !== "past" && (
                 <Box

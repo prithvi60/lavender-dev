@@ -5,7 +5,7 @@ import { Box, Container } from '@mui/material';
 
 const LearnMore = () => {
   return (
-    <Container maxWidth="xl" className="learn-more text-center mt-12 mx-2">
+    <Container maxWidth="xl" className="learn-more text-center mt-12">
       <Box sx={{ display: 'flex', justifyContent: 'center', padding: '10px' }}>
         <Text sx={styles.header} name={'Discover salons to add to your self-care routine'} />
       </Box>

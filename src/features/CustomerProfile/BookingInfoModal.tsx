@@ -248,7 +248,7 @@ export const BookingInfoModal = ({
                 >
                   <div className="flex items-center p-5 ">
                     <GetIcon iconName="LocationIcon" />
-                    <div className="pl-4 text-[#4D4D4D] text-base cursor-pointer">Directions</div>
+                    <div className="pl-4 text-[#4D4D4D] text-base cursor-pointer max-[600px]:!capitalize min-[601px]:!uppercase">Directions</div>
                   </div>
                   {/* <div
                     className="flex items-center p-5"

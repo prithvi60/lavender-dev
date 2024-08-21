@@ -14,7 +14,7 @@ const HeroSection = () => {
   return (
     <section className="hero-section" style={{ paddingBottom: "150px" }}>
       <section className="hero-content">
-        <Text sx={styles.title} name={LANDING_PAGE?.TITLE} />
+        <Text sx={styles.title} className="!text-5xl md:!text-[5rem]" name={LANDING_PAGE?.TITLE} />
         <Text
           className="hero-title urbanist-font "
           variant="body1"
@@ -41,9 +41,9 @@ export default HeroSection;
 const styles = {
   title: {
     fontFamily: "Urbanist",
-    fontSize: "90px",
+    // fontSize: "90px",
     fontWeight: 500,
-    lineHeight: "108px",
+    // lineHeight: "108px",
     color: "#4D4D4D",
   },
 };

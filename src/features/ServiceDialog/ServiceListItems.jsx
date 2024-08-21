@@ -10,7 +10,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import OptionsModal from "./OptionsModal";
 import OptionsModalListView from "./OptionsModalListView";
-import { updateCheckOut,resetCheckOut } from "../../store/slices/checkOutPageSlice";
+import { updateCheckOut, resetCheckOut } from "../../store/slices/checkOutPageSlice";
 
 function ServiceListItems({ serviceCategories, handleClose }) {
   const listRef = useRef(null);
@@ -80,13 +80,13 @@ function ServiceListItems({ serviceCategories, handleClose }) {
         ref={listRef}
         className="serviceGridList"
         sx={{
-          "@media (max-width: 768px)": {
-            width: "100%",
-          },
+          // "@media (max-width: 768px)": {
+          //   // width: "100%",
+          // },
           maxHeight: { xs: "calc(100vh - 300px)", sm: "calc(100vh - 0px)" },
           bgcolor: "background.paper",
           overflowY: "auto",
-          marginLeft: { xs: 0, md: "36px" },
+          marginLeft: "36px",
           marginRight: { xs: 0, md: "38px" },
           "@media (min-width: 768px)": {
             width: "90%",
@@ -182,35 +182,35 @@ function ServiceListItems({ serviceCategories, handleClose }) {
                     </div>
                   </div>
                   {isMobile ? (
-  <div style={{ position: "absolute", right: 16, top: 36 }}>
-    <OptionsModalListView
-      props={service}
-      isMobile={isMobile}
-      onServiceClick={() => handleServiceClick(service)}
-    />
-  </div>
-) : (
-  <div>
-    {service.options.length === 1 ? (
-      <IconButton onClick={() => handleServiceClick(service)}>
-        {checkOutList.checkOut.some(
-          (item) => item.optionId === service.options[0].optionId
-        ) ? (
-          <GetIcon iconName="SelectedIcon" />
-        ) : (
-          <GetIcon iconName="PlusIcon" />
-        )}
-      </IconButton>
-    ) : (
-      <OptionsModal
-        props={service}
-        isMobile={isMobile}
-        selectedService={selectedService || []}
-        onServiceClick={() => handleServiceClick(service)}
-      />
-    )}
-  </div>
-)}
+                    <div style={{ position: "absolute", right: 16, top: 36 }}>
+                      <OptionsModalListView
+                        props={service}
+                        isMobile={isMobile}
+                        onServiceClick={() => handleServiceClick(service)}
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      {service.options.length === 1 ? (
+                        <IconButton onClick={() => handleServiceClick(service)}>
+                          {checkOutList.checkOut.some(
+                            (item) => item.optionId === service.options[0].optionId
+                          ) ? (
+                            <GetIcon iconName="SelectedIcon" />
+                          ) : (
+                            <GetIcon iconName="PlusIcon" />
+                          )}
+                        </IconButton>
+                      ) : (
+                        <OptionsModal
+                          props={service}
+                          isMobile={isMobile}
+                          selectedService={selectedService || []}
+                          onServiceClick={() => handleServiceClick(service)}
+                        />
+                      )}
+                    </div>
+                  )}
                 </ListItemButton>
               );
             })}

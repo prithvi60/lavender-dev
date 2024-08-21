@@ -149,10 +149,10 @@ console.log("uemployee :::", employee)
   };
 
   return (
-    <div className="my-6 ml-5 md:ml-0 md:mr-5 urbanist-font rounded-2xl chackout-card-container h-fit">
+    <div className="my-6 ml-5 md:mr-5 urbanist-font rounded-2xl chackout-card-container h-fit">
       {" "}
       {/* Adjusted width to be responsive */}
-      <div className="px-3 py-2 rounded-md shadow-sm min-w-80">
+      <div className="px-3 py-2 rounded-md shadow-none min-w-80">
         <Box
           className="flex justify-between w-full gap-2 pb-2 my-2 serviceCardDetail"
           sx={{

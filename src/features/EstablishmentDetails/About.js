@@ -49,11 +49,11 @@ function About(props) {
               <div className="text-lg font-bold urbanist-font">
                 Additional information
               </div>
-              <div className="flex flex-wrap justify-between py-4">
-                <Box className="flex mr-16 " sx={{'@media (max-width: 640px)': {flexDirection: 'column'}}}>
-                  <Box sx={{display: 'flex'}}>
+              <div className="py-4">
+                <Box className="flex items-start md:gap-4 justify-between gap-0" sx={{'@media (max-width: 640px)': {flexDirection: 'column'}}}>
+                  <Box sx={{display: 'flex', gap:"5px", alignItems: "start"}}>
                     <GetIcon
-                      className="flex items-center"
+                      className="flex items-center mt-1"
                       iconName="PaymentCardIcon"
                     />
                     <Text name={"Payment method"} sx={styles.paymentText} />
@@ -75,9 +75,9 @@ function About(props) {
               </div>
               <hr />
 
-              <div className="flex flex-wrap justify-between py-4">
-                <Box className="flex " sx={{'@media (max-width: 640px)': {flexDirection: 'column'}}}>
-                  <Box sx={{display: 'flex'}}>
+              <div className="py-4">
+                <Box className="flex items-start md:gap-4 justify-between gap-0" sx={{'@media (max-width: 640px)': {flexDirection: 'column'}}}>
+                  <Box sx={{display: 'flex', alignItems: "start", gap:"5px"}}>
                     <GetIcon
                         className="flex items-center w-full gap-3 text-lg font-semibold h-fit urbanist-font md:w-8/12"
                         iconName="LanguageIcon"
@@ -95,9 +95,9 @@ function About(props) {
               </div>
               <hr />
 
-              <div className="flex flex-wrap justify-between py-4">
-                <Box className="flex" sx={{'@media (max-width: 640px)': {flexDirection: 'column'}}}>
-                  <Box sx={{display: 'flex'}}>
+              <div className="py-4">
+                <Box className="flex items-start gap-0 md:gap-4 justify-between" sx={{'@media (max-width: 640px)': {flexDirection: 'column'}}}>
+                  <Box sx={{display: 'flex', alignItems: "start", gap:"5px"}}>
                     <GetIcon iconName='ManIcon' className="flex items-center gap-3 h-fit">
                     </GetIcon>
                     <Text name={"Accessibility"} sx={styles.textA}/>
@@ -150,13 +150,13 @@ const styles={
     color: '#4D4D4D',
     fontSize: '18px',
     fontWeight: 700,
-    paddingRight: 14
+    // paddingRight: 14
   },
   textA: {
     color: '#4D4D4D',
     fontSize: '18px',
     fontWeight: 700,
-    paddingRight: 12.5
+    // paddingRight: 12.5
   },
   paymentText: {
     color: '#4D4D4D',

@@ -51,7 +51,7 @@ function PastBookings({ userInfo }) {
 
   const cardStyle = {
     flex: "0 0 auto",
-    margin: "10px",
+    // margin: "10px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
     boxSizing: "border-box",
     width: isMobile ? "100%" : cardWidth,
@@ -78,7 +78,8 @@ function PastBookings({ userInfo }) {
                 flexDirection: isMobile ? "column" : "row",
                 overflowX: isMobile ? "hidden" : "auto",
                 overflowY: isMobile ? "auto" : "visible",
-                padding: "10px",
+                // padding: "10px",
+                gap: "15px",
                 scrollbarWidth: "thin",
                 // @ts-ignore
                 "&::-webkit-scrollbar": {
@@ -247,9 +248,9 @@ function PastBookings({ userInfo }) {
                       </Grid>
                     )}
                   </Card>
-                  {isMobile && index < userInfo.pastBookings.length - 1 && (
+                  {/* {isMobile && index < userInfo.pastBookings.length - 1 && (
                     <Divider sx={{ my: 2 }} />
-                  )}
+                  )} */}
                 </React.Fragment>
               ))}
             </div>
