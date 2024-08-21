@@ -21,6 +21,8 @@ import { getEstablishmentData } from "../../store/slices/businessSlice.js";
 import { useParams } from "react-router-dom";
 import endpoint from "../../api/endpoints.ts";
 import { useNavigate } from "react-router-dom";
+import { resetquickBook } from "../../store/slices/quickbookSlice.js";
+import GetIcon from "../../assets/Icon/icon.tsx";
 
 function ServiceDialog() {
   const [isOpen, setIsOpen] = useState(true);
@@ -44,6 +46,7 @@ function ServiceDialog() {
     navigate(-1);
     dispatch(removeCheckOutDetails());
     dispatch(resetFilter());
+    dispatch(resetquickBook());
     setActiveStep(0);
   }
 
@@ -73,6 +76,12 @@ function ServiceDialog() {
       </Buttons> */}
       <Dialog id="ServicesHeaderButton" fullScreen open={isOpen} close={handleClose}>
         <Toolbar className="mb-4 stepper-header">
+          <GetIcon
+            className="cursor-pointer nav-bar-title"
+            align="left"
+            onClick={() => navigate("/")}
+            iconName="LavenderFullLogo"
+          />
           <Box sx={{ width: "100%" }}>
             <Stepper activeStep={activeStep} alternativeLabel>
               {steps.map((label) => (
@@ -115,7 +124,6 @@ function ServiceDialog() {
             {activeStep === 1 && (
               <ScheduleAppointment
                 estData={establishmentData}
-                time={"schedule"}
                 onSetActiveStep={onSetActiveStep}
               />
             )}
@@ -143,7 +151,6 @@ function ServiceDialog() {
                 // }
                 establishmentData={establishmentData}
                 establishmentId={establishmentData?.id}
-                time={"schedule"}
               />
             </Box>
           ) : (
@@ -164,7 +171,6 @@ function ServiceDialog() {
                   establishmentData?.profile?.establishmentName
                 }
                 establishmentId={establishmentData?.id}
-                time={"schedule"}
               />
             </Box>
           )}

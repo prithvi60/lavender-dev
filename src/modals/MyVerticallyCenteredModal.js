@@ -189,7 +189,6 @@ const MyVerticallyCenteredModal = (props) => {
         status === window.google.maps.places.PlacesServiceStatus.OK &&
         place
       ) {
-        console.log(place.geometry.location.lat(), "place");
         const location = `${place.formatted_address.slice(0, 40)}...`;
         const lat = place.geometry.location.lat();
         const lng = place.geometry.location.lng();

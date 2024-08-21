@@ -82,7 +82,7 @@ export const Appointment = ({data, elementRef, onDragStart, onDragEnd, onDrag, d
               onDrag={onDrag}
               style={{
                 height: '95%',
-                cursor: disabled ? 'default' : 'grab'
+                cursor: disabled ? 'pointer' : 'grab'
               }}
               className='truncate'
               onClick={() => openDrawer("AppointmentDetails", data)}

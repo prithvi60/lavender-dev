@@ -40,6 +40,7 @@ import {
 } from "@react-google-maps/api";
 import { updatequickBook } from "../../store/slices/quickbookSlice.js";
 import { useDispatch } from "react-redux";
+import { useLoader } from "../../hooks/useLoader.ts";
 // import { MdDownload } from "react-icons/md";
 // import axios from "axios";
 
@@ -112,7 +113,8 @@ export default function SearchResult() {
     latitude: locationList[0]?.center?.lat,
     longitude: locationList[0]?.center?.lng,
   });
-
+  const { showLoader, hideLoader } = useLoader();
+ 
   const { state } = useLocation();
   const navigate = useNavigate();
 
@@ -204,6 +206,7 @@ export default function SearchResult() {
   });
 
   useEffect(() => {
+    showLoader();
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
@@ -221,15 +224,18 @@ export default function SearchResult() {
           }
 
           setIsLoaded(true);
+          hideLoader();
         },
         (error) => {
           console.error("Error getting geolocation", error);
           setIsLoaded(true);
+          hideLoader();
         }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
       setIsLoaded(true);
+      hideLoader();
     }
   }, []);
 
@@ -306,18 +312,18 @@ export default function SearchResult() {
     },
   });
 
-  const handleClick = (timeSlot, date, estId, serviceName, serviceId) => {
-
+  const handleClick = (timeSlot, date, estId, service) => {
     dispatch(
       updatequickBook({
          selectDate: date,
          selectedTime: timeSlot,
-         selectedServiceId: serviceId,
-         selectedServiceName: serviceName
+         selectedServiceId: service?.serviceId,
+         selectedServiceName: service?.serviceName,
       })
     );
     navigate(`/salon/${estId}/service`);
   }
+
 
   function handleMapClick() {
     setIsShowMap((prev) => !prev);
@@ -511,51 +517,10 @@ export default function SearchResult() {
     }
   }, [map, transformedData, center]);
 
-  const customServices = [
-    {
-      serviceName: "Hair Spa",
-      startingPrice: 100,
-      availabilities: [
-        {
-          date: "2024-08-07",
-          timeSlots: ["10:00 AM", "11:00 AM", "12:00 PM"],
-        },
-        {
-          date: "2024-08-08",
-          timeSlots: ["12:00 PM", "11:00 AM", "03:00 PM"],
-        },
-      ],
-    },
-    {
-      serviceName: "Hair Dye",
-      startingPrice: 150,
-      availabilities: [
-        {
-          date: "2024-08-08",
-          timeSlots: ["01:00 PM", "02:00 PM", "03:00 PM"],
-        },
-      ],
-    },
-    {
-      serviceName: "Beauty Therapy",
-      startingPrice: 200,
-      availabilities: [
-        {
-          date: "2024-08-07",
-          timeSlots: ["03:00 PM", "05:00 PM", "06:00 PM"],
-        },
-      ],
-    },
-  ];
-
   const updatedTreatmentServicesList = state?.treatmentServicesList?.map(
     (card) => ({
       ...card,
       services: card.services ? card.services : [],
-      rating: {
-        ratingStar: (Math.random() * 2 + 3).toFixed(1),
-        ratingCount: Math.floor(Math.random() * (100 - 20 + 1)) + 20,
-      },
     })
   );
 
@@ -583,17 +548,17 @@ export default function SearchResult() {
           justifyContent: "space-between",
           height: "4.4rem", 
           boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-          "@media (max-width: 700px)": {
-            height: "4rem",
-            padding: "12px 8%",
-          },
+          // "@media (max-width: 700px)": {
+          //   height: "4rem",
+          //   padding: "12px 8%",
+          // },
         }}
         sx={{
           "@media (max-width: 700px)": {
             alignItems: "flex-start",
-            // "& .MuiCardHeader-content": {
-            //   marginBottom: "8px",
-            // },
+            "& .MuiCardHeader-content": {
+              marginBottom: "8px",
+            },
           },
         }}
         title={
@@ -643,6 +608,9 @@ export default function SearchResult() {
                 "@media (max-width: 700px)": {
                   display: "none",
                 },
+                fontSize: '20px',
+                fontWeight: 400,
+                color: '#4D4D4D'
               }}
             >
               Map mode
@@ -671,7 +639,7 @@ export default function SearchResult() {
       <hr />
       <div style={{ overflowY: "auto", flexGrow: 1 }}>
       <div className="search-result-container">
-        <Grid container spacing={2}>
+        <Grid container spacing={2} style={{ width: "100%" }}>
           <Grid item xs={12} order={{ xs: 1, md: 2 }} md={isShowMap ? 6 : 12}>
             <div className="flex justify-center mb-4">
               {apiIsLoaded && isLoaded ? (
@@ -804,7 +772,7 @@ export default function SearchResult() {
 
                   return (
                     <Grid item xs={12} key={card?.establishmentId}>
-                      <Card sx={{ width: "100%", height: "100%"}} className="shadow-none">
+                      <Card sx={{ width: "100%", height: "100%" }}>
                         <CardContent>
                           <div className="card-wrap-container">
                             <div className="card-container">
@@ -826,8 +794,8 @@ export default function SearchResult() {
                                   />
                                 )}
                                 <div
-                                  className="card-header-details md:ml-[20px]"
-                                  // style={{ marginLeft: "20px" }}
+                                  className="card-header-details"
+                                  style={{ marginLeft: "20px" }}
                                 >
                                   <div className="chip-wrap">
                                     {card?.serviceTags?.map((tag, index) => (
@@ -844,16 +812,16 @@ export default function SearchResult() {
                                   </div>
                                   <div className="card-rating">
                                     <div className="text-lg">
-                                      {card?.rating?.ratingStar}
+                                      {card?.averageRating.toFixed(1)}
                                     </div>
                                     <StyledRating
                                       name="customized-color"
-                                      value={card?.rating?.ratingStar}
+                                      value={card?.averageRating}
                                       precision={0.5}
                                       readOnly
                                     />
                                     <div className="text-sm font-bold">
-                                      {"(" + card?.rating?.ratingCount + ")"}
+                                      {"(" + card?.reviewsCount + ")"}
                                     </div>
                                   </div>
                                   <div className="text-sm mb-3 font-semibold">
@@ -937,9 +905,9 @@ export default function SearchResult() {
                                                         key={idx}
                                                         label={timeSlot}
                                                         variant="outlined"
-                                                        onClick={()=>handleClick(timeSlot, availability?.date, card?.establishmentId, service?.serviceName, service?.serviceId)}
+                                                        onClick={()=>handleClick(timeSlot, availability?.date, card?.establishmentId, service)}
                                                         className="time-slot-chip"
-                                                        sx={{color: '#808080', fontSize: '16px', fontWeight: 400, borderRadius: '16px', padding: '8px 16px 8px 16px', cursor: 'pointer'}}
+                                                        sx={{color: '#808080', fontSize: '16px', fontWeight: 400, border: 1.5, borderRadius: '16px', padding: '8px 16px 8px 16px', cursor: 'pointer'}}
                                                       />
                                                     )
                                                   )}
@@ -965,7 +933,7 @@ export default function SearchResult() {
                               </Grid>
                             </div>
                           </div>
-                          <CardActions className="card-footer-action rounded-b-[20px] shadow-md">
+                          <CardActions className="card-footer-action ">
                             <StoreMallDirectoryOutlinedIcon />
                             <TextRouter
                               name={"Salon Details"}

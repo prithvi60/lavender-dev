@@ -19,8 +19,7 @@ import { useSelector } from "react-redux";
 import endpoint from "../../../api/endpoints";
 import BusinessTeam from "../team/BusinessTeam";
 import { Services } from "../services/Services";
-import Joyride, { CallBackProps, STATUS } from 'react-joyride';
-type Placement = 'center' | 'auto' | 'top' | 'bottom' | 'left' | 'right';
+
 export const SalonSetup = ({ setMembershipScreen }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
@@ -34,32 +33,7 @@ export const SalonSetup = ({ setMembershipScreen }) => {
   const [isPublished, setIsPublished] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
-  const [{ run, steps }, setState] = useState({
-    run: false,
-    steps: [
-      {
-        content: <h2>Let's begin our journey!</h2>,
-        locale: { skip: <strong aria-label="skip">S-K-I-P</strong> },
-        placement: "center" as Placement,
-        target: 'body',
-      },
-      {
-        content: <h2>journey 1</h2>,
-        placement: "auto" as Placement,
-        target: '#id_1',
-      },
-      {
-        content: <h2>journey 2</h2>,
-        placement: "auto" as Placement,
-        target: '#id_2',
-      },
-      {
-        content: <h2>journey 3</h2>,
-        placement: "auto" as Placement,
-        target: '#id_3',
-      },
-    ],
-  });
+
 
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
@@ -77,24 +51,9 @@ export const SalonSetup = ({ setMembershipScreen }) => {
     e.preventDefault();
     setIsOpen(true);
     setActiveStep(0);
-    setState(prevState => ({
-      ...prevState,
-      run: true
-    }));
+
   }
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
-    const { status } = data;
-    const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
-
-    if (finishedStatuses.includes(status)) {
-      setState(prevState => ({
-        ...prevState,
-        run: false
-      }));
-    }
-
-  };
 
   function onSetActiveStep(value) {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -139,21 +98,6 @@ export const SalonSetup = ({ setMembershipScreen }) => {
 
   return (
     <div className="w-full h-100vh">
-      <Joyride
-        callback={handleJoyrideCallback}
-        continuous
-        run={run}
-        scrollToFirstStep
-        showProgress
-        showSkipButton
-        steps={steps}
-        styles={{
-          options: {
-            zIndex: 10000,
-            
-          },
-        }}
-      />
       {isPublished ? (
         <Box sx={{
           display: 'flex',

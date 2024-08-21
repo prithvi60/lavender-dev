@@ -24,7 +24,7 @@ const style = {
   borderradius: "2px",
 };
 
-const AppointmentConfimed = ({ establishmentId, activeStep, time }) => {
+const AppointmentConfimed = ({ establishmentId, activeStep, time = "" }) => {
   const [open, setOpen] = React.useState(false);
   const [disabled, setDisabled] = React.useState(true);
   const navigate = useNavigate();
@@ -126,7 +126,7 @@ const AppointmentConfimed = ({ establishmentId, activeStep, time }) => {
 
   return (
     <>
-      {time === "reschedule" ? (<Button
+      {/* {"reshe" == "reschedule" ? (<Button
         fullWidth
         disabled={disabled}
         className="w-full"
@@ -135,7 +135,8 @@ const AppointmentConfimed = ({ establishmentId, activeStep, time }) => {
         variant="contained"
       >
         Reschedule
-      </Button>) : (<Button
+      </Button>) : ( */}
+        <Button
         fullWidth
         disabled={disabled}
         className="w-full"
@@ -144,7 +145,7 @@ const AppointmentConfimed = ({ establishmentId, activeStep, time }) => {
         variant="contained"
       >
         Proceed
-      </Button>)}
+      </Button>
 
       <Modal
         open={open}

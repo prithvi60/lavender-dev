@@ -57,6 +57,8 @@ import { format } from "date-fns";
 import { styled } from "@mui/material/styles";
 //  Change date picker forma
 import updateLocale from "dayjs/plugin/updateLocale";
+import { useLoader } from "../../hooks/useLoader.ts";
+
 dayjs.extend(updateLocale);
 dayjs.updateLocale("en", {
   weekStart: 1,
@@ -87,7 +89,7 @@ const NewSearchPanel = ({ pathname }) => {
   const [treatmentTime, setTreatmentTime] = useState({});
   const [filterType, setFilterType] = useState("Treatemt");
   const [treatmentServicesList, setTreatmentServicesList] = useState([]);
-
+  const { showLoader, hideLoader } = useLoader();
   const navigate = useNavigate();
 
   const {
@@ -286,6 +288,7 @@ const NewSearchPanel = ({ pathname }) => {
     }
 
     try {
+      showLoader();
       const establishmentSearchResultResponse =
         await endpoint.getEstablishmentSearchResults(payLoad);
 
@@ -298,6 +301,7 @@ const NewSearchPanel = ({ pathname }) => {
           card.location = location;
         }
         setTreatmentServicesList(treatmentServicesList);
+        hideLoader();
         navigate("/search", {
           state: {
             treatmentServicesList: treatmentServicesList,

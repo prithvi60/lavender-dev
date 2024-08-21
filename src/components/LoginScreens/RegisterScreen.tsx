@@ -319,6 +319,7 @@ const RegisterScreen = () => {
                                                 <Grid item xs={12}>
                                                     <FormControl error={!!errors.accept} >
                                                         <FormControlLabel
+                                                                sx={{textAlign: 'left'}}
                                                                 control={
                                                                     <Controller
                                                                         name="accept"

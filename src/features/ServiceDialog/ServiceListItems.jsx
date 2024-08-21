@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import { Divider } from "@mui/material";
@@ -10,11 +10,13 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import OptionsModal from "./OptionsModal";
 import OptionsModalListView from "./OptionsModalListView";
-import { updateCheckOut, resetCheckOut } from "../../store/slices/checkOutPageSlice";
+import { updateCheckOut,resetCheckOut } from "../../store/slices/checkOutPageSlice";
 
 function ServiceListItems({ serviceCategories, handleClose }) {
   const listRef = useRef(null);
   const [value, setValue] = useState(0);
+  const [quickBookData, setQuickBookData] = useState();
+  const [serviceCat, setServiceCat] = useState();
   const handleTabChange = (event, newValue) => {
     // Update the selected tab
     setValue(newValue);
@@ -26,13 +28,42 @@ function ServiceListItems({ serviceCategories, handleClose }) {
   };
 
   const checkOutList = useSelector((state) => state.checkOutPage);
+  const quickBook = useSelector((state) => state.quickBook);
+
+  useEffect(()=>{
+    setServiceCat(serviceCategories)
+  },[serviceCategories])
+
+  useEffect(()=>{
+    setQuickBookData(quickBook)
+  },[serviceCat])
+
+  useEffect(()=>{
+    if(quickBookData?.selectedServiceId && serviceCat?.length > 0){
+
+      const filteredService = serviceCat
+                              ?.flatMap(category => category?.services) // Flatten the services arrays
+                              ?.filter(service => service?.serviceId === quickBook?.selectedServiceId); // Filter by serviceId
+                              // ?.filter(category => category?.services?.length > 0);
+      const option = filteredService[0]?.options[0];
+      const isAlreadySelected = checkOutList?.checkOut?.some(
+        (item) => item?.optionId === option?.optionId
+      );
+
+      if(filteredService?.length > 0 && !isAlreadySelected){
+        handleServiceClick(filteredService[0])
+      }
+    }
+  },[quickBookData, serviceCat])
+
+
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const dispatch = useDispatch();
 
   const handleServiceClick = (service) => {
-    if (service.options.length === 1) {
-      const option = service.options[0];
+    if (service?.options?.length === 1) {
+      const option = service?.options[0];
       const isAlreadySelected = checkOutList?.checkOut?.some(
         (item) => item?.optionId === option?.optionId
       );
@@ -56,6 +87,7 @@ function ServiceListItems({ serviceCategories, handleClose }) {
       }
     }
   };
+  
   return (
     <div className="w-full urbanist-font md:mx-24">
       <div className={`flex gap-1 mb-2 items-center`}>
@@ -80,13 +112,13 @@ function ServiceListItems({ serviceCategories, handleClose }) {
         ref={listRef}
         className="serviceGridList"
         sx={{
-          // "@media (max-width: 768px)": {
-          //   // width: "100%",
-          // },
+          "@media (max-width: 768px)": {
+            width: "100%",
+          },
           maxHeight: { xs: "calc(100vh - 300px)", sm: "calc(100vh - 0px)" },
           bgcolor: "background.paper",
           overflowY: "auto",
-          marginLeft: "36px",
+          marginLeft: { xs: 0, md: "36px" },
           marginRight: { xs: 0, md: "38px" },
           "@media (min-width: 768px)": {
             width: "90%",
@@ -182,35 +214,35 @@ function ServiceListItems({ serviceCategories, handleClose }) {
                     </div>
                   </div>
                   {isMobile ? (
-                    <div style={{ position: "absolute", right: 16, top: 36 }}>
-                      <OptionsModalListView
-                        props={service}
-                        isMobile={isMobile}
-                        onServiceClick={() => handleServiceClick(service)}
-                      />
-                    </div>
-                  ) : (
-                    <div>
-                      {service.options.length === 1 ? (
-                        <IconButton onClick={() => handleServiceClick(service)}>
-                          {checkOutList.checkOut.some(
-                            (item) => item.optionId === service.options[0].optionId
-                          ) ? (
-                            <GetIcon iconName="SelectedIcon" />
-                          ) : (
-                            <GetIcon iconName="PlusIcon" />
-                          )}
-                        </IconButton>
-                      ) : (
-                        <OptionsModal
-                          props={service}
-                          isMobile={isMobile}
-                          selectedService={selectedService || []}
-                          onServiceClick={() => handleServiceClick(service)}
-                        />
-                      )}
-                    </div>
-                  )}
+  <div style={{ position: "absolute", right: 16, top: 36 }}>
+    <OptionsModalListView
+      props={service}
+      isMobile={isMobile}
+      onServiceClick={() => handleServiceClick(service)}
+    />
+  </div>
+) : (
+  <div>
+    {service?.options?.length === 1 ? (
+      <IconButton onClick={() => handleServiceClick(service)}>
+        {checkOutList?.checkOut?.some(
+          (item) => item?.optionId === service?.options[0]?.optionId
+        ) ? (
+          <GetIcon iconName="SelectedIcon" />
+        ) : (
+          <GetIcon iconName="PlusIcon" />
+        )}
+      </IconButton>
+    ) : (
+      <OptionsModal
+        props={service}
+        isMobile={isMobile}
+        selectedService={selectedService || []}
+        onServiceClick={() => handleServiceClick(service)}
+      />
+    )}
+  </div>
+)}
                 </ListItemButton>
               );
             })}

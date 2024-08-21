@@ -11,25 +11,50 @@ import {
   updateCheckOut,
   resetCheckOut,
 } from "../../store/slices/checkOutPageSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import GetIcon from "../../assets/Icon/icon";
 import Text from "../../components/Text";
 
 function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
+
   const dispatch = useDispatch();
 
+  const [propsVal, setPropsVal] = useState(props);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState(selectedService);
-  const [selectAll, setSelectAll] = useState(selectedService.length === props.options.length);
-  
+  const [selectAll, setSelectAll] = useState(selectedService?.length === propsVal?.options?.length);
+  const [quickBookData, setQuickBookData] = useState();
+  const [serviceCat, setServiceCat] = useState<any>();
+
+  const quickBook = useSelector((state: any) => state.quickBook);
+
+  // useEffect(()=>{
+  //   setServiceCat(propsVal)
+  // },[propsVal])
+
+  // useEffect(()=>{
+  //   setQuickBookData(quickBook)
+  // },[serviceCat])
+
+  useEffect(()=>{
+    if(quickBook?.selectedServiceId && propsVal?.options?.length > 1 && quickBook?.selectedServiceId===propsVal?.serviceId){
+       const filteredService = propsVal;
+       setPropsVal(filteredService);
+       
+       if(!(selectedOptions.length > 0)){
+          handleSelectAll();
+       }
+    }
+  },[])
+
   useEffect(() => {
     updateReduxStore();
-    setSelectAll(selectedOptions.length === props.options.length);
+    setSelectAll(selectedOptions?.length === propsVal?.options?.length);
   }, [selectedOptions]);
 
 
   const handleOpen = () => {
-    if (props.options.length === 1) {
+    if (propsVal.options.length === 1) {
       onServiceClick();
     } else {
       setIsOpen(true);
@@ -41,22 +66,23 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
   };
 
   const handleSelectAll = () => {
-    if (selectedOptions?.length === props?.options?.length) {
+    if (selectedOptions?.length === propsVal?.options?.length) {
       setSelectedOptions([]);
     } else {
-      setSelectedOptions(props?.options?.map((option) => option?.optionId));
+      setSelectedOptions(propsVal?.options?.map((option) => option?.optionId));
     }
   };
+
   const handleOptionSelect = (optionId) => {
     setSelectedOptions((prev) => {
       if (prev.includes(optionId)) {
-        dispatch(resetCheckOut({ serviceId: props?.serviceId, optionId }));
+        dispatch(resetCheckOut({ serviceId: propsVal?.serviceId, optionId }));
         return prev.filter((id) => id !== optionId);
       } else {
-        const option = props?.options.find(opt => opt?.optionId === optionId);
+        const option = propsVal?.options.find(opt => opt?.optionId === optionId);
         if (option) {
           dispatch(updateCheckOut({
-            serviceId: props.serviceId,
+            serviceId: propsVal.serviceId,
             optionId: option.optionId,
             serviceName: option.optionName,
             finalPrice: option.salePrice,
@@ -69,18 +95,18 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
   };
   
   const updateReduxStore = () => {
-    const deselectedOptions = props?.options
+    const deselectedOptions = propsVal?.options
       .filter((option) => !selectedOptions.includes(option.optionId))
       .map((option) => option.optionId);
 
     selectedOptions?.forEach((optionId) => {
-      const selectedOption = props?.options?.find(
+      const selectedOption = propsVal?.options?.find(
         (option) => option?.optionId === optionId
       );
       if (selectedOption) {
         dispatch(
           updateCheckOut({
-            serviceId: props.serviceId,
+            serviceId: propsVal.serviceId,
             optionId: selectedOption.optionId,
             serviceName: selectedOption.optionName,
             finalPrice: selectedOption.salePrice,
@@ -93,7 +119,7 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
     deselectedOptions.forEach((optionId) => {
       dispatch(
         resetCheckOut({
-          serviceId: props.serviceId,
+          serviceId: propsVal.serviceId,
           optionId: optionId,
         })
       );
@@ -143,7 +169,7 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
             <Grid className="w-full">
               <Text
                 sx={styles.serviceName}
-                name={props?.serviceName}
+                name={propsVal?.serviceName}
                 align="left"
               />
               <Box
@@ -160,13 +186,13 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
                 <div>
                   <Text
                     sx={styles.duration}
-                    name={`${props?.serviceDuration} mins`}
+                    name={`${propsVal?.serviceDuration} mins`}
                     align="left"
                   />
                   <div style={styles.startingPrice}>
-                    {props?.options?.length > 0
-                      ? `from $${props?.startingPrice}`
-                      : `$${props?.finalPrice}`}
+                    {propsVal?.options?.length > 0
+                      ? `from $${propsVal?.startingPrice}`
+                      : `$${propsVal?.finalPrice}`}
                   </div>
                 </div>
                 <Button
@@ -174,7 +200,7 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
                   variant={selectAll ? "contained" : "outlined"}
                   startIcon={<GetIcon iconName="PlusIcon" />}
                   onClick={handleSelectAll}
-                  disabled={!props?.options?.length} // Disable if no options available
+                  disabled={!propsVal?.options?.length} // Disable if no options available
                 >
                   {selectAll ? "Deselect All" : "Select All"}
                 </Button>
@@ -189,7 +215,7 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
                   hyphens: "auto",
                   maxWidth: "850px",
                 }}
-                name={props?.serviceDescription}
+                name={propsVal?.serviceDescription}
                 align="left"
               />
             </Grid>
@@ -197,7 +223,7 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
           <div className="mx-6">
             <Divider />
           </div>
-          {props?.options?.length > 0 && (
+          {propsVal?.options?.length > 0 && (
             <Grid container spacing={2} sx={{ margin: "5px", padding: "10px" }}>
               <Grid xs={12}>
                 <Text
@@ -211,7 +237,7 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
                 className="service-options"
                 sx={{ overFlowY: "scroll" }}
               >
-                {props.options.map((option) => (
+                {propsVal.options.map((option) => (
                   <Grid
                     className="py-2 flex justify-between"
                     key={option?.optionId}

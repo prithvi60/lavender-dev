@@ -26,7 +26,7 @@ import Text from "../../components/Text.js";
 import { format, addDays, isSameDay, startOfWeek, isAfter, isSameMonth, isBefore, startOfToday } from "date-fns";
 import { KeyboardArrowLeftOutlined, KeyboardArrowRightOutlined } from "@mui/icons-material";
 import AppointmentConfimed from "./AppointmentConfimed.tsx";
-
+import { calculateEndTime } from "../../utils/TimeFormat.ts";
 
 export default function ScheduleAppointment(props) {
   const datePickerRef = useRef(null);
@@ -34,7 +34,6 @@ export default function ScheduleAppointment(props) {
   const scheduleAppoinmentList = useSelector(
     (state: any) => state.ScheduleAppoinment
   );
-  // console.log("object is scheduleAppoinmentList", scheduleAppoinmentList);
 
   const { estData, onSetActiveStep } = props;
   const [availableTimeSlots, setAvailableTimeSlots] = React.useState<any>([]);
@@ -54,6 +53,7 @@ export default function ScheduleAppointment(props) {
   
   const [selectedDateBtn, setSelectedDateBtn] = useState(new Date());
 
+  
   const handleGoToNextSlot = () => {
     const nextDay = addDays(selectedDateBtn, 1);
     setSelectedDateBtn(nextDay);
@@ -99,14 +99,18 @@ export default function ScheduleAppointment(props) {
     const month = ("0" + (date.getMonth() + 1)).slice(-2); // Adding leading zero if month < 10
     const day = ("0" + date.getDate()).slice(-2); // Adding leading zero if day < 10
     // Concatenate the formatted parts
-    const formattedDate = `${year}-${month}-${day}`;
+    const formattedDate: any = `${year}-${month}-${day}`;
     const test = appointmentTimings?.data?.data?.filter(
-      (slot) => slot.availableDate === formattedDate
+      (slot) => slot?.availableDate === formattedDate
     );
     setAvailableTimeSlots(test);
     setEmployee(id);
+    const fullYear = date?.getFullYear().toString();
+    const formatedFullYearDate: any = `${fullYear}-${month}-${day}`;
     //TODO set date value in store redux
-    dispatch(UpdateSelectedDate({ selectedDate: formattedDate }));
+    //  if(scheduleAppoinmentList?.selectedDate===""){
+      dispatch(UpdateSelectedDate({ selectedDate: formatedFullYearDate }));
+    //  }
   };
 
   const createHandleMenuClick = (menuItem: string) => {
@@ -120,8 +124,7 @@ export default function ScheduleAppointment(props) {
       UpdateTimeOfDayAndTime({
         TimeOfDay: TimeOfDay[timePeriod],
         startTime: slot.startTime,
-        endTime: slot.endTime,
-        id: slot.employeeId,
+        endTime: calculateEndTime(slot.startTime, scheduleAppoinmentList?.totalDuration),
       })
     );
   };
@@ -130,6 +133,17 @@ export default function ScheduleAppointment(props) {
   const [selectedPaymentChips, setSelectedPaymentChips] = useState([]);
 
   useEffect(() => { }, [totalDuration, totalDurationValue]);
+
+  useEffect(()=>{
+    if(scheduleAppoinmentList?.startTime && scheduleAppoinmentList?.endTime){
+      const slot = {
+        employeeId : scheduleAppoinmentList?.id,
+        endTime: scheduleAppoinmentList?.endTime,
+        startTime: scheduleAppoinmentList?.startTime,
+      }
+      handleChipClick(scheduleAppoinmentList?.timeOfDay, slot, 1)
+    }
+  },[])
 
   const handleChipClick = (timePeriod, slot, index) => {
     const currentDate = new Date();
@@ -158,17 +172,17 @@ export default function ScheduleAppointment(props) {
 
     const item = `${slot.startTime} - ${slot.endTime}`;
 
-    const updatedChips = selectedPaymentChips.includes(item)
-      ? selectedPaymentChips.filter((chip) => chip !== item)
-      : [...selectedPaymentChips, item];
-    setSelectedPaymentChips(updatedChips);
+    // const updatedChips = selectedPaymentChips?.includes(item)
+    //   ? selectedPaymentChips?.filter((chip) => chip !== '')
+    //   : [...selectedPaymentChips, item];
+    setSelectedPaymentChips([slot?.startTime]);
     setEmployeeSlot(slot?.employeeId);
 
     dispatch(
       UpdateTimeOfDayAndTime({
         TimeOfDay: TimeOfDay[timePeriod],
-        startTime: calculateTime(slot?.startTime),
-        endTime: slot?.endTime,
+        startTime: slot?.startTime,
+        endTime: calculateEndTime(slot?.startTime, scheduleAppoinmentList?.totalDuration),
       })
     );
   };
@@ -210,10 +224,15 @@ export default function ScheduleAppointment(props) {
     setTotalDurationValue(newTotalDurationValue);
 
     setIsDisabled(false);
-    const item = `${slot.startTime} - ${slot.endTime}`;
+    const item = `${slot.startTime}`;
 
-    const updatedChips = selectedPaymentChips.filter((chip) => chip !== item);
-    setSelectedPaymentChips(updatedChips);
+     const updatedChips = selectedPaymentChips?.filter((chip) => chip !== item);
+    setSelectedPaymentChips([updatedChips]);
+    dispatch(UpdateTimeOfDayAndTime({
+      endTime: '',
+      startTime: ''
+    }
+    ));
   };
 
   // Handle employee selection
@@ -230,7 +249,7 @@ export default function ScheduleAppointment(props) {
   });
 
   return (
-    <div className="my-10 mt-2">
+    <div className="my-10 mt-2 md:mx-16">
       <div className="flex items-center gap-3">
         <IconButton onClick={() => onSetActiveStep(0)}>
           <GetIcon iconName="BackIconArrow" />
@@ -285,27 +304,29 @@ export default function ScheduleAppointment(props) {
                             style={{ flexShrink: 0 }}
                           >
                             <Chip
-                              disabled={
-                                isDisabled &&
-                                (timePeriodValue?.includes(timePeriod) &&
-                                  indexValue?.includes(index)
-                                  ? false
-                                  : true)
-                              }
+                              // disabled={
+                              //   isDisabled &&
+                              //   (timePeriodValue?.includes(timePeriod) &&
+                              //     indexValue?.includes(index)
+                              //     ? false
+                              //     : true)
+                              // }
                               type={
                                 selectedPaymentChips.includes(
-                                  `${slot.startTime} - ${slot.endTime}`
+                                  `${slot.startTime}`
                                 )
                                   ? "deletable"
                                   : "clickable"
                               }
-                              label={`${slot.startTime} - ${slot.endTime}`}
+                              // label={`${slot.startTime} - ${slot.endTime}`}
+                              label={`${slot.startTime}`}
                               onDelete={() =>
                                 handleChipDelete(timePeriod, slot, index)
                               }
                               deleteIcon={
                                 selectedPaymentChips.includes(
-                                  `${slot.startTime} - ${slot.endTime}`
+                                  `${slot.startTime}`
+                                  // `${slot.startTime} - ${slot.endTime}`
                                 ) ? (
                                   <IconButton>
                                     <GetIcon iconName="CloseIcon" />
@@ -315,17 +336,26 @@ export default function ScheduleAppointment(props) {
                               onClick={() =>
                                 handleChipClick(timePeriod, slot, index)
                               }
-                              style={{
+                              sx={{
                                 margin: "0px",
-                                backgroundColor: selectedPaymentChips.includes(
-                                  `${slot.startTime} - ${slot.endTime}`
+                                backgroundColor: selectedPaymentChips?.includes(
+                                  `${slot.startTime}`
                                 )
                                   ? "#E6E1FF"
-                                  : "#F2F2F2",
+                                  : "#FFFFFF",
                                 maxWidth: "150px",
+                                  border: selectedPaymentChips?.includes(
+                                    `${slot.startTime}`
+                                  )
+                                    ? ""
+                                    : 0.5,
+                                color: '#808080',
+                                fontSize: '16px',
+                                fontWeight: 400,
                                 whiteSpace: "nowrap",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
+                                padding: '8px 16px 8px 16px'
                               }}
                             />
                           </div>
@@ -559,9 +589,15 @@ const CustomWeeklyDatePicker = ({ onDateSelect ,externalSelectedDate}) => {
   const [selectedDate, setSelectedDate] = useState(externalSelectedDate || startOfToday());
 
   const days = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+  const scheduleAppoinmentList = useSelector(
+    (state: any) => state.ScheduleAppoinment
+  );
 
   useEffect(() => {
     onDateSelect(startOfToday());
+    if(scheduleAppoinmentList?.selectedDate){
+      handleDateClick(scheduleAppoinmentList?.selectedDate)
+    }
   }, []);
 
   useEffect(() => {
@@ -572,11 +608,10 @@ const CustomWeeklyDatePicker = ({ onDateSelect ,externalSelectedDate}) => {
   }, [externalSelectedDate]);
 
   const handleDateClick = (date) => {
-    const formattedDate = format(date, 'yyyy-MM-dd');
-    // console.log("date,", formattedDate)
+   
     if (!isBefore(date, startOfToday())) {
       setSelectedDate(date);
-      onDateSelect(formattedDate);
+      onDateSelect(date);
     }
   };
 
@@ -603,7 +638,7 @@ const CustomWeeklyDatePicker = ({ onDateSelect ,externalSelectedDate}) => {
           />
         </IconButton>
         <div style={styles.daysContainer}>
-          {days.map((day, index) => (
+          {days?.map((day, index) => (
             <div key={index} style={styles.dayColumn}>
               <div className="text-[#666] text-sm md:text-base mb-1.5">{format(day, 'EEE')}</div>
               <div

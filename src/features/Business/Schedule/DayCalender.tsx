@@ -154,8 +154,6 @@ export const DayCalendar = () => {
     openDrawer('NewAppointment', payload)
   }
 
-  console.log('employees : ', employees)
-
   return (
     <>
       <Wrapper>

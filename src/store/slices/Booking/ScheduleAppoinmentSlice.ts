@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { TimeOfDay } from "../../../api/type";
+import { formatDate } from "../../../utils/TimeFormat";
 
 interface IScheduleAppoinment {
-  selectedDate: Date;
+  selectedDate: string;
   timeOfDay: TimeOfDay;
   startTime: string;
   endTime: string;
@@ -17,7 +18,7 @@ interface IScheduleAppoinment {
 }
 
 const initialState: IScheduleAppoinment = {
-  selectedDate: new Date(),
+  selectedDate: formatDate(new Date().toISOString()),
   timeOfDay: null,
   startTime: "",
   endTime: "",
@@ -42,7 +43,6 @@ export const ScheduleAppoinmentSlice = createSlice({
       state.timeOfDay = action.payload.TimeOfDay;
       state.startTime = action.payload.startTime;
       state.endTime = action.payload.endTime;
-      
     },
     UpdateEmployeeId: (state, action) => {
       state.id = action.payload.id;

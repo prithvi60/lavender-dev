@@ -282,7 +282,7 @@ function UpComingBookings({ userInfo }) {
               <BookingInfoModal
                 isModalOpen={isModalOpen}
                 toggleModal={setIsModalOpen}
-                bookings={userInfo?.pastBookings[bookingIndex]}
+                bookings={userInfo?.upcomingBookings[bookingIndex]}
                 // disable={userInfo}
                 userflow={"upcoming"}
               />

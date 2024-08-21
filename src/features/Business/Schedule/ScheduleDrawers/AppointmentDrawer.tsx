@@ -52,6 +52,35 @@ export default function AppointmentDrawer() {
   const handleFilterDrawerSubmit = () => {
     closeDrawer()
   };
+  console.log("test",date, client, employee, service, status, price, start )
+  useEffect(() => {
+    setStartTime(getCurrentTime12HrFormat(date.getHours(), date.getMinutes()))
+    setSelectedDate(date)
+
+    // const serviceName = payload.service || "Default Service Name"; 
+
+    // Add default service to selected services if not already present
+    // if (selectedServices.length === 0) {
+    //   setSelectedServices((prev) => [
+    //     ...prev,
+    //     {
+    //       id: "DEFAULT_SERVICE", // Unique ID for default service
+    //       categories: [
+    //         {
+    //           categoryId: "test", // Assuming payload has service categoryId
+    //           services: [
+    //             {
+    //               ...payload.service, // Use the service from payload
+    //               name: serviceName, // Ensure service name is included
+    //               options: [{ optionId: "DEFAULT_OPTION_!" }] // Default option with ID can be set here
+    //             }
+    //           ]
+    //         }
+    //       ]
+    //     }
+    //   ]);
+    // }
+  }, [date, payload, selectedServices.length]);
   return (
     <div className="flex flex-col h-full relative">
       <div className="flex flex-col text-lg text-center p-4 mb-2 bg-[#1B1464]">

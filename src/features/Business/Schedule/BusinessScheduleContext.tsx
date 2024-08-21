@@ -21,7 +21,7 @@ export const ScheduleProvider = ({ children }) => {
 
   const estId = getBrowserCache("EstablishmentId")
   
-  console.log("estId", estId)
+  // console.log("estId", estId)
   const payload = 
     {
       "pageNumber": 0,
@@ -49,9 +49,11 @@ export const ScheduleProvider = ({ children }) => {
   const [filteredAppointments, setFilteredAppointments] = useState(groupAppointments(durationState, appointmentData, selectedDate, filterWeekStartDate, filterWeekEndDate));
 
   useEffect(() => {
-    const newApp = groupAppointments(durationState, appointmentData, selectedDate, filterWeekStartDate, filterWeekEndDate)
-    setFilteredAppointments(newApp)
-  }, [selectedDate, filterWeekStartDate, durationState, appointmentData, filterWeekEndDate])
+    if (userInfo) { 
+      const newApp = groupAppointments(durationState, appointmentData, selectedDate, filterWeekStartDate, filterWeekEndDate)
+      setFilteredAppointments(newApp)
+    }
+  }, [selectedDate, filterWeekStartDate, durationState, appointmentData, filterWeekEndDate, userInfo])
 
   const value = { selectedDate, setSelectedDate, filterWeekStartDate, filterWeekEndDate, 
     setFilterWeekEndDate, setFilterWeekStartDate, filteredAppointments, setFilteredAppointments, 

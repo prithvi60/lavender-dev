@@ -5,17 +5,18 @@ import './index.css';
 import App from './App';
 import store from './store';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import { LoaderProvider } from './contexts/LoaderContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 window.React = React;
 root.render(
-  <React.StrictMode>
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}>
+  <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}>
+    <LoaderProvider>
       <Provider store={store}>
         <App />
       </Provider>
-    </GoogleOAuthProvider>
-  </React.StrictMode>
+    </LoaderProvider>
+  </GoogleOAuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

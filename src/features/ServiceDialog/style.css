@@ -38,7 +38,9 @@
 .rwdpDayPickerContainer .rwdpDayBoxDesktop {
     padding-top: 25px  !important;
 }
-
+.chip.MuiChip-root{
+    color: #808080 I !important;
+}
 /* Default styles for desktop */
 @media (max-width: 500px){
     .rwdpDayPickerContainer .rwdp-DayCircle {

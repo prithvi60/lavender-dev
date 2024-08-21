@@ -6,20 +6,20 @@ import { Divider } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import endpoint from "../../api/endpoints";
 import AppointmentConfimed from "./AppointmentConfimed";
-import { UpdateCheckoutInfo } from "../../store/slices/Booking/ScheduleAppoinmentSlice";
+import { UpdateCheckoutInfo, UpdateSelectedDate, UpdateTimeOfDayAndTime } from "../../store/slices/Booking/ScheduleAppoinmentSlice";
 import Text from "../../components/Text";
-import { convertDateToReadAbleDate } from "../../utils/TimeFormat";
+import { add30Minutes, calculateEndTime, convertDateToReadAbleDate } from "../../utils/TimeFormat";
 import GetIcon from "../../assets/Icon/icon";
 import DatePicker from "../../components/DateInput";
+import { TimeOfDay } from "../../api/type";
 
 function CheckoutCard(props: any) {
-  const { activeStep, next, establishmentData, establishmentId, time } = props;
+  const { activeStep, next, establishmentData, establishmentId } = props;
   const establishmentName = establishmentData?.profile?.establishmentName;
-  
   const dispatch = useDispatch();
-  const checkOutList = useSelector((state: any) => state.checkOutPage);
-  const scheduleAppoinmentList = useSelector((state: any) => state.ScheduleAppoinment);
-console.log("checkOutList",checkOutList,scheduleAppoinmentList)
+  const checkOutList = useSelector((state: any) => state?.checkOutPage);
+  const scheduleAppoinmentList = useSelector((state: any) => state?.ScheduleAppoinment);
+  const quickBook = useSelector((state: any) => state?.quickBook);
   const [imageIdList, setImageIdList] = useState<string | any>([]);
   const [loading, setLoading] = useState(true);
   const [imageUrls, setImageUrls] = useState([]);
@@ -30,7 +30,21 @@ console.log("checkOutList",checkOutList,scheduleAppoinmentList)
   const [totalServices, setTotalServices] = useState(0);
   const [employee, setEmployee] = useState([]);
   const [employeeName, setEmployeeName] = useState("");
-console.log("uemployee :::", employee)
+  
+  useEffect(()=>{
+    if(quickBook?.selectDate){
+      console.log('in check')
+      dispatch(UpdateSelectedDate({ selectedDate: quickBook?.selectDate }));
+      dispatch(
+        UpdateTimeOfDayAndTime({
+          TimeOfDay: TimeOfDay['Morning'],
+          startTime: quickBook?.selectedTime,
+          endTime: calculateEndTime(quickBook?.selectedTime, scheduleAppoinmentList?.totalDuration)
+        })
+      );
+    }
+  },[quickBook])
+
   useEffect(() => {
     if (checkOutList?.checkOut?.length > 0) {
       setDisabled(false);
@@ -50,7 +64,7 @@ console.log("uemployee :::", employee)
     if (activeStep >= 1 && scheduleAppoinmentList?.startTime) {
       setDisabled(false);
     }
-  }, [scheduleAppoinmentList]);
+  }, [activeStep, scheduleAppoinmentList]);
 
   useEffect(() => {
     if (activeStep < 1 && checkOutList?.checkOut?.length > 0) {
@@ -94,8 +108,8 @@ console.log("uemployee :::", employee)
   // });
 
   useEffect(() => {
-    setImageIdList(establishmentData?.data?.data?.estImages);
-    setEmployee(establishmentData?.data?.data?.employees);
+    setImageIdList(establishmentData?.estImages);
+    setEmployee(establishmentData?.employees);
   }, [establishmentData]);
 
   const fetchImage = async (image) => {
@@ -103,7 +117,7 @@ console.log("uemployee :::", employee)
       setLoading(true);
       const response = await endpoint.getImages(
         image,
-        establishmentData?.data?.data?.id
+        establishmentId
       );
 
       const imageUrl = URL.createObjectURL(response.data);
@@ -129,13 +143,10 @@ console.log("uemployee :::", employee)
   }, [imageIdList]);
 
   useEffect(() => {
-    // console.log("employee : ", employee)
-
     const employeeName: any = employee?.find(
       (item) => item?.employeeId === scheduleAppoinmentList?.id
     );
     //setEmployee(employeeName)
-    // console.log("emp : ", employeeName)
     setEmployeeName(employeeName?.employeeName);
   }, [employee, scheduleAppoinmentList?.id]);
 
@@ -149,10 +160,10 @@ console.log("uemployee :::", employee)
   };
 
   return (
-    <div className="my-6 ml-5 md:mr-5 urbanist-font rounded-2xl chackout-card-container h-fit">
+    <div className="my-6 md:mr-5 urbanist-font rounded-2xl chackout-card-container h-fit">
       {" "}
       {/* Adjusted width to be responsive */}
-      <div className="px-3 py-2 rounded-md shadow-none min-w-80">
+      <div className="px-3 py-2 rounded-md shadow-sm min-w-80">
         <Box
           className="flex justify-between w-full gap-2 pb-2 my-2 serviceCardDetail"
           sx={{
@@ -180,22 +191,27 @@ console.log("uemployee :::", employee)
             />
           )}
 
+          <Box>
           {/* <Text sx={styles.subHeading} name={establishmentName} className="w-full" /> */}
-          <h4 className="w-full p-1.5 mt-3 font-semibold text-lg">
+          <h4 className="w-full pt-1.5 pl-1.5 pr-1.5 mt-3 font-semibold text-xl text-[#4D4D4D]">
             {establishmentName}
           </h4>
-          {/* </Box> */}
 
+          <Box sx={{color: '#B3B3B3', fontSize: '16px', fontWeight: 400, paddingLeft: 1}}>
+            {establishmentData?.profile?.cityCode}
+          </Box>
+          {/* </Box> */}
+          </Box>
         </Box>
 
         {scheduleAppoinmentList?.startTime && (
           <Box
 
-            sx={{ display: "flex", }}
+            sx={{ display: "flex",  }}
             className="px-1 basis-full md:basis-4/5"
 
           >
-            {activeStep !== 0 &&
+            {
               scheduleAppoinmentList?.selectedDate &&
               typeof scheduleAppoinmentList?.selectedDate === "string" && (
                 <Box sx={{ display: "flex", paddingRight: 2 }}>
@@ -247,9 +263,9 @@ console.log("uemployee :::", employee)
         )}
 
         <div className="py-2 overflow-auto checkout-card">
-          {checkOutList.checkOut.map((item, index) => (
-            <div className="py-2">
-              <div className="flex justify-between py-1" key={index}>
+          {checkOutList?.checkOut?.map((item, index) => (
+            <div className="py-2" key={index}>
+              <div className="flex justify-between py-1" >
                 <Text
                   sx={styles.serviceName}
                   name={item?.serviceName}
@@ -317,7 +333,6 @@ console.log("uemployee :::", employee)
                 <AppointmentConfimed
                   establishmentId={establishmentId}
                   activeStep={activeStep}
-                  time={time}
                 />
               )}
             </div>

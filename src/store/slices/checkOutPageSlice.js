@@ -7,7 +7,6 @@ const checkOutPageSlice = createSlice({
   initialState,
   reducers: {
     updateCheckOut: (state, action) => {
-      console.log("action", action.payload);
       const { serviceId, optionId, serviceDuration } = action.payload;
       const existingIndex = state.checkOut.findIndex(
         (item) => item.serviceId === serviceId && item.optionId === optionId

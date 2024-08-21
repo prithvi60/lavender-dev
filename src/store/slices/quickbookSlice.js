@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 
-const initialState = {quickBook:{
+const initialState = {
     selectDate: "",
     selectedTime: "",
     selectedServiceId: "",
-    selectedServiceName: ""
-}}
+    selectedServiceName: "",
+}
 
 const quickbookSlice = createSlice({
     
@@ -14,14 +14,17 @@ const quickbookSlice = createSlice({
     initialState,
     reducers: {
         updatequickBook: (state, action) => {
-            state.selectDate= action.payload.selectDate;
-            state.selectedTime= action.payload.selectedTime;
-            state.selectedServiceId= action.payload.selectedServiceId;
-            state.selectedServiceName= action.payload.selectedServiceName;
+            return{
+            ...state,
+            selectDate: action.payload.selectDate,
+            selectedTime: action.payload.selectedTime,
+            selectedServiceId: action.payload.selectedServiceId,
+            selectedServiceName: action.payload.selectedServiceName,
+            }
         },
-        resetquickBook: (state) => {
-            state = {...initialState};
-        },
+        resetquickBook: () => {
+            return initialState;
+        }
         // removequickBookDetails: () => {
         //     return initialState;
         // }

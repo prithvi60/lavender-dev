@@ -74,7 +74,8 @@ export function convertToDateTime(timeString, dateString) {
   const [shortYear, month, day] = dateString.split('-').map(Number);
 
   // Calculate the full year based on the short year format
-  const fullYear = 2000 + shortYear;
+  // const fullYear = 2000 + shortYear;
+  const fullYear = shortYear;
 
   // Create a new Date object with the parsed values
   const date = new Date(fullYear, month - 1, day);
@@ -151,7 +152,7 @@ export function convertDateToReadAbleDate(dateStr) {
   const [year, month, day] = dateStr?.split('-').map(Number);
   
   // Convert two-digit year to four-digit year (assuming current century)
-  const fullYear = 2000 + year; 
+  const fullYear = 2000 + year%100; 
   
   // Array of month names
   const months = ["January", "February", "March", "April", "May", "June", 
@@ -174,7 +175,85 @@ export function convertToReadAbleDate(dateString){
       month: 'long', 
       day: 'numeric' 
   };
-
   // Use Intl.DateTimeFormat to format the date according to the options
   return new Intl.DateTimeFormat('en-US', options).format(date);
+}
+
+
+export function add30Minutes(timeString) {
+  // Parse the time string
+  const [time, period] = timeString.split(' ');
+  let [hours, minutes] = time.split(':').map(Number);
+  
+  // Handle AM/PM
+  if (period === 'PM' && hours !== 12) hours += 12;
+  if (period === 'AM' && hours === 12) hours = 0;
+  
+  // Add 30 minutes
+  minutes += 30;
+  if (minutes >= 60) {
+      minutes -= 60;
+      hours += 1;
+      if (hours >= 24) hours -= 24;
+  }
+
+  // Convert back to 12-hour format
+  let newPeriod = 'AM';
+  if (hours >= 12) {
+      newPeriod = 'PM';
+      if (hours > 12) hours -= 12;
+  }
+  if (hours === 0) hours = 12;
+
+  // Format minutes with leading zero if needed
+  minutes = minutes < 10 ? '0' + minutes : minutes;
+
+  // Return the new time string
+  return `${hours}:${minutes} ${newPeriod}`;
+}
+
+
+export function formatDate(dateString) {
+  // Parse the date string into a Date object
+  const date = new Date(dateString);
+
+  // Extract year, month, and day
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const day = String(date.getDate()).padStart(2, '0');
+
+  // Format the date as YYYY-MM-DD
+  return `${year}-${month}-${day}`;
+}
+
+export function calculateEndTime(startTime, extraTime) {
+  // Parse the start time
+  const [time, period] = startTime.split(' ');
+  const [hours, minutes] = time.split(':').map(Number);
+
+  // Create a Date object for the start time
+  const startDate = new Date();
+  startDate.setHours(period.toLowerCase() === 'pm' && hours !== 12 ? hours + 12 : hours);
+  startDate.setMinutes(minutes);
+  startDate.setSeconds(0);
+  startDate.setMilliseconds(0);
+
+  // Add the extra time in minutes
+  startDate.setMinutes(startDate.getMinutes() + extraTime);
+
+  // Format the end time as "hh:mm am/pm"
+  let endHours = startDate.getHours();
+  const endMinutes = startDate.getMinutes();
+
+  // Determine AM or PM
+  const endPeriod = endHours >= 12 ? 'pm' : 'am';
+
+  // Convert hours to 12-hour format
+  endHours = endHours % 12;
+  endHours = endHours ? endHours : 12; // The hour '0' should be '12'
+
+  // Format minutes to always show two digits
+  const formattedMinutes = endMinutes.toString().padStart(2, '0');
+
+  return `${endHours}:${formattedMinutes} ${endPeriod}`;
 }
