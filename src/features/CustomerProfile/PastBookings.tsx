@@ -110,7 +110,7 @@ function PastBookings({ userInfo }) {
                       <>
                         <div
                           style={{
-                            backgroundColor: "#EEEEFF",
+                            backgroundColor: "#C9C5FF",
                             padding: "16px",
                             borderTopLeftRadius: "4px",
                             borderTopRightRadius: "4px",

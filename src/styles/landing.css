@@ -133,8 +133,8 @@
         display: grid;
         z-index: 50;
         width: 100%;
-        /* position: absolute; */
-        /* top: 100px;  */
+        position: absolute;
+        top: 85px; 
 
     &.one-column {
       grid-template-columns: 3fr 1fr;
@@ -188,6 +188,7 @@
 
         @media (max-width: 1200px) {
             grid-template-columns: 1fr;
+            top: 175px; 
             &.one-column,
             &.two-column,
             &.three-column{
@@ -195,7 +196,8 @@
             }
         }
         @media (max-width: 600px) {
-            top: -35vh !important; 
+            /* top: -35vh !important;  */
+            margin-top: -190px;
         }
     }
 }
@@ -676,7 +678,7 @@
   border-radius: 15px !important;
 }
 
-@media (max-width: 770px) {
+@media (max-width: 900px) {
   .card-flex {
     display: flex;
     flex-direction: column;

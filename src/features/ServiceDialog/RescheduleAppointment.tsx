@@ -445,8 +445,27 @@ export default function RescheduleAppointment(props) {
                 id="employee-select"
                 value={selectedEmployeeId}
                 onChange={handleChange}
-                sx={{ width: "300px", height: "45px", borderRadius: "10px" }}
+                defaultValue="Any Employee"
+                sx={{
+                  width: "300px",
+                  height: "45px",
+                  borderRadius: "10px",
+                  marginBottom: "25px",
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: 'rgba(0, 0, 0, 0.23)',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#825FFF',
+                    borderWidth: 2,
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#825FFF',
+                  },
+                }}
               >
+                <MenuItem value="Any Employee">
+                  Any Employee
+                </MenuItem>
                 {employeeList?.map((employee) => (
                   <MenuItem
                     key={employee?.employeeId}

@@ -945,13 +945,14 @@ const NewSearchPanel = ({ pathname }) => {
         {pathname === "/" && (<Typography
           sx={{
             ...styles.subTitle,
-            position: "absolute",
-            top: { xs: "50vh", sm: "18vh" },
-            left: "50%",
-            transform: "translateX(-50%)",
+            // position: "absolute",
+            // top: { xs: "50vh", sm: "18vh" },
+            // left: "50%",
+            // transform: "translateX(-50%)",
             fontSize: { xs: "34px", sm: "45px" },
             lineHeight: { xs: "30px", sm: "54px" },
             width: "100%",
+            paddingTop: "30px"
           }}
           className="hero-subtitle"
         >

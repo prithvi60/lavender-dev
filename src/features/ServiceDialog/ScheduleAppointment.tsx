@@ -24,7 +24,7 @@ import { useEffect, useRef, useState } from "react";
 import Chip from "../../components/Chip.js";
 import Text from "../../components/Text.js";
 import { format, addDays, isSameDay, startOfWeek, isAfter, isSameMonth, isBefore, startOfToday } from "date-fns";
-import { KeyboardArrowLeftOutlined, KeyboardArrowRightOutlined } from "@mui/icons-material";
+import { BorderColor, KeyboardArrowLeftOutlined, KeyboardArrowRightOutlined } from "@mui/icons-material";
 import AppointmentConfimed from "./AppointmentConfimed.tsx";
 import { calculateEndTime } from "../../utils/TimeFormat.ts";
 
@@ -50,10 +50,10 @@ export default function ScheduleAppointment(props) {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState("Any Employee");
   const [employeeSlot, setEmployeeSlot] = useState("");
 
-  
+
   const [selectedDateBtn, setSelectedDateBtn] = useState(new Date());
 
-  
+
   const handleGoToNextSlot = () => {
     const nextDay = addDays(selectedDateBtn, 1);
     setSelectedDateBtn(nextDay);
@@ -109,7 +109,7 @@ export default function ScheduleAppointment(props) {
     const formatedFullYearDate: any = `${fullYear}-${month}-${day}`;
     //TODO set date value in store redux
     //  if(scheduleAppoinmentList?.selectedDate===""){
-      dispatch(UpdateSelectedDate({ selectedDate: formatedFullYearDate }));
+    dispatch(UpdateSelectedDate({ selectedDate: formatedFullYearDate }));
     //  }
   };
 
@@ -134,16 +134,16 @@ export default function ScheduleAppointment(props) {
 
   useEffect(() => { }, [totalDuration, totalDurationValue]);
 
-  useEffect(()=>{
-    if(scheduleAppoinmentList?.startTime && scheduleAppoinmentList?.endTime){
+  useEffect(() => {
+    if (scheduleAppoinmentList?.startTime && scheduleAppoinmentList?.endTime) {
       const slot = {
-        employeeId : scheduleAppoinmentList?.id,
+        employeeId: scheduleAppoinmentList?.id,
         endTime: scheduleAppoinmentList?.endTime,
         startTime: scheduleAppoinmentList?.startTime,
       }
       handleChipClick(scheduleAppoinmentList?.timeOfDay, slot, 1)
     }
-  },[])
+  }, [])
 
   const handleChipClick = (timePeriod, slot, index) => {
     const currentDate = new Date();
@@ -226,7 +226,7 @@ export default function ScheduleAppointment(props) {
     setIsDisabled(false);
     const item = `${slot.startTime}`;
 
-     const updatedChips = selectedPaymentChips?.filter((chip) => chip !== item);
+    const updatedChips = selectedPaymentChips?.filter((chip) => chip !== item);
     setSelectedPaymentChips([updatedChips]);
     dispatch(UpdateTimeOfDayAndTime({
       endTime: '',
@@ -249,7 +249,7 @@ export default function ScheduleAppointment(props) {
   });
 
   return (
-    <div className="my-10 mt-2 md:mx-16">
+    <div className="my-10 mt-2 pl-3">
       <div className="flex items-center gap-3">
         <IconButton onClick={() => onSetActiveStep(0)}>
           <GetIcon iconName="BackIconArrow" />
@@ -258,8 +258,8 @@ export default function ScheduleAppointment(props) {
       </div>
 
       <div className="mb-4">
-      <CustomWeeklyDatePicker 
-          onDateSelect={handleDateSelect} 
+        <CustomWeeklyDatePicker
+          onDateSelect={handleDateSelect}
           externalSelectedDate={selectedDateBtn}
         />
       </div>
@@ -279,7 +279,7 @@ export default function ScheduleAppointment(props) {
                   >
                     {timePeriod}
                   </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-rows-2  gap-y-2.5 lg:gap-3 !overflow-x-auto md:grid-rows-3 w-full"
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-rows-2 gap-y-2.5 lg:gap-3 !overflow-x-auto md:grid-rows-3 w-full"
                     style={{
                       scrollbarWidth: 'thin',
                       // @ts-ignore
@@ -344,19 +344,19 @@ export default function ScheduleAppointment(props) {
                                   ? "#E6E1FF"
                                   : "#FFFFFF",
                                 maxWidth: "150px",
-                                  border: selectedPaymentChips?.includes(
-                                    `${slot.startTime}`
-                                  )
-                                    ? ""
-                                    : 0.5,
-                                color: '#808080',
+                                border: selectedPaymentChips?.includes(
+                                  `${slot.startTime}`
+                                )
+                                  ? ""
+                                  : 0.5,
+                                // color: '#808080',
                                 fontSize: '16px',
                                 fontWeight: 400,
                                 whiteSpace: "nowrap",
                                 overflow: "hidden",
                                 textOverflow: "ellipsis",
-                                padding: '8px 16px 8px 16px'
                               }}
+                              style={{ BorderColor: "#808080", color: '#808080' }}
                             />
                           </div>
                         );
@@ -380,7 +380,7 @@ export default function ScheduleAppointment(props) {
           )
         ) : (
           <div>
-            {dateClicked && availableTimeSlots?.length === 0  ? (
+            {dateClicked && availableTimeSlots?.length === 0 ? (
               <div
                 style={{
                   display: "flex",
@@ -406,7 +406,7 @@ export default function ScheduleAppointment(props) {
                   How about the next slot ?
                 </div>
                 <Button
-                         onClick={handleGoToNextSlot}
+                  onClick={handleGoToNextSlot}
                   sx={{
                     display: "flex",
                     justifyContent: "center",
@@ -478,6 +478,7 @@ export default function ScheduleAppointment(props) {
                   width: "300px",
                   height: "45px",
                   borderRadius: "10px",
+                  marginBottom: "25px",
                   '& .MuiOutlinedInput-notchedOutline': {
                     borderColor: 'rgba(0, 0, 0, 0.23)',
                   },
@@ -490,7 +491,7 @@ export default function ScheduleAppointment(props) {
                   },
                 }}
               >
-              <MenuItem value="Any Employee">
+                <MenuItem value="Any Employee">
                   Any Employee
                 </MenuItem>
                 {employeeList?.map((employee) => (
@@ -584,7 +585,7 @@ const styles = {
 
 
 
-const CustomWeeklyDatePicker = ({ onDateSelect ,externalSelectedDate}) => {
+const CustomWeeklyDatePicker = ({ onDateSelect, externalSelectedDate }) => {
   const [weekStart, setWeekStart] = useState(() => startOfWeek(startOfToday(), { weekStartsOn: 1 }));
   const [selectedDate, setSelectedDate] = useState(externalSelectedDate || startOfToday());
 
@@ -595,7 +596,7 @@ const CustomWeeklyDatePicker = ({ onDateSelect ,externalSelectedDate}) => {
 
   useEffect(() => {
     onDateSelect(startOfToday());
-    if(scheduleAppoinmentList?.selectedDate){
+    if (scheduleAppoinmentList?.selectedDate) {
       handleDateClick(scheduleAppoinmentList?.selectedDate)
     }
   }, []);
@@ -608,7 +609,7 @@ const CustomWeeklyDatePicker = ({ onDateSelect ,externalSelectedDate}) => {
   }, [externalSelectedDate]);
 
   const handleDateClick = (date) => {
-   
+
     if (!isBefore(date, startOfToday())) {
       setSelectedDate(date);
       onDateSelect(date);

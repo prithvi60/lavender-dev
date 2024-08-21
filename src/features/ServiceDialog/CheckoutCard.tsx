@@ -14,7 +14,7 @@ import DatePicker from "../../components/DateInput";
 import { TimeOfDay } from "../../api/type";
 
 function CheckoutCard(props: any) {
-  const { activeStep, next, establishmentData, establishmentId } = props;
+  const { activeStep, next, establishmentData, establishmentId,time } = props;
   const establishmentName = establishmentData?.profile?.establishmentName;
   const dispatch = useDispatch();
   const checkOutList = useSelector((state: any) => state?.checkOutPage);
@@ -160,10 +160,10 @@ function CheckoutCard(props: any) {
   };
 
   return (
-    <div className="my-6 md:mr-5 urbanist-font rounded-2xl chackout-card-container h-fit">
+    <div className="my-6 ml-5 md:mx-5 urbanist-font rounded-2xl chackout-card-container h-fit">
       {" "}
       {/* Adjusted width to be responsive */}
-      <div className="px-3 py-2 rounded-md shadow-sm min-w-80">
+      <div className="px-3 py-2 rounded-md shadow-none min-w-80">
         <Box
           className="flex justify-between w-full gap-2 pb-2 my-2 serviceCardDetail"
           sx={{
@@ -191,27 +191,22 @@ function CheckoutCard(props: any) {
             />
           )}
 
-          <Box>
           {/* <Text sx={styles.subHeading} name={establishmentName} className="w-full" /> */}
-          <h4 className="w-full pt-1.5 pl-1.5 pr-1.5 mt-3 font-semibold text-xl text-[#4D4D4D]">
+          <h4 className="w-full p-1.5 mt-3 font-semibold text-lg">
             {establishmentName}
           </h4>
-
-          <Box sx={{color: '#B3B3B3', fontSize: '16px', fontWeight: 400, paddingLeft: 1}}>
-            {establishmentData?.profile?.cityCode}
-          </Box>
           {/* </Box> */}
-          </Box>
+
         </Box>
 
         {scheduleAppoinmentList?.startTime && (
           <Box
 
-            sx={{ display: "flex",  }}
+            sx={{ display: "flex", }}
             className="px-1 basis-full md:basis-4/5"
 
           >
-            {
+            {activeStep !== 0 &&
               scheduleAppoinmentList?.selectedDate &&
               typeof scheduleAppoinmentList?.selectedDate === "string" && (
                 <Box sx={{ display: "flex", paddingRight: 2 }}>
@@ -263,9 +258,9 @@ function CheckoutCard(props: any) {
         )}
 
         <div className="py-2 overflow-auto checkout-card">
-          {checkOutList?.checkOut?.map((item, index) => (
-            <div className="py-2" key={index}>
-              <div className="flex justify-between py-1" >
+          {checkOutList.checkOut.map((item, index) => (
+            <div className="py-2">
+              <div className="flex justify-between py-1" key={index}>
                 <Text
                   sx={styles.serviceName}
                   name={item?.serviceName}
@@ -333,6 +328,7 @@ function CheckoutCard(props: any) {
                 <AppointmentConfimed
                   establishmentId={establishmentId}
                   activeStep={activeStep}
+                  time={time}
                 />
               )}
             </div>

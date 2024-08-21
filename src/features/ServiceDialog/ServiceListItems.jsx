@@ -89,7 +89,7 @@ function ServiceListItems({ serviceCategories, handleClose }) {
   };
   
   return (
-    <div className="w-full urbanist-font md:mx-24">
+    <div className="w-full urbanist-font" style={{padding: "0px 1rem"}}>
       <div className={`flex gap-1 mb-2 items-center`}>
         <IconButton onClick={handleClose}>
           <GetIcon iconName="BackIconArrow" />

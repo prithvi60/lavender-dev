@@ -198,9 +198,9 @@ useEffect(()=>{
           data?.length > 0 ? (
             <div>
               <div className='flex flex-wrap items-center'>
-                <div className='text-4xl'></div>
+                {/* <div className='text-4xl mb-4'></div> */}
                 <Text sx={styles.rating} name={"4.0"}/>
-                <div className='text-center' style={{paddingLeft: 2, paddingRight: 10}}>
+                <div className='text-center mb-4' style={{paddingLeft: 2, paddingRight: 10}}>
                     <StyledRating
                       name="customized-color"
                       value={4}
@@ -210,14 +210,14 @@ useEffect(()=>{
                     /> 
                     <Text name={'reviews'} align="left"/>   
                 </div>
-                {/* <Box sx={{display: 'flex'}}> */}
-                  <Box className="flex justify-end mb-4" sx={{'@media (max-width: 640px)': {alignSelf: 'center'}}}>
+                <div className='flex items-center gap-2 flex-wrap'>
+                  <Box sx={{'@media (max-width: 640px)': {alignSelf: 'center'}}}>
                     {/* <Typography sx={{alignContent: 'center', padding: '10px'}}>Service</Typography> */}
                     <Select
                     defaultValue="All services"
                     onChange={handleFilterChange}
-                    className="mr-4"
-                    style={{ width: '150px', height: '38px', fontSize: '18px', fontWeight: 700, color: '#4C4C4C' }}
+                   className="w-[120px] sm:w-[175px] !text-[14px] sm:!text-[18px]"
+                    style={{  height: '38px', fontWeight: 700, color: '#4C4C4C' }}
                     >
                       <MenuItem value="All services">All services</MenuItem>
                       {
@@ -229,20 +229,20 @@ useEffect(()=>{
                     <MenuItem value="Nail">None</MenuItem> */}
                     </Select>
                   </Box>
-                  <Box className="flex justify-end mb-4" sx={{'@media (max-width: 640px)': {alignSelf: 'center'}}}>
+                  <Box className="flex" sx={{'@media (max-width: 640px)': {alignSelf: 'center'}}}>
                       <Typography sx={{alignContent: 'center', padding: '10px'}}>Sort by </Typography>
                       <Select
                       defaultValue="highest"
                       onChange={handleSortChange}
-                      className="mr-4"
-                      style={{ width: '150px', height: '38px', fontSize: '18px', fontWeight: 700, color: '#4C4C4C' }}
+                      className="w-[120px] sm:w-[175px] !text-[14px] sm:!text-[18px]"
+                      style={{ height: '38px', fontWeight: 700, color: '#4C4C4C' }}
                       >
                       {/* <MenuItem value="Sort by">Sort by</MenuItem> */}
                       <MenuItem value="highest">Highest Rating</MenuItem>
                       <MenuItem value="lowest">Lowest Rating</MenuItem>
                       </Select>
                   </Box>
-                {/* </Box> */}
+                </div>
               </div>
           
               <table {...getTableProps()} className="w-full table-auto md:w-[90%]">
