@@ -25,7 +25,7 @@ const getDrawerComponent = (type, payload) => {
         case 'addCategory':
           return <AddCategoryForm payload={payload}/>;
         case 'AppointmentDetails':
-          return <AppointmentDrawer />
+          return <AppointmentDrawer/>
         case 'NewAppointment':
           return <NewAppointmentDrawer payload={payload}/>
         default:

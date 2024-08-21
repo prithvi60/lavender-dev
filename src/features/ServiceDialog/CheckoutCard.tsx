@@ -19,7 +19,7 @@ function CheckoutCard(props: any) {
   const dispatch = useDispatch();
   const checkOutList = useSelector((state: any) => state.checkOutPage);
   const scheduleAppoinmentList = useSelector((state: any) => state.ScheduleAppoinment);
-console.log("checkOutList",checkOutList,scheduleAppoinmentList)
+// console.log("checkOutList",checkOutList,scheduleAppoinmentList)
   const [imageIdList, setImageIdList] = useState<string | any>([]);
   const [loading, setLoading] = useState(true);
   const [imageUrls, setImageUrls] = useState([]);
@@ -30,7 +30,7 @@ console.log("checkOutList",checkOutList,scheduleAppoinmentList)
   const [totalServices, setTotalServices] = useState(0);
   const [employee, setEmployee] = useState([]);
   const [employeeName, setEmployeeName] = useState("");
-console.log("uemployee :::", employee)
+// console.log("uemployee :::", employee)
   useEffect(() => {
     if (checkOutList?.checkOut?.length > 0) {
       setDisabled(false);
