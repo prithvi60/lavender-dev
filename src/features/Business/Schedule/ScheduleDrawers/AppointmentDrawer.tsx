@@ -57,30 +57,29 @@ export default function AppointmentDrawer() {
     setStartTime(getCurrentTime12HrFormat(date.getHours(), date.getMinutes()))
     setSelectedDate(date)
 
-    // Ensure the service name is present in the payload
-    const serviceName = payload.service || "Default Service Name"; // Fallback if name is missing
+    // const serviceName = payload.service || "Default Service Name"; 
 
     // Add default service to selected services if not already present
-    if (selectedServices.length === 0) {
-      setSelectedServices((prev) => [
-        ...prev,
-        {
-          id: "DEFAULT_SERVICE", // Unique ID for default service
-          categories: [
-            {
-              categoryId: "test", // Assuming payload has service categoryId
-              services: [
-                {
-                  ...payload.service, // Use the service from payload
-                  name: serviceName, // Ensure service name is included
-                  options: [{ optionId: "DEFAULT_OPTION_!" }] // Default option with ID can be set here
-                }
-              ]
-            }
-          ]
-        }
-      ]);
-    }
+    // if (selectedServices.length === 0) {
+    //   setSelectedServices((prev) => [
+    //     ...prev,
+    //     {
+    //       id: "DEFAULT_SERVICE", // Unique ID for default service
+    //       categories: [
+    //         {
+    //           categoryId: "test", // Assuming payload has service categoryId
+    //           services: [
+    //             {
+    //               ...payload.service, // Use the service from payload
+    //               name: serviceName, // Ensure service name is included
+    //               options: [{ optionId: "DEFAULT_OPTION_!" }] // Default option with ID can be set here
+    //             }
+    //           ]
+    //         }
+    //       ]
+    //     }
+    //   ]);
+    // }
   }, [date, payload, selectedServices.length]);
   return (
     <div className="flex flex-col h-full relative">

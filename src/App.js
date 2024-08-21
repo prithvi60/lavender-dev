@@ -19,7 +19,7 @@ import { SnackbarProvider } from "./components/Snackbar.tsx";
 import ServiceDialog from "./features/ServiceDialog/ServiceDialog.jsx";
 import Reschedule from "./features/ServiceDialog/Reschedule.jsx";
 import { FilterProvider } from "./features/Business/FilterContext.tsx";
-import OnBoardingSteps from "./features/Business/SalonProfile/OnBoardingSteps.tsx";
+import OnBoardingSteps from "./features/Business/SalonProfile/Onboarding/OnBoardingSteps.tsx";
 
 const Admin = React.lazy(() => import("./pages/AdminPage"));
 const Places = React.lazy(() => import("./pages/Places"));
