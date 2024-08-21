@@ -39,11 +39,11 @@ export const routes = [
     path: "/business/payment-success",
     exact: true,
   },
-  {
-    name: "Business",
-    path: "/business",
-    exact: true,
-  },
+  // {
+  //   name: "Business",
+  //   path: "/business",
+  //   exact: true,
+  // },
   {
     name: "SearchDetails",
     path: "/searchdetails",

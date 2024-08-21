@@ -18,6 +18,7 @@ import { MyFavorites } from "./features/MyFavorites/MyFavorites.tsx";
 import { SnackbarProvider } from "./components/Snackbar.tsx";
 import ServiceDialog from "./features/ServiceDialog/ServiceDialog.jsx";
 import Reschedule from "./features/ServiceDialog/Reschedule.jsx";
+import { FilterProvider } from "./features/Business/FilterContext.tsx";
 
 const Admin = React.lazy(() => import("./pages/AdminPage"));
 const Places = React.lazy(() => import("./pages/Places"));
@@ -42,8 +43,8 @@ const components = [
   Register,
   ForgotPassword,
   Search,
-  BusinessSchedule,
-  BusinessSchedule,
+  // BusinessSchedule,
+  // BusinessSchedule,
 ];
 const queryClient = new QueryClient();
 
@@ -84,6 +85,11 @@ const App = () => {
                 path="/salon/:estId/reschedule"
                 element={<Reschedule />}
               ></Route>
+              <Route path="/business" element={
+                 <FilterProvider>
+                <BusinessSchedule />
+                </FilterProvider>
+                }></Route>
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </div>

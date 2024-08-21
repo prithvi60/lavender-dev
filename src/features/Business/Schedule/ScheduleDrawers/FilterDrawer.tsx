@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Selector } from "../../Appointments/AppointmentControllers";
 import { SelectSeparator } from "../../../../components/ui/select";
 import StatusFilter from "../../../../components/FilterButtons";
 import Divider from "@mui/material/Divider";
 import { Button } from "../../../../components/ui/button";
 import { useDrawer } from "../../BusinessDrawerContext";
-
+import { useFilterContext } from "../../FilterContext";
 export default function FilterDrawer() {
   const [selectedTeamMember, setSelectedTeamMember] = useState("");
   const [selectedClient, setClient] = useState("");
   const [selectedBookingStatusFilters, setSelectedBookingStatusFilters] = useState([]);
+  const { confirmedText,setConfirmedText } = useFilterContext(); 
 
+  useEffect(()=>{
+    setConfirmedText(selectedBookingStatusFilters)
+  },[selectedBookingStatusFilters])
+  
   const resetFilter = () => {
     setSelectedTeamMember("");
     setClient("");

@@ -5,8 +5,10 @@ import { appointments } from "../../../constants/appointments"
 import { useQuery } from '@tanstack/react-query'
 import endpoint from "../../../api/endpoints"
 import { BookingResponse } from "../../../api/type"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { getDifferenceInMinutes } from "../Schedule/utils"
+import { useFilterContext } from "../FilterContext"
+
 
 // function getData(): Appointments[] {
 //   // Fetch data from your API here. use await while calling in a async component
@@ -41,7 +43,7 @@ function parseAppointmentResponse(response: any) {
 export default function AppointmentsPage({estId}) {
   
   const [customerName, setCustomerName] = useState('')
-
+  const { confirmedText } = useFilterContext();
   const payload = {
       "pageNumber": 0,
       "pageSize": 10,
@@ -65,9 +67,11 @@ export default function AppointmentsPage({estId}) {
     
     const { data: { data: {content, ...pageD} } } = userInfo
     pageData = pageD
-    appointmentData = parseAppointmentResponse(content)
+    appointmentData = confirmedText.length > 0 ? parseAppointmentResponse(content).filter(appointment => confirmedText.includes(appointment.status)) : parseAppointmentResponse(content)
   }
-
+  useEffect(() => {
+    console.log("context", confirmedText);
+  }, [confirmedText]);
   return (
     <div>
       {!isLoading ? <DataTable controllers={controllerObj} columns={columns} data={appointmentData} pageData={pageData} /> : <>Loading...</>}

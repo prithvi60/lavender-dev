@@ -10,8 +10,11 @@ import { CircleCheckIcon, PlusIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { bookingStatusFilters } from "../constants/constants";
 
+
+
 const FilterButtons = ({ label, options, selectOptionHandler }) => {
   const allOptions = bookingStatusFilters;
+
 
   const handleToggle = (value) => {
     const currentIndex = options.indexOf(value);
@@ -63,7 +66,7 @@ const FilterButtons = ({ label, options, selectOptionHandler }) => {
                 onClick={() => handleToggle(option)}
               >
                 <ListItemText
-                  primary={<div className="font-semibold">{option}</div>}
+                  primary={<div className="font-semibold capitalize">{option}</div>}
                 />
               </ListItem>
 
