@@ -306,7 +306,7 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
               }}
             ></Buttons>
           )} */}
-          <div className="flex justify-between ">
+          <div className="flex justify-between flex-col md:flex-row gap-2 items-center">
             <Box sx={{paddingX: 1}}>
             <Buttons
               variant="outlined"

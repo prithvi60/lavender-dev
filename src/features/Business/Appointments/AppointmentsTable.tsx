@@ -70,7 +70,7 @@ export default function AppointmentsPage({estId}) {
     appointmentData = confirmedText.length > 0 ? parseAppointmentResponse(content).filter(appointment => confirmedText.includes(appointment.status)) : parseAppointmentResponse(content)
   }
   useEffect(() => {
-    console.log("context", confirmedText);
+    // console.log("context", confirmedText);
   }, [confirmedText]);
   return (
     <div>
