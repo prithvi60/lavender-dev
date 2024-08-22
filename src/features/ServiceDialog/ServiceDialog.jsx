@@ -76,12 +76,17 @@ function ServiceDialog() {
       </Buttons> */}
       <Dialog id="ServicesHeaderButton" fullScreen open={isOpen} close={handleClose}>
         <Toolbar className="mb-4 stepper-header">
-          <GetIcon
+          {isMobile ? (<GetIcon
+            className="cursor-pointer nav-bar-title"
+            align="left"
+            onClick={() => navigate("/")}
+            iconName="LavenderLogo"
+          />) : (<GetIcon
             className="cursor-pointer nav-bar-title"
             align="left"
             onClick={() => navigate("/")}
             iconName="LavenderFullLogo"
-          />
+          />)}
           <Box sx={{ width: "100%" }}>
             <Stepper activeStep={activeStep} alternativeLabel>
               {steps.map((label) => (

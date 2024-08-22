@@ -23,22 +23,36 @@ import {
   resetCheckOut,
 } from "../../store/slices/checkOutPageSlice";
 import GetIcon from "../../assets/Icon/icon";
+import { useSelector } from "react-redux";
 const Transition = React.forwardRef(function Transition(props: any, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-function OptionsModalListView({ props, isMobile, onServiceClick }) {
+function OptionsModalListView({ props, isMobile, onServiceClick, checkOutList, service, selectedService }) {
   const dispatch = useDispatch();
 
+  const [propsVal, setPropsVal] = useState(props);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState(selectedService);
+  const [selectAll, setSelectAll] = useState(selectedService?.length === propsVal?.options?.length);
   const [isSelected, setSelected] = useState(false);
+  const quickBook = useSelector((state: any) => state.quickBook);
 
   // useEffect(() => {
   //   if (isSelected) {
   //     setSelected(true);
   //   }
   // }, [isSelected, isSelectionValid]);
+
+  useEffect(() => {
+    if (quickBook?.selectedServiceId && propsVal?.options?.length > 1 && quickBook?.selectedServiceId === propsVal?.serviceId) {
+      const filteredService = propsVal;
+      setPropsVal(filteredService);
+
+      if (!(selectedOptions.length > 0)) {
+        handleSelectAll();
+      }
+    }
+  }, [])
 
   useEffect(() => {
     updateReduxStore();
@@ -85,7 +99,7 @@ function OptionsModalListView({ props, isMobile, onServiceClick }) {
       }
     });
   };
-  
+
 
   const updateReduxStore = () => {
     const deselectedOptions = props.options
@@ -122,7 +136,13 @@ function OptionsModalListView({ props, isMobile, onServiceClick }) {
   return (
     <>
       <IconButton onClick={handleOpen}>
-        <GetIcon iconName="PlusIcon" />
+        {checkOutList?.checkOut?.some(
+          (item) => item?.optionId === service?.options[0]?.optionId
+        ) ? (
+          <GetIcon iconName="SelectedIcon" />
+        ) : (
+          <GetIcon iconName="PlusIcon" />
+        )}
       </IconButton>
       <Dialog
         open={isOpen}
@@ -132,14 +152,14 @@ function OptionsModalListView({ props, isMobile, onServiceClick }) {
         PaperProps={{
           style: isMobile
             ? {
-                margin: 0,
-                height: "70%",
-                maxHeight: "70%",
-                position: "absolute",
-                bottom: 0,
-                borderTopLeftRadius: 20,
-                borderTopRightRadius: 20,
-              }
+              margin: 0,
+              height: "70%",
+              maxHeight: "70%",
+              position: "absolute",
+              bottom: 0,
+              borderTopLeftRadius: 20,
+              borderTopRightRadius: 20,
+            }
             : {},
         }}
       >

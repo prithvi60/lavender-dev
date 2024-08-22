@@ -294,16 +294,16 @@ function CheckoutCard(props: any) {
             </div>
 
             <div
-              className="pb-2 text-sm font-normal"
+              className="pb-2 text-sm font-normal capitalize"
               style={{ color: "#808080" }}
             >
-              excluding Tax
+              Excluding Tax
             </div>
             <div
               className="pb-2 text-sm font-normal"
               style={{ color: "#808080" }}
             >
-              {totalDuration} mins
+              {totalDuration} Mins
             </div>
 
             <div className="flex justify-center py-2">

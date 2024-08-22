@@ -14,8 +14,9 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import GetIcon from "../../assets/Icon/icon";
 import Text from "../../components/Text";
+import { service } from "../../api/constants";
 
-function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
+function OptionsModal({ props, selectedService, isMobile, onServiceClick, checkOutList,service }) {
 
   const dispatch = useDispatch();
 
@@ -28,6 +29,9 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
 
   const quickBook = useSelector((state: any) => state.quickBook);
 
+  // console.log(service);
+  
+
   // useEffect(()=>{
   //   setServiceCat(propsVal)
   // },[propsVal])
@@ -36,16 +40,16 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
   //   setQuickBookData(quickBook)
   // },[serviceCat])
 
-  useEffect(()=>{
-    if(quickBook?.selectedServiceId && propsVal?.options?.length > 1 && quickBook?.selectedServiceId===propsVal?.serviceId){
-       const filteredService = propsVal;
-       setPropsVal(filteredService);
-       
-       if(!(selectedOptions.length > 0)){
-          handleSelectAll();
-       }
+  useEffect(() => {
+    if (quickBook?.selectedServiceId && propsVal?.options?.length > 1 && quickBook?.selectedServiceId === propsVal?.serviceId) {
+      const filteredService = propsVal;
+      setPropsVal(filteredService);
+
+      if (!(selectedOptions.length > 0)) {
+        handleSelectAll();
+      }
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     updateReduxStore();
@@ -93,7 +97,7 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
       }
     });
   };
-  
+
   const updateReduxStore = () => {
     const deselectedOptions = propsVal?.options
       .filter((option) => !selectedOptions.includes(option.optionId))
@@ -143,8 +147,13 @@ function OptionsModal({ props, selectedService, isMobile, onServiceClick }) {
   return (
     <div>
       <IconButton onClick={() => handleOpen()}>
-        {selectAll ? <GetIcon iconName="SelectedIcon"/> : <GetIcon iconName="PlusIcon"/>}
-        {/* <GetIcon iconName="PlusIcon" /> */}
+        {checkOutList?.checkOut?.some(
+          (item) => item?.optionId === service?.options[0]?.optionId
+        ) ? (
+          <GetIcon iconName="SelectedIcon" />
+        ) : (
+          <GetIcon iconName="PlusIcon" />
+        )}
       </IconButton>
       <Modal
         open={isOpen}

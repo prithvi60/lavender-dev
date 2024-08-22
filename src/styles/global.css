@@ -127,7 +127,7 @@
     font-size: 20px !important;
     font-weight: 600 !important;
     cursor: pointer !important;
-    color: #4D4D4D !important;
+    color: #4d4d4d !important;
   }
 
   /* Text Area */
@@ -184,7 +184,7 @@
 }
 
 .chip.delete {
-  color: #4D4D4D !important;
+  color: #4d4d4d !important;
   background-color: #e6e1ff !important;
 }
 
@@ -369,3 +369,4 @@
     padding-top: 20px;
   }
 }
+

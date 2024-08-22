@@ -220,7 +220,7 @@ const Navbar = (props) => {
       </AppBar>
 
       {isSearchPage && showSearchBar && (
-        <div className="searched-search-panel mt-[100px]">
+        <div className="searched-search-panel mt-[145px] md:mt-[100px]">
           <NewSearchPanel />
         </div>
       )}

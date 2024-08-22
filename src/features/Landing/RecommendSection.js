@@ -110,6 +110,22 @@ const RecommendSection = () => {
           centerPadding: "30px",
         },
       },
+      {
+        breakpoint: 360,
+        settings: {
+          slidesToShow: 1,
+          centerMode: true,
+          centerPadding: "30px",
+        },
+      },
+      {
+        breakpoint: 310,
+        settings: {
+          slidesToShow: 1,
+          centerMode: true,
+          centerPadding: "30px",
+        },
+      },
     ],
   };
 
@@ -178,8 +194,8 @@ const RecommendSection = () => {
       {!isLoading && (
         <Slider {...settings} className="home-slider">
           {establishmentSearchResult?.data?.data?.content?.map((card) => (
-            <div key={card?.id}>
-              <div className="max-w-lg p-6 mx-2 shadow-lg md:mx-5 rounded-xl">
+            <div key={card?.id} >
+              <div className="max-w-lg min-w-[180px] p-2 sm:p-6 sm:mx-2 shadow-lg md:mx-5 rounded-xl">
                 {getImages(card?.estImages[0]) ? (
                   <img
                     src={getImages(card?.estImages[0])}

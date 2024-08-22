@@ -355,11 +355,11 @@ function CheckoutFooterCard(props) {
               <Typography variant="h6">Total</Typography>
               <Typography variant="h6">${totalPrice.toFixed(2)}</Typography>
             </Box>
-            <Typography variant="body2" color="text.secondary">
-              excluding Tax
+            <Typography variant="body2" color="text.secondary" sx={{ textTransform: "capitalize" }}>
+              Excluding Tax
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {totalDuration} mins
+              {totalDuration} Mins
             </Typography>
           </Box>
         </DialogContent>

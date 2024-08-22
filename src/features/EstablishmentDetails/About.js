@@ -62,7 +62,7 @@ function About(props) {
                     <div>
                       {establishmentPaymentTypes ? (
                         Object?.keys(establishmentPaymentTypes)?.map((item, index) => (
-                          <Box key={index} className="py-1 pl-16 text-sm font-normal urbanist-font" sx={{'@media (max-width: 640px)': {paddingLeft: 0}}}>
+                          <Box key={index} className="py-1 text-sm font-normal urbanist-font" sx={{'@media (max-width: 640px)': {paddingLeft: 0}}}>
                             {item}
                           </Box>
                         ))

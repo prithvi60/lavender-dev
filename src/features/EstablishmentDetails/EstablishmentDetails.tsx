@@ -166,7 +166,7 @@ function EstablishmentDetails({ estId }) {
           </Grid>
         </Box>
       </Modal>
-      <div className="searchDetailsContainer">
+      <div className="searchDetailsContainer  !mt-[8.5em] md:!mt-[4em]">
         <Grid container>
           <Grid item xs={12} order={{ xs: 1, md: 2 }}>
             {loading ? (

@@ -215,7 +215,7 @@ export default function FilterModal() {
                 />
 
                 <Divider />
-                <div className="mt-2 mb-2">
+                <div className="mt-2 mb-20">
                   <Controller
                     name="selectedTags"
                     control={control}
@@ -242,23 +242,22 @@ export default function FilterModal() {
                 </div>
 
                 <Divider />
-
-                <div className="space-x-4 mt-3">
-                  <Button
-                    variant="outlined"
-                    onClick={onClickClearFilter}
-                    name="Clear All"
-                    sx={styles.btn}
-                  />
-                  <Button
-                    name="Apply Filters"
-                    onClick={() => {
-                      onClickApplyFilter(getValues());
-                    }}
-                    sx={styles.btn}
-                  ></Button>
-                </div>
               </form>
+              <div className="absolute bottom-0 flex justify-between items-center gap-2 pr-3 sm:px-0 sm:gap-4 mt-3 py-3 bg-white w-[90%] rounded-b-md">
+                <Button
+                  variant="outlined"
+                  onClick={onClickClearFilter}
+                  name="Clear All"
+                  sx={styles.btn}
+                />
+                <Button
+                  name="Apply Filters"
+                  onClick={() => {
+                    onClickApplyFilter(getValues());
+                  }}
+                  sx={styles.btn}
+                ></Button>
+              </div>
             </Grid>
           </Grid>
         </Box>
@@ -301,6 +300,9 @@ const styles = {
     textTransform: "none",
     "&:hover": {
       backgroundColor: "#5A3EBF",
+    },
+    "@media (max-width: 600px)": {
+      fontSize: "14px",
     },
   },
 };
