@@ -11,6 +11,11 @@ export const LANDING_PAGE = {
   SUBTITLE: "",
 };
 
+export const LANDING_PAGE_BUSINESS = {
+  TITLE: "Lavender Business",
+  SUBTITLE: "",
+};
+
 export const DASHBOARD = {
   DRAWER_WIDTH: 260,
   DRAWER_ITEMS: [

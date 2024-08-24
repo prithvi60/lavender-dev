@@ -1,4 +1,4 @@
-import React from "react";
+
 import { LANDING_PAGE } from "../../constants/constants";
 import NewSearchPanel from "../SearchPanel/NewSearchPanel";
 import { Box } from "@mui/material";

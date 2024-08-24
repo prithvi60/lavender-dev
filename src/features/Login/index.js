@@ -7,6 +7,9 @@ import { useNavigate  } from 'react-router-dom';
 
 const Login = ({children}) => {
     const { newAccount, accountCreated } = useSelector((state) => state.loginPage);
+    // const location = useLocation()
+    // console.log(location.pathname);
+    
 
     const navigate = useNavigate();
     const theme = useTheme();

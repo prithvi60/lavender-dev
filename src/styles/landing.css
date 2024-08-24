@@ -512,9 +512,9 @@
   gap: 50px 20px;
 
   & img {
-    max-width: 350px;
+    /* max-width: 350px; */
     width: 100%;
-    aspect-ratio: 1;
+    /* aspect-ratio: 1; */
     object-fit: cover;
     border-radius: 20px;
     margin-bottom: 15px;

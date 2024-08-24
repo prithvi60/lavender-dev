@@ -6,14 +6,14 @@ import { TextField, Checkbox, Button, FormControlLabel, MenuItem, Select, InputL
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import CustomDatePicker from '../DateInput';
 import { Dayjs } from 'dayjs';
-import endpoint from '../../api/endpoints';
 import { useMutation } from '@tanstack/react-query';
-import Text from '../Text';
 import { useNavigate } from 'react-router-dom';
-import GetIcon from '../../assets/Icon/icon';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import wrappedLayout from './wrappedLayout';
+import Text from '../../../components/Text';
+import GetIcon from '../../../assets/Icon/icon';
+import endpoint from '../../../api/endpoints';
 
 const style = {
     position: "absolute",
@@ -38,7 +38,7 @@ const schema = yup.object().shape({
     accept: yup.bool().oneOf([true], 'Field must be checked'),
 });
 
-const RegisterScreen = () => {
+const RegisterBusinessPage = () => {
     const { control, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(schema),
     });
@@ -199,7 +199,7 @@ const RegisterScreen = () => {
                                         />
                                     </Grid>
 
-                                    <Grid item xs={12}>
+                                    {/* <Grid item xs={12}>
                                         <Controller
                                             name="userType"
                                             control={control}
@@ -222,7 +222,7 @@ const RegisterScreen = () => {
                                                 </FormControl>
                                             )}
                                         />
-                                    </Grid>
+                                    </Grid> */}
 
                                     <Grid sx={{ display: 'flex', padding: '10px', paddingLeft: "0px" }} xs={12}>
 
@@ -389,7 +389,7 @@ const RegisterScreen = () => {
     );
 };
 
-export default RegisterScreen;
+export default wrappedLayout(RegisterBusinessPage);
 
 const styles = {
     btn: {

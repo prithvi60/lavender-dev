@@ -39,14 +39,24 @@ export const routes = [
     path: "/business/payment-success",
     exact: true,
   },
-  // {
-  //   name: "Business",
-  //   path: "/business",
-  //   exact: true,
-  // },
   {
     name: "SearchDetails",
     path: "/searchdetails",
     exact: true,
-  }
+  },
+  //   {
+  //   name: "BusinessLogin",
+  //   path: "/business/log",
+  //   exact: true,
+  // },
+  // {
+  //   name: "BusinessRegister",
+  //   path: "/business/register",
+  //   exact: true,
+  // },
+  // {
+  //   name: "BusinessForgotPassword",
+  //   path: "/business/forgotPassword",
+  //   exact: true,
+  // },
 ];

@@ -1,5 +1,3 @@
-import { Grid } from '@mui/material';
-import React from 'react';
 import GetImage from '../assets/GetImage';
 import Text from '../components/Text';
 function Benifits() {

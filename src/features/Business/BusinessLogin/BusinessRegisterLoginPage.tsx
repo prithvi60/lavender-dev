@@ -3,38 +3,27 @@ import {
   Grid,
   Link,
   Box,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-  SelectChangeEvent,
-  FormHelperText,
-  Typography,
   IconButton,
   InputAdornment,
 } from "@mui/material";
-import Button from "../Button";
-// import TextField from '../TextField'
 import { TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import ButtonRouter from "../ButtonRouter";
 import { useDispatch } from "react-redux";
-import { isNewAccount } from "../../store/slices/login/loginPageSlice";
-import { getRoute } from "../../utils";
-import Text from "../Text";
-import RegisterScreen from "./RegisterScreen.tsx";
-import GetIcon from "../../assets/Icon/icon.tsx";
-import Buttons from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import endpoint from "../../api/endpoints.ts";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
-import Dropdown from "../Dropdown";
-import { updateUser } from "../../store/slices/currentUserSlice.js";
-import { useSnackbar } from "../Snackbar.tsx";
+
 import { useGoogleLogin } from "@react-oauth/google";
+import { getRoute } from "../../../utils";
+import endpoint from "../../../api/endpoints";
+import { useSnackbar } from "../../../components/Snackbar";
+import BusinessRegister from "./BusinessRegister";
+import GetIcon from "../../../assets/Icon/icon";
+import Text from "../../../components/Text";
+import Button from "../../../components/Button";
+import wrappedLayout from "./wrappedLayout";
 
 const schema = yup.object().shape({
   email: yup.string().email().required("Email is a required field"),
@@ -42,7 +31,7 @@ const schema = yup.object().shape({
   userType: yup.string().required("UserType is a required field"),
 });
 
-function RegisterLoginScreen({ isInLoginModal }) {
+function BusinessRegisterLoginPage({ isInLoginModal }) {
   const [renderRegisterModal, setRenderRegisterModal] = useState(false);
   const [disableBtn, setDisableBtn] = useState(true);
   const [userdetails, setUserDetails] = useState(false);
@@ -79,7 +68,7 @@ function RegisterLoginScreen({ isInLoginModal }) {
             }, 1000)
           } else {
             setTimeout(() => {
-              navigate("/register");
+              navigate("/business/register");
             }, 1000)
           }
         } else {
@@ -130,37 +119,31 @@ function RegisterLoginScreen({ isInLoginModal }) {
   const handleClickContinue = (data) => {
     getUserLoginTokenApi(data);
 
-    navigate("/");
+    navigate("/business/dashboard");
 
     if (!disableBtn) {
       //dispatch(isNewAccount({ newAccount: true }));
     }
   };
 
-  function handleButton() {
-    setRenderRegisterModal(true);
-  }
+  // function handleButton() {
+  //   setRenderRegisterModal(true);
+  // }
 
   function handleRegisterClick() {
-    navigate("/register");
+    navigate("/business/register");
   }
 
   function handleForgotPasswordClick() {
-    navigate("/forgotPassword");
+    navigate("/business/forgotPassword");
   }
 
-  const handleUserChange = (eventevent) => {
-    //setUserType();
-  };
 
-  const responseGoogle = (response) => {
-    console.log(response, "goolge");
-  };
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   return (
     <>
       {renderRegisterModal ? (
-        <RegisterScreen />
+        <BusinessRegister />
       ) : (
         <Grid item spacing={7} sx={{ padding: "" }}>
           <form
@@ -260,31 +243,27 @@ function RegisterLoginScreen({ isInLoginModal }) {
 
             <Grid item spacing={1} xs={12} sx={{ padding: "10px" }}>
               <TextField
-                sx={{fontSize: '16px !important'}}
+                sx={{ fontSize: '16px !important' }}
                 fullWidth
                 label="Password"
                 variant="standard"
                 type={showPassword ? "text" : "password"}
                 {...register("password")}
-                InputProps={{ endAdornment: ( <InputAdornment position="end">
-                  <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword}>
-                      {showPassword ? <Visibility /> : <VisibilityOff />} 
-                      </IconButton></InputAdornment>),}}
+                InputProps={{
+                  endAdornment: (<InputAdornment position="end">
+                    <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword}>
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton></InputAdornment>),
+                }}
               />
-              <Box sx={{textAlign: 'start'}}><Link onClick={() => handleForgotPasswordClick()}>Forgot Password ?</Link></Box>
+              <Box sx={{ textAlign: 'start' }}><Link onClick={() => handleForgotPasswordClick()}>Forgot Password ?</Link></Box>
               {errors.password && (
                 <p className="text-red-500 font-medium">
                   {errors.password.message}
                 </p>
               )}
             </Grid>
-            <Grid item spacing={1} xs={12} sx={{ padding: "10px" }}>
-              {/* <select {...register("userType")}>
-                        <option value="OC">Customer</option>
-                        <option value="BU">Business</option>
-                    </select>
-                 
-                    {errors.userType && <p className='text-red-500 font-medium'>{errors.userType.message}</p>} */}
+            {/* <Grid item spacing={1} xs={12} sx={{ padding: "10px" }}>
 
               <Controller
                 name="userType"
@@ -307,28 +286,18 @@ function RegisterLoginScreen({ isInLoginModal }) {
                   </FormControl>
                 )}
               />
+            </Grid> */}
+            <Grid item spacing={1} xs={12} sx={{ padding: "10px" }}>
+              <TextField
+                fullWidth
+                label="User Type"
+                id="outlined-basic"
+                variant="standard"
+                disabled
+                defaultValue={"BU"}
+                // sx={{display: "none"}}
+              />
             </Grid>
-
-            {/* <Grid item xs={12}>
-                    {isInLoginModal
-                    ? <Button 
-                        sx={{backgroundColor: '#825FFF', padding: '10px'}} 
-                        variant="contained" 
-                        fullWidth 
-                        className='continue' 
-                        name={"Continue"} 
-                        onClick={() => handleButton()} 
-                        disabled={true} />
-                    : <Button
-                    variant="contained"
-                    fullWidth
-                    className='continue'
-                    name={"Continue"}
-                    type="submit"
-                    />}
-
-                </Grid> */}
-
             <Button
               fullWidth
               type="submit"
@@ -342,23 +311,24 @@ function RegisterLoginScreen({ isInLoginModal }) {
     </>
   );
 }
-
-export default RegisterLoginScreen;
+export default wrappedLayout(BusinessRegisterLoginPage);
 
 
 const styles = {
   btn: {
-      width: '100%',
-      color: '#FFFFFF',
-      backgroundColor: '#825FFF',
-      fontWeight: 600,
-      fontSize: '20px',
-      lineHeight: '24px',
-      padding: '10px 40px 10px 40px',
-      borderRadius: '10px',
-      textTransform: 'none',
-      '&:hover': {
-        backgroundColor: '#5A3EBF',
-      }
-    },
+    width: '100%',
+    color: '#FFFFFF',
+    backgroundColor: '#825FFF',
+    fontWeight: 600,
+    fontSize: '20px',
+    lineHeight: '24px',
+    padding: '10px 40px 10px 40px',
+    borderRadius: '10px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#5A3EBF',
+    }
+  },
 }
+
+

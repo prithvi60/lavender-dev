@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Text from '../components/Text';
 import Button from '../components/Button';
 import { Box, Container } from '@mui/material';

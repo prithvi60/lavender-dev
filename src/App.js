@@ -20,6 +20,10 @@ import ServiceDialog from "./features/ServiceDialog/ServiceDialog.jsx";
 import Reschedule from "./features/ServiceDialog/Reschedule.jsx";
 import { FilterProvider } from "./features/Business/FilterContext.tsx";
 import OnBoardingSteps from "./features/Business/SalonProfile/Onboarding/OnBoardingSteps.tsx";
+import BusinessHomePage from "./features/Business/BusinessHomePage/BusinessHomePage.jsx";
+import BusinessLoginPage from "./pages/BusinessLoginPage"
+import BusinessRegisterPage from "./pages/BusinessRegisterPage"
+import BusinessForgotPasswordPage from "./pages/BusinessForgotPasswordPage"
 
 const Admin = React.lazy(() => import("./pages/AdminPage"));
 const Places = React.lazy(() => import("./pages/Places"));
@@ -31,6 +35,10 @@ const Search = React.lazy(() => import("./pages/SearchPage"));
 const BusinessSchedule = React.lazy(() =>
   import("./pages/BusinessLayoutPage.js")
 );
+
+const BusinessLogin = React.lazy(() => import("./pages/BusinessLoginPage.js"));
+const BusinessRegister = React.lazy(() => import("./pages/BusinessRegisterPage.jsx"));
+const BusinessForgotPassword = React.lazy(() => import("./pages/BusinessForgotPasswordPage.js"));
 //const MyFavorites = React.lazy(() => import('./features/MyFavorites/MyFavorites'));
 
 // const UserDetails = React.lazy(() => import('./pages/UserPage'));
@@ -47,6 +55,12 @@ const components = [
   // BusinessSchedule,
   // BusinessSchedule,
 ];
+
+const businessComponents = [
+  BusinessLogin,
+  BusinessRegister,
+  BusinessForgotPassword,
+];
 const queryClient = new QueryClient();
 
 const App = () => {
@@ -59,6 +73,7 @@ const App = () => {
               <Route path="/" exact element={<LandingPage />} />
               {routes?.map((route, index) => {
                 const Component = components?.[index];
+                
                 return (
                   <Route
                     key={index}
@@ -72,6 +87,22 @@ const App = () => {
                   />
                 );
               })}
+              {/* {routes?.map((route, index) => {
+                const BusinessComponent = businessComponents?.[index];
+               
+                return (
+                  <Route
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}
+                    element={
+                      <Suspense fallback={<Loader />}>
+                        <BusinessComponent />
+                      </Suspense>
+                    }
+                  />
+                );
+              })} */}
               <Route
                 path="/salon/:estId"
                 element={<SearchDetailsPage />}
@@ -87,14 +118,21 @@ const App = () => {
                 element={<Reschedule />}
               ></Route>
               <Route
-                path="/business"
+                path="/business/dashboard"
                 element={
                   <FilterProvider>
                     <BusinessSchedule />
                   </FilterProvider>
                 }
               ></Route>
-              <Route path="/business/getStarted" element={<OnBoardingSteps />}></Route>
+              <Route path="/business" element={<BusinessHomePage />} />
+              <Route path="/business/login" element={<BusinessLoginPage />} />
+              <Route path="/business/register" element={<BusinessRegisterPage />} />
+              <Route path="/business/forgotPassword" element={<BusinessForgotPasswordPage />} />
+              <Route
+                path="/business/getStarted"
+                element={<OnBoardingSteps />}
+              />
               <Route path="*" element={<PageNotFound />} />
             </Routes>
           </div>

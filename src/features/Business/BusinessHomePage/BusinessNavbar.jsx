@@ -9,16 +9,15 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import Button from "./Button.js";
-import ButtonRouter from "./ButtonRouter";
-import { getRoute } from "../utils";
-import GetIcon from "../assets/Icon/icon.tsx";
 import { useNavigate } from "react-router-dom";
-import endpoint from "../api/endpoints.ts";
-import NavFilter from "./NavFilter.tsx";
-import NewSearchPanel from "../features/SearchPanel/NewSearchPanel.jsx";
+import endpoint from "../../../api/endpoints";
+import GetIcon from "../../../assets/Icon/icon";
+import NavFilter from "../../../components/NavFilter";
+import Button from "../../../components/Button";
+import ButtonRouter from "../../../components/ButtonRouter";
+import { getRoute } from "../../../utils";
 
-const Navbar = (props) => {
+const BusinessNavbar = (props) => {
   const { isSearchPage, isLoggedIn } = props;
   const [showSearchBar, setshowSearchBar] = useState(false);
   const [userName, setUserName] = useState("");
@@ -67,7 +66,7 @@ const Navbar = (props) => {
 
   return (
     <>
-      <AppBar position="fixed" className="nav-bar !shadow-sm">
+      <AppBar position="fixed" className="nav-bar !shadow-sm bg-white">
         <Toolbar>
           <Box
             sx={{
@@ -86,27 +85,10 @@ const Navbar = (props) => {
             <GetIcon
               className="cursor-pointer nav-bar-title"
               align="left"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/business")}
               iconName="LavenderFullLogo"
             />
-            <Box>
-              {isSearchPage && (
-                <Box
-                  sx={{
-                    width: "100%",
-                    // marginLeft: "200px",
-                    // "@media (max-width: 600px)": {
-                    //   marginTop: "10%",
-                    //   width: "fit-content",
-                    //   marginRight: "-2%",
-                    // },
-                  }}
-                  className="hidden md:block"
-                >
-                  <NavFilter setshowSearchBar={setshowSearchBar} />
-                </Box>
-              )}
-            </Box>
+
             <Stack spacing={2} direction="row">
               {isLoggedIn ? (
                 <>
@@ -204,7 +186,7 @@ const Navbar = (props) => {
                           borderRadius: "10px",
                         }}
                         name={"Log in"}
-                        to="/login"
+                        to="/business/login"
                       />
                     </>
                   )}
@@ -215,20 +197,21 @@ const Navbar = (props) => {
                   >
                     <MenuItem
                       onClick={() => {
-                        handleBusinessBtn();
+                        handleBusinessBtn()
                       }}
                     >
                       Business
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        navigate("/login");
+                        navigate("/business/login")
                       }}
-                      sx={{color: "#825fff", fontWeight: "600"}}
+                      sx={{color: "#825fff",fontWeight: "600"}}
                     >
                       Login
                     </MenuItem>
                   </Menu>
+
                 </>
               )}
               {userType === "BU" && (
@@ -247,34 +230,10 @@ const Navbar = (props) => {
               )}
             </Stack>
           </Box>
-          <Box className={"md:hidden w-full flex justify-end my-1"}>
-            {isSearchPage && (
-              <Box
-                sx={{
-                  width: "max-content",
-                  // marginLeft: "200px",
-                  // marginRight: "40px",
-                  // "@media (max-width: 600px)": {
-                  //   marginTop: "10%",
-                  //   width: "fit-content",
-                  //   marginRight: "-2%",
-                  // },
-                }}
-              >
-                <NavFilter setshowSearchBar={setshowSearchBar} />
-              </Box>
-            )}
-          </Box>
         </Toolbar>
       </AppBar>
-
-      {isSearchPage && showSearchBar && (
-        <div className="searched-search-panel mt-[145px] md:mt-[100px]">
-          <NewSearchPanel />
-        </div>
-      )}
     </>
   );
 };
 
-export default Navbar;
+export default BusinessNavbar;
