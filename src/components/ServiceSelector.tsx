@@ -40,7 +40,7 @@ const SelectedService = ({ service, deleteService }) => {
     )
 }
 
-function ServiceSelector({ selectedServices, setSelectedServices }) {
+function ServiceSelector({ selectedServices, setSelectedServices,categories }) {
 
     const selectService = (category, service, option = {}) => {
         const count = selectedServices.length
@@ -76,176 +76,176 @@ function ServiceSelector({ selectedServices, setSelectedServices }) {
         setSelectedServices(newSelectedServices)
     }
 
-    const categories = [
-        {
-            "categoryId": "CAT00002507",
-            "categoryName": "Hair treatment",
-            "serviceTag": "Hair coloring",
-            "services": [
-                {
-                    "serviceId": "SER00002514",
-                    "serviceName": "Women's Haircut",
-                    "serviceDescription": "Professional haircut and styling for women.",
-                    "gender": "F",
-                    "options": [
-                        {
-                            "optionId": "OPT00002532",
-                            "optionName": "Basic Haircut",
-                            "salePrice": 50,
-                            "maxPrice": 60,
-                            "discountPrice": 45,
-                            "discountPercentage": 10,
-                            "duration": 45
-                        },
-                        {
-                            "optionId": "OPT00002533",
-                            "optionName": "Haircut with Styling",
-                            "salePrice": 70,
-                            "maxPrice": 80,
-                            "discountPrice": 63,
-                            "discountPercentage": 10,
-                            "duration": 60
-                        }
-                    ],
-                    "startingPrice": 45,
-                    "employees": [
-                        "E123",
-                        "E1011234"
-                    ],
-                    "active": true
-                },
-                {
-                    "serviceId": "SER00002526",
-                    "serviceName": "test service",
-                    "serviceDescription": "test service",
-                    "gender": "M",
-                    "options": [
-                        {
-                            "optionId": "OPT00002553",
-                            "optionName": "test service",
-                            "salePrice": 123,
-                            "maxPrice": null,
-                            "discountPrice": null,
-                            "discountPercentage": null,
-                            "duration": 20
-                        }
-                    ],
-                    "startingPrice": 123,
-                    "employees": [
-                        "E123"
-                    ],
-                    "active": true
-                },
-                {
-                    "serviceId": "SER00002529",
-                    "serviceName": "test hair",
-                    "serviceDescription": "test hair",
-                    "gender": "M",
-                    "options": [
-                        {
-                            "optionId": "OPT00002556",
-                            "optionName": "test hair",
-                            "salePrice": 56,
-                            "maxPrice": null,
-                            "discountPrice": null,
-                            "discountPercentage": null,
-                            "duration": 30
-                        }
-                    ],
-                    "startingPrice": 56,
-                    "employees": [
-                        "EMP00002503"
-                    ],
-                    "active": true
-                },
-                {
-                    "serviceId": "SER00002530",
-                    "serviceName": "Hair dye",
-                    "serviceDescription": "Use henna",
-                    "gender": "M",
-                    "options": [
-                        {
-                            "optionId": "OPT00002557",
-                            "optionName": "Hair dye",
-                            "salePrice": 123,
-                            "maxPrice": null,
-                            "discountPrice": null,
-                            "discountPercentage": null,
-                            "duration": 30
-                        }
-                    ],
-                    "startingPrice": 123,
-                    "employees": [
-                        "EMP00002503"
-                    ],
-                    "active": true
-                },
-                {
-                    "serviceId": "SER00002531",
-                    "serviceName": "Hair dye",
-                    "serviceDescription": "Use henna",
-                    "gender": "M",
-                    "options": [
-                        {
-                            "optionId": "OPT00002558",
-                            "optionName": "Hair dye",
-                            "salePrice": 123,
-                            "maxPrice": null,
-                            "discountPrice": null,
-                            "discountPercentage": null,
-                            "duration": 30
-                        }
-                    ],
-                    "startingPrice": 123,
-                    "employees": [
-                        "EMP00002503"
-                    ],
-                    "active": true
-                },
-            ],
-            "active": false
-        },
-        {
-            "categoryId": "CAT00002508",
-            "categoryName": "Nails",
-            "serviceTag": "Nail",
-            "services": [
-                {
-                    "serviceId": "SER00002515",
-                    "serviceName": "Women's Nails",
-                    "serviceDescription": "Professional haircut and styling for women.",
-                    "gender": "F",
-                    "options": [
-                        {
-                            "optionId": "OPT00002534",
-                            "optionName": "Basic nails",
-                            "salePrice": 50,
-                            "maxPrice": 60,
-                            "discountPrice": 45,
-                            "discountPercentage": 10,
-                            "duration": 45
-                        },
-                        {
-                            "optionId": "OPT00002535",
-                            "optionName": "nils with Styling",
-                            "salePrice": 70,
-                            "maxPrice": 80,
-                            "discountPrice": 63,
-                            "discountPercentage": 10,
-                            "duration": 60
-                        }
-                    ],
-                    "startingPrice": 45,
-                    "employees": [
-                        "E123",
-                        "E1011234"
-                    ],
-                    "active": true
-                }
-            ],
-            "active": false
-        }
-    ]
+    // const categories = [
+    //     {
+    //         "categoryId": "CAT00002507",
+    //         "categoryName": "Hair treatment",
+    //         "serviceTag": "Hair coloring",
+    //         "services": [
+    //             {
+    //                 "serviceId": "SER00002514",
+    //                 "serviceName": "Women's Haircut",
+    //                 "serviceDescription": "Professional haircut and styling for women.",
+    //                 "gender": "F",
+    //                 "options": [
+    //                     {
+    //                         "optionId": "OPT00002532",
+    //                         "optionName": "Basic Haircut",
+    //                         "salePrice": 50,
+    //                         "maxPrice": 60,
+    //                         "discountPrice": 45,
+    //                         "discountPercentage": 10,
+    //                         "duration": 45
+    //                     },
+    //                     {
+    //                         "optionId": "OPT00002533",
+    //                         "optionName": "Haircut with Styling",
+    //                         "salePrice": 70,
+    //                         "maxPrice": 80,
+    //                         "discountPrice": 63,
+    //                         "discountPercentage": 10,
+    //                         "duration": 60
+    //                     }
+    //                 ],
+    //                 "startingPrice": 45,
+    //                 "employees": [
+    //                     "E123",
+    //                     "E1011234"
+    //                 ],
+    //                 "active": true
+    //             },
+    //             {
+    //                 "serviceId": "SER00002526",
+    //                 "serviceName": "test service",
+    //                 "serviceDescription": "test service",
+    //                 "gender": "M",
+    //                 "options": [
+    //                     {
+    //                         "optionId": "OPT00002553",
+    //                         "optionName": "test service",
+    //                         "salePrice": 123,
+    //                         "maxPrice": null,
+    //                         "discountPrice": null,
+    //                         "discountPercentage": null,
+    //                         "duration": 20
+    //                     }
+    //                 ],
+    //                 "startingPrice": 123,
+    //                 "employees": [
+    //                     "E123"
+    //                 ],
+    //                 "active": true
+    //             },
+    //             {
+    //                 "serviceId": "SER00002529",
+    //                 "serviceName": "test hair",
+    //                 "serviceDescription": "test hair",
+    //                 "gender": "M",
+    //                 "options": [
+    //                     {
+    //                         "optionId": "OPT00002556",
+    //                         "optionName": "test hair",
+    //                         "salePrice": 56,
+    //                         "maxPrice": null,
+    //                         "discountPrice": null,
+    //                         "discountPercentage": null,
+    //                         "duration": 30
+    //                     }
+    //                 ],
+    //                 "startingPrice": 56,
+    //                 "employees": [
+    //                     "EMP00002503"
+    //                 ],
+    //                 "active": true
+    //             },
+    //             {
+    //                 "serviceId": "SER00002530",
+    //                 "serviceName": "Hair dye",
+    //                 "serviceDescription": "Use henna",
+    //                 "gender": "M",
+    //                 "options": [
+    //                     {
+    //                         "optionId": "OPT00002557",
+    //                         "optionName": "Hair dye",
+    //                         "salePrice": 123,
+    //                         "maxPrice": null,
+    //                         "discountPrice": null,
+    //                         "discountPercentage": null,
+    //                         "duration": 30
+    //                     }
+    //                 ],
+    //                 "startingPrice": 123,
+    //                 "employees": [
+    //                     "EMP00002503"
+    //                 ],
+    //                 "active": true
+    //             },
+    //             {
+    //                 "serviceId": "SER00002531",
+    //                 "serviceName": "Hair dye",
+    //                 "serviceDescription": "Use henna",
+    //                 "gender": "M",
+    //                 "options": [
+    //                     {
+    //                         "optionId": "OPT00002558",
+    //                         "optionName": "Hair dye",
+    //                         "salePrice": 123,
+    //                         "maxPrice": null,
+    //                         "discountPrice": null,
+    //                         "discountPercentage": null,
+    //                         "duration": 30
+    //                     }
+    //                 ],
+    //                 "startingPrice": 123,
+    //                 "employees": [
+    //                     "EMP00002503"
+    //                 ],
+    //                 "active": true
+    //             },
+    //         ],
+    //         "active": false
+    //     },
+    //     {
+    //         "categoryId": "CAT00002508",
+    //         "categoryName": "Nails",
+    //         "serviceTag": "Nail",
+    //         "services": [
+    //             {
+    //                 "serviceId": "SER00002515",
+    //                 "serviceName": "Women's Nails",
+    //                 "serviceDescription": "Professional haircut and styling for women.",
+    //                 "gender": "F",
+    //                 "options": [
+    //                     {
+    //                         "optionId": "OPT00002534",
+    //                         "optionName": "Basic nails",
+    //                         "salePrice": 50,
+    //                         "maxPrice": 60,
+    //                         "discountPrice": 45,
+    //                         "discountPercentage": 10,
+    //                         "duration": 45
+    //                     },
+    //                     {
+    //                         "optionId": "OPT00002535",
+    //                         "optionName": "nils with Styling",
+    //                         "salePrice": 70,
+    //                         "maxPrice": 80,
+    //                         "discountPrice": 63,
+    //                         "discountPercentage": 10,
+    //                         "duration": 60
+    //                     }
+    //                 ],
+    //                 "startingPrice": 45,
+    //                 "employees": [
+    //                     "E123",
+    //                     "E1011234"
+    //                 ],
+    //                 "active": true
+    //             }
+    //         ],
+    //         "active": false
+    //     }
+    // ]
     //useFetchCategories()
 
     const reorder = (list, startIndex, endIndex) => {

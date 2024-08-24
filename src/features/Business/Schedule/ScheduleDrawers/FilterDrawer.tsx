@@ -12,7 +12,7 @@ export default function FilterDrawer() {
   const { confirmedText,setConfirmedText } = useFilterContext(); 
   const [selectedBookingStatusFilters, setSelectedBookingStatusFilters] = useState(confirmedText);
 
-  
+    
   const resetFilter = () => {
     setSelectedTeamMember("");
     setClient("");
