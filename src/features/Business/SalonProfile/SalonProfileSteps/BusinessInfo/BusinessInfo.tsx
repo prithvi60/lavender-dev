@@ -637,6 +637,7 @@ export const BusinessInfo = ({
                 userDetails={userDetails}
                 availableDays={availableDays}
                 page={""}
+                saveWorkingHours={false}
               />
             </Grid>
           </form>

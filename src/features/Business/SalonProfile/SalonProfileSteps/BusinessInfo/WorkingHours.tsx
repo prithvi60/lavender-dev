@@ -15,7 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import GetIcon from "../../../../../assets/Icon/icon";
 import { useSnackbar } from "../../../../../components/Snackbar";
 
-export const WorkingHours = ({ userDetails, availableDays, page }) => {
+export const WorkingHours = ({ userDetails, availableDays, page ,saveWorkingHours,setProceed=null}) => {
   const daysOfWeek = [
     "Monday",
     "Tuesday",
@@ -134,6 +134,10 @@ export const WorkingHours = ({ userDetails, availableDays, page }) => {
       } else {
         showSnackbar(response?.data?.data, "error");
       }
+      setTimeout(() => {
+        
+        setProceed(true)
+      }, 1500);
     },
     onError: (error) => {
       // handle error actions if needed
@@ -142,7 +146,12 @@ export const WorkingHours = ({ userDetails, availableDays, page }) => {
       // handle settled actions if needed
     },
   });
-
+useEffect(()=>{
+if(saveWorkingHours){
+  // console.log("run")
+  handleSave()
+}
+},[ saveWorkingHours])
   return (
     <div style={{ paddingTop: "20px" }}>
       <Card sx={{ alignContent: "center", width: "100%", padding: "20px" }}>

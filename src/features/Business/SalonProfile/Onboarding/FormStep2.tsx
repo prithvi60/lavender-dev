@@ -1,12 +1,21 @@
-import React, { useState } from "react";
-import { Grid, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Button, Grid, Typography } from "@mui/material";
 import { WorkingHours } from "../SalonProfileSteps/BusinessInfo/WorkingHours";
+import Buttons from "../../../../components/Button";
 
-export const FormStep2 = () => {
-  const [userDetails, setUserDetails] = useState(null); // Initialize userDetails state
-  const [availableDays, setAvailableDays] = useState([]); // Initialize availableDays state
+export const FormStep2 = ({setActiveStep}) => {
+  const [userDetails, setUserDetails] = useState(null); 
+  const [availableDays, setAvailableDays] = useState([]); 
+const [saveWorkingHours,setSaveWorkingHours]=useState(false);
+const [proceed,setProceed]=useState(false);
 
+useEffect(() => {
+  if (proceed) {
+    setActiveStep((prevStep) => prevStep + 1);
+  }
+}, [proceed]); 
   return (
+    <>
     <section
       className="w-full flex justify-center items-center flex-1 overflow-y-auto pt-64 flex-col"
       style={{ height: "80vh" }}
@@ -24,9 +33,21 @@ export const FormStep2 = () => {
               userDetails={userDetails}
               availableDays={availableDays}
               page={"onboard"}
+              saveWorkingHours={saveWorkingHours}
+              setProceed={setProceed}
             />
           </Grid>
         </Grid>
     </section>
+     <footer className='w-full px-4 flex justify-between items-center border-2 absolute bottom-0 bg-white' style={{height: "10vh"}}>
+     <Button variant="text" size='large' color='secondary' sx={{textTransform:"none", fontWeight: 'bold'}} 
+   onClick={() => setActiveStep((prevStep) =>  prevStep - 1 )}
+     >Back</Button>
+   
+             <Buttons sx={{ borderRadius: '10px', padding: '10px 40px 10px 40px', textTransform: 'none', fontSize: '18px', fontWeight: 600, '@media (max-width: 600px)': { padding: '10px 20px 10px 20px', fontSize: '14px' } }} variant='contained'  onClick={() => {
+      setSaveWorkingHours(true)
+     }} name={!saveWorkingHours?'Proceed':`Loading...`}> </Buttons>
+ </footer>
+ </>
   );
 };
