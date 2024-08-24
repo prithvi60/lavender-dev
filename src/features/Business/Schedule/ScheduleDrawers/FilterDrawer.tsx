@@ -9,12 +9,9 @@ import { useFilterContext } from "../../FilterContext";
 export default function FilterDrawer() {
   const [selectedTeamMember, setSelectedTeamMember] = useState("");
   const [selectedClient, setClient] = useState("");
-  const [selectedBookingStatusFilters, setSelectedBookingStatusFilters] = useState([]);
   const { confirmedText,setConfirmedText } = useFilterContext(); 
+  const [selectedBookingStatusFilters, setSelectedBookingStatusFilters] = useState(confirmedText);
 
-  useEffect(()=>{
-    setConfirmedText(selectedBookingStatusFilters)
-  },[selectedBookingStatusFilters])
   
   const resetFilter = () => {
     setSelectedTeamMember("");
@@ -25,7 +22,7 @@ export default function FilterDrawer() {
   const { closeDrawer } = useDrawer();
 
   const handleFilterDrawerSubmit = () => {
- 
+    setConfirmedText(selectedBookingStatusFilters)
     closeDrawer()
   };
   return (
@@ -54,6 +51,7 @@ export default function FilterDrawer() {
             label={"Status"}
             options={selectedBookingStatusFilters}
             selectOptionHandler={setSelectedBookingStatusFilters}
+
           />
         </div>
       </div>
