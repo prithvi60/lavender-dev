@@ -1,17 +1,24 @@
 import React, { createContext, useContext, useState } from 'react';
 
 interface FilterContextType {
-  confirmedText: string[];
-  setConfirmedText: (text: string[]) => void;
+  statusFilter: string[];
+  setStatusFilter: (text: string[]) => void;
+  teamFilter: string;
+  setTeamFilter: (text: string) => void;
+  bookingFilter: string;
+  setBookingFilter: (text: string) => void;
 }
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);
 
 export const FilterProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [confirmedText, setConfirmedText] = useState([]);
+  const [statusFilter, setStatusFilter] = useState([]);
+  const [teamFilter, setTeamFilter] = useState("");
+  const [bookingFilter, setBookingFilter] = useState("");
+
 
   return (
-    <FilterContext.Provider value={{ confirmedText, setConfirmedText }}>
+    <FilterContext.Provider value={{ statusFilter, setStatusFilter,teamFilter,setTeamFilter,bookingFilter, setBookingFilter}}>
       {children}
     </FilterContext.Provider>
   );

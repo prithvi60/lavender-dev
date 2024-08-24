@@ -29,7 +29,7 @@ function parseAppointmentResponse(response: any) {
       duration: getDifferenceInMinutes(endTime, startTime),
       service: serviceName,
       bookingDate: startTime,
-      bookedBy: employeeName,
+      bookedBy: customerName,
       teamMember: employeeName,
       price: serviceCost,
       status: bookingStatus,
@@ -43,7 +43,7 @@ function parseAppointmentResponse(response: any) {
 export default function AppointmentsPage({estId}) {
   
   const [customerName, setCustomerName] = useState('')
-  const { confirmedText } = useFilterContext();
+  const { statusFilter,bookingFilter,teamFilter } = useFilterContext();
   const payload = {
       "pageNumber": 0,
       "pageSize": 10,
@@ -65,13 +65,17 @@ export default function AppointmentsPage({estId}) {
   let pageData;
   if(!isLoading && userInfo){
     
-    const { data: { data: {content, ...pageD} } } = userInfo
-    pageData = pageD
-    appointmentData = confirmedText.length > 0 ? parseAppointmentResponse(content).filter(appointment => confirmedText.includes(appointment.status)) : parseAppointmentResponse(content)
+    const { data: { data: {content} } } = userInfo
+    appointmentData = parseAppointmentResponse(content)
+    .filter(appointment => 
+        (statusFilter.length === 0 || statusFilter.includes(appointment.status)) &&
+        (teamFilter === "" || teamFilter === appointment.teamMember) &&
+        (bookingFilter === "" || bookingFilter === appointment.bookedBy)
+    )
   }
   useEffect(() => {
-    // console.log("context", confirmedText);
-  }, [confirmedText]);
+    console.log("context", statusFilter,teamFilter,bookingFilter, appointmentData);
+  }, [statusFilter,teamFilter,bookingFilter]);
   return (
     <div>
       {!isLoading ? <DataTable controllers={controllerObj} columns={columns} data={appointmentData} pageData={pageData} /> : <>Loading...</>}

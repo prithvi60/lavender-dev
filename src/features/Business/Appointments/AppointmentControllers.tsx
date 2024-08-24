@@ -71,6 +71,7 @@ export function Selector({
   className,
   label = null,
   onSelect,
+  value = "", 
 }) {
   return (
     <>
@@ -78,6 +79,7 @@ export function Selector({
         onValueChange={(value) => {
           onSelect(value);
         }}
+        value={value}
       >
         <SelectGroup>
           {label ? (
@@ -96,11 +98,11 @@ export function Selector({
           )}
 
           <SelectTrigger className={className}>
-            <SelectValue placeholder={placeholder} />
+            <SelectValue placeholder={placeholder} /> 
           </SelectTrigger>
           <SelectContent className="z-[1500]">
             {options?.map((opt) => (
-              <SelectItem value={opt}>{opt}</SelectItem>
+              <SelectItem value={opt} key={opt}>{opt}</SelectItem>
             ))}
           </SelectContent>
         </SelectGroup>
