@@ -27,6 +27,7 @@ import {
 import { GetScheduleDates } from "./BusinessScheduleContext";
 import GetIcon from "../../../assets/Icon/icon";
 import { Appointment } from "./components/Appointment";
+import { useFilterContext } from "../FilterContext";
 
 export const WeeklyCalendar = () => {
   const {
@@ -37,7 +38,7 @@ export const WeeklyCalendar = () => {
   } = GetScheduleDates();
   const week = getSelectedWeekDetails(filterWeekStartDate);
   const [appointments, setAppointments] = useState(filteredAppointments);
-
+  const { statusFilter,bookingFilter,teamFilter } = useFilterContext();
   const onAddEvent = (date) => {
     const text = "Hello";
     const from = 10;
@@ -74,8 +75,15 @@ export const WeeklyCalendar = () => {
               ))}
 
               {appointments[formatDate(day.date)]?.map((appointmentGroup) =>
-                appointmentGroup.map((appointment, index, allAppointments) => {
+                appointmentGroup
+                .filter(appointment => 
+                  (statusFilter.length === 0 || statusFilter.includes(appointment.status)) &&
+                  (teamFilter === "" || teamFilter === appointment.employee) &&
+                  (bookingFilter === "" || bookingFilter === appointment.client)
+              )
+                .map((appointment, index, allAppointments) => {
                   const allAppointmentsCount = allAppointments.length;
+                  console.log("cal stats",allAppointments)
                   return (
                     //<></>
                     <Appointment

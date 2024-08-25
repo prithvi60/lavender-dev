@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { CalendarHeaderComponent, Selector } from "../../Appointments/AppointmentControllers";
 import StatusFilter from "../../../../components/FilterButtons";
 import Divider from "@mui/material/Divider";
-import { Button } from "../../../../components/ui/button";
 import { useDrawer } from "../../BusinessDrawerContext";
 import { getCurrentTime12HrFormat, getMonthAndDayNames, range } from "../utils";
 import { CustomTooltip } from "../../../../components/CustomTooltip";
 import ClientSearchFilter from "../../../../components/SearchInputFilter";
 import ServiceSelector from "../../../../components/ServiceSelector";
+import { Button } from "@mui/material";
 
 const categories = [
   {
@@ -245,7 +245,7 @@ export default function AppointmentDrawer() {
   // console.log("services",payload,selectedServices)
 
   return (
-    <div className="flex flex-col h-full relative">
+    <div className="flex flex-col h-full relative overflow-y-hidden">
       <div className="flex flex-col text-lg text-center p-4 mb-2 bg-[#1B1464]">
         <CustomTooltip
           placement="bottom" style={{ opacity: 1 }}
@@ -307,16 +307,55 @@ export default function AppointmentDrawer() {
       <div className="absolute bottom-0 flex justify-center gap-5 w-full bg-white p-3.5">
         <Button
           onClick={resetData}
-          className="bg-transparent border-2 border-[#825FFF]"
-          variant="ghost"
-          color="#825FFF"
+          sx={styles.txtBtn}
         >
           Reset
         </Button>
-        <Button onClick={handleFilterDrawerSubmit}>
+        <Button onClick={handleFilterDrawerSubmit} sx={styles.btn}>
           Done
         </Button>
       </div>
     </div>
   );
+}
+
+const styles = {
+  btn: {
+    color: '#FFFFFF',
+    backgroundColor: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    padding: '10px 40px 10px 40px',
+    borderRadius: '10px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#5A3EBF',
+    }
+  },
+  txtBtn: {
+    color: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    textTransform: 'none',
+  },
+  textField: {
+    width: '272px',
+    '& .MuiInputBase-root': {
+      height: '55px', // Apply height to the input root
+      borderRadius: '9px',
+    },
+
+  },
+  select: {
+    '& .MuiInputBase-root': {
+      width: '272px !important',
+      height: '55px',
+      borderRadius: '9px',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderRadius: '9px',
+    },
+  },
 }

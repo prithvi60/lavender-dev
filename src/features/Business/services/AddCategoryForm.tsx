@@ -136,7 +136,7 @@ export default function AddCategoryForm({payload}) {
   }, [currentCategories, setValue]);
   
   return (
-    <div className="flex-col h-full">
+    <div className="flex-col h-full relative">
       <form onSubmit={handleSubmit(handleDrawerSubmit)}>
         <div style={{backgroundColor: '#1B1464'}}>
           {
@@ -225,7 +225,7 @@ export default function AddCategoryForm({payload}) {
           </div>
 
 
-          <div className="flex justify-between mt-4">
+          <div className="absolute bottom-0 flex justify-center gap-5 w-full bg-white p-3.5">
             <Button
               onClick={closeDrawer}
               sx={styles.txtBtn}

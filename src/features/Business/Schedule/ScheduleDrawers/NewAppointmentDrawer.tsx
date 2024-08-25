@@ -12,6 +12,8 @@ import Text from "../../../../components/Text";
 import endpoint from "../../../../api/endpoints";
 import { useSelector } from "react-redux";
 import { DeleteRounded } from "@mui/icons-material";
+import ServiceSelector from "../../../../components/ServiceSelector";
+import ClientSearchFilter from "../../../../components/SearchInputFilter";
 
 const clients = [{ key: 1, value: [{ name: 'vamsi' }, { phNumber: '999999122' }, { mailId: 'vamsitest@gamil.com' }] },
 { key: 2, value: [{ name: 'mark' }, { phNumber: '999999122' }, { mailId: 'amrktest@gamil.com' }] },
@@ -62,11 +64,19 @@ export default function NewAppointmentDrawer({ payload }) {
   };
 
   const handleServiceSelect = (event, value) => {
-    if (value && !selectedServices.find(service => service.serviceId === value.serviceId)) {
-      setSelectedServices([...selectedServices, value]);
+    if (value && !selectedServices.some(service => service.categories[0].services[0].options[0].optionId === value.optionId)) {
+        const newService = {
+            categories: [{
+                services: [{
+                    serviceId: value.serviceId, // Include serviceId for identification
+                    serviceName: value.serviceName,
+                    options: [value] // Ensure the selected service is formatted correctly
+                }]
+            }]
+        };
+        setSelectedServices(prev => [...prev, newService]);
     }
-  };
-
+};
   const handleDeleteService = (serviceId) => {
     setSelectedServices(selectedServices.filter(service => service.serviceId !== serviceId));
   };
@@ -116,8 +126,11 @@ export default function NewAppointmentDrawer({ payload }) {
     }))
   );
 
+// useEffect(()=>{
+//   handleServiceSelect()
+// },[selectedServices])
   return (
-    <div className="flex-col h-full">
+    <div className="flex-col h-full overflow-hidden">
       <div className="flex-col text-lg text-center p-4 mb-2 bg-blue-950">
         <CustomTooltip
           placement="bottom" style={{ opacity: 1 }}
@@ -177,16 +190,16 @@ export default function NewAppointmentDrawer({ payload }) {
         </Card>
 
         <Divider />
+  
 
-        {/* <Selector
-          onSelect={setSelectedTeamMember}
-          placeholder={"Add new service"}
-          options={["Content", "bContent", "cContent", "dContent"]}
-          className={"w-full mb-4 rounded-lg"}
-          label={"Service"}
-        /> */}
-
-        <Grid container spacing={2}>
+  <div className="my-3">
+     <ServiceSelector 
+      selectedServices={selectedServices} 
+      setSelectedServices={setSelectedServices} 
+      categories={categories} 
+    />
+        </div>
+        {/* <Grid container spacing={2}>
           <Grid item xs={12}>
             <Autocomplete
               options={options}
@@ -204,9 +217,7 @@ export default function NewAppointmentDrawer({ payload }) {
               renderOption={(props, option) => (
                 <li {...props}>
                   <Box>
-                    <Typography variant="subtitle1" color="red" gutterBottom>
-                      {option.categoryName}
-                    </Typography>
+                
                     <Typography variant="body1" fontWeight="bold">
                       {option.serviceName}
                     </Typography>
@@ -226,6 +237,7 @@ export default function NewAppointmentDrawer({ payload }) {
               groupBy={(option) => option.categoryName}  // Group by category name
             />
           </Grid>
+        
           {selectedServices.map(service => (
             <Grid item xs={12} key={service.serviceId} className="max-h-40 h-full  overflow-y-auto">
               <Card>
@@ -246,7 +258,7 @@ export default function NewAppointmentDrawer({ payload }) {
               </Card>
             </Grid>
           ))}
-        </Grid>
+        </Grid> */}
 
         <Divider />
 

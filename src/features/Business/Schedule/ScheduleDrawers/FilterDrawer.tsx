@@ -3,11 +3,12 @@ import { Selector } from "../../Appointments/AppointmentControllers";
 import { SelectSeparator } from "../../../../components/ui/select";
 import StatusFilter from "../../../../components/FilterButtons";
 import Divider from "@mui/material/Divider";
-import { Button } from "../../../../components/ui/button";
+// import { Button } from "../../../../components/ui/button";
 import { useDrawer } from "../../BusinessDrawerContext";
 import { useFilterContext } from "../../FilterContext";
 import { useQuery } from "@tanstack/react-query";
 import endpoint from "../../../../api/endpoints";
+import { Button } from "@mui/material";
 export default function FilterDrawer() {
   const {
     statusFilter,
@@ -126,17 +127,55 @@ export default function FilterDrawer() {
           />
         </div>
       </div>
-      <div className="mx-7">
+      <div className="absolute bottom-0 flex justify-center gap-5 w-full bg-white p-3.5">
         <Button
           onClick={resetFilter}
-          className="mx-10"
-          variant="ghost"
-          color="#825FFF"
+          sx={styles.txtBtn}
         >
           Reset
         </Button>
-        <Button onClick={handleFilterDrawerSubmit}>Done</Button>
+        <Button onClick={handleFilterDrawerSubmit}  sx={styles.btn}>Done</Button>
       </div>
     </div>
   );
+}
+const styles = {
+  btn: {
+    color: '#FFFFFF',
+    backgroundColor: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    padding: '10px 40px 10px 40px',
+    borderRadius: '10px',
+    textTransform: 'none',
+    '&:hover': {
+      backgroundColor: '#5A3EBF',
+    }
+  },
+  txtBtn: {
+    color: '#825FFF',
+    fontWeight: 600,
+    fontSize: '16px',
+    lineHeight: '24px',
+    textTransform: 'none',
+  },
+  textField: {
+    width: '272px',
+    '& .MuiInputBase-root': {
+      height: '55px', // Apply height to the input root
+      borderRadius: '9px',
+    },
+
+  },
+  select: {
+    '& .MuiInputBase-root': {
+      width: '272px !important',
+      height: '55px',
+      borderRadius: '9px',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+      borderRadius: '9px',
+    },
+  },
 }

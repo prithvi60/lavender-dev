@@ -11,6 +11,7 @@ import {Button} from "@mui/material";
 import { useSelector } from "react-redux";
 import endpoint from "../../../api/endpoints";
 import { getBrowserCache } from "../../../api/constants";
+import { useFilterContext } from "../FilterContext";
 
 // const setDragElement = (e) => {
 //   const dragEle = e.target;
@@ -50,6 +51,7 @@ import { getBrowserCache } from "../../../api/constants";
 export const DayCalendar = () => {
   const { filteredAppointments, selectedDate, employees } = GetScheduleDates()
   const estId = getBrowserCache("EstablishmentId")
+  const { statusFilter,bookingFilter,teamFilter } = useFilterContext();
 
   // const [appointments, setAppointments] = useState(filteredAppointments)
   const [deleteIcon, showDeleteIcon] = useState(false)
@@ -223,7 +225,13 @@ export const DayCalendar = () => {
                       </Hour>
                     ))}
                     
-                    {filteredAppointments[employee.employeeName]?.map( (appointmentGroup) => appointmentGroup.map(
+                    {filteredAppointments[employee.employeeName]?.map( (appointmentGroup) => appointmentGroup
+                            .filter(appointment => 
+                              (statusFilter.length === 0 || statusFilter.includes(appointment.status)) &&
+                              (teamFilter === "" || teamFilter === appointment.employee) &&
+                              (bookingFilter === "" || bookingFilter === appointment.client)
+                          )
+                    .map(
                       (appointment, index, allAppointments) => {
                         const allAppointmentsCount = allAppointments.length
                         return (
