@@ -9,7 +9,8 @@ import { FormStep5 } from './FormStep5';
 
 const OnBoardingSteps = () => {
     const [activeStep, setActiveStep] = useState(0); 
-    const progress = ((activeStep / 4) * 100);
+    const progress = ((activeStep / 3) * 100);
+    
     
     return (
         <div className='w-full h-screen urbanist-font overflow-hidden'>
@@ -29,13 +30,13 @@ const OnBoardingSteps = () => {
                 {activeStep === 1 && <div> 
                     <FormStep2 setActiveStep={setActiveStep}/>
                 </div>}
-                {activeStep === 2 && <div> 
+                {/* {activeStep === 2 && <div> 
                     <FormStep3 setActiveStep={setActiveStep}/>
-                </div>}
-                {activeStep === 3 && <div> 
+                </div>} */}
+                {activeStep === 2 && <div> 
                     <FormStep4 setActiveStep={setActiveStep}/>
                 </div>}
-                {activeStep === 4 && <div> 
+                {activeStep === 3 && <div> 
                     <FormStep5 setActiveStep={setActiveStep}/>
                 </div>}
                

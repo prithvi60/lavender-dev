@@ -33,7 +33,7 @@ const schema = yup.object().shape({
     mobileNumber: yup.string().required('Mobile number is required').matches(/^[0-9]{10}$/, 'Must be exactly 10 digits'),
     email: yup.string().email('Invalid email').required('Email is required'),
     password: yup.string().required('Password is required'),
-    userType: yup.string().required('User type is required'),
+    //userType: yup.string().required('User type is required'),
     dateOfBirth: yup.date().required("Date of Birth is required"),
     accept: yup.bool().oneOf([true], 'Field must be checked'),
 });
@@ -53,7 +53,7 @@ const RegisterBusinessPage = () => {
 
     const handleOpen = () => {
         setOpen((prev) => !prev);
-        navigate("/login");
+        navigate("/business/login");
     };
 
     const mutation = useMutation({
@@ -82,13 +82,13 @@ const RegisterBusinessPage = () => {
 
     const onSubmit = (data) => {
         const payLoad = {
-            "userType": data.userType,
-            "fullName": data.fullName,
-            "emailAddress": data.email,
-            "password": data.password,
-            "mobileCountryCode": data.areaCode,
-            "mobileNumber": data.mobileNumber,
-            "dob": data.dateOfBirth
+            "userType": "BU",
+            "fullName": data?.fullName,
+            "emailAddress": data?.email,
+            "password": data?.password,
+            "mobileCountryCode": data?.areaCode,
+            "mobileNumber": data?.mobileNumber,
+            "dob": data?.dateOfBirth
         }
         setLoading(true)
         mutation.mutate(payLoad)

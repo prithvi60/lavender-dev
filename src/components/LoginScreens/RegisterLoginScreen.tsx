@@ -39,7 +39,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 const schema = yup.object().shape({
   email: yup.string().email().required("Email is a required field"),
   password: yup.string().required("Password is a required field"),
-  userType: yup.string().required("UserType is a required field"),
+  //userType: yup.string().required("UserType is a required field"),
 });
 
 function RegisterLoginScreen({ isInLoginModal }) {
@@ -113,7 +113,7 @@ function RegisterLoginScreen({ isInLoginModal }) {
     const payLoad = {
       loginId: data?.email,
       password: data?.password,
-      userType: data?.userType,
+      userType: "OC",
     };
     mutation.mutate(payLoad);
 
@@ -157,6 +157,7 @@ function RegisterLoginScreen({ isInLoginModal }) {
     console.log(response, "goolge");
   };
   const handleClickShowPassword = () => setShowPassword(!showPassword);
+
   return (
     <>
       {renderRegisterModal ? (
@@ -286,7 +287,7 @@ function RegisterLoginScreen({ isInLoginModal }) {
                  
                     {errors.userType && <p className='text-red-500 font-medium'>{errors.userType.message}</p>} */}
 
-              <Controller
+              {/* <Controller
                 name="userType"
                 control={control}
                 defaultValue=""
@@ -306,7 +307,7 @@ function RegisterLoginScreen({ isInLoginModal }) {
                     {errors.userType && <p className='text-red-500 font-medium'>{errors.userType.message}</p>}
                   </FormControl>
                 )}
-              />
+              /> */}
             </Grid>
 
             {/* <Grid item xs={12}>

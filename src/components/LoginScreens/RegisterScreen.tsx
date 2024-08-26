@@ -82,13 +82,13 @@ const RegisterScreen = () => {
 
     const onSubmit = (data) => {
         const payLoad = {
-            "userType": data.userType,
-            "fullName": data.fullName,
-            "emailAddress": data.email,
-            "password": data.password,
-            "mobileCountryCode": data.areaCode,
-            "mobileNumber": data.mobileNumber,
-            "dob": data.dateOfBirth
+            "userType": "OC",
+            "fullName": data?.fullName,
+            "emailAddress": data?.email,
+            "password": data?.password,
+            "mobileCountryCode": data?.areaCode,
+            "mobileNumber": data?.mobileNumber,
+            "dob": data?.dateOfBirth
         }
         setLoading(true)
         mutation.mutate(payLoad)

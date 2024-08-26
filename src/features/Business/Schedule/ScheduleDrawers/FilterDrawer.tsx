@@ -9,6 +9,7 @@ import { useFilterContext } from "../../FilterContext";
 import { useQuery } from "@tanstack/react-query";
 import endpoint from "../../../../api/endpoints";
 import { Button } from "@mui/material";
+import { useSelector } from "react-redux";
 export default function FilterDrawer() {
   const {
     statusFilter,
@@ -37,27 +38,16 @@ export default function FilterDrawer() {
     setTeamFilter(selectedTeamMember);
     closeDrawer();
   };
-  const [userDetails, setUserDetails] = useState("");
-  useEffect(() => {
-    setTimeout(() => {
-      if (localStorage.getItem("Token")) {
-        const fetchCurrentUserDetails = async () => {
-          try {
-            const response = await endpoint.getCurrentUserDetails();
-            const userDetails = response?.data;
-            setUserDetails(userDetails);
-          } catch (error) {
-            console.error("Error fetching user details:", error);
-          }
-        };
-        fetchCurrentUserDetails();
-      }
-    }, [1000]);
-  }, []);
+  const userDetails: any = useSelector((state: any) => {
+    return state?.currentUserDetails;
+  });
+
+  const establishmentId: any =
+    userDetails != null ? userDetails?.establishmentId : "";
 
   let appointmentData = [];
   let pageData;
-  let estId = userDetails?.data?.establishmentId;
+  let estId = userDetails?.establishmentId || '';
 
   const payload = {
     pageNumber: 0,
@@ -87,11 +77,10 @@ export default function FilterDrawer() {
         data: { content, ...pageD },
       },
     } = userInfo;
-    console.log("apts", content, pageD);
     bookedByName = [
-      ...new Set(content.map((appointment) => appointment.customerName)),
+      ...new Set(content?.map((appointment: any) => appointment?.customerName)),
     ];
-    team = [...new Set(content.map((appointment) => appointment.employeeName))];
+    team = [...new Set(content?.map((appointment: any) => appointment?.employeeName))];
   }
 
   return (

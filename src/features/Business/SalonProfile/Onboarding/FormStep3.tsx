@@ -104,7 +104,7 @@ export const FormStep3 = ({ setActiveStep }) => {
 
   const userDetails = useSelector((state: any) => state?.currentUserDetails);
   const establishmentId = userDetails?.establishmentId || "";
-  const [formattedData, setFormattedData] = useState([]);
+  const [formattedData, setFormattedData] = useState<any>([]);
   const [employee, setEmployee] = useState([]);
   const [categories, setCategories] = useState([]);
   const [services, setServices] = useState([]);
@@ -162,7 +162,7 @@ export const FormStep3 = ({ setActiveStep }) => {
       }));
 
     const payLoad = {
-      id: "EST00002549",
+      id: establishmentId ? establishmentId : '',
       employees: [
         {
           employeeId: employeeId ? employeeId : "",
@@ -228,7 +228,7 @@ export const FormStep3 = ({ setActiveStep }) => {
           style={{ height: "80vh" }}
         >
           <div style={{ width: "60%", padding: "0px 20px" }}>
-            <h5 className="text-sm mb-2.5">Step 3</h5>
+            <h5 className="text-sm mb-2.5 mt-4">Step 3</h5>
             <h4 className="tetx-xl md:text-3xl tracking-wide mb-10">
               Add Team
             </h4>
@@ -327,7 +327,7 @@ export const FormStep3 = ({ setActiveStep }) => {
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
                       {...field}
-                      value={field.value}
+                      value={new Dayjs}
                       sx={{
                         "& .MuiOutlinedInput-root": {
                           borderRadius: "0.6rem",
@@ -353,8 +353,7 @@ export const FormStep3 = ({ setActiveStep }) => {
           <Button
             variant="text"
             size="large"
-            color="secondary"
-            sx={{ textTransform: "none", fontWeight: "bold" }}
+            sx={{ textTransform: "none", fontWeight: "bold", color: '#825FFF', fontSize: '18px' }}
             onClick={() => setActiveStep((prevStep) => prevStep - 1)}
           >
             Back

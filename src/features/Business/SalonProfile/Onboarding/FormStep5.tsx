@@ -57,8 +57,8 @@ export const FormStep5 = ({ setActiveStep }) => {
         <Button
           variant="text"
           size="large"
-          color="secondary"
-          sx={{ textTransform: "none", fontWeight: "bold" }}
+          
+          sx={{ textTransform: "none", fontWeight: "bold", color: '#825FFF', fontSize: '18px' }}
           onClick={() => setActiveStep((prevStep) => prevStep - 1)}
         >
           Back

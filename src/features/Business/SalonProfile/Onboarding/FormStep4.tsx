@@ -126,8 +126,8 @@ export const FormStep4 = ({ setActiveStep }) => {
         className="w-full flex justify-center items-center flex-1 overflow-y-auto"
         style={{ height: "80vh" }}
       >
-        <div style={{ width: "60%", padding: "0px 20px" }}>
-          <h5 className="text-sm mb-2.5">Step 4</h5>
+        <div style={{ width: "60%", padding: "0px 20px", marginTop: 10}}>
+          <h5 className="text-sm mb-2.5 mt-10">Step 3</h5>
           <h4 className="tetx-xl md:text-3xl tracking-wide mb-10">
             Add services
           </h4>
@@ -194,7 +194,7 @@ export const FormStep4 = ({ setActiveStep }) => {
                     }}
                   >Select Services</Typography>
                 <Grid container spacing={2}>
-                  {serviceTagList.map((service) => (
+                  {serviceTagList?.map((service) => (
                     <Grid item xs={6} key={service.name}>
                       <ServiceCard
                         service={service}
@@ -202,7 +202,7 @@ export const FormStep4 = ({ setActiveStep }) => {
                           handleServiceSelect(name);
                           handlePrimarySelect(name); // Set as primary when selected
                         }}
-                        isPrimary={primaryService === service.name}
+                        isPrimary={primaryService === service?.name}
                       />
                     </Grid>
                   ))}
@@ -443,7 +443,7 @@ export const FormStep4 = ({ setActiveStep }) => {
           variant="text"
           size="large"
           color="secondary"
-          sx={{ textTransform: "none", fontWeight: "bold" }}
+          sx={{ textTransform: "none", fontWeight: "bold", color: '#825FFF', fontSize: '18px' }}
           onClick={() => setActiveStep((prevStep) => prevStep - 1)}
         >
           Back

@@ -2,18 +2,40 @@ import React, { useEffect, useState } from "react";
 import { Button, Grid, Typography } from "@mui/material";
 import { WorkingHours } from "../SalonProfileSteps/BusinessInfo/WorkingHours";
 import Buttons from "../../../../components/Button";
+import { useSelector } from "react-redux";
+import endpoint from "../../../../api/endpoints";
 
 export const FormStep2 = ({setActiveStep}) => {
-  const [userDetails, setUserDetails] = useState(null); 
-  const [availableDays, setAvailableDays] = useState([]); 
+const [availableDays, setAvailableDays] = useState([]); 
 const [saveWorkingHours,setSaveWorkingHours]=useState(false);
 const [proceed,setProceed]=useState(false);
+
+const userDetails: any = useSelector((state: any) => {
+  return state?.currentUserDetails;
+});
+
+const establishmentId: any =
+  userDetails != null ? userDetails?.establishmentId : "";
+
+useEffect(() => {
+  const getEstablishmentDetails = async () => {
+    const establishmentData = await endpoint.getEstablishmentDetailsById(
+      establishmentId
+    );
+    if (establishmentData?.data?.success) {
+      setAvailableDays(establishmentData?.data?.data?.availableDays);
+    }
+  };
+
+  getEstablishmentDetails();
+}, []);
 
 useEffect(() => {
   if (proceed) {
     setActiveStep((prevStep) => prevStep + 1);
   }
 }, [proceed]); 
+
   return (
     <>
     <section
@@ -40,7 +62,7 @@ useEffect(() => {
         </Grid>
     </section>
      <footer className='w-full px-4 flex justify-between items-center border-2 absolute bottom-0 bg-white' style={{height: "10vh"}}>
-     <Button variant="text" size='large' color='secondary' sx={{textTransform:"none", fontWeight: 'bold'}} 
+     <Button variant="text" size='large' sx={{textTransform:"none", fontWeight: 'bold', color: '#825FFF', fontSize: '18px'}} 
    onClick={() => setActiveStep((prevStep) =>  prevStep - 1 )}
      >Back</Button>
    
