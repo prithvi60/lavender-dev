@@ -186,13 +186,13 @@ export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
   return <Droppable {...props}>{children}</Droppable>;
 };
 
-export const Services: React.FC = () => {
+export const Services = ({inOnboard}: any) => {
   const [data, setData] = useState(initialData);
   const [orginalData, setOriginalData] = useState(initialData);
 
   const [serviceInput, setServiceInput] = useState<string | any>("");
 
-  const { openDrawer, isOpen } = useDrawer();
+  const { openDrawer, isOpen } = useDrawer() || '';
 
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLDivElement>(null);
@@ -207,7 +207,7 @@ export const Services: React.FC = () => {
   const establishmentId = userDetails?.establishmentId || "";
 
   const handleClick = () => {
-    if (options[selectedIndex].value === "Add services") {
+    if (options[selectedIndex]?.value === "Add services") {
       openDrawer("addServices");
     } else {
       openDrawer("addCategory");
@@ -407,11 +407,21 @@ export const Services: React.FC = () => {
   };
 
   const handleAddCategory = () => {
-    openDrawer("addCategory");
+    if(inOnboard){
+      
+    }
+    else{
+      openDrawer("addCategory");
+    }
   };
 
   function handleAddServices(categoryId) {
-    openDrawer("addServices", categoryId);
+    if(inOnboard){
+      
+    }
+    else{
+      openDrawer("addServices", categoryId);
+    }
   }
 
   async function handleDeleteCategory(categoryId) {
@@ -469,52 +479,55 @@ export const Services: React.FC = () => {
 
   return (
     <div className="md:mx-32 mt-8">
-      <Box
-        className="flex md:w-full md:justify-between md:ml-2"
-        sx={{
-          "@media (max-width: 900px)": {
-            display: "flex",
-            flexDirection: "column !important",
-            alignItems: "center",
-          },
-        }}
-      >
-        <StyledTextField
-          variant="outlined"
-          placeholder=" Search services"
-          fullWidth
-          margin="normal"
-          value={searchTerm}
-          onChange={handleSearch}
-          InputProps={{
-            startAdornment: <GetIcon iconName="Search" />,
-          }}
+      {
+        !inOnboard && <Box
+          className="flex md:w-full md:justify-between md:ml-2"
           sx={{
-            display: "flex",
-            alignItems: "center",
-            '@media (min-width: 900px)': {
-              width: "auto"
-            }
+            "@media (max-width: 900px)": {
+              display: "flex",
+              flexDirection: "column !important",
+              alignItems: "center",
+            },
           }}
-        />
-        <Box sx={{ 
-          display: 'flex', 
-          justifyContent: 'center', 
-          alignItems: 'center',
-          '@media (min-width: 900px)': {
-            marginRight: "4%"
-          }
-        }}>
-          <OptionButton
-            selectedIndex={selectedIndex}
-            handleClick={handleClick}
-            handleMenuItemClick={handleMenuItemClick}
-            handleToggle={handleToggle}
-            open={open}
-            anchorRef={anchorRef}
+        >
+          <StyledTextField
+            variant="outlined"
+            placeholder=" Search services"
+            fullWidth
+            margin="normal"
+            value={searchTerm}
+            onChange={handleSearch}
+            InputProps={{
+              startAdornment: <GetIcon iconName="Search" />,
+            }}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              '@media (min-width: 900px)': {
+                width: "auto"
+              }
+            }}
           />
+          <Box sx={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'center',
+            '@media (min-width: 900px)': {
+              marginRight: "4%"
+            }
+          }}>
+            <OptionButton
+              selectedIndex={selectedIndex}
+              handleClick={handleClick}
+              handleMenuItemClick={handleMenuItemClick}
+              handleToggle={handleToggle}
+              open={open}
+              anchorRef={anchorRef}
+            />
+          </Box>
         </Box>
-      </Box>
+      }
+      
 
       <DragDropContext onDragEnd={onDragEnd}>
         <StrictModeDroppable
@@ -702,17 +715,20 @@ export const Services: React.FC = () => {
               ))}
               {provided.placeholder}
               <div style={{ textAlign: "center", display: "flex", justifyContent: "center", alignItems: "center", width: "100%" }}>
-                <button
-                  onClick={() => handleAddCategory()}
-                  style={{
-                    color: "#825FFF",
-                    fontSize: "20px",
-                    fontWeight: 600,
-                    paddingBottom: 30,
-                  }}
-                >
-                  Add new category [+]
-                </button>
+                {
+                  !inOnboard && <button
+                    onClick={() => handleAddCategory()}
+                    style={{
+                      color: "#825FFF",
+                      fontSize: "20px",
+                      fontWeight: 600,
+                      paddingBottom: 30,
+                    }}
+                  >
+                    Add new category [+]
+                  </button>
+                }
+                
               </div>
             </div>
           )}

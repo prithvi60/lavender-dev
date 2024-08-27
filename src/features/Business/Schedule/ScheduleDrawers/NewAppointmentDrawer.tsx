@@ -26,20 +26,17 @@ export default function NewAppointmentDrawer({ payload }) {
 
   const { closeDrawer } = useDrawer();
   const { date, employee, service, status, price, start } = payload
+  console.log("payload : ", payload)
   const [selectedTeamMember, setSelectedTeamMember] = useState(employee);
   // const [selectedClient, setClient] = useState(client || '');
   const [occuranceState, setOccuranceState] = useState("Doesn't repeat")
-  const [startTime, setStartTime] = useState(start);
+  const [startTime, setStartTime] = useState<any>(start);
   const [selectedDate, setSelectedDate] = useState(date)
   const [selectedBookingStatusFilters, setSelectedBookingStatusFilters] = useState([]);
   const [timeInterval, setTimeInterval] = useState(getTimeIntervals(start))
   const [categories, setCategories] = React.useState<any[]>([]);
   const [clients, setClients] = React.useState<[]>([]);
   const [filteredClients, setFilteredClients] = React.useState<any[]>([]);
-
-  console.log("clients :", JSON.stringify(clients))
-  console.log("filteredClients :", JSON.stringify(filteredClients))
-
 
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
@@ -49,7 +46,6 @@ export default function NewAppointmentDrawer({ payload }) {
 
   useEffect(()=>{
     // Filter and map data to include only the desired properties
-    console.log("inside colors ; ", clients)
     const result = clients?.map(({ customerId, fullName, emailAddress }) => ({
       customerId,
       fullName,
@@ -89,7 +85,7 @@ export default function NewAppointmentDrawer({ payload }) {
   }, [establishmentId]);
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedServices, setSelectedServices] = useState([]);
+  const [selectedServices, setSelectedServices] = useState<any>([]);
   const [selectedClient, setSelectedClient] = useState(null);
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -145,24 +141,87 @@ export default function NewAppointmentDrawer({ payload }) {
     }
   }, [payload])
 
-  const serviceTagList = ['serv1', 'serv2']
+  const calculateTotals = (services) => {
+    let totalSalePrice = 0;
+    let totalDuration = 0;
+  
+    services.forEach(serviceCategory => {
+      serviceCategory.categories.forEach(category => {
+        category.services.forEach(service => {
+          service.options.forEach(option => {
+            totalSalePrice += option.salePrice || 0; // Handle case where salePrice might be null
+            totalDuration += option.duration || 0; // Handle case where duration might be null
+          });
+        });
+      });
+    });
+  
+    return { totalSalePrice, totalDuration };
+  };
 
-  const handleFilterDrawerSubmit = () => {
+  const handleFilterDrawerSubmit = async () => {
+    const total = calculateTotals(selectedServices);
+    const payLoad = {
+      appointmentBooking: {
+        establishmentId: establishmentId,
+        id: "",
+        createdDate: new Date(),
+        createdBy: "",
+        lastModifiedDate: new Date(),
+        lastModifiedBy: "",
+        customerId: selectedClient?.customerId,
+        bookedBy: "",
+        bookingTime: new Date(),
+        totalDuration: total?.totalDuration,
+        totalCost: total?.totalSalePrice,
+        appointmentServices: [],
+        paymentInfo: {
+          payAtVenue: true,
+          cardStoreId: "string",
+          paymentStatus: "string",
+          paymentTxnId: "string",
+        },
+      },
+      currency: "USD",
+      paymentMode: "ONLINE",
+    };
+
+    const appointmentServices = selectedServices && selectedServices?.map((item) => ({
+      serviceId: item?.categories[0]?.services[0]?.serviceId,
+      optionId: item?.categories[0]?.services[0]?.options[0]?.optionId,
+      serviceNotes: "",
+      //employeeId: id,
+      serviceCost: item?.categories[0]?.services[0]?.options[0]?.salePrice,
+      bookingStatus: "confirmed",
+      // startTime: modifiedStartTime,
+      // endTime: modifiedEndTime,
+      review: {
+        serviceRating: 0,
+        reviewDate: "",
+        publicComments: "",
+        privateComments: "",
+      },
+    }));
+    // // Assign the dynamically populated appointmentServices to payload
+    payLoad.appointmentBooking.appointmentServices = appointmentServices;
+
+    // const appointmentBooking = await endpoint.makeCustomerSubscriptionInitiate(payLoad);
+    const appointmentBooking = await endpoint.saveAppointmentBookings(payLoad);
     closeDrawer()
   };
 
-  const options = categories.flatMap(category =>
-    category.services.map(service => ({
-      ...service,
-      categoryName: category?.categoryName
-    }))
-  );
+  // const options = categories.flatMap(category =>
+  //   category.services.map(service => ({
+  //     ...service,
+  //     categoryName: category?.categoryName
+  //   }))
+  // );
 
 // useEffect(()=>{
 //   handleServiceSelect()
 // },[selectedServices])
   return (
-    <div className="flex-col h-full overflow-hidden">
+    <div className="flex-col h-full overflow">
       <div className="flex-col text-lg text-center p-4 mb-2 bg-blue-950">
         <CustomTooltip
           placement="bottom" style={{ opacity: 1 }}
@@ -181,7 +240,7 @@ export default function NewAppointmentDrawer({ payload }) {
         <div className="flex flex-row justify-around mt-3">
           <Selector
             onSelect={setStartTime}
-            placeholder={start}
+            placeholder={startTime}
             options={timeInterval}
             // options={range(5).map((i,index) => 
             //   getCurrentTime12HrFormat(parseInt(startTime.split(':')[0]), index * 15)
@@ -198,7 +257,7 @@ export default function NewAppointmentDrawer({ payload }) {
         </div>
 
       </div>
-      <div className="flex-col mx-7">
+      <div className="flex-col mx-1 px-4">
         {/* <SelectSeparator className='bg-black'/> */}
         {/* <Selector
           onSelect={setClients}
@@ -211,53 +270,53 @@ export default function NewAppointmentDrawer({ payload }) {
           {clients}
         </div> */}
 
-<div style={{ width: 300 }}>
-      <Autocomplete
-        options={filteredClients}
-        getOptionLabel={(option) => `${option.fullName} (${option.emailAddress})`}
-        onChange={(event, newValue) => {
-          // Set the selected client
-          setSelectedClient(newValue);
-        }}
-        renderOption={(props, option) => (
-          <ListItem {...props} divider>
-            <ListItemText
-              primary={<span style={{ color: 'blue' }}>{option.fullName}</span>}
-              secondary={option.emailAddress}
-            />
-            <Divider />
-          </ListItem>
-        )}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            placeholder="Select customer"
-            variant="outlined"
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
+        <div style={{ width: 270 }}>
+          <Autocomplete
+            options={filteredClients}
+            getOptionLabel={(option) => `${option.fullName} (${option.emailAddress})`}
+            onChange={(event, newValue) => {
+              // Set the selected client
+              setSelectedClient(newValue);
+            }}
+            renderOption={(props, option) => (
+              <ListItem {...props} divider>
+                <ListItemText
+                  primary={<span style={{ color: 'blue' }}>{option.fullName}</span>}
+                  secondary={option.emailAddress}
+                />
+                <Divider />
+              </ListItem>
+            )}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                placeholder="Select customer"
+                variant="outlined"
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <GetIcon iconName="Search"/>
                 </InputAdornment>
               ),
             }}
           />
-        )}
-      />
-      {/* Display the card with selected client details */}
-      {selectedClient && (
-        <Card style={{ marginTop: 20 }}>
-          <CardContent>
-            <Typography variant="h6">{selectedClient.fullName}</Typography>
-            <Typography color="textSecondary">{selectedClient.emailAddress}</Typography>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+          )}
+          />
+          {/* Display the card with selected client details */}
+          {selectedClient && (
+            <Card style={{ marginTop: 20 }}>
+              <CardContent>
+                <Typography variant="h6">{selectedClient.fullName}</Typography>
+                <Typography color="textSecondary">{selectedClient.emailAddress}</Typography>
+              </CardContent>
+            </Card>
+          )}
+        </div>
 
         <Divider />
 
-        <Card sx={{ backgroundColor: '#E6E1FF', marginTop: '10px', marginBottom: '10px' }}>
+        <Card sx={{ backgroundColor: '#E6E1FF', marginTop: '10px', marginBottom: '10px', width: 270 }}>
           <CardContent>
             <Box>
               <Text align="left" sx={{ color: '#4D4D4D', fontSize: '18px', fontWeight: 700 }} name={"Walkin"} />
@@ -269,84 +328,24 @@ export default function NewAppointmentDrawer({ payload }) {
         <Divider />
   
 
-  <div className="my-3">
+  <div className="my-3" style={{width : 270}}>
      <ServiceSelector 
       selectedServices={selectedServices} 
       setSelectedServices={setSelectedServices} 
       categories={categories} 
     />
-        </div>
-        {/* <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Autocomplete
-              options={options}
-              getOptionLabel={(option) => option.serviceName || ""}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  placeholder="Search services"
-                  fullWidth
-                  value={searchTerm}
-                  onChange={handleSearchChange}
-                />
-              )}
-              renderOption={(props, option) => (
-                <li {...props}>
-                  <Box>
-                
-                    <Typography variant="body1" fontWeight="bold">
-                      {option.serviceName}
-                    </Typography>
-                    {option.options && option.options.length > 0 && (
-                      <Box pl={2}>
-                        {option.options.map((optionItem, index) => (
-                          <Typography key={index} variant="body2">
-                            - {optionItem.optionName} (${optionItem.salePrice.toFixed(2)})
-                          </Typography>
-                        ))}
-                      </Box>
-                    )}
-                  </Box>
-                </li>
-              )}
-              onChange={handleServiceSelect}
-              groupBy={(option) => option.categoryName}  // Group by category name
-            />
-          </Grid>
+    </div>
         
-          {selectedServices.map(service => (
-            <Grid item xs={12} key={service.serviceId} className="max-h-40 h-full  overflow-y-auto">
-              <Card>
-                <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    {service.serviceName}
-                  </Typography>
-                  <Typography variant="body1" gutterBottom>
-                    Duration: {service.options.length > 0 ? `${service.options[0].duration} mins` : 'Not specified'}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    Employee: {service.employees.length > 0 ? service.employees[0] : 'Not assigned'}
-                  </Typography>
-                  <IconButton onClick={() => handleDeleteService(service.serviceId)}>
-                    <DeleteRounded />
-                  </IconButton>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid> */}
-
         <Divider />
 
       </div>
-      <div className="absolute bottom-0 flex justify-center gap-5 w-full bg-white p-3.5">
-        <Button
+      <div className=" bottom-0 flex justify-center gap-5 w-full bg-white p-3.5">
+        {/* <Button
           onClick={resetData}
           sx={styles.txtBtn}
         >
           Reset
-        </Button>
+        </Button> */}
         <Button onClick={handleFilterDrawerSubmit} sx={styles.btn}>
           Done
         </Button>

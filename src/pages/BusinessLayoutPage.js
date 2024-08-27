@@ -78,7 +78,7 @@ const BusinessLayoutPage = () => {
       case "Clients":
         return <BusinessClients />;
       case "Services":
-        return <Services />;
+        return <Services inOnboard={false}/>;
       case "Team":
         return <BusinessTeam />;
       case "Salon profile":
