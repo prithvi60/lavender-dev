@@ -42,6 +42,7 @@ import {
   customerSubscriptionInitiate,
   oauthGoogleLogin,
   changePassword,
+  clients,
 } from "./constants";
 import {
   IAvailableSlots,
@@ -140,6 +141,14 @@ class Endpoint {
 
     return response;
   }
+
+  async getClientsList(establishmentId): Promise<any> {
+    const response = await axiosInstance.get(`${BaseURL}${clients}?establishmentId=${establishmentId}`);
+    return response;
+  }
+
+
+  // post endpoints
 
   async saveAppointmentBookings(payload) {
     const response = await axiosInstance.post(

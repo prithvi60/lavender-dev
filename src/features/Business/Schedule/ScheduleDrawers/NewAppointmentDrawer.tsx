@@ -3,7 +3,7 @@ import { CalendarHeaderComponent, Selector } from "../../Appointments/Appointmen
 import StatusFilter from "../../../../components/FilterButtons";
 import Divider from "@mui/material/Divider";
 // import { Button } from "../../../../components/ui/button";
-import { Button } from "@mui/material";
+import { Button, InputAdornment } from "@mui/material";
 import { useDrawer } from "../../BusinessDrawerContext";
 import { addTime, getCurrentTime12HrFormat, getMonthAndDayNames, getTimeIntervals, range } from "../utils";
 import { Autocomplete, Box, Card, CardContent, Grid, IconButton, List, ListItem, ListItemText, TextField, Tooltip, Typography } from "@mui/material";
@@ -14,6 +14,8 @@ import { useSelector } from "react-redux";
 import { DeleteRounded } from "@mui/icons-material";
 import ServiceSelector from "../../../../components/ServiceSelector";
 import ClientSearchFilter from "../../../../components/SearchInputFilter";
+import { SearchIcon } from "lucide-react";
+import GetIcon from "../../../../assets/Icon/icon";
 
 const clients = [{ key: 1, value: [{ name: 'vamsi' }, { phNumber: '999999122' }, { mailId: 'vamsitest@gamil.com' }] },
 { key: 2, value: [{ name: 'mark' }, { phNumber: '999999122' }, { mailId: 'amrktest@gamil.com' }] },
@@ -23,16 +25,21 @@ const clients = [{ key: 1, value: [{ name: 'vamsi' }, { phNumber: '999999122' },
 export default function NewAppointmentDrawer({ payload }) {
 
   const { closeDrawer } = useDrawer();
-  const { date, client, employee, service, status, price, start } = payload
-
+  const { date, employee, service, status, price, start } = payload
   const [selectedTeamMember, setSelectedTeamMember] = useState(employee);
-  const [selectedClient, setClient] = useState(client || '');
+  // const [selectedClient, setClient] = useState(client || '');
   const [occuranceState, setOccuranceState] = useState("Doesn't repeat")
   const [startTime, setStartTime] = useState(start);
   const [selectedDate, setSelectedDate] = useState(date)
   const [selectedBookingStatusFilters, setSelectedBookingStatusFilters] = useState([]);
   const [timeInterval, setTimeInterval] = useState(getTimeIntervals(start))
   const [categories, setCategories] = React.useState<any[]>([]);
+  const [clients, setClients] = React.useState<[]>([]);
+  const [filteredClients, setFilteredClients] = React.useState<any[]>([]);
+
+  console.log("clients :", JSON.stringify(clients))
+  console.log("filteredClients :", JSON.stringify(filteredClients))
+
 
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
@@ -40,6 +47,18 @@ export default function NewAppointmentDrawer({ payload }) {
 
   const establishmentId = userDetails?.establishmentId || "";
 
+  useEffect(()=>{
+    // Filter and map data to include only the desired properties
+    console.log("inside colors ; ", clients)
+    const result = clients?.map(({ customerId, fullName, emailAddress }) => ({
+      customerId,
+      fullName,
+      emailAddress
+    }));
+    
+    // Update the filtered data state
+    setFilteredClients(result);
+  },[clients])
 
   useEffect(() => {
     const getEstablishmentDetails = async () => {
@@ -53,12 +72,25 @@ export default function NewAppointmentDrawer({ payload }) {
       }
     };
 
+    const getClientDetails = async () => {
+      try{
+        const clientDetails = await endpoint.getClientsList(establishmentId);
+        if(clientDetails?.data?.success){
+          setClients(clientDetails?.data?.data?.content)
+        }
+      }
+      catch(error){
+        console.error("Error fetching client details:", error);
+      }
+    }
+
     getEstablishmentDetails();
+    getClientDetails();
   }, [establishmentId]);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedServices, setSelectedServices] = useState([]);
-
+  const [selectedClient, setSelectedClient] = useState(null);
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -100,7 +132,7 @@ export default function NewAppointmentDrawer({ payload }) {
 
   const resetData = () => {
     setSelectedTeamMember("");
-    setClient("");
+    //setClients("");
     setSelectedBookingStatusFilters([]);
     setSelectedDate(new Date(2024, 2, 21))
   };
@@ -168,16 +200,61 @@ export default function NewAppointmentDrawer({ payload }) {
       </div>
       <div className="flex-col mx-7">
         {/* <SelectSeparator className='bg-black'/> */}
-        <Selector
-          onSelect={setClient}
+        {/* <Selector
+          onSelect={setClients}
           placeholder={'Add client'}
           options={["vamsi", "mark", "andy"]}
           className={"w-full mb-4 rounded-lg"}
           label={"Client"}
         />
         <div>
-          {client}
-        </div>
+          {clients}
+        </div> */}
+
+<div style={{ width: 300 }}>
+      <Autocomplete
+        options={filteredClients}
+        getOptionLabel={(option) => `${option.fullName} (${option.emailAddress})`}
+        onChange={(event, newValue) => {
+          // Set the selected client
+          setSelectedClient(newValue);
+        }}
+        renderOption={(props, option) => (
+          <ListItem {...props} divider>
+            <ListItemText
+              primary={<span style={{ color: 'blue' }}>{option.fullName}</span>}
+              secondary={option.emailAddress}
+            />
+            <Divider />
+          </ListItem>
+        )}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            placeholder="Select customer"
+            variant="outlined"
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+          />
+        )}
+      />
+      {/* Display the card with selected client details */}
+      {selectedClient && (
+        <Card style={{ marginTop: 20 }}>
+          <CardContent>
+            <Typography variant="h6">{selectedClient.fullName}</Typography>
+            <Typography color="textSecondary">{selectedClient.emailAddress}</Typography>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+
         <Divider />
 
         <Card sx={{ backgroundColor: '#E6E1FF', marginTop: '10px', marginBottom: '10px' }}>

@@ -76,6 +76,8 @@ export const subscriptionInitiate = "subscription/business/membership/initiate";
 
 export const subscriptionStatus = "subscription/status";
 
+export const clients = 'a/getClients';
+
 export const customerSubscriptionInitiate =
   "subscription/customer/appointment/initiate";
 

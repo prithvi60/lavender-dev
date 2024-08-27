@@ -179,6 +179,7 @@ const categories = [
       "active": false
   }
 ]
+
 export default function AppointmentDrawer() {
   const { closeDrawer, payload } = useDrawer();
 // payload needs to have full data of services
