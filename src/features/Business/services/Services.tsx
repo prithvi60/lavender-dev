@@ -190,7 +190,7 @@ export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
   return <Droppable {...props}>{children}</Droppable>;
 };
 
-export const Services = ({inOnboard}: any) => {
+export const Services = ({inOnboard,updateCategory}: any) => {
   const [data, setData] = useState(initialData);
   const [orginalData, setOriginalData] = useState(initialData);
 
@@ -203,6 +203,7 @@ export const Services = ({inOnboard}: any) => {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [categories, setCategories] = React.useState<any[]>([]); // Update type accordingly
   const [employeeData, setEmployeeData] = React.useState<any[]>([]);
+  const [openModal, setOpenModal] = useState(false);
 
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
@@ -347,7 +348,7 @@ export const Services = ({inOnboard}: any) => {
     };
 
     getEstablishmentDetails();
-  }, [establishmentId, isOpen]);
+  }, [establishmentId, isOpen,updateCategory,openModal]);
 
   const handleDeleteService = async (categoryId: string, serviceId: string) => {
     try {
@@ -385,7 +386,7 @@ export const Services = ({inOnboard}: any) => {
       // Show error notification if there was an exception
     }
   };
-
+// check the data chnage
   useEffect(() => {
     // Transform categories into initialData format
     const transformedCategories = categories?.map((category) => {
@@ -420,7 +421,7 @@ export const Services = ({inOnboard}: any) => {
   };
 
   function handleAddServices(categoryId) {
-    console.log("hhiii", inOnboard)
+    // console.log("hhiii", inOnboard)
     if(inOnboard){
       setOpenModal(true)
       setCatval(categoryId)
@@ -483,12 +484,13 @@ export const Services = ({inOnboard}: any) => {
 
       setData({ components: filteredComponents });
   };
-  const [openModal, setOpenModal] = useState(false);
   const handleOpen = () => setOpenModal(true);
   const handleCloses = () => setOpenModal(false);
   const [catval, setCatval] = useState('')
+
+  // console.log("data",data.components)
   return (
-    <div className= "md:mx-32 mt-8">
+    <div className= {inOnboard ? "mt-8" : "md:mx-32 mt-8"}>
       {
         !inOnboard && <><Box
           className="flex md:w-full md:justify-between md:ml-2"
@@ -757,7 +759,7 @@ export const Services = ({inOnboard}: any) => {
         }}
         >
           <Card >
-            <AddService payload={catval}/>
+            <AddService payload={catval} handleClose={handleCloses}/>
           </Card>
         </Modal>
     </div>

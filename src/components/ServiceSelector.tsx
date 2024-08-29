@@ -146,7 +146,7 @@ function ServiceSelector({ selectedServices, setSelectedServices,categories }) {
                             <div
                                 {...provided.droppableProps}
                                 ref={provided.innerRef}
-                                className='overflow-y-auto w-full h-full max-h-40 md:max-h-[500px] xl:max-h-64 mt-1'
+                                className='overflow-y-auto w-full h-full max-h-[200px] mt-1'
                             >
                                 {selectedServices?.map((service, index) => (
                                     <Draggable key={service.categories[0].services[0].options[0].optionId}

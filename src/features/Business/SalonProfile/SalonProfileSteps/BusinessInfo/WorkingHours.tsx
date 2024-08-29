@@ -5,8 +5,10 @@ import {
   Grid,
   Checkbox,
   Button,
+  Box,
   IconButton,
 } from "@mui/material";
+import CheckIcon from "@mui/icons-material/Check";
 import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -181,6 +183,33 @@ if(saveWorkingHours){
                   <Checkbox
                     checked={checkboxes[day]}
                     onChange={(e) => handleCheckboxChange(e, day)}
+                    icon={
+                      <Box
+                        sx={{
+                          width: 20,
+                          height: 20,
+                          border: "2px solid #bdbdbd",
+                          borderRadius: "4px",
+                          backgroundColor: "white",
+                        }}
+                      />
+                    }
+                    checkedIcon={
+                      <Box
+                        sx={{
+                          width: 20,
+                          height: 20,
+                          border: "2px solid #bdbdbd",
+                          borderRadius: "4px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: "white",
+                        }}
+                      >
+                        <CheckIcon sx={{ color: "#4caf50", fontSize: 16 }} />
+                      </Box>
+                    }
                   />
                   <Typography
                     sx={{

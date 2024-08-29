@@ -8,7 +8,7 @@ import {
 } from "@mui/icons-material";
 import { Grid, Link, Box, IconButton, InputAdornment } from "@mui/material";
 import { TextField } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { startTransition, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -116,6 +116,7 @@ function BusinessRegisterLoginPage({ isInLoginModal }) {
   }
   const handleClickContinue = (data) => {
     // console.log("data",data)
+    startTransition(() => {
     getUserLoginTokenApi(data);
 
     navigate("/business/dashboard");
@@ -123,6 +124,7 @@ function BusinessRegisterLoginPage({ isInLoginModal }) {
     if (!disableBtn) {
       //dispatch(isNewAccount({ newAccount: true }));
     }
+  });
   };
 
   // function handleButton() {

@@ -54,7 +54,7 @@ const AquaCheckbox = styled(Checkbox)(({ theme }) => ({
   },
 }));
 
-export default function AddService({payload}) {
+export default function AddService({payload,handleClose}) {
   const {
     control,
     register,
@@ -73,6 +73,8 @@ export default function AddService({payload}) {
   const [categories, setCategories] = React.useState<any[]>([]); // Update type accordingly
   const [employee, setEmployee] = React.useState<any[]>([]); // Update type accordingly
   const [currentCategories, setCurrentCategories] = useState([]);
+  const [save, setSave] = useState(false);
+
 
 
   const { fields, append, remove } = useFieldArray({
@@ -104,7 +106,7 @@ export default function AddService({payload}) {
     };
 
     getEstablishmentDetails();
-  }, [establishmentId]);
+  }, [establishmentId,save]);
   
   const handleFilterDrawerSubmit = (data) => {
     const totalMinutes = parseInt(data.durationHours, 10) * 60 + parseInt(data.durationMinutes, 10);
@@ -165,6 +167,8 @@ export default function AddService({payload}) {
     },
     onSuccess: (response: any) => {
       //closeDrawer();
+      handleClose()
+      setSave(true)
     },
     onError: (response: any) => {
       alert('login unsuccess')
@@ -237,8 +241,8 @@ export default function AddService({payload}) {
           </div> */}
         </div>
 
-        <div className="px-4 py-2 overflow-y-auto">
-            <Grid container>
+        <div className="px-4 py-2 overflow-y-auto max-h-[500px]">
+            {/* <Grid container> */}
                 <Grid container>
                     <Grid item xs={6}>
                         <div className="mb-4">
@@ -283,13 +287,15 @@ export default function AddService({payload}) {
                                         id="outlined-multiline-static"
                                         placeholder="Elevate your style with our precision Haircut service. "
                                         multiline
-                                        rows={3}
+                                        rows={2}
                                         error={!!errors.serviceDescription}
                                         fullWidth
-                                        sx={{width: '272px',
-                                        '& .MuiInputBase-root': {
-                                            borderRadius: '9px',
-                                        },}}
+                                        // sx={{width: '272px',
+                                        // '& .MuiInputBase-root': {
+                                        //     borderRadius: '9px',
+                                        // },}}
+                                   
+                                        sx={styles.textField}
                                     />
                                     <FormHelperText>{errors.serviceDescription?.message}</FormHelperText>
                                     </FormControl>
@@ -323,7 +329,10 @@ export default function AddService({payload}) {
                                         .join(', ');
                                     return selectedNames;
                                     }}
-                                    sx={styles.select}
+                                    sx={{
+                                      ...styles.select,
+                                      width:"272px"
+                                    }}
                                 >
                                     {employee.map((emp) => (
                                     <MenuItem key={emp.employeeId} value={emp.employeeId}>
@@ -352,7 +361,10 @@ export default function AddService({payload}) {
                                 <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
                                     Gender
                                 </Typography>
-                                <Select {...field}  error={!!errors.gender} fullWidth sx={styles.select}>
+                                <Select {...field}  error={!!errors.gender} fullWidth      sx={{
+                                      ...styles.select,
+                                      width:"272px"
+                                    }}>
                                     <MenuItem value="M">Male</MenuItem>
                                     <MenuItem value="F">Female</MenuItem>
                                 </Select>
@@ -394,10 +406,12 @@ export default function AddService({payload}) {
                             </Grid>
                         </div>
                     </Grid>
-                    <Grid item xs={6}>
+                </Grid>
+
+                    {/* <Grid item xs={6}> */}
                         <div className="mb-4">
-                            <Grid container spacing={2} sx={{ alignContent: "end" }}>
-                            <Grid item xs={12} sx={{ alignContent: "end" }}>
+                        <Grid container spacing={2} sx={{ alignContent: "end" }}>
+                        <Grid item xs={12} sx={{ alignContent: "end" }}>
                                 <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
                                 Duration
                                 </Typography>
@@ -408,7 +422,10 @@ export default function AddService({payload}) {
                                     control={control}
                                     render={({ field }) => (
                                         <FormControl fullWidth error={!!errors.durationHours}>
-                                        <Select {...field} displayEmpty sx={styles.select}>
+                                        <Select {...field} displayEmpty     sx={{
+                                      ...styles.select,
+                                      width:"272px"
+                                    }}>
                                             {Array.from({ length: 9 }, (_, i) => (
                                             <MenuItem key={i} value={i}>{i} hour</MenuItem>
                                             ))}
@@ -424,7 +441,10 @@ export default function AddService({payload}) {
                                     control={control}
                                     render={({ field }) => (
                                         <FormControl fullWidth error={!!errors?.durationMinutes}>
-                                        <Select {...field} displayEmpty sx={styles.select}>
+                                        <Select {...field} displayEmpty      sx={{
+                                      ...styles.select,
+                                      width:"272px"
+                                    }}>
                                         {minuteOptions.map(min => (
                                         <MenuItem key={min} value={min}>{min} minutes</MenuItem>
                                         ))}
@@ -438,15 +458,14 @@ export default function AddService({payload}) {
                             </Grid>
                             </Grid>
                         </div>
-                    </Grid>
-                </Grid>
-            </Grid>
+                    {/* </Grid> */}
+            {/* </Grid> */}
             
           <Divider />
           <Grid item>
           
           {fields.map((option, index) => (
-            <div key={option.id}>
+            <div key={option.id}> 
               <Divider textAlign="left" sx={{ color: "#825FFF" }}>
                 Option {index + 1}
               </Divider>
@@ -556,7 +575,7 @@ export default function AddService({payload}) {
                 </Grid>
               </div>
 
-              <div className="mb-4">
+              <div className="mb-4" >
                 <UiButton variant="link" onClick={() => removeOption(index)}>
                   Remove Option
                 </UiButton>
@@ -573,7 +592,7 @@ export default function AddService({payload}) {
         </div>
         
         <div className="sticky bottom-0 bg-white flex justify-between mt-4 p-4 border-t">
-          <Button onClick={()=> console.log("hi")} sx={styles.txtBtn}>
+          <Button onClick={()=> handleClose()} sx={styles.txtBtn}>
             Cancel
           </Button>
           <Button type="submit" sx={styles.btn}>Save</Button>
@@ -605,7 +624,7 @@ const styles = {
     textTransform: 'none',
   },
   textField: {
-    width: '272px',
+    width: '272px !important',
     '& .MuiInputBase-root': {
       height: '55px', // Apply height to the input root
       borderRadius: '9px',
@@ -613,7 +632,7 @@ const styles = {
     
   },
   select: {
-    '& .MuiInputBase-root': {
+    '& .MuiSelect-root': {
       width: '272px !important',
       height: '55px',
       borderRadius: '9px',

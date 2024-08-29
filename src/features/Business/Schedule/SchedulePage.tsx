@@ -33,7 +33,9 @@ function SchedulePage() {
         }}
         >
           <div className='flex  items-center'>
-            <Button className='bg-white mr-10 font-bold' variant='outline' onClick={setCurrentDuration} style={{color: '#4D4D4D', fontWeight: 700, fontSize: '18px'}}>
+            <Button className='bg-white mr-10 font-bold' variant='outline' onClick={setCurrentDuration} 
+            
+            style={{color: '#4D4D4D', fontWeight: 700, fontSize: '18px'}}>
               {durationState === 'Day' ? 'Today' : 'This Week'}
             </Button>
             <div>

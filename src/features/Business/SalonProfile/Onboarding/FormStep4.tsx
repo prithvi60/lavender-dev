@@ -62,6 +62,8 @@ export const FormStep4 = ({ setActiveStep }) => {
   // State variable to determine if any service array has values
   const [hasServices, setHasServices] = useState(false);
   const [inOboard, setInOboard] = useState<any>(true);
+  const [updateCategory, setUpdateCategory] = useState<any>(false);
+
   const [proceed, setProceed] = useState<any>(false);
 
   const handleOpen = () => setOpenModal(true);
@@ -103,14 +105,18 @@ export const FormStep4 = ({ setActiveStep }) => {
         },
       ],
     };
-
-    try {
-      await endpoint.saveEstablishmentCategory(payLoad);
-      getEstablishmentDetails(); // Call this after the save operation
+    endpoint.saveEstablishmentCategory(payLoad)
+    .then(response => {
+      if (response?.data?.success){
+        // console.log("res",response?.data?.success)
+        setUpdateCategory((o)=>!o)
+      }
       handleClose();
-    } catch (error) {
+    })
+    .catch(error => {
       console.error("Error saving category:", error); // Handle any errors
-    }
+    });
+
   };
 
   const getEstablishmentDetails = async () => {
@@ -127,7 +133,7 @@ export const FormStep4 = ({ setActiveStep }) => {
   useEffect(() => {
     getEstablishmentDetails();
   }, []);
-  console.log('categories : ', JSON.stringify(categories))
+  // console.log('categories : ', JSON.stringify(categories))
 
   useEffect(()=>{
     // Function to check if any service array has values
@@ -149,8 +155,8 @@ export const FormStep4 = ({ setActiveStep }) => {
   return (
     <>
       <section
-        className="w-full flex justify-center items-center flex-1 overflow-y-auto"
-        style={{ height: "80vh" }}
+        className="w-full flex justify-center  flex-1"
+        style={{ maxHeight: "82vh", overflowY: "auto" }} 
       >
         <div style={{ width: "60%", padding: "0px 20px", marginTop: 10 }}>
           <h5 className="text-sm mb-2.5 mt-10">Step 3</h5>
@@ -251,7 +257,7 @@ export const FormStep4 = ({ setActiveStep }) => {
             </form>
           </Modal>
 
-          <Services inOnboard={inOboard} />
+          <Services inOnboard={inOboard} updateCategory={updateCategory}/>
 
           <div
             style={{
