@@ -27,16 +27,18 @@ const items = [
 ];
 
 const serviceTagList = [
-  { name: "Hairdresser" },
-  { name: "Barber" },
+  { name: "Hair" },
+  { name: "Face" },
   { name: "Nails" },
-  { name: "Aesthetics" },
+  { name: "Skin" },
 ];
+
 const schema = yup.object().shape({
   categoryId: yup.string(),
   categoryName: yup.string().required("Category name is required"),
   serviceTags: yup.string().required("Service tag is required"),
 });
+
 export const FormStep4 = ({ setActiveStep }) => {
   const {
     control,
@@ -56,24 +58,30 @@ export const FormStep4 = ({ setActiveStep }) => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedService, setSelectedService] = useState("");
   const [primaryService, setPrimaryService] = useState("");
-
-  const [inOboard, setInOboard]= useState<any>(true);
+  const [categories, setCategories] = useState([]);
+  // State variable to determine if any service array has values
+  const [hasServices, setHasServices] = useState(false);
+  const [inOboard, setInOboard] = useState<any>(true);
+  const [proceed, setProceed] = useState<any>(false);
 
   const handleOpen = () => setOpenModal(true);
   const handleClose = () => setOpenModal(false);
 
   const handleServiceSelect = (service) => {
     setSelectedService(service);
-    // handleClose();
+    setPrimaryService(service); // Set as primary when selected
+    setValue("serviceTags", service); // Update the form value
   };
 
   const handlePrimarySelect = (service) => {
     setPrimaryService(service);
   };
+
   const onDragEnd = (result) => {
     // Handle drag end logic here
     console.log(result);
   };
+
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
   });
@@ -81,13 +89,14 @@ export const FormStep4 = ({ setActiveStep }) => {
   const establishmentId = userDetails?.establishmentId || "";
 
   const handleDrawerSubmit = async (data) => {
+    // Alert with selected service tag and category name
+    //alert(`Category Name: ${data.categoryName}\nService Tag: ${data.serviceTags}`);
+
     const payLoad = {
       id: establishmentId,
       categories: [
         {
-          categoryId:
-            //  categoryId ? categoryId :
-            "",
+          categoryId: "",
           categoryName: data.categoryName,
           serviceTag: data.serviceTags,
           isActive: true,
@@ -95,24 +104,20 @@ export const FormStep4 = ({ setActiveStep }) => {
       ],
     };
 
-    endpoint
-      .saveEstablishmentCategory(payLoad)
-      .then((response) => {
-        getEstablishmentDetails(); // Call this after the save operation
-        handleClose();
-      })
-      .catch((error) => {
-        console.error("Error saving category:", error); // Handle any errors
-      });
+    try {
+      await endpoint.saveEstablishmentCategory(payLoad);
+      getEstablishmentDetails(); // Call this after the save operation
+      handleClose();
+    } catch (error) {
+      console.error("Error saving category:", error); // Handle any errors
+    }
   };
 
   const getEstablishmentDetails = async () => {
     try {
-      const establishmentData = await endpoint.getEstablishmentDetailsById(
-        establishmentId
-      );
+      const establishmentData = await endpoint.getEstablishmentDetailsById(establishmentId);
       if (establishmentData?.data?.success) {
-        // setCategories([...establishmentData?.data?.data?.categories] || []);
+        setCategories([...establishmentData?.data?.data?.categories] || []);
       }
     } catch (error) {
       console.error("Error fetching establishment details:", error);
@@ -122,6 +127,24 @@ export const FormStep4 = ({ setActiveStep }) => {
   useEffect(() => {
     getEstablishmentDetails();
   }, []);
+  console.log('categories : ', JSON.stringify(categories))
+
+  useEffect(()=>{
+    // Function to check if any service array has values
+    const checkForServices = (data) => {
+      return data.some(category => category.services.length > 0);
+    };
+
+    // Update the state based on the check
+    setHasServices(checkForServices(categories));
+  },[categories])
+
+  const handleProceed = () => {
+    setProceed(true)
+    if(hasServices){
+      setActiveStep((prevStep) => prevStep + 1);
+    }
+  }
 
   return (
     <>
@@ -129,17 +152,19 @@ export const FormStep4 = ({ setActiveStep }) => {
         className="w-full flex justify-center items-center flex-1 overflow-y-auto"
         style={{ height: "80vh" }}
       >
-        <div style={{ width: "60%", padding: "0px 20px", marginTop: 10}}>
+        <div style={{ width: "60%", padding: "0px 20px", marginTop: 10 }}>
           <h5 className="text-sm mb-2.5 mt-10">Step 3</h5>
-          <h4 className="tetx-xl md:text-3xl tracking-wide mb-10">
-            Add services
+          <h4 className="text-xl md:text-4xl tracking-wide mb-3 font-bold">
+            What services do you offer?
           </h4>
-          {/* 
-        <Button variant="text" onClick={handleOpen}>
-          Add Category
-        </Button> */}
-          {/* <p>Selected Service: {selectedService}</p>/ */}
-          {/* <p>Primary Service: {primaryService}</p> */}
+          <h4 className="text-base md:text-base tracking-wide ml-2">
+            Create a category to add services
+          </h4>
+          {
+            (!hasServices && proceed) && (
+              <h4 className="text-base md:text-base tracking-wide mb-10 ml-2 text-red-500 text-center">Add atleast one service to proceed</h4>
+            )
+          }
           <Modal
             open={openModal}
             onClose={handleClose}
@@ -184,18 +209,20 @@ export const FormStep4 = ({ setActiveStep }) => {
                         padding: "16.5px 14px",
                       },
                     }}
-                    // {...register("category")}
-                    // error={!!errors.category}
-                    // helperText={errors.category?.message}
+                    {...register("categoryName")}
+                    error={!!errors.categoryName}
+                    helperText={errors.categoryName?.message}
                   />
                 </div>
                 <Typography
-                    sx={{
-                      fontSize: "18px",
-                      fontWeight: "700",
-                      color: "#4D4D4D",
-                    }}
-                  >Select Services</Typography>
+                  sx={{
+                    fontSize: "18px",
+                    fontWeight: "700",
+                    color: "#4D4D4D",
+                  }}
+                >
+                  Select Services
+                </Typography>
                 <Grid container spacing={2}>
                   {serviceTagList?.map((service) => (
                     <Grid item xs={6} key={service.name}>
@@ -216,7 +243,7 @@ export const FormStep4 = ({ setActiveStep }) => {
                   size="large"
                   color="primary"
                   type="submit"
-                  sx={{ textTransform: "none",margin:"10px 10rem" }}
+                  sx={{ textTransform: "none", margin: "10px 10rem" }}
                 >
                   Save
                 </Button>
@@ -224,30 +251,29 @@ export const FormStep4 = ({ setActiveStep }) => {
             </form>
           </Modal>
 
-          <>
-            <Services inOnboard={inOboard}/>
-          </>
+          <Services inOnboard={inOboard} />
+
           <div
-                    style={{
-                      textAlign: "center",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      width: "100%",
-                    }}
-                  >
-                    <button
-                      onClick={() => handleOpen()}
-                      style={{
-                        color: "#825FFF",
-                        fontSize: "20px",
-                        fontWeight: 600,
-                        paddingBottom: 30,
-                      }}
-                    >
-                      Add new category [+]
-                    </button>
-                  </div>
+            style={{
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <button
+              onClick={() => handleOpen()}
+              style={{
+                color: "#825FFF",
+                fontSize: "20px",
+                fontWeight: 600,
+                paddingBottom: 30,
+              }}
+            >
+              Add new category [+]
+            </button>
+          </div>
         </div>
       </section>
       <footer
@@ -277,9 +303,7 @@ export const FormStep4 = ({ setActiveStep }) => {
             },
           }}
           variant="contained"
-          onClick={() => {
-            setActiveStep((prevStep) => prevStep + 1);
-          }}
+          onClick={handleProceed}
           name={"Proceed"}
         >
           {" "}
@@ -295,19 +319,22 @@ const ServiceCard = ({ service, onSelect, isPrimary }) => {
       onClick={() => onSelect(service.name)}
       style={{
         cursor: "pointer",
-        border: isPrimary ? "1px solid #825FFF" : "1px solid #ccc",
+        border: isPrimary ? "2px solid #825FFF" : "1px solid #ccc",
         margin: "10px",
-        transition: "0.3s",
+        transition: "0.2s",
+        borderRadius: '10px'
       }}
     >
       <CardContent>
         <Typography
-           sx={{
+          sx={{
             fontSize: "18px",
             fontWeight: "400",
             color: "#4D4D4D",
           }}
-        >{service.name}</Typography>
+        >
+          {service.name}
+        </Typography>
       </CardContent>
     </Card>
   );

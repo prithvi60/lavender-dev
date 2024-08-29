@@ -19,6 +19,8 @@ import {
   TextField,
   styled,
   Box,
+  Modal,
+  Card,
 } from "@mui/material";
 import { ArrowDropDown as ArrowDropDownIcon } from "@mui/icons-material";
 import GetIcon from "../../../assets/Icon/icon";
@@ -26,6 +28,8 @@ import { useDrawer } from "../BusinessDrawerContext";
 import { useSelector } from "react-redux";
 import endpoint from "../../../api/endpoints";
 import AvatarImg from "./AvatarImg";
+import AddServicesForm from "./AddServicesForm";
+import AddService from "../SalonProfile/Onboarding/AddService";
 
 type Option = "Add services" | "Add category";
 
@@ -416,8 +420,10 @@ export const Services = ({inOnboard}: any) => {
   };
 
   function handleAddServices(categoryId) {
+    console.log("hhiii", inOnboard)
     if(inOnboard){
-      
+      setOpenModal(true)
+      setCatval(categoryId)
     }
     else{
       openDrawer("addServices", categoryId);
@@ -453,6 +459,7 @@ export const Services = ({inOnboard}: any) => {
       // Show error notification if there was an exception
     }
   }
+
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = (event) => {
@@ -474,13 +481,16 @@ export const Services = ({inOnboard}: any) => {
       })
       .filter((component) => component.rows.length > 0);
 
-    setData({ components: filteredComponents });
+      setData({ components: filteredComponents });
   };
-
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpen = () => setOpenModal(true);
+  const handleCloses = () => setOpenModal(false);
+  const [catval, setCatval] = useState('')
   return (
-    <div className="md:mx-32 mt-8">
+    <div className= "md:mx-32 mt-8">
       {
-        !inOnboard && <Box
+        !inOnboard && <><Box
           className="flex md:w-full md:justify-between md:ml-2"
           sx={{
             "@media (max-width: 900px)": {
@@ -526,9 +536,9 @@ export const Services = ({inOnboard}: any) => {
             />
           </Box>
         </Box>
+        </>
       }
-      
-
+   
       <DragDropContext onDragEnd={onDragEnd}>
         <StrictModeDroppable
           droppableId="all-components"
@@ -734,6 +744,22 @@ export const Services = ({inOnboard}: any) => {
           )}
         </StrictModeDroppable>
       </DragDropContext>
+
+
+
+      <Modal
+        open={openModal}
+        onClose={handleCloses}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        >
+          <Card >
+            <AddService payload={catval}/>
+          </Card>
+        </Modal>
     </div>
   );
 };
