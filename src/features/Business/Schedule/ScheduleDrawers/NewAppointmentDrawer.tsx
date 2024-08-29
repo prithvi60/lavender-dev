@@ -280,7 +280,8 @@ export default function NewAppointmentDrawer({ payload }) {
   //   handleServiceSelect()
   // },[selectedServices])
   return (
-    <div className="flex-col h-full overflow-hidden">
+    <>
+    <div className="flex-col h-full overflow-y-auto">
       <div className="flex-col text-lg text-center p-4 mb-2 bg-[#1B1464] sticky top-0 z-[100]">
         <CustomTooltip
           placement="bottom"
@@ -326,7 +327,7 @@ export default function NewAppointmentDrawer({ payload }) {
           />
         </div>
       </div>
-      <div className="flex-col mx-1 px-4 overflow-hidden">
+      <div className="flex-col mx-1 px-4 overflow-hidden pb-8">
         {/* <SelectSeparator className='bg-black'/> */}
         {/* <Selector
           onSelect={setClients}
@@ -342,13 +343,16 @@ export default function NewAppointmentDrawer({ payload }) {
         <div style={{ width: 270 }}>
           <div className="p-2 font-bold">Client</div>
           <Autocomplete
-            options={filteredClients}
-            getOptionLabel={(option) =>
-              `${option.fullName} (${option.emailAddress})`
-            }
+            // value={selectedClient && !selectedClient.isAddNew ? selectedClient : null} 
+                options={[...filteredClients, { isAddNew: true }]} 
+                getOptionLabel={(option) =>
+                  option.isAddNew ? "Add new client" : `${option.fullName} (${option.emailAddress})`
+                }
             onChange={(event, newValue) => {
               // Set the selected client
-              setSelectedClient(newValue);
+              if (!newValue?.isAddNew) {
+                setSelectedClient(newValue);
+              }
             }}
             sx={{
               "& .MuiAutocomplete-root .MuiAutocomplete-inputRoot": {
@@ -371,15 +375,16 @@ export default function NewAppointmentDrawer({ payload }) {
               },
             }}
             renderOption={(props, option) => (
-              <ListItem {...props} divider>
-                <ListItemText
-                  primary={
-                    <span style={{ color: "blue" }}>{option.fullName}</span>
-                  }
-                  secondary={option.emailAddress}
-                />
-                <Divider />
-              </ListItem>
+              <ListItem {...props} divider={!option.isAddNew }>
+              <ListItemText
+                primary={
+                  <span style={{ color: option.isAddNew ? "gray" : "blue" }}>
+                    {option.isAddNew ? <button onClick={()=>console.log("clicked")} className="flex w-full justify-center text-[#B3B3B3] items-center bg-transparent"> <GetIcon iconName="AddClient"/> Add new client</button> : option.fullName}
+                  </span>
+                }
+                secondary={option.isAddNew ? null : option.emailAddress}
+              />
+            </ListItem>
             )}
             renderInput={(params) => (
               <TextField
@@ -445,7 +450,9 @@ export default function NewAppointmentDrawer({ payload }) {
 
         <Divider />
       </div>
-      <div className="flex justify-center gap-5 w-full bg-white p-3.5 absolute bottom-0 ">
+  
+    </div>
+    <div className="flex justify-center gap-5 w-full bg-white p-3.5 absolute bottom-0 ">
         {/* <Button
           onClick={resetData}
           sx={styles.txtBtn}
@@ -456,7 +463,7 @@ export default function NewAppointmentDrawer({ payload }) {
           Done
         </Button>
       </div>
-    </div>
+    </>
   );
 }
 

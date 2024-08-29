@@ -516,6 +516,14 @@ function GetIcon(props) {
       </svg>
       
     break;
+    case 'AddClient':
+      IconElement = <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M12.9353 20.8285C13.8043 20.8285 14.6091 20.2662 14.661 19.3988C14.668 19.2819 14.6715 19.1641 14.6715 19.0455C14.6715 15.8285 12.0637 13.2207 8.84676 13.2207C5.62982 13.2207 3.02197 15.8285 3.02197 19.0455C3.02197 19.1641 3.02552 19.2819 3.03251 19.3988C3.08441 20.2662 3.88923 20.8285 4.75818 20.8285H12.9353Z" fill="#B3B3B3"/>
+      <circle cx="9.01966" cy="9.01527" r="3.60902" fill="#B3B3B3"/>
+      <path d="M16.496 11V8.504H14V7.496H16.496V5H17.504V7.496H20V8.504H17.504V11H16.496Z" fill="#B3B3B3"/>
+      </svg>
+      
+    break;
 
     default:
       break;
