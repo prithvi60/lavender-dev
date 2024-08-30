@@ -175,7 +175,7 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
       ) : null}
       {establishmentData?.data?.data?.profile?.establishmentName ? (
         <>
-     {!loading &&     <div className="flex justify-center">
+     {!loading && <div className="flex justify-center">
             <img
               src={imageUrls[0]}
               style={{ width: "300px", height: "200px", margin: "10px", borderRadius: '20px' }}
@@ -290,22 +290,6 @@ export const Publish = ({ userDetails, setIsOpen, setMembershipScreen }) => {
               : "flex justify-center flex-col "
           }
         >
-          {/* {!isPublish && (
-            <Buttons
-              disabled={isDisabled}
-              fullWidth
-              variant="contained"
-              sx={{
-                borderRadius: "10px",
-                padding: "10px 40px 10px 40px",
-                marginBottom: "10px",
-              }}
-              name={"Publish"}
-              onClick={() => {
-                handlePublishClick();
-              }}
-            ></Buttons>
-          )} */}
           <div className="flex justify-between flex-col md:flex-row gap-2 items-center">
             <Box sx={{paddingX: 1}}>
             <Buttons

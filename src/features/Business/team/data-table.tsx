@@ -31,18 +31,19 @@ import "./style.css";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  inOnboard: boolean
 }
 
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  inOnboard,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
-  // console.log(data);
 
   const pageData = {
     number: 0,
@@ -69,7 +70,7 @@ export function DataTable<TData, TValue>({
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  const { openDrawer } = useDrawer();
+  const { openDrawer } = useDrawer() || '';
 
   const handleExport = () => {
     const wb = XLSX.utils.book_new();
@@ -108,34 +109,39 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="rounded-md border">
-      <Box className="w-full py-2.5 flex flex-col  md:flex-row justify-between items-center ">
-        <Box className="flex m-4 py-2 items-center gap-4 overflow-auto">
-          <SearchInput
-            placeholder="Search services"
-            value={(table.getColumn("employeeName")?.getFilterValue() as string) ?? ""}
-            onChange={handleSearchInputChange} // Attach the change handler
-          />
-          <Box sx={{ paddingLeft: '10px', '@media (max-width: 600px)': { width: '100px' } }}>
-            <Buttons
-              className="exportBtn"
-              variant="outline"
-              // size="lg"
-              style={{ width: '188px', height: '37px', color: '#4D4D4D', fontSize: '18px', fontWeight: 700 }}
-              onClick={handleExport}
-            >
-              Export
-            </Buttons>
-          </Box>
-        </Box>
-        <Box>
-          <Button
-            size="lg"
-            sx={{ width: '200px', height: '44px', borderRadius: '10px', padding: '10px 40px 10px 40px', fontSize: '18px', fontWeight: 600 }}
-            onClick={() => openDrawer('addMember')}
-            name={"Add Member"}
-          />
-        </Box>
-      </Box>
+      {
+        !inOnboard && (
+          <Box className="w-full py-2.5 flex flex-col  md:flex-row justify-between items-center ">
+            <Box className="flex m-4 py-2 items-center gap-4 overflow-auto">
+              <SearchInput
+                placeholder="Search services"
+                value={(table.getColumn("employeeName")?.getFilterValue() as string) ?? ""}
+                onChange={handleSearchInputChange} // Attach the change handler
+              />
+              <Box sx={{ paddingLeft: '10px', '@media (max-width: 600px)': { width: '100px' } }}>
+                <Buttons
+                  className="exportBtn"
+                  variant="outline"
+                  // size="lg"
+                  style={{ width: '188px', height: '37px', color: '#4D4D4D', fontSize: '18px', fontWeight: 700 }}
+                  onClick={handleExport}
+                >
+                  Export
+                </Buttons>
+              </Box>
+            </Box>
+            <Box>
+              <Button
+                size="lg"
+                sx={{ width: '200px', height: '44px', borderRadius: '10px', padding: '10px 40px 10px 40px', fontSize: '18px', fontWeight: 600 }}
+                onClick={() => openDrawer('addMember')}
+                name={"Add Member"}
+              />
+            </Box>
+         </Box>
+        )
+      }
+
 
       <Table>
         <TableHeader>

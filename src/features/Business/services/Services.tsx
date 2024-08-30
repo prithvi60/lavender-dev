@@ -190,7 +190,7 @@ export const StrictModeDroppable = ({ children, ...props }: DroppableProps) => {
   return <Droppable {...props}>{children}</Droppable>;
 };
 
-export const Services = ({inOnboard,updateCategory}: any) => {
+export const Services = ({inOnboard, updateCategory, setHasServices}: any) => {
   const [data, setData] = useState(initialData);
   const [orginalData, setOriginalData] = useState(initialData);
 
@@ -405,6 +405,13 @@ export const Services = ({inOnboard,updateCategory}: any) => {
 
     setData({ components: transformedCategories });
     setOriginalData({ components: transformedCategories });
+      // Function to check if any service array has values
+      const checkForServices = (data) => {
+        return data.some(category => category.services.length > 0);
+      };
+  
+      // Update the state based on the check
+      setHasServices(checkForServices(categories));
   }, [categories]);
 
   const handleEditCategory = (categoryId) => {

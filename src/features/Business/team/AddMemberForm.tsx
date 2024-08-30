@@ -331,10 +331,6 @@ export default function AddMemberForm({ payload }) {
     }
   };
 
-  const handleDragEnd = () => {
-    // handle drag end logic if needed
-  };
-
   const mutation = useMutation<ImageUploadResponse, Error, FormData>({
     mutationFn: async (payload) => {
       const response = await endpoint.saveEstablishmentPhotos(payload, establishmentId);

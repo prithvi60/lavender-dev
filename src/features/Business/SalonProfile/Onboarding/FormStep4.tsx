@@ -131,22 +131,16 @@ export const FormStep4 = ({ setActiveStep }) => {
   };
 
   useEffect(() => {
+    
     getEstablishmentDetails();
   }, []);
   // console.log('categories : ', JSON.stringify(categories))
 
-  useEffect(()=>{
-    // Function to check if any service array has values
-    const checkForServices = (data) => {
-      return data.some(category => category.services.length > 0);
-    };
-
-    // Update the state based on the check
-    setHasServices(checkForServices(categories));
-  },[categories])
+ 
 
   const handleProceed = () => {
     setProceed(true)
+
     if(hasServices){
       setActiveStep((prevStep) => prevStep + 1);
     }
@@ -257,7 +251,7 @@ export const FormStep4 = ({ setActiveStep }) => {
             </form>
           </Modal>
 
-          <Services inOnboard={inOboard} updateCategory={updateCategory}/>
+          <Services inOnboard={inOboard} updateCategory={updateCategory} setHasServices={setHasServices}/>
 
           <div
             style={{

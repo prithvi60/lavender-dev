@@ -12,7 +12,7 @@ export const SalonProfile = () => {
   const userDetails = useSelector((state: any) => {
     return state?.currentUserDetails;
   });
-
+console.log('userDetails : ', userDetails)
   const establishmentId =
     userDetails != null ? userDetails?.establishmentId : "";
 
@@ -27,6 +27,7 @@ export const SalonProfile = () => {
   const [basicInfo, setBasicInfo] = useState([]);
   const [isPublished, setIsPublished] = useState(false);
   const [imageId, setImageId] = useState([]);
+  const [employee, setEmployee] = useState([]);
   const [lastModified, setLastModified] = useState();
 
   // function handleBtnClick() {
@@ -39,6 +40,29 @@ export const SalonProfile = () => {
   // function handleClose() {
   //   setIsOpen(false);
   // }
+
+  useEffect(()=>{
+    const saveEmployees = async () => {
+      const employeePayload = {
+        "id": establishmentId,
+        "employees": [
+          {
+            "employeeId": "",
+            "employeeName": userDetails?.fullName,
+            "startingDate": new Date().toISOString(),
+            "profileImage": ""
+          }
+        ]
+    }
+      const res = await endpoint.saveEstablishmentEmployee(employeePayload);
+      if(res?.data?.success){
+        console.log("HIIIIII")
+      }
+    };
+    if(employee?.length === 0){
+      saveEmployees();
+    }
+  },[employee])
 
   const goToBusinessPage = () => {
     navigate("/business");
@@ -68,6 +92,7 @@ export const SalonProfile = () => {
         setIsPublished(establishmentData?.data?.data?.published);
         setImageId(establishmentData?.data?.data?.estImages);
         setLastModified(establishmentData?.data?.data?.lastModifiedDate);
+        setEmployee(establishmentData?.data?.data?.employees)
       }
     };
 

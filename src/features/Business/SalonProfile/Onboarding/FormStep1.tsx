@@ -60,7 +60,6 @@ export const FormStep1 = ({ setActiveStep }) => {
   });
 
   const handleSaveButton = async (data) => {
-    // debugger;
     const payLoad = {
       id: establishmentId ? establishmentId : "",
       profile: {

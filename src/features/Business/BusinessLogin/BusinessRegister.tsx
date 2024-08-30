@@ -58,7 +58,9 @@ const RegisterBusinessPage = () => {
 
     const mutation = useMutation({
         mutationFn: async (payload: any) => {
+            
             const response = await endpoint.userRegister(payload);
+
             if (!response?.data?.success) {
                 setOpen((prev) => !prev);
                 setMessage(`ErrorCode : ${response.data.errorCode} ${response?.data?.data}`)

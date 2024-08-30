@@ -8,7 +8,7 @@ import { useEffect, useState } from "react"
 import { useDrawer } from "../BusinessDrawerContext"
 import "./style.css";
 
-export default function BusinessTeam() {
+export default function BusinessTeam({inOnboard}) {
   
   const payload = {
     "pageNumber": 0,
@@ -24,14 +24,14 @@ export default function BusinessTeam() {
     "toCost": 0
   }
 
-  const { openDrawer, isOpen } = useDrawer()
+  const { openDrawer, isOpen } = useDrawer() || ''
 
   const { isLoading, data: userInfo } = useQuery({
     queryKey: ["query-appointment"],
     queryFn: () => endpoint.getBusinessAppointments(payload)
   })
   const [employeeData, setEmloyeeData] = useState([]);
-
+  const [filteredResponse, setFilteredResponse] = useState(columns);
   const userDetails = useSelector((state: any) => state?.currentUserDetails);
   const establishmentId = userDetails?.establishmentId || "";
 
@@ -53,9 +53,16 @@ export default function BusinessTeam() {
   }, [establishmentId, isOpen]);
 
 
+  useEffect(()=> {
+    if(inOnboard){
+      setFilteredResponse(columns?.filter(item => item.id !== 'edit'))
+    }
+  },[columns])
+  //const filteredResponse = columns?.filter(item => item.id !== 'edit');
+
   return (
     <div className="containerBox mx-auto">
-      <DataTable columns={columns} data={employeeData} />
+      <DataTable columns={filteredResponse} data={employeeData} inOnboard={inOnboard}/>
     </div>
   )
 }

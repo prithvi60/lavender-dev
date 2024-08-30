@@ -63,7 +63,7 @@ useEffect(() => {
     </section>
      <footer className='w-full px-4 flex justify-between items-center border-2 absolute bottom-0 bg-white' style={{height: "10vh"}}>
      <Button variant="text" size='large' sx={{textTransform:"none", fontWeight: 'bold', color: '#825FFF', fontSize: '18px'}} 
-   onClick={() => setActiveStep((prevStep) =>  prevStep - 1 )}
+      onClick={() => setActiveStep((prevStep) =>  prevStep - 1 )}
      >Back</Button>
    
              <Buttons sx={{ borderRadius: '10px', padding: '10px 40px 10px 40px', textTransform: 'none', fontSize: '18px', fontWeight: 600, '@media (max-width: 600px)': { padding: '10px 20px 10px 20px', fontSize: '14px' } }} variant='contained'  onClick={() => {
