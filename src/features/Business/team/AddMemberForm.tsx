@@ -38,6 +38,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useSnackbar } from "../../../components/Snackbar";
 import ImageUploading from 'react-images-uploading';
 import Text from "../../../components/Text";
+import moment from "moment";
+import { TimePicker } from "@mui/x-date-pickers";
 interface ImageUploadResponse {
   data: {
     success: boolean;
@@ -53,6 +55,8 @@ const schema = yup.object().shape({
     'Invalid date format',
     (value) => dayjs.isDayjs(value)
   ),
+  startTime: yup.string().matches(/^([01]\d|2[0-3]):([0-5]\d)$/, 'Invalid Start Time').required('Start Time is required'),
+  endTime: yup.string().matches(/^([01]\d|2[0-3]):([0-5]\d)$/, 'Invalid End Time').required('End Time is required'),
   email: yup.string().required(),
   accessLevel: yup.string(),
   services: yup.array().of(
@@ -92,6 +96,8 @@ export default function AddMemberForm({ payload }) {
     defaultValues: {
       employeeName: '',
       startingDate: null,
+      startTime: moment().format("HH:mm"),
+      endTime: moment().format("HH:mm"),
       email: '',
       accessLevel: '',
       profileImage: '',
@@ -150,6 +156,8 @@ export default function AddMemberForm({ payload }) {
           "employeeName": data?.employeeName,
           "email": data?.email,
           "startingDate": data?.startingDate ? data.startingDate.format('MM/DD/YYYY') : null,
+          "startTime": data.startTime ? data.startTime : "",
+          "endTime": data.endTime ? data.endTime : "",
           "profileImage": imageIdList?.length > 0 ? imageIdList[0] : (data?.profileImage ? data?.profileImage : ''),
           "services": selectedData,
           "accessLevel": data?.accessLevel,
@@ -202,7 +210,7 @@ export default function AddMemberForm({ payload }) {
 
     fetchingImage();
 
-    if (currentEmployees) {
+    if (currentEmployees && currentEmployees.length > 0) {
       // const formattedData = currentEmployees?.map(category => ({
       //   categoryId: category.categoryId, // Ensure categoryId is present
       //   categoryName: category.categoryName, // Ensure categoryName is present
@@ -215,9 +223,9 @@ export default function AddMemberForm({ payload }) {
       setValue('employeeId', currentEmployees[0]?.employeeId);
       setValue('employeeName', currentEmployees[0]?.employeeName);
       setValue('email', currentEmployees[0]?.email);
-      const startingDate: any = currentEmployees[0]?.startingDate ? new Date(currentEmployees[0]?.startingDate) : null;
-      setValue('startingDate', dayjs(startingDate));
-      setValues(dayjs(startingDate))
+      setValue('startingDate', dayjs(currentEmployees[0]?.startingDate ? new Date(currentEmployees[0]?.startingDate) : null));
+      setValue('startTime', currentEmployees[0].startTime ? moment(currentEmployees[0].startTime).format('HH:mm') : '');
+      setValue('endTime', currentEmployees[0].startTime ? moment(currentEmployees[0].startTime).format('HH:mm') : '');
       setValue('profileImage', currentEmployees[0]?.profileImage);
       setValue('accessLevel', currentEmployees[0]?.accessLevel);
       //setValue('services', formattedData);
@@ -543,7 +551,44 @@ export default function AddMemberForm({ payload }) {
               </Typography>
             )}
           </div>
-
+          <div className="mb-4">
+            <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+              Start Time
+            </Typography>
+            <Controller
+              name="startTime"
+              control={control}
+              render={({ field }) => (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <TimePicker format="HH:mm" sx={styles.textField} {...field} value={values} onChange={(date) => field.onChange(date.format('HH:mm'))} />
+                </LocalizationProvider>
+              )}
+            />
+            {errors.startTime && (
+              <Typography variant="caption" color="error" gutterBottom>
+                {errors.startTime.message}
+              </Typography>
+            )}
+          </div>
+          <div className="mb-4">
+            <Typography sx={{ fontSize: "18px", fontWeight: "700", color: "#4D4D4D" }}>
+              End Time
+            </Typography>
+            <Controller
+              name="endTime"
+              control={control}
+              render={({ field }) => (
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <TimePicker format="HH:mm" sx={styles.textField} {...field} value={values} onChange={(date) => field.onChange(date.format('HH:mm'))} />
+                </LocalizationProvider>
+              )}
+            />
+            {errors.endTime && (
+              <Typography variant="caption" color="error" gutterBottom>
+                {errors.endTime.message}
+              </Typography>
+            )}
+          </div>
           <div className="mb-4">
             <Divider sx={{ borderColor: 'black' }} />
           </div>

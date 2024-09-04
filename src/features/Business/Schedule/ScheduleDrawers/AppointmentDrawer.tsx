@@ -221,7 +221,7 @@ export default function AppointmentDrawer() {
   };
   // console.log("test",date, client, employee, service, status, price, start )
   useEffect(() => {
-    const foundService = categories.flatMap(category => category.services)
+    const foundService: any = categories.flatMap(category => category.services)
       .find(serviceItem => serviceItem.serviceName === service);
 
     if (foundService) {
@@ -231,7 +231,7 @@ export default function AppointmentDrawer() {
         id: "EST00002507" + count,
         categories: [
           {
-            categoryId: foundService.categoryId, 
+            categoryId: foundService?.categoryId, 
             services: [
               {
                 ...foundService,

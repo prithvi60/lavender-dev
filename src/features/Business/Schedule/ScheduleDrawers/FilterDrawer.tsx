@@ -69,19 +69,25 @@ export default function FilterDrawer() {
       return endpoint.getBusinessAppointments(payload);
     },
   });
-  let bookedByName;
-  let team;
-  if (!isLoading && userInfo) {
-    const {
-      data: {
-        data: { content, ...pageD },
-      },
-    } = userInfo;
-    bookedByName = [
-      ...new Set(content?.map((appointment: any) => appointment?.customerName)),
-    ];
-    team = [...new Set(content?.map((appointment: any) => appointment?.employeeName))];
-  }
+  let bookedByName: string[] = [];
+let team: string[] = [];
+
+if (!isLoading && userInfo) {
+  const {
+    data: {
+      data: { content, ...pageD },
+    },
+  } = userInfo;
+
+  bookedByName = Array.from(
+    new Set(content?.map((appointment: any) => appointment?.customerName).filter(Boolean))
+  );
+  
+  team = Array.from(
+    new Set(content?.map((appointment: any) => appointment?.employeeName).filter(Boolean))
+  );
+}
+
 
   return (
     <div className="flex flex-col justify-between h-full relative">
