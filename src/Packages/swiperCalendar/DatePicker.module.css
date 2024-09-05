@@ -1,0 +1,119 @@
+.container {
+    display: flex;
+    width: min(400px, 80vw);
+    background: white;
+}
+
+.buttonWrapper {
+    display: flex;
+    align-items: flex-end;
+    background: white;
+    min-width: 40px;
+    justify-content: center;
+}
+
+.button {
+    border: none;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    color: #fff;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-bottom: 12px;
+}
+.dateListScrollable {
+    display: flex;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    margin: 2px 0 2px -40px;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 15px;
+}
+
+.dateListScrollable::-webkit-scrollbar {
+    -webkit-appearance: none;
+    display: none;
+}
+
+.monthContainer {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 2px;
+    margin: 2px;
+}
+
+.monthYearLabel {
+    align-self: flex-start;
+    z-index: 3;
+    font-size: 15px;
+    font-weight: bold;
+    position: sticky;
+    top: 10px;
+    left: 0;
+    width: max-content;
+    margin: 0 10px;
+}
+
+.dateDayItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 0 0 5px;
+    width: 45px !important;
+    height: 49px !important;
+    flex-shrink: 0;
+    &[id="selected"]{
+        background-color: transparent !important;
+    }
+}
+
+.dateDayItemMarked {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 0 0 5px;
+    width: 45px;
+    height: 70px;
+    flex-shrink: 0;
+}
+
+.daysContainer {
+    display: flex;
+    z-index: 1;
+    margin-top: 10px;
+}
+
+.dayLabel {
+    font-size: 12px;
+    margin: 4px 0 0 0;
+}
+
+.dateLabel {
+    font-size: 18px;
+    aspect-ratio: 1;
+    height: auto;
+    text-align: center;
+    /* background: #E6E6E6; */
+    outline: 1px solid #B3B3B3;
+    border-radius: 30px;
+    padding: 6px;
+    margin-top: 5px;
+}
+
+[id="selected"] .dateLabel{
+    outline: none;
+    background-color: #E6E1FF;
+}
+
+.markedLabel {
+    margin-top: 10px;
+}
