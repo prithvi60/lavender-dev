@@ -381,7 +381,7 @@ const RegisterBusinessPage = () => {
                             iconName="Success" />
                         <div id="title" className="mb-3 text-2xl font-bold">{message} </div>
                         <div className="mb-3 text-lg font-bold">Please login to explore further.</div>
-                        <Button variant='contained' onClick={() => { navigate('/login') }}>Login</Button>
+                        <Button variant='contained' onClick={() => { navigate('/business/login') }}>Login</Button>
                     </div>
                 </Box>
             </Modal>
