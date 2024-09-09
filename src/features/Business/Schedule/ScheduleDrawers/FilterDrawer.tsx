@@ -95,7 +95,7 @@ export default function FilterDrawer() {
           onSelect={setSelectedTeamMember}
           placeholder={"Everyone"}
           options={team}
-          className={"w-full mb-4 shadow-lg rounded"}
+          className={"w-full mb-4 shadow-md rounded-xl"}
           label={"Team member"}
         />
         <Divider />
@@ -104,7 +104,7 @@ export default function FilterDrawer() {
           onSelect={setClient}
           placeholder={"All Bookings"}
           options={bookedByName}
-          className={"w-full mb-4 shadow-lg rounded"}
+          className={"w-full mb-4 shadow-md rounded-xl"}
           label={"Booked by"}
         />
         <Divider />

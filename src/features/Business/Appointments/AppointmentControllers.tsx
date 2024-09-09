@@ -35,6 +35,19 @@ import Tab from "@mui/material/Tab";
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import dayjs, { Dayjs } from "dayjs";
+import { Divider } from "@mui/material";
+import { format } from "date-fns";
+const LeftArrowIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12.5 15L7.5 10L12.5 5" stroke="#667085" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const RightArrowIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7.5 15L12.5 10L7.5 5" stroke="#667085" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 
 export function SearchInput({ value, onChange, placeholder }) {
   return (
@@ -263,65 +276,159 @@ export function CustomTabPanel(props) {
     </div>
   );
 }
+const daysOfWeek = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
 export const AppointmentDateSelector = ({
   startDate,
   endDate,
-  startDateControl,
-  endDateControl,
+  onStartDateChange,
+  onEndDateChange,
 }) => {
-  const [tabValue, setTabValue] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date(startDate || new Date()));
+  const [activeTab, setActiveTab] = useState('start');
 
   useEffect(() => {
-    if (endDate < startDate) {
-      endDateControl("");
+    if (endDate && startDate && endDate < startDate) {
+      onEndDateChange(null);
     }
-  }, [endDate]);
+  }, [startDate, endDate]);
+
+  const formatDateRange = () => {
+    const start = startDate ? format(startDate, 'dd/MM/yyyy') : '__/__/____';
+    const end = endDate ? format(endDate, 'dd/MM/yyyy') : '__/__/____';
+    return `${start} to ${end}`;
+  };
+
+  const getDaysInMonth = (date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const firstDayOfMonth = new Date(year, month, 1).getDay();
+    return { daysInMonth, firstDayOfMonth };
+  };
+
+  const { daysInMonth, firstDayOfMonth } = getDaysInMonth(currentMonth);
+
+  const handlePrevMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, -1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, 1));
+  };
+
+  const handleDateSelect = (day) => {
+    const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
+    if (activeTab === 'start') {
+      onStartDateChange(newDate);
+    } else {
+      onEndDateChange(newDate);
+    }
+  };
 
   return (
-    <>
-      <DropdownMenu>
-        <DropdownMenuTrigger>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          className="w-[280px] justify-start text-left font-normal"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="24" height="24" className="mr-2">
+            <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+            <line x1="16" x2="16" y1="2" y2="6" />
+            <line x1="8" x2="8" y1="2" y2="6" />
+            <line x1="3" x2="21" y1="10" y2="10" />
+          </svg>
+          {formatDateRange()}
+          <ChevronDown className="ml-auto h-4 w-4 opacity-50" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-auto p-0" align="start">
+        <div className="flex justify-around p-2 pb-0 bg-gray-100">
           <Button
-            variant="outline"
-            className="flex justify-between w-64"
+            variant="ghost"
+            className={`flex-1 justify-start font-normal ${activeTab === 'start' ? 'bg-[#7F56D9] text-white rounded-t-xl rounded-b-none' : ''}`}
+            onClick={() => setActiveTab('start')}
           >
-            <GetIcon iconName={"CalenderIcon"} />
-            {startDate.toLocaleDateString("en-au") || "__/__/____"} to{" "}
-            {endDate ? endDate?.toLocaleDateString("en-au") : "__/__/____"}
-            <ChevronDown className="w-4 h-4" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18" className="mr-2">
+              <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+              <line x1="16" x2="16" y1="2" y2="6" />
+              <line x1="8" x2="8" y1="2" y2="6" />
+              <line x1="3" x2="21" y1="10" y2="10" />
+            </svg>
+            Starting date
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[350px]">
-          <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
-            <Tabs
-              value={tabValue}
-              onChange={(event, v: number) => setTabValue(v)}
-            >
-              <Tab
-                sx={{ "& ": { textTransform: "initial", minHeight: "35px" } }}
-                icon={<GetIcon iconName={"CalenderIcon"} />}
-                iconPosition="start"
-                label="Starting date"
-              />
-              <Tab
-                sx={{ "& ": { textTransform: "initial", minHeight: "35px" } }}
-                icon={<GetIcon iconName={"CalenderIcon"} />}
-                iconPosition="start"
-                label="Ending date"
-              />
-            </Tabs>
-          </Box>
-          <CustomTabPanel value={tabValue} index={0}>
-            <CalendarHeaderComponent
-              date={startDate}
-              onChange={startDateControl}
-            />
-          </CustomTabPanel>
-          <CustomTabPanel value={tabValue} index={1}>
-            <CalendarHeaderComponent date={endDate} onChange={endDateControl} />
-          </CustomTabPanel>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+          <Button
+            variant="ghost"
+            className={`flex-1 justify-start font-normal ${activeTab === 'end' ? 'bg-[#7F56D9] text-white rounded-t-xl rounded-b-none' : ''}`}
+            onClick={() => setActiveTab('end')}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="18" height="18" className="mr-2">
+              <rect width="18" height="18" x="3" y="4" rx="2" ry="2" />
+              <line x1="16" x2="16" y1="2" y2="6" />
+              <line x1="8" x2="8" y1="2" y2="6" />
+              <line x1="3" x2="21" y1="10" y2="10" />
+            </svg>
+            Ending date
+          </Button>
+        </div>
+        <div className="bg-white rounded-xl shadow-lg p-4 w-[320px]">
+          <div className="flex justify-between items-center mb-4">
+            <button onClick={handlePrevMonth} className="p-1">
+              <LeftArrowIcon />
+            </button>
+            <h2 className="text-sm font-semibold text-gray-900">
+              {format(currentMonth, 'MMMM yyyy')}
+            </h2>
+            <button onClick={handleNextMonth} className="p-1">
+              <RightArrowIcon />
+            </button>
+          </div>
+          <div className="grid grid-cols-7 gap-1 mb-1">
+            {daysOfWeek.map((day) => (
+              <div key={day} className="text-center text-xs font-medium text-gray-500">
+                {day}
+              </div>
+            ))}
+          </div>
+          <Divider className='border-b-gray-300 border-solid' />
+          <div className="grid grid-cols-7 gap-1">
+            {[...Array((firstDayOfMonth + 6) % 7).keys()].map((_, index) => (
+              <div key={`empty-${index}`} className="h-8"></div>
+            ))}
+            {[...Array(daysInMonth).keys()].map((day) => {
+              const date = day + 1;
+              const currentDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), date);
+              const isSelected = activeTab === 'start'
+                ? date === startDate?.getDate() && currentMonth.getMonth() === startDate?.getMonth() && currentMonth.getFullYear() === startDate?.getFullYear()
+                : date === endDate?.getDate() && currentMonth.getMonth() === endDate?.getMonth() && currentMonth.getFullYear() === endDate?.getFullYear();
+              const isToday = date === new Date().getDate() &&
+                              currentMonth.getMonth() === new Date().getMonth() &&
+                              currentMonth.getFullYear() === new Date().getFullYear();
+              const isDisabled = activeTab === 'end' && startDate && currentDate < startDate;
+              return (
+                <button
+                  key={date}
+                  onClick={() => !isDisabled && handleDateSelect(date)}
+                  disabled={isDisabled}
+                  className={`h-8 w-8 flex items-center justify-center rounded-[6px] text-sm ${
+                    isSelected
+                      ? 'bg-[#7F56D9] text-white font-semibold'
+                      : isToday
+                      ? 'bg-[#F4EBFF] text-[#7F56D9] font-semibold'
+                      : isDisabled
+                      ? 'text-gray-300 cursor-not-allowed'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
+                >
+                  {date}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
