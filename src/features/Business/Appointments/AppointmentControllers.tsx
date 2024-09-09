@@ -289,43 +289,10 @@ export const AppointmentDateSelector = ({
   const [activeTab, setActiveTab] = useState('start');
 
   useEffect(() => {
-    if (endDate && startDate && endDate < startDate) {
-      onEndDateChange(null);
+    if (endDate < startDate) {
+      endDateControl("");
     }
-  }, [startDate, endDate]);
-
-  const formatDateRange = () => {
-    const start = startDate ? format(startDate, 'dd/MM/yyyy') : '__/__/____';
-    const end = endDate ? format(endDate, 'dd/MM/yyyy') : '__/__/____';
-    return `${start} to ${end}`;
-  };
-
-  const getDaysInMonth = (date) => {
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
-    const firstDayOfMonth = new Date(year, month, 1).getDay();
-    return { daysInMonth, firstDayOfMonth };
-  };
-
-  const { daysInMonth, firstDayOfMonth } = getDaysInMonth(currentMonth);
-
-  const handlePrevMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, -1));
-  };
-
-  const handleNextMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, 1));
-  };
-
-  const handleDateSelect = (day) => {
-    const newDate = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day);
-    if (activeTab === 'start') {
-      onStartDateChange(newDate);
-    } else {
-      onEndDateChange(newDate);
-    }
-  };
+  }, [endDate]);
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
