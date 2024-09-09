@@ -34,7 +34,7 @@ const FilterButtons = ({ label, options, selectOptionHandler }) => {
   };
 
   return (
-    <div className="bg-white">
+    <div className="bg-">
       <div className="flex items-center justify-between">
         <div>
           <label className="font-semibold">{label}</label>
@@ -53,7 +53,7 @@ const FilterButtons = ({ label, options, selectOptionHandler }) => {
         {allOptions.map(
           (option) => (
             <div
-              className={`rounded-lg cursor-pointer h-9 my-1 flex items-center border border-zinc-500 ${
+              className={`rounded-lg cursor-pointer h-9 my-1 flex items-center  border-zinc-500 ${
                 options.indexOf(option) !== -1
                   ? "button-outline border-2"
                   : "border-zinc-500"

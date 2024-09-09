@@ -27,6 +27,7 @@ import GetIcon from "../../../assets/Icon/icon"
 import { useDrawer } from '../BusinessDrawerContext';
 import { useState } from "react"
 import React from "react"
+import * as XLSX from 'xlsx';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -72,6 +73,37 @@ export function DataTable<TData, TValue>({
 
   const [filterStartDate, setFilterStartDate] = useState(new Date())
   const [filterEndDate, setFilterEndDate] = useState('')
+
+  const handleExport = () => {
+ 
+    const visibleColumns = table.getAllColumns().filter(column => column.getIsVisible());
+
+    const filteredData = table.getFilteredRowModel().rows;
+
+    const sortedData = table.getSortedRowModel().rows;
+
+
+    const filteredSortedData = sortedData.filter(row => filteredData.includes(row));
+
+
+    const exportData = filteredSortedData.map(row => {
+      const rowData: any = {};
+      visibleColumns.forEach(column => {
+        rowData[column.id] = row.getValue(column.id);
+      });
+      return rowData;
+    });
+
+ 
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(exportData, { header: visibleColumns.map(col => col.id) });
+
+
+    XLSX.utils.book_append_sheet(wb, ws, "Appointments");
+
+    XLSX.writeFile(wb, "appointments_export.xlsx");
+  };
+
   return (
     <div className="rounded-md border">
       <div className="w-full flex flex-row justify-between items-center overflow-x-auto">
@@ -79,9 +111,7 @@ export function DataTable<TData, TValue>({
           <SearchInput
             value={""}
             placeholder={'Search by ID/Client name'}
-            //value={(table.getColumn("client")?.getFilterValue() as string) ?? ""}
             onChange={(event) =>
-              //table.getColumn("client")?.setFilterValue(event.target.value)
               controllers.customerName(event.target.value)
             }
           />
@@ -94,7 +124,7 @@ export function DataTable<TData, TValue>({
               endDateControl={setFilterEndDate}
             />
           </div>
-          <Button style={{ minWidth: '100px' }} variant="outline" size="lg">Export</Button>
+          <Button style={{ minWidth: '100px' }} variant="outline" size="lg" onClick={handleExport}>Export</Button>
         </div>
         <div>
           <GetIcon onClick={
@@ -155,5 +185,3 @@ export function DataTable<TData, TValue>({
     </div>
   )
 }
-
-
