@@ -33,7 +33,7 @@ const BusinessHeroSection = () => {
                         },
                     }}
                     name={"Join for free"}
-                    to="/business/login"
+                    to="/business/Register"
                 />
 
                 <Typography
